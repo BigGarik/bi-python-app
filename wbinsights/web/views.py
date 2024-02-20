@@ -10,4 +10,5 @@ def index(request):
     context = {
         "data": "data"
     }
+    # return render(request, "web/index.html", context)
     return render(request, "web/index.html", context)
