@@ -1,0 +1,134 @@
+
+.header-container {
+    display: flex;
+    /* width: 100%; */
+    height: 80px;
+    background-color: #36364b;
+}
+
+.search-bar-cont{
+    display: flex;
+    justify-content: center;
+}
+
+/* .main-cont {
+} */
+
+.search-bar {
+    display: flex;
+    background-color: #4a4b62;
+    margin-right: 5px;
+    width: 300px;
+    border-radius: 5px;
+    color: #83839d;
+    padding: 10px;
+    align-items: center;
+    height: 40px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+
+}
+
+.plus-btn{
+    display: flex;
+    background-color: white;
+    width: 40px;
+    align-items: center;
+    border-radius: 5px;
+    justify-content: center;
+}
+
+.all-profile-cont{
+    display: flex;
+    height: 50px;
+    justify-content: flex-end;
+
+}
+
+.comments-cont{
+    display: flex;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.bell-cont{
+    display: flex;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-cont{
+    display: flex;
+    width: 150px;
+    align-items: center;
+    height: 50px;
+    margin-left: 15px;
+}
+
+.profile-info-cont {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-username{
+    display: flex;
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.profile-jobtitle{
+    display: flex;
+    font-size: 12px;
+    color: lightgray;
+    justify-content: flex-end;
+    white-space: nowrap;
+}
+
+.profile-photo-cont{
+    display: flex;
+    width: 50px;
+    height: 50px;
+    margin-left: 15px;
+}
+
+.buttons-log-cont{
+    display: flex;
+    align-items: center;
+}
+
+.main-header-login-btn{
+    padding: 5px 10px 5px 10px;
+    color: white;
+    margin-right: 10px;
+    font-weight: 500;
+    font-family: var( --e-global-typography-accent-font-family ), Sans-serif;
+    border: none;
+    background-color: #36364b;
+    display: flex;
+    text-decoration: none;
+
+}
+
+.main-header-register-btn{
+    display: flex;
+    display: flex;
+    font-family: var(--e-global-typography-accent-font-family), Sans-serif;
+    padding: 5px 15px 5px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3BA1DA;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+
+
+
+

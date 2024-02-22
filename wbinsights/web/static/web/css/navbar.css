@@ -1,0 +1,23 @@
+
+.container-fluid-nav{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* padding-left: 10px; */
+    width: 100%;
+}
+
+.navbar-brand{
+    display: flex;
+    padding: 10px 15px 10px 15px;
+    /* justify-content: flex-end; */
+    align-items: center;
+    font-size: 16px;
+    width: 100%;
+}
+
+.navbar-brand:hover {
+    background-color: #ffffff ;
+    border-radius: 10px;
+  }
+

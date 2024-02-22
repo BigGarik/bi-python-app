@@ -1,0 +1,282 @@
+.login-page-cont{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.register-cont{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-right: 40%;
+    margin-top: 5%;
+    margin-left: 40%;
+    margin-bottom: 5%;
+
+}
+
+.button-cont{
+    display: flex;
+    width: 60%;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.registertype-btn{
+    display: flex;
+    padding: 10px 30px 10px 30px;
+    background-color: lightskyblue;
+}
+
+.role-choose{
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-radius: 50%;
+}
+
+.custom-checkbox .custom-control-label::before {
+    border-radius: 50%;
+}
+
+.user-fill-info-cont{
+    display: flex;
+    flex-direction: column;
+    /* width: 60%; */
+    width: 100%;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 20px;
+}
+.choose-which-role{
+    display: flex;
+    width: 100%;
+}
+
+.register-info-cont{
+    display: flex;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: sans-serif;
+}
+
+.span-register{
+    display: flex;
+    font-size: 18px;
+    font-weight: 600;
+    justify-content: center;
+    padding-bottom: 25px;
+    letter-spacing: 1px;
+    font-family: sans-serif;
+
+}
+
+.button-cont{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.back-btn a {
+    color: #777786 !important;
+}
+
+.back-btn{
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    align-items: center;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    font-family: sans-serif;
+    font-weight: 600;
+    color: #777786 !important;
+
+}
+
+.check-box-cont{
+    display: flex;
+    width: 100%;
+    font-family: sans-serif;
+
+}
+
+.custom-control-down {
+    display: flex;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: sans-serif;
+    padding-left: 5px !important; 
+}
+
+
+.custom-control {
+    display: flex;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: sans-serif;
+    margin-right: 30px;
+}
+
+.label-second{
+    display: flex;
+    color: #a8a8a8;
+}
+
+.custom-control-label{
+    margin-left: 5px;
+}
+
+.agreement-text{
+    display: flex;
+    columns: blue;
+    text-decoration: none;
+}
+
+.custom-control-label-checkbox{
+    display: flex;
+    flex-wrap: wrap;
+    text-wrap: pretty;
+    padding-left: 10px;
+    padding-bottom: 0 !important;
+}
+.label{
+    margin-bottom: none !important;
+}
+
+.custom-input-class{
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.register-btn{
+    display: flex;
+    background-color: #6dc36b;
+    /* padding: 10px 30px 10px 30px; */
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: none;
+    width: 100%;
+    justify-content: center;
+    color: white;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.login-cont{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding-top: 10px;
+    align-items: center;
+}
+
+.have-acc-txt{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #777786;
+}
+
+.login-txt{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: #777786;
+}
+
+.login-link{
+    display: flex;
+    text-decoration: none;
+}
+
+.expert-about-cont{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.register-about-label{
+    
+    display: flex;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: sans-serif;
+}
+
+.custom-control-label-checkbox span {
+    display: inline; /* or display: inline-block; */
+    /* Add any additional styling you may need */
+}
+
+
+.expert-about-input{
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-height: 100px;
+    resize: none;
+    font-family: sans-serif;
+}
+
+.register-category-label{
+    display: flex;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: sans-serif;
+}
+
+.register-experience-label{
+    display: flex;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: sans-serif;
+}
+
+.expert-experience-input{
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.expert-category-input{
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+
