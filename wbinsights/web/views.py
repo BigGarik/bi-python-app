@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.forms import modelformset_factory
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import ListView, DetailView
 
-from web.models import Article
+from web.forms import ArticleForm, ImageForm
+from web.models import Article, Image
 
 
 class ArticleListView(ListView):

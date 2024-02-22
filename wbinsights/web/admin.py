@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import Article, Category
+from .models import Article, Category, Image
+
+
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ('image', 'article',)
 
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -7,12 +11,11 @@ class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
-admin.site.register(Article, ArticleAdmin)
-
-
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug',)
     prepopulated_fields = {'slug': ('name',)}
 
 
+admin.site.register(Image, ImageAdmin)
+admin.site.register(Article, ArticleAdmin)
 admin.site.register(Category, CategoryAdmin)

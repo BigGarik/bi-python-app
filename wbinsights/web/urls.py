@@ -7,4 +7,5 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("articles/", ArticleListView.as_view(), name='article_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
+    # path('create_article/', views.create_article, name='create_article'),
 ]

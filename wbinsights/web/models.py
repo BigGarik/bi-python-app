@@ -8,6 +8,14 @@ class PublishedManager(models.Manager):
         return super().get_queryset().filter(is_published=Article.Status.PUBLISHED)
 
 
+class Image(models.Model):
+    image = models.ImageField(upload_to='images/%Y/%m/%d/')
+    article = models.ForeignKey('Article', related_name='image', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Image for {self.article}"
+
+
 class Article(models.Model):
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Черновик'
