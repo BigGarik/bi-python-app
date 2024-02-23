@@ -1,5 +1,18 @@
 from django.contrib import admin
-from .models import Article, Category
+from django.contrib.auth.admin import UserAdmin
+
+from .models import Article, Category, CustomUser
+from .views import CustomUserCreationForm, CustomUserChangeForm
+
+
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = CustomUser
+    list_display = ["email", "username", "is_active",]
+
+
+admin.site.register(CustomUser, CustomUserAdmin)
 
 
 class ArticleAdmin(admin.ModelAdmin):

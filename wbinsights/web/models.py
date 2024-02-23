@@ -1,8 +1,30 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.template.defaultfilters import slugify
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
 
+"""---  Пользователи ---"""
+class CustomUser(AbstractUser):
+    email = models.EmailField(_("email address"), unique=True, )
+
+    is_active = models.BooleanField(
+        _("active"),
+        default=False,
+        help_text=_(
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
+        ),
+    )
+
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
+
+    def __str__(self):
+        return self.email
+
+
+"""--- Статьи ---"""
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_published=Article.Status.PUBLISHED)

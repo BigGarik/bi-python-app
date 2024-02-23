@@ -1,9 +1,23 @@
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 
-from web.models import Article
+from web.models import Article, CustomUser
 
+
+class CustomUserCreationForm(UserCreationForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ("username", "email")
+
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ("username", "email")
 
 class ArticleListView(ListView):
     model = Article
@@ -45,6 +59,12 @@ def show_article(request, post_slug):
     }
 
     return render(request, 'web/articles.html', context=data)
+
+
+class SignUpView(CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "web/registration/signup.html"
 
 
 def page_not_found(request, exception):
