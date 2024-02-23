@@ -17,13 +17,15 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import TemplateView
 
 from wbinsights import settings
 
 urlpatterns = [
-    # path("web/", include("web.urls")),
     path('admin/', admin.site.urls),
-    path('', include('web.urls')),
+    path('', TemplateView.as_view(template_name='web/index.html'), name='home'),
+    path('users/', include('web.urls')),
+    path('users/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:
