@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import ListView, DetailView
 
 from web.forms import ArticleForm, ImageForm
-from web.models import Article, Image
+from web.models import Article
 
 
 class ArticleListView(ListView):
