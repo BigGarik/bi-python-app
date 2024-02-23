@@ -14,10 +14,10 @@
 -->
 
 <div class="post-menu">
-    <div class="post-menu-item">Исследования</div>
-    <div class="post-menu-item">Эксперты</div>
-    <div class="post-menu-item selected">Статьи</div>
-    <div class="post-menu-item">Вопрос-ответ</div>
+    <a href="{% url 'research_list' %}" class="post-menu-item">Исследования</a>
+    <a href="#" class="post-menu-item">Эксперты</a>
+    <div href="#" class="post-menu-item selected">Статьи</div>
+    <a href="#" class="post-menu-item">Вопрос-ответ</a>
 </div>
 
     {% block posts_content %}{% endblock %}

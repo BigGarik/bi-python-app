@@ -28,9 +28,9 @@ def show_article(request, post_slug):
 
 class ArticleListView(ListView):
     model = Article
-    template_name = 'article_list.html'
+    template_name = 'posts/article/article_list.html'
 
 
 class ArticleDetailView(DetailView):
     model = Article
-    template_name = 'article_detail.html'
+    template_name = 'posts/article/article_detail.html'

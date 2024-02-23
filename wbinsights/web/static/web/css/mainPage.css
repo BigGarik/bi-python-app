@@ -353,6 +353,7 @@
     align-items: center;
     color: #404054;
     font-weight: 600;
+    
 }
 
 .post-menu-item {
@@ -362,6 +363,8 @@
     display: flex;
     border-radius: 20px;
     justify-content: center;
+    text-decoration: none;
+    color: #404054;
 }
 
 .post-menu-item.selected {
