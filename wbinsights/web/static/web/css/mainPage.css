@@ -5,6 +5,7 @@
     padding: 15px 30px 15px 30px;
     flex-direction: column;
     border-radius: 15px;
+    margin-bottom: 20px;
 }
 
 .article-text-top{
@@ -20,7 +21,7 @@
 
 .base-article-title{
     display: flex;
-    font-size: 16px;
+    font-size: 20px;
     font-family: sans-serif;
     font-weight: 600;
     padding: 10px;
@@ -43,6 +44,7 @@
     display: flex;
     align-items: center;
     color: lightgray;
+    font-size: 14px;
 }
 
 .base-article-stats-last{
@@ -50,27 +52,41 @@
     padding-left: 20px;
     align-items: center;
     color: lightgray;
+    font-size: 14px;
 }
 
 .btn-secondary{
     width: 20%;
     margin-top: 15px;
-    background-color: none;
+    background-color: white;
+    border-radius: 10px;
+    color: #36364b;
+    font-weight: 600;
+    padding: 5px;
+    border: 1px solid #a5b1c8;
 }
 
 .article-news{
     display: flex;
-    font-family: monospace;
+    font-family: sans-serif;
     font-size: 16px;
-    color: grey;
+    color: #9c9c9c;
 }
 
 .article-return{
     display: flex;
-    font-family: monospace;
+    font-family: sans-serif;
     font-size: 13px;
-    color: grey;
+    color: #9c9c9c;
+    align-items: center;
 }
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+
+
 
 
 /* ---------------------------------------------------------------  ARTICLE LIST  ------------------------------------------------------------------------------- */
@@ -92,12 +108,18 @@
 .article-search-cont{
     display: flex;
     padding: 5px 10px 5px 10px;
-    border: 1px solid grey;
+    border: 1px solid #dadada;
     font-family: sans-serif;
     width: 30%;
     border-radius: 7px;
-
+    /* color: #dadada; */
+    outline: none !important;
 }
+
+/* .dropdown{
+    display: flex;
+    align-items: center;
+} */
 
 .catagory-cont{
     display: flex;
@@ -107,26 +129,28 @@
 .catagory-text{
     display: flex;
     font-family: sans-serif;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .catagory-choose{
     display: flex;
     font-family: sans-serif;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 800;
 }
 
 .article-content{
     display: flex;
     flex-direction: column;
-    margin-top: 15px;
+    margin-top: 25px;
 }
 
 .article-publish-date{
     display: flex;
     color:  grey;
     align-items: center;
+    font-size: 12px;
+    margin-bottom: 5px;
 }
 
 .article-title{
@@ -186,16 +210,22 @@
 .spans-cont{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .experts-title{
     display: flex;
+    color: #a9a9a9; 
+    font-size: 15px;
+    font-family: sans-serif;
 
 }
 
 .all-experts{
     display: flex;
+    color: #a9a9a9;
+    font-size: 13px;
+    font-family: sans-serif;
 }
 
 .expert-profiles-cont{
@@ -212,7 +242,7 @@
 .expert-info{
     display: flex;
     flex-direction: column;
-    padding-left: 5px;
+    padding-left: 10px;
 }
 
 .expert-name{
@@ -226,7 +256,7 @@
 .expert-job{    
     display: flex;
     font-size: 14px;
-    color: grey;
+    color: #b9b9b9;
     line-height: normal;
 }
 
@@ -235,4 +265,29 @@
     align-items: center;
     line-height: normal;
     font-size: 14px;
+}
+
+.post-menu {
+    font-size: 14px;
+    display: flex;
+    justify-content: space-around;
+    height: 50px;
+    font-family: sans-serif;
+    align-items: center;
+    color: #404054;
+    font-weight: 600;
+}
+
+.post-menu-item {
+    padding: 10px;
+    cursor: pointer;
+    width: 25%;
+    display: flex;
+    border-radius: 20px;
+    justify-content: center;
+}
+
+.post-menu-item.selected {
+    background-color: #535478;
+    color: #fff;
 }

@@ -3,14 +3,22 @@
 
 {% block content %}
 
-
-    <ul class="post_menu">
+    <!--
+        <ul class="post_menu">
         <li>Исследования</li>
         <li>Эксперты</li>
         <li class="selected">Статьи</li>
         <li>Вопрос-ответ</li>
 
     </ul>
+-->
+
+<div class="post-menu">
+    <div class="post-menu-item">Исследования</div>
+    <div class="post-menu-item">Эксперты</div>
+    <div class="post-menu-item selected">Статьи</div>
+    <div class="post-menu-item">Вопрос-ответ</div>
+</div>
 
     {% block posts_content %}{% endblock %}
 
