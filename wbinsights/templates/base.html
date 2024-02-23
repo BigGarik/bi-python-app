@@ -73,8 +73,12 @@
                         </div> -->
                         <div class="buttons-log-cont">
 
-                            <button type="button" class="btn btn-dark" style="background-color: #36364b;border: none;">Войти</button>
-                            <button type="button" class="btn btn-primary">Зарегистрироваться</button>
+                            <a href="{% url 'login' %}">
+                                <button type="button" class="btn btn-dark" style="background-color: #36364b;border: none;">Войти</button>
+                            </a>
+                            <a href="{% url 'signup' %}">
+                                <button type="button" class="btn btn-primary">Зарегистрироваться</button>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-1 text-md-end"></div>

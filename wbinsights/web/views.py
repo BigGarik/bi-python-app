@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
@@ -21,12 +21,12 @@ class CustomUserChangeForm(UserChangeForm):
 
 class ArticleListView(ListView):
     model = Article
-    template_name = 'web/article_list.html'
+    template_name = 'article_list.html'
 
 
 class ArticleDetailView(DetailView):
     model = Article
-    template_name = 'web/article_detail.html'
+    template_name = 'article_detail.html'
 
 
 def index(request):
@@ -34,8 +34,8 @@ def index(request):
     context = {
         "data": "data"
     }
-    # return render(request, "web/index.html", context)
-    return render(request, "web/index.html", context)
+    # return render(request, "index.html", context)
+    return render(request, "index.html", context)
 
 
 def get_articles(request):
@@ -46,7 +46,7 @@ def get_articles(request):
         'articles': articles,
     }
 
-    return render(request, 'web/articles.html', context=data)
+    return render(request, 'articles.html', context=data)
 
 
 def show_article(request, post_slug):
@@ -58,13 +58,13 @@ def show_article(request, post_slug):
         'cat_selected': 1,
     }
 
-    return render(request, 'web/articles.html', context=data)
+    return render(request, 'articles.html', context=data)
 
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
-    template_name = "web/registration/signup.html"
+    template_name = "registration/signup.html"
 
 
 def page_not_found(request, exception):
