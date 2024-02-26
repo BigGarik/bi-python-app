@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import Article, Category, CustomUser
+from .models import Article, Category, CustomUser, Research
 from .views import CustomUserCreationForm, CustomUserChangeForm
 
 
@@ -20,10 +20,20 @@ class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
+admin.site.register(Article, ArticleAdmin)
+
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug',)
     prepopulated_fields = {'slug': ('name',)}
 
 
-admin.site.register(Article, ArticleAdmin)
 admin.site.register(Category, CategoryAdmin)
+
+
+class ResearchAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug',)
+    prepopulated_fields = {'slug': ('name',)}
+
+
+admin.site.register(Research, ResearchAdmin)

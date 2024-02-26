@@ -4,6 +4,7 @@ from django.db.models import Q
 
 UserModel = get_user_model()
 
+
 class UserModelBackend(ModelBackend):
     """
     Переопределение авторизации
