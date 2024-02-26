@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import Article, Category, CustomUser, Research
+from .models import Article, Category, CustomUser, Research, QuestionAnswer
 from .views import CustomUserCreationForm, CustomUserChangeForm
 
 
@@ -37,3 +37,11 @@ class ResearchAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Research, ResearchAdmin)
+
+
+class QuestionAnswerAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug',)
+    prepopulated_fields = {'slug': ('title',)}
+
+
+admin.site.register(QuestionAnswer, QuestionAnswerAdmin)
