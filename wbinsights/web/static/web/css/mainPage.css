@@ -134,6 +134,7 @@
 .nav-contacts-cont{
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
 .nav-contacts-cont-text{
@@ -182,7 +183,6 @@
     font-family: sans-serif;
     width: 30%;
     border-radius: 7px;
-    /* color: #dadada; */
     outline: none !important;
 }
 
@@ -296,6 +296,7 @@
     color: #a9a9a9;
     font-size: 13px;
     font-family: sans-serif;
+    cursor: pointer;
 }
 
 .expert-profiles-cont{
@@ -314,7 +315,10 @@
 .expert-prof-pic{
     display: flex;
     width: 20%;
+    justify-content: center;
 }
+
+
 
 .expert-info{
     display: flex;
@@ -348,16 +352,16 @@
     font-size: 14px;
     display: flex;
     justify-content: space-around;
-    height: 50px;
     font-family: sans-serif;
     align-items: center;
     color: #404054;
+    margin-top: 30px;
     font-weight: 600;
     
 }
 
 .post-menu-item {
-    padding: 10px;
+    padding: 7px;
     cursor: pointer;
     width: 25%;
     display: flex;

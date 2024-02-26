@@ -2,10 +2,10 @@
 {% extends 'basePostList.html' %}
 
 {% block title %}
-Статьи
+QandA
 {% endblock %}
 
-{% block posts_content %}
+{% block question_answer_list %}
 
 <!doctype html>
 <html lang="en">
@@ -20,7 +20,11 @@
 
 	<div class="search-and-cat-cont">
 
-		<input type="text" class="article-search-cont" placeholder="Поиск">	
+        <div style="display:flex ; width: 100%;">
+            <input type="text" class="research-search-cont" placeholder="Поиск">	
+
+            <button type="button" class="btn btn-primary btn-sm" style="cursor:pointer ;border-radius: 10px; background-color: #6dc36b ; border: none">Задать вопрос</button>
+        </div>
 
 		<div class="catagory-cont">
 			<div class="dropdown">
@@ -38,34 +42,25 @@
 		
 	</div>
 
-	{% for article in object_list %}
 
+    {% for questionsandanswers in '123' %}
 	<div class="article-content">
-		<div class="article-publish-date">
-			<i class="bi bi-calendar2-week" style="color:grey; scale:1.3"></i>
-			&nbsp;  {{article.time_update|date:"d-m-Y H:i"}}
 
-		</div>
+        <div style=" margin-top:10px ; margin-bottom: 10px">
+            <span class="article-catagory-container"> Финансы </span>
+        </div>
 
-		<div class="article-title">{{article.title}}</div>
+		<div class="article-title">Вот вам яркий пример современных тенденций - сложившаяся структура организации</div>
 
 		<div class="article-main-content">
-			{% autoescape off %}
-
-			{{article.content}}
-			<!--{{article.content|linebreaks|truncatewords:40}}-->
-
-			{% endautoescape %}
-			<span class="link-read-post"><a href="{{ article.get_absolute_url }}" class="link-read-post">Читать пост &nbsp;
-				<i class="bi bi-chevron-down" style="color:black; scale:1.3"></i>
-				</a>
+            
+            <span class="qa-main-content-text" style="display: block">
+                Повседневная практика показывает, что 
+                высококачественный прототип будущего проекта однозначно определяет каждого участника как способного принимать 
+                собственные решения касаемо соответствующих условий активизации. &nbsp;<a href="#" style="text-decoration:none">Читать пост</a>
+				
 			</span>
-		
-
-
-			<div style=" margin-top:10px ; margin-bottom: 10px">
-				<span class="article-catagory-container">{{article.cat.name}}</span>
-			</div>
+			
 
 			<div class="article-last">
 
@@ -74,6 +69,7 @@
 						<i class="bi bi-person-circle" style="color:black; scale:3"></i>
 					</div>
 					<div class="author-name">Александр Александров</div>
+                    <span class="hours-ago">18 часов назад</span>
 
 				</div>
 
@@ -90,13 +86,13 @@
 				</div>
 
 			</div>
-			<hr class="solid">
+			<hr class="solid" style="margin-top: 20px;">
 			
 		</div>
 
 		
 	</div>
-	{% endfor %}
+    {%endfor%}
 
 </div>
 

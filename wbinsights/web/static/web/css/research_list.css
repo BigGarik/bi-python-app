@@ -1,0 +1,98 @@
+.research-main-cont{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px 20px 30px;
+    background-color: white ;
+    border-radius: 15px;
+}
+
+
+.research-date-and-cat{
+    display: flex;
+}
+
+
+.finance-cat{
+    display: flex;
+    background-color: #fff5d4;
+    color: #d9ba43;
+    padding: 5px 15px 5 15px;
+    margin: 0 10px 0 10px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.banks-cat{
+    display: flex;
+    background-color: #ecffd4;
+    color: #75b06a;
+    padding:5px 15px 5 15px;
+    margin: 0 10px 0 10px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.research-last{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+.research-content{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.research-publish-date{
+    display: flex;
+    color:  grey;
+    align-items: center;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.research-title{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    margin-top: 15px;
+    line-height: normal;
+    margin-bottom: 10px;
+}
+
+.article-main-content{
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.article-catagory-container{
+    background-color: #fff5d4;
+    padding: 10px 15px 10px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-family: sans-serif;
+    font-weight: 500;
+    color: #d6b537;
+
+}
+
+.article-main-content-text{
+    display: flex;
+    font-size: 18px;
+    margin: 10px 0 20px 0;
+    font-family: sans-serif;
+}
+
+.article-img{
+    max-height: 300px;
+}

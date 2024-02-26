@@ -1,26 +1,70 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 
-    <!--
-        <ul class="post_menu">
-        <li>Исследования</li>
-        <li>Эксперты</li>
-        <li class="selected">Статьи</li>
-        <li>Вопрос-ответ</li>
+    <div class="post-menu">
+        <a href="{% url 'research_list' %}" class="post-menu-item" onclick="showContent(this, 'research_list')">Исследования</a>
 
-    </ul>
--->
+        <a href="{% url 'experts_list' %}" class="post-menu-item" onclick="showContent(this, 'experts_list')">Эксперты</a>
+        <a href="{% url 'article_list' %}" class="post-menu-item" onclick="showContent(this, 'article_list')">Статьи</a>
+        <a href="{% url 'question_answer_list' %}" class="post-menu-item" onclick="showContent(this, 'question_answer_list')">Вопрос-ответ</a>
+    </div>
 
-<div class="post-menu">
-    <a href="{% url 'research_list' %}" class="post-menu-item">Исследования</a>
-    <a href="#" class="post-menu-item">Эксперты</a>
-    <div href="#" class="post-menu-item selected">Статьи</div>
-    <a href="#" class="post-menu-item">Вопрос-ответ</a>
-</div>
+    
 
-    {% block posts_content %}{% endblock %}
+    <div id="research_list" class="content-block">
+        {% block research_list %}{% endblock %}
+    </div>
+    <div id="experts_list" class="content-block">
+        {% block experts_list %}{% endblock %}
+    </div>
+    <div id="article_list" class="content-block">  
+        {% block posts_content %}{% endblock %}
+    </div>
+    <div id="question_answer_list" class="content-block" >
+        {% block question_answer_list %}{% endblock %}
+    </div>
 
-   
+    <script>
+
+        function showContent(element, contentId) {
+
+            //hide all conmtent b;locks
+            var contentBlocks = document.getElementsByClassName('content-block');
+            for (var i = 0; i < contentBlocks.length; i++) {
+                contentBlocks[i].style.display = 'none';
+            }
+
+            //remove 'selected from all catagories'
+            var menuItems = document.getElementsByClassName('post-menu-item');
+            for (var i = 0; i < menuItems.length; i++) {
+                menuItems[i].classList.remove('selected');
+            }
+
+            //show the selected block
+            document.getElementById(contentId).style.display = 'block';
+
+            //add selected to the block
+            element.classList.add('selected');
+
+        }
+
+        // selected current url menu item
+        document.addEventListener("DOMContentLoaded", function() {
+
+            var currentUrl = window.location.pathname;
+            var menuItems = document.getElementsByClassName('post-menu-item');
+            
+            for (var i = 0; i < menuItems.length; i++) {
+                var href = menuItems[i].getAttribute("href");
+
+                if (currentUrl === href) {
+                    menuItems[i].classList.add('selected');
+                    break; 
+                }
+            }
+        });
+
+    </script>
+
 {% endblock %}

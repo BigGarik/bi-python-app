@@ -1,0 +1,37 @@
+.hours-ago{
+    display: flex;
+    color: #a5b1c8;
+    font-size: 14px;
+    font-family: sans-serif;
+    margin-left: 10px;
+}
+
+.qa-main-content-text{
+    font-size: 14px;
+    font-family: sans-serif;
+    flex-wrap: wrap;
+
+}
+
+.research-link-read-post{
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: blue;
+    font-family: sans-serif;
+    align-items: center;
+    font-size: 12px;
+}
+
+.research-search-cont{
+    display: flex;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #dadada;
+    font-family: sans-serif;
+    width: 40%;
+    border-radius: 7px;
+    outline: none !important;
+    margin-right: 10px;
+    
+}
