@@ -1,5 +1,11 @@
 from django import forms
-from .models import Article, Image, Research, QuestionAnswer
+from .models import Article, Image, Research, QuestionAnswer, CustomUser
+
+
+class CustomUserForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email']
 
 
 class ArticleForm(forms.ModelForm):
