@@ -1,41 +1,10 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
 
-"""---  Пользователи ---"""
-class CustomUser(AbstractUser):
-    email = models.EmailField(_("email address"), unique=True, )
-
-    is_active = models.BooleanField(
-        _("active"),
-        default=False,
-        help_text=_(
-            "Designates whether this user should be treated as active. "
-            "Unselect this instead of deleting accounts."
-        ),
-    )
-
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
-
-    def __str__(self):
-        return self.email
-
-
-"""--- Статьи ---"""
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_published=Article.Status.PUBLISHED)
-
-
-class Image(models.Model):
-    image = models.ImageField(upload_to='images/%Y/%m/%d/')
-    article = models.ForeignKey('Article', related_name='image', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"Image for {self.article}"
 
 
 class Article(models.Model):
@@ -65,7 +34,6 @@ class Article(models.Model):
         ]
 
     def get_absolute_url(self):
-        # return reverse('article_detail', kwargs={'article_slug': self.slug})
         return reverse('article_detail', kwargs={'slug': self.slug})
 
 
@@ -78,8 +46,3 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return reverse('category', kwargs={'cat_slug': self.slug})
-    
-
-class Research(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)    

@@ -3,27 +3,27 @@ from django.views.generic import ListView, DetailView
 
 from web.models import Article
 
-def get_articles(request):
-    articles = Article.objects.all()
-
-    data = {
-        'title': 'Статьи',
-        'articles': articles,
-    }
-
-    return render(request, 'articles.html', context=data)
-
-
-def show_article(request, post_slug):
-    article = get_object_or_404(Article, slug=post_slug)
-
-    data = {
-        'title': article.title,
-        'article': article,
-        'cat_selected': 1,
-    }
-
-    return render(request, 'articles.html', context=data)
+# def get_articles(request):
+#     articles = Article.objects.all()
+#
+#     data = {
+#         'title': 'Статьи',
+#         'articles': articles,
+#     }
+#
+#     return render(request, 'articles.html', context=data)
+#
+#
+# def show_article(request, post_slug):
+#     article = get_object_or_404(Article, slug=post_slug)
+#
+#     data = {
+#         'title': article.title,
+#         'article': article,
+#         'cat_selected': 1,
+#     }
+#
+#     return render(request, 'articles.html', context=data)
 
 
 class ArticleListView(ListView):
