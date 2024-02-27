@@ -5,7 +5,7 @@ from .models import Article, Image, Research, QuestionAnswer, CustomUser
 class CustomUserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'first_name', 'last_name']
 
 
 class ArticleForm(forms.ModelForm):

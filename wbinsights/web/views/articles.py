@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from web.models import Article
 
@@ -34,3 +34,9 @@ class ArticleListView(ListView):
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'posts/article/article_detail.html'
+
+
+class ArticleAddView(CreateView):
+    model = Article
+    template_name = 'posts/article/article_add.html'
+    fields = ['title', 'content']

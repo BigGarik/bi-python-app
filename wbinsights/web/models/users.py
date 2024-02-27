@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(_("email address"), unique=True, )
+    email = models.EmailField(_("email address"), unique=True,)
 
     is_active = models.BooleanField(
         _("active"),
@@ -14,9 +14,14 @@ class CustomUser(AbstractUser):
             "Unselect this instead of deleting accounts."
         ),
     )
+    profile = models.OneToOneField('Profile', on_delete=models.CASCADE, related_name='user', blank=True)
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
 
     def __str__(self):
         return self.email
+
+
+class Profile(models.Model):
+    avatar = models.ImageField('Avatar', upload_to="avatars", default="avatars/profile_picture_icon.png")
