@@ -1,5 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
@@ -14,7 +17,7 @@ class CustomUser(AbstractUser):
             "Unselect this instead of deleting accounts."
         ),
     )
-    profile = models.OneToOneField('Profile', on_delete=models.CASCADE, related_name='user', blank=True)
+    # profile = models.OneToOneField('Profile', on_delete=models.CASCADE, related_name='user', null=True, blank=True)
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
@@ -22,6 +25,19 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
+    def get_absolute_url(self):
+        return reverse('user_profile', kwargs={'int': self.pk})
+
 
 class Profile(models.Model):
     avatar = models.ImageField('Avatar', upload_to="avatars", default="avatars/profile_picture_icon.png")
+    user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
+
+
+# Создаем обработчик сигнала для добавления профиля при создании пользователя
+@receiver(post_save, sender=CustomUser)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    else:
+        instance.profile.save()

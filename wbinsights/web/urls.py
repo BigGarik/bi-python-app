@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.users import CustomUserListView, CustomUserDetailView
+from .views.users import CustomUserListView, CustomUserDetailView, ProfileUpdateView
 from .views.index import handleIndex
 from .views.login import SignUpView
 from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView
@@ -10,6 +10,8 @@ from .views.researches import ResearchesListView, ResearchesDetailView
 
 urlpatterns = [
     path("", handleIndex, name="index"),
+    path('profile/<int:pk>/', CustomUserDetailView.as_view(), name='user_profile'),
+    path('profile/<int:pk>/edit/', ProfileUpdateView.as_view(), name='edit_profile'),
     path("articles/", ArticleListView.as_view(), name='article_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
     path("articles/add/", ArticleAddView.as_view(), name='article_add'),

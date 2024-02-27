@@ -12,14 +12,14 @@ class Article(models.Model):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
 
-    title = models.CharField(max_length=255)
-    content = models.TextField(blank=True)
+    title = models.CharField(max_length=255, verbose_name="Заголовок")
+    content = models.TextField(blank=True, verbose_name="Текст статьи")
     # author = models.ForeignKey('User', on_delete=models.SET_NULL)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='article', blank=True)
+    is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT, verbose_name="Статус")
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='article', blank=True, verbose_name="Категории")
 
     objects = models.Manager()
     published = PublishedManager()
