@@ -1,0 +1,30 @@
+<div class="right-expert-col-cont">
+    <div class="container-fluid-expert-col " >
+        <div class="spans-cont">
+            <span class="experts-title"> ЭКСПЕРТЫ </span> 
+            <span class="all-experts"> Все эксперты </span>
+        </div>
+
+        {% for expertprofile in '1234567' %}
+        <div class="expert-profiles-cont">
+            <div class="expert-prof-pic">
+                <i class="bi bi-person-circle" style="scale: 3;" ></i>
+            </div>
+            
+            <div class = "expert-info">
+            <div class="expert-name">Александр Александров</div>
+            <div class="expert-job">Финансы</div>
+            <div class="expert-rating">
+                <i class="bi bi-star-fill" style="scale: 1; color: #e9be50;" ></i> &nbsp; 4.5</div>
+            </div>
+        </div>
+        {%endfor%}
+        
+        <span class="expert-more" style="cursor: pointer">
+            Ещё &nbsp;
+            <i class="bi bi-chevron-down" style="scale: 2;" ></i>
+        </span>
+
+    </div>
+
+</div>
