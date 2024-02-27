@@ -11,7 +11,7 @@ class CustomUserForm(forms.ModelForm):
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'cat', 'is_published']
 
 
 class ImageForm(forms.ModelForm):
