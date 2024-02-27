@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, UpdateView
 
-from web.forms import ProfileForm, UserChangeForm, CustomUserForm
+from web.forms.users import ProfileForm, UserChangeForm, CustomUserForm
 from web.models import CustomUser
 
 
@@ -19,10 +19,6 @@ class CustomUserDetailView(DetailView):
         context['profile_form'] = ProfileForm(instance=self.request.user.profile)
         context['user_change_form'] = UserChangeForm(self.request.user)
         return context
-
-# class CustomUserDetailView(DetailView):
-#     model = CustomUser
-#     template_name = 'posts/users/user_profile.html'
 
 
 class ProfileUpdateView(UpdateView):

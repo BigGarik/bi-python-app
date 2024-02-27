@@ -1,10 +1,9 @@
 import itertools
-
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView
 from pytils.translit import slugify
 
-from web.forms import ArticleForm
+from web.forms.articles import ArticleForm
 from web.models import Article
 
 # def get_articles(request):
