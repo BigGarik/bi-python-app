@@ -16,85 +16,93 @@ QandA
 
 
 <body>
-<div class="articles-main-cont" style="margin-top: 20px;">	
+	<div class="articles-main-cont" style="margin-top: 20px;">	
 
-	<div class="search-and-cat-cont">
+		<div class="search-and-cat-cont">
 
-        <div style="display:flex ; width: 100%;">
-            <input type="text" class="research-search-cont" placeholder="Поиск">	
+			<div style="display:flex ; width: 100%;">
 
-            <button type="button" class="btn btn-primary btn-sm" style="cursor:pointer ;border-radius: 10px; background-color: #6dc36b ; border: none">Задать вопрос</button>
-        </div>
+				<input type="text" class="research-search-cont" placeholder="Поиск">	
 
-		<div class="catagory-cont">
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;display: flex;align-items: center;background-color: white;color: black;border: none;margin-top: 0px;">
-					<span class="catagory-text"> Категория: &nbsp;</span>
-					<span class="catagory-choose"> Все  </span>  
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-					<li><a class="dropdown-item" href="#">Категория 1</a></li>
-					<li><a class="dropdown-item" href="#">Категория 2</a></li>
-					<li><a class="dropdown-item" href="#">Категория 3</a></li>
-				</ul>
+				<button type="button" class="btn btn-primary btn-sm" style="cursor:pointer ;border-radius: 10px; background-color: #6dc36b ; border: none">Задать вопрос</button>
 			</div>
+
+			<div class="catagory-cont">
+
+				<div class="dropdown">
+
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;display: flex;align-items: center;background-color: white;color: black;border: none;margin-top: 0px;">
+						<span class="catagory-text"> Категория: &nbsp;</span>
+						<span class="catagory-choose"> Все  </span>  
+					</button>
+
+					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+						<li><a class="dropdown-item" href="#">Категория 1</a></li>
+						<li><a class="dropdown-item" href="#">Категория 2</a></li>
+						<li><a class="dropdown-item" href="#">Категория 3</a></li>
+					</ul>
+
+				</div>
+
+			</div>
+			
 		</div>
-		
-	</div>
 
 
-    {% for questionsandanswers in '123' %}
-	<div class="article-content">
+		{% for questionsandanswers in '123' %}
+		<div class="article-content">
 
-        <div style=" margin-top:10px ; margin-bottom: 10px">
-            <span class="article-catagory-container"> Финансы </span>
-        </div>
+			<div style=" margin-top:10px ; margin-bottom: 10px">
+				<span class="article-catagory-container"> Финансы </span>
+			</div>
 
-		<div class="article-title">Вот вам яркий пример современных тенденций - сложившаяся структура организации</div>
+			<div class="article-title">Вот вам яркий пример современных тенденций - сложившаяся структура организации</div>
 
-		<div class="article-main-content">
-            
-            <span class="qa-main-content-text" style="display: block">
-                Повседневная практика показывает, что 
-                высококачественный прототип будущего проекта однозначно определяет каждого участника как способного принимать 
-                собственные решения касаемо соответствующих условий активизации. &nbsp;<a href="#" style="text-decoration:none">Читать пост</a>
+			<div class="article-main-content">
 				
-			</span>
-			
-
-			<div class="article-last">
-
-				<div class="article-author-cont">
-					<div class="author-pic">
-						<i class="bi bi-person-circle" style="color:black; scale:3"></i>
-					</div>
-					<div class="author-name">Александр Александров</div>
-                    <span class="hours-ago">18 часов назад</span>
-
-				</div>
-
-				<div class="article-comments-andshare-cont">
-					<div class="article-comments">
-						<i class="bi bi-chat-left-text" style="color:grey; scale:1"></i>
+				<span class="qa-main-content-text" style="display: block">
+					Повседневная практика показывает, что 
+					высококачественный прототип будущего проекта однозначно определяет каждого участника как способного принимать 
+					собственные решения касаемо соответствующих условий активизации. &nbsp;<a href="#" style="text-decoration:none">Читать пост</a>
 					
-					&nbsp; 104</div>
-					<div class="article-share">
-						<i class="bi bi-box-arrow-up-right" style="color:grey; scale:0.9"></i>
-						
+				</span>
+				
+
+				<div class="article-last">
+
+					<div class="article-author-cont">
+
+						<div class="author-pic">
+							<i class="bi bi-person-circle" style="color:black; scale:3"></i>
+						</div>
+
+						<div class="author-name">Александр Александров</div>
+						<span class="hours-ago">18 часов назад</span>
+
+					</div>
+
+					<div class="article-comments-andshare-cont">
+						<div class="article-comments">
+							<i class="bi bi-chat-left-text" style="color:grey; scale:1"></i>
+							&nbsp; 104
+						</div>
+
+						<div class="article-share">
+							<i class="bi bi-box-arrow-up-right" style="color:grey; scale:0.9"></i>
+						</div>
+
 					</div>
 
 				</div>
 
+				<hr class="solid" style="margin-top: 20px;">
+				
 			</div>
-			<hr class="solid" style="margin-top: 20px;">
 			
 		</div>
+		{%endfor%}
 
-		
 	</div>
-    {%endfor%}
-
-</div>
 
 </body>
 </html>
