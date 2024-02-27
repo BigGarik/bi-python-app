@@ -2,94 +2,12 @@
 
 
 {% block content %}
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/expertProfilePage.css') }}">
-</head>
+  <div class="profile-info">
+    <h1>{{ customuser.username }}</h1>
+    <p>Email: {{ customuser.email}}</p>
 
-<div class="prof-page-cont">
-    <a href="{{ url_for('index') }}" class="to-main-page"> <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16" style="font-weight: bold; color:#777786;">
-        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-      </svg> &nbsp;На главную</a>
+    <img src="{{ customuser.profile.avatar.url }}" alt="Avatar">
 
-    <div class="profile-info-cont">
-
-        <div class="top-half">
-            <div class="prof-pic-cont">
-                <img src="{{ url_for('userava') }}" style="border-radius: 50%; width:150px ; height: 150px">
-            </div>
-            <div class="profile-information-cont">
-                <div class="user-display-name">{{current_user.firstName}}</div>
-                <div class="user-rating-cont">
-                    <div class="user-rating">Rating: &nbsp;</div>
-                    <div class="user-rate-and-stars">4.5 *****</div>
-                </div>
-                <div class="user-category-cont">
-                    <div class="user-category">Эксперт в области:</div>
-                    <div class="user-catagory-highlight">IT</div>
-                </div>
-                <div class="user-stats">10 статей • 30 исследований  • 24 отзыва</div>
-                <div class="user-settings">
-
-                    <a class="profile-settings-btn">Настройки профиля</a>
-                    <a class="profile-logout-btn" >Выйти</a>
-
-                </div>
-                
-            </div>
-
-        </div>
-
-        <div class="bottom-half">
-            <div class="bottom-info">
-                <div class="prof-bottom-cont">
-                    <span class="bottom-bold-text">Образование: &nbsp;</span>
-                    <span class="">Экономический факультет МГУ имени М.В.Ломоносова</span>
-                </div>
-                <div class="prof-bottom-cont">
-                    <span class="bottom-bold-text">Возраст:&nbsp;</span>
-                    <span class="">33 года</span>
-                </div>
-                <div class="prof-about-me-cont">
-                    Сложно сказать, почему активно развивающиеся страны третьего мира представляют собой не что
-                    иное, как квинтэссенцию победы маркетинга над разумом и должны быть объявлены
-                    нарушающими общечеловеческие нормы этики и морали!
-                </div>
-                <div class="prof-bottom-cont">
-                    <span class="bottom-bold-text">Стоимость консультации:&nbsp;</span>
-                    <span class="">1000₽/час</span>
-                </div>
-
-            </div>
-            <div class="profile-links">
-                <div class="each-link-cont">
-                    <div class="link-name">Исследования &nbsp;</div>
-                    <div class="link-count">30</div>
-                </div>
-                <div class="each-link-cont">
-                    <div class="link-name">Статьи &nbsp;</div>
-                    <div class="link-count">10</div>
-                </div>
-                <div class="each-link-cont">
-                    <div class="link-name">Вопросы &nbsp;</div>
-                    <div class="link-count">12</div>
-                </div>
-                <div class="each-link-cont">
-                    <div class="link-name">Консультации &nbsp;</div>
-                    <div class="link-count"></div>
-                </div>
-                <div class="each-link-cont">
-                    <div class="link-name">Отзывы &nbsp;</div>
-                    <div class="link-count"></div>
-                </div>
-                <div class="each-link-cont">
-                    <div class="link-name">Уведомления &nbsp;</div>
-                    <div class="link-count"></div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-</div>
+    <a href="{% url 'edit_profile' customuser.pk %}">Edit profile</a>
+  </div>
 {% endblock %}
