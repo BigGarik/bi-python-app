@@ -1,24 +1,17 @@
-
-
 {% extends 'base123.html' %}
 
-
-
 {% block center_col %}
+<div class="base-Content">
+    <div class="article-text-top">
+        <span class="article-news">Новости</span>
+        <span class="article-return" role="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
+            <i class="bi bi-chevron-down" style="transform: scale(1);"></i>
+            &nbsp; свернуть
+        </span>
+    </div>
 
-
-    <div class ="base-Content"> 
-
-        <div class="article-text-top">
-            <span class="article-news">Новости</span> 
-            <span class="article-return"> 
-                <i class="bi bi-chevron-up" style="scale: 1;" ></i>   
-                &nbsp; свернуть
-            </span>
-        </div>
-
+    <div class="collapse show" id="collapseExample">
         <div class="base-info-split">
-
             <div class="col-md-3">
                 <img src="https://picsum.photos/400/300" alt="Random Image" class="img-fluid" style="max-width: 100%; height: auto;">
             </div>
@@ -27,86 +20,83 @@
                 <div class="base-article-content">В целом, конечно, новая модель организационной деятельности создаёт предпосылки для приоритизации разума над эмоциями</div>
                 <div class="base-article-stats">
                     <div class="base-article-stats-comments">
-                        <i class="bi bi-chat-left-text" style="scale: 1;" ></i> &nbsp; 104
+                        <i class="bi bi-chat-left-text" style="transform: scale(1);"></i> &nbsp; 104
                     </div>
                     <div class="base-article-stats-last">
-                        <i class="bi bi-calendar3" style="scale: 1;" ></i> &nbsp; 2 дня назад
+                        <i class="bi bi-calendar3" style="transform: scale(1);"></i> &nbsp; 2 дня назад
                     </div>
                 </div>
             </div>
-
         </div>
         <div>
-            <button type="button" class="btn btn-secondary"style="background-color: white;color: #686878;border: 1px solid #686878;border-radius: 10px;">Больше новостей</button>
+            <button type="button" class="btn btn-secondary" style="background-color: white; color: #686878; border: 1px solid #686878; border-radius: 10px;">Больше новостей</button>
         </div>
-
     </div>
+</div>
 
+<div class="post-menu">
+    <a href="{% url 'research_list' %}" class="post-menu-item" onclick="showContent(this, 'research_list')">Исследования</a>
+    <a href="{% url 'experts_list' %}" class="post-menu-item" onclick="showContent(this, 'experts_list')">Эксперты</a>
+    <a href="{% url 'article_list' %}" class="post-menu-item" onclick="showContent(this, 'article_list')">Статьи</a>
+    <a href="{% url 'question_answer_list' %}" class="post-menu-item" onclick="showContent(this, 'question_answer_list')">Вопрос-ответ</a>
+</div>
 
+<div id="research_list" class="content-block">
+    {% block research_list %}{% endblock %}
+</div>
+<div id="experts_list" class="content-block">
+    {% block experts_list %}{% endblock %}
+</div>
+<div id="article_list" class="content-block">  
+    {% block posts_content %}{% endblock %}
+</div>
+<div id="question_answer_list" class="content-block">
+    {% block question_answer_list %}{% endblock %}
+</div>
 
-    <div class="post-menu">
-        <a href="{% url 'research_list' %}" class="post-menu-item" onclick="showContent(this, 'research_list')">Исследования</a>
-
-        <a href="{% url 'experts_list' %}" class="post-menu-item" onclick="showContent(this, 'experts_list')">Эксперты</a>
-        <a href="{% url 'article_list' %}" class="post-menu-item" onclick="showContent(this, 'article_list')">Статьи</a>
-        <a href="{% url 'question_answer_list' %}" class="post-menu-item" onclick="showContent(this, 'question_answer_list')">Вопрос-ответ</a>
-    </div>
-
-    
-
-    <div id="research_list" class="content-block">
-        {% block research_list %}{% endblock %}
-    </div>
-    <div id="experts_list" class="content-block">
-        {% block experts_list %}{% endblock %}
-    </div>
-    <div id="article_list" class="content-block">  
-        {% block posts_content %}{% endblock %}
-    </div>
-    <div id="question_answer_list" class="content-block" >
-        {% block question_answer_list %}{% endblock %}
-    </div>
-
-    <script>
-
-        function showContent(element, contentId) {
-
-            //hide all conmtent b;locks
-            var contentBlocks = document.getElementsByClassName('content-block');
-            for (var i = 0; i < contentBlocks.length; i++) {
-                contentBlocks[i].style.display = 'none';
-            }
-
-            //remove 'selected from all catagories'
-            var menuItems = document.getElementsByClassName('post-menu-item');
-            for (var i = 0; i < menuItems.length; i++) {
-                menuItems[i].classList.remove('selected');
-            }
-
-            //show the selected block
-            document.getElementById(contentId).style.display = 'block';
-
-            //add selected to the block
-            element.classList.add('selected');
-
+<script>
+    function showContent(element, contentId) {
+        var contentBlocks = document.getElementsByClassName('content-block');
+        for (var i = 0; i < contentBlocks.length; i++) {
+            contentBlocks[i].style.display = 'none';
         }
 
-        // selected current url menu item
-        document.addEventListener("DOMContentLoaded", function() {
+        var menuItems = document.getElementsByClassName('post-menu-item');
+        for (var i = 0; i < menuItems.length; i++) {
+            menuItems[i].classList.remove('selected');
+        }
 
-            var currentUrl = window.location.pathname;
-            var menuItems = document.getElementsByClassName('post-menu-item');
-            
-            for (var i = 0; i < menuItems.length; i++) {
-                var href = menuItems[i].getAttribute("href");
+        var targetElement = document.getElementById(contentId);
+        targetElement.style.display = 'block';
+        element.classList.add('selected');
+    }
 
-                if (currentUrl === href) {
-                    menuItems[i].classList.add('selected');
-                    break; 
-                }
+    document.addEventListener("DOMContentLoaded", function () {
+        var currentUrl = window.location.pathname;
+        var menuItems = document.getElementsByClassName('post-menu-item');
+        for (var i = 0; i < menuItems.length; i++) {
+            var href = menuItems[i].getAttribute("href");
+
+            if (currentUrl === href) {
+                menuItems[i].classList.add('selected');
+                break;
             }
-        });
+        }
+    });
 
-    </script>
+    document.addEventListener('show.bs.collapse', function (event) {
+        const chevronIcon = event.target.previousElementSibling.querySelector('i.bi');
+        chevronIcon.classList.remove('bi-chevron-down');
+        chevronIcon.classList.add('bi-chevron-up');
+    });
+
+    document.addEventListener('hide.bs.collapse', function (event) {
+        const chevronIcon = event.target.previousElementSibling.querySelector('i.bi');
+        chevronIcon.classList.remove('bi-chevron-up');
+        chevronIcon.classList.add('bi-chevron-down');
+    });
+</script>
+
+
 
 {% endblock %}

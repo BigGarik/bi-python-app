@@ -20,6 +20,10 @@
     overflow: visible !important; /* Set overflow to visible for the canvas */
 }
 
+.row{
+    margin-right: 0px;
+}
+
 .gjs-block {
     height: auto !important;
     background-color: #edf0f6 !important;
@@ -76,3 +80,8 @@
     align-items: center;
     justify-content: space-between;
 } */
+
+.article-list-fonts{
+    margin: 5px 0 5px 0;
+    font-family: sans-serif;
+}
