@@ -34,46 +34,77 @@
                 <div class="d-none d-md-flex justify-content-end">
 
                     <div class="col-md-1 text-md-end"></div>
+
                     <div class="col-md-4 mb-2 mb-md-0 logo-container">
+
                         <div class="search-bar-cont">
+
                             <input class="search-bar" type="text" id="search" name="username" placeholder="Поиск">
+
                             <div class="dropdown">
+
                                 <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 100%; margin-top: 0px; width: 100%; background-color: white;">
                                     <i class="bi bi-plus" style="color:black; transform: scale(1.3);"></i>
                                 </button>
+
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="#">Провести исследование</a>
-                                    <a class="dropdown-item" href="#">Написать статью</a>
+                                    <a class="dropdown-item" href="{% url 'article_add' %}">Написать статью</a>
                                     <a class="dropdown-item" href="#">Задать вопрос</a>
                                 </div>
 
                             </div>
+
                         </div>
+
                     </div>
 
                     <div class="col-md-2 text-md-end header-nav-container"></div>
 
                     <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end;">
 
-                        <div class="comments-cont">
-                            <i class="bi bi-chat-left-text" style="color:white; transform: scale(1.3);"></i>
-                        </div>
-                        <div class="bell-cont">
-                            <i class="bi bi-bell-fill" style="color:white; transform: scale(1.3);"></i>
-                        </div>
-                        <div class="buttons-log-cont">
-                            <a href="{% url 'login' %}">
-                                <button type="button" class="btn btn-dark" style="background-color: #36364b; border: none;">Войти</button>
-                            </a>
-                            <a href="{% url 'signup' %}">
-                                <button type="button" class="btn btn-primary">Зарегистрироваться</button>
-                            </a>
-                        </div>
+                        {% if user.is_authenticated %}
 
+                            <div class="comments-cont">
+                                <i class="bi bi-chat-left-text" style="color:white; transform: scale(1.3);"></i>
+                            </div>
+
+                            <div class="bell-cont">
+                                <i class="bi bi-bell-fill" style="color:white; transform: scale(1.3);"></i>
+                            </div>
+
+                            <div class="header-user-prof">
+                                <div class="header-prof-info">
+                                    <span style="color:white">{{ user.first_name }} </span>
+                                    <span style="color:grey">Expert</span>
+                                </div>
+                                <div class="header-prof-cont">
+                                    <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="height: 50px; width: 50px; border-radius: 50%;">
+                                </div>
+                            </div>
+
+                            <div>
+                                
+                        {%else%}
+
+                            <div class="buttons-log-cont">
+                                <a href="{% url 'login' %}">
+                                    <button type="button" class="btn btn-dark" style="background-color: #36364b; border: none;">Войти</button>
+                                </a>
+                                <a href="{% url 'signup' %}">
+                                    <button type="button" class="btn btn-primary">Зарегистрироваться</button>
+                                </a>
+                            </div>
+
+                        {% endif %}
+
+                        </div>
                     </div>
 
                     <div class="col-md-1 text-md-end"></div>
+
                 </div>
+                
     
                 <!-- display on small screens -->
                 <div class="d-md-none">

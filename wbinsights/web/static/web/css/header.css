@@ -30,6 +30,21 @@
 
 }
 
+.header-user-prof{
+    display: flex !important;
+}
+
+.header-prof-info{
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px 0 30px;
+}
+
+.header-prof-cont{
+    display: flex;
+
+}
+
 .search-bar-cont-nav{
     display: flex;
     justify-content: flex-start;

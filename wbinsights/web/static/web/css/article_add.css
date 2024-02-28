@@ -1,38 +1,38 @@
 #gjs {
-    border: 3px solid #444;
-  }
-  
-  /* Reset some default styling */
-  .gjs-cv-canvas {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.gjs-cv-canvas {
     top: 0;
     width: 100%;
-    height: 100%;
-
-
+    height: auto;
+    overflow: visible !important; /* Set overflow to visible for the canvas */
 }
 
 .gjs-blocks-c{
     background-color: white;
 }
 
+.gjs-cv {
+    overflow: visible !important; /* Set overflow to visible for the canvas */
+}
+
 .gjs-block {
-    width: auto;
-    height: auto;
-    min-height: auto;
+    height: auto !important;
     background-color: #edf0f6 !important;
     border-radius: 10px !important;
     border: none !important;
     justify-content: center !important;
     align-items: center !important;
-    
 }
 
 .gjs-block-label {
     display: flex !important;
     flex-direction: column !important;
     overflow: visible !important;
-  
-   
 }
 
 .article-settings{
@@ -44,7 +44,8 @@
 .article-add-desc{
     display: flex;
     margin-bottom: 10px;
-
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .article-word-limit{
@@ -63,9 +64,9 @@
     margin-bottom: 20px;
 }
 
-.gjs-one-bg{
+/* .gjs-one-bg{
     background-color: white !important;
-}
+} */
 /* 
 .add-article-dropdown{
     background-color: white;

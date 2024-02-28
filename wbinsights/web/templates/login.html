@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <title>Login</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-    <!-- Add Bootstrap CSS link here -->
+    <link rel="stylesheet" href="{% static 'web/css/login.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 </head>
@@ -17,7 +16,7 @@
             
         <div class="register-cont">
             <div class="back-btn">
-                <a href="{{ url_for('index') }}" style="cursor: pointer; text-decoration: none; outline: none;">
+                <a href="#" style="cursor: pointer; text-decoration: none; outline: none;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16" style="font-weight: bold; color:#777786;">
                       <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
                     </svg>
@@ -63,14 +62,13 @@
                 </form>
             </div>
             <div class="login-cont">
-                <a href="{{ url_for('register') }}" class="login-link">
+                <a href="#" class="login-link">
                     <span class="login-txt">Зарегистрироваться</span>
                 </a>
                 
             </div>
         </div>
     </div>
-    <!-- Add Bootstrap JS and Popper.js if needed -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
