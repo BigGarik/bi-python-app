@@ -9,7 +9,7 @@ class CustomUserForm(forms.ModelForm):
         fields = ['username', 'email', 'first_name', 'last_name']
 
 
-class UserChangeForm(PasswordChangeForm):
+class UserPasswordChangeForm(PasswordChangeForm):
     class Meta:
         model = CustomUser
         fields = ['old_password', 'new_password1', 'new_password2']
@@ -18,4 +18,4 @@ class UserChangeForm(PasswordChangeForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['avatar']
+        fields = ['avatar', 'type']

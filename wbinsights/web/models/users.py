@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):
 
     is_active = models.BooleanField(
         _("active"),
-        default=False,
+        default=True,
         help_text=_(
             "Designates whether this user should be treated as active. "
             "Unselect this instead of deleting accounts."
@@ -30,7 +30,13 @@ class CustomUser(AbstractUser):
 
 
 class Profile(models.Model):
-    avatar = models.ImageField('Avatar', upload_to="avatars", default="avatars/profile_picture_icon.png")
+
+    class TypeUser(models.IntegerChoices):
+        USER = 0, 'Пользователь'
+        EXPERT = 1, 'Эксперт'
+
+    avatar = models.ImageField('Аватар', upload_to="avatars", default="avatars/profile_picture_icon.png")
+    type = models.BooleanField("Категория пользователя", choices=TypeUser.choices, default=TypeUser.USER)
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
 
 
