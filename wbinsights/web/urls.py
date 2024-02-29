@@ -6,6 +6,8 @@ from .views.login import SignUpView
 from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView
 from .views.researches import ResearchesListView, ResearchesDetailView
+from django.contrib.auth import views as auth_views
+
 
 
 urlpatterns = [
@@ -22,4 +24,6 @@ urlpatterns = [
     path("experts/", CustomUserListView.as_view(), name='experts_list'),
     path("experts/<int:pk>", CustomUserDetailView.as_view(), name='expert_profile'),
     path("signup/", SignUpView.as_view(), name="signup"),
+    path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
+
 ]

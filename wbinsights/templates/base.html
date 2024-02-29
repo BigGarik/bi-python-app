@@ -61,9 +61,14 @@
 
                     <div class="col-md-2 text-md-end header-nav-container"></div>
 
-                    <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end;">
+                    <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center">
 
                         {% if user.is_authenticated %}
+
+                            <form method="post" action="{% url 'logout' %}" style="margin-bottom: 0; margin-right:20px">
+                                {% csrf_token %}
+                                <button type="submit">Logout</button>
+                            </form>
 
                             <div class="comments-cont">
                                 <i class="bi bi-chat-left-text" style="color:white; transform: scale(1.3);"></i>
@@ -79,7 +84,7 @@
                                     <span style="color:grey">Expert</span>
                                 </div>
                                 <div class="header-prof-cont">
-                                    <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="height: 50px; width: 50px; border-radius: 50%;">
+                                    <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
                                 </div>
                             </div>
 

@@ -11,6 +11,10 @@
   <script src="//unpkg.com/grapesjs"></script>
   <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
 
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
   <div style="display:flex">
 
     <div class="col-md-8" style="padding:20px; display:flex; flex-direction:column">
@@ -23,7 +27,7 @@
           </span>
         </span>
         
-        <div id="gjs" style="min-height: 300px;"></div> <!-- Set a minimum height -->
+        <div id="gjs" style="min-height: 300px;"></div> 
 
       </div>
 
@@ -62,6 +66,24 @@
 
         </div>
 
+
+
+        <div class="choose-tags" style="margin-top: 20px;">
+          <span style="font-weight: 500;font-size: 15px;">Выберите теги:</span>
+          <select id="tagSelect" class="form-select" multiple="multiple" style="width: 100%;">
+            <option value="tag1">IT</option>
+            <option value="tag2">Finance</option>
+            <option value="tag3">Business</option>
+            <option value="tag4">Banks</option>
+            <option value="tag5">Economics</option>
+            <option value="tag6"></option>
+          </select>
+        </div>
+    
+ 
+
+
+
         <button type="button" class="btn btn-success" style="margin-top:20px">Опубликовать</button>
         <button type="button" onclick="getContentFromEditor()">Get Content</button>
 
@@ -77,7 +99,13 @@
       fromElement: true,
       height:'auto',
       width: 'auto',
-      storageManager: false,
+      storageManager: {
+        type: 'local',
+        autoload: true, 
+        autosave: true, 
+        stepsBeforeSave: 1, 
+        id: 'gjs', 
+      },
       panels: { defaults: [] },
       blockManager: {
         appendTo: '#blocks',
@@ -91,15 +119,17 @@
                 <h2 style=" font-family: sans-serif;">This is a simple title</h1>
               </section>
             `,
-          }, {
+          }, 
+          {
             id: 'text',
             label: '<i class="bi bi-card-text" style="color: #a5b1c8; scale: 3; margin-bottom: 10px !important;"></i> <b style="color: #a5b1c8;">Текст</b>',
             content: '<div data-gjs-type="text"  style="padding : 10px 0 10px 0; font-family: sans-serif;">Insert your text here</div>',
-          }, {
+          }, 
+          {
             id: 'image',
-            label: '<i class="bi bi-card-image" style="color: #a5b1c8; scale: 3; margin-bottom: 10px !important;"></i> <b style="color: #a5b1c8;">Изображение</b>',
+            label: '<i class="bi bi-card-image" style="color: #a5b1c8; scale: 3; margin-bottom: 10px !important; "></i> <b style="color: #a5b1c8;">Изображение</b>',
             select: true,
-            content: '<img src="placeholder-image.jpg" alt="Placeholder Image" style="max-width: 100%; height: auto;">',
+            content: '<img src="placeholder-image.jpg" alt="Placeholder Image" style="max-width: 100%; height: auto; margin-top:5px;margin-bot:5px">',
             activate: true,
           },
           {
@@ -112,6 +142,11 @@
             label: '<i class="bi bi-dash" style="color: #a5b1c8; scale: 3; margin-bottom: 10px !important;"></i> <b style="color: #a5b1c8; font-family: sans-serif;">Горизонтальная линия</b>',
             content: '<hr>',
           },
+          {
+            id: 'line_break',
+            label: '<i class="bi bi-arrows-expand" style="color: #a5b1c8;margin-bottom: 10px;scale: 2;"></i> <b style="color: #a5b1c8; font-family: sans-serif;">Разделитель</b>',
+            content: '<div style="margin-bottom: 10px;">&nbsp;</div>',
+          }
           
         ]
       },
@@ -121,7 +156,8 @@
       <section>
         <h1 style="font-family: sans-serif;">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</h1>
       </section>
-      <img src="placeholder-image.jpg" alt="Placeholder Image" style="width:100%; height:200px">
+      <img src="placeholder-image.jpg" alt="Placeholder Image" style="width:100%; height:200px;margin-top:5px;margin-bot:5px">
+      <div style="margin-bottom: 10px;">&nbsp;</div>
       <div data-gjs-type="text" style="font-family: sans-serif;">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -192,8 +228,44 @@
     function goBack() {
       window.history.back();
     }
-
     //button is licked to this
+
+
+    // dropdown
+    $(document).ready(function() {
+      $('#tagSelect').select2({
+        maximumSelectionLength: 3,
+        language: {
+          maximumSelected: function (e) {
+            return `Cant choose more than ${e.maximum} tags`;
+          }
+        }
+      });
+    });
+  
+    //selected tags
+    $('#tagSelect').on('select2:select', function (e) {
+      const selectedTag = e.params.data.text;
+      displaySelectedTag(selectedTag);
+    });
+  
+    function displaySelectedTag(tag) {
+      const tagContainer = document.getElementById('selectedTags');
+      const tagElement = document.createElement('span');
+      tagElement.innerHTML = `<span>${tag} <button type="button" onclick="removeTag('${tag}')" class="btn btn-sm btn-danger">X</button></span>`;
+      tagContainer.appendChild(tagElement);
+    }
+  
+    function removeTag(tag) {
+      //remove selected tags
+      const tagContainer = document.getElementById('selectedTags');
+      tagContainer.querySelectorAll('span').forEach(tagElement => {
+        if (tagElement.innerText.includes(tag)) {
+          tagElement.remove();
+        }
+      });
+    }
+
 
   </script>
 

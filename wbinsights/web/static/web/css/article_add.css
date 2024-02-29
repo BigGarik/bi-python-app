@@ -85,3 +85,43 @@
     margin: 5px 0 5px 0;
     font-family: sans-serif;
 }
+
+
+.select2-selection__rendered{
+    padding: 5px !important;
+}
+
+/* Change background color and border for the tags */
+.select2-container .select2-selection__choice {
+    background-color: #f0f0f0 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 5px !important;
+    padding: 2px 5px 2px 5px  !important;
+    margin-right: 5px !important; 
+    margin-top: 0px !important;
+}
+
+/* Change remove button color */
+.select2-selection__choice__remove {
+    color: red !important;
+    cursor: pointer !important;
+    margin-left: 5px !important;
+}
+
+/* Style for the first tag */
+.select2-container .select2-selection__choice:nth-child(1) {
+    background-color: #ffcccb !important; /* Light Red */
+}
+
+/* Style for the second tag */
+.select2-container .select2-selection__choice:nth-child(2) {
+    background-color: #ffebcd !important; /* Blanched Almond */
+}
+
+/* Style for the third tag */
+.select2-container .select2-selection__choice:nth-child(3) {
+    background-color: #98fb98 !important; /* Pale Green */
+}
+
+/* Adjust colors as needed */
+
