@@ -4,10 +4,13 @@ pipelines:
   default:
     - step:
         name: Installing dependencies 
+        caches:
+          - pip
         script:
           - python -m venv venv
           - source venv/bin/activate
           - pip install -r requirements.txt
+          - ls -al
     - step:
         name: Collect static 
         script:
