@@ -5,6 +5,8 @@ pipelines:
     - step:
         name: Installing dependencies 
         script:
+          - python -m venv venv
+          - source venv/bin/activate
           - pip install -r requirements.txt
     - step:
         name: Collect static 
