@@ -3,28 +3,19 @@ image: python:3.11.8-bookworm
 pipelines:
   default:
     - step:
-        name: Installing dependencies 
-        caches:
-          - pip
-        script:
-          - python -m venv venv
-          - source venv/bin/activate
-          - pip install -r requirements.txt          
-          - python ./wbinsights/manage.py collectstatic    
-    - step:
-        name: Deploy to the server
+        name: Copy last version to server
         script:
           - pipe: atlassian/scp-deploy:0.3.3
             variables:
               USER: $PY_DJANGO_APP_TEST_SRV_USER
               SERVER: $PY_DJANGO_APP_TEST_SRV_HOST
               REMOTE_PATH: '/app'
-              LOCAL_PATH: 'wbinsights/*' 
+              LOCAL_PATH: './*'     
     - step:
-        name: Deploy to the server
+        name: run deploy.sh script
         script:
           - pipe: atlassian/ssh-run:0.8.0
             variables:
               SSH_USER: $PY_DJANGO_APP_TEST_SRV_USER
               SERVER: $PY_DJANGO_APP_TEST_SRV_HOST
-              COMMAND: 'echo $HOSTNAME'
+              COMMAND: ./deploy.sh'
