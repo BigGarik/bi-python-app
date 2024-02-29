@@ -9,12 +9,8 @@ pipelines:
         script:
           - python -m venv venv
           - source venv/bin/activate
-          - pip install -r requirements.txt
-          - ls -al
-    - step:
-        name: Collect static 
-        script:
-          - python ./wbinsights/manage.py collectstatic      
+          - pip install -r requirements.txt          
+          - python ./wbinsights/manage.py collectstatic    
     - step:
         name: Deploy to the server
         script:
