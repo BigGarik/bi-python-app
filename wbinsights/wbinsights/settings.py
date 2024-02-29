@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+import environs
+
+env = environs.Env()
+environs.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,13 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=@y6tbc6xiu1x#n4bz*1w(+aqgs90+ol$)2q%k=2+7gm8d6vao'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -78,6 +81,7 @@ WSGI_APPLICATION = 'wbinsights.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+
 DATABASES = {
     
     'sqltile': {
@@ -86,10 +90,10 @@ DATABASES = {
     },
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django',
-        'USER': 'django',
-        'PASSWORD': 'django',
-        'HOST': 'localhost',
+        'NAME': env('DATABASE'),
+        'USER': env('USER_DB'),
+        'PASSWORD': env('PASSWORD_DB'),
+        'HOST': env('URL_DB'),
         'PORT': '5432',
     }
 }
