@@ -5,7 +5,7 @@ pipelines:
     - step:
         name: Installing dependencies 
         script:
-          - python install -r requirements.txt
+          - pip install -r requirements.txt
     - step:
         name: Collect static 
         script:
