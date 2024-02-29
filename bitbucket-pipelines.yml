@@ -1,0 +1,29 @@
+image: python:3.10
+
+pipelines:
+  default:
+    - step:
+        name: Installing dependencies 
+        script:
+          - python install -r requirements.txt
+    - step:
+        name: Collect static 
+        script:
+          - python ./wbinsights/manage.py collectstatic      
+    - step:
+        name: Deploy to the server
+        script:
+          - pipe: atlassian/scp-deploy:0.3.3
+            variables:
+              USER: $PY_DJANGO_APP_TEST_SRV_USER
+              SERVER: $PY_DJANGO_APP_TEST_SRV_HOST
+              REMOTE_PATH: '/app'
+              LOCAL_PATH: 'build/*' 
+    - step:
+        name: Deploy to the server
+        script:
+          - pipe: atlassian/ssh-run:0.8.0
+            variables:
+              SSH_USER: $PY_DJANGO_APP_TEST_SRV_USER
+              SERVER: $PY_DJANGO_APP_TEST_SRV_HOST
+              COMMAND: 'echo $HOSTNAME'
