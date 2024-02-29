@@ -18,7 +18,7 @@ pipelines:
               USER: $PY_DJANGO_APP_TEST_SRV_USER
               SERVER: $PY_DJANGO_APP_TEST_SRV_HOST
               REMOTE_PATH: '/app'
-              LOCAL_PATH: 'build/*' 
+              LOCAL_PATH: 'wbinsights/*' 
     - step:
         name: Deploy to the server
         script:
