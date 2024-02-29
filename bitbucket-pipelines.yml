@@ -19,4 +19,4 @@ pipelines:
             variables:
               SSH_USER: $PY_DJANGO_APP_TEST_SRV_USER
               SERVER: $PY_DJANGO_APP_TEST_SRV_HOST
-              COMMAND: chmod 755 ./deploy.sh && /bin/bash deploy.sh
+              COMMAND: cd /app && chmod 755 deploy.sh && /bin/bash deploy.sh
