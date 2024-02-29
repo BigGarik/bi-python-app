@@ -3,7 +3,7 @@ from django.urls import path
 from .views.users import CustomUserListView, CustomUserDetailView, ProfileUpdateView
 from .views.index import handleIndex
 from .views.login import SignUpView
-from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView
+from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView  # , add_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView
 from .views.researches import ResearchesListView, ResearchesDetailView
 
@@ -15,6 +15,7 @@ urlpatterns = [
     path("articles/", ArticleListView.as_view(), name='article_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
     path("articles/add/", ArticleAddView.as_view(), name='article_add'),
+    # path("articles/add/", add_article, name='article_add'),
     path("researches/", ResearchesListView.as_view(), name='research_list'),
     path("researches/<slug:slug>", ResearchesDetailView.as_view(), name='research_detail'),
     path("question_answer/", QuestionAnswerListView.as_view(), name='question_answer_list'),
