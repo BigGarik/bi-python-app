@@ -5,7 +5,7 @@ pipelines:
     - step:
         name: Copy last version to server
         script:
-          - rm bitbucket-pipelines.yml package.json package-lock.json .env         
+          - rm -f bitbucket-pipelines.yml package.json package-lock.json .env         
           - pipe: atlassian/scp-deploy:0.3.3
             variables:
               USER: $PY_DJANGO_APP_TEST_SRV_USER
