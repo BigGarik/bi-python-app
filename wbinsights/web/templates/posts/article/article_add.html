@@ -58,9 +58,9 @@
               Выберите категорию
             </button>
             <ul class="dropdown-menu" style="position: absolute;inset: 0px auto auto 0px;width: 100%;margin: 0px;transform: translate(0px, 40px);">
-              <li><a class="dropdown-item" href="#">cat 1</a></li>
-              <li><a class="dropdown-item" href="#">cat 2</a></li>
-              <li><a class="dropdown-item" href="#">cat 3</a></li>
+              {% for cat in form.cat  %}
+                {{cat}}
+              {% endfor %}
             </ul>
           </div>
 
@@ -93,7 +93,9 @@
 
   </div>
 
+  {% csrf_token %}
   <script>
+    var csrftoken = '{{ csrf_token }}';
     const editor = grapesjs.init({
       container: '#gjs',
       fromElement: true,
@@ -199,30 +201,35 @@
         });
     
         clearButton.addEventListener('mouseout', function () {
-          clearButton.style.color = ''; // resets to original color when mouse not hovering
+          clearButton.style.color = ''; 
         });
       }
     });
 
 
     function getContentFromEditor() {
-      const editorContent = editor.getHtml(); 
-      console.log(editorContent); 
-      
+      const editorContent = editor.getHtml();
+      console.log(editorContent);
+    
+      const formData = new FormData();
+      formData.append('content', editorContent);
+    
       // can send the content to the server using AJAX, fetch, etc.
       fetch('/articles/add/', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
+            "X-CSRFToken": csrftoken,
         },
-        body: JSON.stringify({ content: editorContent }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Content saved:', data);
-      })
-      .catch(error => console.error('Error:', error));
+        body: formData,
+    })
+    .then(response => response.text())  
+    .then(data => {
+        console.log('Response:', data);
+    })
+    .catch(error => console.error('Error:', error));
     }
+    
 
 
     function goBack() {

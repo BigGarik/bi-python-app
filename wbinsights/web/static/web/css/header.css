@@ -45,10 +45,63 @@
 
 }
 
+.logout-btn{
+    border: none;
+    background-color: inherit;
+    color: red;
+    font-weight: 500;
+    
+}
+
+.logout-btn:hover {
+    background-color: #f0f0f0; 
+}
+
+.logout-form {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    transition: background-color 0.2s; 
+    margin-bottom: 0;
+}
+
+.logout-form:hover {
+    background-color: #f0f0f0;
+}
+
+
+
+.profile-page-btn{
+    border: none;
+    background-color: inherit;
+    font-weight: 500;
+    transition: background-color 0.2s; 
+}
+.profile-page-btn:hover {
+    background-color: #f0f0f0; 
+}
+
+.header-profile-cont{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+.dropdown .dropdown-toggle::after {
+    display: none !important;
+    margin-left: 20px !important;
+}
+
+
+
 .search-bar-cont-nav{
     display: flex;
     justify-content: flex-start;
 }
+
+
 
 .search-bar-nav {
     display: flex;

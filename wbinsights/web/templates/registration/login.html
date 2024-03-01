@@ -1,5 +1,6 @@
 {% load static %}
 
+{% block content %}
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -56,20 +57,8 @@
                     
 
                     <div class="button-cont">
-                        <input class="btn btn-success register-btn" type="submit" value="Войти">
+                        <button class="btn btn-success register-btn" type="submit" value="Войти"> Login</button>
                     </div>
-
-                    <div class="check-box-cont">
-
-                        <div class="custom-control custom-checkbox" style="display: flex;">
-                            <input type="checkbox" id="checkbox" name="checkbox" value="checkbox" style="display: flex;">
-                            <label class="custom-control-label-checkbox" style="margin-bottom: 0px !important;" for="checkbox">
-                                <span>Я ознакомлен и согласен с <a href="#" style="text-decoration: none;">политикой обработки персональных данных</a></span>
-                            </label>
-                        </div>
-
-                    </div>
-
                 </form>
 
             </div>
@@ -89,6 +78,7 @@
   </body>
 
 </html>
+{%endblock%}
 
 
 
