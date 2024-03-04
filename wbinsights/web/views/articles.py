@@ -46,6 +46,7 @@ class ArticleListView(ListView):
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         context['categories'] = Category.objects.all()
+        context['selected_category'] = ''
         return context
 
 #Класс-представление для фильтрации статей по категории
@@ -55,6 +56,12 @@ class CategoryArticleListView(ArticleListView):
         #Получаем объект, по которому будем делать фильтрацию
         self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         return Article.objects.filter(cat=self.cat)
+    
+     #Добавляем параметры в контекст
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['selected_category'] = self.cat
+        return context
 
 
 class ArticleDetailView(DetailView):
