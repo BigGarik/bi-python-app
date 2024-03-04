@@ -58,7 +58,7 @@
               Выберите категорию
             </button>
             <ul class="dropdown-menu" style="position: absolute;inset: 0px auto auto 0px;width: 100%;margin: 0px;transform: translate(0px, 40px);">
-              {% for cat in form.cat  %}
+              {% for cat in categories  %}
                 {{cat}}
               {% endfor %}
             </ul>
@@ -85,7 +85,7 @@
 
 
         <button type="button" class="btn btn-success" style="margin-top:20px">Опубликовать</button>
-        <button type="button" onclick="getContentFromEditor()">Get Content</button>
+        <button type="button" onclick="saveArticle()">Get Content</button>
 
       </div>
 
@@ -207,18 +207,27 @@
     });
 
 
-    function getContentFromEditor() {
+    function saveArticle() {
       const editorContent = editor.getHtml();
       console.log(editorContent);
     
       const formData = new FormData();
+
+      var selectedCategorySlug = 'it';
+      
+      formData.append('title', 'some title');
       formData.append('content', editorContent);
+      formData.append('category', selectedCategorySlug);
+      //formData.append('article_content', '123 content');
+
     
       // can send the content to the server using AJAX, fetch, etc.
       fetch('/articles/add/', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            //'Content-Type': 'application/json',
+            //'Content-Type': 'application/x-www-form-urlencoded',
+           
             "X-CSRFToken": csrftoken,
         },
         body: formData,
@@ -226,6 +235,9 @@
     .then(response => response.text())  
     .then(data => {
         console.log('Response:', data);
+        dataObj = JSON.parse(data)        
+        console.log(dataObj.toUrl);
+        window.location.href = "/" + dataObj.toUrl;
     })
     .catch(error => console.error('Error:', error));
     }
