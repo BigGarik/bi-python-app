@@ -24,9 +24,9 @@
 					<span class="catagory-choose"> Все  </span>  
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-					<li><a class="dropdown-item" href="#">Категория 1</a></li>
-					<li><a class="dropdown-item" href="#">Категория 2</a></li>
-					<li><a class="dropdown-item" href="#">Категория 3</a></li>
+					{% for category in categories %}
+					<li><a class="dropdown-item" href="{{category.slug}}">{{ category.name}}</a></li>
+					{% endfor%}					
 				</ul>
 			</div>
 		</div>

@@ -37,6 +37,24 @@ import time
 class ArticleListView(ListView):
     model = Article
     template_name = 'posts/article/article_list.html'
+    #Название переменной для списка статей вместо object_list
+    #context_object_name = articles
+
+    #Добавляем параметры в контекст
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['categories'] = Category.objects.all()
+        return context
+
+#Класс-представление для фильтрации статей по категории
+class CategoryArticleListView(ArticleListView):
+    #Переопределяем метод получения списка сущностей
+    def get_queryset(self):
+        #Получаем объект, по которому будем делать фильтрацию
+        self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
+        return Article.objects.filter(cat=self.cat)
 
 
 class ArticleDetailView(DetailView):

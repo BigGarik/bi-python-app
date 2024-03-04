@@ -3,7 +3,7 @@ from django.urls import path
 from .views.users import CustomUserListView, CustomUserDetailView, ProfileUpdateView
 from .views.index import handleIndex
 from .views.login import SignUpView
-from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView, create_article  # , add_article
+from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView, CategoryArticleListView, create_article  # , add_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
@@ -15,6 +15,7 @@ urlpatterns = [
     path('profile/<int:pk>/', CustomUserDetailView.as_view(), name='user_profile'),
     path('profile/<int:pk>/edit/', ProfileUpdateView.as_view(), name='edit_profile'),
     path("articles/", ArticleListView.as_view(), name='article_list'),
+    path("articles/category/<slug:category_slug>", CategoryArticleListView.as_view(), name='article_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
     path("articles/add/", create_article, name='article_add'),
     # path("articles/add/", add_article, name='article_add'),
