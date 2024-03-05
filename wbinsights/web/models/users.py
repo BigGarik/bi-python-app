@@ -4,7 +4,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.contrib.postgres.fields import ArrayField
 
+from .articles import Category
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True,)
@@ -28,7 +30,7 @@ class CustomUser(AbstractUser):
     def get_absolute_url(self):
         return reverse('user_profile', kwargs={'int': self.pk})
 
-
+# Общий профиль
 class Profile(models.Model):
 
     class TypeUser(models.IntegerChoices):
@@ -38,7 +40,17 @@ class Profile(models.Model):
     avatar = models.ImageField('Аватар', upload_to="avatars", default="avatars/profile_picture_icon.png")
     type = models.BooleanField("Категория пользователя", choices=TypeUser.choices, default=TypeUser.USER)
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
+    
+# Профиль эксперта    
+class ExpertProfile(models.Model):
+    
+    user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertprofile')
 
+    about = models.CharField(max_length=2000)
+    education = models.CharField(max_length=250)
+    age = models.IntegerField()
+    hour_cost = models.IntegerField()
+    #expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
 
 # Создаем обработчик сигнала для добавления профиля при создании пользователя
 @receiver(post_save, sender=CustomUser)
@@ -47,3 +59,4 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     else:
         instance.profile.save()
+
