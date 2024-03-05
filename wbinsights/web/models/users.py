@@ -29,7 +29,7 @@ class CustomUser(AbstractUser):
 
     def get_absolute_url(self):
         return reverse('user_profile', kwargs={'int': self.pk})
-
+        
 # Общий профиль
 class Profile(models.Model):
 
@@ -38,9 +38,22 @@ class Profile(models.Model):
         EXPERT = 1, 'Эксперт'
 
     avatar = models.ImageField('Аватар', upload_to="avatars", default="avatars/profile_picture_icon.png")
-    type = models.BooleanField("Категория пользователя", choices=TypeUser.choices, default=TypeUser.USER)
+    type = models.IntegerField("Категория пользователя", choices=TypeUser.choices, default=TypeUser.USER)
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
+
+class ExpertManager(models.Manager):
+    def get_queryset(self):
+        return super(ExpertManager, self).get_queryset().filter(profile__type=Profile.TypeUser.EXPERT)
     
+#Сущность Эксперта
+class Expert(CustomUser):
+
+    objects = ExpertManager()
+    
+    class Meta:
+        proxy = True    
+
+
 # Профиль эксперта    
 class ExpertProfile(models.Model):
     
