@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+  <div class="profile-info">
+    <h1>{{ customuser.username }}</h1>
+    <p>Email: {{ customuser.email}}</p>
+
+    <img src="{{ customuser.profile.avatar.url }}" alt="Avatar">
+
+  </div>
+  
+{% endblock %}

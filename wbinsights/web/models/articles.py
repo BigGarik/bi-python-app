@@ -7,6 +7,21 @@ class PublishedManager(models.Manager):
         return super().get_queryset().filter(is_published=Article.Status.PUBLISHED)
 
 
+# теги
+# class Post(models.Model):
+#     name = models.CharField(max_length=200)
+#     tags = ArrayField(models.CharField(max_length=200), blank=True)
+
+#     def __str__(self):
+#         return self.name
+# contains¶
+# The contains lookup is overridden on ArrayField. The returned objects will be those where the values passed are a subset of the data. It uses the SQL operator @>. For example:
+
+# >>> Post.objects.create(name="First post", tags=["thoughts", "django"])
+# >>> Post.objects.create(name="Second post", tags=["thoughts"])
+# >>> Post.objects.create(name="Third post", tags=["tutorial", "django"])
+
+
 class Article(models.Model):
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Черновик'
@@ -19,7 +34,7 @@ class Article(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT, verbose_name="Статус")
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='article', blank=True, verbose_name="Категории")
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='article', blank=True, verbose_name="Категории", )
 
     objects = models.Manager()
     published = PublishedManager()
