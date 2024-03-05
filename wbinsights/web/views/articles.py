@@ -7,6 +7,9 @@ from web.forms.articles import ArticleForm
 from web.models import Article, Category
 from django.http import JsonResponse
 
+from django.contrib.auth.decorators import login_required
+
+
 #from django.urls import reverse_lazy
 
 import time
@@ -60,7 +63,7 @@ class CategoryArticleListView(ArticleListView):
      #Добавляем параметры в контекст
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['selected_category'] = self.cat
+        context['selected_category'] = self.cat       
         return context
 
 
@@ -69,6 +72,7 @@ class ArticleDetailView(DetailView):
     template_name = 'posts/article/article_detail.html'
 
 
+@login_required
 def create_article(request):
     if request.method == "POST":
 
