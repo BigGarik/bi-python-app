@@ -75,35 +75,30 @@ class ArticleDetailView(DetailView):
 @login_required
 def create_article(request):
     if request.method == "POST":
-
         data = request.POST
 
-        #print(data['content']);
-
         article = Article() 
-        article.title =  data['title']
+        article.title = data['title']
         article.content = data['content']
         max_length = Article._meta.get_field('slug').max_length
         article.slug = slugify(article.title +  '-' + str(time.time()))[:max_length] 
 
         selectedCategorySlug = data['category']
-        if (not selectedCategorySlug):
-            print("Error")               
+        if not selectedCategorySlug:
+            print("Error")
 
-        categoryFromDB = Category.objects.get(slug=selectedCategorySlug)
-
-        article.cat = categoryFromDB
-
-        
-        #article.save()
+        try:
+            categoryFromDB = Category.objects.get(slug=selectedCategorySlug)
+            article.cat = categoryFromDB
+            article.save()  # Save the article instance to the database
+        except Category.DoesNotExist:
+            print("Category not found")               
 
         resp = {
             "toUrl": "articles/"        
         }
 
         return JsonResponse(resp)
-
-        #print(article);
 
     allCategories = Category.objects.all()
     context = {

@@ -1,14 +1,86 @@
-{% extends 'base.html' %}
+{% extends 'base123.html' %}
 
 
-{% block content %}
+{% block center_col %}
 
-  <div class="profile-info">
-    <h1>{{ customuser.username }}</h1>
-    <p>Email: {{ customuser.email}}</p>
 
-    <img src="{{ customuser.profile.avatar.url }}" alt="Avatar">
+<div class="prof-page-cont">
+  <a href="#" class="to-main-page"> <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16" style="font-weight: bold; color:#777786;">
+      <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+    </svg> &nbsp;На главную</a>
+
+  <div class="profile-info-cont">
+
+      <div class="top-half">
+
+          <div class="prof-pic-cont">
+            <img src="{{ customuser.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;">
+          </div>
+      
+          <div class="profile-information-cont">
+              <div class="user-display-name">
+                {{ customuser.username }}
+              </div>
+              <div class="user-rating-cont">
+                  <div class="user-rating">Rating: &nbsp;</div>
+                  <div class="user-rate-and-stars">4.5 *****</div>
+              </div>
+              <div class="user-category-cont">
+                  <div class="user-category">Эксперт в области:</div>
+                  <div class="user-catagory-highlight">IT</div>
+              </div>
+              <div class="user-stats">10 статей • 30 исследований  • 24 отзыва</div>
+              <div class="user-settings">
+
+                  <a class="profile-settings-btn">Настройки профиля</a>
+                  <a class="profile-logout-btn" >Выйти</a>
+
+              </div>
+              
+          </div>
+
+      </div>
+
+      <div class="bottom-half">
+          <div class="bottom-info">
+              <div class="prof-bottom-cont">
+                  <span class="bottom-bold-text">Образование: &nbsp;</span>
+                  <span class="">Экономический факультет МГУ имени М.В.Ломоносова</span>
+              </div>
+              <div class="prof-bottom-cont">
+                  <span class="bottom-bold-text">Опыт:&nbsp;</span>
+                  <span class="">3 года</span>
+              </div>
+              <div class="prof-about-me-cont">
+                  Сложно сказать, почему активно развивающиеся страны третьего мира представляют собой не что
+                  иное, как квинтэссенцию победы маркетинга над разумом и должны быть объявлены
+                  нарушающими общечеловеческие нормы этики и морали!
+              </div>
+              <div class="prof-bottom-cont">
+                  <span class="bottom-bold-text">Стоимость консультации:&nbsp;</span>
+                  <span class="">1000₽/час</span>
+              </div>
+
+
+          </div>
+          <div class="profile-links">
+            
+            <span> articles ({{experts_articles_count}}) </span>
+
+            {% for article in experts_articles %}
+
+              <p>{{ article.title }}</p>
+              <p>{{ article.content }}</p>
+
+            {% endfor %}
+
+          </div>
+
+      </div>
 
   </div>
-  
+</div>
+
+<!--  {{ customuser.email}}  -->
+
 {% endblock %}
