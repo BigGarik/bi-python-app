@@ -63,6 +63,8 @@ class ExpertProfile(models.Model):
     education = models.CharField(max_length=250)
     age = models.IntegerField()
     hour_cost = models.IntegerField()
+    experience = models.IntegerField(null=True)
+    rating = models.FloatField(null=True)
     #expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
 
 # Создаем обработчик сигнала для добавления профиля при создании пользователя

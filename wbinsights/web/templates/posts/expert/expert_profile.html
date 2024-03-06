@@ -5,10 +5,10 @@
 
 
 <div class="prof-page-cont">
-  <a href="{% url 'index' %}" class="to-main-page"> 
+  <a href="{% url 'experts_list' %}" class="to-main-page"> 
     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16" style="font-weight: bold; color:#777786;">
       <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-    </svg> &nbsp;На главную</a>
+    </svg> &nbsp; к списку экспертов</a>
 
   <div class="profile-info-cont">
 
@@ -20,7 +20,7 @@
       
           <div class="profile-information-cont">
               <div class="user-display-name">
-                {{ customuser.last_name }} {{ expert.first_name }}
+                {{ expert.last_name }} {{ expert.first_name }}
               </div>
               <div class="user-rating-cont">
                   <div class="user-rating">Rating: &nbsp;</div>
@@ -34,7 +34,7 @@
                   <div class="user-category">Эксперт в области:</div>
                   <div class="user-catagory-highlight">IT</div>
               </div>
-              <div class="user-stats">10 статей • 30 исследований  • 24 отзыва</div>
+              <div class="user-stats">{{experts_articles_count}} статей • {{ experts_researches_count }} исследований  • 24 отзыва</div>
               <div class="user-settings">
 
                   <!-- its public page, there is no settong button -->
@@ -51,29 +51,32 @@
           <div class="bottom-info">
               <div class="prof-bottom-cont">
                   <span class="bottom-bold-text">Образование: &nbsp;</span>
-                  <span class="">{{expert.expertprofile.education}}</span>
+                  <span class="">{{ expert.expertprofile.education }}</span>
               </div>
               <div class="prof-bottom-cont">
                   <span class="bottom-bold-text">Опыт:&nbsp;</span>
-                  <span class="">3 года</span>
+                  <span class="">{{ expert.expertprofile.experience }} года</span>
               </div>
               <div class="prof-about-me-cont">
-                {{expert.expertprofile.about}}
+                {{ expert.expertprofile.about }}
               </div>
               <div class="prof-bottom-cont">
                   <span class="bottom-bold-text">Стоимость консультации:&nbsp;</span>
-                  <span class=""> {{expert.expertprofile.hour_cost}} ₽/час</span>
+                  <span class=""> {{ expert.expertprofile.hour_cost }} ₽/час</span>
               </div>
 
 
           </div>
-          <div class="profile-links">
 
-            <span class="expert-profile-title-content"> Исследования &nbsp; <span class="expert-profile-title-content-number">({{experts_articles_count}})</span> </span>
+          <div class="profile-links">
+          
+          </div>
+
+            <span class="expert-profile-title-content"> Статьи &nbsp; <span class="expert-profile-title-content-number">({{experts_articles_count}})</span> </span>
 
             {% for article in experts_articles %}
 
-              <span class="article-title-loop-exp">{{ article.title }}</span>
+              <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></span>
               <span class="article-content-loop-exp">{{ article.content }}</span>
 
               <div class="article-comments-andshare-cont-exp">

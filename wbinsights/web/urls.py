@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.experts import ExpertListView, ExpertDetailView
+from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.index import handleIndex
 from .views.login import SignUpView
 from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView, CategoryArticleListView, create_article  # , add_article
@@ -17,7 +17,7 @@ urlpatterns = [
     # path('profile/<int:pk>/edit/', ProfileUpdateView.as_view(), name='edit_profile'),
    
     path("articles/", ArticleListView.as_view(), name='article_list'),
-    path("articles/category/<slug:category_slug>", CategoryArticleListView.as_view(), name='article_list'),
+    path("articles/category/<slug:category_slug>", CategoryArticleListView.as_view(), name='article_category_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
     path("articles/add/", create_article, name='article_add'),
     # path("articles/add/", add_article, name='article_add'),
@@ -26,10 +26,12 @@ urlpatterns = [
     path("researches/<slug:slug>", ResearchesDetailView.as_view(), name='research_detail'),
    
     path("question_answer/", QuestionAnswerListView.as_view(), name='question_answer_list'),
-    path("question_answer/category/<slug:category_slug>", CategoryQuestionAnswerListView.as_view(), name='question_answer_list'),
+    path("question_answer/category/<slug:category_slug>", CategoryQuestionAnswerListView.as_view(), name='question_answer_category_list'),
     path("question_answer/<slug:slug>", QuestionAnswerDetailView.as_view(), name='question_answer_detail'),
    
     path("experts/", ExpertListView.as_view(), name='experts_list'),
+    path("experts/category/<slug:category_slug>", ExpertListView.as_view(), name='experts_category_list'),
+    path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
     path("experts/<int:pk>", ExpertDetailView.as_view(), name='expert_profile'),
    
     path("signup/", SignUpView.as_view(), name="signup"),
