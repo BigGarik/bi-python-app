@@ -23,11 +23,10 @@ class ExpertListView(ListView):
     
     #     return context
     
-
-
 class ExpertDetailView(DetailView):
     model = CustomUser
     template_name = 'posts/expert/expert_profile.html'
+    context_object_name = "expert"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

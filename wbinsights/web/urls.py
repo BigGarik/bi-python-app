@@ -11,7 +11,8 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path("", handleIndex, name="index"),
+    #path("", handleIndex, name="index"),
+    path("", ResearchesListView.as_view(), name="index"),
     # path('profile/<int:pk>/', CustomUserDetailView.as_view(), name='user_profile'),
     # path('profile/<int:pk>/edit/', ProfileUpdateView.as_view(), name='edit_profile'),
    
