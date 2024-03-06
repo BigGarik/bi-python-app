@@ -3,14 +3,15 @@ from django.urls import reverse
 from django.views.generic import ListView, DetailView, UpdateView
 
 #from web.forms.users import ProfileForm, UserPasswordChangeForm, CustomUserForm
-from web.models import CustomUser
+from web.models import CustomUser, Expert
 from web.forms.articles import ArticleForm
 from web.models import Article
 
 
 class ExpertListView(ListView):
-    model = CustomUser
+    model = Expert
     template_name = 'posts/expert/expert_list.html'
+    context_object_name = "experts"
     
     # def get_queryset(self):
         
