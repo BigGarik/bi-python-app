@@ -57,10 +57,25 @@ class ExpertDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        # expert_rating = self.object.rating
+
+        rating = 3.2  # test rating 
+        
+        
+        filled_stars = int(rating)
+        has_half_star = rating - filled_stars >= 0.1
+        empty_stars = 5 - filled_stars - has_half_star
+        
+        context['filled_stars'] = filled_stars
+        context['has_half_star'] = has_half_star
+        context['empty_stars'] = empty_stars
+        
         context['experts_articles'] = Article.objects.all()[:2]
         context['experts_articles_count'] = Article.objects.count()
         context['experts_researches'] = Article.objects.all()[:2]
         context['experts_researches_count'] = Article.objects.count()
+        
         return context
 
 

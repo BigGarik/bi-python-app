@@ -33,10 +33,9 @@
 
 .prof-pic-cont{
     display: flex;
-    width: 150px;
-    height: 150px;
+    width: 20%;
     align-items: center;
-    margin-right: 20px;
+    justify-content: center;
 }
 
 .prof-pic-cont img {
@@ -49,6 +48,7 @@
     display: flex;
     width: 80%;
     flex-direction: column;
+    padding-left: 20px;
     justify-content: space-between;
 }
 
