@@ -11,6 +11,8 @@ from web.models import Article, Category
 
 from django.db.models import Q
 
+import math
+
 
 class ExpertListView(ListView):
     model = Expert
@@ -60,16 +62,37 @@ class ExpertDetailView(DetailView):
         
         # expert_rating = self.object.rating
 
-        rating = 3.2  # test rating 
+        rating = -6.0  # test rating 
+        
+        rateChipher = '';
+        
+        if rating < 0 :
+            rating = 0
+            
+        if rating > 5: 
+            rating = 5    
+        
+        frac, intNum = math.modf(rating)
+        
+        for idx in range(int(intNum)):       
+            rateChipher = rateChipher + 'f'
+        
+        if frac > 0:
+            rateChipher = rateChipher + 'h'
+        
+        e_starts_cnt = 5 - len(rateChipher)
+        
+        for idx in range(e_starts_cnt):       
+            rateChipher = rateChipher + 'e'
         
         
         filled_stars = int(rating)
         has_half_star = rating - filled_stars >= 0.1
         empty_stars = 5 - filled_stars - has_half_star
         
-        context['filled_stars'] = filled_stars
-        context['has_half_star'] = has_half_star
-        context['empty_stars'] = empty_stars
+        context['filled_stars_chipher'] = rateChipher
+        # context['has_half_star'] = has_half_star
+        # context['empty_stars'] = empty_stars
         
         context['experts_articles'] = Article.objects.all()[:2]
         context['experts_articles_count'] = Article.objects.count()

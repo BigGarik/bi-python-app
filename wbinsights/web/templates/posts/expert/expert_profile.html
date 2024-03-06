@@ -25,18 +25,21 @@
               <div class="user-rating-cont">
                 <div class="user-rating">Rating:  {{ expertprofile.rating }} &nbsp;</div>
                 <div class="user-rate-and-stars">
-                  {% for _ in "12345" %}
+
+                  {% for ch in filled_stars_chipher %}
+
+                    {% if ch == 'f' %}
+                    <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+
+                    {% elif ch == 'h' %}
+                    <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+
+                    {% elif ch == 'e' %}
+                    <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+
+                    {% endif%}
                   
-                      {% if forloop.counter <= filled_stars %}
-                          <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-
-                      {% elif forloop.counter == filled_stars|add:1 and has_half_star %}
-                          <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-
-                      {% else %}
-                          <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-                      {% endif %}
-
+                    
                   {% endfor %}
                 </div>
               </div>
