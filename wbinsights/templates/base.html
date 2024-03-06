@@ -86,7 +86,13 @@
                             <div class="header-user-prof">
                                 <div class="header-prof-info">
                                     <span style="color:white">{{ user.first_name }} </span>
-                                    <span style="color:grey">Expert</span>
+                                    <span style="color:grey">
+                                        {% if user.profile.type == 1 %} 
+                                            Эксперт
+                                        {% else %}
+                                            Клиент
+                                        {% endif %}
+                                    </span>
                                 </div>
                                 <div class="dropdown">
                                     <!-- Trigger button -->

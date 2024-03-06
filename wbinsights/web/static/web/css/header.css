@@ -30,14 +30,15 @@
 
 }
 
-.header-user-prof{
+.header-user-prof {
     display: flex !important;
 }
 
-.header-prof-info{
+.header-prof-info {
     display: flex;
     flex-direction: column;
     margin: 0 10px 0 30px;
+    justify-content: center;
 }
 
 .header-prof-cont{

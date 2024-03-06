@@ -291,13 +291,18 @@
 
 }
 
-.all-experts{
-    display: flex;
+.all-experts  {
+    display: flex;        
+}
+
+.all-experts  a {
+    text-decoration: none;
     color: #a9a9a9;
     font-size: 13px;
     font-family: sans-serif;
     cursor: pointer;
 }
+
 
 .expert-profiles-cont{
     display: flex;
@@ -318,8 +323,6 @@
     justify-content: center;
 }
 
-
-
 .expert-info{
     display: flex;
     flex-direction: column;
@@ -328,10 +331,16 @@
 
 .expert-name{
     display: flex;
+
+}
+
+.expert-name a {
+    text-decoration: none;
     font-family: sans-serif;
     font-weight: 600;
     font-size: 14px;
     line-height: normal;
+    color: black
 }
 
 .expert-job{    
