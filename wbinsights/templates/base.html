@@ -83,9 +83,11 @@
                                 <div class="header-prof-info">
                                     <span style="color:white">{{ user.first_name }} </span>
                                     <span style="color:grey">
-                                        {% if user.profile.type == 1 %} 
+                                        {% if user.is_superuser %}
+                                            Админ
+                                        {% elif  user.profile.type == 1 %} 
                                             Эксперт
-                                        {% else %}
+                                        {% elif user.profile.type == 0 %}
                                             Клиент
                                         {% endif %}
                                     </span>
