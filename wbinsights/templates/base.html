@@ -87,15 +87,17 @@
                                 <div class="header-prof-info">
                                     <span style="color:white">{{ user.first_name }} </span>
                                     <span style="color:grey">
-                                        {% if user.profile.type == 1 %} 
+                                        {% if user.is_superuser %}
+                                            Админ
+                                        {% elif  user.profile.type == 1 %} 
                                             Эксперт
-                                        {% else %}
+                                        {% elif user.profile.type == 0 %}
                                             Клиент
                                         {% endif %}
                                     </span>
                                 </div>
                                 <div class="dropdown">
-                                    
+
                                     <!-- Trigger button -->
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: inherit;border: none;margin: 0;">
                                         <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
