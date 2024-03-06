@@ -12,7 +12,21 @@
 
 		<div class="search-and-cat-cont">
 
-			<input type="text" class="article-search-cont" placeholder="Поиск по имени">	
+			<input type="text" class="article-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)"/>	
+
+			<script>
+
+				function searchByName(e) {
+
+					if (e.code != "Enter")
+						return;
+
+					//console.log()
+
+					window.location.href = "/experts/search/" + e.target.value;
+
+				}
+			</script>
 
 			<div class="catagory-cont">
 
@@ -24,10 +38,11 @@
 					</button>
 
 					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-						<li><a class="dropdown-item" href="#">Категория 1</a></li>
-						<li><a class="dropdown-item" href="#">Категория 2</a></li>
-						<li><a class="dropdown-item" href="#">Категория 3</a></li>
+						{% for category in categories %}
+						<li><a class="dropdown-item" href="{% url 'experts_category_list' category.slug %}">{{ category.name }}</a></li>						
+						{% endfor %}
 					</ul>
+					
 
 				</div>
 
@@ -56,7 +71,7 @@
 
 			<div class="expert-list-prof-pic">
 
-				<img src="https://picsum.photos/400/300" alt="Random Image" class="img-fluid" style="border-radius:50%;max-width: 130px;max-height: 130px;min-width: 130px; min-height: 130px;">
+				<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" style="border-radius:50%;max-width: 130px;max-height: 130px;min-width: 130px; min-height: 130px;">
 
 				<span class="rating-span">
 				<i class="bi bi-star-fill" style="scale: 1; color: #e9be50;" ></i> 
@@ -73,7 +88,7 @@
 					<span class="research-catagory-container"> Финансы </span>
 				</div>
 
-				<span>В своём стремлении улучшить пользовательский опыт мы упускаем, что интерактивные прототипы разоблачены... 
+				<span>{{expert.expertprofile.about}}
 					<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">Читать ещё</a>
 				</span>
 
@@ -83,7 +98,7 @@
 						<button type="button" class="btn btn-secondary btn-sm" style="margin-top: 0;background-color: #6dc36b;border: none;border-radius: 5px;font-size: 16px;font-weight: 500;">
 							Консультация
 						</button>
-						<div class="money-rate">1000₽/час</div>
+						<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
 
 					</div>
 
