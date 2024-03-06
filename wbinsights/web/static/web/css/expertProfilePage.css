@@ -33,8 +33,8 @@
 
 .prof-pic-cont{
     display: flex;
-    width: 170px;
-    height: 170px;
+    width: 150px;
+    height: 150px;
     align-items: center;
     margin-right: 20px;
 }
@@ -151,6 +151,7 @@
 .bottom-info{
     display:  flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .profile-links{
@@ -203,4 +204,57 @@
     font-family: sans-serif;
     font-weight: 500;
     color: lightslategray;
+}
+
+.expert-profile-title-content{
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    align-items: center;
+    color: #4e4e60;
+
+}
+
+.expert-profile-title-content-number {
+    display: flex;
+    color: grey;
+    font-size: 20px;
+    font-weight: 500;
+    color: #a8b4ca;
+}
+
+.article-title-loop-exp{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #5b5b6c;
+
+}
+
+.article-content-loop-exp {
+    font-size: 14px !important;
+    font-size: 400;
+    margin-bottom: 5px;
+    color: #5b5b6c;
+}
+
+.article-comments-andshare-cont-exp{
+    display: flex;
+}
+
+.article-comments-exp{
+    display: flex;
+    color: #a5b1c8;
+    margin-right: 10px;
+    align-items: center;
+    font-size: 13px;
+}
+
+.article-share-exp {
+    display: flex;
+    align-items: center;
+    color: #a5b1c8;
+    cursor: pointer;
+    font-size: 13px;
 }
