@@ -1,12 +1,13 @@
 from django.urls import path
 
-from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
+from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView 
 from .views.index import handleIndex
 from .views.login import SignUpView
 from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView, CategoryArticleListView, create_article  # , add_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
+from .views.expert_profile_edit import ProfileEditView
 
 
 
@@ -33,6 +34,7 @@ urlpatterns = [
     path("experts/category/<slug:category_slug>", ExpertListView.as_view(), name='experts_category_list'),
     path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
     path("experts/<int:pk>", ExpertDetailView.as_view(), name='expert_profile'),
+    path("experts/profile_edit/", ProfileEditView.as_view(), name='expert_profile_edit'),
    
     path("signup/", SignUpView.as_view(), name="signup"),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
