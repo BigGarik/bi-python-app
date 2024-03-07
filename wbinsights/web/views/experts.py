@@ -10,9 +10,7 @@ from web.forms.articles import ArticleForm
 from web.models import Article, Category
 
 from django.db.models import Q
-
 import math
-
 
 class ExpertListView(ListView):
     model = Expert
@@ -62,9 +60,9 @@ class ExpertDetailView(DetailView):
         
         # expert_rating = self.object.rating
 
-        rating = -6.0  # test rating 
+        rating = 3.2  # test rating 
         
-        rateChipher = '';
+        rateChipher = ''
         
         if rating < 0 :
             rating = 0
@@ -91,13 +89,14 @@ class ExpertDetailView(DetailView):
         empty_stars = 5 - filled_stars - has_half_star
         
         context['filled_stars_chipher'] = rateChipher
-        # context['has_half_star'] = has_half_star
-        # context['empty_stars'] = empty_stars
+    
         
         context['experts_articles'] = Article.objects.all()[:2]
         context['experts_articles_count'] = Article.objects.count()
         context['experts_researches'] = Article.objects.all()[:2]
         context['experts_researches_count'] = Article.objects.count()
+        
+        
         
         return context
 

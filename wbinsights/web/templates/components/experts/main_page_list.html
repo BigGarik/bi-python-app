@@ -22,23 +22,21 @@
                         <div class="user-rating">Rating: &nbsp;</div>
                         <div class="user-rate-and-stars">
 
-                            {% with rating=4.3 %}
+                            {% for ch in filled_stars_chipher %}
 
-                                {% for _ in "12345" %}
+                                {% if ch == 'f' %}
+                                <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
 
-                                    {% if forloop.counter <= rating %}
-                                        <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                                {% elif ch == 'h' %}
+                                <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
 
-                                    {% elif forloop.counter == rating|add:1 and rating|floatformat:1 >= 0.1 %}
-                                        <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                                {% elif ch == 'e' %}
+                                <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
 
-                                    {% else %}
-                                        <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-                                    {% endif %}
-                                    
-                                {% endfor %}
-
-                            {% endwith %}
+                                {% endif%}
+                            
+                                
+                            {% endfor %}
 
                         </div>
                     </div>
