@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.index import handleIndex
-from .views.login import SignUpView
+from .views.login import WBIRegisterUser, WBILoginView
 from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView, CategoryArticleListView, create_article  # , add_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
@@ -34,7 +34,8 @@ urlpatterns = [
     path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
     path("experts/<int:pk>", ExpertDetailView.as_view(), name='expert_profile'),
    
-    path("signup/", SignUpView.as_view(), name="signup"),
+    path("login/", WBILoginView.as_view(), name="login"),
+    path("signup/", WBIRegisterUser.as_view(), name="signup"),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
 
 ]

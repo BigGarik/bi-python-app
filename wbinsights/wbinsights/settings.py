@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'wbinsights.wsgi.application'
 
 DATABASES = {
     
-    'sqltile': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     },
-    'default': {
+    'default0': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('DATABASE'),
         'USER': env('USER_DB'),
