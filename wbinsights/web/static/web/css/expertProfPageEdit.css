@@ -77,3 +77,26 @@
     flex-direction: column;
     width: 30%;
 }
+
+.custom-form-css{
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid grey;
+    width: 100%;
+}
+
+.custom-aboutme-form{
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid grey;
+    width: 100%;
+    min-height: 150px;
+    height: 150px;
+}
+
+.input-labels{
+    margin-bottom: 5px;
+    font-weight: 600;
+}

@@ -13,16 +13,58 @@
 
 
     <style>
-
         .custom-form-field {
             padding: 5px;
             outline: none;
             border: 1px solid #ddd;
             border-radius: 5px;
             margin-bottom: 10px;
-            width:100%;
+            width: 100%;
         }
 
+        @media (max-width: 575px) {
+            /* XS screens */
+            .register-cont {
+                margin-right: 10%;
+                margin-left: 10%;
+            }
+        }
+
+
+
+        @media (min-width: 576px) {
+            /* S screens */
+            .register-cont {
+                margin-right: 25%;
+                margin-left: 25%;
+            }
+        }
+
+       
+
+        @media (min-width: 993px) {
+            /* L screens */
+
+            .back-btn,
+            .user-fill-info-cont,
+            .login-cont {
+                max-width:400px;
+                max-width:400px;
+            }
+          
+        }
+
+        @media (min-width: 1200px) {
+            /* XL screens */
+
+            .back-btn,
+            .user-fill-info-cont,
+            .login-cont {
+                max-width:400px;
+                max-width:400px;
+            }
+           
+        }
     </style>
 
 </head>
