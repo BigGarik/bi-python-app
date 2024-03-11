@@ -1,13 +1,18 @@
 <!-- article_list.html -->
 {% extends 'basePostList.html' %}
 {% load web_tags %}
+{% load static %}
 
 {% block title %}
 Статьи
 {% endblock %}
 
+
 {% block posts_content %}
 
+<head>
+	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
+</head>
 
 	<div class="articles-main-cont" style="margin-top: 20px;">	
 

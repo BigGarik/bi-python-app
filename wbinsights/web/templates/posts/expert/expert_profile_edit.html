@@ -1,9 +1,12 @@
 {% extends 'base120.html' %}
-
+{% load static %}
 
 {% block center_col %}
 
+<head>
+    <link rel="stylesheet" href="{% static 'web/css/expertProfPageEdit.css' %}"> 
 
+</head>
 
 <div class="prof-page-cont">
   
@@ -11,9 +14,7 @@
 
         <a href="#" style="cursor: pointer; text-decoration: none; outline: none;">
 
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16" style="font-weight: bold; color:#777786;">
-              <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-            </svg>
+            <i class="bi bi-person-circle" style="font-weight: bold; color:#777786;"></i>
 
             &nbsp;Назад
 

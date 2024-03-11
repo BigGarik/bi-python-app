@@ -1,12 +1,17 @@
 <!-- article_list.html -->
 {% extends 'basePostList.html' %}
+{% load static %}
 
 {% block title %}
 QandA
 {% endblock %}
 
+
 {% block question_answer_list %}
 
+<head>
+	<link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
+</head>
 
 	<div class="articles-main-cont" style="margin-top: 20px;">	
 
@@ -17,6 +22,7 @@ QandA
 				<input type="text" class="research-search-cont" placeholder="Поиск">	
 
 				<button type="button" class="btn btn-primary btn-sm" style="cursor:pointer ;border-radius: 10px; background-color: #6dc36b ; border: none">Задать вопрос</button>
+				
 			</div>
 
 			<div class="catagory-cont">

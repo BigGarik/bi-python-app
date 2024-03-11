@@ -1,5 +1,6 @@
 
 {% extends 'basePostList.html' %}
+{% load static %}
 
 {% block title %}
 Research
@@ -7,7 +8,9 @@ Research
 
 {% block research_list %}
 
-
+<head>
+    <link rel="stylesheet" href="{% static 'web/css/research_list.css' %}">
+</head>
     
     <div class="research-main-cont" style="margin-top: 20px;">	
     
