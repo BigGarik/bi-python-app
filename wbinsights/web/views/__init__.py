@@ -1,5 +1,5 @@
 from .articles import ArticleListView, ArticleDetailView
-from .login import CustomUserCreationForm, CustomUserChangeForm, SignUpView
+from .login import CustomUserCreationForm, CustomUserChangeForm, WBIRegisterUser
 from .index import handleIndex, page_not_found
 from .researches import ResearchesListView, ResearchesDetailView
 from .experts import ExpertListView, ExpertDetailView
