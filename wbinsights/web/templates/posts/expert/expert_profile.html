@@ -1,15 +1,20 @@
 {% extends 'base123.html' %}
 {% load web_tags %}
 
+{% load static %}
+
 
 {% block center_col %}
 
+<head>
+  <link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
+</head>
 
 <div class="prof-page-cont">
+  
   <a href="{% url 'experts_list' %}" class="to-main-page"> 
-    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16" style="font-weight: bold; color:#777786;">
-      <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-    </svg> &nbsp; к списку экспертов</a>
+    <i class="bi bi-chevron-left" style="scale: 1; font-weight: bold; color: #777786; padding: 0 2px 0 2px"></i>
+     &nbsp; к списку экспертов</a>
 
   <div class="profile-info-cont">
 
