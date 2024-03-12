@@ -1,0 +1,133 @@
+{% extends 'base123.html' %}
+{% load web_tags %}
+
+{% load static %}
+
+{% block center_col %}
+
+    <link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
+
+
+<div class="prof-page-cont">
+  
+  <a href="{% url 'index' %}" class="to-main-page"> 
+    <i class="bi bi-chevron-left" style="scale: 1; font-weight: bold; color: #777786; padding: 0 2px 0 2px"></i>
+     &nbsp;на главную</a>
+
+  <div class="profile-info-cont">
+
+      <div class="top-half">
+
+          <div class="prof-pic-cont">
+            <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;width: 160px;height: 160px;object-fit: cover;">
+          </div>
+      
+          <div class="profile-information-cont">
+              <div class="user-display-name">
+                {{ request.user.first_name }} {{ request.user.last_name }} 
+              </div>
+              <div class="user-rating-cont">
+                <div class="user-rating">Rating:  {{ rating }} &nbsp;</div>
+                <div class="user-rate-and-stars">
+
+                  {% for ch in filled_stars_chipher %}
+
+                    {% if ch == 'f' %}
+                    <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+
+                    {% elif ch == 'h' %}
+                    <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+
+                    {% elif ch == 'e' %}
+                    <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+
+                    {% endif%}
+                  
+                    
+                  {% endfor %}
+                </div>
+              </div>
+            
+              <div class="user-category-cont">
+                  <div class="user-category">Эксперт в области:</div>
+                  <div class="user-catagory-highlight">IT</div>
+              </div>
+              <div class="user-stats">
+
+                  {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
+                  •
+                  {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
+                  • 
+                  24 отзыва
+              </div>
+            
+              <div class="user-settings">
+
+                 <a href="{% url 'profile_edit' %}" type="button" class="btn btn-secondary btn-sm" style="margin-top: 0;background-color: #6dc36b;border: none;border-radius: 7px;font-size: 15px;font-weight: 500;">
+                     Настройки профиля
+                 </a>
+                
+                  <a href="{% url 'profile_edit' %}" type="button" class="btn btn-secondary btn-sm" style="margin-top: 0;background-color: #6dc36b;border: none;border-radius: 7px;font-size: 15px;font-weight: 500;">
+                    Выйти
+                </a>
+              </div>
+              
+          </div>
+
+      </div>
+
+      <div class="bottom-half">
+          <div class="bottom-info">
+            
+              <div class="prof-bottom-cont">
+                  <span class="bottom-bold-text">Образование: &nbsp;</span>
+                  <span class="">{{ request.user.expertprofile.education }}</span>
+              </div>
+              <div class="prof-bottom-cont">
+                  <span class="bottom-bold-text">Опыт:&nbsp;</span>
+                  <span class="">{{ request.user.expertprofile.experience }}  {% get_write_phrase request.user.expertprofile.experience 'год года лет' %}</span>
+              </div>
+              <div class="prof-about-me-cont">
+                {{ request.user.expertprofile.about }}
+              </div>
+              <div class="prof-bottom-cont">
+                  <span class="bottom-bold-text">Стоимость консультации:&nbsp;</span>
+                  <span class=""> {{ request.user.expertprofile.hour_cost }} ₽/час</span>
+              </div>
+
+          </div>
+
+          <div class="profile-links">
+          
+          </div>
+
+            <span class="expert-profile-title-content"> Статьи &nbsp; <span class="expert-profile-title-content-number">({{experts_articles_count}})</span> </span>
+
+            {% for article in experts_articles %}
+
+              <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></span>
+              <span class="article-content-loop-exp">{{ article.content }}</span>
+
+              <div class="article-comments-andshare-cont-exp">
+                <div class="article-comments-exp">
+                  <i class="bi bi-chat-left-text" style="color:grey; scale:1"></i>
+                  &nbsp; 104
+                </div>
+                
+                <div class="article-share-exp">
+                  <i class="bi bi-calendar2-week" style="color:grey; scale:1"></i>
+				            &nbsp;  {{ article.time_update|date:"d-m-Y H:i" }}
+                </div>
+              </div>
+
+            {% endfor %}
+
+          </div>
+
+      </div>
+
+</div>
+
+<!--  {{ customuser.email}}  -->
+
+{% endblock %}

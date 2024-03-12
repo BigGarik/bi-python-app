@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
+from django.contrib import messages
 from django.http import HttpResponse
 
 
@@ -14,6 +15,7 @@ from web.models import CustomUser, Profile
 
 
 
+
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
@@ -23,6 +25,15 @@ class CustomUserChangeForm(UserChangeForm):
 
 #Кастомный класс обработчик авторизации
 class WBILoginView(LoginView):
+
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('index')
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Неправильный логин или пароль')
+        return self.render_to_response(self.get_context_data(form=form))
 
     #template_name = "users/login.html"
     

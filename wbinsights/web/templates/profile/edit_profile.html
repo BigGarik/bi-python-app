@@ -1,12 +1,243 @@
-{% extends "base.html" %}
+{% extends 'base120.html' %}
+{% load static %}
 
-{% block content %}
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    
-    {{ form.as_p }}
-    {{ form2.as_p }}
+{% block center_col %}
 
-    <button type="submit">Save changes</button>
-  </form>
+<link rel="stylesheet" href="{% static 'web/css/expertProfPageEdit.css' %}">
+
+<div class="prof-page-cont">
+
+    <div class="profile-info-cont">
+
+        <a href="{% url 'profile' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
+            <i class="bi bi-chevron-left" style="scale: 0.9; font-weight: bold; color:#777786;" ></i> Назад
+        </a>
+
+        <span class= "edit-page-title">Настройки профиля</span>
+
+        {{ user_form.errors }}
+        {{ profile_form.errors }}
+        {{ expert_profile_form.errors }}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="expert-edit-rows">
+
+                <div class="duel-rows">
+
+                    <div class="info-cont">
+                        <label for="{{ user_form.first_name.id_for_label }}" class="input-labels">{{ user_form.first_name.label }}</label>
+                        {{ user_form.first_name }}
+                      </div>
+
+                    <div class="info-cont">
+                        <label for="{{ user_form.last_name.id_for_label }}"> {{ user_form.last_name.label }}</label>
+                        {{ user_form.last_name }}
+                    </div>
+
+                </div>
+
+                <div class="full-width">
+                    <label for="{{ expert_profile_form.about.id_for_label }}">{{ expert_profile_form.about.label }}</label>
+                    {{ expert_profile_form.about }}
+                </div>
+
+                <div class="full-width">
+                    <label for="{{ expert_profile_form.education.id_for_label }}">{{ expert_profile_form.education.label }}</label>
+                    {{ expert_profile_form.education }}
+                </div>
+
+                 <div class="full-width">
+                    <label for="{{ expert_profile_form.age.id_for_label }}">{{ expert_profile_form.age.label }}</label>
+                    {{ expert_profile_form.age }}
+                </div>
+
+            </div>
+
+
+            <div class="expert-edit-rows">
+
+                <div class="photo-cont">
+                    <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
+{#                    <button type="button" class="btn btn-secondary" style="margin: 0;height: 40px;background-color: white;color: grey;padding: 0 10px 0 10px;margin-left: 10px;font-weight: 600;border-radius:10px">Загрузить фото</button>#}
+                    {{ profile_form.avatar }}
+                </div>
+
+                <div class="duel-rows">
+
+                    <div class="input-title">
+                        <label for="{{ expert_profile_form.category.id_for_label }}" class="input-labels">{{ expert_profile_form.category.label }}</label>
+                        {{ expert_profile_form.category }}
+                    </div>
+
+                    <div class="input-title">
+                        <label for="{{ expert_profile_form.experience.id_for_label }}" class="input-labels">{{ expert_profile_form.experience.label }}</label>
+                        {{ expert_profile_form.experience }}
+                    </div>
+
+                    <div class="input-title">
+                        <label for="{{ expert_profile_form.hour_cost.id_for_label }}" class="input-labels">{{ expert_profile_form.hour_cost.label }}</label>
+                        {{ expert_profile_form.hour_cost }}
+{#                        <div style="display:flex ; margin-top:5px">#}
+{#                            <input type="checkbox" id="customCheckbox" name="customCheckbox" >#}
+{#                            <label for="customCheckbox" class="custom-checkbox-label">&nbsp; По договорённости </label>#}
+{#                        </div>#}
+                    </div>
+
+                <div>
+
+            </div>
+
+            <div class="expert-edit-rows">
+                <span style="font-size: 20px; font-weight:600;">Смена пароля</span>
+
+                <div class="duel-rows">
+                    <div class="input-title">
+                        <label for="{{ user_form.oldpassword.id_for_label }}" class="input-labels">{{ user_form.oldpassword.label }}</label>
+                        {{ user_form.oldpassword }}
+{#                        <span class="title-name"> Старый пароль </span>#}
+{#                        <input type= "text" class = "fifty-per" ></input>#}
+                    </div>
+                    <div class="input-title">
+                          <label for="{{ user_form.newpassword.id_for_label }}" class="input-labels">{{  user_form.newpassword.label}}</label>
+                        {{ user_form.newpassword }}
+                    </div>
+                    <div class="input-title">
+                         <label for="{{ user_form.confirmpassword.id_for_label }}" class="input-labels">{{ user_form.confirmpassword.label }}</label>
+                        {{ user_form.confirmpassword }}
+                    </div>
+                <div>
+
+            </div>
+        </form>
+
+    </div>
+
+    <div style="display:flex ; align-items: center">
+        <button type="submit" class="btn btn-secondary" style="margin: 0;padding: 0;height: 40px;padding: 0 10px 0 10px; background-color:#6dc36b ; border:none ; font-size: 14px ">Сохранить изменения</button>
+        <button type="button" class="btn btn-secondary" style="background-color:white;color:red;margin: 0;border:none;font-weight: 600; font-size:14px; margin-left:10px">Удалить профиль</button>
+    </div>
+
+
+</div>
+
+
+<!--<div class="prof-page-cont">
+
+    <div class="profile-info-cont">
+
+        <a href="#" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
+
+
+            <i class="bi bi-chevron-left" style="scale: 0.9; font-weight: bold; color:#777786;" ></i>
+
+            &nbsp;Назад
+
+        </a>
+
+        <span class= "edit-page-title">Настройки профиля</span>
+
+        <div class="expert-edit-rows">
+
+            <div class="duel-rows">
+
+                <div class="info-cont">
+
+                    <span class="title-name">
+                        Имя
+                    </span>
+
+                    <input type= "text" class = "fifty-per" placeholder="Введите имя"></input>
+                </div>
+
+                <div class="info-cont">
+
+                    <span class="title-name" >
+                        Фамилия
+                    </span>
+
+                    <input type= "text" class = "fifty-per" placeholder="Введите фамилию"></input>
+                </div>
+            </div>
+
+            <div class="full-width">
+
+                <span class="title-name" >
+                    О себе
+                </span>
+
+                <textarea class="full-width-text" placeholder="Напишите текст о себе"></textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="expert-edit-rows">
+
+            <div class="photo-cont">
+                <img src="{{ expert.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
+                <button type="button" class="btn btn-secondary" style="margin: 0;height: 40px;background-color: white;color: grey;padding: 0 10px 0 10px;margin-left: 10px;font-weight: 600;border-radius:10px">Загрузить фото</button>
+            </div>
+
+            <div class="duel-rows">
+                <div class="input-title">
+                    <span class="title-name"> Категории экспертности: </span>
+                    <input type= "text" class = "fifty-per" placeholder="Выберите категории"></input>
+                </div>
+                <div class="input-title">
+                    <span class="title-name"> Опыт работы (лет) </span>
+                    <input type= "text" class = "fifty-per" placeholder="Введите кол-во лет"></input>
+                </div>
+                <div class="input-title">
+                    <span class="title-name"> Стоимость консультации: </span>
+                    <input type= "text" class = "fifty-per" placeholder="Сумма в ₽ за час"></input>
+                    <div style="display:flex ; margin-top:5px">
+                        <input type="checkbox" id="customCheckbox" name="customCheckbox" >
+                        <label for="customCheckbox" class="custom-checkbox-label">&nbsp; По договорённости </label>
+                    </div>
+                </div>
+            <div>
+
+        </div>
+
+
+        </div>
+
+        <div class="expert-edit-rows">
+            <span style="font-size: 20px; font-weight:600;">Смена пароля</span>
+
+            <div class="duel-rows">
+                <div class="input-title">
+                    <span class="title-name"> Старый пароль </span>
+                    <input type= "text" class = "fifty-per" ></input>
+                </div>
+                <div class="input-title">
+                    <span class="title-name"> Новый пароль </span>
+                    <input type= "text" class = "fifty-per" ></input>
+                </div>
+                <div class="input-title">
+                    <span class="title-name"> Повторите новый пароль </span>
+                    <input type= "text" class = "fifty-per" ></input>
+                </div>
+            <div>
+
+        </div>
+    </div>
+
+        <div style="display:flex ; align-items: center">
+            <button type="button" class="btn btn-secondary" style="margin: 0;padding: 0;height: 40px;padding: 0 10px 0 10px; background-color:#6dc36b ; border:none ; font-size: 14px ">Сохранить изменения</button>
+            <button type="button" class="btn btn-secondary" style="background-color:white;color:red;margin: 0;border:none;font-weight: 600; font-size:14px; margin-left:10px">Удалить профиль</button>
+
+        </div>
+
+
+</div>
+-->
+
+
+
+
+
 {% endblock %}

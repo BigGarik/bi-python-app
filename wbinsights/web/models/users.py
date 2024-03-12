@@ -9,7 +9,7 @@ from django.contrib.postgres.fields import ArrayField
 from .articles import Category
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(_("email address"), unique=True,)
+    email = models.EmailField(_("email address"), unique=True, )
 
     is_active = models.BooleanField(
         _("active"),
@@ -29,10 +29,10 @@ class CustomUser(AbstractUser):
 
     def get_absolute_url(self):
         return reverse('user_profile', kwargs={'int': self.pk})
-        
+
+
 # Общий профиль
 class Profile(models.Model):
-
     class TypeUser(models.IntegerChoices):
         USER = 0, 'Пользователь'
         EXPERT = 1, 'Эксперт'
@@ -41,22 +41,23 @@ class Profile(models.Model):
     type = models.IntegerField("Категория пользователя", choices=TypeUser.choices, default=TypeUser.USER)
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
 
+
 class ExpertManager(models.Manager):
     def get_queryset(self):
         return super(ExpertManager, self).get_queryset().filter(profile__type=Profile.TypeUser.EXPERT)
-    
-#Сущность Эксперта
+
+
+# Сущность Эксперта
 class Expert(CustomUser):
-
     objects = ExpertManager()
-    
+
     class Meta:
-        proxy = True    
+        proxy = True
+
+    # Профиль эксперта
 
 
-# Профиль эксперта    
 class ExpertProfile(models.Model):
-    
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertprofile')
 
     about = models.CharField(max_length=2000)
@@ -64,8 +65,9 @@ class ExpertProfile(models.Model):
     age = models.IntegerField()
     hour_cost = models.IntegerField()
     experience = models.IntegerField(null=True)
-    #rating = models.FloatField(null=True)
-    #expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
+    # rating = models.FloatField(null=True)
+    # expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
+
 
 # Создаем обработчик сигнала для добавления профиля при создании пользователя
 @receiver(post_save, sender=CustomUser)
@@ -74,4 +76,3 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     else:
         instance.profile.save()
-

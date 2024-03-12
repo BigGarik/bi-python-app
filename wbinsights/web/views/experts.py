@@ -16,6 +16,10 @@ class ExpertListView(ListView):
     model = Expert
     template_name = 'posts/expert/expert_list.html'
     context_object_name = "experts"
+
+    
+
+    #'fffhe'
     
     # def get_queryset(self):
         
