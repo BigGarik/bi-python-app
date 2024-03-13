@@ -268,6 +268,38 @@
     max-height: 300px;
 }
 
+.article-page-back-btn{
+    cursor: pointer;
+    text-decoration: none;
+    color: grey;
+    outline: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.article-page-publish-date{
+    display: flex;
+    color:  #a9b4ca;
+    align-items: center;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+.article-page-last{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+
+}
+
+.article-page-content{
+    display: flex;
+    flex-direction: column;
+}
+
 
 /*------------------------------------------------------------  Experts Coloumn  -------------------------------------------------------------------------*/
 
