@@ -27,7 +27,7 @@
 
 </head>
 
-<body style="background-color: #f2f3f5;">
+<body style="background-color: #f2f3f5;height: 1600px">
 
     <div class="container-fluid">
 
@@ -95,10 +95,15 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="padding: 0px; transform: translate(-100px, 64px) !important;">
                                         <div class="header-profile-cont">
                                             <a href="{% url 'profile' %}" class="profile-page-btn" style="margin-bottom: 0;display: flex;white-space: nowrap;padding: 10px;align-items: center;width:100%;text-decoration: none;color: black;">
-                                                <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i> &nbsp; Личный кабинет</a>
+                                                <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i> &nbsp;
+                                                Личный кабинет
+                                            </a>
                                             <form method="post" action="{% url 'logout' %}" class="logout-form">
                                                 {% csrf_token %}
-                                                <button class="logout-btn" type="submit" style="padding:0px;width: 100%;display: flex;justify-content: flex-start; align-items: center;"> <i class="bi bi-box-arrow-right" style="margin-right:10px; scale: 1.1"></i> &nbsp; Выйти</button>
+                                                <button class="logout-btn" type="submit" style="padding:0px;width: 100%;display: flex;justify-content: flex-start; align-items: center;">
+                                                    <i class="bi bi-box-arrow-right" style="margin-right:10px; scale: 1.1"></i> &nbsp;
+                                                    Выйти
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
