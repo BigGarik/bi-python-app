@@ -18,7 +18,10 @@
 .expert-list-main-content{
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
 }
+
 
 .expert-list-title{
     display: flex;

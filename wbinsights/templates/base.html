@@ -1,5 +1,4 @@
 {% load static %}
-<link rel="shortcut icon" type="image/png" href="{% static 'web/images/favicon.png' %}" >
 <!DOCTYPE html>
 <html lang="en">
 
@@ -95,7 +94,7 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="padding: 0px; transform: translate(-100px, 64px) !important;">
                                         <div class="header-profile-cont">
-                                            <a href="{% url 'profile' %}" class="profile-page-btn" style="margin-bottom: 0;display: flex;white-space: nowrap;padding: 10px;align-items: center;  width:100%">
+                                            <a href="{% url 'profile' %}" class="profile-page-btn" style="margin-bottom: 0;display: flex;white-space: nowrap;padding: 10px;align-items: center;width:100%;text-decoration: none;color: black;">
                                                 <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i> &nbsp; Личный кабинет</a>
                                             <form method="post" action="{% url 'logout' %}" class="logout-form">
                                                 {% csrf_token %}

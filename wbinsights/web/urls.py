@@ -8,6 +8,9 @@ from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailV
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
 from .views.profile import profile_view,  edit_user_profile
+from .views.error_404 import custom_404
+
+handler404 = custom_404
 
 
 
@@ -38,6 +41,7 @@ urlpatterns = [
     path("login/", WBILoginView.as_view(), name="login"),
     path("signup/", WBIRegisterUser.as_view(), name="signup"),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
+    
 
     #path('test/', handleTest, name='test'),
 
