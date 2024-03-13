@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="expert-info">
-                    <div class="expert-name"><a href="{% url 'expert_profile' expert.pk %}">{{ expert.first_name }} {{ expert.last_name }}</a></div>
+                    <div class="expert-name"><a href="{% url 'expert_profile' expert.pk %}" style="color:black">{{ expert.first_name }} {{ expert.last_name }}</a></div>
                     <div class="expert-job">{{ expert.cat.name }}</div>
                     <div class="user-rating-cont">
                         <div class="user-rating">Rating: &nbsp;</div>

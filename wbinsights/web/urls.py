@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView 
-from .views.index import handleIndex, handleTest
+from .views.index import handleIndex #handleTest
 from .views.login import WBIRegisterUser, WBILoginView
 from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView, CategoryArticleListView, create_article  # , add_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
@@ -39,6 +39,6 @@ urlpatterns = [
     path("signup/", WBIRegisterUser.as_view(), name="signup"),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
 
-    path('test/', handleTest, name='test'),
+    #path('test/', handleTest, name='test'),
 
 ]

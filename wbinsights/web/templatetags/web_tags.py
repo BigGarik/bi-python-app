@@ -11,10 +11,10 @@ def get_top_experts():
 @register.simple_tag
 def get_write_phrase(cnt, variants):
 
-    #print(variants)
+    ##print(variants)
 
     variantsArray = variants.split(' ')
-    print(variantsArray)
+    #print(variantsArray)
 
     #return str(cnt) + ' $$ ' + variants
 

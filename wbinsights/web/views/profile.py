@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from web.models.users import ExpertProfile
+from web.models import Article
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -17,54 +18,63 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 def profile_view(request):
+    # Check if the user is an expert
+    is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
+
+    # Initialize the context with common data
     context = {
         "rating": 4.5,
         "experts_articles_count": 10,
         "experts_researches_count": 10,
         "experts_articles": [],
         "filled_stars_chipher": 'ffffh'
-
     }
+
+    if is_expert:
+        # Fetch the expert's articles
+        expert_articles = Article.objects.all()[:2]
+
+        # Update the context with expert-specific data
+        context.update({
+            "experts_articles": expert_articles,
+        })
+
     return render(request, "profile/profile.html", context=context)
 
 
 class CustomUserChangeForm(forms.ModelForm):
 
-    first_name = forms.CharField(label="Имя",
-                                widget=forms.TextInput(
-                                    attrs={'class': 'custom-form-css', 'placeholder': 'Введите имя'}))
-    last_name = forms.CharField(label="Фамилия",
-                               widget=forms.TextInput(
-                                   attrs={'class': 'custom-form-css', 'placeholder': 'Введите фамилию'}))
+    first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'custom-form-css', 'placeholder': 'Введите имя'}))
+    last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'custom-form-css', 'placeholder': 'Введите фамилию'}))
 
     oldpassword = forms.CharField(label="Старый пароль", widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
     newpassword = forms.CharField(label="Новый пароль", widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
-    confirmpassword = forms.CharField(label="Повторите новый пароль",
-                                      widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
+    confirmpassword = forms.CharField(label="Повторите новый пароль", widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
 
     class Meta:
         model = CustomUser
         fields = ("first_name", "last_name", "oldpassword", "newpassword", "confirmpassword")  # photo
 
 
+
+
 class ProfileChangeForm(forms.ModelForm):
+    
     class Meta:
         model = Profile
         fields = ("avatar",)
+        widgets = {
+            'avatar': forms.ClearableFileInput(attrs={'class': 'your-custom-class'}),
+        }
 
 
 class ExpertProfileChangeForm(forms.ModelForm):
-    about = forms.CharField(label="О себе",
-                                    widget=forms.Textarea(
-                                        attrs={'class': 'custom-aboutme-form', 'placeholder': 'Напишите текст о себе'}))
-    education = forms.CharField(label="Образование", widget=forms.Textarea(attrs={'class': 'custom-education-form'}))
-    age = forms.CharField(label="Возраст", widget=forms.Textarea(attrs={'class': 'custom-age-form'}))
-    hour_cost = forms.CharField(label="Стоимость", widget=forms.Textarea(attrs={'class': 'custom-hourcost-form'}))
-    category = forms.CharField(label="Категории экспертности",
-                                    widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
-    experience = forms.IntegerField(label="Опыт работы (лет)",
-                                    widget=forms.TextInput(attrs={'class': 'custom-form-css',
-                                                                  'placeholder': 'Введите кол-во лет'}))
+    about = forms.CharField(label="О себе", widget=forms.Textarea( attrs={'class': 'custom-aboutme-form', 'placeholder': 'Напишите текст о себе'}))
+    education = forms.CharField(label="Образование", widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
+    age = forms.CharField(label="Возраст", widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
+    hour_cost = forms.CharField(label="Стоимость", widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
+    category = forms.CharField(label="Категории экспертности", widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
+    experience = forms.IntegerField(label="Опыт работы (лет)", widget=forms.TextInput(attrs={'class': 'custom-form-css', 'placeholder': 'Введите кол-во лет'}))
 
     class Meta:
         model = ExpertProfile
@@ -99,8 +109,7 @@ def edit_user_profile(request):
         profile_form = ProfileChangeForm(instance=request.user.profile)
         expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertprofile)
 
-    return render(request, 'profile/edit_profile.html',
-                  {'user_form': user_form, 'profile_form': profile_form, "expert_profile_form": expert_profile_form})
+    return render(request, 'profile/edit_profile.html', {'user_form': user_form, 'profile_form': profile_form, "expert_profile_form": expert_profile_form})
 
 
 # class ProfileUpdateView(UpdateView):

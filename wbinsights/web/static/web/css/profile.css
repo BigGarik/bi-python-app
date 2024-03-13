@@ -251,7 +251,7 @@
 .article-content-loop-exp {
     font-size: 14px !important;
     font-size: 400;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     color: #5b5b6c;
 }
 
@@ -273,4 +273,19 @@
     color: #a5b1c8;
     cursor: pointer;
     font-size: 13px;
+}
+
+.profile-menu-item {
+    padding: 7px;
+    cursor: pointer;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: #404054;
+    align-items: center;
+}
+
+.profile-menu-item.selected {
+    border-bottom: 2px solid black;
 }
