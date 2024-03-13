@@ -49,7 +49,11 @@
 
             </div>
 
-
+            <style>
+                label[for="id_avatar"] {
+                    display: none;
+                }
+            </style>
             <div class="expert-edit-rows">
 
                 <div class="photo-cont">
@@ -64,8 +68,8 @@
                         <input type="file" name="avatar" class="your-custom-class" accept="image/*" id="id_avatar">
                     </div>
                 </div>
-                
-                
+
+
                 {% if user.profile.type == 1 %}
                 <div class="duel-rows">
 
