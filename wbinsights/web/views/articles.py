@@ -56,14 +56,22 @@ class ArticleListView(ListView):
 class CategoryArticleListView(ArticleListView):
     #Переопределяем метод получения списка сущностей
     def get_queryset(self):
-        #Получаем объект, по которому будем делать фильтрацию
+
+        self.cat = ''
+        if self.kwargs['category_slug'] == 'new':
+            return Article.objects.all().order_by("time_create")
+
+        if self.kwargs['category_slug'] == 'popular':
+            return Article.objects.all().order_by("time_create")
+
+        #Получаем объект, по которому будем делать фильтрацию (категория)
         self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         return Article.objects.filter(cat=self.cat)
     
      #Добавляем параметры в контекст
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['selected_category'] = self.cat       
+        context['selected_category'] = self.cat
         return context
 
 

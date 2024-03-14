@@ -2,8 +2,8 @@ from django.urls import path
 
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView 
 from .views.index import handleIndex #handleTest
-from .views.login import WBIRegisterUser, WBILoginView
-from .views.articles import ArticleDetailView, ArticleListView, ArticleAddView, CategoryArticleListView, create_article  # , add_article
+from .views.login import WBIRegisterUser, register_user
+from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
@@ -23,6 +23,7 @@ urlpatterns = [
     path("articles/add/", create_article, name='article_add'),
    
     path("researches/", ResearchesListView.as_view(), name='research_list'),
+    path("researches/category/<slug:category_slug>", ResearchesListView.as_view(), name='research_category_list'),
     path("researches/<slug:slug>", ResearchesDetailView.as_view(), name='research_detail'),
    
     path("question_answer/", QuestionAnswerListView.as_view(), name='question_answer_list'),
@@ -39,8 +40,8 @@ urlpatterns = [
     path("profile", profile_view, name='profile'),
     path("profile/edit", edit_user_profile, name='profile_edit'),
    
-    path("login/", WBILoginView.as_view(), name="login"),
-    path("signup/", WBIRegisterUser.as_view(), name="signup"),
+    path("login/", auth_views.LoginView.as_view(next_page='index'), name="login"),
+    path("signup/", register_user, name="signup"),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
     
 

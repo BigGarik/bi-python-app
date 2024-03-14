@@ -12,37 +12,24 @@
 
 
 	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
-    
+
 	<div class="articles-main-cont" style="margin-top: 20px;">	
 
 		<div class="search-and-cat-cont">
 
-			<input type="search" class="article-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="">  
+			<input type="search" class="article-search-cont"
+                    placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
 
 			<script>
 				function searchByName(e) {
 					if (e.key === "Enter") {
-						var searchValue = e.target.value.trim();
+						const searchValue = e.target.value.trim();
 						if (searchValue !== "") {
-							sessionStorage.setItem('searchValue', searchValue); // stores the search query
 							window.location.href = "/experts/search/?q=" + encodeURIComponent(searchValue);
 						}
 					}
 				}
 
-				// retrieves and sets search query
-				window.onload = function() {
-					var storedSearchValue = sessionStorage.getItem('searchValue');
-					if (storedSearchValue) {
-						document.querySelector('.article-search-cont').value = storedSearchValue;
-					}
-				};
-
-				/*window.onbeforeunload = function() {
-					if (window.location.pathname.slice(0, 9) !== "/experts/") {
-						sessionStorage.removeItem('searchValue');
-					}
-				};*/
 			</script>
 
 

@@ -1,4 +1,5 @@
 {% extends 'base123.html' %}
+{% load web_tags %}
 
 {% block center_col %}
     <div class="base-Content">
@@ -40,12 +41,12 @@
         </div>
 
     </div>
-
+    {% split request.path "/" 'first' as url_first_part %}
     <div class="post-menu">
-        <a href="{% url 'research_list' %}" class="post-menu-item {% if request.path|slice:":12"  == '/researches/' or  request.path == '/' %} selected {% endif %}">Исследования</a>
-        <a href="{% url 'experts_list' %}" class="post-menu-item {% if request.path|slice:":9" == '/experts/' %} selected {% endif %}">Эксперты</a>
-        <a href="{% url 'article_list' %}" class="post-menu-item {% if request.path|slice:":10" == '/articles/' %} selected {% endif %}">Статьи</a>
-        <a href="{% url 'question_answer_list' %}" class="post-menu-item {% if request.path|slice:":17" == '/question_answer/' %} selected {% endif %}">Вопрос-ответ</a>
+        <a href="{% url 'research_list' %}" class="post-menu-item {% if url_first_part  == 'researches' or  request.path == '/' %} selected {% endif %}">Исследования</a>
+        <a href="{% url 'experts_list' %}" class="post-menu-item {% if url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
+        <a href="{% url 'article_list' %}" class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">Статьи</a>
+        <a href="{% url 'question_answer_list' %}" class="post-menu-item {% if url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
     </div>
 
     <div id="article_list" class="content-block">

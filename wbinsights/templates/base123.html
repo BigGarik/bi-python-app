@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
+{% load web_tags %}
+
 
 {% block content %}
+
+    <style>
+        div.right-category-list>a.selected {
+          background-color: yellow;
+        }
+
+    </style>
 
 <div class="row">
 
@@ -10,30 +19,45 @@
     <div class="d-none d-md-block col-md-2 ">
         
         <nav class="navbar " style="display: flex;flex-direction: column;">
+
                     
-            <div class="container-fluid-nav " >
-                <a class="navbar-brand" href="#">
-                    <i class="bi bi-fire" style="scale: 0.9; padding-right: 10px;" ></i>                            
+           <div class="container-fluid-nav right-category-list" >
+
+                {% split request.path "/" as url_paths %}
+
+                {% split request.path "/" "first" as first_path %}
+
+                {% split request.path "/" "last" as last_path %}
+
+
+                <a class="navbar-brand {% if last_path == 'popular' %} selected {% endif %}"
+                        href="/{{ first_path|default:"researches" }}/category/popular">
+                    <i class="bi bi-fire" style="scale: 0.9; padding-right: 10px;" ></i>
                     Популярное
                 </a>
-                <a class="navbar-brand" href="#">
-                    <i class="bi bi-clock-fill" style="scale: 0.9; padding-right: 10px;" ></i>                            
+                <a class="navbar-brand {% if last_path == 'new' %} selected {% endif %}"
+                        href="/{{ first_path|default:"researches" }}/category/new">
+                    <i class="bi bi-clock-fill" style="scale: 0.9; padding-right: 10px;" ></i>
                     Новое
                 </a>
-                <a class="navbar-brand" href="#">
-                    <i class="bi bi-bank" style="scale: 0.9; padding-right: 10px;" ></i>                           
+                <a class="navbar-brand {% if last_path == 'banki' %} selected {% endif %}"
+                        href="/{{ first_path|default:"researches" }}/category/banki">
+                    <i class="bi bi-bank" style="scale: 0.9; padding-right: 10px;" ></i>
                     Банки
                 </a>
 
-                <a class="navbar-brand" href="#">
-                    <i class="bi bi-coin" style="scale: 0.9; padding-right: 10px;" ></i>                              
+                <a class="navbar-brand {% if last_path == 'finansy' %} selected {% endif %}"
+                        href="/{{ first_path|default:"researches" }}/category/finansy">
+                    <i class="bi bi-coin" style="scale: 0.9; padding-right: 10px;" ></i>
                     Финансы
                 </a>
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand {% if url_paths|last == 'it' %} selected {% endif %}"
+                        href="/{{ first_path|default:"researches" }}/category/it">
                     <i class="bi bi-laptop" style="scale: 0.9; padding-right: 10px;" ></i>                            
                     ИТ
                 </a>
-            </div>
+
+           </div>
         </nav>
         
     </div>
