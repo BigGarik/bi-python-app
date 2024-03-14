@@ -6,9 +6,9 @@
 
 {% block center_col %}
 
-<head>
-  <link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
-</head>
+
+<link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
+
 
 <div class="prof-page-cont">
   
@@ -29,7 +29,7 @@
                 {{ expert.last_name }} {{ expert.first_name }}
               </div>
               <div class="user-rating-cont">
-                <div class="user-rating">Rating:  {{ expertprofile.rating }} &nbsp;</div>
+                <div class="user-rating">Рейтинг:  4.5{{ expert.expertprofile.rating }} &nbsp;</div>
                 <div class="user-rate-and-stars">
 
                   {% for ch in filled_stars_chipher %}
