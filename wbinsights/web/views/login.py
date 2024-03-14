@@ -43,7 +43,6 @@ class ExpertProfileForm(forms.ModelForm):
         model = ExpertProfile
         fields = ("about", "experience", "hour_cost")
 
-
 def register_user(request):
     if request.method == 'POST':
 
