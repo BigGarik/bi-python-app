@@ -40,4 +40,10 @@ def split(value, key, element=None):
         return res[len(res)-1]
     return res
 
+@register.filter
+def get_post_url_or_none(value):
+    if value in ['researches', 'experts', 'articles', 'question_answer']:
+        return value
+    return None
+
 
