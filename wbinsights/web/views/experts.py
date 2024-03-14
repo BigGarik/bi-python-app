@@ -33,11 +33,20 @@ class ExpertListView(ListView):
         return context
     
 #Класс-представление для фильтрации статей по категории
+# class SearchByNameExpertListView(ExpertListView):
+#     #Переопределяем метод получения списка сущностей
+
+#     def get_queryset(self):    
+#         return Expert.objects.filter( Q(first_name__contains=self.kwargs['search_str']) | Q(last_name__contains=self.kwargs['search_str']) )
+    
 class SearchByNameExpertListView(ExpertListView):
-    #Переопределяем метод получения списка сущностей
+    # Override the queryset to filter experts by search string
 
     def get_queryset(self):    
-        return Expert.objects.filter( Q(first_name__contains=self.kwargs['search_str']) | Q(last_name__contains=self.kwargs['search_str']) )
+        return Expert.objects.filter( Q(first_name__contains=self.request.GET.get('q')) | Q(last_name__contains=self.request.GET.get('q')) )
+
+    
+    
     
     
 #Класс-представление для фильтрации статей по категории

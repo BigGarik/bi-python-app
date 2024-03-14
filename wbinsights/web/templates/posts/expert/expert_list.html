@@ -10,29 +10,58 @@
 
 {% block posts_content %}
 
+
 	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
     
 	<div class="articles-main-cont" style="margin-top: 20px;">	
 
 		<div class="search-and-cat-cont">
 
-			<input type="text" class="article-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)"/>	
+			<input type="search" class="article-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="">  
 
 			<script>
-
 				function searchByName(e) {
-
-					if (e.code != "Enter")
-						return;
-
-					//console.log()
-
-					window.location.href = "/experts/search/" + e.target.value;
-
+					if (e.key === "Enter") {
+						var searchValue = e.target.value.trim();
+						if (searchValue !== "") {
+							sessionStorage.setItem('searchValue', searchValue); // stores the search query
+							window.location.href = "/experts/search/?q=" + encodeURIComponent(searchValue);
+						}
+					}
 				}
+
+				// retrieves and sets search query
+				window.onload = function() {
+					var storedSearchValue = sessionStorage.getItem('searchValue');
+					if (storedSearchValue) {
+						document.querySelector('.article-search-cont').value = storedSearchValue;
+					}
+				};
+
+				/*window.onbeforeunload = function() {
+					if (window.location.pathname.slice(0, 9) !== "/experts/") {
+						sessionStorage.removeItem('searchValue');
+					}
+				};*/
 			</script>
 
+
 			<div class="catagory-cont">
+
+				<div class="dropdown">
+
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;display: flex;align-items: center;background-color: white;color: black;border: none;margin-top: 0px;">
+						<span class="catagory-text"> Рейтинг: &nbsp;</span>
+						<span class="catagory-choose"> 4 и выше  </span>  
+					</button>
+
+					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+						<li><a class="dropdown-item" href="#">3 и выше </a></li>
+						<li><a class="dropdown-item" href="#">4 и выше </a></li>
+						<li><a class="dropdown-item" href="#">5</a></li>
+					</ul>
+
+				</div>
 
 				<div class="dropdown">
 
@@ -50,20 +79,7 @@
 
 				</div>
 
-				<div class="dropdown">
-
-					<button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;display: flex;align-items: center;background-color: white;color: black;border: none;margin-top: 0px;">
-						<span class="catagory-text"> Рейтинг: &nbsp;</span>
-						<span class="catagory-choose"> 4 и выше  </span>  
-					</button>
-
-					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-						<li><a class="dropdown-item" href="#">3 и выше </a></li>
-						<li><a class="dropdown-item" href="#">4 и выше </a></li>
-						<li><a class="dropdown-item" href="#">5</a></li>
-					</ul>
-
-				</div>
+				
 				
 			</div>
 			
@@ -75,7 +91,9 @@
 
 			<div class="expert-list-prof-pic">
 
-				<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" style="border-radius:50%;max-width: 130px;max-height: 130px;min-width: 130px; min-height: 130px; object-fit: contain">
+				<div class="avatar-container">
+					<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
+				</div>
 
 				<span class="rating-span">
 				<i class="bi bi-star-fill" style="scale: 1; color: #e9be50;" ></i> 

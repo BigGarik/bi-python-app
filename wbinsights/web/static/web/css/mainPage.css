@@ -279,6 +279,14 @@
     font-weight: 600;
 }
 
+.article-add-title {
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
 .article-page-publish-date{
     display: flex;
     color:  #a9b4ca;
@@ -372,6 +380,20 @@
     display: flex;
     text-decoration: none;
 
+}
+
+.side-avatar-container {
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    border: 1px solid #ccc; 
+}
+
+.side-avatar-container img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
 }
 
 .expert-name a {

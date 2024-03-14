@@ -16,7 +16,7 @@
     display: flex;
     background-color: #fff5d4;
     color: #d9ba43;
-    padding: 5px 15px 5 15px;
+    padding: 5px 15px 5px 15px;
     margin: 0 10px 0 10px;
     border-radius: 15px;
     font-weight: 600;
@@ -27,7 +27,7 @@
     display: flex;
     background-color: #ecffd4;
     color: #75b06a;
-    padding:5px 15px 5 15px;
+    padding:5px 15px 5px 15px;
     margin: 0 10px 0 10px;
     border-radius: 15px;
     font-weight: 600;
@@ -53,7 +53,7 @@
     color:  grey;
     align-items: center;
     font-size: 12px;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 
 .research-title{

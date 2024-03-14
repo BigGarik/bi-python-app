@@ -22,6 +22,19 @@
     width: 100%;
 }
 
+.avatar-container {
+    width: 130px; 
+    height: 130px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    border: 1px solid #ccc; 
+}
+
+.avatar-container img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
 
 .expert-list-title{
     display: flex;

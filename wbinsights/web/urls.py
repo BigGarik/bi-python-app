@@ -31,7 +31,8 @@ urlpatterns = [
    
     path("experts/", ExpertListView.as_view(), name='experts_list'),
     path("experts/category/<slug:category_slug>", ExpertListView.as_view(), name='experts_category_list'),
-    path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
+    path('experts/search/', SearchByNameExpertListView.as_view(), name='experts_search_list'),
+    #path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
     path("experts/<int:pk>", ExpertDetailView.as_view(), name='expert_profile'),
 
     #users
