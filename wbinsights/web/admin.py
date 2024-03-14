@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .models import Article, Category, CustomUser, Research, QuestionAnswer
-from .views import CustomUserCreationForm, CustomUserChangeForm
+from .views import CustomUserCreationForm
+from .views.profile import CustomUserChangeForm
 
 
 class CustomUserAdmin(UserAdmin):
