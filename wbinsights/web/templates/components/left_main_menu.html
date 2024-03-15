@@ -11,8 +11,6 @@
 
    <div class="container-fluid-nav right-category-list" >
 
-        {% split request.path "/" as url_paths %}
-
         {% split request.path "/" "first" as first_path %}
 
         {% split request.path "/" "last" as last_path %}
@@ -29,22 +27,18 @@
             <i class="bi bi-clock-fill" style="scale: 0.9; padding-right: 10px;" ></i>
             Новое
         </a>
-        <a class="navbar-brand {% if last_path == 'banki' %} selected {% endif %}"
-                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/banki">
-            <i class="bi bi-bank" style="scale: 0.9; padding-right: 10px;" ></i>
-            Банки
+   
+        {% get_all_categories as categories %}
+        {% for category in categories %}
+            
+        <a class="navbar-brand {% if last_path == category.slug %} selected {% endif %}"
+                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
+            <i class="bi bi-{{ category.icon }}" style="scale: 0.9; padding-right: 10px;" ></i>
+            {{ category.name }}
         </a>
 
-        <a class="navbar-brand {% if last_path == 'finansy' %} selected {% endif %}"
-                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/finansy">
-            <i class="bi bi-coin" style="scale: 0.9; padding-right: 10px;" ></i>
-            Финансы
-        </a>
-        <a class="navbar-brand {% if url_paths|last == 'it' %} selected {% endif %}"
-                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/it">
-            <i class="bi bi-laptop" style="scale: 0.9; padding-right: 10px;" ></i>
-            ИТ
-        </a>
+        
+        {% endfor %}
 
    </div>
 </nav>

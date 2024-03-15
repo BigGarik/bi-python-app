@@ -1,0 +1,35 @@
+{% load web_tags %}
+
+<div class="catagory-cont">
+
+    {% split request.path "/" "first" as path_post_type %}
+
+    {% split request.path "/" "last" as path_category_name %}
+
+    {% get_category_by_slug path_category_name as curr_cat %}
+
+    <div class="dropdown">
+        <button class="article-list-dropdown dropdown-toggle " type="button" id="categoryDropdown"
+                data-bs-toggle="dropdown" aria-expanded="false" >
+            <span class="catagory-text"> Категория: &nbsp;</span>
+            <span class="catagory-choose">
+            {% if curr_cat is None %}
+                Все
+            {% else %}
+                {{ curr_cat.name }}
+            {% endif %}
+            </span>
+        </button>
+        
+        {% get_all_categories as categories %}
+        
+        <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+            <li><a class="dropdown-item" href="/{{ path_post_type|get_post_url_or_none|default:"researches" }}/">Все</a></li>
+            {% for category in categories %}
+            <li><a class="dropdown-item" href="/{{ path_post_type|get_post_url_or_none|default:"researches" }}/category/{{ category.slug}}">{{ category.name}}</a></li>
+            {% endfor%}
+        </ul>
+
+    </div>
+
+</div>

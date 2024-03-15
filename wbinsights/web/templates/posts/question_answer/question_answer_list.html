@@ -24,27 +24,7 @@ QandA
 				
 			</div>
 
-			<div class="catagory-cont">
-
-				<div class="dropdown">
-
-					<button class="btn btn-secondary cat-dropdown-btn dropdown-toggle " type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" >
-						<span class="catagory-text"> Категория: &nbsp;</span>
-						<span class="catagory-choose"> 
-							{% if selected_category == '' %} Все {% else %} {{selected_category.name}} {% endif %} 
-						</span> 
-					</button>
-
-					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-						<li><a class="dropdown-item" href="/question_answer/">Все</a></li>
-						{% for category in categories %}
-							<li><a class="dropdown-item" href="/question_answer/category/{{ category.slug }}">{{ category.name }}</a></li>
-						{% endfor %}
-					</ul>
-
-				</div>
-
-			</div>
+			{% include "components/post_category_filter.html" %}
 			
 		</div>
 

@@ -1,5 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
+from django.db import models
+
+from django import forms
 
 
 def handleIndex(request):
@@ -11,3 +14,16 @@ def handleIndex(request):
 
 def page_not_found(request, exception):
     return HttpResponseNotFound("<h1>Страница не найдена</h1>")
+
+
+
+
+
+def handleTest(request):
+
+
+    context = {
+        "first_form": ""
+    }
+
+    return render(request, "test.html", context)

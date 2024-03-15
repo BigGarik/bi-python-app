@@ -1,6 +1,6 @@
 from django import template
 
-from web.models import Expert
+from web.models import Expert, Category
 
 register = template.Library()
 
@@ -8,6 +8,19 @@ register = template.Library()
 @register.simple_tag
 def get_top_experts():
     return Expert.objects.all()[:10]
+
+@register.simple_tag
+def get_all_categories():
+    return Category.objects.all()
+
+@register.simple_tag
+def get_category_by_slug(slug):
+
+    cat = Category.objects.filter(slug=slug)
+    if len(cat) > 0:
+        return cat[0]
+
+    return None
 
 
 @register.simple_tag

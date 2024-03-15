@@ -16,25 +16,10 @@
 
 		<div class="search-and-cat-cont">
 
-			<input type="text" class="article-search-cont" placeholder="Поиск">	
+			<input type="text" class="article-search-cont" placeholder="Поиск" />
 
-			<div class="catagory-cont">
-				<div class="dropdown">
-					<button class="article-list-dropdown dropdown-toggle " type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" >
-						<span class="catagory-text"> Категория: &nbsp;</span>
-						<span class="catagory-choose"> 
-							{% if selected_category == '' %} Все {% else %} {{selected_category.name}} {% endif %} 
-						</span>  
-					</button>
-					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">						
-						<li><a class="dropdown-item" href="/articles/">Все</a></li>
-						{% for category in categories %}
-						<li><a class="dropdown-item" href="/articles/category/{{ category.slug}}">{{ category.name}}</a></li>
-						{% endfor%}					
-					</ul>
-				</div>
-			</div>
-			
+			{% include "components/post_category_filter.html" %}
+
 		</div>
 
 		{% for article in object_list %}
@@ -67,21 +52,24 @@
 				<div class="article-last">
 
 					<div class="article-author-cont">
-						<div class="author-pic">
+						
+                        <div class="author-pic">
 							<i class="bi bi-person-circle" style="color:black; scale:3"></i>
 						</div>
-						<div class="author-name">Александр Александров</div>
-
+						
+                        <div class="author-name">Александр Александров</div>
+                        
 					</div>
 
 					<div class="article-comments-andshare-cont">
+                        
 						<div class="article-comments">
 							<i class="bi bi-chat-left-text" style="color:grey;"></i>
-						
-						&nbsp; 104</div>
-						<div class="article-share">
+						    104
+                        </div>
+
+                        <div class="article-share">
 							<i class="bi bi-box-arrow-up-right" style="color:grey; "></i>
-							
 						</div>
 
 					</div>

@@ -50,24 +50,8 @@
 
 				</div>
 
-				<div class="dropdown">
-
-					<button class="btn expert-list-catagory-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" >
-						<span class="catagory-text"> Категория: &nbsp;</span>
-						<span class="catagory-choose"> Все  </span>  
-					</button>
-
-					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-						{% for category in categories %}
-						<li><a class="dropdown-item" href="{% url 'experts_category_list' category.slug %}">{{ category.name }}</a></li>						
-						{% endfor %}
-					</ul>
-					
-
-				</div>
-
-				
-				
+				{% include "components/post_category_filter.html" %}
+                
 			</div>
 			
 		</div>
