@@ -29,7 +29,7 @@ class Article(models.Model):
 
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     content = models.TextField(blank=True, verbose_name="Текст статьи")
-    # author = models.ForeignKey('User', on_delete=models.SET_NULL)
+    author = models.ForeignKey('CustomUser', on_delete=models.SET_NULL, null=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
