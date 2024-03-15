@@ -13,8 +13,18 @@ class QuestionAnswerListView(ListView):
         return context
     
 class CategoryQuestionAnswerListView(QuestionAnswerListView):
+
+
     
     def get_queryset(self):
+
+        self.cat = ''
+        if self.kwargs['category_slug'] == 'new':
+            return QuestionAnswer.objects.all().order_by("time_create")
+
+        if self.kwargs['category_slug'] == 'popular':
+            return QuestionAnswer.objects.all().order_by("time_create")
+
         self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         return QuestionAnswer.objects.filter(cat=self.cat)
 
