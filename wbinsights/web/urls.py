@@ -9,6 +9,7 @@ from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
 from .views.profile import profile_view,  edit_user_profile
 from .views.error_404 import custom_404
+from .views.contact import ContactPageView, ContactUsPageView , ContactPoliciesPageView
 
 handler404 = custom_404
 
@@ -35,6 +36,11 @@ urlpatterns = [
     path('experts/search/', SearchByNameExpertListView.as_view(), name='experts_search_list'),
     #path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
     path("experts/<int:pk>", ExpertDetailView.as_view(), name='expert_profile'),
+    
+    path("contact/", ContactPageView.as_view(), name='contact'),
+    path("contact_us/", ContactUsPageView.as_view(), name='contact_us'),
+    path("data_policies/", ContactPoliciesPageView.as_view(), name='data_policies'),
+    
 
     #users
     path("profile", profile_view, name='profile'),

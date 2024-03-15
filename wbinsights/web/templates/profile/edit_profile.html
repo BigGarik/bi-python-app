@@ -3,17 +3,17 @@
 
 {% block center_col %}
 
-<link rel="stylesheet" href="{% static 'web/css/expertProfPageEdit.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
 
-<div class="prof-page-cont">
+<div class="edit-prof-page-cont">
 
-    <div class="profile-info-cont">
+    <div class="edit-prof-info-cont">
 
         <a href="{% url 'profile' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
-            <i class="bi bi-chevron-left" style="scale: 0.9; font-weight: bold; color:#777786;" ></i> Назад
+            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> Назад
         </a>
 
-        <span class= "edit-page-title">Настройки профиля</span>
+        <span class= "prof-edit-page-title">Настройки профиля</span>
 
         {{ user_form.errors }}
         {{ profile_form.errors }}
@@ -22,17 +22,17 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <div class="expert-edit-rows">
+            <div class="prof-edit-rows">
 
-                <div class="duel-rows">
+                <div class="prof-edit-duel-rows">
 
-                    <div class="info-cont">
-                        <label for="{{ user_form.first_name.id_for_label }}" class="input-labels">{{ user_form.first_name.label }}</label>
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ user_form.first_name.id_for_label }}" class="prof-edit-input-labels">{{ user_form.first_name.label }}</label>
                         {{ user_form.first_name }}
                       </div>
 
-                    <div class="info-cont">
-                        <label for="{{ user_form.last_name.id_for_label }}" class="input-labels"> {{ user_form.last_name.label }}</label>
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ user_form.last_name.id_for_label }}" class="prof-edit-input-labels"> {{ user_form.last_name.label }}</label>
                         {{ user_form.last_name }}
                     </div>
 
@@ -40,7 +40,7 @@
 
                 {% if user.profile.type == 1 %}
                 <div class="full-width">
-                    <label for="{{ expert_profile_form.about.id_for_label }}" class="input-labels">{{ expert_profile_form.about.label }}</label>
+                    <label for="{{ expert_profile_form.about.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
                     {{ expert_profile_form.about }}
                 </div>
                 {% endif %}
@@ -54,7 +54,7 @@
             </style>
             <div class="expert-edit-rows">
 
-                <div class="photo-cont">
+                <div class="prof-edit-photo-cont">
                     <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
 
                     <div style="display:flex ; margin-left: 10px ; flex-direction:column">
@@ -69,20 +69,20 @@
 
 
                 {% if user.profile.type == 1 %}
-                <div class="duel-rows">
+                <div class="prof-edit-duel-rows">
 
-                    <div class="input-title">
-                        <label for="{{ expert_profile_form.category.id_for_label }}" class="input-labels">{{ expert_profile_form.category.label }}</label>
+                    <div class="prof-edit-input-title">
+                        <label for="{{ expert_profile_form.category.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.category.label }}</label>
                         {{ expert_profile_form.category }}
                     </div>
 
-                    <div class="input-title">
-                        <label for="{{ expert_profile_form.experience.id_for_label }}" class="input-labels">{{ expert_profile_form.experience.label }}</label>
+                    <div class="prof-edit-input-title">
+                        <label for="{{ expert_profile_form.experience.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
                         {{ expert_profile_form.experience }}
                     </div>
 
-                    <div class="input-title">
-                        <label for="{{ expert_profile_form.hour_cost.id_for_label }}" class="input-labels">{{ expert_profile_form.hour_cost.label }}</label>
+                    <div class="prof-edit-input-title">
+                        <label for="{{ expert_profile_form.hour_cost.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.hour_cost.label }}</label>
                         {{ expert_profile_form.hour_cost }}
                     </div>
 
@@ -94,15 +94,15 @@
 
             <div class="expert-edit-rows">
 
-                <div class="duel-rows">
+                <div class="prof-edit-duel-rows">
 
-                    <div class="info-cont">
-                        <label for="{{ expert_profile_form.education.id_for_label }}" class="input-labels">{{ expert_profile_form.education.label }}</label>
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ expert_profile_form.education.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.education.label }}</label>
                     {{ expert_profile_form.education }}
                       </div>
 
-                    <div class="info-cont">
-                        <label for="{{ expert_profile_form.age.id_for_label }}" class="input-labels">{{ expert_profile_form.age.label }}</label>
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ expert_profile_form.age.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
                     {{ expert_profile_form.age }}
                     </div>
 
@@ -112,30 +112,28 @@
             {% endif %}
 
             <div class="expert-edit-rows">
-                <span style="font-size: 20px; font-weight:600;">Смена пароля</span>
+                <span class="prof-edit-change-pass">Смена пароля</span>
 
-                <div class="duel-rows">
-                    <div class="input-title">
-                        <label for="{{ user_form.oldpassword.id_for_label }}" class="input-labels">{{ user_form.oldpassword.label }}</label>
+                <div class="prof-edit-duel-rows">
+                    <div class="prof-edit-input-title">
+                        <label for="{{ user_form.oldpassword.id_for_label }}" class="prof-edit-input-labels">{{ user_form.oldpassword.label }}</label>
                         {{ user_form.oldpassword }}
                     </div>
-                    <div class="input-title">
-                          <label for="{{ user_form.newpassword.id_for_label }}" class="input-labels">{{  user_form.newpassword.label}}</label>
+                    <div class="prof-edit-input-title">
+                          <label for="{{ user_form.newpassword.id_for_label }}" class="prof-edit-input-labels">{{  user_form.newpassword.label}}</label>
                         {{ user_form.newpassword }}
                     </div>
-                    <div class="input-title">
-                         <label for="{{ user_form.confirmpassword.id_for_label }}" class="input-labels">{{ user_form.confirmpassword.label }}</label>
+                    <div class="prof-edit-input-title">
+                         <label for="{{ user_form.confirmpassword.id_for_label }}" class="prof-edit-input-labels">{{ user_form.confirmpassword.label }}</label>
                         {{ user_form.confirmpassword }}
                     </div>
                 </div>
 
             </div>
 
-            <div style="display:flex ; align-items: center">
-                <button type="submit" class="btn btn-secondary" style="margin: 0;padding: 0;height: 40px;padding: 0 10px 0 10px; background-color:#6dc36b ; border:none ; font-size: 14px; margin-right: 10px ">Сохранить изменения</button>
-                <button type="button" class="btn btn-secondary" id="deleteProfileBtn" 
-                        style="background-color:white;color:red;margin: 0;border:none;font-weight: 600; font-size:14px; margin-left:10px" 
-                        data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+            <div class="prof-edit-bot-btns-cont">
+                <button type="submit" class="btn btn-secondary prof-edit-save-btn" >Сохранить изменения</button>
+                <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
                     Удалить профиль
                 </button>
             </div>

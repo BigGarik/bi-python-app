@@ -4,26 +4,30 @@
 {% extends 'base123.html' %}
 {%load static%}
 {% block center_col %}
+
+
+<link rel="stylesheet" href="{% static 'web/css/article_details.css' %}">
+
 <div class="base-Content">
 
-  <div class="article-page-content">
+  <div class="article-detail-page-content">
 
     <div class="article-page-back-btn">
-      <a href="{% url 'article_list' %}" class="article-page-back-btn">
+      <a href="{% url 'article_list' %}" class="article-detail-page-back-btn">
 
-        <i class="bi bi-chevron-left" style="scale:1"></i> &nbsp;&nbsp;Ко всем статьям
+        <i class="bi bi-chevron-left" ></i> &nbsp;Ко всем статьям
       </a>
     </div>
 
-    <div class="article-page-publish-date">
+    <div class="article-detail-page-publish-date">
       <i class="bi bi-calendar2-week" style="color:#a9b4ca; scale:1.3"></i>
       &nbsp;  {{article.time_update|date:"d.m.Y H:i"}}
 
     </div>
 
-    <div class="article-title">{{article.title}}</div>
+    <div class="article-detail-title">{{article.title}}</div>
 
-    <div class="article-main-content">
+    <div class="article-detail-main-content">
 
       {% autoescape off %}
 
@@ -31,10 +35,10 @@
 
       {% endautoescape %}
 
-      <div class="article-page-last">
+      <div class="article-detail-page-last">
 
-        <div class="article-comments-andshare-cont">
-          <div class="article-comments">
+        <div class="article-detail-comments-andshare-cont">
+          <div class="article-detail-comments">
             <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
           </div>
 

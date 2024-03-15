@@ -1,3 +1,66 @@
+
+.experts-list-main-cont{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px 20px 30px;
+    background-color: white ;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.experts-list-search-and-cat-cont{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.experts-list-search-cont{
+    display: flex;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #dadada;
+    font-family: sans-serif;
+    width: 30%;
+    border-radius: 7px;
+    outline: none !important;
+}
+
+.experts-list-catagory-cont {
+    display: flex;
+}
+
+.expert-list-dropdown {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: black;
+    border: none;
+    margin-top: 0px;
+}
+
+.experts-list-catagory-text{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+.expert-list-catagory-choose{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.expert-list-catagory-dropdown{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: black;
+    border: none;
+    margin-top: 0px;
+}
+
 .expert-prof-cont{
     display: flex;
     padding: 10px;
@@ -14,14 +77,7 @@
     flex-direction: column;
 }
 
-.expert-list-main-content{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 100%;
-}
-
-.avatar-container {
+.experts-list-avatar-container {
     width: 130px; 
     height: 130px; 
     border-radius: 50%; 
@@ -29,45 +85,27 @@
     border: 1px solid #ccc; 
 }
 
-.expert-list-catagory-dropdown{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: white;
-    color: black;
-    border: none;
-    margin-top: 0px;
-}
 
-.expert-list-consult-btn{
-    margin-top: 0;
-    background-color: #6dc36b;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-}
-
-.expert-list-reasearch-cont {
-    margin-top:10px ; 
-    margin-bottom: 10px
-}
-
-.expert-list-dropdown {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: white;
-    color: black;
-    border: none;
-    margin-top: 0px;
-}
-
-.avatar-container img {
+.experts-list-avatar-container img {
     width: 100%; 
     height: 100%; 
     object-fit: cover; 
+}
+
+.experts-list-rating-span{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+.expert-list-main-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
 }
 
 .expert-list-title{
@@ -80,7 +118,12 @@
     margin-bottom: 5px;
 }
 
-.research-catagory-container{
+.expert-list-cont {
+    margin-top:10px ; 
+    margin-bottom: 10px
+}
+
+.expert-research-catagory-container{
     background-color: #fff5d4;
     padding: 10px;
     border-radius: 20px;
@@ -91,17 +134,18 @@
 
 }
 
-.rating-span{
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    font-family: sans-serif;
-    font-size: 14px;
-}
-
 .question-btn-and-money{
     display: flex;
+}
+
+.expert-list-consult-btn{
+    margin-top: 0;
+    background-color: #6dc36b;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
 }
 
 .money-rate{

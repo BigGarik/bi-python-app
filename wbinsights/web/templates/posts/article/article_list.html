@@ -4,19 +4,19 @@
 {% block title %}
 Статьи
 {% endblock %}
+{% load static %}
 
 {% block posts_content %}
 
-
-
+<link rel="stylesheet" href="{% static 'web/css/article_list.css' %}">
 
 <body>
 
-	<div class="articles-main-cont" >	
+	<div class="articles-list-main-cont" >
 
-		<div class="search-and-cat-cont">
+		<div class="article-list-search-and-cat-cont">
 
-			<input type="text" class="article-search-cont" placeholder="Поиск" />
+			<input type="text" class="article-list-search-cont" placeholder="Поиск">
 
 			{% include "components/post_category_filter.html" %}
 
@@ -24,17 +24,16 @@
 
 		{% for article in object_list %}
 
-		<div class="article-content">
-			<div class="article-publish-date">
+		<div class="article-list-content">
+			<div class="article-list-publish-date">
 				<i class="bi bi-calendar2-week" style="color:grey; scale:1.3"></i>
 				&nbsp;  {{article.time_update|date:"d.m.Y H:i"}}
 
 			</div>
 
-			<div class="article-title">{{article.title}}</div>
+			<div class="article-list-title">{{article.title}}</div>
 
-			<div class="article-main-content">
-
+			<div class="article-list-main-content">
 				{% autoescape off %}
 
 				{{article.content|truncatewords:50}}
@@ -47,12 +46,12 @@
 				</span>
 			
 				<div class="article-list-cat-cont ">
-					<span class="article-catagory-container">{{article.cat.name}}</span>
+					<span class="article-list-catagory-container">{{article.cat.name}}</span>
 				</div>
 
-				<div class="article-last">
+				<div class="article-list-last">
 
-					<div class="article-author-cont">
+					<div class="article-list-author-cont">
                         <style>
                             .author-pic {
                                 width: 30px;
@@ -72,18 +71,18 @@
                             <img src="{{ article.author.profile.avatar.url }}" />
 						</div>
 
-                        <a href="{% url 'expert_profile' article.author.pk %}" class="author-name">{{ article.author.last_name}} {{ article.author.first_name}}</a>
+                        <a href="{% url 'expert_profile' article.author.pk %}" class="article-list-author-name">{{ article.author.last_name}} {{ article.author.first_name}}</a>
 
 					</div>
 
-					<div class="article-comments-andshare-cont">
+					<div class="article-list-comments-andshare-cont">
 
-						<div class="article-comments">
+						<div class="article-list-comments">
 							<i class="bi bi-chat-left-text" style="color:grey;"></i>
 						    104
                         </div>
 
-                        <div class="article-share">
+                        <div class="article-list-share">
 							<i class="bi bi-box-arrow-up-right" style="color:grey; "></i>
 						</div>
 
