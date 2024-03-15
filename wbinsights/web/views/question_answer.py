@@ -20,10 +20,10 @@ class CategoryQuestionAnswerListView(QuestionAnswerListView):
 
         self.cat = ''
         if self.kwargs['category_slug'] == 'new':
-            return QuestionAnswer.objects.all().order_by("time_create")
+            return QuestionAnswer.objects.all()
 
         if self.kwargs['category_slug'] == 'popular':
-            return QuestionAnswer.objects.all().order_by("time_create")
+            return QuestionAnswer.objects.all()
 
         self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         return QuestionAnswer.objects.filter(cat=self.cat)

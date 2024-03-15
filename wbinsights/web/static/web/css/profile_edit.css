@@ -1,0 +1,107 @@
+.edit-prof-page-cont{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+
+}
+
+.edit-prof-info-cont{
+    display: flex;
+    flex-direction: column;
+}
+
+.prof-edit-page-title{
+    display: flex;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+.prof-edit-rows{
+    display: flex;
+    flex-direction: column;
+}
+
+.prof-edit-duel-rows{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+
+.prof-edit-info-cont{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.prof-edit-input-labels{
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.prof-edit-photo-cont{
+    display: flex;
+    align-items: center;
+    margin: 10px 0 10px 0;
+}
+
+.prof-edit-input-title{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.prof-edit-change-pass {
+    font-size: 20px; 
+    font-weight:600;
+}
+
+.prof-edit-bot-btns-cont{
+    display:flex ; 
+    align-items: center
+}
+
+.prof-edit-save-btn{
+    margin: 0;
+    padding: 0;
+    height: 40px;
+    padding: 0 10px 0 10px; 
+    background-color:#6dc36b ; 
+    border:none ; 
+    font-size: 14px; 
+    margin-right: 10px 
+}
+
+.prof-edit-delete-btn {
+    background-color:white;
+    color:red;
+    margin: 0;
+    border:none;
+    font-weight: 600; 
+    font-size:14px; 
+    margin-left:10px
+}
+
+.custom-form-css{
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #dadada;
+    width: 100%;
+}
+
+.custom-aboutme-form{
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #dadada;
+    width: 100%;
+    min-height: 100px;
+    height: 100px;
+    max-height: 100px;
+}

@@ -1,0 +1,95 @@
+.contact-page-cont{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.resource-back-btn{
+    display: flex;
+    margin-bottom: 20px;
+    color: #36364b;
+}
+.resources-cont{
+    margin: 10px 0 20px 0;
+
+}
+
+.about-resources-title{
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 25px;
+}
+
+.about-resources-content{
+    font-size: 16px;
+}
+
+.resource-subtitle{
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.href-css{
+    text-decoration: none;
+    color: #36364b;
+}
+
+/* - --------------------------------------------------------------------------------------------- - */
+
+.contact-us-title{
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.contact-form-cont{
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-us-label{
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    color: #36364b;
+    margin-bottom: 5px;
+}
+
+.form-textarea-contact{
+    display: flex;
+    resize: none;
+    scrollbar-width: none;
+    min-height: 100px;
+    border-radius: 10px;
+    border: 1px solid #dadada;
+    padding: 5px;
+    outline: none; 
+}
+
+.contact-us-btn-cont{
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-email-span{
+    display: flex;
+    color: #a5b1c8;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.contact-email-link{
+    text-decoration: none;
+    color: #a5b1c8;
+    font-weight: 600;
+}
+
+.send-btn-css {
+    background-color: #6dc36b;
+    border: none;
+}
