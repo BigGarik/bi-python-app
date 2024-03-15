@@ -17,7 +17,7 @@ admin.site.register(CustomUser, CustomUserAdmin)
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'content', 'slug', 'is_published', 'cat',)
+    list_display = ('title', 'content', 'slug', 'is_published', 'cat','author')
     prepopulated_fields = {'slug': ('title',)}
 
 
