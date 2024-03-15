@@ -38,11 +38,11 @@
 
       <div class="col-md-4" style="padding:20px;">
 
-        <div style="display:flex; flex-direction: column; margin-bottom: 20px; background-color:white; padding: 20px; border-radius: 15px">
+        <div class="article-add-right-btns">
 
           <div class="article-settings">
             <span>Настройки</span>
-            <span><i class="bi bi-trash" style="scale:1; cursor:pointer"></i> Очистить всё</span>
+            <span><i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё</span>
           </div>
 
           <span class="article-add-desc">
@@ -54,12 +54,12 @@
           <hr class="solid" />
 
           <div class="choose-catagory">
-            <span style="font-weight: 500;font-size: 15px;">Категория:</span>
+            <span class="span-article-add-catagory">Категория:</span>
             <div class="dropdown">
-              <button id="categoryDropdownBtn" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: white; color: grey; width: 100%; display: flex; align-items: center; justify-content: space-between;">
+              <button id="categoryDropdownBtn" class="btn btn-secondary dropdown-toggle article-add-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
                 Выберите категорию
               </button>
-              <ul class="dropdown-menu" style="position: absolute; inset: 0px auto auto 0px; width: 100%; margin: 0px; transform: translate(0px, 40px);">
+              <ul class="dropdown-menu article-add-category-drop" >
                 {% for cat in categories %}
                   <li class="category-item" onclick="selectCategory('{{ cat }}')">
                     {{ cat }}
@@ -70,7 +70,7 @@
           </div>
 
           <div class="choose-tags" style="margin-top: 20px;">
-            <span style="font-weight: 500;font-size: 15px;">Выберите теги:</span>
+            <span class="article-add-choose-tags">Выберите теги:</span>
             <select id="tagSelect" class="form-select" multiple="multiple" style="width: 100%;">
               <option value="tag1">IT</option>
               <option value="tag2">Finance</option>

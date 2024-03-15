@@ -157,6 +157,13 @@
     display: flex;
 }
 
+.header-logout-btn{
+    padding:0px;
+    width: 100%;display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+}
+
 
 
 
@@ -168,6 +175,22 @@
     padding: 20px 30px 20px 30px;
     background-color: white ;
     border-radius: 15px;
+    margin-top: 20px;
+}
+
+.article-list-dropdown{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: black;
+    border: none;
+    margin-top: 0px;
+}
+
+.article-list-cat-cont {
+    margin-top:10px ; 
+    margin-bottom: 10px
 }
 
 .search-and-cat-cont{
@@ -308,6 +331,12 @@
     flex-direction: column;
 }
 
+.more-news-btn{
+    background-color: white !important; 
+    color: #686878 !important ; 
+    border: 1px solid #686878 !important; 
+    border-radius: 10px !important;
+}
 
 /*------------------------------------------------------------  Experts Coloumn  -------------------------------------------------------------------------*/
 

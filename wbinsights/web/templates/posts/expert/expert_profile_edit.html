@@ -12,9 +12,8 @@
   
     <div class="profile-info-cont">
 
-        <a href="#" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
+        <a href="#" class="edit-back-btn">
             
-
             <i class="bi bi-chevron-left" style="scale: 0.9; font-weight: bold; color:#777786;" ></i> 
 
             &nbsp;Назад
@@ -55,8 +54,8 @@
             <div class="expert-edit-rows">
 
                 <div class="photo-cont">
-                    <img src="{{ expert.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
-                    <button type="button" class="btn btn-secondary" style="margin: 0;height: 40px;background-color: white;color: grey;padding: 0 10px 0 10px;margin-left: 10px;font-weight: 600;border-radius:10px">Загрузить фото</button>
+                    <img src="{{ expert.profile.avatar.url }}" alt="Avatar" class="edit-profile-img">
+                    <button type="button" class="btn upload-photo" >Загрузить фото</button>
                 </div>
 
                 <div class="duel-rows">
@@ -71,7 +70,7 @@
                     <div class="input-title">
                         <span class="title-name"> Стоимость консультации: </span>
                         <input type= "text" class = "fifty-per" placeholder="Сумма в ₽ за час"></input>
-                        <div style="display:flex ; margin-top:5px">
+                        <div class="edit-checkbox">
                             <input type="checkbox" id="customCheckbox" name="customCheckbox" >
                             <label for="customCheckbox" class="custom-checkbox-label">&nbsp; По договорённости </label>
                         </div>
@@ -84,7 +83,7 @@
             </div>
 
             <div class="expert-edit-rows">
-                <span style="font-size: 20px; font-weight:600;">Смена пароля</span>
+                <span class="change-pass-span">Смена пароля</span>
 
                 <div class="duel-rows">
                     <div class="input-title">
@@ -107,130 +106,13 @@
     </div>
 
     <div style="display:flex ; align-items: center">
-        <button type="submit" class="btn btn-secondary" style="margin: 0;padding: 0;height: 40px;padding: 0 10px 0 10px; background-color:#6dc36b ; border:none ; font-size: 14px ">Сохранить изменения</button>
-        <button type="button" class="btn btn-secondary" style="background-color:white;color:red;margin: 0;border:none;font-weight: 600; font-size:14px; margin-left:10px">Удалить профиль</button>
+        <button type="submit" class="btn save-changes-btn" >Сохранить изменения</button>
+        <button type="button" class="btn delete-profile-btn" >Удалить профиль</button>
 
     </div>
                 
         
 </div>
-
-
-<!--<div class="prof-page-cont">
-  
-    <div class="profile-info-cont">
-
-        <a href="#" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
-            
-
-            <i class="bi bi-chevron-left" style="scale: 0.9; font-weight: bold; color:#777786;" ></i> 
-
-            &nbsp;Назад
-
-        </a>
-
-        <span class= "edit-page-title">Настройки профиля</span>
-
-        <div class="expert-edit-rows">
-
-            <div class="duel-rows">
-
-                <div class="info-cont">
-
-                    <span class="title-name">
-                        Имя
-                    </span>
-
-                    <input type= "text" class = "fifty-per" placeholder="Введите имя"></input>
-                </div>
-
-                <div class="info-cont">
-
-                    <span class="title-name" >
-                        Фамилия
-                    </span>
-
-                    <input type= "text" class = "fifty-per" placeholder="Введите фамилию"></input>
-                </div>
-            </div>
-
-            <div class="full-width">
-
-                <span class="title-name" >
-                    О себе
-                </span>
-
-                <textarea class="full-width-text" placeholder="Напишите текст о себе"></textarea>
-
-            </div>
-
-        </div>
-        
-
-        <div class="expert-edit-rows">
-
-            <div class="photo-cont">
-                <img src="{{ expert.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
-                <button type="button" class="btn btn-secondary" style="margin: 0;height: 40px;background-color: white;color: grey;padding: 0 10px 0 10px;margin-left: 10px;font-weight: 600;border-radius:10px">Загрузить фото</button>
-            </div>
-
-            <div class="duel-rows">
-                <div class="input-title">
-                    <span class="title-name"> Категории экспертности: </span>
-                    <input type= "text" class = "fifty-per" placeholder="Выберите категории"></input>
-                </div>
-                <div class="input-title">
-                    <span class="title-name"> Опыт работы (лет) </span>
-                    <input type= "text" class = "fifty-per" placeholder="Введите кол-во лет"></input>
-                </div>
-                <div class="input-title">
-                    <span class="title-name"> Стоимость консультации: </span>
-                    <input type= "text" class = "fifty-per" placeholder="Сумма в ₽ за час"></input>
-                    <div style="display:flex ; margin-top:5px">
-                        <input type="checkbox" id="customCheckbox" name="customCheckbox" >
-                        <label for="customCheckbox" class="custom-checkbox-label">&nbsp; По договорённости </label>
-                    </div>
-                </div>
-            <div>
-
-        </div>     
-
-
-        </div>
-
-        <div class="expert-edit-rows">
-            <span style="font-size: 20px; font-weight:600;">Смена пароля</span>
-
-            <div class="duel-rows">
-                <div class="input-title">
-                    <span class="title-name"> Старый пароль </span>
-                    <input type= "text" class = "fifty-per" ></input>
-                </div>
-                <div class="input-title">
-                    <span class="title-name"> Новый пароль </span>
-                    <input type= "text" class = "fifty-per" ></input>
-                </div>
-                <div class="input-title">
-                    <span class="title-name"> Повторите новый пароль </span>
-                    <input type= "text" class = "fifty-per" ></input>
-                </div>
-            <div>
-
-        </div>  
-    </div>
-
-        <div style="display:flex ; align-items: center">
-            <button type="button" class="btn btn-secondary" style="margin: 0;padding: 0;height: 40px;padding: 0 10px 0 10px; background-color:#6dc36b ; border:none ; font-size: 14px ">Сохранить изменения</button>
-            <button type="button" class="btn btn-secondary" style="background-color:white;color:red;margin: 0;border:none;font-weight: 600; font-size:14px; margin-left:10px">Удалить профиль</button>
-
-        </div>
-                
-        
-</div>
--->
-        
-  
-
 
 
 {% endblock %}

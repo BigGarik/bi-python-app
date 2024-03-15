@@ -12,7 +12,7 @@
 
 <body>
 
-	<div class="articles-main-cont" style="margin-top: 20px;">	
+	<div class="articles-main-cont" >	
 
 		<div class="search-and-cat-cont">
 
@@ -20,7 +20,7 @@
 
 			<div class="catagory-cont">
 				<div class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;display: flex;align-items: center;background-color: white;color: black;border: none;margin-top: 0px;">
+					<button class="article-list-dropdown dropdown-toggle " type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" >
 						<span class="catagory-text"> Категория: &nbsp;</span>
 						<span class="catagory-choose"> 
 							{% if selected_category == '' %} Все {% else %} {{selected_category.name}} {% endif %} 
@@ -60,7 +60,7 @@
 					</a>
 				</span>
 			
-				<div style=" margin-top:10px ; margin-bottom: 10px">
+				<div class="article-list-cat-cont ">
 					<span class="article-catagory-container">{{article.cat.name}}</span>
 				</div>
 
@@ -76,11 +76,11 @@
 
 					<div class="article-comments-andshare-cont">
 						<div class="article-comments">
-							<i class="bi bi-chat-left-text" style="color:grey; scale:1"></i>
+							<i class="bi bi-chat-left-text" style="color:grey;"></i>
 						
 						&nbsp; 104</div>
 						<div class="article-share">
-							<i class="bi bi-box-arrow-up-right" style="color:grey; scale:0.9"></i>
+							<i class="bi bi-box-arrow-up-right" style="color:grey; "></i>
 							
 						</div>
 

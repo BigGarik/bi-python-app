@@ -33,7 +33,6 @@
 
 .prof-pic-cont{
     display: flex;
-    width: 20%;
     align-items: center;
     justify-content: center;
 }
@@ -42,6 +41,12 @@
     border-radius: 50%;
     width: 100%; 
     height: auto; 
+}
+
+.expert-content-cont {
+    display:flex ; 
+    flex-direction: column; 
+    margin: 10px 0 10px 0;
 }
 
 .profile-information-cont{
@@ -162,6 +167,12 @@
 .expert-name{
     display: flex;
     text-decoration: none;
+}
+
+.chevron-left-css{
+    font-weight: bold; 
+    color: #777786; 
+    padding: 0 2px 0 2px
 
 }
 

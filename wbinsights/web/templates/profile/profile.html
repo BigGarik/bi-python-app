@@ -12,7 +12,7 @@
     <div class="prof-page-cont">
 
         <a href="{% url 'index' %}" class="to-main-page">
-            <i class="bi bi-chevron-left" style="scale: 1; font-weight: bold; color: #777786; padding: 0 2px 0 2px"></i>
+            <i class="bi bi-chevron-left chevro-left-css" ></i>
             &nbsp;на главную
         </a>
 
@@ -38,11 +38,11 @@
                         <div class="user-rate-and-stars">
                             {% for ch in filled_stars_chipher %}
                                 {% if ch == 'f' %}
-                                    <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                                    <i class="bi bi-star-fill" style=" color: #e9be50; padding: 0 2px 0 2px"></i>
                                 {% elif ch == 'h' %}
-                                    <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                                    <i class="bi bi-star-half" style=" color: #e9be50; padding: 0 2px 0 2px"></i>
                                 {% elif ch == 'e' %}
-                                    <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                                    <i class="bi bi-star" style=" color: #e9be50; padding: 0 2px 0 2px"></i>
                                 {% endif %}
                             {% endfor %}
                         </div>
@@ -68,14 +68,12 @@
                     <div class="user-settings">
 
                         <a href="{% url 'profile_edit' %}" type="button"
-                           class="btn btn-secondary btn-sm"
-                           style="margin-top: 0;background-color: white;border: 1px solid #a5b1c8;border-radius: 7px;font-size: 15px;color: #36364b;font-weight: 600;font-family: sans-serif;">
+                           class="btn prof-settings-btn">
                             Настройки профиля
                         </a>
 
                         <a href="{% url 'profile_edit' %}" type="button"
-                           class="btn btn-secondary btn-sm"
-                           style="margin-top: 0;background-color: #ffeaea;border: none;border-radius: 7px;font-size: 15px;font-weight: 500; font-weight: 600;font-family: sans-serif; margin-left: 10px; color: #dd3838;">
+                           class="btn prof-logout-btn">
                             Выйти
                         </a>
 
@@ -115,7 +113,7 @@
 
                 </div>
 
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px">
+                <div class="prof-content-links-cont">
                   <div class="profile-menu-item" data-content="articles" onclick="showContent('articles')">Статьи &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
                   <div class="profile-menu-item" data-content="researches" onclick="showContent('researches')">Исследования &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
                   <div class="profile-menu-item" data-content="questions" onclick="showContent('questions')">Вопросы &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
@@ -125,27 +123,27 @@
                 </div>
                 
                 <div id="articles" class="expert-content" style="display: none;">
-                  {% for article in experts_articles %}
-                      <div style="display:flex ; flex-direction: column; margin: 10px 0 10px 0;">
-                          <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">
-                              {{ article.title }}</a>
-                          </span>
-                          <span class="article-content-loop-exp">
-                              {{ article.content }}
-                          </span>
-              
-                          <div class="article-comments-andshare-cont-exp">
-                              <div class="article-comments-exp">
-                                  <i class="bi bi-chat-left-text" style="color:grey; scale:1"></i>
-                                  &nbsp; 104
-                              </div>
-                              <div class="article-share-exp">
-                                  <i class="bi bi-calendar2-week" style="color:grey; scale:1"></i>
-                                  &nbsp;  {{ article.time_update|date:"d-m-Y H:i" }}
-                              </div>
-                          </div>
-                      </div>
-                  {% endfor %}
+                    {% for article in experts_articles %}
+                        <div class="expert-content-cont">
+                            <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">
+                                {{ article.title }}</a>
+                            </span>
+                            <span class="article-content-loop-exp">
+                                {{ article.content }}
+                            </span>
+                
+                            <div class="article-comments-andshare-cont-exp">
+                                <div class="article-comments-exp">
+                                    <i class="bi bi-chat-left-text" style="color:grey;"></i>
+                                    &nbsp; 104
+                                </div>
+                                <div class="article-share-exp">
+                                    <i class="bi bi-calendar2-week" style="color:grey; "></i>
+                                    &nbsp;  {{ article.time_update|date:"d-m-Y H:i" }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
                 
                 <div id="researches" class="expert-content" style="display: none;">

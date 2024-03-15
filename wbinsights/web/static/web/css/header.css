@@ -54,6 +54,13 @@
     
 }
 
+.header-dropdown-btn {
+    height: 100%; 
+    margin-top: 0px; 
+    width: 100%; 
+    background-color: white;
+}
+
 .logout-btn:hover {
     background-color: #f0f0f0; 
 }
@@ -71,6 +78,48 @@
     background-color: #f0f0f0;
 }
 
+.main-cont-css {
+    align-items: center;
+    height: 60px;
+}
+
+.fullscreen-dropdown {
+    height: 100%; 
+    margin-top: 0px !important; 
+    width: 100%; 
+    background-color: white !important; 
+}
+
+.logout-btn-styles {
+    padding:0px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+}
+
+.prof-page-btn-styles {
+    margin-bottom: 0;
+    display: flex;
+    white-space: nowrap;
+    padding: 10px;
+    align-items: center;
+    width:100%;
+    text-decoration: none;
+    color: black;
+}
+
+.logout-btn-style {
+    background-color: #36364b; 
+    border: none;
+}
+
+.nav-dropdown-styles {
+    height: 100%; 
+    margin-top: 0px; 
+    width: 100%; 
+    background-color: white;
+}
 
 
 .profile-page-btn{

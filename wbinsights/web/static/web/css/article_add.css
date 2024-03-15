@@ -91,7 +91,6 @@
     padding: 5px !important;
 }
 
-/* Change background color and border for the tags */
 .select2-container .select2-selection__choice {
     background-color: #f0f0f0 !important;
     border: 1px solid #ddd !important;
@@ -101,27 +100,65 @@
     margin-top: 0px !important;
 }
 
-/* Change remove button color */
 .select2-selection__choice__remove {
     color: red !important;
     cursor: pointer !important;
     margin-left: 5px !important;
 }
 
-/* Style for the first tag */
 .select2-container .select2-selection__choice:nth-child(1) {
     background-color: #ffcccb !important; /* Light Red */
 }
 
-/* Style for the second tag */
 .select2-container .select2-selection__choice:nth-child(2) {
     background-color: #ffebcd !important; /* Blanched Almond */
 }
 
-/* Style for the third tag */
 .select2-container .select2-selection__choice:nth-child(3) {
     background-color: #98fb98 !important; /* Pale Green */
 }
 
-/* Adjust colors as needed */
+.article-add-main-content{
+    display:flex; 
+    flex-direction: column;
+    margin-bottom: 20px;
+    background-color:white;
+    padding: 20px;
+    border-radius: 15px
+}
 
+.article-add-right-btns{
+    display:flex;
+    flex-direction: column; 
+    margin-bottom: 20px; 
+    background-color:white; 
+    padding: 20px; 
+    border-radius: 15px
+}
+
+.span-article-add-catagory{
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.article-add-dropdown{
+    background-color: white; 
+    color: grey; 
+    width: 100%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+}
+
+.article-add-category-drop {
+    position: absolute; 
+    inset: 0px auto auto 0px; 
+    width: 100%; 
+    margin: 0px; 
+    transform: translate(0px, 40px);
+}
+
+.article-add-choose-tags{
+    font-weight: 500;
+    font-size: 15px;
+}

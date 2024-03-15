@@ -162,7 +162,56 @@
 .expert-name{
     display: flex;
     text-decoration: none;
+}
 
+.chevro-left-css{
+    font-weight: bold; 
+    color: #777786; 
+    padding: 0 2px 0 2px
+
+}
+
+.prof-settings-btn {
+    margin-top: 0;
+    background-color: white;
+    border: 1px solid #a5b1c8;
+    border-radius: 7px;
+    font-size: 15px;
+    color: #36364b;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+
+.prof-logout-btn {
+    margin-top: 0;
+    background-color: #ffeaea;
+    border: none;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: sans-serif; 
+    margin-left: 10px; 
+    color: #dd3838;
+    align-items: center;
+    display: flex;
+}
+
+.prof-content-links-cont {
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 10px
+}
+
+.stars-css{
+    color: #e9be50; 
+    padding: 0 2px 0 2px
+}
+
+.profile-img-css{
+    border-radius: 50%;
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
 }
 
 .expert-name a {

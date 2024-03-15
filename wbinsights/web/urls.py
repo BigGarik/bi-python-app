@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView 
 from .views.index import handleIndex #handleTest
-from .views.login import WBIRegisterUser, register_user
+#from .views.login import WBIRegisterUser, register_user
 from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
@@ -41,7 +41,7 @@ urlpatterns = [
     path("profile/edit", edit_user_profile, name='profile_edit'),
    
     path("login/", auth_views.LoginView.as_view(next_page='index'), name="login"),
-    path("signup/", register_user, name="signup"),
+    #path("signup/", register_user, name="signup"),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
     
 
