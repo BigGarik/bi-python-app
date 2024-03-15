@@ -27,21 +27,22 @@
 		<div class="article-content">
 			<div class="article-publish-date">
 				<i class="bi bi-calendar2-week" style="color:grey; scale:1.3"></i>
-				&nbsp;  {{article.time_update|date:"d-m-Y H:i"}}
+				&nbsp;  {{article.time_update|date:"d.m.Y H:i"}}
 
 			</div>
 
 			<div class="article-title">{{article.title}}</div>
 
 			<div class="article-main-content">
+
 				{% autoescape off %}
 
-				{{article.content}}
-				<!--{{article.content|linebreaks|truncatewords:40}}-->
+				{{article.content|truncatewords:50}}
 
 				{% endautoescape %}
-				<span class="link-read-post"><a href="{{ article.get_absolute_url }}" class="link-read-post">Читать пост &nbsp;
-					<i class="bi bi-chevron-down" style="color:black; scale:1.3"></i>
+				<span class="link-read-post">
+                    <a href="{{ article.get_absolute_url }}" class="link-read-post">Читать пост &nbsp;
+					    <i class="bi bi-chevron-down" style="color:black; scale:1.3"></i>
 					</a>
 				</span>
 			
@@ -52,17 +53,17 @@
 				<div class="article-last">
 
 					<div class="article-author-cont">
-						
+
                         <div class="author-pic">
 							<i class="bi bi-person-circle" style="color:black; scale:3"></i>
 						</div>
-						
+
                         <div class="author-name">Александр Александров</div>
-                        
+
 					</div>
 
 					<div class="article-comments-andshare-cont">
-                        
+
 						<div class="article-comments">
 							<i class="bi bi-chat-left-text" style="color:grey;"></i>
 						    104
