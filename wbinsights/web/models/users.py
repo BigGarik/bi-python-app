@@ -8,6 +8,7 @@ from django.contrib.postgres.fields import ArrayField
 
 from .articles import Category
 
+
 class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True, )
 
@@ -34,11 +35,11 @@ class CustomUser(AbstractUser):
 # Общий профиль
 class Profile(models.Model):
     class TypeUser(models.IntegerChoices):
-        USER = 0, 'Пользователь'
+        CLIENT = 0, 'Пользователь'
         EXPERT = 1, 'Эксперт'
 
     avatar = models.ImageField('Аватар', upload_to="avatars", default="avatars/profile_picture_icon.png")
-    type = models.IntegerField("Категория пользователя", choices=TypeUser.choices, default=TypeUser.USER)
+    type = models.IntegerField("Категория пользователя", choices=TypeUser.choices, default=TypeUser.CLIENT)
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
 
 
@@ -54,9 +55,8 @@ class Expert(CustomUser):
     class Meta:
         proxy = True
 
-    # Профиль эксперта
 
-
+# Профиль эксперта
 class ExpertProfile(models.Model):
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertprofile')
 
@@ -66,11 +66,11 @@ class ExpertProfile(models.Model):
     hour_cost = models.IntegerField()
     experience = models.IntegerField(null=True)
     # rating = models.FloatField(null=True)
-    # expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
+    #expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
 
 
 # Создаем обработчик сигнала для добавления профиля при создании пользователя
-@receiver(post_save, sender=CustomUser)
+#@receiver(post_save, sender=CustomUser)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
