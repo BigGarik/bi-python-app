@@ -101,19 +101,31 @@
 </script>
 
 <script>
-
     $(document).ready(function(){
+        $("input[name='user_type']").click(function(){
+        var sel_val = parseInt($(this).val());
+        var about       = $('input[name="about"]');
+        var experience  = $('input[name="experience"]');
+        var hour_cost   = $('input[name="hour_cost"]');
 
-        $("input[name='user_type'][value='0']").prop("checked", true);
-        $(".expert-fields").hide();
+        if (sel_val === 0) {
+            console.log("hiding")
+            about.prop( "disabled", true )
+            about.parent('div').hide()
+            experience.prop( "disabled", true )
+            experience.parent('div').hide()
+            hour_cost.prop( "disabled", true )
+            hour_cost.parent('div').hide()
+        } else {
+            console.log("showing")
+            about.prop( "disabled", false )
+            about.parent('div').show()
+            experience.prop( "disabled", false )
+            experience.parent('div').show()
+            hour_cost.prop( "disabled", false )
+            hour_cost.parent('div').show()
+        }
 
-        $("input[name='user_type']").change(function(){
-
-            if ($(this).val() === '1') {
-                $(".expert-fields").show();
-            } else {
-                $(".expert-fields").hide();
-            }
         });
     });
 </script>
