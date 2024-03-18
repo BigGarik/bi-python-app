@@ -34,7 +34,7 @@
                     &nbsp;Назад
                 </a>
             </div>
-        
+
             {% for message in user_form.error_messages %}
 
 {#                {{ message }}#}
@@ -50,7 +50,7 @@
             <div class="user-fill-info-cont">
                 <span class="span-register">РЕГИСТРАЦИЯ</span>
 
-               
+
                 
                 <form method="post">
                     {% csrf_token %}
@@ -95,7 +95,7 @@
             <div class="login-cont">
                 <span class="have-acc-txt">У меня уже есть аккаунт. &nbsp;</span> 
                 <a href="{% url 'login' %}" class="login-link">
-                    <span class="login-txt">Войти</span>
+                    <span class="login-txt">Войти1</span>
                 </a>
             </div>
         
@@ -107,38 +107,25 @@
 </html>
 
 <script>
-
-    function goBack() {
-        window.history.back();
-    }
-
-</script>
-
-<script>
     $(document).ready(function(){
-        $("input[name='user_type']").click(function(){
-        var sel_val = parseInt($(this).val());
-        var about       = $('input[name="about"]');
-        var experience  = $('input[name="experience"]');
-        var hour_cost   = $('input[name="hour_cost"]');
+        const el_name_array = ["about", "experience", "hour_cost"]
+        let el_array = []
+        el_name_array.map(function(el_name) {
+            el_array.push($('input[name=' + el_name + ']'))
+        })
 
-        if (sel_val === 0) {
-            console.log("hiding")
-            about.prop( "disabled", true )
-            about.parent('div').hide()
-            experience.prop( "disabled", true )
-            experience.parent('div').hide()
-            hour_cost.prop( "disabled", true )
-            hour_cost.parent('div').hide()
-        } else {
-            console.log("showing")
-            about.prop( "disabled", false )
-            about.parent('div').show()
-            experience.prop( "disabled", false )
-            experience.parent('div').show()
-            hour_cost.prop( "disabled", false )
-            hour_cost.parent('div').show()
-        }
+        $("input[name='user_type']").click(function(){
+
+            const sel_val = parseInt($(this).val());
+
+            el_array.map(function(el) {
+                el.prop( "disabled", sel_val === 0 )
+                if (sel_val === 0) {
+                    el.parent('div').hide()
+                } else {
+                    el.parent('div').show()
+                }
+            })
 
         });
     });
