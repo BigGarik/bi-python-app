@@ -155,3 +155,11 @@ LOGOUT_REDIRECT_URL = "home"
 AUTHENTICATION_BACKENDS = [
     'web.backends.UserModelBackend'
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.timeweb.ru'
+EMAIL_USE_TLS = False
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'info_dev@24wbinside.ru'
+EMAIL_HOST_PASSWORD = 'q,O5:IJC:dj\BB'

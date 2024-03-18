@@ -9,7 +9,7 @@ from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
 from .views.profile import profile_view,  edit_user_profile
 from .views.error_404 import wb400handler
-from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView
+from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form
 
 handler404 = wb400handler
 
@@ -37,6 +37,7 @@ urlpatterns = [
     
     path("contact/", ContactPageView.as_view(), name='contact'),
     path("contact_us/", ContactUsPageView.as_view(), name='contact_us'),
+    path("contact_us/send/", post_contact_us_form, name='contact_us_send'),
     path("data_policies/", ContactPoliciesPageView.as_view(), name='data_policies'),
     
 

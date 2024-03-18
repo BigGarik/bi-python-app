@@ -16,21 +16,25 @@
             Написать нам
         </span>
 
-        <div class="contact-form-cont">
-
+        <form class="contact-form-cont" method="post" action="{% url 'contact_us_send' %}">
+            {% csrf_token %}
             <span class="contact-us-label" > 
                 Напишите, чем мы можем вам помочь
             </span>
-
-            <textarea class="form-textarea-contact"> </textarea>
+            <span class="contact-email-span">Мы ответим вам на почту </span>
+            {% if user.is_authenticated %}
+                {{ user.email }}
+            {% else %}
+                <input type="email" name="email" required style="width: 400px; margin-bottom: 5px; border-radius: 5px; border-color: #dadada" />
+            {% endif %}
+            <textarea class="form-textarea-contact" name="content" required> </textarea>
 
             <div class="contact-us-btn-cont">
-                <button type="button" class="btn btn-success send-btn-css">Отправить</button>
-                <span class="contact-email-span">Мы ответим вам на почту <!--&nbsp; <a href="#" class="contact-email-link">example@mail.com</a> --></span>
-
+                <button type="submit" class="btn btn-success send-btn-css">Отправить</button>
+{#                <span class="contact-email-span">Мы ответим вам c почты &nbsp; <a href="#" class="contact-email-link">info@24wbinside.ru</a> </span>#}
             </div>
 
-        </div>
+        </form>
         
     </div>
 
