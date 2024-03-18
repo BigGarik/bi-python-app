@@ -2,18 +2,16 @@ from django.urls import path
 
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView 
 from .views.index import handleIndex #handleTest
-from .views.login import register_user
+from .views.login import register_user, signup_success
 from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
 from .views.profile import profile_view,  edit_user_profile
-from .views.error_404 import custom_404
-from .views.contact import ContactPageView, ContactUsPageView , ContactPoliciesPageView
+from .views.error_404 import wb400handler
+from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form
 
-handler404 = custom_404
-
-
+handler404 = wb400handler
 
 urlpatterns = [
     #path("", handleIndex, name="index"),
@@ -39,6 +37,7 @@ urlpatterns = [
     
     path("contact/", ContactPageView.as_view(), name='contact'),
     path("contact_us/", ContactUsPageView.as_view(), name='contact_us'),
+    path("contact_us/send/", post_contact_us_form, name='contact_us_send'),
     path("data_policies/", ContactPoliciesPageView.as_view(), name='data_policies'),
     
 
@@ -48,6 +47,7 @@ urlpatterns = [
    
     path("login/", auth_views.LoginView.as_view(next_page='index'), name="login"),
     path("signup/", register_user, name="signup"),
+    path("signup/success", signup_success, name="signup_success"),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
     
 
