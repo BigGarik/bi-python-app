@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django import forms
 
@@ -35,13 +35,25 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ("first_name", "last_name", "email", "password1", "password2")
-        # fields = ("user_type", "username", "email", "phone_number", "password1", "password2")
+
 
 
 class ExpertProfileForm(forms.ModelForm):
     class Meta:
         model = ExpertProfile
         fields = ("about", "experience", "hour_cost")
+
+
+def signup_success(request):
+    context = {
+        "success_registration_message": "Поздравляем вы зарегистрированы"
+    }
+    return render(request, "registration/registration_success.html", context=context)
+
+
+def gen_user_name_from_email(email):
+    return email.replace("@", '_').replace(".", "_").replace("-", "_")
+
 
 def register_user(request):
     if request.method == 'POST':
@@ -50,12 +62,16 @@ def register_user(request):
 
         if user_form.is_valid():
 
+            new_username = gen_user_name_from_email(user_form.cleaned_data["email"])
+
             if user_form.cleaned_data["user_type"] and user_form.cleaned_data["user_type"] == '1':
 
                 expert_profile_form = ExpertProfileForm(request.POST)
 
                 if expert_profile_form.is_valid():
-                    new_user = user_form.save()
+                    new_user = user_form.save(commit=False)
+                    new_user.username = new_username
+                    new_user.save()
 
                     new_user_profile = Profile()
                     new_user_profile.user = new_user
@@ -66,13 +82,19 @@ def register_user(request):
                     new_expert_profile.user = new_user
                     new_expert_profile.save()
 
+                    return redirect(to='signup_success', user_type=Profile.TypeUser.EXPERT)
+
             else:
-                new_user = user_form.save()
+                new_user = user_form.save(commit=False)
+                new_user.username = new_username
+             #   new_user.save()
 
                 new_user_profile = Profile()
                 new_user_profile.user = new_user
-                new_user_profile.type = Profile.TypeUser.USER
-                new_user_profile.save()
+                new_user_profile.type = Profile.TypeUser.CLIENT
+              #  new_user_profile.save()
+
+                return redirect('signup_success')
 
     context = {
         "user_form": CustomUserCreationForm(),
