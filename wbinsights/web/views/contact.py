@@ -23,7 +23,7 @@ def post_contact_us_form(request):
             message = f"C сайта поступило обращение \n ответный email: {to_email} \n Содержание: {content}"
             send_mail(
                 subject='Обращение с сайта',
-                message=content,
+                message=message,
                 from_email='info_dev@24wbinside.ru',
                 recipient_list=["contact_us@24wbinside.ru"],
                 fail_silently=False,
