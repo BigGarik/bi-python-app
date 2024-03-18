@@ -146,6 +146,7 @@
 
 .article-list-comments-andshare-cont{
     display: flex;
+    align-items: center;
 }
 
 
@@ -154,7 +155,8 @@
     color: #a5b1c8;
     margin-right: 10px;
     align-items: center;
-    font-size: 13px;
+    font-size: 15px;
+    gap: 2px;
 }
 
 
@@ -163,4 +165,14 @@
     align-items: center;
     color: #a5b1c8;
     cursor: pointer;
+}
+
+.article-list-author-name{
+    display: flex;
+    margin-left: 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
 }

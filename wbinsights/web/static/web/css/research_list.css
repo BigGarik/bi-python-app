@@ -96,3 +96,12 @@
 .article-img{
     max-height: 300px;
 }
+
+.article-comments-andshare-cont{
+    display: flex;
+    gap: 10px;
+}
+
+.article-author-cont {
+    display: flex;
+}

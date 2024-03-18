@@ -3,12 +3,9 @@
 
 {% block center_col %}
 
-
     <link rel="stylesheet" href="{% static 'web/css/contact_page_all.css' %}">
 
-
     <div class="contact-page-cont">
-
 
         <div class="resource-back-btn">
             <a href="{% url 'index' %}" class="href-css"><i class="bi bi-chevron-left"></i> &nbsp;На главную</a>
@@ -29,22 +26,19 @@
 
             <div class="contact-us-btn-cont">
                 <button type="button" class="btn btn-success send-btn-css">Отправить</button>
-                <span class="contact-email-span">Мы ответим вам на почту &nbsp; <a href="#" class="contact-email-link">example@mail.com</a></span>
+                <span class="contact-email-span">Мы ответим вам на почту <!--&nbsp; <a href="#" class="contact-email-link">example@mail.com</a> --></span>
 
             </div>
 
         </div>
-
         
     </div>
-
 
    
 {% endblock %}
 
+{% block right_col %} 
+    {% include "contactAndHelp\contact_navbar.html" %}
+{% endblock %}
 
 
-<!--{% block right_col %}
-
-
-{% endblock %} -->

@@ -1,0 +1,50 @@
+.contact{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.container-fluid-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.navbar-brand-selected{
+    display: flex;
+    padding: 10px 15px 10px 15px;
+    align-items: center;
+    font-size: 16px;
+    width: 100%;
+
+}
+
+.navbar-brand-contact{
+    display: flex;
+    padding: 15px;
+    align-items: center;
+    font-size: 16px;
+    text-decoration: none;
+    width: 100%;
+    color: black;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.container-fluid-nav .navbar-brand-contact:hover,
+.container-fluid-nav .navbar-brand-contact.selected {
+    background-color: black;
+    color: white;
+}
+.container-fluid-nav .navbar-brand-contact.selected:first-child,
+.container-fluid-nav .navbar-brand-contact:first-child:hover {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.container-fluid-nav .navbar-brand-contact.selected:last-child,
+.container-fluid-nav .navbar-brand-contact:last-child:hover {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

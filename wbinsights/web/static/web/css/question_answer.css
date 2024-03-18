@@ -4,6 +4,7 @@
     font-size: 14px;
     font-family: sans-serif;
     margin-left: 10px;
+    align-items: center;
 }
 
 .qa-main-content-text{
@@ -44,4 +45,43 @@
     color: black !important;
     border: none;
     margin-top: 0px;
+}
+
+.article-author-cont{
+    display: flex;
+    align-items: center;
+}
+
+.article-comments-andshare-cont{
+    display: flex;
+    gap: 10px ;
+}
+
+.research-question-main-cont{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px 20px 30px;
+    background-color: white ;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.question-answer-last{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+.question-answer-title {
+    margin-bottom: 10px;
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.ask-question-btn{
+    cursor:pointer ;
+    border-radius: 10px; 
+    background-color: #6dc36b ; 
+    border: none ;
+    color: white;
 }

@@ -162,3 +162,9 @@
     margin-right: 10px;
     font-weight: 500;
 }
+
+.article-last{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
