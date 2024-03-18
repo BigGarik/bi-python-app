@@ -7,9 +7,9 @@
     }
 </style>
 
-<nav class="navbar " style="display: flex;flex-direction: column;">
+<nav class="navbar " style="display: flex;flex-direction: column;height: 100%;">
 
-   <div class="container-fluid-nav right-category-list" >
+    <div class="container-fluid-nav right-category-list" >
 
         {% split request.path "/" "first" as first_path %}
 
@@ -37,8 +37,27 @@
             {{ category.name }}
         </a>
 
+
+
         
         {% endfor %}
 
-   </div>
+    </div>
+
+    <div class="navbar-help-cont">
+
+        <div class="nav-help-first">
+            <a href="{% url 'contact' %}" class="href-links">О ресурсе</a>
+            <a href="{% url 'data_policies' %}" class="href-links">Правила</a>
+        </div>
+
+        <div class="nav-help-second">
+            <a href="#" class="href-links">Политика обработки данных</a>
+        </div>
+
+        <a class="btn nav-help-btn" href="{% url 'contact_us' %}" role="button">Написать нам</a>
+
+        
+    </div>
+    
 </nav>

@@ -28,3 +28,36 @@
     padding: 10px;
     background-color: #f2f3f5;
 } */
+
+.navbar-help-cont{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+}
+
+.nav-help-first{
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 16px;
+    color: #36364b;
+}
+
+.nav-help-second{
+    display: flex;
+    justify-content: center;
+}
+
+.nav-help-btn {
+    background-color: white !important;
+    border: none !important;
+    padding: 15px 10px 15px 10px !important;
+    border-radius: 10px !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+}
+
+.href-links {
+    text-decoration: none;
+    color: #36364b;
+}
