@@ -8,7 +8,7 @@
 
 .search-bar-cont{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 /* .main-cont {
@@ -18,7 +18,7 @@
     display: flex;
     background-color: #4a4b62;
     margin-right: 5px;
-    /* width: 300px; */
+    width: 300px;
     border-radius: 5px;
     color: #83839d;
     padding: 10px;

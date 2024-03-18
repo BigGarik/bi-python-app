@@ -20,25 +20,30 @@ from web.models.users import ExpertProfile
 
 # Форма регистрации пользователя
 class CustomUserCreationForm(UserCreationForm):
-    user_type = forms.ChoiceField(choices=Profile.TypeUser, widget=forms.RadioSelect(attrs={'class': '4444'}))
+    user_type = forms.ChoiceField(label="",choices=Profile.TypeUser, widget=forms.RadioSelect(attrs={'class': 'form-choose-user-type'})) #form-choose-user-type
 
-    first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': '123'}))
-    last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': '123'}))
-    email = forms.CharField(label="Email", widget=forms.EmailInput(attrs={'class': '123'}))
-    # phone_number = forms.RegexField(label="телефон", widget=forms.TextInput(attrs={'class': '123'}), 
-    #                                 regex="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$")
-    password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': '123'}))
-    password2 = forms.CharField(label="Повторите пароль", widget=forms.PasswordInput(attrs={'class': '123'}))
+    first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+    last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+    email = forms.CharField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
+    # phone_number = forms.RegexField(label="телефон", widget=forms.TextInput(attrs={'class': '123'}), regex="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$")
+    password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
+    password2 = forms.CharField(label="Повторите пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
 
     # phone_number = forms.RegexField(regex="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$")
 
     class Meta:
         model = CustomUser
-        fields = ("first_name", "last_name", "email", "password1", "password2")
+        fields = ("user_type", "first_name", "last_name", "email", "password1", "password2")
         # fields = ("user_type", "username", "email", "phone_number", "password1", "password2")
 
 
 class ExpertProfileForm(forms.ModelForm):
+    
+    about = forms.CharField(label="О себе", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+    experience = forms.CharField(label="Опыт", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+    hour_cost = forms.CharField(label="Стоимость", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+    
+    
     class Meta:
         model = ExpertProfile
         fields = ("about", "experience", "hour_cost")

@@ -279,4 +279,41 @@
     border-radius: 5px;
 }
 
+.form-choose-user-type {
+    display: inline-flex;
+    gap: 15px;
+    margin-bottom: 5px;
+
+
+}
+
+.flex-label {
+    display: flex;
+}
+
+.form-inputs-custom {
+    width: 100%;
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    outline: none;
+}
+
+.form-field-flex {
+    display: flex;
+    gap: 15px;
+    align-items: center; 
+}
+
+.custom-form-field {
+    padding: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width:100%;
+}
+
 
