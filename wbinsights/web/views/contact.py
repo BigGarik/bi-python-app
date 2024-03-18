@@ -19,7 +19,7 @@ def post_contact_us_form(request):
             if request.user.is_authenticated:
                 to_email = request.user.email
             else:
-                to_email = request.POST['to_email']
+                to_email = request.POST['email']
 
             send_mail(
                 subject='Обращение с сайта',
