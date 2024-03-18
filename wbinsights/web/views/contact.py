@@ -1,12 +1,12 @@
 from django.views.generic import TemplateView
 
 class ContactPageView(TemplateView):
-    template_name = 'contactAndHelp/contact_page.html'
+    template_name = 'contact_and_help/contact_page.html'
     
     
 class ContactUsPageView(TemplateView):
-    template_name = 'contactAndHelp/contact_us.html'
+    template_name = 'contact_and_help/contact_us.html'
     
     
 class ContactPoliciesPageView(TemplateView):
-    template_name = 'contactAndHelp/data_policies.html'
+    template_name = 'contact_and_help/data_policies.html'
