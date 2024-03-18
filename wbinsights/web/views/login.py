@@ -92,12 +92,12 @@ def register_user(request):
             else:
                 new_user = user_form.save(commit=False)
                 new_user.username = new_username
-             #   new_user.save()
+                new_user.save()
 
                 new_user_profile = Profile()
                 new_user_profile.user = new_user
                 new_user_profile.type = Profile.TypeUser.CLIENT
-              #  new_user_profile.save()
+                new_user_profile.save()
 
                 return redirect('signup_success')
 
