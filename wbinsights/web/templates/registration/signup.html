@@ -87,15 +87,13 @@
                     </div>
 
                 </form>
-                
-                
+
             </div>
-            
-            
+
             <div class="login-cont">
                 <span class="have-acc-txt">У меня уже есть аккаунт. &nbsp;</span> 
                 <a href="{% url 'login' %}" class="login-link">
-                    <span class="login-txt">Войти1</span>
+                    <span class="login-txt">Войти</span>
                 </a>
             </div>
         
@@ -107,6 +105,7 @@
 </html>
 
 <script>
+
     $(document).ready(function(){
         const el_name_array = ["about", "experience", "hour_cost"]
         let el_array = []
@@ -129,41 +128,10 @@
 
         });
     });
+    
 </script>
 
-<!--
-
-<script>
-    $(document).ready(function(){
-        $("input[name='user_type']").click(function(){
-        var sel_val = parseInt($(this).val());
-        var about       = $('input[name="about"]');
-        var experience  = $('input[name="experience"]');
-        var hour_cost   = $('input[name="hour_cost"]');
-
-        if (sel_val === 0) {
-            console.log("hiding")
-            about.prop( "disabled", true )
-            about.parent('div').hide()
-            experience.prop( "disabled", true )
-            experience.parent('div').hide()
-            hour_cost.prop( "disabled", true )
-            hour_cost.parent('div').hide()
-        } else {
-            console.log("showing")
-            about.prop( "disabled", false )
-            about.parent('div').show()
-            experience.prop( "disabled", false )
-            experience.parent('div').show()
-            hour_cost.prop( "disabled", false )
-            hour_cost.parent('div').show()
-        }
-
-        });
-    });
-</script>
-
--->
+    
 
 
 {% endblock %}
