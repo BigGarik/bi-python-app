@@ -44,11 +44,11 @@ class CustomUserCreationForm(UserCreationForm):
 
 class ExpertProfileForm(forms.ModelForm):
     about = forms.CharField(label="О себе",
-                            widget=forms.TextInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
-    experience = forms.CharField(label="Опыт",
-                                 widget=forms.TextInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
-    hour_cost = forms.CharField(label="Стоимость",
-                                widget=forms.TextInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+                            widget=forms.Textarea(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows':3}))
+    experience = forms.DecimalField(label="Опыт",
+                                 widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+    hour_cost = forms.DecimalField(label="Стоимость",
+                                widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
 
     class Meta:
         model = ExpertProfile
