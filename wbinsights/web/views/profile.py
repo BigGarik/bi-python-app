@@ -10,6 +10,8 @@ from django.contrib import messages
 from web.models.users import ExpertProfile
 from web.models import Article
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -53,20 +55,67 @@ def profile_view(request):
     return render(request, profile_template, context=context)
 
 
+def first_name_check(value):
+        if len(value) < 2:
+            raise forms.ValidationError('TESTING TESTING TESTING TESTING')
+
 class CustomUserChangeForm(forms.ModelForm):
-    first_name = forms.CharField(label="Имя", widget=forms.TextInput(
-        attrs={'class': 'custom-form-css', 'placeholder': 'Введите имя'}))
-    last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(
-        attrs={'class': 'custom-form-css', 'placeholder': 'Введите фамилию'}))
+    first_name = forms.CharField(
+        label="Имя", 
+        widget=forms.TextInput(attrs={'class': 'custom-form-css', 'placeholder': 'Введите имя'}),
+        error_messages={'required': 'Пожалуйста, заполните это поле.'},
+        validators=[first_name_check] 
+    )
+    last_name = forms.CharField(
+        label="Фамилия", 
+        widget=forms.TextInput(attrs={'class': 'custom-form-css', 'placeholder': 'Введите фамилию'}),
+        error_messages={'required': 'Пожалуйста, заполните это поле.'}  
+    )
 
     oldpassword = forms.CharField(label="Старый пароль", widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
     newpassword = forms.CharField(label="Новый пароль", widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
     confirmpassword = forms.CharField(label="Повторите новый пароль",
                                       widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
+    
+    
+    
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+        
+        if first_name and len(first_name) == 0 :
+            self.add.error('first_name','THIS FIELD CANNOT BE EMPTY')
+            
+    def clean(self):
+        cleaned_data = super().clean()
+        last_name = cleaned_data.get('last_name')
+        
+        if last_name and len(last_name) == 0 :
+            self.add.error('last_name','THIS FIELD ALSO CANNOT BE EMPTY')
+       
 
     class Meta:
         model = CustomUser
         fields = ("first_name", "last_name", "oldpassword", "newpassword", "confirmpassword")  # photo
+        
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     for field_name, field in self.fields.items():
+    #         field.error_messages = {'required': 'This field cannot be empty.'}
+    
+    
+# class MessageForm(forms.Form):
+#     text_input = forms.CharField(
+#         error_messages={'required': 'This is a custom error message for #862'}
+#     )
+
+#     helper = FormHelper()
+#     helper.layout = Layout(
+#         Field('text_input', css_class='form-control-lg'),
+        
+#     )
+
 
 
 class ProfileChangeForm(forms.ModelForm):

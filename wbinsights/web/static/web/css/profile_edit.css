@@ -88,7 +88,7 @@
 }
 
 .custom-form-css{
-    padding: 5px;
+    padding: 8px;
     border-radius: 5px;
     outline: none;
     border: 1px solid #dadada;
@@ -104,4 +104,9 @@
     min-height: 100px;
     height: 100px;
     max-height: 100px;
+}
+
+.form-control-err {
+    color: green;
+    font-size: 30px;
 }

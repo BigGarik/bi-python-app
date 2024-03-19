@@ -5,15 +5,24 @@
 {%load static%}
 {% block center_col %}
 
+<style>
+  
+  .article-detail-main-content img {
+    max-width: 100%;
+    height: auto;
+  }
 
-<link rel="stylesheet" href="{% static 'web/css/article_details.css' %}">
+</style>
+
+
+<link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
 
 <div class="base-Content">
 
   <div class="article-detail-page-content">
 
-    <div class="article-page-back-btn">
-      <a href="{% url 'article_list' %}" class="article-detail-page-back-btn">
+    <div class="article-detail-page-back-btn">
+      <a href="{% url 'article_list' %}" style="text-decoration:none;color:  black;align-items: center;display: flex;">
 
         <i class="bi bi-chevron-left" ></i> &nbsp;Ко всем статьям
       </a>

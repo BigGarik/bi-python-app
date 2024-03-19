@@ -21,14 +21,14 @@
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .article-detail-page-publish-date{
     display: flex;
     color:  #a9b4ca;
     align-items: center;
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 15px;
 }
 
@@ -69,4 +69,9 @@
     margin-right: 10px;
     align-items: center;
     font-size: 13px;
+}
+
+.article-detail-main-content img {
+    max-width: 100%;
+    height: auto;
 }

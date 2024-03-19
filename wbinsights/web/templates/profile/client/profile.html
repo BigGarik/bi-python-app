@@ -25,45 +25,21 @@
                          style="border-radius: 50%;width: 160px;height: 160px;object-fit: cover;">
                 </div>
 
-                <div class="profile-information-cont">
+                <div class="profile-information-cont-client">
 
                     <div class="user-display-name">
                         {{ request.user.first_name }} {{ request.user.last_name }}
                     </div>
 
-{#                    <div class="user-rating-cont">#}
-{##}
-{#                        <div class="user-rating">Rating:  {{ rating }} &nbsp;</div>#}
+                  <div class="span-user-type">
 
-{#                        <div class="user-rate-and-stars">#}
-{#                            {% for ch in filled_stars_chipher %}#}
-{#                                {% if ch == 'f' %}#}
-{#                                    <i class="bi bi-star-fill" style=" color: #e9be50; padding: 0 2px 0 2px"></i>#}
-{#                                {% elif ch == 'h' %}#}
-{#                                    <i class="bi bi-star-half" style=" color: #e9be50; padding: 0 2px 0 2px"></i>#}
-{#                                {% elif ch == 'e' %}#}
-{#                                    <i class="bi bi-star" style=" color: #e9be50; padding: 0 2px 0 2px"></i>#}
-{#                                {% endif %}#}
-{#                            {% endfor %}#}
-{#                        </div>#}
+                    {% if user.profile.type == 0 %}
+                      Клиент
+                    {% endif %}
 
-{#                    </div>#}
+                  </div>
 
-{#                    <div class="user-category-cont">#}
-{##}
-{#                        <div class="user-category">Эксперт в области:</div>#}
-{#                        <div class="user-catagory-highlight">IT</div>#}
-{##}
-{#                    </div>#}
 
-                    <div class="user-stats">
-
-                        {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
-                        •
-                        {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
-                        • 24 отзыва
-
-                    </div>
 
                     <div class="user-settings">
 
@@ -85,41 +61,12 @@
 
             <div class="bottom-half">
 
-                <div class="bottom-info">
-
-{#                    <div class="prof-bottom-cont">#}
-{#                        <span class="bottom-bold-text">Образование: &nbsp;</span>#}
-{#                        <span class="">{{ request.user.expertprofile.education }}</span>#}
-{#                    </div>#}
-
-{#                    <div class="prof-bottom-cont">#}
-{##}
-{#                        <span class="bottom-bold-text">Опыт:&nbsp;</span>#}
-{#                        <span class="">{{ request.user.expertprofile.experience }}#}
-{#                            {% get_write_phrase request.user.expertprofile.experience 'год года лет' %}#}
-{#                        </span>#}
-{##}
-{#                    </div>#}
-
-{#                    <div class="prof-about-me-cont">#}
-{#                        {{ request.user.expertprofile.about }}#}
-{#                    </div>#}
-{##}
-{#                    <div class="prof-bottom-cont">#}
-{##}
-{#                        <span class="bottom-bold-text">Стоимость консультации:&nbsp;</span>#}
-{#                        <span class=""> {{ request.user.expertprofile.hour_cost }} ₽/час</span>#}
-{#                    </div>#}
-
-                </div>
-
                 <div class="prof-content-links-cont">
                   <div class="profile-menu-item" data-content="articles" onclick="showContent('articles')">Статьи &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
                   <div class="profile-menu-item" data-content="researches" onclick="showContent('researches')">Исследования &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
                   <div class="profile-menu-item" data-content="questions" onclick="showContent('questions')">Вопросы &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
                   <div class="profile-menu-item" data-content="consultations" onclick="showContent('consultations')">Консультации</div>
-                  <div class="profile-menu-item" data-content="reviews" onclick="showContent('reviews')">Отзывы</div>
-{#                  <div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>#}
+                  <div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>
                 </div>
                 
                 <div id="articles" class="expert-content" style="display: none;">
@@ -202,7 +149,6 @@
       }
     
       document.addEventListener("DOMContentLoaded", function () {
-        // Set the default content to "articles"
         showContent('articles');
     
         var currentUrl = window.location.pathname;

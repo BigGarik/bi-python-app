@@ -57,7 +57,7 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="#" onclick="alert('В разработке')">Провести исследование</a>
                                     <a class="dropdown-item" href="{% url 'article_add' %}">Написать статью</a>
-                                    <a class="dropdown-item" href="#">Задать вопрос</a>
+                                    <a class="dropdown-item" href="#" onclick="alert('В разработке')">Задать вопрос</a>
                                 </div>
 
                             </div>
@@ -152,13 +152,17 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#" onclick="alert('В разработке')">Провести исследование</a>
                                         <a class="dropdown-item" href="{% url 'article_add' %}">Написать статью</a>
-                                        <a class="dropdown-item" href="#">Задать вопрос</a>
+                                        <a class="dropdown-item" href="#" onclick="alert('В разработке')">Задать вопрос</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="buttons-log-cont-nav">
-                                <button type="button" class="btn btn-dark logout-btn-style" >Войти</button>
-                                <button type="button" class="btn btn-primary">Зарегистрироваться</button>
+                            <div class="buttons-log-cont">
+                                <a href="{% url 'login' %}">
+                                    <button type="button" class="btn btn-dark logout-btn-style">Войти</button>
+                                </a>
+                                <a href="{% url 'signup' %}">
+                                    <button type="button" class="btn btn-primary">Зарегистрироваться</button>
+                                </a>
                             </div>
                         </div>
                     </div>

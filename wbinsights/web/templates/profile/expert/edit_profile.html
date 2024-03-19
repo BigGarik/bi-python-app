@@ -1,6 +1,8 @@
 {% extends 'base120.html' %}
 {% load static %}
 
+{% load crispy_forms_tags %}
+
 {% block center_col %}
 
 <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
@@ -29,7 +31,7 @@
                     <div class="prof-edit-info-cont">
                         <label for="{{ user_form.first_name.id_for_label }}" class="prof-edit-input-labels">{{ user_form.first_name.label }}</label>
                         {{ user_form.first_name }}
-                      </div>
+                    </div>
 
                     <div class="prof-edit-info-cont">
                         <label for="{{ user_form.last_name.id_for_label }}" class="prof-edit-input-labels"> {{ user_form.last_name.label }}</label>
@@ -178,4 +180,5 @@
 
 </div>
     
+
 {% endblock %}

@@ -68,7 +68,7 @@
                     <div class="custom-control custom-checkbox" style="display: flex; align-items: start">
                         <input type="checkbox" id="checkbox" name="checkbox" value="checkbox" style="display: flex;margin-top: 3px ">
                         <label class="custom-control-label-checkbox" style="margin-bottom: 0px !important;" for="checkbox">
-                            <span>Я ознакомлен и согласен с <a href="#" style="text-decoration: none;">политикой обработки персональных данных</a></span>
+                            <span>Я ознакомлен и согласен с <a href="{%url 'data_policies'%}" style="text-decoration: none;">политикой обработки персональных данных</a></span>
                         </label>
                     </div>
 
@@ -127,6 +127,7 @@
         }
 
         });
+        $("input[name='user_type'][value='0']").click();
     });
 </script>
 

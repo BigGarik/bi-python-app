@@ -29,6 +29,7 @@
     font-size: 14px;
     align-items: center;
     text-decoration: none;
+    font-weight: 500;
 }
 
 .prof-pic-cont{
@@ -52,9 +53,17 @@
     justify-content: space-between;
 }
 
+.profile-information-cont-client{
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    padding-left: 20px;
+    justify-content: space-evenly;
+}
+
 .user-display-name{
    display: flex;
-   font-size: 22px;
+   font-size: 28px;
    font-family: sans-serif;
    padding-top: 5px;
    padding-bottom: 5px;
@@ -110,6 +119,7 @@
     font-weight: 600;
 }
 
+
 .profile-logout-btn{
     display: flex;
     text-decoration: none;
@@ -118,9 +128,11 @@
     border: none;
     padding: 5px 10px 5px 10px;
     font-weight: 600;
-    background-color: #ffeaea;
-    color: #dd3838;
+    background-color: #dd3838;
+    color: white;
 }
+
+
 
 .user-catagory-highlight{
     display: flex;
@@ -182,6 +194,11 @@
     font-family: sans-serif;
 }
 
+.prof-settings-btn:hover {
+    background-color: lightgrey;
+}
+
+
 .prof-logout-btn {
     margin-top: 0;
     background-color: #ffeaea;
@@ -195,6 +212,12 @@
     align-items: center;
     display: flex;
 }
+
+.prof-logout-btn:hover {
+    background-color: #ffd0d0;
+    color: #dd3838;
+}
+
 
 .prof-content-links-cont {
     display: flex; 
@@ -333,8 +356,14 @@
     text-decoration: none;
     color: #404054;
     align-items: center;
+    font-weight: 600;
 }
 
 .profile-menu-item.selected {
     border-bottom: 2px solid black;
+}
+
+.span-user-type {
+    font-size: 16px;
+    font-weight: 600;
 }
