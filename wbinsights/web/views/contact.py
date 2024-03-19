@@ -20,7 +20,7 @@ def post_contact_us_form(request):
                 to_email = request.user.email
             else:
                 to_email = request.POST['email']
-            message = f"C сайта поступило обращение \n ответный email: {to_email} \n Содержание: {content}"
+            message = f"C сайта поступило обращение \nответный email: {to_email} \nСодержание: {content}"
             send_mail(
                 subject='Обращение с сайта',
                 message=message,

@@ -20,16 +20,21 @@ from web.models.users import ExpertProfile
 
 # Форма регистрации пользователя
 class CustomUserCreationForm(UserCreationForm):
-    user_type = forms.ChoiceField(label="",choices=Profile.TypeUser, widget=forms.RadioSelect(attrs={'class': 'form-choose-user-type'})) #form-choose-user-type
+    user_type = forms.ChoiceField(label="", initial=Profile.TypeUser.CLIENT,
+                                  choices=Profile.TypeUser, widget=forms.RadioSelect(
+            attrs={'class': 'form-choose-user-type'}))  # form-choose-user-type
 
     first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
     last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
     email = forms.CharField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
     # phone_number = forms.RegexField(label="телефон", widget=forms.TextInput(attrs={'class': '123'}), regex="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$")
     password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-    password2 = forms.CharField(label="Повторите пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
+    password2 = forms.CharField(label="Повторите пароль",
+                                widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
 
     # phone_number = forms.RegexField(regex="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$")
+
+    # agree_personal_data_policy = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': '123'}))
 
     class Meta:
         model = CustomUser
@@ -38,11 +43,12 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class ExpertProfileForm(forms.ModelForm):
-
-    about = forms.CharField(label="О себе", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    experience = forms.CharField(label="Опыт", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    hour_cost = forms.CharField(label="Стоимость", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-
+    about = forms.CharField(label="О себе",
+                            widget=forms.Textarea(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows':3}))
+    experience = forms.DecimalField(label="Опыт",
+                                 widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+    hour_cost = forms.DecimalField(label="Стоимость",
+                                widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
 
     class Meta:
         model = ExpertProfile
@@ -60,6 +66,21 @@ def gen_user_name_from_email(email):
     return email.replace("@", '_').replace(".", "_").replace("-", "_")
 
 
+def save_new_user_and_profile(user_form, user_type):
+    new_username = gen_user_name_from_email(user_form.cleaned_data["email"])
+
+    new_user = user_form.save(commit=False)
+    new_user.username = new_username
+    new_user.save()
+
+    new_user_profile = Profile()
+    new_user_profile.user = new_user
+    new_user_profile.type = user_type
+    new_user_profile.save()
+
+    return new_user
+
+
 def register_user(request):
     if request.method == 'POST':
 
@@ -67,22 +88,13 @@ def register_user(request):
 
         if user_form.is_valid():
 
-            new_username = gen_user_name_from_email(user_form.cleaned_data["email"])
-
             if user_form.cleaned_data["user_type"] and user_form.cleaned_data["user_type"] == '1':
 
                 expert_profile_form = ExpertProfileForm(request.POST)
 
                 if expert_profile_form.is_valid():
-                    new_user = user_form.save(commit=False)
-                    new_user.username = new_username
-                    new_user.save()
 
-                    new_user_profile = Profile()
-                    new_user_profile.user = new_user
-                    new_user_profile.type = Profile.TypeUser.EXPERT
-                    new_user_profile.save()
-
+                    new_user = save_new_user_and_profile(user_form, Profile.TypeUser.EXPERT)
                     new_expert_profile = expert_profile_form.save(commit=False)
                     new_expert_profile.user = new_user
                     new_expert_profile.save()
@@ -90,14 +102,8 @@ def register_user(request):
                     return redirect(to='signup_success', user_type=Profile.TypeUser.EXPERT)
 
             else:
-                new_user = user_form.save(commit=False)
-                new_user.username = new_username
-                new_user.save()
 
-                new_user_profile = Profile()
-                new_user_profile.user = new_user
-                new_user_profile.type = Profile.TypeUser.CLIENT
-                new_user_profile.save()
+                save_new_user_and_profile(user_form, Profile.TypeUser.CLIENT)
 
                 return redirect('signup_success')
 
