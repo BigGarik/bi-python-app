@@ -24,11 +24,19 @@
         <div style="display:flex; flex-direction: column; margin-bottom: 20px; background-color:white; padding: 20px; border-radius: 15px">
 
           <div class="article-back-btn">
+            
             <span class="back-content" onclick="goBack()" style="cursor:pointer">
               <i class="bi bi-chevron-left" style="scale:1"></i> &nbsp;Назад
             </span>
+
           </div>
-          <input type="text" class="article-add-title" placeholder="Article Title"> </input>
+
+          <input type="text" id="title" name="title" class="article-add-title" placeholder="Article Title"> </input>
+
+          <div style="position: relative;">
+            <textarea id="description" name="description" class="article-add-desc" placeholder="Short article description (max length 255 characters)" maxlength="255" style="resize: none;"></textarea>
+            <div id="char-count" style="position: absolute;bottom: 10px;right: 10px;"></div>
+          </div>
           
           <div id="gjs" style="min-height: 300px;"></div> 
 
@@ -81,9 +89,7 @@
             </select>
           </div>
 
-          <button type="submit" class="btn btn-success" style="margin-top:20px">Опубликовать</button>
-
-          <button type="button" onclick="saveArticle()">Get Content</button>
+          <button type="submit" class="btn btn-success" style="margin-top:20px"  onclick="saveArticle()">Опубликовать</button>
 
         </div>
 
@@ -102,7 +108,7 @@
       width: 'auto',
       storageManager: {
         type: 'local',
-        autoload: true, 
+        autoload: false, 
         autosave: true, 
         stepsBeforeSave: 1, 
         id: 'gjs', 
@@ -153,21 +159,7 @@
       },
     });
 
-    const placeholderContent = `
-      <section>
-        <h1 style="font-family: sans-serif;">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</h1>
-      </section>
-      <img src="placeholder-image.jpg" alt="Placeholder Image" style="width:100%; height:200px;margin-top:5px;margin-bot:5px">
-      <div style="margin-bottom: 10px;">&nbsp;</div>
-      <div data-gjs-type="text" style="font-family: sans-serif;">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </div>
-      <ul><li style=" margin: 5px 0 5px 0;font-family: sans-serif;">Item 1<li style=" margin: 5px 0 5px 0;font-family: sans-serif;">Item 2</li><li style=" margin: 5px 0 5px 0;font-family: sans-serif;">Item 3</li><li style=" margin: 5px 0 5px 0;font-family: sans-serif;">Item 4</li>
-      
-    `;
-    editor.setComponents(placeholderContent);
+    
 
     editor.on('load', () => {
       const gjsContainer = document.getElementById('gjs');
@@ -191,6 +183,8 @@
       console.log(editorContent);
     
       const selectedCategory = document.getElementById('categoryDropdownBtn').innerText.trim();
+      const description = document.getElementById('description').innerText.trim();
+      console.log('description', description)
     
       if (!selectedCategory || selectedCategory === 'Выберите категорию') {
         alert('Please select a category.');
@@ -200,8 +194,9 @@
       const formData = new FormData();
     
       formData.append('title', 'some title');
-      formData.append('content', editorContent);
-      formData.append('category', selectedCategory);
+      formData.append('content',  'testing content');
+      formData.append('description', 'test description');
+      formData.append('category', 'Testing Category');
     
       fetch('/articles/add/', {
         method: 'POST',
@@ -291,6 +286,14 @@
         }
       });
     }
+
+    const textarea = document.getElementById('article-desc');
+    const charCount = document.getElementById('char-count');
+
+    textarea.addEventListener('input', function() {
+        const remainingChars = 255 - textarea.value.length;
+        charCount.textContent = remainingChars + ' characters remaining';
+    });
 
   </script>
 
