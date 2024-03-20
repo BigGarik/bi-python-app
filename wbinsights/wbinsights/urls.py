@@ -23,10 +23,7 @@ from wbinsights import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', TemplateView.as_view(template_name='index.html'), name='home'),
     path('', include('web.urls')),
-    # path('users/', include('web.urls')),
-    #path('users/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

@@ -9,10 +9,10 @@ from django.http import JsonResponse
 
 from django.contrib.auth.decorators import login_required
 
-
-#from django.urls import reverse_lazy
+# from django.urls import reverse_lazy
 
 import time
+
 
 # def get_articles(request):
 #     articles = Article.objects.all()
@@ -40,10 +40,11 @@ import time
 class ArticleListView(ListView):
     model = Article
     template_name = 'posts/article/article_list.html'
-    #Название переменной для списка статей вместо object_list
-    #context_object_name = articles
 
-    #Добавляем параметры в контекст
+    # Название переменной для списка статей вместо object_list
+    # context_object_name = articles
+
+    # Добавляем параметры в контекст
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
@@ -52,9 +53,10 @@ class ArticleListView(ListView):
         context['selected_category'] = ''
         return context
 
-#Класс-представление для фильтрации статей по категории
+
+# Класс-представление для фильтрации статей по категории
 class CategoryArticleListView(ArticleListView):
-    #Переопределяем метод получения списка сущностей
+    # Переопределяем метод получения списка сущностей
     def get_queryset(self):
 
         self.cat = ''
@@ -64,11 +66,11 @@ class CategoryArticleListView(ArticleListView):
         if self.kwargs['category_slug'] == 'popular':
             return Article.objects.all().order_by("time_create")
 
-        #Получаем объект, по которому будем делать фильтрацию (категория)
+        # Получаем объект, по которому будем делать фильтрацию (категория)
         self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         return Article.objects.filter(cat=self.cat)
-    
-     #Добавляем параметры в контекст
+
+    # Добавляем параметры в контекст
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['selected_category'] = self.cat
@@ -84,26 +86,31 @@ class ArticleDetailView(DetailView):
 def create_article(request):
     if request.method == "POST":
         data = request.POST
-
-        article = Article() 
+        print('данные из POST', data)
+        article = Article()
         article.title = data['title']
+        article.description = data['description']
         article.content = data['content']
+        article.author = request.user
         max_length = Article._meta.get_field('slug').max_length
-        article.slug = slugify(article.title +  '-' + str(time.time()))[:max_length] 
+        article.slug = slugify(article.title + '-' + str(time.time()))[:max_length]
 
-        selectedCategorySlug = data['category']
-        if not selectedCategorySlug:
+        # selectedCategorySlug = data['category']
+        # if not selectedCategorySlug:
+        selected_category = data['category']
+        if not selected_category:
             print("Error")
 
         try:
-            categoryFromDB = Category.objects.get(slug=selectedCategorySlug)
-            article.cat = categoryFromDB
+            # categoryFromDB = Category.objects.get(slug=selectedCategorySlug)
+            category_from_db = Category.objects.get(name=selected_category)
+            article.cat = category_from_db
             article.save()  # Save the article instance to the database
         except Category.DoesNotExist:
-            print("Category not found")               
+            print("Category not found")
 
         resp = {
-            "toUrl": "articles/"        
+            "toUrl": "articles/"
         }
 
         return JsonResponse(resp)
@@ -112,7 +119,9 @@ def create_article(request):
     context = {
         "categories": allCategories
     }
+    print('Категории ', context)
     return render(request, 'posts/article/article_add.html', context=context)
+
 
 class ArticleAddView(CreateView):
     model = Article
