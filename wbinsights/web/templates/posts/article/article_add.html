@@ -182,8 +182,8 @@
       const editorContent = editor.getHtml();
       console.log(editorContent);
     
-      const selectedCategory = document.getElementById('categoryDropdownBtn').innerText.trim();
-      const description = document.getElementById('description').innerText.trim();
+      /*const selectedCategory = document.getElementById('categoryDropdownBtn').innerText.trim();
+      const description = document.getElementById('description').innerText.trim();*/
       console.log('description', description)
     
       if (!selectedCategory || selectedCategory === 'Выберите категорию') {
@@ -193,10 +193,10 @@
     
       const formData = new FormData();
     
-      formData.append('title', 'some title');
+      /*formData.append('title', 'some title');
       formData.append('content',  'testing content');
       formData.append('description', 'test description');
-      formData.append('category', 'Testing Category');
+      formData.append('category', 'Testing Category');*/
     
       fetch('/articles/add/', {
         method: 'POST',
