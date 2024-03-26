@@ -43,11 +43,12 @@
     height: auto; 
 }
 
-/* .expert-content-cont {
+ 
+.expert-content-cont {
     display:flex ; 
     flex-direction: column; 
     margin: 10px 0 10px 0;
-} */
+} 
 
 .profile-information-cont{
     display: flex;

@@ -61,6 +61,19 @@
     font-weight: 700;
 }
 
+.btn-more {
+    width: 200px;
+    background-color: white;
+    color: #36364b;
+    font-weight: 700;
+    border: 1px solid #a5b1c8;
+}
+
+.artile-list-description{
+    display: flex;
+    margin: 5px 0 5px 0
+}
+
 .article-list-content{
     display: flex;
     flex-direction: column;

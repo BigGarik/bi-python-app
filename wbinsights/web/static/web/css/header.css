@@ -47,10 +47,10 @@
 }
 
 .logout-btn{
-    border: none;
-    background-color: inherit;
-    color: red;
-    font-weight: 500;
+    border: none !important;
+    background-color: inherit !important;
+    color: red !important;
+    font-weight: 500 !important;
     
 }
 
@@ -110,8 +110,8 @@
 }
 
 .logout-btn-style {
-    background-color: #36364b; 
-    border: none;
+    background-color: #36364b !important; 
+    border: none !important;
 }
 
 .nav-dropdown-styles {

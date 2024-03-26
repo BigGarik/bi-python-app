@@ -30,7 +30,7 @@
 
     <div class="article-detail-page-publish-date">
       <i class="bi bi-calendar2-week" style="color:#a9b4ca; scale:1.3"></i>
-      &nbsp;  {{article.time_update|date:"d.m.Y H:i"}}
+      &nbsp;  {{ article.time_update|custom_time_display }}
 
     </div>
 
