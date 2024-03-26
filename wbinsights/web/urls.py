@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView 
 from .views.index import handleIndex #handleTest
-from .views.login import register_user, signup_success
+from .views.login import register_user, signup_success, activate_account
 from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
@@ -48,6 +48,7 @@ urlpatterns = [
     path("login/", auth_views.LoginView.as_view(next_page='index'), name="login"),
     path("signup/", register_user, name="signup"),
     path("signup/success", signup_success, name="signup_success"),
+    path('activate/<activation_key>/', activate_account, name='activate_account'),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
     
 
