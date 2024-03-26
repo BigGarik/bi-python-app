@@ -29,6 +29,7 @@ class Article(models.Model):
 
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     description = models.CharField(blank=True, verbose_name="Краткое описание")
+    main_img = models.ImageField(blank=True, verbose_name='Главная картинка')
     content = models.TextField(blank=True, verbose_name="Текст статьи")
     author = models.ForeignKey('CustomUser', on_delete=models.SET_NULL, null=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)

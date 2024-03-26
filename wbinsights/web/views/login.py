@@ -1,16 +1,21 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
-from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.http import HttpResponse, request
+from django.utils import timezone
 
 from django.views.generic import ListView, DetailView, CreateView
-from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django import forms
 
 from web.models import CustomUser, Profile
-from web.models.users import ExpertProfile
+from web.models.users import ExpertProfile, UserActivation
 
 
 # class CustomUserChangeForm(UserChangeForm):
@@ -44,11 +49,14 @@ class CustomUserCreationForm(UserCreationForm):
 
 class ExpertProfileForm(forms.ModelForm):
     about = forms.CharField(label="О себе",
-                            widget=forms.Textarea(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows':3}))
+                            widget=forms.Textarea(
+                                attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows': 3}))
     experience = forms.DecimalField(label="Опыт",
-                                 widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+                                    widget=forms.NumberInput(
+                                        attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
     hour_cost = forms.DecimalField(label="Стоимость",
-                                widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+                                   widget=forms.NumberInput(
+                                       attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
 
     class Meta:
         model = ExpertProfile
@@ -57,7 +65,7 @@ class ExpertProfileForm(forms.ModelForm):
 
 def signup_success(request):
     context = {
-        "success_registration_message": "Поздравляем вы зарегистрированы"
+        "success_registration_message": "Поздравляем вы зарегистрированы. Для активации вашего аккаунта проверьте почту"
     }
     return render(request, "registration/registration_success.html", context=context)
 
@@ -66,7 +74,7 @@ def gen_user_name_from_email(email):
     return email.replace("@", '_').replace(".", "_").replace("-", "_")
 
 
-def save_new_user_and_profile(user_form, user_type):
+def save_new_user_and_profile(request, user_form, user_type):
     new_username = gen_user_name_from_email(user_form.cleaned_data["email"])
 
     new_user = user_form.save(commit=False)
@@ -77,6 +85,21 @@ def save_new_user_and_profile(user_form, user_type):
     new_user_profile.user = new_user
     new_user_profile.type = user_type
     new_user_profile.save()
+
+    # Создаем ключ активации
+    activation_key = default_token_generator.make_token(new_user)
+    UserActivation.objects.create(user=new_user, activation_key=activation_key, expiration_date=timezone.now() + timedelta(days=1))
+
+    # Отправляем письмо
+    confirmation_link = request.build_absolute_uri(
+        reverse('activate_account', kwargs={'activation_key': activation_key}))
+    send_mail(
+        'Подтверждение регистрации',
+        f'Пожалуйста, перейдите по ссылке для активации аккаунта: {confirmation_link}',
+        'info_dev@24wbinside.ru',
+        [new_user.email],
+        fail_silently=False,
+    )
 
     return new_user
 
@@ -93,7 +116,6 @@ def register_user(request):
                 expert_profile_form = ExpertProfileForm(request.POST)
 
                 if expert_profile_form.is_valid():
-
                     new_user = save_new_user_and_profile(user_form, Profile.TypeUser.EXPERT)
                     new_expert_profile = expert_profile_form.save(commit=False)
                     new_expert_profile.user = new_user
@@ -103,7 +125,7 @@ def register_user(request):
 
             else:
 
-                save_new_user_and_profile(user_form, Profile.TypeUser.CLIENT)
+                save_new_user_and_profile(request, user_form, Profile.TypeUser.CLIENT)
 
                 return redirect('signup_success')
 
@@ -137,3 +159,23 @@ class WBIRegisterUser(CreateView):
 
     #     # form.user_type
     #     return super().form_valid(form)
+
+
+def activate_account(request, activation_key):
+    user_activation = get_object_or_404(UserActivation, activation_key=activation_key)
+
+    # Проверяем, не истек ли срок действия ключа
+    if user_activation.has_expired():
+        return render(request, 'registration/activation_expired.html')
+
+    # Активация пользователя
+    user = user_activation.user
+    if default_token_generator.check_token(user, activation_key):
+        user.is_active = True
+        user.save()
+
+        # Удаляем ключ активации из базы данных
+        user_activation.delete()
+        return render(request, 'registration/activation_complete.html')
+    else:
+        return render(request, 'registration/activation_invalid.html')

@@ -86,7 +86,7 @@ class ArticleDetailView(DetailView):
 def create_article(request):
     if request.method == "POST":
         data = request.POST
-        print('данные из POST', data)
+
         article = Article()
         article.title = data['title']
         article.description = data['description']
@@ -119,7 +119,7 @@ def create_article(request):
     context = {
         "categories": allCategories
     }
-    print('Категории ', context)
+
     return render(request, 'posts/article/article_add.html', context=context)
 
 
