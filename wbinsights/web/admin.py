@@ -17,8 +17,13 @@ admin.site.register(CustomUser, CustomUserAdmin)
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'content', 'slug', 'is_published', 'cat','author')
+    list_display = ('title', 'short_description', 'slug', 'is_published', 'cat', 'author')
     prepopulated_fields = {'slug': ('title',)}
+
+    def short_description(self, obj):
+        return obj.content[:250]  # Возвращает первые 50 символов поля content
+
+    short_description.short_description = "Краткое содержание"  # задает заголовок столбца
 
 
 admin.site.register(Article, ArticleAdmin)
