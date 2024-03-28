@@ -94,7 +94,7 @@
         const el_name_array = ["about", "experience", "hour_cost"]
         let el_array = []
         el_name_array.map(function(el_name) {
-            el_array.push($('input[name=' + el_name + ']'))
+            el_array.push($('[name=' + el_name + ']'))
         })
 
         $("input[name='user_type']").click(function(){
