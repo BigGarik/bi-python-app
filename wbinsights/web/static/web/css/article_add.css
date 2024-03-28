@@ -50,6 +50,17 @@
     margin-bottom: 10px;
     font-size: 18px;
     font-weight: 500;
+    outline: none;
+    
+}
+
+.article-add-desc-cont {
+    padding: 5px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    height: 150px;
+    width: 100%;
 }
 
 .article-word-limit{
@@ -128,12 +139,14 @@
 }
 
 .article-add-right-btns{
-    display:flex;
-    flex-direction: column; 
-    margin-bottom: 20px; 
-    background-color:white; 
-    padding: 20px; 
-    border-radius: 15px
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    position: sticky;
+    top: 20px;
 }
 
 .span-article-add-catagory{

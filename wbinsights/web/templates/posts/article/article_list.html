@@ -41,6 +41,12 @@
 					{{article.description}}
 				</div>
 
+				<div class="artile-list-description">
+					{% if article.main_img %}
+						<img src="{{ article.main_img.url }}" alt="Article Image">
+					{% endif %}
+				</div>
+
 				{% endautoescape %}
 				<span class="link-read-post">
                     <a href="{{ article.get_absolute_url }}" class="link-read-post">Читать пост &nbsp;

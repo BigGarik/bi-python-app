@@ -211,6 +211,7 @@
     color: #dd3838;
     align-items: center;
     display: flex;
+    height: 100%;
 }
 
 .prof-logout-btn:hover {
