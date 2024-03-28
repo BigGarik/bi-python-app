@@ -1,63 +1,20 @@
 from datetime import datetime, timedelta
 
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+# from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import LoginView
-from django.contrib import messages
+# from django.contrib.auth.views import LoginView
+# from django.contrib import messages
 from django.core.mail import send_mail
-from django.http import HttpResponse, request
+# from django.http import HttpResponse, request
 from django.utils import timezone
 
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import CreateView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from django import forms
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
-
-from web.models import CustomUser, Profile
-from web.models.users import ExpertProfile, UserActivation
-
-
-class CustomUserCreationForm(forms.ModelForm):
-    user_type = forms.ChoiceField(
-        label="",
-        initial=Profile.TypeUser.CLIENT,
-        choices=Profile.TypeUser,
-        widget=forms.RadioSelect(attrs={'class': 'form-choose-user-type'})
-    )
-    first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
-    password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-    password2 = forms.CharField(label="Повторите пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-
-    class Meta:
-        model = CustomUser
-        fields = ("user_type", "first_name", "last_name", "email", "password1", "password2")
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if email:
-            try:
-                validate_email(email)
-            except ValidationError:
-                raise ValidationError("Incorrect email format")
-
-            if CustomUser.objects.filter(email=email).exists():
-                raise ValidationError("This email is already registered")
-        return email
-
-
-class ExpertProfileForm(forms.ModelForm):
-    about = forms.CharField(label="О себе", widget=forms.Textarea(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows': 3}))
-    experience = forms.DecimalField(label="Опыт", widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
-    hour_cost = forms.DecimalField(label="Стоимость", widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
-
-    class Meta:
-        model = ExpertProfile
-        fields = ("about", "experience", "hour_cost")
+from web.forms.users import CustomUserCreationForm, ExpertProfileForm
+from web.models import Profile
+from web.models.users import UserActivation
 
 
 def signup_success(request):
