@@ -48,10 +48,12 @@
                             Настройки профиля
                         </a>
 
-                        <a href="{% url 'profile_edit' %}" type="button"
-                           class="btn prof-logout-btn">
-                            Выйти
-                        </a>
+                        <form method="post" action="{% url 'logout' %}">
+                          {% csrf_token %}
+                          <button class="btn prof-logout-btn" type="submit" >
+                              Выйти
+                          </button>
+                        </form>
 
                     </div>
 

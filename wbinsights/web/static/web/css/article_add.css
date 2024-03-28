@@ -50,6 +50,8 @@
     margin-bottom: 10px;
     font-size: 18px;
     font-weight: 500;
+    outline: none;
+    
 }
 
 .article-word-limit{

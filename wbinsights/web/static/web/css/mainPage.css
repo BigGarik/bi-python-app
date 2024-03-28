@@ -274,6 +274,8 @@
     border-radius: 10px;
     font-size: 22px;
     font-weight: 600;
+    outline: none;
+    border: 1px solid #767676;
 }
 
 .article-add-desc {
