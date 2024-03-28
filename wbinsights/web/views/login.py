@@ -13,50 +13,47 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django import forms
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 from web.models import CustomUser, Profile
 from web.models.users import ExpertProfile, UserActivation
 
 
-# class CustomUserChangeForm(UserChangeForm):
-#     class Meta:
-#         model = CustomUser
-#         fields = ("username", "email")
-
-# Форма регистрации пользователя
-class CustomUserCreationForm(UserCreationForm):
-    user_type = forms.ChoiceField(label="", initial=Profile.TypeUser.CLIENT,
-                                  choices=Profile.TypeUser, widget=forms.RadioSelect(
-            attrs={'class': 'form-choose-user-type'}))  # form-choose-user-type
-
+class CustomUserCreationForm(forms.ModelForm):
+    user_type = forms.ChoiceField(
+        label="",
+        initial=Profile.TypeUser.CLIENT,
+        choices=Profile.TypeUser,
+        widget=forms.RadioSelect(attrs={'class': 'form-choose-user-type'})
+    )
     first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
     last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    email = forms.CharField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
-    # phone_number = forms.RegexField(label="телефон", widget=forms.TextInput(attrs={'class': '123'}), regex="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$")
+    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
     password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-    password2 = forms.CharField(label="Повторите пароль",
-                                widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-
-    # phone_number = forms.RegexField(regex="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$")
-
-    # agree_personal_data_policy = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': '123'}))
+    password2 = forms.CharField(label="Повторите пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
 
     class Meta:
         model = CustomUser
         fields = ("user_type", "first_name", "last_name", "email", "password1", "password2")
-        # fields = ("user_type", "username", "email", "phone_number", "password1", "password2")
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if email:
+            try:
+                validate_email(email)
+            except ValidationError:
+                raise ValidationError("Incorrect email format")
+
+            if CustomUser.objects.filter(email=email).exists():
+                raise ValidationError("This email is already registered")
+        return email
 
 
 class ExpertProfileForm(forms.ModelForm):
-    about = forms.CharField(label="О себе",
-                            widget=forms.Textarea(
-                                attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows': 3}))
-    experience = forms.DecimalField(label="Опыт",
-                                    widget=forms.NumberInput(
-                                        attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
-    hour_cost = forms.DecimalField(label="Стоимость",
-                                   widget=forms.NumberInput(
-                                       attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+    about = forms.CharField(label="О себе", widget=forms.Textarea(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows': 3}))
+    experience = forms.DecimalField(label="Опыт", widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+    hour_cost = forms.DecimalField(label="Стоимость", widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
 
     class Meta:
         model = ExpertProfile
@@ -105,33 +102,41 @@ def save_new_user_and_profile(request, user_form, user_type):
 
 
 def register_user(request):
+    expert_profile_form = None
+    email_error = None
+
     if request.method == 'POST':
 
         user_form = CustomUserCreationForm(request.POST)
 
         if user_form.is_valid():
-
-            if user_form.cleaned_data["user_type"] and user_form.cleaned_data["user_type"] == '1':
+            if user_form.cleaned_data["user_type"] == '1':
 
                 expert_profile_form = ExpertProfileForm(request.POST)
-
                 if expert_profile_form.is_valid():
                     new_user = save_new_user_and_profile(user_form, Profile.TypeUser.EXPERT)
                     new_expert_profile = expert_profile_form.save(commit=False)
                     new_expert_profile.user = new_user
                     new_expert_profile.save()
-
                     return redirect(to='signup_success', user_type=Profile.TypeUser.EXPERT)
-
             else:
 
                 save_new_user_and_profile(request, user_form, Profile.TypeUser.CLIENT)
 
                 return redirect('signup_success')
 
+        else:
+            #check format
+            if 'email' in user_form.errors:
+                email_error = "Incorrect email format"
+    else:
+        user_form = CustomUserCreationForm()
+        expert_profile_form = ExpertProfileForm()
+
     context = {
-        "user_form": CustomUserCreationForm(),
-        "expert_form": ExpertProfileForm()
+        "user_form": user_form,
+        "expert_form": expert_profile_form,
+        "email_error": email_error
     }
 
     return render(request, "registration/signup.html", context=context)
@@ -157,8 +162,18 @@ class WBIRegisterUser(CreateView):
 
     # def form_valid(self, form: CustomUserCreationForm) -> HttpResponse:
 
-    #     # form.user_type
-    #     return super().form_valid(form)
+# def custom_login(request):
+#     if request.method == 'POST':
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         user = authenticate(request, email=email, password=password)
+#         if user is not None:
+#             login(request, user)
+#             return redirect('home')
+#         else:
+#             error_message = "No account found with this email."
+#             return render(request, 'registration/login.html', {'error_message': error_message})
+#     return render(request, 'registration/login.html')
 
 
 def activate_account(request, activation_key):

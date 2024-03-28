@@ -52,7 +52,7 @@ def profile_view(request):
     return render(request, profile_template, context=context)
 
 
-def first_name_check(value):
+def name_check(value):
         if len(value) < 2:
             raise forms.ValidationError('TESTING TESTING TESTING TESTING')
 
@@ -61,12 +61,13 @@ class CustomUserChangeForm(forms.ModelForm):
         label="Имя", 
         widget=forms.TextInput(attrs={'class': 'custom-form-css', 'placeholder': 'Введите имя'}),
         error_messages={'required': 'Пожалуйста, заполните это поле.'},
-        validators=[first_name_check] 
+        validators=[name_check] 
     )
     last_name = forms.CharField(
         label="Фамилия", 
         widget=forms.TextInput(attrs={'class': 'custom-form-css', 'placeholder': 'Введите фамилию'}),
-        error_messages={'required': 'Пожалуйста, заполните это поле.'}  
+        error_messages={'required': 'Пожалуйста, заполните это поле.'}  ,
+        validators=[name_check] 
     )
 
     oldpassword = forms.CharField(label="Старый пароль", widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))

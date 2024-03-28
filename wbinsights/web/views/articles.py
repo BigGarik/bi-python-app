@@ -7,6 +7,7 @@ from web.forms.articles import ArticleForm
 from web.models import Article, Category
 from django.http import JsonResponse
 
+
 from django.contrib.auth.decorators import login_required
 
 # from django.urls import reverse_lazy
@@ -91,6 +92,7 @@ def create_article(request):
         article.title = data['title']
         article.description = data['description']
         article.content = data['content']
+        article.main_img = request.FILES.get('main_img')
         article.author = request.user
         max_length = Article._meta.get_field('slug').max_length
         article.slug = slugify(article.title + '-' + str(time.time()))[:max_length]
