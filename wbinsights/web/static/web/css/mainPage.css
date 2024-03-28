@@ -271,22 +271,21 @@
 .article-add-title {
     padding: 5px;
     margin-bottom: 10px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     font-size: 22px;
     font-weight: 600;
     outline: none;
     border: 1px solid #767676;
 }
 
-.article-add-desc {
+/* .article-add-desc {
     padding: 5px;
     margin-bottom: 10px;
-    border-radius: 10px;
     font-size: 18px;
     font-weight: 600;
-    height: 120px;
+    height: 150px;
     width: 100%;
-}
+} */
 
 .article-page-publish-date{
     display: flex;
