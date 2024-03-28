@@ -1,66 +1,22 @@
 from datetime import datetime, timedelta
 
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+# from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import LoginView
-from django.contrib import messages
+# from django.contrib.auth.views import LoginView
+# from django.contrib import messages
 from django.core.mail import send_mail
-from django.http import HttpResponse, request
+# from django.http import HttpResponse, request
 from django.utils import timezone
 
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from django import forms
+# from django import forms
 
-from web.models import CustomUser, Profile
-from web.models.users import ExpertProfile, UserActivation
-
-
-# class CustomUserChangeForm(UserChangeForm):
-#     class Meta:
-#         model = CustomUser
-#         fields = ("username", "email")
-
-# Форма регистрации пользователя
-class CustomUserCreationForm(UserCreationForm):
-    user_type = forms.ChoiceField(label="", initial=Profile.TypeUser.CLIENT,
-                                  choices=Profile.TypeUser, widget=forms.RadioSelect(
-            attrs={'class': 'form-choose-user-type'}))  # form-choose-user-type
-
-    first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    email = forms.CharField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
-    # phone_number = forms.RegexField(label="телефон", widget=forms.TextInput(attrs={'class': '123'}), regex="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$")
-    password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-    password2 = forms.CharField(label="Повторите пароль",
-                                widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-
-    # phone_number = forms.RegexField(regex="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$")
-
-    # agree_personal_data_policy = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': '123'}))
-
-    class Meta:
-        model = CustomUser
-        fields = ("user_type", "first_name", "last_name", "email", "password1", "password2")
-        # fields = ("user_type", "username", "email", "phone_number", "password1", "password2")
-
-
-class ExpertProfileForm(forms.ModelForm):
-    about = forms.CharField(label="О себе",
-                            widget=forms.Textarea(
-                                attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows': 3}))
-    experience = forms.DecimalField(label="Опыт",
-                                    widget=forms.NumberInput(
-                                        attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
-    hour_cost = forms.DecimalField(label="Стоимость",
-                                   widget=forms.NumberInput(
-                                       attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
-
-    class Meta:
-        model = ExpertProfile
-        fields = ("about", "experience", "hour_cost")
+from web.forms.users import CustomUserCreationForm, ExpertProfileForm
+from web.models import Profile
+from web.models.users import UserActivation
 
 
 def signup_success(request):
