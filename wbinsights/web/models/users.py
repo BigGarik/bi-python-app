@@ -62,10 +62,10 @@ class Expert(CustomUser):
 class ExpertProfile(models.Model):
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertprofile')
 
-    about = models.CharField(max_length=2000)
-    education = models.CharField(max_length=250)
-    age = models.IntegerField()
-    hour_cost = models.IntegerField()
+    about = models.CharField(max_length=2000, null=True)
+    education = models.CharField(max_length=250, null=True)
+    age = models.IntegerField(null=True)
+    hour_cost = models.IntegerField(null=True)
     experience = models.IntegerField(null=True)
     # rating = models.FloatField(null=True)
     #expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)

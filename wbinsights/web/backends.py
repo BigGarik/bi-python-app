@@ -11,6 +11,9 @@ class UserModelBackend(ModelBackend):
     """
     def authenticate(self, request, username=None, password=None, **kwargs):
         try:
+
+            # if request.GET['login_by_phone']:
+            #     user = UserModel.objects.get()
             user = UserModel.objects.get(Q(username=username) | Q(email__iexact=username))
         except UserModel.DoesNotExist:
             return None

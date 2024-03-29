@@ -18,6 +18,7 @@ from web.forms.users import CustomUserCreationForm, ExpertProfileForm, UserForgo
     UserPasswordChangeForm
 from web.models import Profile
 from web.models.users import UserActivation
+from django.db import transaction
 
 
 def signup_success(request):
@@ -45,7 +46,8 @@ def save_new_user_and_profile(request, user_form, user_type):
 
     # Создаем ключ активации
     activation_key = default_token_generator.make_token(new_user)
-    UserActivation.objects.create(user=new_user, activation_key=activation_key, expiration_date=timezone.now() + timedelta(days=1))
+    UserActivation.objects.create(user=new_user, activation_key=activation_key,
+                                  expiration_date=timezone.now() + timedelta(days=1))
 
     # Отправляем письмо
     confirmation_link = request.build_absolute_uri(
@@ -61,45 +63,41 @@ def save_new_user_and_profile(request, user_form, user_type):
     return new_user
 
 
+@transaction.atomic
 def register_user(request):
-    expert_profile_form = None
-    email_error = None
+
+    user_form = CustomUserCreationForm()
+    expert_profile_form = ExpertProfileForm()
+
+    user_type = Profile.TypeUser.CLIENT
 
     if request.method == 'POST':
 
         user_form = CustomUserCreationForm(request.POST)
 
+        if user_form.data['user_type'] == '1':
+            expert_profile_form = ExpertProfileForm(request.POST)
+            user_type = Profile.TypeUser.EXPERT
+
         if user_form.is_valid():
-            if user_form.cleaned_data["user_type"] == '1':
 
-                expert_profile_form = ExpertProfileForm(request.POST)
-                if expert_profile_form.is_valid():
-                    new_user = save_new_user_and_profile(request, user_form, Profile.TypeUser.EXPERT)
-                    new_expert_profile = expert_profile_form.save(commit=False)
-                    new_expert_profile.user = new_user
-                    new_expert_profile.save()
-                    return redirect(to='signup_success', user_type=Profile.TypeUser.EXPERT)
-            else:
+            new_user = save_new_user_and_profile(request, user_form, user_type)
 
-                save_new_user_and_profile(request, user_form, Profile.TypeUser.CLIENT)
+            if user_type == Profile.TypeUser.EXPERT and expert_profile_form.is_valid():
+                new_expert_profile = expert_profile_form.save(commit=False)
+                new_expert_profile.user = new_user
+                new_expert_profile.save()
 
-                return redirect('signup_success')
-
-        else:
-            #check format
-            if 'email' in user_form.errors:
-                email_error = "Incorrect email format"
-    else:
-        user_form = CustomUserCreationForm()
-        expert_profile_form = ExpertProfileForm()
+            return redirect('signup_success')
 
     context = {
         "user_form": user_form,
-        "expert_form": expert_profile_form,
-        "email_error": email_error
+        "expert_form": expert_profile_form
     }
 
     return render(request, "registration/signup.html", context=context)
+
+
 
 
 class WBIRegisterUser(CreateView):
@@ -121,6 +119,7 @@ class WBIRegisterUser(CreateView):
     template_name = "registration/signup.html"
 
     # def form_valid(self, form: CustomUserCreationForm) -> HttpResponse:
+
 
 # def custom_login(request):
 #     if request.method == 'POST':

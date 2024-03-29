@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm, UserCreationForm
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
@@ -13,7 +13,7 @@ class CustomUserForm(forms.ModelForm):
 
 
 # Форма регистрации пользователя
-class CustomUserCreationForm(forms.ModelForm):
+class CustomUserCreationForm(UserCreationForm):
     user_type = forms.ChoiceField(
         label="",
         initial=Profile.TypeUser.CLIENT,
@@ -22,7 +22,7 @@ class CustomUserCreationForm(forms.ModelForm):
     )
     first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
     last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
+    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}), error_messages={'invalid':"123"})
     password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
     password2 = forms.CharField(label="Повторите пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
 
@@ -39,7 +39,7 @@ class CustomUserCreationForm(forms.ModelForm):
                 raise ValidationError("Incorrect email format")
 
             if CustomUser.objects.filter(email=email).exists():
-                raise ValidationError("This email is already registered")
+                raise ValidationError("Пользователь с таким email уже существует")
         return email
 
 

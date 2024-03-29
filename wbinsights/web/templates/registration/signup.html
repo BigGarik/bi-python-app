@@ -31,43 +31,44 @@
                 </a>
             </div>
             
-            {% if password_mismatch %}
+           {% if user_form.errors %}
                 <div class="alert alert-danger">
-                    Passwords do not match
+                   
+                    {% for key, val in user_form.errors.items %}
+                        {{val}}
+                    {% endfor %}
+                   
                 </div>
             {% endif %}
-            <!--{% if email_error %}
+        
+            {% if expert_form.errors %}
                 <div class="alert alert-danger">
-                    Incorrect email format
+                
+                {% for key, val in expert_form.errors.items %}
+                    <p>{{val}}</p>
+                {% endfor %}
+               
                 </div>
-            {%endif%}-->
+            {% endif %}
 
             <div class="user-fill-info-cont">
                 <span class="span-register">РЕГИСТРАЦИЯ</span>
                 <form method="post">
+                
                     {% csrf_token %}
                     {% for f in user_form %}
                         <div>
                             <label for="{{ f.id_for_label }}">{{f.label}}</label>
                             {{f}}
                         </div>
-                        {% if f.errors %}
-                            <div class="alert alert-danger">
-                                {{ f.errors }}
-                            </div>
-                        {% endif %}
                     {% endfor %}
                     {% for f in expert_form %}
                         <div class="expert-fields" style="display: none;">
                             <label for="{{ f.id_for_label }}">{{f.label}}</label>
                             {{f}}
                         </div>
-                        {% if f.errors %}
-                            <div class="alert alert-danger">
-                                {{ f.errors }}
-                            </div>
-                        {% endif %}
                     {% endfor %}
+                
                     <div class="button-cont">
                         <input class="btn btn-success register-btn" type="submit" value="Зарегистрироваться">
                     </div>
@@ -90,13 +91,14 @@
 </body>
 </html>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
+        
         const el_name_array = ["about", "experience", "hour_cost"]
         let el_array = []
         el_name_array.map(function(el_name) {
             el_array.push($('[name=' + el_name + ']'))
         })
-
+        
         $("input[name='user_type']").click(function(){
             const sel_val = parseInt($(this).val());
             el_array.map(function(el) {
@@ -108,7 +110,8 @@
                 }
             })
         });
-        $("input[name='user_type'][value='0']").click();
+        
+        $("input[name='user_type']:checked").click();
     });
 </script>
 {% endblock %}
