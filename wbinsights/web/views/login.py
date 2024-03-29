@@ -71,7 +71,7 @@ def register_user(request):
 
                 expert_profile_form = ExpertProfileForm(request.POST)
                 if expert_profile_form.is_valid():
-                    new_user = save_new_user_and_profile(user_form, Profile.TypeUser.EXPERT)
+                    new_user = save_new_user_and_profile(request, user_form, Profile.TypeUser.EXPERT)
                     new_expert_profile = expert_profile_form.save(commit=False)
                     new_expert_profile.user = new_user
                     new_expert_profile.save()
