@@ -1,8 +1,10 @@
 from django.urls import path
 
+from django.contrib import admin
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView 
 from .views.index import handleIndex #handleTest
-from .views.login import register_user, signup_success, activate_account
+from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
+    UserForgotPasswordView, UserPasswordResetConfirmView
 from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
@@ -16,6 +18,7 @@ handler404 = wb400handler
 urlpatterns = [
     #path("", handleIndex, name="index"),
     path("", ResearchesListView.as_view(), name="index"),
+
     path("articles/", ArticleListView.as_view(), name='article_list'),
     path("articles/category/<slug:category_slug>", CategoryArticleListView.as_view(), name='article_category_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
@@ -39,7 +42,6 @@ urlpatterns = [
     path("contact_us/", ContactUsPageView.as_view(), name='contact_us'),
     path("contact_us/send/", post_contact_us_form, name='contact_us_send'),
     path("data_policies/", ContactPoliciesPageView.as_view(), name='data_policies'),
-    
 
     #users
     path("profile", profile_view, name='profile'),
@@ -50,7 +52,12 @@ urlpatterns = [
     path("signup/success", signup_success, name="signup_success"),
     path('activate/<activation_key>/', activate_account, name='activate_account'),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
-    
+
+    path('password-change/', UserPasswordChangeView.as_view(), name='password_change'),
+    path('password-reset/', UserForgotPasswordView.as_view(), name='password_reset'),
+    path('set-new-password/<uidb64>/<token>/', UserPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+
+    path('admin/', admin.site.urls),
 
     #path('test/', handleTest, name='test'),
 
