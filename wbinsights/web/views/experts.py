@@ -112,9 +112,9 @@ class ExpertDetailView(DetailView):
         # expert_rating = self.object.rating
 
         context['filled_stars_chipher'] = get_rate_chipher(4.5)
-
-        context['experts_articles'] = Article.objects.all()[:2]
-        context['experts_articles_count'] = Article.objects.count()
+        user_articles_qs = Article.objects.filter(author__id=self.kwargs['pk'])
+        context['experts_articles'] = user_articles_qs
+        context['experts_articles_count'] = user_articles_qs.count()
         context['experts_researches'] = Article.objects.all()[:2]
         context['experts_researches_count'] = Article.objects.count()
 
