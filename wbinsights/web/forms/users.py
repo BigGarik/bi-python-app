@@ -22,9 +22,10 @@ class CustomUserCreationForm(UserCreationForm):
     )
     first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
     last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}), error_messages={'invalid':"123"})
+    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
     password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-    password2 = forms.CharField(label="Повторите пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
+    password2 = forms.CharField(label="Повторите пароль",
+                                widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
 
     class Meta:
         model = CustomUser
@@ -44,9 +45,12 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class ExpertProfileForm(forms.ModelForm):
-    about = forms.CharField(label="О себе", widget=forms.Textarea(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows': 3}))
-    experience = forms.DecimalField(label="Опыт", widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
-    hour_cost = forms.DecimalField(label="Стоимость", widget=forms.NumberInput(attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+    about = forms.CharField(label="О себе", widget=forms.Textarea(
+        attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows': 3}))
+    experience = forms.DecimalField(label="Опыт", widget=forms.NumberInput(
+        attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+    hour_cost = forms.DecimalField(label="Стоимость", widget=forms.NumberInput(
+        attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
 
     class Meta:
         model = ExpertProfile
@@ -79,35 +83,38 @@ class UserPasswordChangeForm(PasswordChangeForm):
             })
 
 
-class UserForgotPasswordForm(PasswordResetForm):
-    """
-    Запрос на восстановление пароля
-    """
-
-    def __init__(self, *args, **kwargs):
-        """
-        Обновление стилей формы
-        """
-        super().__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
+class UserPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        label="Email",
+        max_length=254,
+        widget=forms.EmailInput(
+            attrs={'class': 'form-control',
+                   'placeholder': 'Введите Email',
+                   'autocomplete': 'email'}
+        )
+    )
 
 
 class UserSetNewPasswordForm(SetPasswordForm):
-    """
-    Изменение пароля пользователя после подтверждения
-    """
-
-    def __init__(self, *args, **kwargs):
-        """
-        Обновление стилей формы
-        """
-        super().__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
+    error_messages = {
+        "password_mismatch": "Пароли не совпадают"
+    }
+    new_password1 = forms.CharField(
+        label='Новый пароль',
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control',
+                   'placeholder': 'Введите новый пароль',
+                   "autocomplete": "new-password"}
+        ),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label='Подтверждение нового пароля',
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control',
+                   'placeholder': 'Подтвердите новый пароль',
+                   "autocomplete": "new-password"}
+        ),
+    )
