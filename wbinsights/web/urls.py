@@ -8,6 +8,7 @@ from .views.index import handleIndex  # handleTest
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
 from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
+from .views.not_verified_experts import UnverifiedExpertListView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
@@ -40,6 +41,7 @@ urlpatterns = [
     path('experts/search/', SearchByNameExpertListView.as_view(), name='experts_search_list'),
     # path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
     path("experts/<int:pk>", ExpertDetailView.as_view(), name='expert_profile'),
+    path('admin/unverified-experts/', UnverifiedExpertListView.as_view(), name='admin_unverified_experts_list'),
 
     path("contact/", ContactPageView.as_view(), name='contact'),
     path("contact_us/", ContactUsPageView.as_view(), name='contact_us'),

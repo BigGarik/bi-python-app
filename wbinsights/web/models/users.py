@@ -60,11 +60,6 @@ class ExpertManager(models.Manager):
             Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED) & Q(
                 is_active=True))
 
-    def all_not_verified(self):
-        return self.get_queryset().filter(
-            expertprofile__is_verified=ExpertProfile.ExpertVerif.NOT_VERIFIED
-        )
-
 
 # Сущность Эксперта
 class Expert(CustomUser):

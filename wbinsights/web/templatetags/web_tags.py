@@ -16,11 +16,6 @@ def get_top_experts():
 
 
 @register.simple_tag
-def get_all_not_verified():
-    return Expert.objects.all_not_verified()
-
-
-@register.simple_tag
 def get_all_categories():
     return Category.objects.all()
 

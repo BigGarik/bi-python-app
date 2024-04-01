@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .models import Article, Category, CustomUser, Research, QuestionAnswer
+from .models.users import ExpertProfile
 from .views import CustomUserCreationForm
 from .views.profile import CustomUserChangeForm
 
@@ -51,3 +52,14 @@ class QuestionAnswerAdmin(admin.ModelAdmin):
 
 
 admin.site.register(QuestionAnswer, QuestionAnswerAdmin)
+
+
+@admin.register(ExpertProfile)
+class ExpertProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'is_verified')
+    list_filter = ('is_verified',)
+    actions = ['make_verified']
+
+    def make_verified(self, request, queryset):
+        queryset.update(is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED)
+    make_verified.short_description = "Mark selected experts as verified"

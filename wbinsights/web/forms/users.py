@@ -121,3 +121,16 @@ class UserSetNewPasswordForm(SetPasswordForm):
                    "autocomplete": "new-password"}
         ),
     )
+
+
+class VerifyExpertForm(forms.ModelForm):
+    verify = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput())
+
+    class Meta:
+        model = ExpertProfile
+        fields = ['verify']
+
+    def save(self, *args, **kwargs):
+        if self.cleaned_data['verify']:
+            self.instance.is_verified = ExpertProfile.ExpertVerifiedStatus.VERIFIED
+        self.instance.save()
