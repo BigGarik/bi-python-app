@@ -20,7 +20,7 @@ class CustomUser(AbstractUser):
         # unique=True, # раскоментировать после добавления всем пользователям номеров
         validators=[phone_regex],
         max_length=17,
-        blank=True,  # После миграции сделать 'False', чтобы сделать поле обязательным
+        blank=False,  # После миграции сделать 'False', чтобы сделать поле обязательным
     )
     is_active = models.BooleanField(
         _("active"),
