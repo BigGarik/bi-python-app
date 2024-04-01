@@ -74,6 +74,11 @@
     margin: 5px 0 5px 0
 }
 
+.artile-list-image{
+    display: flex;
+    margin: 5px 0 5px 0
+}
+
 .article-list-content{
     display: flex;
     flex-direction: column;
