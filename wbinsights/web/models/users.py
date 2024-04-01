@@ -57,7 +57,7 @@ class ExpertManager(models.Manager):
     #
     def get_queryset(self):
         return super(ExpertManager, self).get_queryset().filter(
-            Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__is_verified=ExpertProfile.ExpertVerif.VERIFIED) & Q(
+            Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED) & Q(
                 is_active=True))
 
     def all_not_verified(self):
@@ -84,12 +84,12 @@ class ExpertProfile(models.Model):
     hour_cost = models.IntegerField(null=True)
     experience = models.IntegerField(null=True)
 
-    class ExpertVerif(models.IntegerChoices):
+    class ExpertVerifiedStatus(models.IntegerChoices):
         NOT_VERIFIED = 0, 'Неверифицирован'
         VERIFIED = 1, 'Верифицирован'
 
-    is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerif.choices,
-                                      default=ExpertVerif.NOT_VERIFIED)
+    is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerifiedStatus.choices,
+                                      default=ExpertVerifiedStatus.NOT_VERIFIED)
     # rating = models.FloatField(null=True)
     # expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
 
