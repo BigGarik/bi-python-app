@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-29 18:32+0500\n"
+"POT-Creation-Date: 2024-04-01 11:31+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,6 +32,14 @@ msgstr "Войти"
 msgid "RegisterBtnLabel"
 msgstr "Зарегистрироваться"
 
+#: .\templates\base.html:155
+msgid "CreateArticleLabel"
+msgstr "Написать статью"
+
+#: .\templates\base.html:156
+msgid "CreateAskQuestionLabel"
+msgstr "Написать статью"
+
 #: .\web\models\users.py:15
 msgid "email address"
 msgstr ""
@@ -44,6 +52,30 @@ msgstr ""
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
+msgstr ""
+
+#: .\web\templates\registration\email\password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: .\web\templates\registration\email\password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: .\web\templates\registration\email\password_reset_email.html:8
+msgid "Your username, in case you’ve forgotten:"
+msgstr ""
+
+#: .\web\templates\registration\email\password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: .\web\templates\registration\email\password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
 msgstr ""
 
 #: .\web\templatetags\web_tags.py:81

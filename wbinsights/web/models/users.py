@@ -11,6 +11,8 @@ phone_regex = RegexValidator(
     message=_("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 )
 
+from django.db.models import Q
+
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True, )
@@ -53,9 +55,10 @@ class Profile(models.Model):
 
 
 class ExpertManager(models.Manager):
+    #
     def get_queryset(self):
-        return super(ExpertManager, self).get_queryset().filter(profile__type=Profile.TypeUser.EXPERT)
-
+        return super(ExpertManager, self).get_queryset().filter(
+            Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__status=ExpertProfile.ExpertStatus.VERIFIED) & Q(is_active=True))
 
 # Сущность Эксперта
 class Expert(CustomUser):
@@ -74,12 +77,19 @@ class ExpertProfile(models.Model):
     age = models.IntegerField(null=True)
     hour_cost = models.IntegerField(null=True)
     experience = models.IntegerField(null=True)
+
+    class ExpertStatus(models.IntegerChoices):
+        NOT_VERIFIED = 0, 'Неверифицирован'
+        VERIFIED = 1, 'Верифицирован'
+
+    status = models.IntegerField("Статус проверки Эксперта", choices=ExpertStatus.choices,
+                                 default=ExpertStatus.NOT_VERIFIED)
     # rating = models.FloatField(null=True)
-    #expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
+    # expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
 
 
 # Создаем обработчик сигнала для добавления профиля при создании пользователя
-#@receiver(post_save, sender=CustomUser)
+# @receiver(post_save, sender=CustomUser)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)

@@ -21,6 +21,7 @@ class ExpertListView(ListView):
     # 'fffhe'
 
     def get_queryset(self):
+
         experts = Expert.objects.all().annotate(expert_article_cnt=Count('article'))
         return experts
 
