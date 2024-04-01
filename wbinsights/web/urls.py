@@ -1,10 +1,13 @@
+from django.contrib.auth.views import LoginView
 from django.urls import path
 
 from django.contrib import admin
+
+from .utils import send_email
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.index import handleIndex  # handleTest
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
-    UserPasswordResetView, UserPasswordResetConfirmView
+    UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
 from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
@@ -49,10 +52,11 @@ urlpatterns = [
     path("profile/edit", edit_user_profile, name='profile_edit'),
     path("profile/anketa", expert_anketa, name='anketa'),
 
-    path("login/", auth_views.LoginView.as_view(next_page='index'), name="login"),
+    path("login/", LoginView.as_view(next_page='index'), name="login"),
     path("signup/", register_user, name="signup"),
     path("signup/success", signup_success, name="signup_success"),
-    path('activate/<activation_key>/', activate_account, name='activate_account'),
+    path('activate/<token>/', activate_account, name='activate_account'),
+    path('resend_activation/', resend_activation_email, name='resend_activation'),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
 
     path('password-change/', UserPasswordChangeView.as_view(), name='password_change'),
@@ -64,6 +68,6 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    # path('test/', handleTest, name='test'),
+    path('test/', send_email, name='test'),
 
 ]

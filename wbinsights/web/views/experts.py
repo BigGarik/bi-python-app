@@ -9,7 +9,7 @@ from web.models import CustomUser, Expert
 from web.forms.articles import ArticleForm
 from web.models import Article, Category
 
-from django.db.models import Q
+from django.db.models import Q, Count
 import math
 
 
@@ -20,10 +20,10 @@ class ExpertListView(ListView):
 
     # 'fffhe'
 
-    # def get_queryset(self):
+    def get_queryset(self):
 
-    #     articles = Article.objects.all()[:2]
-    #     return articles
+        experts = Expert.objects.all().annotate(expert_article_cnt=Count('article'))
+        return experts
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,13 +44,11 @@ class SearchByNameExpertListView(ExpertListView):
 
     names1 = "Simple data"
 
-
     def get_queryset(self):
         return Expert.objects.filter(
             Q(first_name__contains=self.request.GET.get('q')) | Q(last_name__contains=self.request.GET.get('q')))
 
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
         context['search_q'] = self.request.GET.get('q')
         context['some_data'] = self.names1
@@ -72,7 +70,6 @@ class SearchByNameExpertListView(ExpertListView):
 #         return context
 
 def get_rate_chipher(rating):
-
     ratechipher = ''
 
     if rating < 0:
@@ -93,10 +90,6 @@ def get_rate_chipher(rating):
 
     for idx in range(e_starts_cnt):
         ratechipher = ratechipher + 'e'
-
-    #filled_stars = int(rating)
-    #has_half_star = rating - filled_stars >= 0.1
-    #empty_stars = 5 - filled_stars - has_half_star
 
     return ratechipher
 
