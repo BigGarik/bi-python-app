@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ключ истек</title>
-</head>
-<body>
+{% extends 'base123.html' %}
 
-</body>
-</html>
+
+{% load web_tags %}
+
+{% block center_col %}
+    <div class="container mt-3">
+        <h3>Срок действия ключа активации истек</h3>
+        <p>Если вы все еще хотите активировать ваш аккаунт, вы можете запросить отправку нового ключа активации.</p>
+
+        <form method="post" action="{% url 'resend_activation' %}">
+          {% csrf_token %}
+          <input type="hidden" name="email" value="{{ email }}" />
+          <button type="submit">Отправить письмо для активации снова</button>
+        </form>
+    </div>
+{% endblock %}

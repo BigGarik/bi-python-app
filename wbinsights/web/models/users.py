@@ -1,19 +1,26 @@
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib.postgres.fields import ArrayField
 
-from .articles import Category
+
+phone_regex = RegexValidator(
+    regex=r'/^((8|\+374|\+994|\+995|\+375|\+7|\+380|\+38|\+996|\+998|\+993)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{'
+          r'1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}(([\- ]?\d{1})?[\- ]?\d{1})?$/',
+    message=_("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+)
 
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True, )
-
+    phone_number = models.CharField(
+        _("phone number"),
+        # unique=True, # раскоментировать после добавления всем пользователям номеров
+        validators=[phone_regex],
+        max_length=17,
+        blank=True,  # После миграции сделать 'False', чтобы сделать поле обязательным
+    )
     is_active = models.BooleanField(
         _("active"),
         default=False,
@@ -78,12 +85,3 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     else:
         instance.profile.save()
-
-
-class UserActivation(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    activation_key = models.CharField(max_length=255)
-    expiration_date = models.DateTimeField(default=timezone.now)
-
-    def has_expired(self):
-        return timezone.now() >= self.expiration_date

@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>activation_complete</title>
-</head>
-<body>
+{% extends 'base123.html' %}
 
-</body>
-</html>
+
+{% load web_tags %}
+
+{% block center_col %}
+    <div class="container mt-3">
+        <h2>Учетная запись активирована</h2>
+        <a href="{% url 'login' %}" class="btn btn-danger mt-3">Войти</a>
+    </div>
+{% endblock %}

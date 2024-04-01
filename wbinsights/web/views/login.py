@@ -1,24 +1,34 @@
-from datetime import datetime, timedelta
-
-# from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
-from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView
+from django.contrib.auth import get_user_model
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
-# from django.contrib.auth.views import LoginView
-# from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
-# from django.http import HttpResponse, request
-from django.utils import timezone
-
+from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
+from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import render, redirect, get_object_or_404
-
+from django.shortcuts import render, redirect
 from web.forms.users import CustomUserCreationForm, ExpertProfileForm, UserPasswordResetForm, UserSetNewPasswordForm, \
     UserPasswordChangeForm
 from web.models import Profile
-from web.models.users import UserActivation
 from django.db import transaction
+
+
+User = get_user_model()
+
+
+# class CustomLoginView(LoginView):
+#     # переопределение формы подтверждения
+#     def form_valid(self, form):
+#         user = form.get_user()
+#         # проверить, активирован ли уже пользователь
+#         if not user.is_active:
+#             send_activation_email(user, self.request)
+#             # рендер страницы с уведомлением о переотправке ссылки активации
+#             return render(self.request, 'registration/activation_prompt.html', {
+#                 'email': user.email
+#             })
+#         return super().form_valid(form)
 
 
 def signup_success(request):
@@ -30,6 +40,33 @@ def signup_success(request):
 
 def gen_user_name_from_email(email):
     return email.replace("@", '_').replace(".", "_").replace("-", "_")
+
+
+# При создании пользователя после заполнения формы регистрации
+def send_activation_email(user, request):
+    signer = TimestampSigner()
+    token = signer.sign(user.pk)
+    confirmation_link = request.build_absolute_uri(reverse('activate_account', kwargs={'token': token}))
+
+    send_mail(
+        'Активация аккаунта',
+        f'Пожалуйста, активируйте свой аккаунт, перейдя по этой ссылке: {confirmation_link}',
+        'info_dev@24wbinside.ru',
+        [user.email],
+        fail_silently=False,
+    )
+
+
+def resend_activation_email(request, email):
+    email = request.POST.get('email')
+    try:
+        user = User.objects.get(email=email)
+        if not user.is_active:
+            send_activation_email(user, request)
+            return redirect('activation_email_resent')
+    except ObjectDoesNotExist:
+        # Пользователь не найден. Информируйте пользователя, что аккаунт не был найден и предложите зарегистрироваться
+        return render(request, 'account_not_found.html', {'email': email})
 
 
 def save_new_user_and_profile(request, user_form, user_type):
@@ -44,21 +81,7 @@ def save_new_user_and_profile(request, user_form, user_type):
     new_user_profile.type = user_type
     new_user_profile.save()
 
-    # Создаем ключ активации
-    activation_key = default_token_generator.make_token(new_user)
-    UserActivation.objects.create(user=new_user, activation_key=activation_key,
-                                  expiration_date=timezone.now() + timedelta(days=1))
-
-    # Отправляем письмо
-    confirmation_link = request.build_absolute_uri(
-        reverse('activate_account', kwargs={'activation_key': activation_key}))
-    send_mail(
-        'Подтверждение регистрации',
-        f'Пожалуйста, перейдите по ссылке для активации аккаунта: {confirmation_link}',
-        'info_dev@24wbinside.ru',
-        [new_user.email],
-        fail_silently=False,
-    )
+    send_activation_email(new_user, request)
 
     return new_user
 
@@ -98,8 +121,6 @@ def register_user(request):
     return render(request, "registration/signup.html", context=context)
 
 
-
-
 class WBIRegisterUser(CreateView):
     # create CustomUser
 
@@ -135,23 +156,23 @@ class WBIRegisterUser(CreateView):
 #     return render(request, 'registration/login.html')
 
 
-def activate_account(request, activation_key):
-    user_activation = get_object_or_404(UserActivation, activation_key=activation_key)
-
-    # Проверяем, не истек ли срок действия ключа
-    if user_activation.has_expired():
-        return render(request, 'registration/activation_expired.html')
-
-    # Активация пользователя
-    user = user_activation.user
-    if default_token_generator.check_token(user, activation_key):
-        user.is_active = True
-        user.save()
-
-        # Удаляем ключ активации из базы данных
-        user_activation.delete()
-        return render(request, 'registration/activation_complete.html')
-    else:
+def activate_account(request, token):
+    signer = TimestampSigner()
+    try:
+        # проверяем возраст токена, его действие ограничено 48 часами (3600 * 48 секунд)
+        user_id = signer.unsign(token, max_age=3600 * 48)
+        user = User.objects.get(pk=user_id)
+        if not user.is_active:
+            user.is_active = True
+            user.save()
+            # Перенаправление на страницу успешной активации
+            return redirect('activation_complete')
+    except SignatureExpired:
+        # Срок действия токена истек, предложить отправить ключ активации повторно
+        user_id = signer.unsign(token, max_age=None)
+        user = User.objects.get(pk=user_id)
+        return render(request, 'registration/activation_expired.html', {'email': user.email})
+    except BadSignature:
         return render(request, 'registration/activation_invalid.html')
 
 
