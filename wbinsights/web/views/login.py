@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -12,23 +13,10 @@ from web.forms.users import CustomUserCreationForm, ExpertProfileForm, UserPassw
     UserPasswordChangeForm
 from web.models import Profile
 from django.db import transaction
+from django.utils.translation import gettext_lazy as _
 
 
 User = get_user_model()
-
-
-# class CustomLoginView(LoginView):
-#     # переопределение формы подтверждения
-#     def form_valid(self, form):
-#         user = form.get_user()
-#         # проверить, активирован ли уже пользователь
-#         if not user.is_active:
-#             send_activation_email(user, self.request)
-#             # рендер страницы с уведомлением о переотправке ссылки активации
-#             return render(self.request, 'registration/activation_prompt.html', {
-#                 'email': user.email
-#             })
-#         return super().form_valid(form)
 
 
 def signup_success(request):
@@ -166,14 +154,23 @@ def activate_account(request, token):
             user.is_active = True
             user.save()
             # Перенаправление на страницу успешной активации
-            return redirect('activation_complete')
+            return render(request, 'registration/activation_complete.html')
+        else:
+            messages.info(request, _("Your account is already activated."))
+            return redirect('login')
     except SignatureExpired:
         # Срок действия токена истек, предложить отправить ключ активации повторно
         user_id = signer.unsign(token, max_age=None)
         user = User.objects.get(pk=user_id)
         return render(request, 'registration/activation_expired.html', {'email': user.email})
     except BadSignature:
-        return render(request, 'registration/activation_invalid.html')
+        messages.error(request, _("Activation link is invalid."))
+        return redirect('login')
+    except User.DoesNotExist:
+        messages.error(request, _("Account activation error: user not found."))
+        return redirect('signup')
+    # else:
+    #     return render(request, 'registration/activation_invalid.html')
 
 
 class UserPasswordChangeView(PasswordChangeView):

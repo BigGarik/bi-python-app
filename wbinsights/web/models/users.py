@@ -4,7 +4,6 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-
 phone_regex = RegexValidator(
     regex=r'/^((8|\+374|\+994|\+995|\+375|\+7|\+380|\+38|\+996|\+998|\+993)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{'
           r'1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}(([\- ]?\d{1})?[\- ]?\d{1})?$/',
@@ -58,7 +57,9 @@ class ExpertManager(models.Manager):
     #
     def get_queryset(self):
         return super(ExpertManager, self).get_queryset().filter(
-            Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__status=ExpertProfile.ExpertStatus.VERIFIED) & Q(is_active=True))
+            Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__is_verified=ExpertProfile.ExpertVerif.VERIFIED) & Q(
+                is_active=True))
+
 
 # Сущность Эксперта
 class Expert(CustomUser):
@@ -78,12 +79,12 @@ class ExpertProfile(models.Model):
     hour_cost = models.IntegerField(null=True)
     experience = models.IntegerField(null=True)
 
-    class ExpertStatus(models.IntegerChoices):
+    class ExpertVerif(models.IntegerChoices):
         NOT_VERIFIED = 0, 'Неверифицирован'
         VERIFIED = 1, 'Верифицирован'
 
-    status = models.IntegerField("Статус проверки Эксперта", choices=ExpertStatus.choices,
-                                 default=ExpertStatus.NOT_VERIFIED)
+    is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerif.choices,
+                                      default=ExpertVerif.NOT_VERIFIED)
     # rating = models.FloatField(null=True)
     # expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
 
