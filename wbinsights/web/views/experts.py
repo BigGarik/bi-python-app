@@ -12,6 +12,8 @@ from web.models import Article, Category
 from django.db.models import Q, Count
 import math
 
+from web.models.users import ExpertProfile
+
 
 class ExpertListView(ListView):
     model = Expert
@@ -31,6 +33,11 @@ class ExpertListView(ListView):
 
         return context
 
+
+# def get_expert_not_verified():
+#     experts = Expert.objects.filter()
+#     experts = ExpertProfile.ExpertVerif.NOT_VERIFIED
+#     return experts
 
 # Класс-представление для фильтрации статей по категории
 # class SearchByNameExpertListView(ExpertListView):

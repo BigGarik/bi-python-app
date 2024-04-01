@@ -14,6 +14,12 @@ register = template.Library()
 def get_top_experts():
     return Expert.objects.all()[:10]
 
+
+@register.simple_tag
+def get_all_not_verified():
+    return Expert.objects.all_not_verified()
+
+
 @register.simple_tag
 def get_all_categories():
     return Category.objects.all()
