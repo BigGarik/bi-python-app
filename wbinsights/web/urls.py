@@ -3,7 +3,6 @@ from django.urls import path
 
 from django.contrib import admin
 
-from .utils import send_email
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.index import handleIndex  # handleTest
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
@@ -68,6 +67,5 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('test/', send_email, name='test'),
 
 ]

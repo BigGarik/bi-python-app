@@ -17,10 +17,10 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True, )
     phone_number = models.CharField(
         _("phone number"),
-        # unique=True, # раскоментировать после добавления всем пользователям номеров
+        unique=True, # раскоментировать после добавления всем пользователям номеров
         validators=[phone_regex],
         max_length=17,
-        blank=True,  # После миграции сделать 'False', чтобы сделать поле обязательным
+        blank=False,  # После миграции сделать 'False', чтобы сделать поле обязательным
     )
     is_active = models.BooleanField(
         _("active"),
@@ -57,8 +57,13 @@ class ExpertManager(models.Manager):
     #
     def get_queryset(self):
         return super(ExpertManager, self).get_queryset().filter(
-            Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__is_verified=ExpertProfile.ExpertVerif.VERIFIED) & Q(
+            Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED) & Q(
                 is_active=True))
+
+    def all_not_verified(self):
+        return self.get_queryset().filter(
+            expertprofile__is_verified=ExpertProfile.ExpertVerif.NOT_VERIFIED
+        )
 
 
 # Сущность Эксперта
@@ -79,12 +84,12 @@ class ExpertProfile(models.Model):
     hour_cost = models.IntegerField(null=True)
     experience = models.IntegerField(null=True)
 
-    class ExpertVerif(models.IntegerChoices):
+    class ExpertVerifiedStatus(models.IntegerChoices):
         NOT_VERIFIED = 0, 'Неверифицирован'
         VERIFIED = 1, 'Верифицирован'
 
-    is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerif.choices,
-                                      default=ExpertVerif.NOT_VERIFIED)
+    is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerifiedStatus.choices,
+                                      default=ExpertVerifiedStatus.NOT_VERIFIED)
     # rating = models.FloatField(null=True)
     # expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
 
