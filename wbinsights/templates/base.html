@@ -152,8 +152,8 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#" onclick="alert('В разработке')">Провести исследование</a>
-                                        <a class="dropdown-item" href="{% url 'article_add' %}">Написать статью</a>
-                                        <a class="dropdown-item" href="#" onclick="alert('В разработке')">Задать вопрос</a>
+                                        <a class="dropdown-item" href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
+                                        <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'CreateAskQuestionLabel' %}Задать вопрос</a>
                                     </div>
                                 </div>
                             </div>

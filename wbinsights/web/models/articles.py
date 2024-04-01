@@ -31,7 +31,7 @@ class Article(models.Model):
     description = models.CharField(blank=True, verbose_name="Краткое описание")
     main_img = models.ImageField(upload_to='articles/%Y/%m', verbose_name='Главная картинка')
     content = models.TextField(blank=True, verbose_name="Текст статьи")
-    author = models.ForeignKey('CustomUser', on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey('CustomUser', on_delete=models.SET_NULL, null=True, related_name="article")
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
