@@ -17,7 +17,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True, )
     phone_number = models.CharField(
         _("phone number"),
-        # unique=True, # раскоментировать после добавления всем пользователям номеров
+        unique=True, # раскоментировать после добавления всем пользователям номеров
         validators=[phone_regex],
         max_length=17,
         blank=False,  # После миграции сделать 'False', чтобы сделать поле обязательным
