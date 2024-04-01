@@ -5,9 +5,9 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 phone_regex = RegexValidator(
-    regex=r'/^((8|\+374|\+994|\+995|\+375|\+7|\+380|\+38|\+996|\+998|\+993)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{'
-          r'1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}(([\- ]?\d{1})?[\- ]?\d{1})?$/',
-    message=_("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    regex=r'^((8|\+374|\+994|\+995|\+375|\+7|\+380|\+38|\+996|\+998|\+993)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{'
+          r'1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}(([\- ]?\d{1})?[\- ]?\d{1})?$',
+    message=_("Phone number must be entered in the format: '+79997654321'. Up to 15 digits allowed.")
 )
 
 from django.db.models import Q
