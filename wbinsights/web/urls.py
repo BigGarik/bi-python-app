@@ -9,7 +9,7 @@ from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleL
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
-from .views.profile import profile_view, edit_user_profile
+from .views.profile import profile_view, edit_user_profile , expert_anketa
 from .views.error_404 import wb400handler
 from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form
 
@@ -47,6 +47,7 @@ urlpatterns = [
     # users
     path("profile", profile_view, name='profile'),
     path("profile/edit", edit_user_profile, name='profile_edit'),
+    path("profile/anketa", expert_anketa, name='anketa'),
 
     path("login/", auth_views.LoginView.as_view(next_page='index'), name="login"),
     path("signup/", register_user, name="signup"),
