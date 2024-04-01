@@ -40,7 +40,7 @@
             .back-btn,
             .user-fill-info-cont,
             .login-cont {
-                max-width:400px;
+                min-width:400px;
                 max-width:400px;
             }
         }
@@ -49,7 +49,7 @@
             .back-btn,
             .user-fill-info-cont,
             .login-cont {
-                max-width:400px;
+                min-width:400px;
                 max-width:400px;
             }
         }
@@ -91,12 +91,17 @@
                         <span class="span-register">ВХОД</span>
                     </div>
                 
-                    <div class="form-group">
+                    <div class="form-group" id="email-form">
                         <label for="email">Электронная почта</label>
-                        <input type="email" name="{{ form.username.name }}" class="custom-form-field"  {% if form.username.field.required %}required{% endif %} >
+                        <input type="email" name="{{ form.username.name }}" class="custom-form-field" {% if form.username.field.required %}required{% endif %}>
                     </div>
                 
-                    <a href="#" class="login-with-phone" onclick="alert('В разработке')">
+                    <div class="form-group" id="phone-form" style="display: none;">
+                        <label for="phone_number">Phone Number</label>
+                        <input type="phone_number" name="{{ form.phone_number }}" class="custom-form-field" {% if form.phone_number.field.required %}required{% endif %}>
+                    </div>
+                
+                    <a href="#" class="login-with-phone" onclick="toggleLoginField();">
                         <span>Войти с помощью телефона</span>
                     </a>
                 
@@ -129,6 +134,26 @@
     </div>
 
 </body>
+
+
+<script>
+    function toggleLoginField() {
+        var emailForm = document.getElementById('email-form');
+        var phoneForm = document.getElementById('phone-form');
+        var loginLink = document.querySelector('.login-with-phone span');
+
+        if (emailForm.style.display === 'none') {
+            emailForm.style.display = 'block';
+            phoneForm.style.display = 'none';
+            loginLink.innerText = 'Войти с помощью телефона';
+        } else {
+            emailForm.style.display = 'none';
+            phoneForm.style.display = 'block';
+            loginLink.innerText = 'Войти с помощью электронной почты';
+        }
+    }
+</script>
+
 
 </html>
 
