@@ -8,7 +8,7 @@ from .views.index import handleIndex  # handleTest
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
 from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
-from .views.not_verified_experts import UnverifiedExpertListView
+from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
@@ -42,8 +42,8 @@ urlpatterns = [
     # path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
     path("experts/<int:pk>", ExpertDetailView.as_view(), name='expert_profile'),
 
-    path('admin/experts/verification/list/', UnverifiedExpertListView.as_view(), name='admin_unverified_experts_list'),
-    path('admin/experts/verification/profile/', UnverifiedExpertListView.as_view(), name='admin_unverified_experts_profile'),
+    path('manage/experts/verification/list/', UnverifiedExpertListView.as_view(), name='manage_unverified_experts_list'),
+    path('manage/experts/verification/profile/<int:pk>', UnverifiedExpertDetailView.as_view(), name='manage_unverified_experts_profile'),
 
     path("contact/", ContactPageView.as_view(), name='contact'),
     path("contact_us/", ContactUsPageView.as_view(), name='contact_us'),
@@ -69,7 +69,7 @@ urlpatterns = [
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
 
-    path('admin/', admin.site.urls),
+    path('manage/', admin.site.urls),
 
 
 ]

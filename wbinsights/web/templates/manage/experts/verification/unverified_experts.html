@@ -1,0 +1,18 @@
+{% extends 'base123.html' %}
+
+{% block center_col %}
+    <h2>Список неверифицированных экспертов</h2>
+
+        {% if unverified_experts %}
+          <ul>
+              {% for user in unverified_experts %}
+                  <li>
+                      <div class="expert-name"><a href="{% url 'manage_unverified_experts_profile' user.pk %}" style="color:black">{{ user.last_name }} {{ user.first_name }}</a></div>
+                  </li>
+              {% endfor %}
+          </ul>
+        {% else %}
+            <p>Неверифицированных экспертов нет.</p>
+        {% endif %}
+
+{% endblock %}
