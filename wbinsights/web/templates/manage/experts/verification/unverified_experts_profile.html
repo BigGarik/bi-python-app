@@ -1,12 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base020.html' %}
+{% load static %}
 
-    {{ unverified_expert.first_name }}
+{% block center_col %}
 
-</body>
-</html>
+<link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+
+<div class="edit-prof-page-cont">
+
+    <div class="edit-prof-info-cont">
+
+        <a href="{% url 'manage_unverified_experts_list' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
+            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> Назад
+        </a>
+
+        <span class= "prof-edit-page-title">User Application</span>
+
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+            <div class="expert-edit-rows">
+
+
+                <div class="prof-edit-rows">
+                    <div class="anketa-abt-me">
+                        <div class = "label-verify-users"> About Me </div>
+                        <div> {{ unverified_expert.expertprofile.about }} </div>
+                    </div>
+                </div>
+
+                <div class="prof-edit-input-title">
+                    <div class="anketa-abt-me">
+                        <div class = "label-verify-users"> Category </div>
+                        <div> {{ unverified_expert.expertprofile.category }}</div>
+                    </div>
+                </div>
+
+                <div class="prof-edit-input-title">
+                    <div class="anketa-abt-me">
+                        <div class = "label-verify-users"> Experience </div>
+                        <div> {{ unverified_expert.expertprofile.experience }}</div>
+                    </div>
+                </div>
+
+                <div class="prof-edit-input-title">
+                    <div class="anketa-abt-me">
+                        <div class = "label-verify-users"> Hour Rate </div>
+                        <div> {{ unverified_expert.expertprofile.hour_cost }}</div>
+                    </div>
+                </div>
+
+                <div class="prof-edit-info-cont">
+                    <div class="anketa-abt-me">
+                        <div class = "label-verify-users"> Education</div>
+                        <div>{{ unverified_expert.expertprofile.education }}</div>
+                    </div>
+                </div>
+
+                <div class="prof-edit-info-cont">
+                    <div class="anketa-abt-me">
+                        <div class = "label-verify-users"> Age </div>
+                        <div>{{ unverified_expert.expertprofile.age }}</div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="verification-btns-cont">
+                <button type="submit" class="send-verify">Approve</button>
+                <button type="submit" class="send-verify">Deny</button>
+            </div>
+        
+        </form>
+    
+        
+
+    </div>
+
+</div>
+
+{% endblock %}

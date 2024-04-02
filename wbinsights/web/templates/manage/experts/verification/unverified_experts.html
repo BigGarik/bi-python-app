@@ -1,13 +1,13 @@
 {% extends 'base123.html' %}
 
 {% block center_col %}
-    <h2>Список неверифицированных экспертов</h2>
+    <h2 style = "margin-bottom:20px">Список неверифицированных экспертов</h2>
 
         {% if unverified_experts %}
           <ul>
               {% for user in unverified_experts %}
-                  <li>
-                      <div class="expert-name"><a href="{% url 'manage_unverified_experts_profile' user.pk %}" style="color:black">{{ user.last_name }} {{ user.first_name }}</a></div>
+                  <li style="list-style-type: none; padding: 10px 0 10px 0;">
+                      <div class="verify-exp-name"><a href="{% url 'manage_unverified_experts_profile' user.pk %}" style="color:black; text-decoration:none ; font-weight:bold ;font-size:16px;">{{ user.last_name }} {{ user.first_name }} </a></div>
                   </li>
               {% endfor %}
           </ul>

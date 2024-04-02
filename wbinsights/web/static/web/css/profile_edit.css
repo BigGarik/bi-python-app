@@ -110,3 +110,26 @@
     color: green;
     font-size: 30px;
 }
+
+/* ----------------------------------------------------------------------   Anketa css   -------------------------------------------------------------------------------------- */
+
+.anketa-abt-me {
+    display: flex;
+    padding: 5px;
+}
+
+.label-verify-users{
+    display: flex;
+    min-width: 300px;
+}
+
+.verification-btns-cont{
+    display: flex;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+.verify-exp-name{
+    display: flex;
+}
+

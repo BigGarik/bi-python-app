@@ -39,12 +39,10 @@
 
                 </div>
 
-                {% if user.profile.type == 1 %}
                 <div class="full-width">
                     <label for="{{ expert_profile_form.about.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
                     {{ expert_profile_form.about }}
                 </div>
-                {% endif %}
 
             </div>
 
@@ -69,7 +67,6 @@
                 </div>
 
 
-                {% if user.profile.type == 1 %}
                 <div class="prof-edit-duel-rows">
 
                     <div class="prof-edit-input-title">
@@ -88,10 +85,8 @@
                     </div>
 
                 </div>
-                {% endif %}
 
             </div>
-            {% if user.profile.type == 1 %}
 
             <div class="expert-edit-rows">
 
@@ -110,7 +105,6 @@
                 </div>
 
             </div>
-            {% endif %}
 
             <div class="expert-edit-rows">
                 <span class="prof-edit-change-pass">Смена пароля</span>

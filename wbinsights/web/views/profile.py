@@ -20,20 +20,28 @@ def profile_view(request):
     profile_template = "profile/expert/profile.html"
 
     if is_expert:
-
         if not request.user.expertprofile.is_verified:
-            #template set to anketa
-            profile_template = 'profile/expert/edit_profile.html'
+            # If expert profile is not verified, render the anketa template
+            if request.method == 'POST':
+                expert_profile_form = ExpertProfileChangeForm(request.POST, instance=request.user.expertprofile)
+                if expert_profile_form.is_valid():
+                    expert_profile_form.save()
+                    messages.success(request, 'Your profile has successfully been sent for verification')
+                    return redirect('index')
+            else:
+                expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertprofile)
+
+            profile_template = 'profile/anketa.html'
             context.update({
+                "expert_profile_form": expert_profile_form,
                 "experts_articles": [],
                 "rating": 4.5,
                 "experts_articles_count": 0,
                 "experts_researches_count": 0,
                 "filled_stars_chipher": 'ffffh'
             })
-
         else:
-            # Fetch the expert's articles
+            # Fetch the expert's articles if profile is verified
             expert_articles = Article.objects.filter(author=request.user)[:7]
             expert_articles_count = Article.objects.filter(author=request.user).count()
             # Update the context with expert-specific data
@@ -45,7 +53,8 @@ def profile_view(request):
                 "filled_stars_chipher": 'ffffh'
             })
 
-    if not is_expert:
+    else:
+        # For non-expert users, render the client profile template
         profile_template = "profile/client/profile.html"
         context.update({
             "experts_articles": [],
