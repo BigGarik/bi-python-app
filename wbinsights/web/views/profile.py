@@ -16,25 +16,34 @@ def profile_view(request):
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
 
     # Initialize the context with common data
-    context = {
-
-    }
-
+    context = {}
     profile_template = "profile/expert/profile.html"
 
     if is_expert:
-        # Fetch the expert's articles
-        expert_articles = Article.objects.filter(author=request.user)[:7]
-        expert_articles_count = Article.objects.filter(author=request.user).count()
 
-        # Update the context with expert-specific data
-        context.update({
-            "experts_articles": expert_articles,
-            "rating": 4.5,
-            "experts_articles_count": expert_articles_count,
-            "experts_researches_count": 0,
-            "filled_stars_chipher": 'ffffh'
-        })
+        if not request.user.expertprofile.is_verified:
+            #template set to anketa
+            profile_template = 'profile/expert/edit_profile.html'
+            context.update({
+                "experts_articles": [],
+                "rating": 4.5,
+                "experts_articles_count": 0,
+                "experts_researches_count": 0,
+                "filled_stars_chipher": 'ffffh'
+            })
+
+        else:
+            # Fetch the expert's articles
+            expert_articles = Article.objects.filter(author=request.user)[:7]
+            expert_articles_count = Article.objects.filter(author=request.user).count()
+            # Update the context with expert-specific data
+            context.update({
+                "experts_articles": expert_articles,
+                "rating": 4.5,
+                "experts_articles_count": expert_articles_count,
+                "experts_researches_count": 0,
+                "filled_stars_chipher": 'ffffh'
+            })
 
     if not is_expert:
         profile_template = "profile/client/profile.html"
@@ -134,6 +143,7 @@ class ExpertProfileChangeForm(forms.ModelForm):
 
 @login_required
 def edit_user_profile(request):
+
     is_expert = False
 
     profile_edit_template = 'profile/expert/edit_profile.html'
