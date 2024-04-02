@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 class UnverifiedExpertListView(LoginRequiredMixin, UserPassesTestMixin, View):
-    template_name = 'profile/expert/unverified_experts.html'
+    template_name = 'admin/experts/verification/unverified_experts.html'
 
     def get(self, request, *args, **kwargs):
         experts = ExpertProfile.objects.filter(is_verified=ExpertProfile.ExpertVerifiedStatus.NOT_VERIFIED)
