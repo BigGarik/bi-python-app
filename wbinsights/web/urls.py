@@ -41,7 +41,9 @@ urlpatterns = [
     path('experts/search/', SearchByNameExpertListView.as_view(), name='experts_search_list'),
     # path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
     path("experts/<int:pk>", ExpertDetailView.as_view(), name='expert_profile'),
-    path('admin/unverified-experts/', UnverifiedExpertListView.as_view(), name='admin_unverified_experts_list'),
+
+    path('admin/experts/verification/list', UnverifiedExpertListView.as_view(), name='admin_unverified_experts_list'),
+    path('admin/experts/verification/profile', UnverifiedExpertListView.as_view(), name='admin_unverified_experts_profile'),
 
     path("contact/", ContactPageView.as_view(), name='contact'),
     path("contact_us/", ContactUsPageView.as_view(), name='contact_us'),
