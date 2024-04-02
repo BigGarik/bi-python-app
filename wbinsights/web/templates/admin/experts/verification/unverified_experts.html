@@ -1,24 +1,18 @@
 {% extends 'base123.html' %}
 
 {% block center_col %}
-    <h2>Unverified Experts</h2>
-    <form method="post">
-      {% csrf_token %}
-      <table>
-        <tr>
-          <th>Expert Name</th>
-          <th>Verify</th>
-        </tr>
-            {% for expert in form.not_verified_experts %}
-            <tr>
-              <td>{{ expert }} {{ expert.phone_number }}</td>
-              <td>
-                    
+    <h2>Список неверифицированных экспертов</h2>
 
-              </td>
-            </tr>
-            {% endfor %}
-      </table>
-      <input type="submit" value="Save Changes">
-    </form>
+    {% if unverified_experts %}
+      <ul>
+          {% for user in unverified_experts.values %}
+              <li>
+
+                  <div class="expert-name"><a href="{% url 'expert_profile' user.pk %}" style="color:black">{{ user.get_full_name }}</a></div>
+              </li>
+          {% endfor %}
+      </ul>
+    {% else %}
+      <p>Неверифицированных экспертов нет.</p>
+    {% endif %}
 {% endblock %}

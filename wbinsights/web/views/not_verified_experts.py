@@ -4,15 +4,21 @@ from django.views import View
 from web.forms.users import VerifyExpertForm
 from web.models.users import ExpertProfile
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth import get_user_model
+
+CustomUser = get_user_model()
 
 
 class UnverifiedExpertListView(LoginRequiredMixin, UserPassesTestMixin, View):
     template_name = 'admin/experts/verification/unverified_experts.html'
 
     def get(self, request, *args, **kwargs):
-        experts = ExpertProfile.objects.filter(is_verified=ExpertProfile.ExpertVerifiedStatus.NOT_VERIFIED)
-        forms = [VerifyExpertForm(instance=expert, prefix=str(expert.pk)) for expert in experts]
-        return render(request, self.template_name, {'forms': forms})
+        unverified_experts_ids = ExpertProfile.objects.select_related('user').filter(
+            is_verified=ExpertProfile.ExpertVerifiedStatus.NOT_VERIFIED
+        ).values_list('user_id', flat=True)
+
+        unverified_experts = CustomUser.objects.in_bulk(list(unverified_experts_ids))
+        return render(request, self.template_name, {'unverified_experts': unverified_experts})
 
     def post(self, request, *args, **kwargs):
         forms = [VerifyExpertForm(request.POST, instance=expert, prefix=str(expert.pk))
