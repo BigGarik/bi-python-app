@@ -17,7 +17,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True, )
     phone_number = models.CharField(
         _("phone number"),
-        unique=True, # раскоментировать после добавления всем пользователям номеров
+        unique=True,  # раскоментировать после добавления всем пользователям номеров
         validators=[phone_regex],
         max_length=17,
         blank=False,  # После миграции сделать 'False', чтобы сделать поле обязательным
@@ -57,7 +57,8 @@ class ExpertManager(models.Manager):
     #
     def get_queryset(self):
         return super(ExpertManager, self).get_queryset().filter(
-            Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED) & Q(
+            Q(profile__type=Profile.TypeUser.EXPERT) & Q(
+                expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED) & Q(
                 is_active=True))
 
 
@@ -67,6 +68,25 @@ class Expert(CustomUser):
 
     class Meta:
         proxy = True
+
+
+class NonVerifiedExpertManager(models.Manager):
+    #
+    def get_queryset(self):
+        return super(NonVerifiedExpertManager, self).get_queryset().filter(
+            Q(profile__type=Profile.TypeUser.EXPERT) & Q(
+                expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.NOT_VERIFIED) & Q(
+                is_active=True))
+
+
+class NonVerifiedExpert(CustomUser):
+    objects = NonVerifiedExpertManager()
+
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        return self.last_name + ' ' + self.first_name
 
 
 # Профиль эксперта
