@@ -11,6 +11,10 @@ class ContactUsPageView(TemplateView):
     template_name = 'contact_and_help/contact_us.html'
 
 
+class ContactUsSuccessPageView(TemplateView):
+    template_name = 'contact_and_help/contact_us_success.html'
+
+
 def post_contact_us_form(request):
     if request.method == 'POST':
         content = request.POST['content']
@@ -29,7 +33,7 @@ def post_contact_us_form(request):
                 fail_silently=False,
             )
 
-            return redirect('contact_us')
+            return redirect('contact_us_send_success')
 
     #template_name = 'contact_and_help/contact_us.html'
 
