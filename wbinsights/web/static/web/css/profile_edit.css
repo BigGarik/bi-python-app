@@ -64,6 +64,7 @@
 .prof-edit-bot-btns-cont{
     display:flex ; 
     align-items: center
+    
 }
 
 .prof-edit-save-btn{
@@ -115,7 +116,35 @@
 
 .anketa-abt-me {
     display: flex;
-    padding: 5px;
+    padding: 10px;
+}
+
+.anketa-abt-me-form{
+    display: flex;
+    padding: 10px;
+}
+
+.anketa-form-labels{
+    margin-bottom: 5px;
+    font-weight: 600;
+    width: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.anketa-page-title{
+    display: flex;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.anketa-btns-cont{
+    display:flex ; 
+    align-items: center;
+    margin-top: 15px;
+    
 }
 
 .label-verify-users{
@@ -131,5 +160,21 @@
 
 .verify-exp-name{
     display: flex;
+    color:black;
+    text-decoration:none ; 
+    font-weight:bold ;
+    font-size:20px;
+}
+
+.background-color-list{
+    background-color: inherit !important;
+}
+
+.verify-detail-title {
+    display: flex;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 

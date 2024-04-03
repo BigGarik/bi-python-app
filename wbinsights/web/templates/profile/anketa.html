@@ -9,11 +9,11 @@
 
     <div class="edit-prof-info-cont">
 
-        <a href="{% url 'profile' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
-            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> Назад
+        <a href="{% url 'index' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
+            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> Назад (to index)
         </a>
 
-        <span class= "prof-edit-page-title">Please fill all fields</span>
+        <span class= "anketa-page-title">Please fill all fields</span>
 
 
         <form method="post" enctype="multipart/form-data">
@@ -21,57 +21,57 @@
 
             <div class="prof-edit-rows">
 
-                <div class="anketa-abt-me">
-                    <label for="{{ expert_profile_form.about.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
+                <div class="anketa-abt-me-form">
+                    <label for="{{ expert_profile_form.about.id_for_label }}" class="anketa-form-labels">{{ expert_profile_form.about.label }}</label>
                     {{ expert_profile_form.about }}
                 </div>
 
             </div>
+            <div class="prof-edit-rows">
 
-            <div class="expert-edit-rows">
+                <div class="anketa-abt-me-form">
+                    <label for="{{ expert_profile_form.category.id_for_label }}" class="anketa-form-labels">{{ expert_profile_form.category.label }}</label>
+                    {{ expert_profile_form.category }}
+                </div>
 
-                <div class="prof-edit-duel-rows">
+            </div>
+            <div class="prof-edit-rows">
 
-                    <div class="prof-edit-input-title">
-                        <label for="{{ expert_profile_form.category.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.category.label }}</label>
-                        {{ expert_profile_form.category }}
-                    </div>
+                <div class="anketa-abt-me-form">
+                    <label for="{{ expert_profile_form.experience.id_for_label }}" class="anketa-form-labels">{{ expert_profile_form.experience.label }}</label>
+                    {{ expert_profile_form.experience }}
+                </div>
 
-                    <div class="prof-edit-input-title">
-                        <label for="{{ expert_profile_form.experience.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
-                        {{ expert_profile_form.experience }}
-                    </div>
+            </div>
+            <div class="prof-edit-rows">
 
-                    <div class="prof-edit-input-title">
-                        <label for="{{ expert_profile_form.hour_cost.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.hour_cost.label }}</label>
-                        {{ expert_profile_form.hour_cost }}
-                    </div>
+                <div class="anketa-abt-me-form">
+                    <label for="{{ expert_profile_form.hour_cost.id_for_label }}" class="anketa-form-labels">{{ expert_profile_form.hour_cost.label }}</label>
+                    {{ expert_profile_form.hour_cost }}
+                </div>
 
+            </div>
+            <div class="prof-edit-rows">
+
+                <div class="anketa-abt-me-form">
+                    <label for="{{ expert_profile_form.education.id_for_label }}" class="anketa-form-labels">{{ expert_profile_form.education.label }}</label>
+                {{ expert_profile_form.education }}
+                  </div>
+
+            </div>
+
+            <div class="prof-edit-rows">
+
+                <div class="anketa-abt-me-form">
+                    <label for="{{ expert_profile_form.age.id_for_label }}" class="anketa-form-labels">{{ expert_profile_form.age.label }}</label>
+                {{ expert_profile_form.age }}
                 </div>
 
             </div>
 
-            <div class="expert-edit-rows">
 
-                <div class="prof-edit-duel-rows">
-
-                    <div class="prof-edit-info-cont">
-                        <label for="{{ expert_profile_form.education.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.education.label }}</label>
-                    {{ expert_profile_form.education }}
-                      </div>
-
-                    <div class="prof-edit-info-cont">
-                        <label for="{{ expert_profile_form.age.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
-                    {{ expert_profile_form.age }}
-                    </div>
-
-                </div>
-
-            </div>
-            
-
-            <div class="prof-edit-bot-btns-cont">
-                <button type="submit" class="send-verify">Send for verification</button>
+            <div class="anketa-btns-cont">
+                <button type="submit" class="btn btn-success">Send for verification</button>
             </div>
         
         </form>
