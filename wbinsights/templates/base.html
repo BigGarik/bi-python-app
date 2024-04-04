@@ -70,7 +70,17 @@
 
                     </div>
 
-                    <div class="col-md-2 text-md-end header-nav-container"></div>
+                    <div class="col-md-2 text-md-end header-nav-container">
+
+                        {% if request.user.is_authenticated %}
+                            {% if not request.user.expertprofile.is_verified %}
+                                <p class="verify-account-text">{% trans 'VerifyAccountLabel' %}</p>
+                                
+                            {% endif %}
+                        {% endif %}
+
+
+                    </div>
 
                     <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center">
                         {% if user.is_authenticated %}
