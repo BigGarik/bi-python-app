@@ -1,7 +1,30 @@
 {% extends 'base123.html' %}
 {% load web_tags %}
+{%load static%}
+
+
+
 
 {% block center_col %}
+
+    <style>
+        @media (max-width: 576px) {
+            .post-menu {
+                font-size: 11px;
+                
+            }
+            .post-menu-item {
+                font-size: 11px;
+            }
+
+            .base-info-split {
+                display: flex;
+                flex-direction: column;
+                margin-top: 15px;
+            }
+        }
+    </style>
+
 
     <div class="base-Content">
 
@@ -16,8 +39,8 @@
         <div class="collapse show" id="collapseNews">
             <div class="base-info-split">
 
-                <div class="col-md-3" style="height:170px">
-                    <img src="https://unsplash.com/photos/XN6Z9g3DM4A/download?force=true&w=400" alt="A person standing in the sand near some rocks" class="img-fluid" style="max-width: 100%; height: auto;">
+                <div class="col-md-3" style="max-height: 250px;">
+                    <img src="https://unsplash.com/photos/XN6Z9g3DM4A/download?force=true&w=400" alt="A person standing in the sand near some rocks" class="img-fluid" style="max-width: 100%;height: auto;max-height: 100%;">
                 </div>
 
                 <div class="col-md-9">

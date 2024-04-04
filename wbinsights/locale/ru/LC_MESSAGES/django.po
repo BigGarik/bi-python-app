@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 11:31+0500\n"
+"POT-Creation-Date: 2024-04-03 17:42+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,39 +20,89 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\templates\base.html:59
+#: .\templates\base.html:59 .\templates\base.html:166
 msgid "MakeResearch"
 msgstr "Провести исследование"
 
-#: .\templates\base.html:122
-msgid "LoginBtnLabel"
-msgstr "Войти"
-
-#: .\templates\base.html:125
-msgid "RegisterBtnLabel"
-msgstr "Зарегистрироваться"
-
-#: .\templates\base.html:155
+#: .\templates\base.html:61 .\templates\base.html:168
 msgid "CreateArticleLabel"
 msgstr "Написать статью"
 
-#: .\templates\base.html:156
-msgid "CreateAskQuestionLabel"
-msgstr "Написать статью"
+#: .\templates\base.html:77
+msgid "VerifyAccountLabel"
+msgstr ""
 
-#: .\web\models\users.py:15
+#: .\templates\base.html:118
+msgid "PersonalAccountLabel"
+msgstr "Личный кабинет"
+
+#: .\templates\base.html:124 .\templates\base.html:134
+#: .\templates\base.html:176
+msgid "LoginBtnLabel"
+msgstr "Войти"
+
+#: .\templates\base.html:137 .\templates\base.html:179
+msgid "RegisterBtnLabel"
+msgstr "Зарегистрироваться"
+
+#: .\web\backends.py:25
+msgid "Please check your email to activate your account."
+msgstr ""
+
+#: .\web\models\users.py:10
+msgid ""
+"Phone number must be entered in the format: '+79997654321'. Up to 15 digits "
+"allowed."
+msgstr ""
+
+#: .\web\models\users.py:17
 msgid "email address"
 msgstr ""
 
-#: .\web\models\users.py:18
+#: .\web\models\users.py:19
+msgid "phone number"
+msgstr ""
+
+#: .\web\models\users.py:26
 msgid "active"
 msgstr ""
 
-#: .\web\models\users.py:21
+#: .\web\models\users.py:29
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
+
+#: .\web\models\users.py:106
+msgid "Expert verification status"
+msgstr ""
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:13
+msgid "BackButtonLabel"
+msgstr "Назад"
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:28
+msgid "AboutMeLabel"
+msgstr "О себе"
+
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:49
+msgid "HourRateLabel"
+msgstr ""
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:56
+msgid "EducationLabel"
+msgstr ""
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:63
+msgid "AgeLabel"
+msgstr ""
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:72
+msgid "ApproveButtonLabel"
+msgstr ""
+
+
 
 #: .\web\templates\registration\email\password_reset_email.html:2
 #, python-format
@@ -112,4 +162,16 @@ msgstr ""
 
 #: .\web\templatetags\web_tags.py:111
 msgid "часов назад"
+msgstr ""
+
+#: .\web\views\login.py:159
+msgid "Your account is already activated."
+msgstr ""
+
+#: .\web\views\login.py:167
+msgid "Activation link is invalid."
+msgstr ""
+
+#: .\web\views\login.py:170
+msgid "Account activation error: user not found."
 msgstr ""

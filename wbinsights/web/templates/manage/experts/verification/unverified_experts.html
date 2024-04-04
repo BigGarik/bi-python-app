@@ -1,38 +1,41 @@
 {% extends 'base123.html' %}
 {% load static %}
+{% load i18n %}
 
 <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<style>
-    /* Add your custom CSS here */
-    .table>:not(caption)> * {
-        background-color: inherit !important; 
+<!--<style>
+    .table > :not(caption) > * > * {
+        background-color: inherit;
     }
 </style>
+-->
+
+
+
 
 {% block center_col %}
     <h2 style="margin-bottom: 20px">Список неверифицированных экспертов (Temperary Design)</h2>
 
     {% if unverified_experts %}
-        <table class="table table-hover " style ="background-color: green !important;">
+        <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
-                    <th>Actions</th>
+                    <th style="background-color:inherit">{% trans 'LastNameLabel' %}</th>
+                    <th style="background-color:inherit">{% trans 'FirstNameLabel' %}</th>
+                    <th style="background-color:inherit">{% trans 'PhoneNumberLabel' %}</th>
+                    <th style="background-color:inherit">{% trans 'EmailLabel' %}</th>
+                    <th style="background-color:inherit">{% trans 'ActionsLabel' %}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for user in unverified_experts %}
-                    <tr class="mb-3"> <!-- Add margin-bottom -->
-                        <td>{{ user.last_name }}</td>
-                        <td>{{ user.first_name }}</td>
-                        <td>{{ user.phone_number }}</td>
-                        <td>{{ user.email }}</td>
-                        <td><a href="{% url 'manage_unverified_experts_profile' user.pk %}" style="color: black; text-decoration: none; font-size: 16px;">View Profile</a></td>
+                    <tr class="mb-3"> 
+                        <td style="background-color:inherit">{{ user.last_name }}</td>
+                        <td style="background-color:inherit">{{ user.first_name }}</td>
+                        <td style="background-color:inherit">{{ user.phone_number }}</td>
+                        <td style="background-color:inherit">{{ user.email }}</td>
+                        <td style="background-color:inherit"><a href="{% url 'manage_unverified_experts_profile' user.pk %}" style="color: black; text-decoration: none; font-size: 16px;">View Profile</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

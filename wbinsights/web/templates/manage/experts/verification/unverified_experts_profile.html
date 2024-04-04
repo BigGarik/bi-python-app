@@ -1,5 +1,6 @@
 {% extends 'base020.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block center_col %}
 
@@ -10,10 +11,10 @@
     <div class="edit-prof-info-cont">
 
         <a href="{% url 'manage_unverified_experts_list' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
-            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> Назад
+            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> {% trans 'BackButtonLabel' %}
         </a>
 
-        <span class= "verify-detail-title">User Application</span>
+        <span class= "verify-detail-title">{% trans 'VerifyUsersTitleLabel' %}</span>
 
 
         <form method="post" enctype="multipart/form-data">
@@ -25,42 +26,42 @@
 
                 <div class="prof-edit-rows">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> About Me </div>
+                        <div class = "label-verify-users"> {% trans 'AboutMeLabel' %} </div>
                         <div> {{ unverified_expert.expertprofile.about }} </div>
                     </div>
                 </div>
 
                 <div class="prof-edit-input-title">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> Category </div>
+                        <div class = "label-verify-users"> {% trans 'CategoryLabel' %} </div>
                         <div> {{ unverified_expert.expertprofile.category }}</div>
                     </div>
                 </div>
 
                 <div class="prof-edit-input-title">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> Experience </div>
+                        <div class = "label-verify-users"> {% trans 'ExperienceLabel' %} </div>
                         <div> {{ unverified_expert.expertprofile.experience }}</div>
                     </div>
                 </div>
 
                 <div class="prof-edit-input-title">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> Hour Rate </div>
+                        <div class = "label-verify-users"> {% trans 'HourRateLabel' %} </div>
                         <div> {{ unverified_expert.expertprofile.hour_cost }}</div>
                     </div>
                 </div>
 
                 <div class="prof-edit-info-cont">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> Education</div>
+                        <div class = "label-verify-users"> {% trans 'EducationLabel' %}</div>
                         <div>{{ unverified_expert.expertprofile.education }}</div>
                     </div>
                 </div>
 
                 <div class="prof-edit-info-cont">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> Age </div>
+                        <div class = "label-verify-users"> {% trans 'AgeLabel' %} </div>
                         <div>{{ unverified_expert.expertprofile.age }}</div>
                     </div>
                 </div>
@@ -69,8 +70,8 @@
             </div>
 
             <div class="verification-btns-cont">
-                <button type="submit" class="btn btn-success">Approve</button>
-                <button type="submit" class="btn btn-danger">Deny</button>
+                <button type="submit" class="btn btn-success">{% trans 'ApproveButtonLabel' %}</button>
+                <button type="submit" class="btn btn-danger">{% trans 'DenyButtonLabel' %}</button>
             </div>
         
         </form>

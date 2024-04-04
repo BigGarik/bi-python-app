@@ -19,7 +19,7 @@
     padding: 5px 10px 5px 10px;
     border: 1px solid #dadada;
     font-family: sans-serif;
-    width: 30%;
+    width: 50%;
     border-radius: 7px;
     outline: none !important;
 }
@@ -67,6 +67,7 @@
     border-radius: 10px;
     margin-top: 15px;
     box-shadow: 0 0 5px hsla(0,0%,66%,.5);
+    flex-direction: column;
 }
 
 .expert-list-prof-pic{
@@ -101,11 +102,12 @@
     font-size: 14px;
 }
 
-.expert-list-main-content{
+.expert-list-main-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    gap: 5px;
     width: 100%;
+    padding: 10px;
 }
 
 .expert-list-title{
@@ -136,6 +138,7 @@
 
 .question-btn-and-money{
     display: flex;
+    gap: 10px;
 }
 
 .expert-list-consult-btn{
@@ -167,4 +170,5 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    padding: 10px;
 }

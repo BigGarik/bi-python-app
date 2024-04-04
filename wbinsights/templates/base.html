@@ -34,7 +34,7 @@
 
     <div class="container-fluid">
 
-        <header class="py-3 mb-4 border-bottom header-container">
+        <header class="py-3 sm-4 border-bottom header-container">
 
             <div class="container-fluid">
                 <!-- display for larger screens -->
@@ -58,9 +58,9 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>
                                     {% if user.profile.type == 1 %}
-                                        <a class="dropdown-item" href="{% url 'article_add' %}">Написать статью</a>
+                                        <a class="dropdown-item" href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
                                     {% endif %}
-                                    <a class="dropdown-item" href="#" onclick="alert('В разработке')">Задать вопрос</a>
+                                    <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>
                                 </div>
 
                             </div>
@@ -82,16 +82,16 @@
 
                     </div>
 
-                    <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center">
+                    <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center; margin-bottom: 10px;">
                         {% if user.is_authenticated %}
                             <div class="comments-cont">
                                 <a href="#" onclick="alert('В разработке');">
-                                    <i class="bi bi-chat-left-text" style="color:white; scale: 1.3;"></i>
+                                    <i class="bi bi-chat-left-text" style="color:white; font-size: 1.3em;"></i>
                                 </a>
                             </div>
                             <div class="bell-cont">
                                 <a href="#" onclick="alert('В разработке');">
-                                    <i class="bi bi-bell-fill" style="color:white; scale: 1.3;"></i>
+                                    <i class="bi bi-bell-fill" style="color:white; font-size: 1.3em;"></i>
                                 </a>
                             </div>
                             <div class="header-user-prof">
@@ -108,20 +108,20 @@
                                     </span>
                                 </div>
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: inherit;border: none;margin: 0;">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: inherit;border: none;margin: 0; ">
                                         <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="padding: 0px; transform: translate(-100px, 64px) !important;">
                                         <div class="header-profile-cont">
                                             <a href="{% url 'profile' %}" class="profile-page-btn prof-page-btn-styles" >
                                                 <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i> &nbsp;
-                                                Личный кабинет
+                                                {% trans 'PersonalAccountLabel' %}
                                             </a>
                                             <form method="post" action="{% url 'logout' %}" class="logout-form">
                                                 {% csrf_token %}
                                                 <button class="logout-btn logout-btn" type="submit" >
                                                     <i class="bi bi-box-arrow-right" style=" scale: 1.1"></i> &nbsp;
-                                                    Выйти
+                                                    {% trans 'LoginBtnLabel' %}
                                                 </button>
                                             </form>
                                         </div>
@@ -155,29 +155,82 @@
                     </nav>
 
                     <div class="collapse" id="navbarToggleExternalContent">
-                        <div class="p-4">
+                        <div class="p-4" style="padding-top: 0px !important;">
+                            
+                            <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: space-around; align-items:center; margin-bottom: 10px;">
+                                {% if user.is_authenticated %}
+                                    <div class="comments-cont">
+                                        <a href="#" onclick="alert('В разработке');">
+                                            <i class="bi bi-chat-left-text" style="color: white; font-size: 1.3em;"></i>
+
+                                        </a>
+                                    </div>
+                                    <div class="bell-cont">
+                                        <a href="#" onclick="alert('В разработке');">
+                                            <i class="bi bi-bell-fill" style="color:white; font-size: 1.3em;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="header-user-prof">
+                                        <div class="header-prof-info">
+                                            <span style="color:white">{{ user.first_name }} </span>
+                                            <span style="color:grey">
+                                                {% if user.is_superuser %}
+                                                    Админ
+                                                {% elif  user.profile.type == 1 %} 
+                                                    Эксперт
+                                                {% elif user.profile.type == 0 %}
+                                                    Клиент
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: inherit;border: none;margin: 0; padding:0px">
+                                                <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="padding: 0px; transform: translate(-100px, 64px) !important;">
+                                                <div class="header-profile-cont">
+                                                    <a href="{% url 'profile' %}" class="profile-page-btn prof-page-btn-styles" >
+                                                        <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i> &nbsp;
+                                                        {% trans 'PersonalAccountLabel' %}
+                                                    </a>
+                                                    <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                                        {% csrf_token %}
+                                                        <button class="logout-btn logout-btn" type="submit" >
+                                                            <i class="bi bi-box-arrow-right" style=" scale: 1.1"></i> &nbsp;
+                                                            {% trans 'LoginBtnLabel' %}
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="buttons-log-cont">
+                                        <a href="{% url 'login' %}">
+                                            <button type="button" class="btn btn-dark logout-btn-style">{% trans 'LoginBtnLabel' %}</button>
+                                        </a>
+                                        <a href="{% url 'signup' %}">
+                                            <button type="button" class="btn btn-primary">{% trans 'RegisterBtnLabel' %}</button>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
                             <div class="search-bar-cont-nav">
+                                {% if user.is_authenticated %}
                                 <input class="search-bar-nav" type="text" id="search" name="username" placeholder="Поиск">
                                 <div class="dropdown">
                                     <button class="btn btn-secondary nav-dropdown-styles" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                         <i class="bi bi-plus" style="color:black; transform: scale(1.3);"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#" onclick="alert('В разработке')">Провести исследование</a>
+                                        <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>
                                         {% if user.profile.type == 1 %}
-                                            <a class="dropdown-item" href="{% url 'article_add' %}">Написать статью</a>
+                                            <a class="dropdown-item" href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
                                         {% endif %}
-                                        <a class="dropdown-item" href="#" onclick="alert('В разработке')">Задать вопрос</a>
+                                        <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="buttons-log-cont">
-                                <a href="{% url 'login' %}">
-                                    <button type="button" class="btn btn-dark logout-btn-style">Войти</button>
-                                </a>
-                                <a href="{% url 'signup' %}">
-                                    <button type="button" class="btn btn-primary">Зарегистрироваться</button>
-                                </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

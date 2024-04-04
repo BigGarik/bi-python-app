@@ -115,10 +115,10 @@
 }
 
 .nav-dropdown-styles {
-    height: 100%; 
-    margin-top: 0px; 
-    width: 100%; 
-    background-color: white;
+    height: 100% !important; 
+    margin-top: 0px !important; 
+    width: 100% !important; 
+    background-color: white !important;
 }
 
 
@@ -242,6 +242,16 @@
     display: flex;
     align-items: center;
 }
+
+.buttons-log-cont-small{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: space-around;
+}
+
+
 
 .buttons-log-cont-nav{
     display: flex;

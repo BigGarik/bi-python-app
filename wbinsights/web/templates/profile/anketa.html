@@ -1,5 +1,6 @@
 {% extends 'base020.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block center_col %}
 
@@ -10,10 +11,10 @@
     <div class="edit-prof-info-cont">
 
         <a href="{% url 'index' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
-            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> Назад (to index)
+            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> {% trans 'BackButtonLabel' %}
         </a>
 
-        <span class= "anketa-page-title">Please fill all fields</span>
+        <span class= "anketa-page-title">{% trans 'FillAllFieldsLabel' %}</span>
 
 
         <form method="post" enctype="multipart/form-data">
@@ -71,7 +72,7 @@
 
 
             <div class="anketa-btns-cont">
-                <button type="submit" class="btn btn-success">Send for verification</button>
+                <button type="submit" class="btn btn-success">{% trans 'SendForVerifyLabel' %}</button>
             </div>
         
         </form>

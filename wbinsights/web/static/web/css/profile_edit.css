@@ -166,8 +166,8 @@
     font-size:20px;
 }
 
-.background-color-list{
-    background-color: inherit !important;
+.change-background{
+    background-color: black !important;
 }
 
 .verify-detail-title {

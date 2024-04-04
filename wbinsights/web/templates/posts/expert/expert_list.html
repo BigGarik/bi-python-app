@@ -4,108 +4,202 @@
 {% load static %}
 
 {% block title %}
-Статьи
+Experts
 {% endblock %}
 
 
+
+
 {% block posts_content %}
+
+	<style>
+
+		.experts-list-search-container {
+			position: relative;
+			z-index: 9999; /* Ensure the search bar is above other elements */
+		}
+		
+		.experts-list-catagory-cont {
+			/* Add any necessary styling */
+		}
+		
+		@media (max-width: 992px) {
+		
+			.experts-list-avatar-container {
+				width: 100px !important;
+				height: 100px !important;
+			}
+
+			.expert-list-title {
+				font-size: 18px !important;
+			}
+
+			.expert-list-consult-btn {
+				height: 40px;
+			}
+
+			.question-btn-and-money {
+				flex-direction: column;
+				gap: 5px;
+			}
+
+			.experts-list-rating-span {
+
+				font-size: 13px !important;
+			}
+
+			.expert-list-cont {
+				margin: 0 !important;
+			}
+
+			.article-last {
+				align-items: flex-start !important;
+			}
+
+			.experts-list-main-cont {
+				padding: 15px !important;
+			}
+
+			.expert-stats-an-other {
+				margin-right:0 !important
+			}
+
+			.experts-list-search-cont{
+				width:100% !important;
+
+			}
+			
+			.normal-layout {
+				display: none;
+			}
+		
+			.small-layout {
+				display: flex;
+				flex-direction:column;
+				width: 100%;
+			}
+
+			
+
+			
+
+		}
+	</style>
+
 
 	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
 
 	<div class="experts-list-main-cont">
 
 		<div class="experts-list-search-and-cat-cont">
-
-			<input type="search" class="experts-list-search-cont"
-                    placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
-
-			<script>
-				function searchByName(e) {
-					if (e.key === "Enter") {
-						const searchValue = e.target.value.trim();
-						if (searchValue !== "") {
-							window.location.href = "/experts/search/?q=" + encodeURIComponent(searchValue);
-						}
-					}
-				}
-			</script>
-
-			<div class="experts-list-catagory-cont">
-
-				<div class="dropdown" style="display:flex ; align-items:center">
-
-					<button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" >
-						<span class="experts-list-catagory-text"> Рейтинг: &nbsp;</span>
-						<span class="expert-list-catagory-choose"> 4 и выше  </span>
-					</button>
-
-					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-						<li><a class="dropdown-item" href="#">3 и выше </a></li>
-						<li><a class="dropdown-item" href="#">4 и выше </a></li>
-						<li><a class="dropdown-item" href="#">5</a></li>
-					</ul>
-
+			<!-- Normal layout -->
+			<div class="normal-layout d-none d-md-flex" style="justify-content: space-between;display: flex; width:100%">
+				<input type="search" class="experts-list-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
+				<div class="experts-list-catagory-cont">
+					<div class="dropdown" style="display: flex; align-items: center;">
+						<button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+							<span class="experts-list-catagory-text"> Рейтинг: &nbsp;</span>
+							<span class="expert-list-catagory-choose"> 4 и выше  </span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+							<li><a class="dropdown-item" href="#">3 и выше</a></li>
+							<li><a class="dropdown-item" href="#">4 и выше</a></li>
+							<li><a class="dropdown-item" href="#">5</a></li>
+						</ul>
+					</div>
+					{% include "components/post_category_filter.html" %}
 				</div>
-
-				{% include "components/post_category_filter.html" %}
-
 			</div>
-			
+		
+			<!-- Layout for small screens -->
+			<div class="small-layout d-md-none">
+				<div style="display: flex; width: 100%;">
+					<input type="search" class="experts-list-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
+				</div>
+				<div class="experts-list-catagory-cont" style="display: flex; justify-content: space-around; margin-top:10px">
+					<div class="dropdown" style="display: flex; align-items: center;">
+						<button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+							<span class="experts-list-catagory-text"> Рейтинг: &nbsp;</span>
+							<span class="expert-list-catagory-choose"> 4 и выше  </span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+							<li><a class="dropdown-item" href="#">3 и выше</a></li>
+							<li><a class="dropdown-item" href="#">4 и выше</a></li>
+							<li><a class="dropdown-item" href="#">5</a></li>
+						</ul>
+					</div>
+					{% include "components/post_category_filter.html" %}
+				</div>
+			</div>
 		</div>
+		
 
 		{% for expert in experts %}
 
 		<div class="expert-prof-cont" >
 
-			<div class="expert-list-prof-pic">
+			<div style="display:flex">
+				<div class="expert-list-prof-pic">
 
-				<div class="experts-list-avatar-container">
-					<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
-				</div>
-
-				<span class="experts-list-rating-span">
-				<i class="bi bi-star-fill" style="color: #e9be50;" ></i> 
-					&nbsp; Рейтинг: 4.5
-				</span>
-
-			</div>
-
-			<div class="expert-list-main-content">
-			
-				<div class="expert-list-title">{{expert.first_name}} {{expert.last_name}}</div>
-
-				<div class=" expert-list-cont">
-					<span class="expert-research-catagory-container"> Финансы </span>
-				</div>
-
-				<span>
-					{{expert.expertprofile.about}}
-					<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">Читать ещё</a>
-				</span>
-
-				<div class="article-last">
-
-					<div class="question-btn-and-money">
-						<button type="button" class="btn expert-list-consult-btn" style="">
-							Консультация
-						</button>
-						<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
-
+					<div class="experts-list-avatar-container">
+						<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
 					</div>
 
-					<div class="expert-stats-an-other">
-                        {{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
-
-					</div>
+					<span class="experts-list-rating-span">
+					<i class="bi bi-star-fill" style="color: #e9be50;" ></i> 
+						&nbsp; Рейтинг: 4.5
+					</span>
 
 				</div>
+
+				<div class="expert-list-main-content">
 				
+					<div class="expert-list-title">{{expert.first_name}} {{expert.last_name}}</div>
+
+					<div class=" expert-list-cont">
+						<span class="expert-research-catagory-container"> Финансы </span>
+					</div>
+
+					<span>
+						{{expert.expertprofile.about}}
+						<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">Читать ещё</a>
+					</span>
+				</div>
 			</div>
 
+			<div class="article-last">
+
+				<div class="question-btn-and-money">
+					
+					<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
+					<button type="button" class="btn expert-list-consult-btn" style="">
+						Консультация
+					</button>
+				</div>
+
+				<div class="expert-stats-an-other">
+					{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
+
+				</div>
+
+			</div>
+				
 		</div>
+
 			
 		{% endfor %}
 
 	</div>
+
+	<script>
+		function searchByName(e) {
+			if (e.key === "Enter") {
+				const searchValue = e.target.value.trim();
+				if (searchValue !== "") {
+					window.location.href = "/experts/search/?q=" + encodeURIComponent(searchValue);
+				}
+			}
+		}
+	</script>
 
 {% endblock %}
