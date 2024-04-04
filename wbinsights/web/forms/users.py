@@ -3,6 +3,7 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm, UserCreationForm
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.utils.translation import gettext_lazy as _
 
 from ..models.users import Profile, CustomUser, ExpertProfile
 
@@ -23,8 +24,8 @@ class CustomUserCreationForm(UserCreationForm):
     )
     first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
     last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    phone_number = forms.CharField(label="Телефон" , widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    
+    phone_number = forms.CharField(label="Телефон", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+
     email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
     password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
     password2 = forms.CharField(label="Повторите пароль",
@@ -70,6 +71,7 @@ class UserPasswordChangeForm(PasswordChangeForm):
     """
         Форма изменения пароля
     """
+
     # class Meta:
     #     model = CustomUser
     #     fields = ['old_password', 'new_password1', 'new_password2']

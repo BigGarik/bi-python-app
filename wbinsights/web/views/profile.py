@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
 from web.models import CustomUser, Profile
@@ -84,9 +84,9 @@ class CustomUserChangeForm(forms.ModelForm):
         validators=[name_check]
     )
 
-    oldpassword = forms.CharField(label="Старый пароль", widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
-    newpassword = forms.CharField(label="Новый пароль", widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
-    confirmpassword = forms.CharField(label="Повторите новый пароль",
+    oldpassword = forms.CharField(label="Старый пароль", required=False, widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
+    newpassword = forms.CharField(label="Новый пароль", required=False, widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
+    confirmpassword = forms.CharField(label="Повторите новый пароль", required=False,
                                       widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
 
     def clean(self):
@@ -105,7 +105,7 @@ class CustomUserChangeForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ("first_name", "last_name", "oldpassword", "newpassword", "confirmpassword")  # photo
+        fields = ("first_name", "last_name")  # photo
 
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)
@@ -153,13 +153,11 @@ class ExpertProfileChangeForm(forms.ModelForm):
 @login_required
 def edit_user_profile(request):
 
-    is_expert = False
+    is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
 
     profile_edit_template = 'profile/expert/edit_profile.html'
 
-    if request.user.profile.type == Profile.TypeUser.EXPERT:
-        is_expert = True
-    else:
+    if not is_expert:
         profile_edit_template = 'profile/client/edit_profile.html'
 
     if request.method == 'POST':
@@ -170,22 +168,42 @@ def edit_user_profile(request):
         if is_expert:
             expert_profile_form = ExpertProfileChangeForm(request.POST, instance=request.user.expertprofile)
 
-        if user_form.is_valid() and profile_form.is_valid() and (is_expert and expert_profile_form.is_valid()):
+        checkPassword = False
+        if user_form.cleaned_data['oldpassword'] and user_form.cleaned_data['oldpassword'] != '':
+            user_change_password_form = PasswordChangeForm(user=request.user)
+            user_change_password_form.old_password  = user_form.cleaned_data['oldpassword']
+            user_change_password_form.new_password1 = user_form.cleaned_data['newpassword']
+            user_change_password_form.new_password2 = user_form.cleaned_data['confirmpassword']
+            checkPassword = True
+
+
+        if (user_form.is_valid() and profile_form.is_valid()
+                and (not is_expert or expert_profile_form.is_valid())
+                and (not checkPassword or user_change_password_form.is_valid())):
             user_form.save()
             profile_form.save()
+
             if is_expert:
                 expert_profile_form.save()
+
+            if checkPassword:
+                user_change_password_form.save()
+
             messages.success(request, 'Your profile is updated successfully')
             return redirect('profile')
+        # else:
+
+
     else:
         user_form = CustomUserChangeForm(instance=request.user)
         profile_form = ProfileChangeForm(instance=request.user.profile)
         if is_expert:
             expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertprofile)
 
+
     context = {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
     }
 
     if is_expert:
