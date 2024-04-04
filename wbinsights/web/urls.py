@@ -4,7 +4,6 @@ from django.urls import path
 from django.contrib import admin
 
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
-from .views.index import handleIndex  # handleTest
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
 from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
@@ -19,7 +18,6 @@ from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPa
 handler404 = wb400handler
 
 urlpatterns = [
-    # path("", handleIndex, name="index"),
     path("", ResearchesListView.as_view(), name="index"),
 
     path("articles/", ArticleListView.as_view(), name='article_list'),
@@ -69,7 +67,7 @@ urlpatterns = [
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
 
-    path('manage/', admin.site.urls),
+    path('admin/', admin.site.urls),
 
 
 ]
