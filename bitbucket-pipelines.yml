@@ -1,7 +1,7 @@
 image: python:3.11.8-bookworm
 
 pipelines:
-  default:
+  django:
     - step:
         name: Copy last version to server
         script:
