@@ -1,63 +1,89 @@
 {% load web_tags %}
 
 <style>
+
+    .navcss{
+        display: flex;
+        flex-direction: column;
+        height: 100%; 
+        padding: 0;
+        margin-bottom: 15px
+    }
+
     div.right-category-list>a.selected {
         background-color: white;
         border-radius: 10px;
     }
+
+
+        @media (max-width: 992px) {
+
+
+
+            .container-fluid-nav {
+                flex-direction: row !important;
+                margin-bottom: 10px !important;
+       
+            }
+
+            .navbar-brand{
+                font-size:14px !important;
+                margin-right: 0 !important;
+                justify-content: center !important;
+                padding: 10px 0 10px 0 !important;
+                margin-bottom:0 !important;
+            }
+
+            
+        }
+
+
 </style>
 
-<nav class="navbar " style="display: flex;flex-direction: column;height: 100%;">
+<div class="col-12 d-md-block">
+    <nav class="navbar navcss " >
 
-    <div class="container-fluid-nav right-category-list" >
+        <div class="container-fluid-nav right-category-list" >
 
-        {% split request.path "/" "first" as first_path %}
+            {% split request.path "/" "first" as first_path %}
 
-        {% split request.path "/" "last" as last_path %}
-
-
-        <a class="navbar-brand {% if last_path == 'popular' %} selected {% endif %}"
-                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">
-            <i class="bi bi-fire" style="scale: 0.9; padding-right: 10px;" ></i>
-            Популярное
-        </a>
-
-        <a class="navbar-brand {% if last_path == 'new' %} selected {% endif %}"
-                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">
-            <i class="bi bi-clock-fill" style="scale: 0.9; padding-right: 10px;" ></i>
-            Новое
-        </a>
-   
-        {% get_all_categories as categories %}
-        {% for category in categories %}
-            
-        <a class="navbar-brand {% if last_path == category.slug %} selected {% endif %}"
-                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
-            <i class="bi bi-{{ category.icon }}" style="scale: 0.9; padding-right: 10px;" ></i>
-            {{ category.name }}
-        </a>
+            {% split request.path "/" "last" as last_path %}
 
 
+            <a class="navbar-brand {% if last_path == 'popular' %} selected {% endif %}"
+                    href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">
+                <i class="bi bi-fire" style="scale: 0.9; padding-right: 10px;" ></i>
+                Популярное
+            </a>
 
-        
-        {% endfor %}
-
-    </div>
-
-    <div class="navbar-help-cont">
-
-        <div class="nav-help-first">
-            <a href="{% url 'contact' %}" class="href-links">О ресурсе</a>
-            <a href="{% url 'data_policies' %}" class="href-links">Правила</a>
-        </div>
-
-        <div class="nav-help-second">
-            <a href="#" class="href-links">Политика обработки данных</a>
-        </div>
-
-        <a class="btn nav-help-btn" href="{% url 'contact_us' %}" role="button">Написать нам</a>
-
-        
-    </div>
+            <a class="navbar-brand {% if last_path == 'new' %} selected {% endif %}"
+                    href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">
+                <i class="bi bi-clock-fill" style="scale: 0.9; padding-right: 10px;" ></i>
+                Новое
+            </a>
     
-</nav>
+            {% get_all_categories as categories %}
+            {% for category in categories %}
+                
+            <a class="navbar-brand {% if last_path == category.slug %} selected {% endif %}"
+                    href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
+                <i class="bi bi-{{ category.icon }}" style="scale: 0.9; padding-right: 10px;" ></i>
+                {{ category.name }}
+            </a>
+
+            
+            {% endfor %}
+
+        </div>
+
+        <div class="col-12  d-md-block">
+            <div class="navbar-help-cont">
+
+                {% include "contact_and_help/contact_navbar.html" %}
+
+                
+            </div>
+        </div>
+        
+    </nav>
+</div>

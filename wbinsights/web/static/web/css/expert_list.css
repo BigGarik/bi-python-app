@@ -19,7 +19,7 @@
     padding: 5px 10px 5px 10px;
     border: 1px solid #dadada;
     font-family: sans-serif;
-    width: 50%;
+    width: 100%;
     border-radius: 7px;
     outline: none !important;
 }
@@ -115,19 +115,17 @@
     font-family: sans-serif;
     font-size: 28px;
     font-weight: 600;
-    margin-top: 10px;
     line-height: normal;
-    margin-bottom: 5px;
 }
 
 .expert-list-cont {
-    margin-top:10px ; 
-    margin-bottom: 10px
+    margin: 5px 0 5px 0;
 }
 
 .expert-research-catagory-container{
     background-color: #fff5d4;
-    padding: 10px;
+    /* padding: 10px; */
+    padding: 5px 10px 5px 10px;
     border-radius: 20px;
     font-size: 13px;
     font-family: sans-serif;

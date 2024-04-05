@@ -14,64 +14,17 @@ Experts
 
 	<style>
 
-		.experts-list-search-container {
-			position: relative;
-			z-index: 9999; /* Ensure the search bar is above other elements */
+		.testing-class{
+			display: flex;
+			justify-content: space-evenly;
 		}
 		
-		.experts-list-catagory-cont {
-			/* Add any necessary styling */
-		}
-		
-		@media (max-width: 992px) {
-		
-			.experts-list-avatar-container {
-				width: 100px !important;
-				height: 100px !important;
-			}
-
-			.expert-list-title {
-				font-size: 18px !important;
-			}
-
-			.expert-list-consult-btn {
-				height: 40px;
-			}
-
-			.question-btn-and-money {
-				flex-direction: column;
-				gap: 5px;
-			}
-
-			.experts-list-rating-span {
-
-				font-size: 13px !important;
-			}
-
-			.expert-list-cont {
-				margin: 0 !important;
-			}
+		@media (max-width: 768px ) {
 
 			.article-last {
-				align-items: flex-start !important;
-			}
-
-			.experts-list-main-cont {
-				padding: 15px !important;
-			}
-
-			.expert-stats-an-other {
-				margin-right:0 !important
-			}
-
-			.experts-list-search-cont{
-				width:100% !important;
-
+				justify-content: space-between !important;
 			}
 			
-			.normal-layout {
-				display: none;
-			}
 		
 			.small-layout {
 				display: flex;
@@ -79,44 +32,50 @@ Experts
 				width: 100%;
 			}
 
+			.article-last {
+				gap:5px !important ;
+				flex-direction: column !important;
+			}
+
+			.experts-list-main-cont {
 			
+				padding: 20px 10px 20px 10px !important;
+		
+			}
 
 			
 
 		}
-	</style>
+		
+		@media (min-width: 769px ) {
+			.small-layout {
+				display: flex;
+				flex-direction:row !important;
+				width: 100%;
+			}
 
+			.expert-stats-an-other {
+				justify-content: flex-end !important;
+			}
+			
+			
+
+		}
+
+		
+	</style>
 
 	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
 
 	<div class="experts-list-main-cont">
 
 		<div class="experts-list-search-and-cat-cont">
-			<!-- Normal layout -->
-			<div class="normal-layout d-none d-md-flex" style="justify-content: space-between;display: flex; width:100%">
-				<input type="search" class="experts-list-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
-				<div class="experts-list-catagory-cont">
-					<div class="dropdown" style="display: flex; align-items: center;">
-						<button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-							<span class="experts-list-catagory-text"> Рейтинг: &nbsp;</span>
-							<span class="expert-list-catagory-choose"> 4 и выше  </span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-							<li><a class="dropdown-item" href="#">3 и выше</a></li>
-							<li><a class="dropdown-item" href="#">4 и выше</a></li>
-							<li><a class="dropdown-item" href="#">5</a></li>
-						</ul>
-					</div>
-					{% include "components/post_category_filter.html" %}
-				</div>
-			</div>
 		
-			<!-- Layout for small screens -->
-			<div class="small-layout d-md-none">
-				<div style="display: flex; width: 100%;">
+			<div class="small-layout col-sm col-md gap-2">
+				<div class="col-sm-12 col-md-5 ">
 					<input type="search" class="experts-list-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
 				</div>
-				<div class="experts-list-catagory-cont" style="display: flex; justify-content: space-around; margin-top:10px">
+				<div class="col-sm-12 col-md-7 testing-class">
 					<div class="dropdown" style="display: flex; align-items: center;">
 						<button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
 							<span class="experts-list-catagory-text"> Рейтинг: &nbsp;</span>
@@ -136,56 +95,45 @@ Experts
 
 		{% for expert in experts %}
 
-		<div class="expert-prof-cont" >
-
-			<div style="display:flex">
-				<div class="expert-list-prof-pic">
-
-					<div class="experts-list-avatar-container">
-						<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
+		<div class="expert-prof-cont">
+		
+			<div class="small-layout3 col-sm">
+				<div style="display:flex">
+					<div class="expert-list-prof-pic">
+						<div class="experts-list-avatar-container">
+							<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
+						</div>
+						<span class="experts-list-rating-span">
+							<i class="bi bi-star-fill" style="color: #e9be50;"></i>
+							&nbsp; Рейтинг: 4.5
+						</span>
+					</div>
+					<div class="expert-list-main-content">
+						<div class="expert-list-title">{{expert.first_name}} {{expert.last_name}}</div>
+						<div class="expert-list-cont">
+							<span class="expert-research-catagory-container"> Финансы </span>
+						</div>
+						<span>
+							{{expert.expertprofile.about}}
+							<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">Читать ещё</a>
+						</span>
+						
+					</div>
+				</div>
+				<div class="article-last">
+					<div class="col-sm order-md-2 expert-stats-an-other">
+						{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
 					</div>
 
-					<span class="experts-list-rating-span">
-					<i class="bi bi-star-fill" style="color: #e9be50;" ></i> 
-						&nbsp; Рейтинг: 4.5
-					</span>
-
-				</div>
-
-				<div class="expert-list-main-content">
-				
-					<div class="expert-list-title">{{expert.first_name}} {{expert.last_name}}</div>
-
-					<div class=" expert-list-cont">
-						<span class="expert-research-catagory-container"> Финансы </span>
+					<div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
+						<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
+						<button type="button" class="btn expert-list-consult-btn">Консультация</button>
 					</div>
-
-					<span>
-						{{expert.expertprofile.about}}
-						<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">Читать ещё</a>
-					</span>
-				</div>
-			</div>
-
-			<div class="article-last">
-
-				<div class="question-btn-and-money">
 					
-					<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
-					<button type="button" class="btn expert-list-consult-btn" style="">
-						Консультация
-					</button>
 				</div>
-
-				<div class="expert-stats-an-other">
-					{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
-
-				</div>
-
 			</div>
-				
 		</div>
-
+		
 			
 		{% endfor %}
 

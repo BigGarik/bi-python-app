@@ -11,74 +11,70 @@ QandA
 
 	<link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
 
+	<style>
+        @media (max-width: 768px ) {
+			
+			.research-search-cont{
+				width:100% !important;
+			}
+
+        }
+    </style>
 
 	<div class="research-question-main-cont">	
 
-		<div class="search-and-cat-cont">
-
+		<div class="search-and-cat-cont d-none d-md-flex" style="display: flex; justify-content: space-between; width: 100%;">
 			<div style="display:flex ; width: 100%;">
-
-				<input type="text" class="research-search-cont" placeholder="Поиск">	
-
+				<input type="text" class="research-search-cont" placeholder="Поиск">    
 				<button type="button" class="btn ask-question-btn btn-sm" >Задать вопрос</button>
+			</div>
+			{% include "components/post_category_filter.html" %}
+		</div>
+	
+		<!-- Small Screens -->
+		<div class="search-and-cat-cont d-md-none" style="display: flex; flex-direction: column;">
+			<div style="display:flex ; width: 100%;">
+				<input type="text" class="research-search-cont" placeholder="Поиск">    
 				
 			</div>
-
-			{% include "components/post_category_filter.html" %}
-			
+			<div style="margin-top: 10px; display:flex; justify-content:space-evenly">
+				{% include "components/post_category_filter.html" %}
+				<button type="button" class="btn ask-question-btn btn-sm" >Задать вопрос</button>
+			</div>
 		</div>
-
 
 		{% for questionsandanswers in '123' %}
 		<div class="article-content">
-
 			<div style=" margin-top:10px ; margin-bottom: 10px">
 				<span class="article-catagory-container"> Финансы </span>
 			</div>
-
 			<div class="question-answer-title">Вот вам яркий пример современных тенденций - сложившаяся структура организации</div>
-
 			<div class="article-main-content">
-				
 				<span class="qa-main-content-text" style="display: block">
 					Повседневная практика показывает, что 
 					высококачественный прототип будущего проекта однозначно определяет каждого участника как способного принимать 
 					собственные решения касаемо соответствующих условий активизации. &nbsp;<a href="#" style="text-decoration:none">Читать пост</a>
-					
 				</span>
-				
-
 				<div class="question-answer-last">
-
 					<div class="article-author-cont">
-
 						<div class="author-pic">
 							<i class="bi bi-person-circle" style="color:black; scale:3"></i>
 						</div>
-
 						<div class="author-name">Александр Александров</div>
 						<span class="hours-ago">18 часов назад</span>
-
 					</div>
-
 					<div class="article-comments-andshare-cont">
 						<div class="article-comments">
 							<i class="bi bi-chat-left-text" style="color:grey; "></i>
 							&nbsp; 104
 						</div>
-
 						<div class="article-share">
 							<i class="bi bi-box-arrow-up-right" style="color:grey; "></i>
 						</div>
-
 					</div>
-
 				</div>
-
 				<hr class="solid" style="margin-top: 20px;">
-				
 			</div>
-			
 		</div>
 		{%endfor%}
 

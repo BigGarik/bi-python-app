@@ -218,3 +218,9 @@
     margin-bottom: 10px !important;
     font-family: math;
   }
+
+  .col-add-article{
+    padding:20px; 
+    display:flex; 
+    flex-direction:column
+  }

@@ -32,9 +32,9 @@
     font-weight: 500;
 }
 
-.prof-pic-cont{
+.prof-page-pic-cont{
     display: flex;
-    width: 20%;
+    /* width: 20%; */
     align-items: center;
     justify-content: center;
 }

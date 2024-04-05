@@ -4,6 +4,21 @@
 
 {% block center_col %}
 
+<style>
+
+    @media (max-width: 1400px ) {
+
+        .prof-edit-input-title {
+            min-height: 100px !important;
+            justify-content: space-between !important;
+        }
+
+        
+
+    }
+
+</style>
+
 <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
 
 <div class="edit-prof-page-cont">
@@ -54,7 +69,7 @@
             <div class="expert-edit-rows">
 
                 <div class="prof-edit-photo-cont">
-                    <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
+                    <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;max-height: 100px;max-width: 100px;min-width: 100px;min-height: 100px;object-fit: cover;">
 
                     <div style="display:flex ; margin-left: 10px ; flex-direction:column">
                         {% if profile_form.instance.avatar %}

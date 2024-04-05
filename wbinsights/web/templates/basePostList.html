@@ -2,13 +2,10 @@
 {% load web_tags %}
 {%load static%}
 
-
-
-
 {% block center_col %}
 
     <style>
-        @media (max-width: 576px) {
+        @media (max-width: 768px) {
             .post-menu {
                 font-size: 11px;
                 
@@ -22,12 +19,17 @@
                 flex-direction: column;
                 margin-top: 15px;
             }
+
+            
         }
     </style>
 
-
+    <div class="col-12 d-block d-md-block d-lg-none">
+        {% include "components/left_main_menu.html" %}
+    </div>
     <div class="base-Content">
 
+       
         <div class="article-text-top">
             <span class="article-news">Новости</span>
             <span class="article-return" role="button" onclick="toggleCollapse()" aria-expanded="true">
@@ -35,6 +37,7 @@
                 &nbsp; свернуть
             </span>
         </div>
+
 
         <div class="collapse show" id="collapseNews">
             <div class="base-info-split">

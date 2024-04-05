@@ -9,6 +9,31 @@
 
 {% block posts_content %}
 
+<style>
+
+	.author-pic {
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		overflow: hidden;
+		border: 1px solid #ccc;
+	}
+
+	.author-pic img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	@media (max-width: 768px ) {
+		.article-list-search-cont {
+			width: 100% !important;
+		}
+
+	}
+
+</style>
+
 <link rel="stylesheet" href="{% static 'web/css/article_list.css' %}">
 
 <body>
@@ -61,21 +86,7 @@
 				<div class="article-list-last">
 
 					<div class="article-list-author-cont">
-                        <style>
-                            .author-pic {
-                                width: 30px;
-                                height: 30px;
-                                border-radius: 50%;
-                                overflow: hidden;
-                                border: 1px solid #ccc;
-                            }
-
-                            .author-pic img {
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                            }
-                        </style>
+                       
                         <div class="author-pic">
                             <img src="{{ article.author.profile.avatar.url }}" />
 						</div>
