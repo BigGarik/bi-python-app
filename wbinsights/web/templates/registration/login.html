@@ -22,40 +22,28 @@
             width: 100%;
         }
 
-        @media (min-width: 576px) {
-         
-            .user-fill-info-cont {
-                width: 100% !important;
-                padding: 30px !important;
-            }
-
+        @media (max-width: 575px) {
             .register-cont {
-                margin:15% !important;
-
-            }
-
-            .span-register{
-                font-size: 30px !important;
-            }
-            .form-group {
-                font-size:30px !important;
-                margin: 20px 0 20px 0 !important;
-            }
-
-            .custom-form-field {
-                padding: 12px;
-                font-size: 30px;
-                width: 100%;
-            }
-
-            .register-btn {
-                height:50px !important;
-                font-size : 24px !important ;
-
-
+                margin-right: 10%;
+                margin-left: 10%;
             }
         }
-        
+
+        @media (min-width: 576px) {
+            .register-cont {
+                margin-right: 25%;
+                margin-left: 25%;
+            }
+        }
+
+        @media (min-width: 993px) {
+            .back-btn,
+            .user-fill-info-cont,
+            .login-cont {
+                min-width:400px;
+                max-width:400px;
+            }
+        }
 
         @media (min-width: 1200px) {
             .back-btn,
@@ -95,16 +83,24 @@
 
             <div class="user-fill-info-cont">
 
-                <form method="post" id="login-form" >
+                <form method="post" id="login-form">
 
                     {% csrf_token %}
                     
                     <div class="role-choose">
                         <span class="span-register">ВХОД</span>
                     </div>
+
+                    {% if form.errors %}
+                         <div class="alert alert-danger">
+                            {% for key, value in form.errors.items %}
+                                {{ value }}
+                            {% endfor %}
+                         </div>
+                    {% endif %}
                 
                     <div class="form-group" id="email-form">
-                        <label for="email" class="login-labels">Электронная почта</label>
+                        <label for="email">Электронная почта</label>
                         <input type="email" name="{{ form.username.name }}" class="custom-form-field" {% if form.username.field.required %}required{% endif %}>
                     </div>
                 
