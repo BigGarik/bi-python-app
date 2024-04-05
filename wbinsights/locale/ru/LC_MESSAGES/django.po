@@ -201,7 +201,7 @@ msgstr "Настройки профиля"
 
 #: .\web\templates\profile\expert\profile.html:142
 msgid "PricePerHourLabel"
-msgstr "Стоимость"
+msgstr "Стоимость консультации"
 
 #: .\web\templates\profile\expert\profile.html:149
 msgid "ArticlesTabLabel"
