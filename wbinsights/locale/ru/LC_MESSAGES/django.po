@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-05 14:21+0500\n"
+"POT-Creation-Date: 2024-04-05 15:15+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,7 +63,8 @@ msgstr ""
 msgid ""
 "Phone number must be entered in the format: '+79997654321'. Up to 15 digits "
 "allowed."
-msgstr "Телефонный номер должен быть в формате '+79997654321'. Не более 15 цифр"
+msgstr ""
+"Телефонный номер должен быть в формате '+79997654321'. Не более 15 цифр"
 
 #: .\web\models\users.py:17
 msgid "email address"
@@ -150,11 +151,11 @@ msgstr ""
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:57
 #: .\web\templates\profile\expert\profile.html:94
 msgid "EducationLabel"
-msgstr ""
+msgstr "Образование"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:64
 msgid "AgeLabel"
-msgstr ""
+msgstr "Возраст"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:73
 msgid "ApproveButtonLabel"
@@ -174,15 +175,19 @@ msgstr "Анкета Эксперта"
 msgid "SendForVerifyLabel"
 msgstr "Отправить на верификацию"
 
+#: .\web\templates\profile\client\edit_profile.html:33
+#, fuzzy
+#| msgid "ProfileSettingsLabel"
+msgid "ProfileSettingsCaption"
+msgstr "Настройки профиля"
+
 #: .\web\templates\profile\expert\profile.html:17
 msgid "ToMainPageLabel"
-msgstr ""
+msgstr "На главную"
 
 #: .\web\templates\profile\expert\profile.html:37
-#, fuzzy
-#| msgid "BackButtonLabel"
 msgid "RatingLabel"
-msgstr "Назад"
+msgstr "Рейтинг"
 
 #: .\web\templates\profile\expert\profile.html:73
 msgid "ProfileSettingsLabel"
@@ -193,10 +198,8 @@ msgid "PricePerHourLabel"
 msgstr "Стоимость"
 
 #: .\web\templates\profile\expert\profile.html:120
-#, fuzzy
-#| msgid "CreateArticleLabel"
 msgid "ArticlesLabel"
-msgstr "Написать статью"
+msgstr "С"
 
 #: .\web\templates\profile\expert\profile.html:121
 #, fuzzy

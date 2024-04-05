@@ -1,5 +1,6 @@
 {% extends 'base120.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block center_col %}
 
@@ -29,9 +30,7 @@
             <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> Назад
         </a>
 
-        <span class= "prof-edit-page-title">Настройки профиля</span>
-        
-
+        <span class= "prof-edit-page-title">{% trans 'ProfileSettingsCaption' %}</span>
 
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -66,14 +65,18 @@
                     display: none;
                 }
             </style>
+        
             <div class="expert-edit-rows">
 
                 <div class="prof-edit-photo-cont">
                     <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
 
                     <div style="display:flex ; margin-left: 10px ; flex-direction:column">
+                    
                         {% if profile_form.instance.avatar %}
-                            <p style= "color:white ; user-select: none; margin: 0;">На данный момент: <a href="{{ profile_form.instance.avatar.url }}" style="color: white;">{{ profile_form.instance.avatar.name }}</a></p>
+                            <p style= "color:white ; user-select: none; margin: 0;">
+                                На данный момент: <a href="{{ profile_form.instance.avatar.url }}" style="color: white;">{{ profile_form.instance.avatar.name }}</a>
+                            </p>
                         {% endif %}
 
                         <label for="id_avatar">Изменить:</label>
@@ -81,29 +84,47 @@
                     </div>
                 </div>
 
-
-              
-
             </div>
             
 
             <div class="expert-edit-rows">
                 <span class="prof-edit-change-pass">Смена пароля</span>
 
+                {% if user_change_password_form.errors %}
+                     <div class="alert alert-danger">
+                     
+                        {% for key, value  in user_change_password_form.errors.items  %}
+                            {{ value }}
+                        {% endfor %}
+    
+                    </div>
+                {% endif %}
+
                 <div class="prof-edit-duel-rows">
                     <div class="prof-edit-input-title">
-                        <label for="{{ user_form.oldpassword.id_for_label }}" class="prof-edit-input-labels">{{ user_form.oldpassword.label }}</label>
-                        {{ user_form.oldpassword }}
+                        <label for="{{ user_change_password_form.old_password.id_for_label }}" class="prof-edit-input-labels">
+                            {{ user_change_password_form.old_password.label }}</label>
+                        {{ user_change_password_form.old_password }}
                     </div>
                     <div class="prof-edit-input-title">
-                          <label for="{{ user_form.newpassword.id_for_label }}" class="prof-edit-input-labels">{{  user_form.newpassword.label}}</label>
-                        {{ user_form.newpassword }}
+                          <label for="{{ user_change_password_form.new_password1.id_for_label }}" class="prof-edit-input-labels">
+                              {{  user_change_password_form.new_password1.label}}</label>
+                        {{ user_change_password_form.new_password1 }}
                     </div>
                     <div class="prof-edit-input-title">
-                         <label for="{{ user_form.confirmpassword.id_for_label }}" class="prof-edit-input-labels">{{ user_form.confirmpassword.label }}</label>
-                        {{ user_form.confirmpassword }}
+                         <label for="{{ user_change_password_form.new_password2.id_for_label }}" class="prof-edit-input-labels">
+                             {{ user_change_password_form.new_password2.label }}</label>
+                        {{ user_change_password_form.new_password2 }}
                     </div>
                 </div>
+
+                <script>
+                    $( document ).ready(function () {
+                        $("[name=old_password]").val('')
+                        $("[name=new_password1]").val('')
+                        $("[name=new_password2]").val('')
+                    })
+                </script>
 
             </div>
 

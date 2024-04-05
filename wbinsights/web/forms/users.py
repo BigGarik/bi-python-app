@@ -88,6 +88,36 @@ class UserPasswordChangeForm(PasswordChangeForm):
             })
 
 
+class UserProfilePasswordChangeForm(PasswordChangeForm):
+    """
+        Форма изменения пароля а странице профиля пользователя
+    """
+
+    old_password = forms.CharField(
+        label=_("Old password"),
+        strip=False,
+        required=False,
+        widget=forms.PasswordInput(
+            attrs={'class': 'custom-form-css'}
+        ),
+    )
+
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        required=False,
+        widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+
+    new_password2 = forms.CharField(
+        label=_("New password confirmation"),
+        strip=False,
+        required=False,
+        widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}),
+    )
+
+
 class UserPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
         label="Email",
