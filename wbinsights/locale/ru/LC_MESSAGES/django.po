@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-05 15:15+0500\n"
+"POT-Creation-Date: 2024-04-05 18:19+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,43 +20,55 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\templates\base.html:59 .\templates\base.html:226
+#: .\templates\base.html:61 .\templates\base.html:228
 msgid "MakeResearch"
 msgstr "Провести исследование"
 
-#: .\templates\base.html:61 .\templates\base.html:228
+#: .\templates\base.html:63 .\templates\base.html:230
 msgid "CreateArticleLabel"
 msgstr "Написать статью"
 
-#: .\templates\base.html:63 .\templates\base.html:230
+#: .\templates\base.html:65 .\templates\base.html:232
 #, fuzzy
 #| msgid "BackButtonLabel"
 msgid "AskQuestionLabel"
 msgstr "Назад"
 
-#: .\templates\base.html:77
+#: .\templates\base.html:79
 msgid "VerifyAccountLabel"
 msgstr ""
 
-#: .\templates\base.html:118 .\templates\base.html:194
+#: .\templates\base.html:120 .\templates\base.html:196
 msgid "PersonalAccountLabel"
 msgstr "Личный кабинет"
 
-#: .\templates\base.html:124 .\templates\base.html:200
-#: .\web\templates\profile\expert\profile.html:79
+#: .\templates\base.html:126 .\templates\base.html:202
+#: .\web\templates\profile\expert\profile.html:108
 msgid "LogoutButtonLabel"
 msgstr "Выйти"
 
-#: .\templates\base.html:134 .\templates\base.html:210
+#: .\templates\base.html:136 .\templates\base.html:212
 msgid "LoginBtnLabel"
 msgstr "Войти"
 
-#: .\templates\base.html:137 .\templates\base.html:213
+#: .\templates\base.html:139 .\templates\base.html:215
 msgid "RegisterBtnLabel"
 msgstr "Зарегистрироваться"
 
 #: .\web\backends.py:25
 msgid "Please check your email to activate your account."
+msgstr ""
+
+#: .\web\forms\users.py:97
+msgid "Old password"
+msgstr ""
+
+#: .\web\forms\users.py:106
+msgid "New password"
+msgstr ""
+
+#: .\web\forms\users.py:114
+msgid "New password confirmation"
 msgstr ""
 
 #: .\web\models\users.py:10
@@ -138,18 +150,16 @@ msgid "CategoryLabel"
 msgstr "Написать статью"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:43
-#: .\web\templates\profile\expert\profile.html:100
-#, fuzzy
-#| msgid "CreateArticleLabel"
+#: .\web\templates\profile\expert\profile.html:129
 msgid "ExperienceLabel"
-msgstr "Написать статью"
+msgstr "Опыт"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:50
 msgid "HourRateLabel"
 msgstr ""
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:57
-#: .\web\templates\profile\expert\profile.html:94
+#: .\web\templates\profile\expert\profile.html:123
 msgid "EducationLabel"
 msgstr "Образование"
 
@@ -159,13 +169,11 @@ msgstr "Возраст"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:73
 msgid "ApproveButtonLabel"
-msgstr ""
+msgstr "Согласовать"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:74
-#, fuzzy
-#| msgid "BackButtonLabel"
 msgid "DenyButtonLabel"
-msgstr "Назад"
+msgstr "Отклонить"
 
 #: .\web\templates\profile\anketa.html:17
 msgid "FillAllFieldsLabel"
@@ -176,60 +184,48 @@ msgid "SendForVerifyLabel"
 msgstr "Отправить на верификацию"
 
 #: .\web\templates\profile\client\edit_profile.html:33
-#, fuzzy
-#| msgid "ProfileSettingsLabel"
 msgid "ProfileSettingsCaption"
-msgstr "Настройки профиля"
+msgstr ""
 
-#: .\web\templates\profile\expert\profile.html:17
+#: .\web\templates\profile\expert\profile.html:46
 msgid "ToMainPageLabel"
 msgstr "На главную"
 
-#: .\web\templates\profile\expert\profile.html:37
+#: .\web\templates\profile\expert\profile.html:66
 msgid "RatingLabel"
 msgstr "Рейтинг"
 
-#: .\web\templates\profile\expert\profile.html:73
-msgid "ProfileSettingsLabel"
+#: .\web\templates\profile\expert\profile.html:102
+msgid "EditProfileLabel"
 msgstr "Настройки профиля"
 
-#: .\web\templates\profile\expert\profile.html:113
+#: .\web\templates\profile\expert\profile.html:142
 msgid "PricePerHourLabel"
 msgstr "Стоимость"
 
-#: .\web\templates\profile\expert\profile.html:120
-msgid "ArticlesLabel"
-msgstr "С"
+#: .\web\templates\profile\expert\profile.html:149
+msgid "ArticlesTabLabel"
+msgstr "Статьи"
 
-#: .\web\templates\profile\expert\profile.html:121
-#, fuzzy
-#| msgid "RegisterBtnLabel"
-msgid "ResearchesLabel"
-msgstr "Зарегистрироваться"
+#: .\web\templates\profile\expert\profile.html:150
+msgid "ResearchesTabLabel"
+msgstr "Исследования"
 
-#: .\web\templates\profile\expert\profile.html:122
-#, fuzzy
-#| msgid "BackButtonLabel"
-msgid "QuestionsLabel"
-msgstr "Назад"
+#: .\web\templates\profile\expert\profile.html:151
+msgid "QuestionsTabLabel"
+msgstr "Вопросы"
 
-#: .\web\templates\profile\expert\profile.html:123
-#, fuzzy
-#| msgid "BackButtonLabel"
-msgid "ConsultationsLabel"
-msgstr "Назад"
+#: .\web\templates\profile\expert\profile.html:152
+msgid "ConsultationsTabLabel"
+msgstr "Консультации"
 
-#: .\web\templates\profile\expert\profile.html:124
-#, fuzzy
-#| msgid "RegisterBtnLabel"
-msgid "ReviewsLabel"
-msgstr "Зарегистрироваться"
+#: .\web\templates\profile\expert\profile.html:153
+msgid "ReviewsTabLabel"
+msgstr "Отзывы"
 
-#: .\web\templates\profile\expert\profile.html:136
-#, fuzzy
-#| msgid "RegisterBtnLabel"
+#: .\web\templates\profile\expert\profile.html:165
 msgid "ReadPostLabel"
-msgstr "Зарегистрироваться"
+msgstr "Читать далее..."
 
 #: .\web\templates\registration\email\password_reset_email.html:2
 #, python-format

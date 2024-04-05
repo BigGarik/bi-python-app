@@ -99,13 +99,13 @@
 
                         <a href="{% url 'profile_edit' %}" type="button"
                            class="btn prof-settings-btn">
-                           <!--{% trans 'ProfileSettingsLabel' %} --> Edit Profile
+                           {% trans 'EditProfileLabel' %}
                         </a>
 
                         <form method="post" action="{% url 'logout' %}" >
                             {% csrf_token %}
                             <button class="btn prof-logout-btn" type="submit" >
-                                <!--{% trans 'LogoutButtonLabel' %} --> Logout
+                                {% trans 'LogoutButtonLabel' %}
                             </button>
                         </form>
 
@@ -120,13 +120,13 @@
                 <div class="bottom-info">
 
                     <div class="prof-bottom-cont">
-                        <span class="bottom-bold-text">{% trans 'EducationLabel' %} &nbsp;</span>
+                        <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp;</span>
                         <span class="">{{ request.user.expertprofile.education }}</span>
                     </div>
 
                     <div class="prof-bottom-cont">
 
-                        <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}&nbsp;</span>
+                        <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}:&nbsp;</span>
                         <span class="">{{ request.user.expertprofile.experience }}
                             {% get_write_phrase request.user.expertprofile.experience 'год года лет' %}
                         </span>
