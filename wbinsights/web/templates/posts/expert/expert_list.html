@@ -1,4 +1,3 @@
-<!-- article_list.html -->
 {% extends 'basePostList.html' %}
 {% load web_tags %}
 {% load static %}
@@ -111,11 +110,11 @@ Experts
 					<div class="expert-list-main-content">
 						<div class="expert-list-title">{{expert.first_name}} {{expert.last_name}}</div>
 						<div class="expert-list-cont">	                        
-                            {% for expert_category in expert.expertprofile.expert_categories.all %}
-                                <span class="expert-research-catagory-container">
-                                    {{ expert_category.name }}
-                                </span>
-                            {% endfor %}                                                             
+                            {% for exp_category in expert.expertprofile.expert_categories.all %}
+								<div class="user-catagory-highlight {% if exp_category.slug == 'banki' %}banki{% elif exp_category.slug == 'finansy' %}finansy{% elif exp_category.slug == 'it' %}it{% endif %}">
+									{{ exp_category.name }}
+								</div>
+							{% endfor %}                                                            
 						</div>
 						<span>
 							{{expert.expertprofile.about}}

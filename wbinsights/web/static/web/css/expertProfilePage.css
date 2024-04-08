@@ -128,17 +128,8 @@
     color: #dd3838;
 } */
 
-.user-catagory-highlight{
-    display: flex;
-    align-items: center;
-    padding: 0 15px 0 15px;
-    background-color: #d4eaff;
-    border-radius: 20px;
-    margin-left: 5px;
-    font-size: 14px;
-    color: #136dae;
-    font-weight: 600;
-}
+
+
 
 .user-rate-and-stars{
     display: flex;

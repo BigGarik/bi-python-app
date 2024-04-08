@@ -120,6 +120,7 @@
 
 .expert-list-cont {
     margin: 5px 0 5px 0;
+    display: flex;
 }
 
 .expert-research-catagory-container{

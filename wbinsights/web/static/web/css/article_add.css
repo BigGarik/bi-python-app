@@ -118,15 +118,15 @@
 }
 
 .select2-container .select2-selection__choice:nth-child(1) {
-    background-color: #ffcccb !important; /* Light Red */
+    background-color: #ffcccb !important; 
 }
 
 .select2-container .select2-selection__choice:nth-child(2) {
-    background-color: #ffebcd !important; /* Blanched Almond */
+    background-color: #ffebcd !important; 
 }
 
 .select2-container .select2-selection__choice:nth-child(3) {
-    background-color: #98fb98 !important; /* Pale Green */
+    background-color: #98fb98 !important;
 }
 
 .article-add-main-content{

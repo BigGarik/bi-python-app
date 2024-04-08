@@ -158,6 +158,36 @@
     font-size: 18px;
 }
 
+.displayflex{
+    display: flex;
+}
+
+.user-catagory-highlight{
+    display: flex;
+    align-items: center;
+    padding: 5px 15px 5px 15px;
+    border-radius: 20px;
+    margin-left: 5px;
+    font-size: 14px;
+    color: #136dae;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.banki{
+    background-color: #ecffd4;
+    color: #60ae13;
+}
+
+.it{
+    background-color:#d4eaff ;
+    color: #136dae;
+}
+
+.finansy {
+    background-color:#fff5d4 ;
+    color: #d6b537;
+}
 
 
 

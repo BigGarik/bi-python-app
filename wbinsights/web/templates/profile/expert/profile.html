@@ -12,18 +12,12 @@
 
 
 <style>
- 
-    
-
-    
     @media (max-width: 768px ) {
     
         .prof-page-pic-cont img {
             min-height: 100px !important;
             min-width: 100px !important;
         }
-
-   
 
     }
     
@@ -32,11 +26,8 @@
             min-height: 130px !important;
             min-width: 130px !important;
         }
-  
 
     }
-
-    
 </style>
 
     <div class="prof-page-cont">
@@ -81,14 +72,16 @@
 
                     <div class="user-category-cont">
 
-                        <div class="user-category">Эксперт в области:</div>
+                        <div class="user-category">Эксперт в области :</div>
 
-                        {% for exp_category in request.user.expertprofile.expert_categories.all %}
-                             <div class="user-catagory-highlight">
-                                {{ exp_category.name }}
-                             </div>
-                        {% endfor %}
-
+                        <div class="displayflex">
+                            {% for exp_category in request.user.expertprofile.expert_categories.all %}
+								<div class="user-catagory-highlight {% if exp_category.slug == 'banki' %}banki{% elif exp_category.slug == 'finansy' %}finansy{% elif exp_category.slug == 'it' %}it{% endif %}">
+									{{ exp_category.name }}
+								</div>
+							{% endfor %}  
+                        </div>
+                        
                     </div>
 
                     <div class="user-stats">

@@ -56,12 +56,15 @@ class ExpertProfileForm(forms.ModelForm):
     hour_cost = forms.DecimalField(label="Стоимость", widget=forms.NumberInput(
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
 
-    categories = forms.ModelMultipleChoiceField(label="Категории экспертности",
-        queryset=Category.objects.all())
+    categories = forms.ModelMultipleChoiceField(
+        label="Категории экспертности",
+        queryset=Category.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'form-inputs-custom'})  
+    )
 
     class Meta:
         model = ExpertProfile
-        fields = ("about", "experience", "hour_cost")
+        fields = ("about", "experience", "hour_cost", "categories")
 
 
 class ProfileForm(forms.ModelForm):

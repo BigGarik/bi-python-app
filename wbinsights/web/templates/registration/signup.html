@@ -1,5 +1,6 @@
 {% load static %}
 
+{% load crispy_forms_tags %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +23,22 @@
 
     .errorlist{
         margin-bottom:0px;
+    }
+
+    .select2-container {
+
+        width: 100% !important;
+        border: 1px solid #dadada;
+        border-radius: 5px;
+        padding: 5px;
+        margin-bottom: 10px;
+        margin-top: 5px;
+        outline: none;
+    }
+
+    .select2-container .select2-selection--multiple {
+        border: none !important;
+
     }
 </style>
 <body style="background-color: #f2f3f5;">

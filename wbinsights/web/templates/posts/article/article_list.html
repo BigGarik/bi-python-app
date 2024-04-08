@@ -80,7 +80,9 @@
 				</span>
 			
 				<div class="article-list-cat-cont ">
-					<span class="article-list-catagory-container">{{article.cat.name}}</span>
+					<div class="user-catagory-highlight {% if article.cat.slug == 'banki' %}banki{% elif article.cat.slug == 'finansy' %}finansy{% elif article.cat.slug == 'it' %}it{% endif %}">
+						{{ article.cat.name }}
+					</div>
 				</div>
 
 				<div class="article-list-last">
@@ -91,8 +93,11 @@
                             <img src="{{ article.author.profile.avatar.url }}" />
 						</div>
 
-                        <div class="article-list-author-name">{{ article.author.last_name}} {{ article.author.first_name}}</div>
 
+						<a href="{% url 'expert_profile' article.author.pk %}" style="text-decoration:none">
+							<div class="article-list-author-name">{{ article.author.last_name }} {{ article.author.first_name }}</div>
+						</a>
+						
 					</div>
 
 					<div class="article-list-comments-andshare-cont">

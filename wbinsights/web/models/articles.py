@@ -52,6 +52,10 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'slug': self.slug})
+    
+    
+    
+    
 
 
 class Category(models.Model):
