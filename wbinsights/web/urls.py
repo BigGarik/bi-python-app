@@ -70,7 +70,7 @@ urlpatterns = [
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
 
-    path('manage/', admin.site.urls),
+    path('admin/', admin.site.urls),
 
 
 ]
