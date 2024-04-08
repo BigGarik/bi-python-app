@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from web.models.users import ExpertProfile
-from web.models import Article
+from web.models import Article, Category
 
 from django.contrib.auth import update_session_auth_hash
 
@@ -119,14 +119,13 @@ class ExpertProfileChangeForm(forms.ModelForm):
     education = forms.CharField(label="Образование", widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
     age = forms.CharField(label="Возраст", widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
     hour_cost = forms.CharField(label="Стоимость", widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
-    category = forms.CharField(label="Категории экспертности",
-                               widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
+    expert_categories = forms.ModelMultipleChoiceField(label="Категории экспертности", queryset=Category.objects.all())
     experience = forms.IntegerField(label="Опыт работы (лет)", widget=forms.TextInput(
         attrs={'class': 'custom-form-css', 'placeholder': 'Введите кол-во лет'}))
 
     class Meta:
         model = ExpertProfile
-        fields = ("about", "education", "age", "hour_cost", "experience")  # photo
+        fields = ("about", "education", "age", "hour_cost", "experience", "expert_categories")  # photo
 
 
 @login_required

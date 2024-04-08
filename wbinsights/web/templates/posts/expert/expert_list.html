@@ -111,7 +111,13 @@ Experts
 					<div class="expert-list-main-content">
 						<div class="expert-list-title">{{expert.first_name}} {{expert.last_name}}</div>
 						<div class="expert-list-cont">
-							<span class="expert-research-catagory-container"> Финансы </span>
+							
+                            {% for expert_category in expert.expertprofile.expert_categories.all %}
+                                <span class="expert-research-catagory-container">
+                                    {{ expert_category.name }}
+                                </span>
+                            {% endfor %}                                    
+                            
 						</div>
 						<span>
 							{{expert.expertprofile.about}}

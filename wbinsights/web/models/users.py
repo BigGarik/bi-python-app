@@ -108,7 +108,7 @@ class ExpertProfile(models.Model):
     is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerifiedStatus.choices,
                                       default=ExpertVerifiedStatus.NOT_VERIFIED)
     # rating = models.FloatField(null=True)
-    expert_categories = models.ManyToManyField(Category, related_name="categories")
+    expert_categories = models.ManyToManyField(Category)
 
 
 # Создаем обработчик сигнала для добавления профиля при создании пользователя
