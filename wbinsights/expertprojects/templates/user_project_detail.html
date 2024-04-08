@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base123.html' %}
 
-</body>
-</html>
+
+{% load web_tags %}
+
+{% block center_col %}
+<h1>Детали проекта: {{ userproject.name }}</h1>
+
+<div class="project-details">
+    <p><strong>Категории:</strong></p>
+    <ul>
+        {% for category in project.category.all %}
+            <li>{{ category.name }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if userproject.key_results %}
+        <p><strong>Ключевые результаты:</strong></p>
+        <ul>
+            {% for key_result in userproject.key_results %}
+                <li>{{ key_result }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if userproject.customer %}
+        <p><strong>Заказчик:</strong> {{ userproject.customer.name }}</p>
+    {% endif %}
+
+    <p><strong>Год:</strong> {{ userproject.year }}</p>
+
+    <p><strong>Цели проекта:</strong><br>{{ userproject.goals }}</p>
+
+    <p><strong>Дата создания:</strong> {{ userproject.time_create|date:"Y-m-d" }}</p>
+    <p><strong>Последнее обновление:</strong> {{ userproject.time_update|date:"Y-m-d" }}</p>
+</div>
+
+
+{% endblock %}

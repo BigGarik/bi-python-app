@@ -4,12 +4,23 @@ from web.models.users import CustomUser
 from django.urls import reverse
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    icon = models.CharField(max_length=50, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('category', kwargs={'cat_slug': self.slug})
+
+
 class UserProject(models.Model):
-    member = models.ForeignKey('UserProjectMember', on_delete=models.SET_NULL, null=True, related_name="userproject")
+    member = models.ForeignKey('web.CustomUser', on_delete=models.SET_NULL, null=True, related_name="userproject")
     name = models.CharField(max_length=255, verbose_name="Заголовок")
-    category = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='userproject', blank=True,
-                                 verbose_name="Категории", )
-    key_results = ArrayField(models.CharField(max_length=200), blank=True)
+    category = models.ManyToManyField('Category', related_name='userprojects', blank=True, verbose_name="Категории")
+    key_results = ArrayField(models.CharField(max_length=200), blank=True)  # Текст через запятую
     customer = models.ForeignKey('UserProjectCustomer', on_delete=models.SET_NULL, null=True, related_name="userproject")
     year = models.IntegerField()
     goals = models.TextField(blank=True, verbose_name="Текст проекта")
@@ -32,11 +43,6 @@ class UserProject(models.Model):
         return reverse('project_detail', kwargs={'slug': self.slug})
 
 
-class UserProjectMember(models.Model):
-    project = models.ForeignKey('UserProject', on_delete=models.CASCADE, related_name='userprojectmember')
-    user = models.ForeignKey('web.CustomUser', on_delete=models.SET_NULL, null=True, related_name="userprojectmember")
-
-
 class UserProjectFile(models.Model):
     file = models.FileField(upload_to="expertprojects/%Y/%m/%d/")
     project = models.ForeignKey('UserProject', related_name='userprojectfile', on_delete=models.CASCADE)
@@ -50,15 +56,3 @@ class UserProjectCustomer(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    icon = models.CharField(max_length=50, null=True)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('category', kwargs={'cat_slug': self.slug})
