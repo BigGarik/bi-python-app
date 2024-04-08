@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0030_alter_customuser_phone_number'),
+        ('web', '0029_alter_customuser_phone_number'),
     ]
 
     operations = [
