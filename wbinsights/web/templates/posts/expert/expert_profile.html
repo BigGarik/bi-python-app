@@ -50,7 +50,11 @@
             
               <div class="user-category-cont">
                   <div class="user-category">Эксперт в области:</div>
-                  <div class="user-catagory-highlight">IT</div>
+                   {% for exp_category in expert.expertprofile.expert_categories.all %}
+                         <div class="user-catagory-highlight">
+                            {{ exp_category.name }}
+                         </div>
+                    {% endfor %}  
               </div>
               <div class="user-stats">
 

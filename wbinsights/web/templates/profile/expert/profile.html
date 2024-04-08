@@ -82,11 +82,12 @@
                     <div class="user-category-cont">
 
                         <div class="user-category">Эксперт в области:</div>
-                                <div class="user-catagory-highlight">
-                                    {% for exp_category in request.user.expertprofile.expert_categories.all %}
-                                        {{ exp_category.name }}
-                                    {% endfor %}
-                                </div>
+
+                        {% for exp_category in request.user.expertprofile.expert_categories.all %}
+                             <div class="user-catagory-highlight">
+                                {{ exp_category.name }}
+                             </div>
+                        {% endfor %}
 
                     </div>
 
