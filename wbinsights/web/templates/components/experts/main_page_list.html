@@ -35,7 +35,14 @@
 
                 <div class="expert-info">
                     <div class="expert-name"><a href="{% url 'expert_profile' expert.pk %}" style="color:black">{{ expert.first_name }} {{ expert.last_name }}</a></div>
-                    <div class="expert-job">{{ expert.cat.name }}</div>
+                    <div class="expert-job">
+                        {% for expert_category in expert.expertprofile.expert_categories.all %}
+                            {{ expert_category.name }}
+                            {% if not forloop.last %}
+                            ,
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                     <div class="user-rating-cont">
                         <div class="user-rating"><i class="bi bi-star-fill" style="scale: 0.9; color: #e9be50; padding: 0 2px 0 2px"></i> 4.5</div>
 {#                        <div class="user-rate-and-stars">#}
