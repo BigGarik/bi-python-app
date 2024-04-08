@@ -80,7 +80,7 @@
 				</span>
 			
 				<div class="article-list-cat-cont ">
-					<div class="user-catagory-highlight {% if article.cat.slug == 'banki' %}banki{% elif article.cat.slug == 'finansy' %}finansy{% elif article.cat.slug == 'it' %}it{% endif %}">
+					<div class="user-catagory-highlight {{article.cat.slug}}">
 						{{ article.cat.name }}
 					</div>
 				</div>

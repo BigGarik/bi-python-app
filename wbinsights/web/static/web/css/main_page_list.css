@@ -92,3 +92,11 @@
     color: black;
 }
 
+
+.user-rating-right-list {
+    display: flex;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}
+

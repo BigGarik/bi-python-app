@@ -111,7 +111,7 @@ Experts
 						<div class="expert-list-title">{{expert.first_name}} {{expert.last_name}}</div>
 						<div class="expert-list-cont">	                        
                             {% for exp_category in expert.expertprofile.expert_categories.all %}
-								<div class="user-catagory-highlight {% if exp_category.slug == 'banki' %}banki{% elif exp_category.slug == 'finansy' %}finansy{% elif exp_category.slug == 'it' %}it{% endif %}">
+								<div class="user-catagory-highlight {{exp_category.slug}}">
 									{{ exp_category.name }}
 								</div>
 							{% endfor %}                                                            

@@ -76,7 +76,7 @@
 
                         <div class="displayflex">
                             {% for exp_category in request.user.expertprofile.expert_categories.all %}
-								<div class="user-catagory-highlight {% if exp_category.slug == 'banki' %}banki{% elif exp_category.slug == 'finansy' %}finansy{% elif exp_category.slug == 'it' %}it{% endif %}">
+								<div class="user-catagory-highlight {{exp_category.slug}}">
 									{{ exp_category.name }}
 								</div>
 							{% endfor %}  
