@@ -98,33 +98,10 @@ class CustomUserChangeForm(forms.ModelForm):
         if first_name and len(first_name) == 0:
             self.add.error('first_name', 'THIS FIELD CANNOT BE EMPTY')
 
-    def clean(self):
-        cleaned_data = super().clean()
-        last_name = cleaned_data.get('last_name')
-
-        if last_name and len(last_name) == 0:
-            self.add.error('last_name', 'THIS FIELD ALSO CANNOT BE EMPTY')
 
     class Meta:
         model = CustomUser
-        fields = ("first_name", "last_name")  # photo
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     for field_name, field in self.fields.items():
-    #         field.error_messages = {'required': 'This field cannot be empty.'}
-
-
-# class MessageForm(forms.Form):
-#     text_input = forms.CharField(
-#         error_messages={'required': 'This is a custom error message for #862'}
-#     )
-
-#     helper = FormHelper()
-#     helper.layout = Layout(
-#         Field('text_input', css_class='form-control-lg'),
-
-#     )
+        fields = ("first_name", "last_name")
 
 
 class ProfileChangeForm(forms.ModelForm):

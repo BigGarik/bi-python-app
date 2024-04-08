@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.utils.translation import gettext_lazy as _
 
-from ..models.users import Profile, CustomUser, ExpertProfile
+from ..models.users import Profile, CustomUser, ExpertProfile, Category
 
 
 class CustomUserForm(forms.ModelForm):
@@ -55,6 +55,9 @@ class ExpertProfileForm(forms.ModelForm):
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
     hour_cost = forms.DecimalField(label="Стоимость", widget=forms.NumberInput(
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+
+    categories = forms.ModelMultipleChoiceField(label="Категории экспертности",
+        queryset=Category.objects.all())
 
     class Meta:
         model = ExpertProfile

@@ -4,13 +4,15 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from django.db.models import Q
+
+from web.models.articles import Category
+
 phone_regex = RegexValidator(
     regex=r'^((8|\+374|\+994|\+995|\+375|\+7|\+380|\+38|\+996|\+998|\+993)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{'
           r'1}[\- ]?\d{1}[\- ]?\d{1}[\- ]?\d{1}(([\- ]?\d{1})?[\- ]?\d{1})?$',
     message=_("Phone number must be entered in the format: '+79997654321'. Up to 15 digits allowed.")
 )
-
-from django.db.models import Q
 
 
 class CustomUser(AbstractUser):
@@ -106,7 +108,7 @@ class ExpertProfile(models.Model):
     is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerifiedStatus.choices,
                                       default=ExpertVerifiedStatus.NOT_VERIFIED)
     # rating = models.FloatField(null=True)
-    # expert_categories = ArrayField(models.ForeignKey(Category, on_delete=models.CASCADE), size = 10)
+    expert_categories = models.ManyToManyField(Category, related_name="categories")
 
 
 # Создаем обработчик сигнала для добавления профиля при создании пользователя
