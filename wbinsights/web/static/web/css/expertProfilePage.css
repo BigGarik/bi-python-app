@@ -77,9 +77,11 @@
     font-weight: 600;
 }
 
-.user-category-cont{
+.user-category-cont {
     display: flex;
+    flex-wrap: wrap;
 }
+
 .user-category{
     display: flex;
     font-family: sans-serif;
@@ -184,6 +186,8 @@
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 14px;
+    gap: 5px;
+    flex-wrap: wrap;
 
 }
 
