@@ -28,6 +28,10 @@
             display: none !important;
             margin-left: 20px !important;
         }
+
+        .p-4 {
+            padding: 0 !important;
+        }
     </style>
 
 </head>
@@ -84,7 +88,7 @@
 
                     </div>
 
-                    <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center; margin-bottom: 10px;">
+                    <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center;">
                         {% if user.is_authenticated %}
                             <div class="comments-cont">
                                 <a href="#" onclick="alert('В разработке');">
@@ -150,17 +154,12 @@
                 <div class="d-md-none">
                     <nav class="navbar navbar-dark ">
                         <div class="container-fluid">
+                            {% if user.is_authenticated %}
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
-                        </div>
-                    </nav>
+                            <div style="display:flex">
 
-                    <div class="collapse" id="navbarToggleExternalContent">
-                        <div class="p-4" style="padding-top: 0px !important;">
-                            
-                            <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center; margin-bottom: 10px;">
-                                {% if user.is_authenticated %}
                                     <div class="comments-cont">
                                         <a href="#" onclick="alert('В разработке');">
                                             <i class="bi bi-chat-left-text" style="color: white; font-size: 1.3em;"></i>
@@ -178,7 +177,7 @@
                                             <span style="color:grey">
                                                 {% if user.is_superuser %}
                                                     Админ
-                                                {% elif  user.profile.type == 1 %} 
+                                                {% elif  user.profile.type == 1 %}
                                                     Эксперт
                                                 {% elif user.profile.type == 0 %}
                                                     Клиент
@@ -207,15 +206,24 @@
                                         </div>
                                     </div>
                                 {% else %}
-                                    <div class="buttons-log-cont">
+                                    <div class="buttons-log-cont" style="width:100%; justify-content: space-around">
                                         <a href="{% url 'login' %}">
-                                            <button type="button" class="btn btn-dark logout-btn-style">{% trans 'LoginBtnLabel' %}</button>
+                                            <button type="button" class="btn btn-dark logout-btn-style" style="font-size: 18px ; background-color: #4a4a5e !important;">{% trans 'LoginBtnLabel' %}</button>
                                         </a>
                                         <a href="{% url 'signup' %}">
-                                            <button type="button" class="btn btn-primary">{% trans 'RegisterBtnLabel' %}</button>
+                                            <button type="button" class="btn btn-primary" style="font-size: 18px;">{% trans 'RegisterBtnLabel' %}</button>
                                         </a>
                                     </div>
                                 {% endif %}
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div class="collapse" id="navbarToggleExternalContent">
+                        <div class="p-4" style="padding-top: 0px !important;">
+                            
+                            <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center; margin-bottom: 10px;">
+
                             </div>
                             <div class="search-bar-cont-nav">
                                 {% if user.is_authenticated %}
@@ -224,7 +232,7 @@
                                     <button class="btn btn-secondary nav-dropdown-styles" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                         <i class="bi bi-plus" style="color:black; transform: scale(1.3);"></i>
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="dropdown-menu" style="padding: 0px;transform: translate(-110px, 10px) !important;" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>
                                         {% if user.profile.type == 1 %}
                                             <a class="dropdown-item" href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
