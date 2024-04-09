@@ -15,12 +15,7 @@
     margin-top: 10%;
     margin-left: 40%;
     margin-bottom: 10%;
-}
 
-.back-btn-login {
-    cursor: pointer; 
-    text-decoration: none; 
-    outline: none;
 }
 
 .button-cont{
@@ -58,11 +53,10 @@
     /* width: 60%; */
     width: 100%;
     border: 1px solid #dadada;
-    padding: 30px;
+    padding: 20px;
     background-color: #ffffff;
     border-radius: 15px;
 }
-
 
 
 .register-info-cont{
@@ -76,7 +70,7 @@
 
 .span-register{
     display: flex;
-    font-size: 36px;
+    font-size: 20px;
     font-weight: 700;
     font-family: sans-serif;
     justify-content: center;
@@ -99,7 +93,7 @@
     font-family: sans-serif;
     font-weight: 400;
     align-items: center;
-    font-size: 20px;
+    font-size: 13px;
 }
 
 .check-box-cont{
@@ -133,13 +127,9 @@
 
     
 .form-group {
-    margin-top: 1rem !important;
+    margin-top:1rem !important ;
     font-weight: 600;
     font-family: sans-serif;
-    font-size: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
 .back-btn a {
@@ -172,9 +162,9 @@
 .register-btn{
     display: flex;
     background-color: #6dc36b;
-    padding: 20px 0 20px 0 !important;
-    margin-top: 10px;
-
+    /* padding: 10px 30px 10px 30px; */
+    padding-top: 15px;
+    padding-bottom: 15px;
     border: none;
     width: 100%;
     justify-content: center;
@@ -182,8 +172,6 @@
     border-radius: 10px;
     font-size: 15px;
     cursor: pointer;
-    align-items: center;
-    font-size: 28px !important;
 }
 
 .login-cont{
@@ -204,7 +192,7 @@
 .login-txt{
     display: flex;
     font-family: sans-serif;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 800;
     color: #777786;
 }
@@ -219,7 +207,7 @@
     display: flex;
     font-family: sans-serif;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 12px;
     color: #a5b1c8;
 
 }

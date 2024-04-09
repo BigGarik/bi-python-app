@@ -163,12 +163,11 @@
     align-items: center;
     padding: 5px 15px 5px 15px;
     border-radius: 20px;
-    margin-right: 5px;
+    margin-left: 5px;
     font-size: 14px;
     color: #136dae;
     font-weight: 600;
     width: fit-content;
-    margin-top: 3px;
 }
 
 .banki{

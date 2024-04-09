@@ -22,39 +22,37 @@
             width: 100%;
         }
 
-        @media (min-width: 992px) {
-            .span-register{
-                font-size:28px;
+        @media (max-width: 575px) {
+            .register-cont {
+                margin-right: 10%;
+                margin-left: 10%;
             }
-
-            .form-group {
-                font-size:18px;
-            }
-
-            .back-btn {
-                font-size: 14px
-            }
-
-            .login-with-phone {
-                font-size:13px ;
-
-            }
-
-            .register-btn{
-                font-size : 20px !important;
-                font-weight:500 ;
-                padding: 10px 0 10px 0 !important;
-            }
-
-            .login-txt {
-                font-size: 13px
-            }
-
-
         }
 
-        
-        
+        @media (min-width: 576px) {
+            .register-cont {
+                margin-right: 25%;
+                margin-left: 25%;
+            }
+        }
+
+        @media (min-width: 993px) {
+            .back-btn,
+            .user-fill-info-cont,
+            .login-cont {
+                min-width:400px;
+                max-width:400px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .back-btn,
+            .user-fill-info-cont,
+            .login-cont {
+                min-width:400px;
+                max-width:400px;
+            }
+        }
     </style>
 
 </head>
@@ -70,11 +68,11 @@
 
     <div class="login-page-cont">
 
-        <div class="col-xl-3 col-lg-4 col-md-10 register-cont">
+        <div class="register-cont">
 
             <div class="back-btn">
 
-                <a href="{% url 'index'%}" class="back-btn-login ">
+                <a href="{% url 'index'%}" style="cursor: pointer; text-decoration: none; outline: none;">
 
                     <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786; transform: scale(1.3);"></i>
 
@@ -121,7 +119,7 @@
                     </div>
                 
                     <div class="button-cont">
-                        <button class="btn btn-success register-btn"  type="submit" value="Войти">Войти</button>
+                        <button class="btn btn-success register-btn" type="submit" value="Войти">Войти</button>
                     </div>
                     
                 </form>

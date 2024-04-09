@@ -80,9 +80,8 @@
     font-weight: 600;
 }
 
-.user-category-cont {
+.user-category-cont{
     display: flex;
-    flex-wrap: wrap;
 }
 .user-category{
     display: flex;
