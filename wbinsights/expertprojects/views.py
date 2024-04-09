@@ -2,7 +2,6 @@ import itertools
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -25,7 +24,7 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
     template_name = 'user_project_add.html'
 
     def form_valid(self, form):
-        userproject = form.save(commit=False)  # Do not save the article yet
+        userproject = form.save(commit=False)
         max_length = UserProject._meta.get_field('slug').max_length
         userproject.slug = orig_slug = slugify(userproject.name)[:max_length]
 
@@ -38,17 +37,13 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
         userproject.save()
 
         # Теперь обрабатываем файлы
-        if self.request.FILES:
-            file_form = self.file_form_class(self.request.POST, self.request.FILES)
-            if file_form.is_valid():
-                userprojectfile = file_form.save(commit=False)
-                userprojectfile.project = userproject
-                userprojectfile.save()
+        files = self.request.FILES.getlist('file_field_name')  # Получаем список файлов
+        for file_data in files:  # Если файлы были предоставлены, сохраняем каждый
+            UserProjectFile.objects.create(project=userproject, file=file_data)
 
         return super(UserProjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        # Возвращаем URL по умолчанию после создания объекта
         return reverse_lazy('project_detail', kwargs={'slug': self.object.slug})
 
     # Метод `get_context_data` добавлен, чтобы включить файловую форму в контекст
@@ -59,7 +54,7 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class UserProjectUpdateView(UpdateView):
+class UserProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = UserProject
     form_class = UserProjectEditForm
     template_name = 'user_project_edit.html'
@@ -97,7 +92,6 @@ class UserProjectUpdateView(UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_success_url(self):
-        # URL для перенаправления при успешном обновлении
         return reverse_lazy('project_detail', kwargs={'slug': self.object.slug})
 
 

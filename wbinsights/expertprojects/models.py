@@ -2,7 +2,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.db import models
-from web.models.users import CustomUser
 from django.urls import reverse
 
 
@@ -26,8 +25,6 @@ class UserProject(models.Model):
     customer = models.ForeignKey('UserProjectCustomer', on_delete=models.SET_NULL, null=True, related_name="userproject")
     year = models.IntegerField()
     goals = models.TextField(blank=True, verbose_name="Текст проекта")
-    # file = models.ForeignKey('UserProjectFile', on_delete=models.SET_NULL, null=True, blank=True,
-    #                          related_name="userproject")
 
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     time_create = models.DateTimeField(auto_now_add=True)

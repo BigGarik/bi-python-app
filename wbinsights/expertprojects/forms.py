@@ -1,5 +1,7 @@
 from django import forms
-from .models import UserProject, UserProjectFile, validate_file_extension
+from django.core.validators import FileExtensionValidator
+
+from .models import UserProject, UserProjectFile
 
 
 class UserProjectForm(forms.ModelForm):
@@ -43,9 +45,15 @@ class UserProjectEditForm(forms.ModelForm):
 
 
 class UserProjectFileForm(forms.ModelForm):
-    widget = forms.FileInput(attrs={'accept': '.pdf,.doc,.docx,.odt,.txt,.xlsx,.xls'}),
-    validators = [validate_file_extension],
-    help_text = 'Разрешены только документы.'
+    file = forms.FileField(
+        required=False,  # Указываем, что загрузка файла необязательна
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=['pdf', 'doc', 'docx', 'odt', 'txt', 'xlsx', 'xls']
+            )
+        ],
+        help_text='Разрешены только документы.'
+    )
 
     class Meta:
         model = UserProjectFile
