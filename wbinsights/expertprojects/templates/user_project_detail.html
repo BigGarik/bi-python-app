@@ -9,7 +9,7 @@
 <div class="project-details">
     <p><strong>Категории:</strong></p>
     <ul>
-        {% for category in project.category.all %}
+        {% for category in userproject.category.all %}
             <li>{{ category.name }}</li>
         {% endfor %}
     </ul>
@@ -34,6 +34,6 @@
     <p><strong>Дата создания:</strong> {{ userproject.time_create|date:"Y-m-d" }}</p>
     <p><strong>Последнее обновление:</strong> {{ userproject.time_update|date:"Y-m-d" }}</p>
 </div>
-
+<a href="{% url 'project_edit' userproject.slug %}">Редактировать проект</a>
 
 {% endblock %}

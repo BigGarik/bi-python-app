@@ -1,0 +1,30 @@
+{% extends 'base123.html' %}
+
+
+{% load web_tags %}
+
+{% block center_col %}
+  <h2>Редактирование проекта: {{ userproject.name }}</h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ file_form.as_p }}
+    <button type="submit">Сохранить изменения</button>
+  </form>
+
+  <h3>Файлы проекта</h3>
+  <ul>
+    {% for file in files %}
+      <li>
+        {{ file.file.name }}
+        <form method="post" action="{% url 'project_file_delete' file.id %}">
+          {% csrf_token %}
+          <input type="hidden" name="delete_file" value="{{ file.id }}">
+          <button type="submit">Удалить файл</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

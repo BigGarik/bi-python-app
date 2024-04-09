@@ -1,9 +1,11 @@
 from django.contrib import admin
 
+from .forms import UserProjectForm
 from .models import UserProject, UserProjectCustomer, Category
 
 
 class UserProjectAdmin(admin.ModelAdmin):
+    form = UserProjectForm
     list_display = ('name', 'display_categories', 'customer', 'year', 'time_create', 'time_update')
     list_filter = ('time_create', 'customer', 'year', 'category')
     search_fields = ('name', 'goals', 'key_results')

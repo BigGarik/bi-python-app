@@ -1,4 +1,6 @@
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from django.db import models
 from web.models.users import CustomUser
 from django.urls import reverse
@@ -17,13 +19,16 @@ class Category(models.Model):
 
 
 class UserProject(models.Model):
-    member = models.ForeignKey('web.CustomUser', on_delete=models.SET_NULL, null=True, related_name="userproject")
+    member = models.ForeignKey('web.CustomUser', on_delete=models.CASCADE, related_name="userproject")
     name = models.CharField(max_length=255, verbose_name="Заголовок")
-    category = models.ManyToManyField('Category', related_name='userprojects', blank=True, verbose_name="Категории")
+    category = models.ManyToManyField('Category', related_name='userprojects', verbose_name="Категории")
     key_results = ArrayField(models.CharField(max_length=200), blank=True)  # Текст через запятую
     customer = models.ForeignKey('UserProjectCustomer', on_delete=models.SET_NULL, null=True, related_name="userproject")
     year = models.IntegerField()
     goals = models.TextField(blank=True, verbose_name="Текст проекта")
+    # file = models.ForeignKey('UserProjectFile', on_delete=models.SET_NULL, null=True, blank=True,
+    #                          related_name="userproject")
+
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
@@ -43,9 +48,14 @@ class UserProject(models.Model):
         return reverse('project_detail', kwargs={'slug': self.slug})
 
 
+def validate_file_extension(value):
+    if not value.name.lower().endswith(('.pdf', '.doc', '.docx', '.odt', '.txt', '.xlsx', '.xls')):
+        raise ValidationError(_('Unsupported file extension.'))
+
+
 class UserProjectFile(models.Model):
-    file = models.FileField(upload_to="expertprojects/%Y/%m/%d/")
-    project = models.ForeignKey('UserProject', related_name='userprojectfile', on_delete=models.CASCADE)
+    file = models.FileField(upload_to="expert/projects/%Y/%m/%d/", validators=[validate_file_extension])
+    project = models.ForeignKey('UserProject', related_name='files', on_delete=models.CASCADE)
 
     def __str__(self):
         return f"File for {self.project}"

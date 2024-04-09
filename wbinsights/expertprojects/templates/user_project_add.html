@@ -4,10 +4,13 @@
 {% load web_tags %}
 
 {% block center_col %}
-  <h1>Add New Project</h1>
-  <form method="post">
+  <h2>Добавление нового проекта</h2>
+
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Create</button>
+    <label for="id_file">Добавить файлы:</label>
+    {{ file_form.as_p }}
+    <button type="submit">Создать проект и загрузить файл</button>
   </form>
 {% endblock %}
