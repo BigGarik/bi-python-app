@@ -30,22 +30,24 @@
 
         <a class="navbar-brand-contact {% if request.path == '/contact/' %}selected{% endif %}"
                 href="{% url 'contact'%}">
-            О ресурсе
+            <span class="contact-span">О ресурсе</span>
+
         </a>
 
         <a class="navbar-brand-contact {% if request.path == '#' %}selected{% endif %}"
                 href="#">
-            Правила
+            <span>Правила</span>
         </a>
 
         <a class="navbar-brand-contact {% if request.path == '/data_policies/' %}selected{% endif %}"
                 href="{% url 'data_policies'%}">
-            Политика обработки данных
+            <span>Политика обработки данных</span>
         </a>
 
         <a class="navbar-brand-contact {% if request.path == '/contact_us/' %}selected{% endif %}"
                 href="{% url 'contact_us'%}">
-            Написать нам
+            <span>Написать нам</span>
+
         </a>
    
    </div>

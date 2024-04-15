@@ -6,6 +6,7 @@
     /* padding-left: 10px; */
     width: 100%;
     margin-bottom: 30px;
+    gap:5px;
 }
 
 .navbar-brand{
@@ -20,7 +21,12 @@
 .navbar-brand:hover {
     background-color: #ffffff ;
     border-radius: 10px;
-  }
+}
+
+.nav-item-class{
+    display:flex;
+    padding-left:10px;
+}
 
 
 /* .base-Content{
