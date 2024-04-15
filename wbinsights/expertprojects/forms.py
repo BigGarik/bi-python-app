@@ -13,7 +13,7 @@ class UserProjectForm(forms.ModelForm):
 
     class Meta:
         model = UserProject
-        fields = ['name', 'category', 'customer', 'year', 'goals', 'slug', 'key_results_text',]
+        fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results_text',]
 
     def __init__(self, *args, **kwargs):
         super(UserProjectForm, self).__init__(*args, **kwargs)
@@ -41,7 +41,7 @@ class UserProjectForm(forms.ModelForm):
 class UserProjectEditForm(forms.ModelForm):
     class Meta:
         model = UserProject
-        fields = ['name', 'category', 'customer', 'year', 'goals', 'slug', 'key_results',]
+        fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results',]
 
 
 class UserProjectFileForm(forms.ModelForm):

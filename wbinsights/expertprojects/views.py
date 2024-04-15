@@ -56,7 +56,7 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
 
 class UserProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = UserProject
-    form_class = UserProjectEditForm
+    form_class = UserProjectForm
     template_name = 'user_project_edit.html'
     context_object_name = 'userproject'
 
