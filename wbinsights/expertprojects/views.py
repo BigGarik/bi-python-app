@@ -33,7 +33,7 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
                 break
             # Truncate the original slug dynamically. Minus 1 for the hyphen.
             userproject.slug = "%s-%d" % (orig_slug[:max_length - len(str(x)) - 1], x)
-        userproject.member = self.request.user  # Присваиваем текущего пользователя как member проекта
+        userproject.author = self.request.user  # Присваиваем текущего пользователя как author проекта
         userproject.save()
 
         # Теперь обрабатываем файлы
