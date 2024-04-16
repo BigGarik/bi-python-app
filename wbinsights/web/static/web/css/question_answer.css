@@ -57,6 +57,10 @@
     gap: 10px ;
 }
 
+.author-pic-research{
+    margin-right:5px;
+}
+
 .research-question-main-cont{
     display: flex;
     flex-direction: column;

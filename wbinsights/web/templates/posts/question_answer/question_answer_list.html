@@ -12,13 +12,19 @@ QandA
 	<link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
 
 	<style>
-        @media (max-width: 768px ) {
-			
-			.research-search-cont{
-				width:100% !important;
+		@media (max-width: 576px) {
+			.question-answer-last {
+				 flex-direction: column !important;
+				 gap:5px;
 			}
 
-        }
+			.article-comments-andshare-cont {
+				justify-content: flex-end;
+			}
+
+		}
+
+
     </style>
 
 	<div class="research-question-main-cont">	
@@ -57,7 +63,7 @@ QandA
 				</span>
 				<div class="question-answer-last">
 					<div class="article-author-cont">
-						<div class="author-pic">
+						<div class="author-pic-research">
 							<i class="bi bi-person-circle" style="color:black; scale:3"></i>
 						</div>
 						<div class="author-name">Александр Александров</div>

@@ -6,25 +6,64 @@
 Experts
 {% endblock %}
 
-
-
-
 {% block posts_content %}
 
 	<style>
 
 		.testing-class{
 			display: flex;
-			justify-content: space-evenly;
+			justify-content: flex-end;
+			margin-top:5px;
+		}
+
+		.consultions-btn-span {
+			font-weight: 500;
+			color: white;
 		}
 		
 		@media (max-width: 768px ) {
 
+			.expert-list-consult-btn {
+				display: flex;
+				width: 100%;
+				justify-content: center;
+			}
+
 			.article-last {
+				align-items: flex-start !important;
+			}
+
+			.experts-list-rating-span {
+				justify-content: flex-start !important;
+				margin-top: 0px !important;
+			}
+
+
+			.user-catagory-highlight {
+				padding: 5px 10px 5px 10px !important;
+				font-size: 13px !important;
+			}
+
+			.expert-list-main-content {
+				gap: 0px !important;
 				justify-content: space-between !important;
 			}
-			
-		
+
+<!--			.article-last {-->
+<!--				justify-content: flex-start !important;-->
+<!--			}-->
+
+			.testing-class {
+				display: flex;
+				justify-content: flex-end !important;
+				margin-top: 10px;
+				gap:10px;
+			}
+
+			.catagory-cont {
+				width: auto !important;
+			}
+
 			.small-layout {
 				display: flex;
 				flex-direction:column;
@@ -32,18 +71,13 @@ Experts
 			}
 
 			.article-last {
-				gap:5px !important ;
+				gap:10px !important ;
 				flex-direction: column !important;
 			}
 
 			.experts-list-main-cont {
-			
 				padding: 20px 10px 20px 10px !important;
-		
 			}
-
-			
-
 		}
 		
 		@media (min-width: 769px ) {
@@ -56,12 +90,12 @@ Experts
 			.expert-stats-an-other {
 				justify-content: flex-end !important;
 			}
-			
-			
 
+			.article-last-2 {
+				display: flex !important;
+			}
 		}
 
-		
 	</style>
 
 	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
@@ -70,7 +104,7 @@ Experts
 
 		<div class="experts-list-search-and-cat-cont">
 		
-			<div class="small-layout col-sm col-md gap-2">
+			<div class="small-layout col-sm col-md ">
 				<div class="col-sm-12 col-md-5 ">
 					<input type="search" class="experts-list-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
 				</div>
@@ -102,10 +136,12 @@ Experts
 						<div class="experts-list-avatar-container">
 							<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
 						</div>
-						<span class="experts-list-rating-span">
-							<i class="bi bi-star-fill" style="color: #e9be50;"></i>
-							&nbsp; Рейтинг: 4.5
-						</span>
+						<div class="d-none d-md-block">
+							<span class="experts-list-rating-span">
+								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
+								&nbsp; Рейтинг: 4.5
+							</span>
+						</div>
 					</div>
 					<div class="expert-list-main-content">
 						<div class="expert-list-title">{{expert.first_name}} {{expert.last_name}}</div>
@@ -116,25 +152,57 @@ Experts
 								</div>
 							{% endfor %}                                                            
 						</div>
-						<span>
-							{{expert.expertprofile.about}}
-							<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">Читать ещё</a>
-						</span>
-						
+						<!--  large about me   -->
+						<div class="d-none d-md-block">
+							<div class="col">
+								{{ expert.expertprofile.about }}
+								<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">Читать ещё</a>
+							</div>
+						</div>
+						<div class="d-md-none">
+							<span class="experts-list-rating-span">
+								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
+								&nbsp; Рейтинг: 4.5
+							</span>
+						</div>
+					</div>
+
+				</div>
+
+				<!--  small about me  -->
+				<div>
+					<div class="d-md-none">
+						<div class="col" style="padding: 10px 10px 0px 10px;">
+							{{ expert.expertprofile.about }}
+							<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">&nbsp;Читать ещё</a>
+						</div>
 					</div>
 				</div>
-				<div class="article-last">
+
+				<!-- smaller than md -->
+				<div class="d-md-none article-last">
+					<div style="display:flex;justify-content:flex-start">
+						<div class="col-sm expert-stats-an-other">
+							{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
+						</div>
+					</div>
+					<button type="button" class="btn expert-list-consult-btn">
+						Консультация &nbsp; <span class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</span>
+					</button>
+
+				</div>
+
+				<!-- larger than md -->
+				<div class="d-none d-md-block article-last-2" style="display:flex ">
 					<div class="col-sm order-md-2 expert-stats-an-other">
 						{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
 					</div>
-
 					<div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
 						<button type="button" class="btn expert-list-consult-btn">Консультация</button>
 						<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
-						
 					</div>
-					
 				</div>
+
 			</div>
 		</div>
 		

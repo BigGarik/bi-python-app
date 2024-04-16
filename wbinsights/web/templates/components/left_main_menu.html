@@ -16,34 +16,57 @@
     }
 
 
-        @media (max-width: 992px) {
+
+<!--        @media (max-width: 992px) {-->
+
+
+<!--            .navcss {-->
+<!--                gap:10px;-->
+<!--            }-->
+
+<!--            .container-fluid-nav {-->
+<!--                flex-direction: row !important;-->
+<!--                margin-bottom: 10px !important;-->
+<!--                justify-content: space-around;-->
+
+<!--            }-->
+
+<!--            .navbar-brand{-->
+<!--                font-size:14px !important;-->
+<!--                margin-right: 0 !important;-->
+<!--                justify-content: center !important;-->
+<!--                padding: 0px 10px 0px 10px !important;-->
+<!--                margin-bottom:10px !important;-->
+<!--                width:auto !important;-->
+<!--            }-->
+
+<!--            .nav-item-class {-->
+<!--                display: none !important;-->
+<!--            }-->
+
+<!--            .navbar-brand {-->
+<!--                scale: 2 ;-->
+<!--            }-->
+
+
+<!--        }-->
 
 
 
-            .container-fluid-nav {
-                flex-direction: row !important;
-                margin-bottom: 10px !important;
-       
-            }
-
-            .navbar-brand{
-                font-size:14px !important;
-                margin-right: 0 !important;
-                justify-content: center !important;
-                padding: 10px 0 10px 0 !important;
-                margin-bottom:10px !important;
-            }
-
-            .nav-item-class {
-                display: none !important;
-            }
+       @media (max-width: 768px ) {
 
             .navbar-brand {
-                scale: 2 ;
+                color: white !important;
             }
 
-            
-        }
+            div.right-category-list>a.selected {
+
+                color: black !important;
+            }
+
+       }
+
+
 
 
 </style>
@@ -70,17 +93,17 @@
                 <i class="bi bi-clock-fill" style="scale: 0.9; " ></i>
                 <span class="nav-item-class">Новое</span>
             </a>
-    
+
             {% get_all_categories as categories %}
             {% for category in categories %}
-                
+
             <a class="navbar-brand {% if last_path == category.slug %} selected {% endif %}"
                     href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
                 <i class="bi bi-{{ category.icon }}" style="scale: 0.9;" ></i>
                 <span class="nav-item-class">{{ category.name }}</span>
             </a>
 
-            
+
             {% endfor %}
 
         </div>
@@ -90,9 +113,9 @@
 
                 {% include "contact_and_help/contact_navbar.html" %}
 
-                
+
             </div>
         </div>
-        
+
     </nav>
 </div>
