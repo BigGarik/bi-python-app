@@ -126,11 +126,11 @@
 
 .custom-control {
     display: flex;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     font-size: 14px;
     font-weight: 600;
     font-family: sans-serif;
-    margin-right: 30px;
+    /*margin-right: 30px;*/
 }
 
 .label-second{

@@ -14,13 +14,15 @@
 
     <style>
         .custom-form-field {
-            padding: 5px;
             outline: none;
             border: 1px solid #ddd;
             border-radius: 5px;
             margin-bottom: 10px;
             width: 100%;
+            padding : 10px ;
+            font-size: 34px ;
         }
+
 
         @media (min-width: 992px) {
             .span-register{
@@ -33,24 +35,35 @@
             }
 
             .back-btn {
-                font-size: 14px
+                font-size: 14px !important
             }
 
             .login-with-phone {
                 font-size:13px ;
             }
 
+            .back-btn-login {
+                font-size: 14px !important;
+            }
+
             .register-btn{
                 font-size : 16px !important;
                 font-weight:500 ;
                 padding: 10px 0 10px 0 !important;
+                margin-top: 10px !important;
             }
 
             .login-txt {
-                font-size: 13px
+                font-size: 13px !important;
+                font-weight: 800  !important;
             }
 
+            .custom-form-field {
+                padding : 5px !important ;
+                font-size: 16px !important ;
+            }
         }
+
         @media (min-width: 1400px) {
             .col-xl-3 {
                 flex: 0 0 auto;
@@ -58,10 +71,16 @@
             }
         }
 
+        @media (max-width: 767.98px) {
+        .register-cont {
+            margin-right: 10% !important;
+            margin-left: 10% !important;
+        }
 
+    }
 
-
-
+        
+        
     </style>
 
 </head>

@@ -8,7 +8,7 @@
         @media (max-width: 768px) {
             .post-menu {
                 font-size: 11px;
-                
+
             }
             .post-menu-item {
                 font-size: 11px;
@@ -20,13 +20,23 @@
                 margin-top: 15px;
             }
 
-            
+            .base-article-title {
+                padding: 10px 0px 10px 0px !important;
+            }
+
+            .base-article-content {
+                padding: 10px 0px 10px 0px !important;
+            }
+
+            .base-article-stats{
+                padding: 10px 0px 10px 0px !important;
+            }
+
+
         }
     </style>
 
-    <div class="col-12 d-block d-md-block d-lg-none">
-        {% include "components/left_main_menu.html" %}
-    </div>
+
     <div class="base-Content">
 
        
@@ -62,9 +72,7 @@
 
             </div>
 
-            <div>
                 <button type="button" class="btn btn-secondary more-news-btn" onclick="alert('В разработке')">Больше новостей</button>
-            </div>
 
         </div>
 

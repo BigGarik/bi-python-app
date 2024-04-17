@@ -50,10 +50,11 @@
     justify-content: center;
 }
 
-.expert-info{
+.expert-list-info{
     display: flex;
     flex-direction: column;
     padding-left: 10px;
+    gap:3px;
 }
 
 .expert-job{    

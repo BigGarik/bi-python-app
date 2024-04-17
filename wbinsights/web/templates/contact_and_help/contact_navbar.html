@@ -2,24 +2,24 @@
 
 {% load static %}
 
-<style>
+<!--<style>-->
 
-    @media (max-width: 992px) {
+<!--    @media (max-width: 992px) {-->
 
-        .container-fluid-nav-contact {
-            flex-direction: row !important;
-            justify-content: space-around !important ;
-        }
+<!--        .container-fluid-nav-contact {-->
+<!--            flex-direction: row !important;-->
+<!--            justify-content: space-around !important ;-->
+<!--        }-->
 
-        .navbar-brand-contact {
-            padding: 5px !important;
-            font-size: 14px !important;
-        }
-       
+<!--        .navbar-brand-contact {-->
+<!--            padding: 5px !important;-->
+<!--            font-size: 14px !important;-->
+<!--        }-->
 
-    }
 
-</style>
+<!--    }-->
+
+<!--</style>-->
 
 
 <link rel="stylesheet" href="{% static 'web/css/contact_navbar.css' %}">
@@ -30,22 +30,24 @@
 
         <a class="navbar-brand-contact {% if request.path == '/contact/' %}selected{% endif %}"
                 href="{% url 'contact'%}">
-            О ресурсе
+            <span class="contact-span">О ресурсе</span>
+
         </a>
 
         <a class="navbar-brand-contact {% if request.path == '#' %}selected{% endif %}"
                 href="#">
-            Правила
+            <span>Правила</span>
         </a>
 
         <a class="navbar-brand-contact {% if request.path == '/data_policies/' %}selected{% endif %}"
                 href="{% url 'data_policies'%}">
-            Политика обработки данных
+            <span>Политика обработки данных</span>
         </a>
 
         <a class="navbar-brand-contact {% if request.path == '/contact_us/' %}selected{% endif %}"
                 href="{% url 'contact_us'%}">
-            Написать нам
+            <span>Написать нам</span>
+
         </a>
    
    </div>

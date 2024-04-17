@@ -21,6 +21,7 @@
     cursor: pointer; 
     text-decoration: none; 
     outline: none;
+    font-size: 22px;
 }
 
 .button-cont{
@@ -70,13 +71,13 @@
     font-size: 15px;
     font-weight: 600;
     font-family: sans-serif;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     margin-top: 10px;
 }
 
 .span-register{
     display: flex;
-    font-size: 36px;
+    font-size: 48px;
     font-weight: 700;
     font-family: sans-serif;
     justify-content: center;
@@ -136,7 +137,7 @@
     margin-top: 1rem !important;
     font-weight: 600;
     font-family: sans-serif;
-    font-size: 28px;
+    font-size: 32px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -169,12 +170,11 @@
     flex-direction: column;
 }
 
-.register-btn{
+.register-btn {
     display: flex;
     background-color: #6dc36b;
     padding: 20px 0 20px 0 !important;
-    margin-top: 10px;
-
+    margin-top: 20px;
     border: none;
     width: 100%;
     justify-content: center;
@@ -183,7 +183,8 @@
     font-size: 15px;
     cursor: pointer;
     align-items: center;
-    font-size: 28px !important;
+    font-size: 34px !important;
+    font-weight: 500 !important;
 }
 
 .login-cont{
@@ -204,8 +205,8 @@
 .login-txt{
     display: flex;
     font-family: sans-serif;
-    font-size: 18px;
-    font-weight: 800;
+    font-size: 22px;
+    font-weight: 600;
     color: #777786;
 }
 
@@ -219,7 +220,7 @@
     display: flex;
     font-family: sans-serif;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 22px;
     color: #a5b1c8;
 
 }
