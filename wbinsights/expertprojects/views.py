@@ -11,7 +11,7 @@ from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 
 from web.models import CustomUser, Profile
-from .forms import UserProjectForm, UserProjectEditForm, UserProjectFileForm
+from .forms import UserProjectForm, UserProjectFileForm
 from .models import UserProject, UserProjectFile
 
 
@@ -74,7 +74,7 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
 
 class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = UserProject
-    form_class = UserProjectEditForm
+    form_class = UserProjectForm
     template_name = 'user_project_edit.html'
     context_object_name = 'userproject'
 
