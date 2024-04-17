@@ -18,7 +18,7 @@ class Category(models.Model):
 
 
 class UserProject(models.Model):
-    member = models.ForeignKey('web.CustomUser', on_delete=models.CASCADE, related_name="userproject")
+    author = models.ForeignKey('web.CustomUser', on_delete=models.CASCADE, related_name="userproject")
     name = models.CharField(max_length=255, verbose_name="Заголовок")
     category = models.ManyToManyField('Category', related_name='userprojects', verbose_name="Категории")
     key_results = ArrayField(models.CharField(max_length=200), blank=True)  # Текст через запятую

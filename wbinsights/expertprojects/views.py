@@ -21,7 +21,7 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
     model = UserProject
     form_class = UserProjectForm
     file_form_class = UserProjectFileForm
-    template_name = 'user_project_add.html'
+    template_name = 'ai_created_login.html'
 
     def form_valid(self, form):
         userproject = form.save(commit=False)
@@ -108,3 +108,8 @@ def project_file_delete(request, pk):
     project = file.project
     file.delete()
     return HttpResponseRedirect(reverse('project_edit', kwargs={'slug': project.slug}))
+
+
+def ai_created_html_page(request):
+    context = {}
+    return render(request, "ai_created_login.html", context=context)

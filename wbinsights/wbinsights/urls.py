@@ -24,7 +24,7 @@ from wbinsights import settings
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', include('web.urls')),
-    path('', include('expertprojects.urls')),
+    path('expert/',include('expertprojects.urls')),
 ]
 
 if settings.DEBUG:
