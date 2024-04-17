@@ -1,6 +1,7 @@
 from django import forms
 from django.core.validators import FileExtensionValidator
 
+from web.models import Profile, CustomUser
 from .models import UserProject, UserProjectFile
 
 
@@ -13,6 +14,7 @@ class UserProjectForm(forms.ModelForm):
 
     class Meta:
         model = UserProject
+        #fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results_text', 'members',]
         fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results_text',]
 
     def __init__(self, *args, **kwargs):
@@ -20,6 +22,7 @@ class UserProjectForm(forms.ModelForm):
         if self.instance.pk:
             # Инициализация поля key_results_text данными из модели, если объект уже существует
             self.fields['key_results_text'].initial = '\n'.join(self.instance.key_results)
+            self.fields['members'].initial = self.instance.members.all()
 
     def clean_key_results_text(self):
         # Получаем текст из формы, разбиваем по переводам строк и убираем пустые строки
@@ -39,9 +42,41 @@ class UserProjectForm(forms.ModelForm):
 
 
 class UserProjectEditForm(forms.ModelForm):
+    key_results_text = forms.CharField(
+        widget=forms.Textarea,
+        help_text='Пожалуйста, введите каждый ключевой результат на новой строке.',
+        required=False
+    )
+
     class Meta:
         model = UserProject
-        fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results',]
+        fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results_text',]
+        widgets = {
+            'key_results': forms.Textarea(attrs={'rows': 4}),
+            'goals': forms.Textarea(attrs={'rows': 4}),
+            # Другие поля и виджеты по необходимости
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UserProjectEditForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:  # Если экземпляр проекта существует
+            # Инициализируем поле members текущими участниками проекта
+            self.fields['key_results_text'].initial = '\n'.join(self.instance.key_results)
+
+    def save(self, commit=True):
+        # Сохраняем изменения в проекте
+        project = super(UserProjectEditForm, self).save(commit=False)
+
+        if commit:
+            project.save()
+            # Сохраняем связь с участниками проекта
+            self.cleaned_data['members'] = self.cleaned_data.get('members', [])
+            project.members.set(self.cleaned_data['members'])
+
+            # Сохраняем связи many-to-many после сохранения основного объекта
+            self.save_m2m()
+
+        return project
 
 
 class UserProjectFileForm(forms.ModelForm):
