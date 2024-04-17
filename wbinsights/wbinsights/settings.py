@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'web.apps.WebConfig',
     'django.contrib.admin',
+    'wbappointment.apps.WbappointmentConfig'
 ]
 
 
