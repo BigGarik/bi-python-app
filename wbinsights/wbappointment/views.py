@@ -23,7 +23,7 @@ def add_appointment_view(request, *args, **kwargs):
             new_appointment.client = request.user
             new_appointment.expert = expert
             new_appointment.save()
-            return redirect('appointment_checkout')
+            return redirect('appointment_checkout', pk=new_appointment.id)
     else:
         form = AppointmentForm()
         not_avalable_dates = ['18.04.2024', '19.04.2024']
