@@ -76,15 +76,13 @@
     }
 
     #sidebar-close-btn {
-      display: inline-block;
-      vertical-align: middle;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      margin: 10px;
-<!--      right: -60px;-->
-      top: 0px;
-    }
+    align-items: center;
+    vertical-align: middle;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    display: flex;
+}
 
     #sidebar-close-btn span {
       background-color: white;
@@ -244,7 +242,7 @@
 
                     <div style="display:flex">
                         <div id="sidebar-btn">
-                            <i class="bi bi-list" style="color: white; font-size: 22px;"></i>
+                            <i class="bi bi-list" style="color: white; font-size: 26px;"></i>
                         </div>
                         <div style="display:flex;width: 100%; justify-content: flex-end;">
                                 {% if user.is_authenticated %}
@@ -308,9 +306,9 @@
                     </div>
 
                     <div id="sidebar">
-                        <div style="display:flex; flex-direction:row ;    justify-content: space-between; height:50px">
+                        <div style="display:flex; flex-direction:row ;  justify-content: flex-end; height:50px">
                             <div id="sidebar-close-btn" style="display: none;">
-                                <i class="bi bi-list" style="color: white; font-size:22px;"></i>
+                                <i class="bi bi-x" style="color: white; font-size:30px;"></i>
                             </div>
 
                         </div>
