@@ -30,7 +30,11 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+#https://0f84-176-74-217-47.ngrok-free.app
 ALLOWED_HOSTS = ["*"]
+
+CSRF_TRUSTED_ORIGINS=["https://0f84-176-74-217-47.ngrok-free.app"]
 
 # Application definition
 
