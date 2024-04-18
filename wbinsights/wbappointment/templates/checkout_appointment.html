@@ -10,6 +10,7 @@
     {{ appointment.appointment_time }}
     {{ appointment.notes }}
     <form method="post">
+        {% csrf_token %}
 
         <button type="submit">Book Appointment</button>
     </form>
