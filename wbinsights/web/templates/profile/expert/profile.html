@@ -19,6 +19,27 @@
             min-width: 100px !important;
         }
 
+        .bottom-half {
+            margin-top: 15px;
+        }
+
+        .to-main-page {
+            margin-bottom: 0px !important;
+        }
+
+        .profile-information-cont {
+            padding-left: 15px !important;
+        }
+
+        .user-display-name {
+            font-size: 25px !important;
+            line-height: normal !important;
+        }
+
+        .user-settings {
+            justify-content: space-around !important;
+        }
+
     }
     
     @media (min-width: 769px ) {
@@ -84,34 +105,53 @@
                         
                     </div>
 
-                    <div class="user-stats">
+                    <div class="d-none d-md-block">
+                        <div class="user-stats">
+                            {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
+                            •
+                            {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
+                            • 24 отзыва
+                        </div>
 
-                        {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
-                        •
-                        {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
-                        • 24 отзыва
+                        <div class="user-settings">
+                            <a href="{% url 'profile_edit' %}" type="button" class="btn prof-settings-btn">
+                                {% trans 'EditProfileLabel' %}
+                            </a>
 
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button class="btn prof-logout-btn" type="submit">
+                                    {% trans 'LogoutButtonLabel' %}
+                                </button>
+                            </form>
+                        </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="user-settings">
+            <div class="d-md-none">
 
-                        <a href="{% url 'profile_edit' %}" type="button"
-                           class="btn prof-settings-btn">
-                           {% trans 'EditProfileLabel' %}
-                        </a>
-
-                        <form method="post" action="{% url 'logout' %}" >
-                            {% csrf_token %}
-                            <button class="btn prof-logout-btn" type="submit" >
-                                {% trans 'LogoutButtonLabel' %}
-                            </button>
-                        </form>
-
-                    </div>
-
+                <div class="user-stats">
+                    {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
+                    •
+                    {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
+                    • 24 отзыва
                 </div>
 
+                <div class="user-settings">
+                    <a href="{% url 'profile_edit' %}" type="button" class="btn prof-settings-btn">
+                        {% trans 'EditProfileLabel' %}
+                    </a>
+
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="btn prof-logout-btn" type="submit">
+                            {% trans 'LogoutButtonLabel' %}
+                        </button>
+                    </form>
+                </div>
             </div>
+
 
             <div class="bottom-half">
 

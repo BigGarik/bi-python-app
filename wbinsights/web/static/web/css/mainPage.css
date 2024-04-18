@@ -156,6 +156,8 @@
 
 .displayflex{
     display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
 }
 
 .user-catagory-highlight{
