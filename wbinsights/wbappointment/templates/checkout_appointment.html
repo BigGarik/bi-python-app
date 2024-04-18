@@ -6,12 +6,17 @@
 <body>
     <h2>Checkout</h2>
 
-    {{ appointment.appointment_date }}
-    {{ appointment.appointment_time }}
-    {{ appointment.notes }}
+    Детали встречи:
+    Эксперт: {{ appointment.expert.last_name }} {{ appointment.expert.first_name }}
+    Дата: {{ appointment.appointment_date }}
+    <br/>
+    Время: {{ appointment.appointment_time }}
+    <br/>
+    Заметка: {{ appointment.notes }}
     <form method="post">
-
-        <button type="submit">Book Appointment</button>
+        {% csrf_token %}
+        <input type="hidden" value="{{ appointment.pk }}" name="appointment_id"/>
+        <button type="submit">Перейти к оплате</button>
     </form>
 </body>
 </html>

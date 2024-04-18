@@ -6,9 +6,17 @@ from rest_framework import viewsets
 
 from web.models import Expert
 from .forms import AppointmentForm
-from .models import Appointment
+from .models import Appointment, AppointmentStatus
 from .serializers import AppointmentTimeSerializer
 
+import yookassa
+from yookassa import Configuration
+import var_dump as var_dump
+from yookassa import Payment
+
+
+Configuration.account_id = '372377'
+Configuration.secret_key = 'test_GweuBNA4H85vWxRCLXLsz7gJLX2lA_YJ2GjYGpRBxLw'
 
 # Create your views here.
 
@@ -38,12 +46,64 @@ def add_appointment_view(request, *args, **kwargs):
 
 @login_required
 def checkout_appointment_view(request, *args, **kwargs):
-
-    appointment = Appointment.objects.get(pk=kwargs['pk'])
     if request.method == 'POST':
-        return redirect('success')  # assuming you have a success url mapped in your urls.py
-    else:
+        appointment_id = request.POST['appointment_id']
+        appointment = Appointment.objects.get(pk=appointment_id, client=request.user)
 
+        # Create payment
+        res = Payment.create(
+            {
+                "amount": {
+                    "value": appointment.expert.expertprofile.hour_cost,
+                    "currency": "RUB"
+                },
+                "confirmation": {
+                    "type": "redirect",
+                    "return_url": "https://0f84-176-74-217-47.ngrok-free.app/appointment/add/success"
+                },
+                "capture": True,
+                "description": "Оплата услуги консультации",
+                "metadata": {
+                    'orderNumber': appointment.id
+                },
+                "receipt": {
+                    "customer": {
+                        "full_name": appointment.client.last_name + ' ' +appointment.client.last_name ,
+                        "email": appointment.client.email,
+                        "phone": appointment.client.phone_number
+                        # "inn": "6321341814"
+                    },
+                    "items": [
+                        {
+                            "description": "Оплата услуги консультации",
+                            "quantity": "1.00",
+                            "amount": {
+                                "value": appointment.expert.expertprofile.hour_cost,
+                                "currency": "RUB"
+                            },
+                            "vat_code": "2",
+                            "payment_mode": "full_payment",
+                            "payment_subject": "commodity",
+                            "country_of_origin_code": "CN",
+                            "product_code": "44 4D 01 00 21 FA 41 00 23 05 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 12 00 AB 00",
+                            "customs_declaration_number": "10714040/140917/0090376",
+                            "excise": "20.00",
+                            "supplier": {
+                                "name": "string",
+                                "phone": "string",
+                                "inn": "string"
+                            }
+                        },
+                    ]
+                }
+            }
+        )
+
+
+
+        var_dump.var_dump(res)
+    else:
+        appointment = Appointment.objects.get(pk=kwargs['pk'])
         context = {
             "appointment": appointment,
         }
