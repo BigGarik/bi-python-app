@@ -15,8 +15,23 @@ class Appointment(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     appointment_date = models.DateField()
     appointment_time = models.TimeField()
-    status = models.IntegerField(default=AppointmentStatus.NEW)
+    status = models.IntegerField(default=AppointmentStatus.NEW, choices=AppointmentStatus.choices)
     zoom_link = models.CharField(null=True)
     notes = models.TextField(null=True, blank=True)
+
     class Meta:
         db_table = "appointment"
+
+
+class AppointmentPayment(models.Model):
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name="payment")
+    summ = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateField(auto_now_add=True)
+
+    class AppointmentPaymentStatus(models.IntegerChoices):
+        PENDING = 0, 'Ожидание'
+        COMPLETED = 1, 'Оплачено'
+        CANCELED = 2, 'Отменено'
+
+    status = models.IntegerField(default=AppointmentPaymentStatus.PENDING, choices=AppointmentPaymentStatus.choices)
+    uuid = models.UUIDField()

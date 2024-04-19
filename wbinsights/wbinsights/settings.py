@@ -33,6 +33,7 @@ DEBUG = True
 
 #https://0f84-176-74-217-47.ngrok-free.app
 ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS=["https://0f84-176-74-217-47.ngrok-free.app/"]
 
 CSRF_TRUSTED_ORIGINS=["https://0f84-176-74-217-47.ngrok-free.app"]
 
