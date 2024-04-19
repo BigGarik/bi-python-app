@@ -82,6 +82,17 @@
     flex-wrap: wrap;
 }
 
+.consult-expert-profile-btn {
+    margin-top: 0;
+    background-color: #6dc36b;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    padding: 6px 12px 6px 12px;
+}
+
 .user-category{
     display: flex;
     font-family: sans-serif;

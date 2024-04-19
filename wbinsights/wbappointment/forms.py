@@ -18,7 +18,7 @@ class AppointmentForm(forms.ModelForm):
         model = Appointment
         fields = ['appointment_date', 'appointment_time', 'notes']
         widgets = {
-            'appointment_date': forms.DateInput(
+            'appointment_date': forms.TextInput(
                 attrs={
                     'type': 'date',
                     'class': 'appointment-form-control'

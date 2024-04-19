@@ -38,7 +38,8 @@ def add_appointment_view(request, *args, **kwargs):
         context = {
             "expert": expert,
             'form': form,
-            'not_avalable_dates':not_avalable_dates
+            'not_avalable_dates':not_avalable_dates,
+
         }
 
     return render(request, 'add_appointment.html', context=context)

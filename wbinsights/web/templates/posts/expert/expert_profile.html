@@ -50,7 +50,7 @@
               <div class="user-category-cont">
                 <div class="user-category">Эксперт в области:</div>
                 {% for exp_category in expert.expertprofile.expert_categories.all %}
-                    <div class="user-catagory-highlight {% if exp_category.slug == 'banki' %}banki{% elif exp_category.slug == 'finansy' %}finansy{% elif exp_category.slug == 'it' %}it{% endif %}">
+                    <div class="user-catagory-highlight {{exp_category.slug}}">
                         {{ exp_category.name }}
                     </div>
                 {% endfor %}
@@ -67,9 +67,7 @@
                 24 отзыва
               </div>
               <div class="user-settings">
-                <button type="button" class="btn btn-secondary btn-sm" onclick="alert('В разработке')" style="margin-top: 0;background-color: #6dc36b;border: none;border-radius: 7px;font-size: 15px;font-weight: 500;">
-                  Консультация
-                </button>
+                <a href="{% url 'appointment_add' expert.id %}" class="btn btn-secondary btn-sm consult-expert-profile-btn"  >  Консультация</a>
               </div>
             </div>
 
@@ -129,9 +127,7 @@
                 24 отзыва
               </div>
               <div class="user-settings">
-                <button type="button" class="btn btn-secondary btn-sm" onclick="alert('В разработке')" style="margin-top: 0;background-color: #6dc36b;border: none;border-radius: 7px;font-size: 15px;font-weight: 500;">
-                  Консультация
-                </button>
+                <a href="{% url 'appointment_add' expert.id %}" class="btn btn-secondary btn-sm">  Консультация</a>
               </div>
             </div>
 
