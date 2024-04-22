@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 
+from wbappointment.models import Appointment
 from web.forms.users import UserProfilePasswordChangeForm
 from web.models import CustomUser, Profile
 from django import forms
@@ -46,19 +47,28 @@ def profile_view(request):
             # Fetch the expert's articles if profile is verified
             expert_articles = Article.objects.filter(author=request.user)[:7]
             expert_articles_count = Article.objects.filter(author=request.user).count()
+            experts_appointment = Appointment.objects.filter(expert=request.user)
+            experts_appointment_cnt = Appointment.objects.filter(expert=request.user).count()
             # Update the context with expert-specific data
             context.update({
                 "experts_articles": expert_articles,
-                "rating": 4.5,
                 "experts_articles_count": expert_articles_count,
+                "rating": 4.5,
                 "experts_researches_count": 0,
-                "filled_stars_chipher": 'ffffh'
+                "filled_stars_chipher": 'ffffh',
+                "experts_appointment": experts_appointment,
+                "experts_appointment_cnt": experts_appointment_cnt,
+
             })
 
     else:
         # For non-expert users, render the client profile template
         profile_template = "profile/client/profile.html"
+        clients_appointment = Appointment.objects.filter(client=request.user)
+        clients_appointment_cnt = Appointment.objects.filter(client=request.user).count()
         context.update({
+            "clients_appointment":clients_appointment,
+            "clients_appointment_cnt":clients_appointment_cnt,
             "experts_articles": [],
             "experts_articles_count": 0,
             "experts_researches_count": 0,
