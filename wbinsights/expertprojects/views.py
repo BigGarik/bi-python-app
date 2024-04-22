@@ -11,7 +11,7 @@ from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 from django.http import JsonResponse
 from django.db.models import Q
-
+from django.core import serializers
 from web.models import CustomUser, Profile
 from .forms import UserProjectForm, UserProjectFileForm
 from .models import UserProject, UserProjectFile
@@ -138,27 +138,29 @@ def project_file_delete(request, pk):
     return HttpResponseRedirect(reverse('project_edit', kwargs={'slug': project.slug}))
 
 
-from django.core import serializers
-
+@login_required
 def search_experts(request):
-   # if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-    if True:
-        query = request.GET.get('term', '')
-        print(CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT))
-        experts = CustomUser.objects.filter(
-            Q(first_name__icontains=query) | Q(last_name__icontains=query),
-            profile__type=Profile.TypeUser.EXPERT
-        ).distinct()[:10]  # Ограничиваем количество результатов для улучшения производительности
-        results = []
-        print(experts)
-        # for expert in experts:
-        #     expert_json = {}
-        #     expert_json['id'] = expert.id
-        #     expert_json['label'] = expert.get_full_name()
-        #     expert_json['value'] = expert.get_full_name()
-        #     results.append(expert_json)
+    query = request.GET.get('')
+    experts = CustomUser.objects.filter(
+        Q(first_name__icontains=query) | Q(last_name__icontains=query),
+        profile__type=Profile.TypeUser.EXPERT
+    )
+    value = serializers.serialize("json", experts, fields=["first_name", "last_name"])
+    return JsonResponse(value, safe=False)
 
-        value = serializers.serialize("json", experts, fields=["first_name", "last_name"])
 
-        return JsonResponse(value, safe=False)
-    return JsonResponse({'error': 'Not Ajax request'}, status=400)
+@login_required
+def get_projects_by_expert(request):
+    expert_id = request.GET.get('expert_id', '')
+    expert = CustomUser.objects.get(pk=expert_id, profile__type=Profile.TypeUser.EXPERT)
+    projects = UserProject.objects.filter(members=expert).only('name')
+    value = serializers.serialize("json", projects, fields=["name", "year"]) # Поля поменять согласно ТЗ
+    return JsonResponse(value, safe=False)
+
+
+@login_required
+def get_project(request):
+    project_id = request.GET.get('id', '')
+    project = UserProject.objects.filter(pk=project_id)
+    value = serializers.serialize("json", project)
+    return JsonResponse(value, safe=False)
