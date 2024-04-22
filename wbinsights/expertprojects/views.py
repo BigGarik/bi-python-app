@@ -138,8 +138,11 @@ def project_file_delete(request, pk):
     return HttpResponseRedirect(reverse('project_edit', kwargs={'slug': project.slug}))
 
 
+from django.core import serializers
+
 def search_experts(request):
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+   # if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+    if True:
         query = request.GET.get('term', '')
         print(CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT))
         experts = CustomUser.objects.filter(
@@ -148,11 +151,14 @@ def search_experts(request):
         ).distinct()[:10]  # Ограничиваем количество результатов для улучшения производительности
         results = []
         print(experts)
-        for expert in experts:
-            expert_json = {}
-            expert_json['id'] = expert.id
-            expert_json['label'] = expert.get_full_name()
-            expert_json['value'] = expert.get_full_name()
-            results.append(expert_json)
-        return JsonResponse(results, safe=False)
+        # for expert in experts:
+        #     expert_json = {}
+        #     expert_json['id'] = expert.id
+        #     expert_json['label'] = expert.get_full_name()
+        #     expert_json['value'] = expert.get_full_name()
+        #     results.append(expert_json)
+
+        value = serializers.serialize("json", experts, fields=["first_name", "last_name"])
+
+        return JsonResponse(value, safe=False)
     return JsonResponse({'error': 'Not Ajax request'}, status=400)
