@@ -63,23 +63,32 @@
                             {#    #}
                             {#\})#}
 
-                            const availableSlots = {
-                                slots: [
-                                    '11:00',
-                                    '13:00',
-                                    '16:00',
-                                    '17:00'
-                                ]
-                            }
+                            fetch("/experts/projects/list/json", {
+                                method: "GET"
+                            }).then(function (event) {
+                                console.log(event.data)
+
+                                 const availableSlots = {
+                                    slots: [
+                                        '11:00',
+                                        '13:00',
+                                        '16:00',
+                                        '17:00'
+                                    ]
+                                }
 
 
-                            selectAppointmentTime.html('')
-                            availableSlots.slots.map( (slot) => {
-                                selectAppointmentTime.append('<option value="' + slot + '">' + slot + '</option>')
+                                selectAppointmentTime.html('')
+                                availableSlots.slots.map( (slot) => {
+                                    selectAppointmentTime.append('<option value="' + slot + '">' + slot + '</option>')
 
-                            })
+                                })
 
-                            selectAppointmentTime.prop('disabled', true)
+                                selectAppointmentTime.prop('disabled', true)
+
+                            }).then()
+
+
 
                         }
                     },
