@@ -160,6 +160,11 @@
     gap: 3px;
 }
 
+.flex-center {
+    display:flex;
+    justify-content: center;
+}
+
 .user-catagory-highlight{
     display: flex;
     align-items: center;

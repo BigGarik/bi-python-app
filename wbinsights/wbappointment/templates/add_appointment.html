@@ -1,19 +1,50 @@
 {% extends 'base020.html' %}
 {% load static %}
-{% block center_col %}
 {% load i18n %}
 
-<link rel="stylesheet" href="{% static 'css/add_appointment.css' %}">
 
+{% block center_col %}
+
+    <link rel="stylesheet" href="{% static 'css/add_appointment.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/vanila-calendar/vanilla-calendar.min.css' %}"/>
+    <script src="{% static 'js/vanila-calendar/vanilla-calendar.min.js' %}"></script>
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
-                <h2 class="text-center appointment-title">{% trans 'MakeAppointmentWithLabel' %} {{ expert.last_name}} {{ expert.first_name }}</h2>
+            <div class="col-md-10" style="background-color: #eeefef;padding: 20px;border-radius: 10px;">
+
+                <a href="javascript:history.go(-1);" class="checkout-back-link"> <i class="bi bi-chevron-left"></i> &nbsp;Назад</a>
+                <div class="appointment-exp-info">
+                    <div class="appointment-foto-cont">
+                        <div class="flex-center">
+                            <img src="{{ expert.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; max-width: 70px; max-height: 70px;min-width: 70px;min-height: 70px;object-fit: cover;">
+                        </div>
+                        <div class="user-rating-appointment">Рейтинг:  4.5{{ expert.expertprofile.rating }} &nbsp;</div>
+                        <div class="user-rate-and-stars">
+                            <!-- stars -->
+                        </div>
+                    </div>
+                    <div class="appointment-exp-data">
+                        <div class="appointment-spans">{{ expert.last_name}} {{ expert.first_name }}</div>
+                        <div>{{expert.expertprofile.hour_cost}} Р/час </div>
+                        <div class="category-cont-appointments">
+                            {% for exp_category in expert.expertprofile.expert_categories.all %}
+                                <div class="user-catagory-highlight {{exp_category.slug}}">
+                                    {{ exp_category.name }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:100%; display: flex; justify-content: flex-start; padding: 25px">
+                    <div id="calendar" style="transform: scale(1.2); "></div>
+                </div>
                 <form method="post">
                     {% csrf_token %}
                     <div class="form-group appointment-margins">
-                        <label for="{{ form.appointment_date.id_for_label }}" class="appointment-labels">Дата</label>
+                        <!--<label for="{{ form.appointment_date.id_for_label }}" class="appointment-labels">Дата</label>-->
                         {{ form.appointment_date }}
                     </div>
                     <div class="form-group appointment-margins">
@@ -24,15 +55,76 @@
                         <label for="notes" class="appointment-labels">Additional Notes</label>
                         {{ form.notes }}
                     </div>
-                        
 
-                    <button type="submit" class="btn btn-primary btn-block appointment-btn">{% trans 'SubmitButtonLabel' %}</button>
+
+                    <button type="submit"
+                            class="btn btn-primary btn-block appointment-btn">{% trans 'SubmitButtonLabel' %}
+                    </button>
                 </form>
             </div>
         </div>
     </div>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            const selectAppointmentDate = $('#id_appointment_date');
+            const selectAppointmentTime = $('#id_appointment_time');
+
+            const options = {
+
+                actions: {
+                    clickDay(event, self) {
+
+                        // Set the value of appointment date input
+                        selectAppointmentDate.val(self.selectedDates.join(', '));
+
+                        console.log(self.selectedDates)
+
+                        // Enable/disable time selection based on whether a date is selected
+                        if (self.selectedDates.length > 0) {
+                            // Fetch available slots
+                            // $.ajax({
+                            //     url: '',
+                            //     data: {
+                            //         selectedDate: self.selectedDates[0],
+                            //         expertId: ''
+                            //     },
+                            //     success: function (response) {
+                            //         // handle response
+                            //     }
+                            // });
+
+                            const availableSlots = {
+                                slots: [
+                                    '11:00',
+                                    '13:00',
+                                    '16:00',
+                                    '17:00'
+                                ]
+                            };
+
+                            selectAppointmentTime.html('');
+                            availableSlots.slots.forEach(slot => {
+                                selectAppointmentTime.append('<option value="' + slot + '">' + slot + '</option>');
+                            });
+
+                            // enable
+                            selectAppointmentTime.prop('disabled', false);
+                        } else {
+                            // if no date selected then disable
+                            selectAppointmentTime.prop('disabled', true);
+                        }
+                    },
+                },
+            };
+
+            const calendar = new VanillaCalendar('#calendar', options);
+            calendar.init();
+
+
+        });
+    </script>
+
 
 {% endblock %}
-</body>
-</html>

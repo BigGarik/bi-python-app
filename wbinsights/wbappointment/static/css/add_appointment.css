@@ -46,4 +46,47 @@
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
+.appointment-exp-info{
+    display:flex;
+    margin: 20px 0 20px 0;
+    justify-content: flex-start;
+}
+
+.category-cont-appointments{
+    display:flex;
+    gap 5px;
+}
+
+.appointment-foto-cont{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.user-rating-appointment{
+    margin-top: 10px;
+}
+
+.appointment-exp-data {
+    padding-left: 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.appointment-spans{
+    /* margin: 10px 0 10px 0; */
+
+}
+
+.checkout-back-link {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: flex-start;
+}
+
+
 
