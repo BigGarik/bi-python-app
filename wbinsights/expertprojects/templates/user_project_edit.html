@@ -10,26 +10,26 @@
     {{ form.as_p }}
 
     <div id="members-container">
-      <label>Участники проект:</label>
+      <label>Участники проекта:</label>
+      <input type="text" id="search-experts" placeholder="Начните вводить имя эксперта...">
       <ul id="members-list">
         {% for member in userproject.members.all %}
           <li>{{ member.get_full_name }}</li>
         {% endfor %}
       </ul>
-      <button type="button" id="add-member-btn">Добавить участника</button>
     </div>
     <h3>Файлы проекта:</h3>
-      <ul>
-        {% for file in userproject.files.all %}
-          <li>
-            {% if file.file %}
-              <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
-            {% else %}
-              Файл отсутствует.
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
+    <ul>
+      {% for file in userproject.files.all %}
+        <li>
+          {% if file.file %}
+            <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
+          {% else %}
+            Файл отсутствует.
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
     <p></p>
     <label for="id_file">Загрузить файл:</label>
     <input type="file" name="file_field_name" id="id_file">
@@ -38,19 +38,29 @@
     <input type="submit" value="Сохранить изменения">
   </form>
 
-  <!-- Всплывающее окно со списком всех экспертов -->
-  <div id="experts-list" style="display:none;">
-    {% for expert in experts %}
-      <div ondblclick="addExpertToList('{{ expert.pk }}', '{{ expert.get_full_name }}')">
-        {{ expert.get_full_name }}
-      </div>
-    {% endfor %}
-  </div>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script type="text/javascript">
-    document.getElementById('add-member-btn').addEventListener('click', function() {
-      var expertsList = document.getElementById('experts-list');
-      expertsList.style.display = expertsList.style.display === 'none' ? 'block' : 'none';
+    $(document).ready(function() {
+      $("#search-experts").on("input", function() {
+        var query = $(this).val();
+        if(query.length > 2) { // Фильтрация начинается, если введено более 2 символов
+          $.ajax({
+            url: "{% url 'search_experts' %}",
+            data: {
+              'term': query,
+            },
+            dataType: 'json',
+            success: function (data) {
+              $("#experts-list").empty().show();
+              $.each(data, function(index, expert) {
+                $("#experts-list").append(
+                  `<div ondblclick="addExpertToList('${expert.id}', '${expert.label}')">${expert.label}</div>`
+                );
+              });
+            }
+          });
+        }
+      });
     });
 
     function addExpertToList(expertId, expertName) {
@@ -60,7 +70,7 @@
 
       var input = document.createElement('input');
       input.type = 'hidden';
-      input.name = 'members';
+      input.name = 'members_ids'; // Обратите внимание на изменение имени поля
       input.value = expertId;
 
       memberItem.appendChild(input);

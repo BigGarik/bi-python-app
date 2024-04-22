@@ -9,6 +9,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
+from django.http import JsonResponse
+from django.db.models import Q
 
 from web.models import CustomUser, Profile
 from .forms import UserProjectForm, UserProjectFileForm
@@ -134,3 +136,23 @@ def project_file_delete(request, pk):
     project = file.project
     file.delete()
     return HttpResponseRedirect(reverse('project_edit', kwargs={'slug': project.slug}))
+
+
+def search_experts(request):
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        query = request.GET.get('term', '')
+        print(CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT))
+        experts = CustomUser.objects.filter(
+            Q(first_name__icontains=query) | Q(last_name__icontains=query),
+            profile__type=Profile.TypeUser.EXPERT
+        ).distinct()[:10]  # Ограничиваем количество результатов для улучшения производительности
+        results = []
+        print(experts)
+        for expert in experts:
+            expert_json = {}
+            expert_json['id'] = expert.id
+            expert_json['label'] = expert.get_full_name()
+            expert_json['value'] = expert.get_full_name()
+            results.append(expert_json)
+        return JsonResponse(results, safe=False)
+    return JsonResponse({'error': 'Not Ajax request'}, status=400)
