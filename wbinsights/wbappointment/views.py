@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import api
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from rest_framework import viewsets
@@ -11,6 +12,8 @@ from .serializers import AppointmentTimeSerializer
 
 from yookassa import Configuration, Payment
 import uuid
+
+from django.core import serializers
 
 Configuration.account_id = '372377'
 Configuration.secret_key = 'test_GweuBNA4H85vWxRCLXLsz7gJLX2lA_YJ2GjYGpRBxLw'
@@ -39,6 +42,36 @@ def add_appointment_view(request, *args, **kwargs):
         }
 
     return render(request, 'add_appointment.html', context=context)
+
+
+def get_expert_avalable_timeslots(request):
+    selected_expert = request.GET['expert']
+    selected_date = request.GET['date']
+    timeslot = []
+    if selected_date == '2024-04-10':
+        timeslot = ['11:00',
+                    '13:00',
+                    '16:00',
+                    '17:00']
+
+    if selected_date == '2024-04-11':
+        timeslot = ['10:00',
+                    '14:00',
+                    '15:00',
+                    '16:00']
+    return JsonResponse(timeslot, safe=False)
+
+def get_experts_appointment(request, *args, **kwargs):
+    selected_expert = kwargs['expert_id']
+    appointments = Appointment.objects.filter(expert_id=selected_expert)
+    data = serializers.serialize("json", appointments, fields=["appointment_date", "appointment_time", "client"])
+    return JsonResponse(data, safe=False)
+
+def get_clients_appointment(request, *args, **kwargs):
+    selected_expert = kwargs['client_id']
+    appointments = Appointment.objects.filter(cleint_id=selected_expert)
+    data = serializers.serialize("json", appointments, fields=["appointment_date", "appointment_time", "client"])
+    return JsonResponse(data, safe=False)
 
 def appointment_payment_callback_view(request, *args, **kwargs):
     return render(request, "add_appointment_success.html", **kwargs)

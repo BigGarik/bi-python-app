@@ -79,38 +79,37 @@
                         // Set the value of appointment date input
                         selectAppointmentDate.val(self.selectedDates.join(', '));
 
-                        console.log(self.selectedDates)
+                        //console.log(self.selectedDates)
 
                         // Enable/disable time selection based on whether a date is selected
                         if (self.selectedDates.length > 0) {
-                            // Fetch available slots
-                            // $.ajax({
-                            //     url: '',
-                            //     data: {
-                            //         selectedDate: self.selectedDates[0],
-                            //         expertId: ''
-                            //     },
-                            //     success: function (response) {
-                            //         // handle response
-                            //     }
-                            // });
 
-                            const availableSlots = {
-                                slots: [
-                                    '11:00',
-                                    '13:00',
-                                    '16:00',
-                                    '17:00'
-                                ]
-                            };
 
-                            selectAppointmentTime.html('');
-                            availableSlots.slots.forEach(slot => {
-                                selectAppointmentTime.append('<option value="' + slot + '">' + slot + '</option>');
-                            });
+                             $.ajax({
+                                   url: '/appointment/available/timeslots/json',
+                                   type: 'GET',
+                                   data: {
+                                     expert: 9,
+                                     date: self.selectedDates[0]
 
-                            // enable
-                            selectAppointmentTime.prop('disabled', false);
+                                   },
+                                   success: function(response) {
+
+                                       selectAppointmentTime.html('');
+                                       response.forEach(slot => {
+                                           selectAppointmentTime.append('<option value="' + slot + '">' + slot + '</option>');
+                                       });
+
+                                       // enable
+                                       selectAppointmentTime.prop('disabled', false);
+                                       console.log(response)
+                                   }
+                             })
+
+
+
+
+
                         } else {
                             // if no date selected then disable
                             selectAppointmentTime.prop('disabled', true);
