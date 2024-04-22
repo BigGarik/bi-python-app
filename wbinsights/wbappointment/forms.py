@@ -11,17 +11,17 @@ class AppointmentForm(forms.ModelForm):
 
     appointment_time = forms.ChoiceField(
         choices=hour_choices,
-        widget=forms.Select(attrs={'class': 'appointment-form-control'})
+        widget=forms.Select(attrs={'class': 'appointment-form-control','disabled':'disabled'})
     )
 
     class Meta:
         model = Appointment
         fields = ['appointment_date', 'appointment_time', 'notes']
         widgets = {
-            'appointment_date': forms.TextInput(
+            'appointment_date': forms.HiddenInput(
                 attrs={
-                    'type': 'date',
-                    'class': 'appointment-form-control'
+
+                    'class': 'appointment-form-control1'
                 }
             ),
             'notes': forms.Textarea(
