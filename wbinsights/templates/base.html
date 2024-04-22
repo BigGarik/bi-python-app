@@ -11,11 +11,14 @@
     <link rel="stylesheet" href="{% static 'web/css/header.css' %}">
     <link rel="stylesheet" href="{% static 'web/css/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'web/css/mainPage.css' %}">
-    
+
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
@@ -25,101 +28,98 @@
 
     <style>
 
-      body {
-          height: 100%;
-          margin: 0;
-          padding: 0;
-           font-family: Arial, sans-serif !important;
-       }
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif !important;
+        }
 
-    body {
-      background-color: #2980b9;
-      font-family: monaco, Consolas, Lucida Console, monospace;
-    }
+        body {
+            background-color: #2980b9;
+            font-family: monaco, Consolas, Lucida Console, monospace;
+        }
 
-    #sidebar {
-        width: 100%;
-        background: #36364b;
-        position: fixed;
-        height: 100%;
-        top: 0;
-        left: -850px;
-        transition: left 0.8s ease;
-        padding: 20px 10px 0 10px;
-        z-index: 1000;
-    }
+        #sidebar {
+            width: 100%;
+            background: #36364b;
+            position: fixed;
+            height: 100%;
+            top: 0;
+            left: -850px;
+            transition: left 0.8s ease;
+            padding: 20px 10px 0 10px;
+            z-index: 1000;
+        }
 
-    #sidebar.visible {
-      left: 0px;
-      transition: left 0.7s ease;
-    }
-
-
-
-    #sidebar-btn {
-      display: inline-block;
-      vertical-align: middle;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      margin: 10px;
-      position: absolute;
-<!--      right: -60px;-->
-      top: 0px;
-    }
-
-    #sidebar-btn span {
-      background-color: white;
-      height: 1px;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    #sidebar-close-btn {
-      display: inline-block;
-      vertical-align: middle;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      margin: 10px;
-<!--      right: -60px;-->
-      top: 0px;
-    }
-
-    #sidebar-close-btn span {
-      background-color: white;
-      height: 1px;
-      display: block;
-      margin-bottom: 5px;
-    }
+        #sidebar.visible {
+            left: 0px;
+            transition: left 0.7s ease;
+        }
 
 
+        #sidebar-btn {
+            display: inline-block;
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin: 10px;
+            position: absolute;
+        <!-- right: - 60 px;
+        --> top: 0px;
+        }
 
-    .test {
-      width: 100%;
-      height: 100%;
-    }
+        #sidebar-btn span {
+            background-color: white;
+            height: 1px;
+            display: block;
+            margin-bottom: 5px;
+        }
 
-    h1 {
-      color: white;
-      text-align: center;
-    }
+        #sidebar-close-btn {
+            display: inline-block;
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin: 10px;
+        <!-- right: - 60 px;
+        --> top: 0px;
+        }
+
+        #sidebar-close-btn span {
+            background-color: white;
+            height: 1px;
+            display: block;
+            margin-bottom: 5px;
+        }
 
 
+        .test {
+            width: 100%;
+            height: 100%;
+        }
 
-    .dropdown .dropdown-toggle::after {
-        display: none !important;
-        margin-left: 20px !important;
-    }
+        h1 {
+            color: white;
+            text-align: center;
+        }
 
-    .p-4 {
-        padding: 0 !important;
-    }
 
-    .container-fluid {
-        padding-right: 0px !important;
-        padding-left: 0px !important;
-    }
+        .dropdown .dropdown-toggle::after {
+            display: none !important;
+            margin-left: 20px !important;
+        }
+
+        .p-4 {
+            padding: 0 !important;
+        }
+
+        .container-fluid {
+            padding-right: 0px !important;
+            padding-left: 0px !important;
+        }
 
     </style>
 
@@ -127,94 +127,187 @@
 
 <body style="background-color: #f2f3f5;height: 1600px;">
 
-    <div class="container-fluid" >
+<div class="container-fluid">
 
-        <header class="py-3 sm-4 border-bottom header-container">
+    <header class="py-3 sm-4 border-bottom header-container">
 
-            <div class="container-fluid">
-                <!-- display for larger screens -->
-                <div class="d-none d-md-flex justify-content-end main-cont-css">
+        <div class="container-fluid">
+            <!-- display for larger screens -->
+            <div class="d-none d-md-flex justify-content-end main-cont-css">
 
-                    <div class="col-md-1 text-md-end"></div>
+                <div class="col-md-1 text-md-end"></div>
 
-                    <div class="col-md-4 mb-2 mb-md-0 logo-container">
+                <div class="col-md-4 mb-2 mb-md-0 logo-container">
 
-                        <div class="search-bar-cont">
+                    <div class="search-bar-cont">
 
-                            <input class="search-bar" type="text" id="search" name="username" placeholder="Поиск">
+                        <input class="search-bar" type="text" id="search" name="username" placeholder="Поиск">
 
-                            {% if user.is_authenticated %}
+                        {% if user.is_authenticated %}
                             <div class="dropdown">
 
-                                <button class="btn btn-secondary fullscreen-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                <button class="btn btn-secondary fullscreen-dropdown" type="button"
+                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                     <i class="bi bi-plus" style="color:black; transform: scale(1.3);"></i>
                                 </button>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>
+                                    <a class="dropdown-item" href="#"
+                                       onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>
                                     {% if user.profile.type == 1 %}
-                                        <a class="dropdown-item" href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
+                                        <a class="dropdown-item"
+                                           href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
                                     {% endif %}
-                                    <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>
+                                    <a class="dropdown-item" href="#"
+                                       onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>
                                 </div>
 
                             </div>
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-2 text-md-end header-nav-container">
-
-                        {% if request.user.is_authenticated %}
-                            {% if not request.user.expertprofile.is_verified %}
-                                <p class="verify-account-text">{% trans 'VerifyAccountLabel' %}</p>
-                                
-                            {% endif %}
                         {% endif %}
 
-
                     </div>
 
-                    <div class="col-md-4 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center;">
+                </div>
+
+                <div class="col-md-2 text-md-end header-nav-container">
+
+                    {% if request.user.is_authenticated %}
+                        {% if not request.user.expertprofile.is_verified %}
+                            <p class="verify-account-text">{% trans 'VerifyAccountLabel' %}</p>
+
+                        {% endif %}
+                    {% endif %}
+
+                </div>
+
+                <div class="col-md-4 text-md-end all-profile-cont"
+                     style="display: flex; justify-content: flex-end; align-items:center;">
+                    {% if user.is_authenticated %}
+                        <div class="comments-cont">
+                            <a href="#" onclick="alert('В разработке');">
+                                <i class="bi bi-chat-left-text" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
+                        <div class="bell-cont">
+                            <a href="#" onclick="alert('В разработке');">
+                                <i class="bi bi-bell-fill" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
+                        <div class="header-user-prof">
+                            <div class="header-prof-info">
+                                <span style="color:white">{{ user.first_name }} </span>
+                                <span style="color:grey">
+                                                {% if user.is_superuser %}
+                                                    Админ
+                                                {% elif user.profile.type == 1 %}
+                                                    Эксперт
+                                                {% elif user.profile.type == 0 %}
+                                                    Клиент
+                                                {% endif %}
+                                            </span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                        style="background-color: inherit;border: none;margin: 0; ">
+                                    <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                                         style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                                     style="padding: 0px; transform: translate(-100px, 64px) !important;">
+                                    <div class="header-profile-cont">
+                                        <a href="{% url 'profile' %}" class="profile-page-btn prof-page-btn-styles">
+                                            <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i>
+                                            &nbsp;
+                                            {% trans 'PersonalAccountLabel' %}
+                                        </a>
+                                        <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                            {% csrf_token %}
+                                            <button class="logout-btn logout-btn" type="submit">
+                                                <i class="bi bi-box-arrow-right" style=" scale: 1.1"></i> &nbsp;
+                                                {% trans 'LogoutButtonLabel' %}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="buttons-log-cont">
+                            <a href="{% url 'login' %}">
+                                <button type="button"
+                                        class="btn btn-dark logout-btn-style">{% trans 'LoginBtnLabel' %}</button>
+                            </a>
+                            <a href="{% url 'signup' %}">
+                                <button type="button" class="btn btn-primary">{% trans 'RegisterBtnLabel' %}</button>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-1 text-md-end"></div>
+
+            </div>
+
+            <!-- display on small screens -->
+            <div class="d-md-none">
+
+                <div style="display:flex">
+
+                    <div id="sidebar-btn">
+                        <i class="bi bi-list" style="color: white; font-size: 22px;"></i>
+                    </div>
+
+                    <div style="display:flex;width: 100%; justify-content: flex-end;">
                         {% if user.is_authenticated %}
+
                             <div class="comments-cont">
                                 <a href="#" onclick="alert('В разработке');">
-                                    <i class="bi bi-chat-left-text" style="color:white; font-size: 1.3em;"></i>
+                                    <i class="bi bi-chat-left-text" style="color: white;"></i>
                                 </a>
                             </div>
+
                             <div class="bell-cont">
                                 <a href="#" onclick="alert('В разработке');">
                                     <i class="bi bi-bell-fill" style="color:white; font-size: 1.3em;"></i>
                                 </a>
                             </div>
+
                             <div class="header-user-prof">
+
                                 <div class="header-prof-info">
                                     <span style="color:white">{{ user.first_name }} </span>
                                     <span style="color:grey">
-                                        {% if user.is_superuser %}
-                                            Админ
-                                        {% elif  user.profile.type == 1 %} 
-                                            Эксперт
-                                        {% elif user.profile.type == 0 %}
-                                            Клиент
-                                        {% endif %}
-                                    </span>
+                                                    {% if user.is_superuser %}
+                                                        Админ
+                                                    {% elif user.profile.type == 1 %}
+                                                        Эксперт
+                                                    {% elif user.profile.type == 0 %}
+                                                        Клиент
+                                                    {% endif %}
+                                                </span>
                                 </div>
+
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: inherit;border: none;margin: 0; ">
-                                        <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false"
+                                            style="background-color: inherit;border: none;margin: 0; padding:0px">
+                                        <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                                             style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="padding: 0px; transform: translate(-100px, 64px) !important;">
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                                         style="padding: 0px; transform: translate(-130px, 10px); !important;">
                                         <div class="header-profile-cont">
-                                            <a href="{% url 'profile' %}" class="profile-page-btn prof-page-btn-styles" >
-                                                <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i> &nbsp;
+                                            <a href="{% url 'profile' %}" class="profile-page-btn prof-page-btn-styles">
+                                                <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i>
+                                                &nbsp;
                                                 {% trans 'PersonalAccountLabel' %}
                                             </a>
                                             <form method="post" action="{% url 'logout' %}" class="logout-form">
                                                 {% csrf_token %}
-                                                <button class="logout-btn logout-btn" type="submit" >
+                                                <button class="logout-btn logout-btn" type="submit">
                                                     <i class="bi bi-box-arrow-right" style=" scale: 1.1"></i> &nbsp;
                                                     {% trans 'LogoutButtonLabel' %}
                                                 </button>
@@ -224,153 +317,91 @@
                                 </div>
                             </div>
                         {% else %}
-                            <div class="buttons-log-cont">
+                            <div class="buttons-log-cont" style="width:100%; justify-content: flex-end; gap:15px">
                                 <a href="{% url 'login' %}">
-                                    <button type="button" class="btn btn-dark logout-btn-style">{% trans 'LoginBtnLabel' %}</button>
+                                    <button type="button" class="btn btn-dark logout-btn-style"
+                                            style="font-size: 18px ; background-color: #4a4a5e !important;">{% trans 'LoginBtnLabel' %}</button>
                                 </a>
                                 <a href="{% url 'signup' %}">
-                                    <button type="button" class="btn btn-primary">{% trans 'RegisterBtnLabel' %}</button>
+                                    <button type="button" class="btn btn-primary"
+                                            style="font-size: 18px;">{% trans 'RegisterBtnLabel' %}</button>
                                 </a>
                             </div>
                         {% endif %}
+
                     </div>
-
-                    <div class="col-md-1 text-md-end"></div>
-
                 </div>
 
-                <!-- display on small screens -->
-                <div class="d-md-none">
+                <div id="sidebar">
 
-                    <div style="display:flex">
-                        <div id="sidebar-btn">
-                            <i class="bi bi-list" style="color: white; font-size: 22px;"></i>
+                    <div style="display:flex; flex-direction:row ;    justify-content: space-between; height:50px">
+                        <div id="sidebar-close-btn" style="display: none;">
+                            <i class="bi bi-list" style="color: white; font-size:22px;"></i>
                         </div>
-                        <div style="display:flex;width: 100%; justify-content: flex-end;">
-                                {% if user.is_authenticated %}
-                                    <div class="comments-cont">
-                                        <a href="#" onclick="alert('В разработке');">
-                                            <i class="bi bi-chat-left-text" style="color: white;"></i>
-
-                                        </a>
-                                    </div>
-                                    <div class="bell-cont">
-                                        <a href="#" onclick="alert('В разработке');">
-                                            <i class="bi bi-bell-fill" style="color:white; font-size: 1.3em;"></i>
-                                        </a>
-                                    </div>
-                                    <div class="header-user-prof">
-                                        <div class="header-prof-info">
-                                            <span style="color:white">{{ user.first_name }} </span>
-                                            <span style="color:grey">
-                                                {% if user.is_superuser %}
-                                                    Админ
-                                                {% elif  user.profile.type == 1 %}
-                                                    Эксперт
-                                                {% elif user.profile.type == 0 %}
-                                                    Клиент
-                                                {% endif %}
-                                            </span>
-                                        </div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: inherit;border: none;margin: 0; padding:0px">
-                                                <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="padding: 0px; transform: translate(-130px, 10px); !important;">
-                                                <div class="header-profile-cont">
-                                                    <a href="{% url 'profile' %}" class="profile-page-btn prof-page-btn-styles" >
-                                                        <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i> &nbsp;
-                                                        {% trans 'PersonalAccountLabel' %}
-                                                    </a>
-                                                    <form method="post" action="{% url 'logout' %}" class="logout-form">
-                                                        {% csrf_token %}
-                                                        <button class="logout-btn logout-btn" type="submit" >
-                                                            <i class="bi bi-box-arrow-right" style=" scale: 1.1"></i> &nbsp;
-                                                            {% trans 'LogoutButtonLabel' %}
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="buttons-log-cont" style="width:100%; justify-content: flex-end; gap:15px">
-                                        <a href="{% url 'login' %}">
-                                            <button type="button" class="btn btn-dark logout-btn-style" style="font-size: 18px ; background-color: #4a4a5e !important;">{% trans 'LoginBtnLabel' %}</button>
-                                        </a>
-                                        <a href="{% url 'signup' %}">
-                                            <button type="button" class="btn btn-primary" style="font-size: 18px;">{% trans 'RegisterBtnLabel' %}</button>
-                                        </a>
-                                    </div>
-                                {% endif %}
-
-                            </div>
                     </div>
 
-                    <div id="sidebar">
-                        <div style="display:flex; flex-direction:row ;    justify-content: space-between; height:50px">
-                            <div id="sidebar-close-btn" style="display: none;">
-                                <i class="bi bi-list" style="color: white; font-size:22px;"></i>
-                            </div>
+                    <div>
 
-                        </div>
+                        <div class="search-bar-cont-nav" style="margin-bottom: 20px; margin-top: 10px;">
 
-                        <div>
-
-                            <div class="search-bar-cont-nav" style="margin-bottom: 20px; margin-top: 10px;">
-
-                                <input class="search-bar-nav" type="text" id="search" name="username" placeholder="Поиск">
-                                {% if user.is_authenticated %}
+                            <input class="search-bar-nav" type="text" id="search" name="username" placeholder="Поиск">
+                            {% if user.is_authenticated %}
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary nav-dropdown-styles" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    <button class="btn btn-secondary nav-dropdown-styles" type="button"
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
                                         <i class="bi bi-plus" style="color:black; transform: scale(1.3);"></i>
                                     </button>
-                                    <div class="dropdown-menu" style="padding: 0px;transform: translate(-110px, 10px) !important;" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>
+                                    <div class="dropdown-menu"
+                                         style="padding: 0px;transform: translate(-110px, 10px) !important;"
+                                         aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#"
+                                           onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>
                                         {% if user.profile.type == 1 %}
-                                            <a class="dropdown-item" href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
+                                            <a class="dropdown-item"
+                                               href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
                                         {% endif %}
-                                        <a class="dropdown-item" href="#" onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>
+                                        <a class="dropdown-item" href="#"
+                                           onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>
                                     </div>
                                 </div>
-                                {% endif %}
-                            </div>
-
-                        </div>
-
-                        <div>
-                            {% include "components/left_main_menu.html" %}
+                            {% endif %}
                         </div>
 
                     </div>
 
+                    <div>
+                        {% include "components/left_main_menu.html" %}
+                    </div>
 
                 </div>
+
 
             </div>
 
-        </header>
+        </div>
 
-        {% block content%} {% endblock %}
+    </header>
 
-    </div>
+    {% block content %} {% endblock %}
+
+</div>
 
 <script>
 
+    $(document).ready(function () {
+        $('#sidebar-btn').on('click', function () {
+            $('#sidebar').toggleClass('visible');
+            $('#sidebar-btn').hide();
+            $('#sidebar-close-btn').show();
+        });
 
-$(document).ready(function() {
-    $('#sidebar-btn').on('click', function() {
-        $('#sidebar').toggleClass('visible');
-        $('#sidebar-btn').hide();
-        $('#sidebar-close-btn').show();
+        $('#sidebar-close-btn').on('click', function () {
+            $('#sidebar').toggleClass('visible');
+            $('#sidebar-close-btn').hide();
+            $('#sidebar-btn').show();
+        });
     });
-
-    $('#sidebar-close-btn').on('click', function() {
-        $('#sidebar').toggleClass('visible');
-        $('#sidebar-close-btn').hide();
-        $('#sidebar-btn').show();
-    });
-});
 
 </script>
 
