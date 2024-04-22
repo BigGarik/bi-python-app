@@ -187,7 +187,7 @@
                   <div class="profile-menu-item" data-content="articles" onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
                   <div class="profile-menu-item" data-content="researches" onclick="showContent('researches')">{% trans 'ResearchesTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
                   <div class="profile-menu-item" data-content="questions" onclick="showContent('questions')">{% trans 'QuestionsTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
-                  <div class="profile-menu-item" data-content="consultations" onclick="showContent('consultations')">{% trans 'ConsultationsTabLabel' %}</div>
+                  <div class="profile-menu-item" data-content="consultations" onclick="showContent('consultations')">{% trans 'ConsultationsTabLabel' %} ({{ experts_appointment_cnt }})</div>
                   <div class="profile-menu-item" data-content="reviews" onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
 {#                  <div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>#}
                 </div>
@@ -237,8 +237,35 @@
 
                 <div id="consultations" class="expert-content" style="display: none;">
                   <span>test consultations</span>
-                  {% for research in experts_researches %}
-                  {% endfor %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date Time</th>
+
+                                <th>Client</th>
+                                <th>Zoom</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for appointment in experts_appointment %}
+                            <tr>
+                                <td>{{ appointment.appointment_date }} {{ appointment.appointment_time }}</td>
+                                <td>
+                                    <a href="{% url 'expert_profile' appointment.client.pk  %}">
+                                        {{ appointment.client.last_name }} {{ appointment.client.first_name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {% if appointment.zoom %}
+                                        <a href="{{ appointment.zoom }}">Ссылка на ZOOM</a>
+                                    {% endif %}
+                                </td>
+                                <td>{{ appointment.status }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
 
                 <div id="reviews" class="expert-content" style="display: none;">
