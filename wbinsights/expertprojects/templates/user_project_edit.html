@@ -1,30 +1,81 @@
 {% extends 'base123.html' %}
 
-
 {% load web_tags %}
-
+{% load file_filters %}
 {% block center_col %}
   <h2>Редактирование проекта: {{ userproject.name }}</h2>
 
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" id="project-form">
     {% csrf_token %}
     {{ form.as_p }}
-    {{ file_form.as_p }}
-    <button type="submit">Сохранить изменения</button>
+
+    <div id="members-container">
+      <label>Участники проекта:</label>
+      <input type="text" id="search-experts" placeholder="Начните вводить имя эксперта...">
+      <ul id="members-list">
+        {% for member in userproject.members.all %}
+          <li>{{ member.get_full_name }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <h3>Файлы проекта:</h3>
+    <ul>
+      {% for file in userproject.files.all %}
+        <li>
+          {% if file.file %}
+            <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
+          {% else %}
+            Файл отсутствует.
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    <p></p>
+    <label for="id_file">Загрузить файл:</label>
+    <input type="file" name="file_field_name" id="id_file">
+    <p></p>
+
+    <input type="submit" value="Сохранить изменения">
   </form>
 
-  <h3>Файлы проекта</h3>
-  <ul>
-    {% for file in files %}
-      <li>
-        {{ file.file.name }}
-        <form method="post" action="{% url 'project_file_delete' file.id %}">
-          {% csrf_token %}
-          <input type="hidden" name="delete_file" value="{{ file.id }}">
-          <button type="submit">Удалить файл</button>
-        </form>
-      </li>
-    {% endfor %}
-  </ul>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#search-experts").on("input", function() {
+        var query = $(this).val();
+        if(query.length > 2) { // Фильтрация начинается, если введено более 2 символов
+          $.ajax({
+            url: "{% url 'search_experts' %}",
+            data: {
+              'term': query,
+            },
+            dataType: 'json',
+            success: function (data) {
+              $("#experts-list").empty().show();
+              $.each(data, function(index, expert) {
+                $("#experts-list").append(
+                  `<div ondblclick="addExpertToList('${expert.id}', '${expert.label}')">${expert.label}</div>`
+                );
+              });
+            }
+          });
+        }
+      });
+    });
+
+    function addExpertToList(expertId, expertName) {
+      var membersList = document.getElementById('members-list');
+      var memberItem = document.createElement('li');
+      memberItem.textContent = expertName;
+
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'members_ids'; // Обратите внимание на изменение имени поля
+      input.value = expertId;
+
+      memberItem.appendChild(input);
+      membersList.appendChild(memberItem);
+    }
+  </script>
 
 {% endblock %}

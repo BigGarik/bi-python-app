@@ -1,14 +1,19 @@
 import itertools
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
-from .forms import UserProjectForm, UserProjectEditForm, UserProjectFileForm
+from django.http import JsonResponse
+from django.db.models import Q
+
+from web.models import CustomUser, Profile
+from .forms import UserProjectForm, UserProjectFileForm
 from .models import UserProject, UserProjectFile
 
 
@@ -21,27 +26,40 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
     model = UserProject
     form_class = UserProjectForm
     file_form_class = UserProjectFileForm
-    template_name = 'ai_created_login.html'
+    template_name = 'user_project_add.html'
 
     def form_valid(self, form):
-        userproject = form.save(commit=False)
+        # Сохранение проекта без коммита
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user  # Присваиваем текущего пользователя как автора проекта
+
+        # Генерация уникального слага для проекта
         max_length = UserProject._meta.get_field('slug').max_length
-        userproject.slug = orig_slug = slugify(userproject.name)[:max_length]
-
+        slug = orig_slug = slugify(self.object.name)[:max_length]
         for x in itertools.count(1):
-            if not UserProject.objects.filter(slug=userproject.slug).exists():
+            if not UserProject.objects.filter(slug=slug).exists():
                 break
-            # Truncate the original slug dynamically. Minus 1 for the hyphen.
-            userproject.slug = "%s-%d" % (orig_slug[:max_length - len(str(x)) - 1], x)
-        userproject.member = self.request.user  # Присваиваем текущего пользователя как member проекта
-        userproject.save()
+            # Обрезаем оригинальный слаг динамически. Минус 1 для дефиса.
+            slug = f"{orig_slug[:max_length - len(str(x)) - 1]}-{x}"
+        self.object.slug = slug
 
-        # Теперь обрабатываем файлы
-        files = self.request.FILES.getlist('file_field_name')  # Получаем список файлов
-        for file_data in files:  # Если файлы были предоставлены, сохраняем каждый
-            UserProjectFile.objects.create(project=userproject, file=file_data)
+        # Сохранение проекта и связанных файлов в одной транзакции
+        with transaction.atomic():
+            self.object.save()
+            form.save_m2m()  # Сохраняем данные many-to-many, включая участников проекта
 
-        return super(UserProjectCreateView, self).form_valid(form)
+            # Обработка файлов
+            files = self.request.FILES.getlist('file_field_name')
+            UserProjectFile.objects.bulk_create([
+                UserProjectFile(project=self.object, file=file) for file in files
+            ])
+
+            # Обработка участников проекта
+            members_ids = self.request.POST.getlist('members')
+            if members_ids:
+                self.object.members.set(CustomUser.objects.filter(id__in=members_ids))
+
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse_lazy('project_detail', kwargs={'slug': self.object.slug})
@@ -51,48 +69,58 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         if 'file_form' not in context:
             context['file_form'] = self.file_form_class()
+            # Добавляем список экспертов для элемента выбора участников на форме
+        context['experts'] = CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT)
         return context
 
 
-class UserProjectUpdateView(LoginRequiredMixin, UpdateView):
+class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = UserProject
     form_class = UserProjectForm
     template_name = 'user_project_edit.html'
     context_object_name = 'userproject'
 
-    def get_context_data(self, **kwargs):
-        context = super(UserProjectUpdateView, self).get_context_data(**kwargs)
-        if 'file_form' not in context:
-            context['file_form'] = UserProjectFileForm()
-        context['files'] = self.object.files.all()  # Получаем уже загруженные файлы
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-
-        if form.is_valid():
-            self.object = form.save()
-
-            # Обработка добавления нового файла
-            file_form = UserProjectFileForm(self.request.POST, self.request.FILES)
-            if file_form.is_valid():
-                new_file = file_form.save(commit=False)
-                new_file.project = self.object
-                new_file.save()
-
-            # Обработка удаления файла
-            for file_id in request.POST.getlist('delete_file'):
-                file_to_delete = get_object_or_404(UserProjectFile, id=file_id, project=self.object)
-                file_to_delete.delete()
-
-            return HttpResponseRedirect(self.get_success_url())
-
-        # Если форма не валидна, перерендер шаблона
-        return self.render_to_response(self.get_context_data(form=form))
+    def test_func(self):
+        project = self.get_object()
+        return self.request.user == project.author
 
     def get_success_url(self):
         return reverse_lazy('project_detail', kwargs={'slug': self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['file_form'] = UserProjectFileForm()
+        context['files'] = self.object.files.all()
+        context['experts'] = CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT)
+        return context
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            self.object = form.save(commit=False)
+            # Генерация уникального слага для проекта
+            max_length = UserProject._meta.get_field('slug').max_length
+            slug = orig_slug = slugify(self.object.name)[:max_length]
+            for x in itertools.count(1):
+                if not UserProject.objects.filter(slug=slug).exists():
+                    break
+                slug = f"{orig_slug[:max_length - len(str(x)) - 1]}-{x}"
+            self.object.slug = slug
+            self.object.save()
+            form.save_m2m()
+
+            # Обработка файлов
+            files = self.request.FILES.getlist('file_field_name')
+            for file_data in files:
+                UserProjectFile.objects.create(project=self.object, file=file_data)
+
+            # Обработка участников проекта
+            members_ids = self.request.POST.getlist('members')  # Используем getlist для безопасного получения списка
+            if members_ids:
+                self.object.members.set(CustomUser.objects.filter(id__in=members_ids))
+            else:
+                self.object.members.clear()
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class UserProjectDeleteView(DeleteView):
@@ -110,6 +138,21 @@ def project_file_delete(request, pk):
     return HttpResponseRedirect(reverse('project_edit', kwargs={'slug': project.slug}))
 
 
-def ai_created_html_page(request):
-    context = {}
-    return render(request, "ai_created_login.html", context=context)
+def search_experts(request):
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        query = request.GET.get('term', '')
+        print(CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT))
+        experts = CustomUser.objects.filter(
+            Q(first_name__icontains=query) | Q(last_name__icontains=query),
+            profile__type=Profile.TypeUser.EXPERT
+        ).distinct()[:10]  # Ограничиваем количество результатов для улучшения производительности
+        results = []
+        print(experts)
+        for expert in experts:
+            expert_json = {}
+            expert_json['id'] = expert.id
+            expert_json['label'] = expert.get_full_name()
+            expert_json['value'] = expert.get_full_name()
+            results.append(expert_json)
+        return JsonResponse(results, safe=False)
+    return JsonResponse({'error': 'Not Ajax request'}, status=400)
