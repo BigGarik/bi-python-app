@@ -1,22 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Checkout</title>
-</head>
-<body>
-    <h2>Checkout</h2>
+{% extends 'base020.html' %}
+{% load static %}
+{% load i18n %}
 
-    Детали встречи:
-    Эксперт: {{ appointment.expert.last_name }} {{ appointment.expert.first_name }}
-    Дата: {{ appointment.appointment_date }}
-    <br/>
-    Время: {{ appointment.appointment_time }}
-    <br/>
-    Заметка: {{ appointment.notes }}
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" value="{{ appointment.pk }}" name="appointment_id"/>
-        <button type="submit">Перейти к оплате</button>
-    </form>
-</body>
-</html>
+{% block center_col %}
+
+    <link rel="stylesheet" href="{% static 'css/checkoutcss.css' %}">
+
+    <div class="container">
+
+        <a href="javascript:history.go(-1);" class="checkout-back-link"> <i class="bi bi-chevron-left"></i> &nbsp;Назад</a>
+        <h2 class="checkout-title">Детали заказа</h2>
+
+        <div class="appointment-details">
+
+            <div class="detail">
+                <strong>Эксперт:</strong>
+                {{ appointment.expert.last_name }} {{ appointment.expert.first_name }}
+            </div>
+            <div class="detail">
+                <strong>Дата:</strong>
+                {{ appointment.appointment_date }}
+            </div>
+            <div class="detail">
+                <strong>Время:</strong>
+                {{ appointment.appointment_time }}
+            </div>
+            <div class="detail">
+                <strong>Цена:</strong>
+                {{ appointment.expert.expertprofile.hour_cost }}
+            </div>
+            <div class="detail">
+                <strong>Заметка:</strong>
+                {{ appointment.notes }}
+            </div>
+
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ appointment.pk }}" name="appointment_id"/>
+            <button type="submit" class="btn btn-primary">Перейти к оплате</button>
+        </form>
+    </div>
+
+{% endblock %}
