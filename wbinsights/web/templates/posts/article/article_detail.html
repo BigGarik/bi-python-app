@@ -1,6 +1,3 @@
-
-
-
 {% extends 'base123.html' %}
 {%load static%}
 {% load web_tags %}
@@ -8,11 +5,11 @@
 {% load web_tags %}
 
 <style>
-  
-  .article-detail-main-content img {
-    max-width: 100%;
-    height: auto;
-  }
+
+    .article-detail-main-content img {
+      max-width: 100%;
+      height: auto;
+    }
 
 </style>
 
@@ -21,57 +18,68 @@
 
 <div class="base-Content">
 
-  <div class="article-detail-page-content">
+    <div class="article-detail-page-content">
 
-    <div class="article-detail-page-back-btn">
-      <a href="{% url 'article_list' %}" style="text-decoration:none;color:  black;align-items: center;display: flex;">
+        <div class="article-detail-page-back-btn">
+            <a href="{% url 'article_list' %}"
+               style="text-decoration:none;color:  black;align-items: center;display: flex;">
 
-        <i class="bi bi-chevron-left" ></i> &nbsp;Ко всем статьям
-      </a>
-    </div>
+                <i class="bi bi-chevron-left"></i> &nbsp;Ко всем статьям
+            </a>
+        </div>
+        {% if article.author == request.user %}
+            <a href="{% url 'edit_article' slug=article.slug %}" class="btn btn-primary">Edit Article</a>
+        {% endif %}
 
-    <div class="article-detail-page-publish-date">
-      <i class="bi bi-calendar2-week" style="color:#a9b4ca; scale:1.3"></i>
-      &nbsp;  {{ article.time_update|custom_time_display }}
-
-    </div>
-
-    <div class="article-detail-title">{{article.title}}</div>
-
-    <div class="artile-list-image">
-      {% if article.main_img %}
-        <img src="{{ article.main_img.url }}" alt="Article Image" style="max-width:100%">
-      {% endif %}
-    </div>
-
-    <div class="article-detail-main-content">
-
-      {% autoescape off %}
-
-      {{article.content}}
-
-      {% endautoescape %}
-
-      <div class="article-detail-page-last">
-
-        <div class="article-detail-comments-andshare-cont">
-          <div class="article-detail-comments">
-            <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
-          </div>
-
-          <div class="article-share">
-            <i class="bi bi-box-arrow-up-right" style="color:grey;"></i>
-          </div>
+        <div class="article-detail-page-publish-date">
+            <i class="bi bi-calendar2-week" style="color:#a9b4ca; scale:1.3"></i>
+            &nbsp; {{ article.time_update|custom_time_display }}
 
         </div>
 
-      </div>
+        <div class="article-detail-title">{{article.title}}</div>
 
-      
+        <div class="artile-list-image">
+            {% if article.main_img %}
+            <img src="{{ article.main_img.url }}" alt="Article Image" style="max-width:100%">
+            {% endif %}
+        </div>
+
+        <div class="article-detail-main-content">
+
+            {% autoescape off %}
+
+            {{article.content}}
+
+            {% endautoescape %}
+
+            <div class="article-detail-page-last">
+
+                <div class="article-detail-comments-andshare-cont">
+                    <div class="article-detail-comments">
+                        <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
+                    </div>
+
+                    <div class="article-share">
+                        <i class="bi bi-box-arrow-up-right" style="color:grey;"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
     </div>
 
-  </div>
-  
 </div>
+
+<script>
+    function editArticle() {
+        const articleSlug = '{{ article.slug }}';
+        window.location.href = `/articles/${articleSlug}/edit/`;
+    }
+</script>
 
 {%endblock%}

@@ -7,7 +7,7 @@ from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertL
 from .views.index import handleIndex  # handleTest
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
-from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
+from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article , edit_article
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
@@ -26,6 +26,7 @@ urlpatterns = [
     path("articles/category/<slug:category_slug>", CategoryArticleListView.as_view(), name='article_category_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
     path("articles/add/", create_article, name='article_add'),
+    path('articles/<slug:slug>/edit/', edit_article, name='edit_article'),
 
     path("researches/", ResearchesListView.as_view(), name='research_list'),
     path("researches/category/<slug:category_slug>", ResearchesListView.as_view(), name='research_category_list'),

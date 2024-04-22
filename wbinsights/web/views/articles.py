@@ -125,6 +125,14 @@ def create_article(request):
     return render(request, 'posts/article/article_add.html', context=context)
 
 
+@login_required
+def edit_article(request, slug):
+    article = get_object_or_404(Article, slug=slug, author=request.user)
+    form = ArticleForm(instance=article)
+    # You may want to add additional logic here as needed
+    return render(request, 'posts/article/article_add.html', {'form': form})
+
+
 class ArticleAddView(CreateView):
     model = Article
     form_class = ArticleForm
