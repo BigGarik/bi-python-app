@@ -17,7 +17,7 @@
         <span class= "anketa-page-title">{% trans 'FillAllFieldsLabel' %}</span>
 
 
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" action="{% url 'activate_account' request.user.id %}">
             {% csrf_token %}
 
             <div class="prof-edit-rows">
@@ -69,8 +69,7 @@
                 </div>
 
             </div>
-
-
+            
             <div class="anketa-btns-cont">
                 <button type="submit" class="btn btn-success">{% trans 'SendForVerifyLabel' %}</button>
             </div>

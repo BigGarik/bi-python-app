@@ -47,17 +47,19 @@ def profile_view(request):
             # Fetch the expert's articles if profile is verified
             expert_articles = Article.objects.filter(author=request.user)[:7]
             expert_articles_count = Article.objects.filter(author=request.user).count()
-            experts_appointment = Appointment.objects.filter(expert=request.user)
+            experts_appointments = Appointment.objects.filter(expert=request.user)
             experts_appointment_cnt = Appointment.objects.filter(expert=request.user).count()
             # Update the context with expert-specific data
+
             context.update({
                 "experts_articles": expert_articles,
                 "experts_articles_count": expert_articles_count,
                 "rating": 4.5,
                 "experts_researches_count": 0,
                 "filled_stars_chipher": 'ffffh',
-                "experts_appointment": experts_appointment,
+                "experts_appointment": experts_appointments,
                 "experts_appointment_cnt": experts_appointment_cnt,
+                "appointment_title": "Онлайн консультация"
 
             })
 
@@ -75,6 +77,8 @@ def profile_view(request):
         })
 
     return render(request, profile_template, context=context)
+
+
 
 
 def name_check(value):

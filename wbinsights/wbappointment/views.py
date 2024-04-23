@@ -72,7 +72,7 @@ class AppointmentSerializer(dfr_serializes.ModelSerializer):
     client = ClientSerializer()
     class Meta:
         model = Appointment
-        fields = ("appointment_date", "appointment_time", "client")
+        fields = ("id", "appointment_date", "appointment_time", "client")
 
 def get_experts_appointment(request, *args, **kwargs):
     selected_expert = kwargs['expert_id']

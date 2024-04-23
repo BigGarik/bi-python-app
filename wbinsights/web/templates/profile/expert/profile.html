@@ -257,7 +257,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <table class="table">
+
+                    <div id="appointmentTableBody"></div>
+                    <table class="table" style="display:none">
                         <thead>
                             <tr>
                                 <th scope="col"> Date </th>
@@ -267,7 +269,7 @@
                                 <th scope="col"> Status </th>
                             </tr>
                         </thead>
-                        <tbody id="appointmentTableBody">
+                        <tbody >
 
                         </tbody>
                     </table>
@@ -284,7 +286,8 @@
 
     <script>
 
-        var expert_id = {{ request.user.id }};
+        const expert_id = {{ request.user.id }};
+        const appointment_title = '{{ appointment_title }}';
 
         function showContent(contentId) {
 
@@ -308,46 +311,8 @@
         }
 
 
-        <!--        function getExpertsAppointments() {-->
-<!--            $.ajax({-->
-<!--                url: '/appointment/list/expert/' + expert_id + '/json',-->
-<!--                type: 'GET',-->
-<!--                data: {},-->
-<!--                success: function (response) {-->
-<!--                    const tbody = $(".consultation > tbody")-->
-<!--                    tbody.html('')-->
+        let appointments = []
 
-<!--                    console.log(response)-->
-<!--                    -->
-<!--                    response.data.map( (appointment) => {-->
-
-<!--                        const clientID = `/experts/${appointment.client.id}`-->
-<!--                        //console.log(clientID)-->
-
-<!--                        tbody.append(`-->
-<!--                            <tr>-->
-<!--                                <td>${appointment.appointment_date}</td>-->
-<!--                                <td>${appointment.appointment_time}</td>-->
-<!--                                <td>-->
-<!--                                    <a href="${clientID}">-->
-<!--                                        ${appointment.client.first_name} ${appointment.client.last_name}-->
-<!--                                    </a>-->
-<!--                                </td>-->
-<!--                                <td>-->
-
-<!--                                </td>-->
-<!--                                <td>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                        `)-->
-<!--                        //console.log(appointment)-->
-<!--                    })-->
-
-<!--                    createEventCalendar(response.data)-->
-<!--                }-->
-<!--            })-->
-
-<!--        }-->
 
         function getExpertsAppointments() {
             $.ajax({
@@ -356,45 +321,49 @@
                 data: {},
                 success: function (response) {
                     createEventCalendar(response.data);
+                    appointments = response.data;
                 }
             });
         }
 
+        function loadAppointment(appointmentId) {
+            const modalBody =  $('#appointmentTableBody');
 
+            const appointment = appointments.find( (appointment) => {
+                return appointment.id == appointmentId
+            })
+
+            if (!appointment) {
+                return
+            }
+
+            modalBody.html(`
+                <div>
+                    <div>${moment(appointment.appointment_date).format("DD.MM.YYYY")}</div>
+                    <div>${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}</div>
+                    <div>${appointment.client.last_name} ${appointment.client.first_name} </div>
+                </div>
+            `);
+        }
 
         function createCalendarEvents(appointments) {
 
             return appointments.map((appointment) => {
                 const clientID = `/experts/${appointment.client.id}`;
-                const titleHTML = `
-                    ${appointment.client.first_name} ${appointment.client.last_name}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        View more
+                const titleHTML = `<span style="padding-top:4px">${appointment_title}</span><br/>
+                    клиент: ${appointment.client.first_name} ${appointment.client.last_name}
+                    ZOOM: <a href="http://localhost" style="padding-left: 10px ">asdawqwr</a>
+
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            onclick="loadAppointment(${appointment.id})">
+                        View details
                     </button>
                 `;
 
 
-                formattedTime =  moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm");
-                formattedDate =  moment(appointment.appointment_date).format("DD.MM.YYYY");
-                const ClientURL = `/experts/${appointment.client.id}`
-
-                const tableRow = `
-
-                    <tr>
-                        <td>${formattedDate}</td>
-                        <td>${formattedTime}</td>
-                        <td>
-                            <a href="${ClientURL}">
-                               ${appointment.client.first_name} ${appointment.client.last_name}
-                            </a>
-                        </td>
-                        <td>${appointment.client.zoom !== undefined ? appointment.client.zoom : ''}</td>
-                        <td>${appointment.client.status !== undefined ? appointment.client.status : ''}</td>
-                    </tr>
-                `;
-
-                $('#appointmentTableBody').append(tableRow);
-
+                
+                //const ClientURL = `/experts/${appointment.client.id}`
+                
                 return {
                     start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
                     end: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
