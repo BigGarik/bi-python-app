@@ -44,6 +44,12 @@
             --bs-modal-width: 800px !important;
         }
 
+        .ec-list .ec-event-title {
+            display:flex;
+            gap : 10px;
+
+        }
+
 
     </style>
 
@@ -164,17 +170,17 @@
 
                 <div class="prof-content-links-cont">
                     <div class="profile-menu-item" data-content="articles"
-                         onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %} &nbsp;<span
-                            class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
+                         onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %}
+                        &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
                     <div class="profile-menu-item" data-content="researches"
-                         onclick="showContent('researches')">{% trans 'ResearchesTabLabel' %} &nbsp;<span
-                            class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
+                         onclick="showContent('researches')">{% trans 'ResearchesTabLabel' %}
+                        &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
                     <div class="profile-menu-item" data-content="questions"
-                         onclick="showContent('questions')">{% trans 'QuestionsTabLabel' %} &nbsp;<span
-                            class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
+                         onclick="showContent('questions')">{% trans 'QuestionsTabLabel' %}
+                        &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
                     <div class="profile-menu-item" data-content="consultations"
                          onclick="showContent('consultations')">{% trans 'ConsultationsTabLabel' %}
-                        ({{ experts_appointment_cnt }})
+                         &nbsp;<span class="expert-profile-title-content-number">   ({{ experts_appointment_cnt }})</span>
                     </div>
                     <div class="profile-menu-item" data-content="reviews"
                          onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
@@ -338,10 +344,20 @@
             }
 
             modalBody.html(`
-                <div>
-                    <div>${moment(appointment.appointment_date).format("DD.MM.YYYY")}</div>
-                    <div>${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}</div>
-                    <div>${appointment.client.last_name} ${appointment.client.first_name} </div>
+
+                <div style = "display: flex">
+                    <div style = "display:flex; flex-direction:column;width:20% ;gap:10px">
+                        <div>date:</div>
+                        <div>time:</div>
+                        <div>name:</div>
+                        <div>zoom:</div>
+                    </div>
+                    <div style = "display:flex; flex-direction:column;gap:10px">
+                        <div>${moment(appointment.appointment_date).format("DD.MM.YYYY")}</div>
+                        <div>${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}</div>
+                        <div>${appointment.client.last_name} ${appointment.client.first_name} </div>
+                        <div><a href="#">ZOOMLINK</a> </div>
+                    </div>
                 </div>
             `);
         }
@@ -350,9 +366,8 @@
 
             return appointments.map((appointment) => {
                 const clientID = `/experts/${appointment.client.id}`;
-                const titleHTML = `<span style="padding-top:4px">${appointment_title}</span><br/>
-                    клиент: ${appointment.client.first_name} ${appointment.client.last_name}
-                    ZOOM: <a href="http://localhost" style="padding-left: 10px ">asdawqwr</a>
+                const titleHTML = `
+                    <span style="padding-top:4px">${appointment_title}</span><br/>
 
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
                             onclick="loadAppointment(${appointment.id})">
@@ -377,8 +392,13 @@
 
         function createEventCalendar(appointments) {
 
-            let events = createCalendarEvents(appointments)
-            console.log("events",events)
+<!--        let filteredAppointments = appointments.filter(appointment => {-->
+<!--            return moment(appointment.appointment_date).isoWeekday() <= 5; // mon to fri-->
+<!--        });-->
+
+
+            let events = createCalendarEvents(appointments);
+            console.log("events", events);
 
             let ec = new EventCalendar(document.getElementById('event-calendar'), {
                 view: 'timeGridWeek',
@@ -387,9 +407,12 @@
                     center: 'title',
                     end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek resourceTimeGridWeek'
                 },
-                events: events
+                events: events,
+                slotMinTime: '07:00:00',
+                slotMaxTime: '18:00:00'
             });
         }
+
 
         $(function () {
 
