@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 
 from wbappointment.models import Appointment
-from wbinsights.settings import EMAIL_ADMIN
+from wbinsights.settings import SERVER_EMAIL
 from web.forms.users import UserProfilePasswordChangeForm
 from web.models import CustomUser, Profile
 from django import forms
@@ -33,6 +33,9 @@ def profile_view(request):
                 if expert_profile_form.is_valid():
                     expert_profile_form.save()
                     expert_id = request.user.pk
+                    # Получаем список email-адресов всех модераторов
+                    moderators = CustomUser.objects.filter(is_staff=True)
+                    recipient_list = [moderator.email for moderator in moderators if moderator.email]
                     message = (
                         f'Новый эксперт заполнил анкету. Пожалуйста, проверьте и подтвердите верификацию. Ссылка на '
                         f'анкету:'
@@ -44,8 +47,8 @@ def profile_view(request):
                     send_mail(
                         'Новая анкета эксперта на проверку',
                         message,
-                        'info_dev@24wbinside.ru',
-                        [EMAIL_ADMIN]
+                        SERVER_EMAIL,
+                        recipient_list
                     )
                     messages.success(request, 'Your profile has successfully been sent for verification')
                     return redirect('index')
