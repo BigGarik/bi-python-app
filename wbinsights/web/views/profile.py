@@ -39,8 +39,7 @@ def profile_view(request):
                     message = (
                         f'Новый эксперт заполнил анкету. Пожалуйста, проверьте и подтвердите верификацию. Ссылка на '
                         f'анкету:'
-                        f'{request.build_absolute_uri(reverse("manage_unverified_experts_profile",
-                                                              kwargs={"pk": expert_id}))}'
+                        f'{request.build_absolute_uri(reverse("manage_unverified_experts_profile", kwargs={"pk": expert_id}))}'
                         f'\nСписок всех Экспертов ожидающих верификации: '
                         f'{request.build_absolute_uri(reverse("manage_unverified_experts_list"))}')
 
