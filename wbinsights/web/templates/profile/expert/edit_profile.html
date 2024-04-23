@@ -27,8 +27,11 @@
             <a href="{% url 'profile' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
                 <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;"></i> Назад
             </a>
-
-            <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
+        
+            <div>
+                <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
+                <span class="prof-edit-page-title1"><a href="">Расписание</a></span>
+            </div>
 
             {{ user_form.errors }}
             {{ profile_form.errors }}
@@ -234,9 +237,9 @@
 
     <script>
         $(document).ready(function () {
-         
+
             $("#id_expert_categories").select2();
-            
+
         })
 
     </script>

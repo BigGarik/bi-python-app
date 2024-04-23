@@ -35,3 +35,10 @@ class AppointmentPayment(models.Model):
 
     status = models.IntegerField(default=AppointmentPaymentStatus.PENDING, choices=AppointmentPaymentStatus.choices)
     uuid = models.UUIDField()
+
+
+class ExpertSchedule(models.Model):
+    expert = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="expert")
+    day_of_week = models.IntegerField(choices=[(i, i) for i in range(7)])
+    start_time = models.TimeField()
+    end_time = models.TimeField()
