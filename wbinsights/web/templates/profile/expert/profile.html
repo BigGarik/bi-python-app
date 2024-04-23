@@ -361,9 +361,9 @@
                 `;
 
 
-                
+
                 //const ClientURL = `/experts/${appointment.client.id}`
-                
+
                 return {
                     start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
                     end: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
@@ -382,12 +382,33 @@
 
             let ec = new EventCalendar(document.getElementById('event-calendar'), {
                 view: 'timeGridWeek',
+                allDaySlot: false,
                 headerToolbar: {
                     start: 'prev,next today',
                     center: 'title',
                     end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek resourceTimeGridWeek'
                 },
-                events: events
+                events: events,
+                //{close: 'Close', 
+                // dayGridMonth: 'month', 
+                // listDay: 'list', 
+                // listMonth: 'list',
+                // listWeek: 'list', 
+                // listYear: 'list', 
+                // resourceTimeGridDay: 'day',
+                // resourceTimeGridWeek: 'week', 
+                // timeGridDay: 'day', 
+                // timeGridWeek: 'week', 
+                // today: 'today'}
+                buttonText: function (texts) {
+                    texts.timeGridDay = 'день'
+                    texts.timeGridWeek = 'неделя'
+                    texts.timeGridMonth = 'месяц'
+                    texts.today = 'сегодня'
+                    texts.listWeek = 'список'
+                    texts.listWeek = 'список'
+                    return texts
+                }
             });
         }
 
