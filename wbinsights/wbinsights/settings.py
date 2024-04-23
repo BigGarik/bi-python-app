@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'web.apps.WebConfig',
     'expertprojects.apps.ExpertprojectsConfig',
     'django.contrib.admin',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

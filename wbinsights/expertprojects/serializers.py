@@ -9,7 +9,6 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
 
     def __init__(self, *args, **kwargs):
-        # Не передавайте поле 'fields' в super конструктор
         fields = kwargs.pop('fields', None)
         super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
 
@@ -47,4 +46,4 @@ class UserProjectSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = UserProject
-        fields = '__all__'
+        fields = ('name', 'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals')

@@ -11,6 +11,13 @@ from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 from django.http import JsonResponse
 from django.db.models import Q
+from rest_framework import status
+from rest_framework.generics import ListAPIView
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from web.models import CustomUser, Profile
 from .forms import UserProjectForm, UserProjectFileForm
 from .models import UserProject, UserProjectFile
@@ -138,50 +145,88 @@ def project_file_delete(request, pk):
     return HttpResponseRedirect(reverse('project_edit', kwargs={'slug': project.slug}))
 
 
-@login_required
-def search_experts(request):
-    query = request.GET.get('query', '')
-    if query:
-        experts = CustomUser.objects.filter(
-            Q(first_name__icontains=query) | Q(last_name__icontains=query),
-            profile__type=Profile.TypeUser.EXPERT
-        )
-    else:
-        # Если параметры не указаны, возвращаем полный список экспертов
-        experts = CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT)
+class SearchExpertsAPIView(APIView):
+    permission_classes = [IsAuthenticated]  # Требуется аутентификация
+
+    def get(self, request, *args, **kwargs):
+        query = request.query_params.get('query', '')
+        if query:
+            experts = CustomUser.objects.filter(
+                Q(first_name__icontains=query) | Q(last_name__icontains=query),
+                profile__type=Profile.TypeUser.EXPERT
+            )
+        else:
+            # Если параметры не указаны, возвращаем полный список экспертов
+            experts = CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT)
 
         # Использование сериализатора для сериализации данных
-    serializer = CustomUserSerializer(experts, many=True)
-    return JsonResponse(serializer.data, safe=False)
+        serializer = CustomUserSerializer(experts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@login_required
-def get_projects(request):
-    # Определите белый список разрешенных полей
-    allowed_fields = {'name', 'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+# Класс для настройки пагинации
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 100  # Установите размер страницы для пагинации по умолчанию
 
-    # Получаем словарь параметров запроса
-    query_params = request.GET.dict()
 
-    # Извлекаем параметр fields, если он существует, и удаляем его из словаря query_params
-    fields = query_params.pop('fields', None)
-    if fields:
-        fields = fields.split(',')  # Преобразуем строку в список полей
-        # Фильтруем список полей, чтобы оставить только разрешенные
-        fields = [field for field in fields if field in allowed_fields]
-    else:
-        fields = allowed_fields  # Если параметр fields не указан, используем все разрешенные поля
+class GetProjectsAPIView(ListAPIView):
+    serializer_class = UserProjectSerializer
+    permission_classes = [IsAuthenticated]  # Требуется аутентификация
+    pagination_class = StandardResultsSetPagination
 
-    # Создаем объект Q для динамического построения запроса
-    query = Q()
-    for param, value in query_params.items():
-        # Добавляем условия фильтрации для каждого параметра запроса
-        if param in allowed_fields:
-            query &= Q(**{param: value})
+    def get_queryset(self):
+        # Определите белый список разрешенных полей
+        allowed_fields = {'name', 'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+        query_params = self.request.query_params
 
-    # Фильтруем проекты с использованием созданного запроса
-    projects = UserProject.objects.filter(query)
+        # Создаем объект Q для динамического построения запроса
+        query = Q()
+        for param, value in query_params.items():
+            # Добавляем условия фильтрации для каждого параметра запроса
+            if param in allowed_fields:
+                query &= Q(**{param: value})
 
-    # Используем сериализатор для создания JSON ответа
-    serializer = UserProjectSerializer(projects, many=True, fields=fields)
-    return JsonResponse(serializer.data, safe=False)
+        # Фильтруем проекты с использованием созданного запроса
+        return UserProject.objects.filter(query)
+
+    def get_serializer(self, *args, **kwargs):
+        # Получаем список полей, если он передан в параметрах запроса
+        fields = self.request.query_params.get('fields')
+        fields = fields.split(',') if fields else None
+        # Передаем список полей в сериализатор
+        kwargs['context'] = self.get_serializer_context()
+        if fields is not None:
+            kwargs['fields'] = fields
+        return self.serializer_class(*args, **kwargs)
+
+
+# @login_required
+# def get_projects(request):
+#     # Определите белый список разрешенных полей
+#     allowed_fields = {'name', 'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+#
+#     # Получаем словарь параметров запроса
+#     query_params = request.GET.dict()
+#
+#     # Извлекаем параметр fields, если он существует, и удаляем его из словаря query_params
+#     fields = query_params.pop('fields', None)
+#     if fields:
+#         fields = fields.split(',')  # Преобразуем строку в список полей
+#         # Фильтруем список полей, чтобы оставить только разрешенные
+#         fields = [field for field in fields if field in allowed_fields]
+#     else:
+#         fields = allowed_fields  # Если параметр fields не указан, используем все разрешенные поля
+#
+#     # Создаем объект Q для динамического построения запроса
+#     query = Q()
+#     for param, value in query_params.items():
+#         # Добавляем условия фильтрации для каждого параметра запроса
+#         if param in allowed_fields:
+#             query &= Q(**{param: value})
+#
+#     # Фильтруем проекты с использованием созданного запроса
+#     projects = UserProject.objects.filter(query)
+#
+#     # Используем сериализатор для создания JSON ответа
+#     serializer = UserProjectSerializer(projects, many=True, fields=fields)
+#     return JsonResponse(serializer.data, safe=False)
