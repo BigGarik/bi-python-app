@@ -15,6 +15,7 @@ from django.core import serializers
 from web.models import CustomUser, Profile
 from .forms import UserProjectForm, UserProjectFileForm
 from .models import UserProject, UserProjectFile
+from .serializers import UserProjectSerializer
 
 
 class UserProjectDetailView(DetailView):
@@ -149,18 +150,57 @@ def search_experts(request):
     return JsonResponse(value, safe=False)
 
 
-@login_required
-def get_projects_by_expert(request):
-    expert_id = request.GET.get('expert_id', '')
-    expert = CustomUser.objects.get(pk=expert_id, profile__type=Profile.TypeUser.EXPERT)
-    projects = UserProject.objects.filter(members=expert).only('name')
-    value = serializers.serialize("json", projects, fields=["name", "year"]) # Поля поменять согласно ТЗ
-    return JsonResponse(value, safe=False)
+# @login_required
+# def get_projects(request):
+#     # Получаем словарь параметров запроса
+#     query_params = request.GET.dict()
+#
+#     # Извлекаем параметр fields, если он существует, и удаляем его из словаря query_params
+#     fields = query_params.pop('fields', None)
+#     if fields:
+#         fields = fields.split(',')  # Преобразуем строку в список полей
+#
+#     # Создаем объект Q для динамического построения запроса
+#     query = Q()
+#     for param, value in query_params.items():
+#         # Добавляем условия фильтрации для каждого параметра запроса
+#         query &= Q(**{param: value})
+#
+#     # Фильтруем проекты с использованием созданного запроса
+#     projects = UserProject.objects.filter(query)
+#
+#     # Сериализуем результаты в JSON, включая только указанные поля
+#     value = serializers.serialize("json", projects, fields=fields)
+#     return JsonResponse(value, safe=False)
 
 
 @login_required
-def get_project(request):
-    project_id = request.GET.get('id', '')
-    project = UserProject.objects.filter(pk=project_id)
-    value = serializers.serialize("json", project)
-    return JsonResponse(value, safe=False)
+def get_projects(request):
+    # Определите белый список разрешенных полей
+    allowed_fields = {'name', 'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+
+    # Получаем словарь параметров запроса
+    query_params = request.GET.dict()
+
+    # Извлекаем параметр fields, если он существует, и удаляем его из словаря query_params
+    fields = query_params.pop('fields', None)
+    if fields:
+        fields = fields.split(',')  # Преобразуем строку в список полей
+        # Фильтруем список полей, чтобы оставить только разрешенные
+        fields = [field for field in fields if field in allowed_fields]
+    else:
+        fields = allowed_fields  # Если параметр fields не указан, используем все разрешенные поля
+
+    # Создаем объект Q для динамического построения запроса
+    query = Q()
+    for param, value in query_params.items():
+        # Добавляем условия фильтрации для каждого параметра запроса
+        if param in allowed_fields:
+            query &= Q(**{param: value})
+
+    # Фильтруем проекты с использованием созданного запроса
+    projects = UserProject.objects.filter(query)
+
+    # Используем сериализатор для создания JSON ответа
+    serializer = UserProjectSerializer(projects, many=True, fields=fields)
+    return JsonResponse(serializer.data, safe=False)
