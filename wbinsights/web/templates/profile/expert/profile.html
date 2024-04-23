@@ -36,8 +36,15 @@
                 min-height: 130px !important;
                 min-width: 130px !important;
             }
-
         }
+
+
+
+        .modal {
+            --bs-modal-width: 800px !important;
+        }
+
+
     </style>
 
     <div class="prof-page-cont">
@@ -122,6 +129,8 @@
                 </div>
 
             </div>
+
+
 
             <div class="bottom-half">
 
@@ -219,27 +228,9 @@
                 </div>
 
                 <div id="consultations" class="expert-content" style="display: none;">
-                    <div class="list-view">
-                        <table class="table consultation" >
-                            <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Time</th>
 
-                                <th>Client</th>
-                                <th>Zoom</th>
-                                <th>Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                    <div id="event-calendar"></div>
 
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div id="event-calendar">
-
-                    </div>
 
                 </div>
 
@@ -257,6 +248,38 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Appointment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"> Date </th>
+                                <th scope="col"> Time </th>
+                                <th scope="col"> Client Name </th>
+                                <th scope="col"> Zoom </th>
+                                <th scope="col"> Status </th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentTableBody">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <script>
@@ -284,7 +307,8 @@
             selectedMenuItem.classList.add('selected');
         }
 
-<!--        function getExpertsAppointments() {-->
+
+        <!--        function getExpertsAppointments() {-->
 <!--            $.ajax({-->
 <!--                url: '/appointment/list/expert/' + expert_id + '/json',-->
 <!--                type: 'GET',-->
@@ -336,14 +360,40 @@
             });
         }
 
+
+
         function createCalendarEvents(appointments) {
 
             return appointments.map((appointment) => {
-
                 const clientID = `/experts/${appointment.client.id}`;
+                const titleHTML = `
+                    ${appointment.client.first_name} ${appointment.client.last_name}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        View more
+                    </button>
+                `;
 
-                    const titleHTML = `<a href="${clientID}">${appointment.client.first_name} ${appointment.client.last_name}</a>`;
-<!--                    const titleHTML = `${appointment.client.first_name} ${appointment.client.last_name}`;-->
+
+                formattedTime =  moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm");
+                formattedDate =  moment(appointment.appointment_date).format("DD.MM.YYYY");
+                const ClientURL = `/experts/${appointment.client.id}`
+
+                const tableRow = `
+
+                    <tr>
+                        <td>${formattedDate}</td>
+                        <td>${formattedTime}</td>
+                        <td>
+                            <a href="${ClientURL}">
+                               ${appointment.client.first_name} ${appointment.client.last_name}
+                            </a>
+                        </td>
+                        <td>${appointment.client.zoom !== undefined ? appointment.client.zoom : ''}</td>
+                        <td>${appointment.client.status !== undefined ? appointment.client.status : ''}</td>
+                    </tr>
+                `;
+
+                $('#appointmentTableBody').append(tableRow);
 
                 return {
                     start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
