@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import api
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
 from rest_framework import viewsets
 
-from web.models import Expert
+from web.models import Expert, CustomUser
 from .forms import AppointmentForm
 from .models import Appointment, AppointmentStatus, AppointmentPayment
 from .serializers import AppointmentTimeSerializer
@@ -14,6 +14,8 @@ from yookassa import Configuration, Payment
 import uuid
 
 from django.core import serializers
+from rest_framework import serializers as dfr_serializes
+
 
 Configuration.account_id = '372377'
 Configuration.secret_key = 'test_GweuBNA4H85vWxRCLXLsz7gJLX2lA_YJ2GjYGpRBxLw'
@@ -61,15 +63,26 @@ def get_expert_avalable_timeslots(request):
                     '16:00']
     return JsonResponse(timeslot, safe=False)
 
+class ClientSerializer(dfr_serializes.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ("id","first_name", "last_name")
+
+class AppointmentSerializer(dfr_serializes.ModelSerializer):
+    client = ClientSerializer()
+    class Meta:
+        model = Appointment
+        fields = ("appointment_date", "appointment_time", "client")
+
 def get_experts_appointment(request, *args, **kwargs):
     selected_expert = kwargs['expert_id']
     appointments = Appointment.objects.filter(expert_id=selected_expert)
-    data = serializers.serialize("json", appointments, fields=["appointment_date", "appointment_time", "client"])
-    return JsonResponse(data, safe=False)
+
+    return JsonResponse({'data':AppointmentSerializer(appointments, many=True).data})
 
 def get_clients_appointment(request, *args, **kwargs):
-    selected_expert = kwargs['client_id']
-    appointments = Appointment.objects.filter(cleint_id=selected_expert)
+    selected_client = kwargs['client_id']
+    appointments = Appointment.objects.filter(cleint_id=selected_client)
     data = serializers.serialize("json", appointments, fields=["appointment_date", "appointment_time", "client"])
     return JsonResponse(data, safe=False)
 

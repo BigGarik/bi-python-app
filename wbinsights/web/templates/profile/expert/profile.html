@@ -231,7 +231,7 @@
                         </table>
                     </div>
                     <div class="calendar-view">
-                        
+
                     </div>
                 </div>
 
@@ -279,19 +279,20 @@
         function getExpertsAppointments() {
 
             $.ajax({
-                url: '/appointment/list/{{ request.user.id }}/json',
+                url: '/appointment/list/expert/' + expert_id + '/json',
                 type: 'GET',
                 data: {},
                 success: function (response) {
                     const tbody = $(".consultation > tbody")
                     tbody.html('')
-                    const dataobj = JSON.parse(response)
 
-                    dataobj.map( (appointment) => {
+                    console.log(response)
+                    
+                    response.data.map( (appointment) => {
                         console.log(appointment)
                         tbody.append(`
                             <tr>
-                                <td>${appointment.fields.appointment_date}</td>
+                                <td>${appointment.appointment_date}</td>
                                 <td>
                                     <a href="">
 
