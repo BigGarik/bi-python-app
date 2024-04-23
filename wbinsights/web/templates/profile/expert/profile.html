@@ -15,6 +15,11 @@
             crossorigin="anonymous"></script>
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@2.6.1/event-calendar.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@2.6.1/event-calendar.min.js"></script>
+
+    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
+
 
     <style>
         @media (max-width: 768px ) {
@@ -215,7 +220,7 @@
 
                 <div id="consultations" class="expert-content" style="display: none;">
                     <div class="list-view">
-                        <table class="table consultation" >
+                        <table class="table consultation">
                             <thead>
                             <tr>
                                 <th>Date Time</th>
@@ -230,9 +235,11 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="calendar-view">
+
+                    <div id="event-calendar">
 
                     </div>
+
                 </div>
 
                 <div id="reviews" class="expert-content" style="display: none;">
@@ -287,7 +294,7 @@
                     tbody.html('')
 
                     console.log(response)
-                    
+
                     response.data.map( (appointment) => {
                         console.log(appointment)
                         tbody.append(`
@@ -298,17 +305,53 @@
 
                                     </a>
                                 </td>
-                                <td>
-
-                                </td>
+                                <td></td>
                                 <td></td>
                             </tr>
                         `)
                         //console.log(appointment)
                     })
+
+                    createEventCalendar(response.data)
                 }
             })
 
+        }
+
+        function createCalendarEvents(appointments) {
+
+            return appointments.map( (appointment) => {
+                
+                
+
+                return {
+                    start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm") ,
+                    end: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
+                    display: "background",
+                    color: 'red',
+                    title: "Онлайн консультация",
+                    resourceId: 1
+
+                }
+
+            })
+
+        }
+
+        function createEventCalendar(appointments) {
+
+            let events = createCalendarEvents(appointments)
+            console.log("123")
+
+            let ec = new EventCalendar(document.getElementById('event-calendar'), {
+                view: 'timeGridWeek',
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek resourceTimeGridWeek'
+                },
+                events: events
+            });
         }
 
         $(function () {

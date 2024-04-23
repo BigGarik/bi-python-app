@@ -1,5 +1,5 @@
 from django import forms
-from .models import Appointment
+from .models import Appointment, ExpertSchedule
 
 
 class AppointmentForm(forms.ModelForm):
@@ -30,4 +30,15 @@ class AppointmentForm(forms.ModelForm):
                     'rows': 6
                 }
             )
+        }
+
+class ExpertScheduleForm(forms.ModelForm):
+
+    class Meta:
+        model = ExpertSchedule
+        fields = ['day_of_week', 'start_time', 'end_time']
+        widgets = {
+            'day_of_week': forms.Select(attrs={'class': ''}),
+            'start_time': forms.TimeInput(attrs={'class': 'expert-schedule-form-control'}),
+            'end_time': forms.TimeInput(attrs={'class': 'expert-schedule-form-control'}),
         }
