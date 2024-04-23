@@ -284,75 +284,82 @@
             selectedMenuItem.classList.add('selected');
         }
 
-        function getExpertsAppointments() {
+<!--        function getExpertsAppointments() {-->
+<!--            $.ajax({-->
+<!--                url: '/appointment/list/expert/' + expert_id + '/json',-->
+<!--                type: 'GET',-->
+<!--                data: {},-->
+<!--                success: function (response) {-->
+<!--                    const tbody = $(".consultation > tbody")-->
+<!--                    tbody.html('')-->
 
+<!--                    console.log(response)-->
+<!--                    -->
+<!--                    response.data.map( (appointment) => {-->
+
+<!--                        const clientID = `/experts/${appointment.client.id}`-->
+<!--                        //console.log(clientID)-->
+
+<!--                        tbody.append(`-->
+<!--                            <tr>-->
+<!--                                <td>${appointment.appointment_date}</td>-->
+<!--                                <td>${appointment.appointment_time}</td>-->
+<!--                                <td>-->
+<!--                                    <a href="${clientID}">-->
+<!--                                        ${appointment.client.first_name} ${appointment.client.last_name}-->
+<!--                                    </a>-->
+<!--                                </td>-->
+<!--                                <td>-->
+
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        `)-->
+<!--                        //console.log(appointment)-->
+<!--                    })-->
+
+<!--                    createEventCalendar(response.data)-->
+<!--                }-->
+<!--            })-->
+
+<!--        }-->
+
+        function getExpertsAppointments() {
             $.ajax({
                 url: '/appointment/list/expert/' + expert_id + '/json',
                 type: 'GET',
                 data: {},
                 success: function (response) {
-                    const tbody = $(".consultation > tbody")
-                    tbody.html('')
-
-                    console.log(response)
-                    
-                    response.data.map( (appointment) => {
-                        console.log(appointment)
-                        console.log(appointment.client.id)
-
-                        const clientID = `/experts/${appointment.client.id}`
-                        console.log(clientID)
-
-
-                        tbody.append(`
-                            <tr>
-                                <td>${appointment.appointment_date}</td>
-                                <td>${appointment.appointment_time}</td>
-                                <td>
-                                    <a href="${clientID}">
-                                        ${appointment.client.first_name} ${appointment.client.last_name}
-                                    </a>
-                                </td>
-                                <td>
-
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                        `)
-                        //console.log(appointment)
-                    })
-
-                    createEventCalendar(response.data)
+                    createEventCalendar(response.data);
                 }
-            })
-
+            });
         }
 
         function createCalendarEvents(appointments) {
 
-            return appointments.map( (appointment) => {
+            return appointments.map((appointment) => {
 
+                const clientID = `/experts/${appointment.client.id}`;
 
+                    const titleHTML = `<a href="${clientID}">${appointment.client.first_name} ${appointment.client.last_name}</a>`;
+<!--                    const titleHTML = `${appointment.client.first_name} ${appointment.client.last_name}`;-->
 
                 return {
-                    start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm") ,
+                    start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
                     end: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
-                    display: "background",
-                    color: 'red',
-                    title: "Онлайн консультация",
-                    resourceId: 1
-
-                }
-
-            })
-
+                    resourceId: 1,
+                    title: { html: titleHTML },
+                    color: "#FE6B64",
+                };
+            });
         }
+
 
         function createEventCalendar(appointments) {
 
             let events = createCalendarEvents(appointments)
-            console.log("123")
+            console.log("events",events)
 
             let ec = new EventCalendar(document.getElementById('event-calendar'), {
                 view: 'timeGridWeek',
