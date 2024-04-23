@@ -11,11 +11,10 @@ from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 from django.http import JsonResponse
 from django.db.models import Q
-from django.core import serializers
 from web.models import CustomUser, Profile
 from .forms import UserProjectForm, UserProjectFileForm
 from .models import UserProject, UserProjectFile
-from .serializers import UserProjectSerializer
+from .serializers import UserProjectSerializer, CustomUserSerializer
 
 
 class UserProjectDetailView(DetailView):
@@ -141,37 +140,19 @@ def project_file_delete(request, pk):
 
 @login_required
 def search_experts(request):
-    query = request.GET.get('')
-    experts = CustomUser.objects.filter(
-        Q(first_name__icontains=query) | Q(last_name__icontains=query),
-        profile__type=Profile.TypeUser.EXPERT
-    )
-    value = serializers.serialize("json", experts, fields=["first_name", "last_name"])
-    return JsonResponse(value, safe=False)
+    query = request.GET.get('query', '')
+    if query:
+        experts = CustomUser.objects.filter(
+            Q(first_name__icontains=query) | Q(last_name__icontains=query),
+            profile__type=Profile.TypeUser.EXPERT
+        )
+    else:
+        # Если параметры не указаны, возвращаем полный список экспертов
+        experts = CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT)
 
-
-# @login_required
-# def get_projects(request):
-#     # Получаем словарь параметров запроса
-#     query_params = request.GET.dict()
-#
-#     # Извлекаем параметр fields, если он существует, и удаляем его из словаря query_params
-#     fields = query_params.pop('fields', None)
-#     if fields:
-#         fields = fields.split(',')  # Преобразуем строку в список полей
-#
-#     # Создаем объект Q для динамического построения запроса
-#     query = Q()
-#     for param, value in query_params.items():
-#         # Добавляем условия фильтрации для каждого параметра запроса
-#         query &= Q(**{param: value})
-#
-#     # Фильтруем проекты с использованием созданного запроса
-#     projects = UserProject.objects.filter(query)
-#
-#     # Сериализуем результаты в JSON, включая только указанные поля
-#     value = serializers.serialize("json", projects, fields=fields)
-#     return JsonResponse(value, safe=False)
+        # Использование сериализатора для сериализации данных
+    serializer = CustomUserSerializer(experts, many=True)
+    return JsonResponse(serializer.data, safe=False)
 
 
 @login_required

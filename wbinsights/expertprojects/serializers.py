@@ -1,7 +1,6 @@
 from rest_framework import serializers
-
 from web.models import CustomUser
-from .models import UserProject
+from .models import UserProject, Category, UserProjectCustomer
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -22,29 +21,29 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
-class AuthorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('id', 'first_name', 'last_name')
-
-
-class MembersSerializer(serializers.ModelSerializer):
+class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('id', 'first_name', 'last_name')
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = Category
+        fields = ('name',)
 
 
-class CustomerSerializer(serializers.ModelSerializer):
-    pass
+class UserProjectCustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProjectCustomer
+        fields = ('name',)
 
 
 class UserProjectSerializer(DynamicFieldsModelSerializer):
-    author = AuthorSerializer()
-    members = AuthorSerializer()
+    author = CustomUserSerializer()
+    members = CustomUserSerializer(many=True, read_only=True)
+    category = CategorySerializer(many=True, read_only=True)
+    customer = UserProjectCustomerSerializer()
 
     class Meta:
         model = UserProject
