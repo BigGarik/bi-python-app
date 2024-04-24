@@ -1,9 +1,7 @@
-from django.shortcuts import render, redirect
-from django.views import View
 from django.views.generic import ListView, DetailView
 
-from web.forms.users import VerifyExpertForm
-from web.models.users import ExpertProfile, NonVerifiedExpert
+from web.models.users import NonVerifiedExpert
+from web.models.users import NonVerifiedExpert
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import get_user_model
 

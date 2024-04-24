@@ -1,0 +1,43 @@
+{% extends 'base123.html' %}
+
+
+{% load web_tags %}
+
+{% block center_col %}
+<h1>{{ userproject.name }}</h1>
+  <p><strong>Категории:</strong> {{ userproject.category.all|join:", " }}</p>
+  <p><strong>Заказчик:</strong> {{ userproject.customer }}</p>
+  <p><strong>Год:</strong> {{ userproject.year }}</p>
+  <p><strong>Цели:</strong> {{ userproject.goals }}</p>
+  <p><strong>Ключевые результаты:</strong></p>
+  <ul>
+    {% for result in userproject.key_results %}
+      <li>{{ result }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Участники проекта</h2>
+  <ul>
+    {% for member in userproject.members.all %}
+      <li>{{ member.get_full_name }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Файлы проекта</h2>
+  <ul>
+    {% for file in userproject.files.all %}
+      <li>
+        {% if file.file %}
+          <a href="{{ file.file.url }}">{{ file.file.name }}</a>
+        {% else %}
+          Файл отсутствует.
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if userproject.author == request.user %}
+    <a href="{% url 'project_edit' slug=userproject.slug %}">Редактировать проект</a>
+  {% endif %}
+
+{% endblock %}

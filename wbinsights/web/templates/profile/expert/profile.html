@@ -13,7 +13,7 @@
 
 <style>
     @media (max-width: 768px ) {
-    
+
         .prof-page-pic-cont img {
             min-height: 100px !important;
             min-width: 100px !important;
@@ -41,7 +41,7 @@
         }
 
     }
-    
+
     @media (min-width: 769px ) {
         .prof-page-pic-cont img {
             min-height: 130px !important;
@@ -100,9 +100,9 @@
 								<div class="user-catagory-highlight {{exp_category.slug}}">
 									{{ exp_category.name }}
 								</div>
-							{% endfor %}  
+							{% endfor %}
                         </div>
-                        
+
                     </div>
 
                     <div class="d-none d-md-block">
@@ -190,6 +190,7 @@
                   <div class="profile-menu-item" data-content="consultations" onclick="showContent('consultations')">{% trans 'ConsultationsTabLabel' %} ({{ experts_appointment_cnt }})</div>
                   <div class="profile-menu-item" data-content="reviews" onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
 {#                  <div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>#}
+                    <div class="profile-menu-item" data-content="notifications" onclick="showContent('projects')">
                 </div>
                 
                 <div id="articles" class="expert-content" style="display: none;">
@@ -273,10 +274,12 @@
                   {% for research in experts_researches %}
                   {% endfor %}
                 </div>
-                <div id="notifications" class="expert-content" style="display: none;">
-                  <span>test notifications</span>
-                  {% for research in experts_researches %}
-                  {% endfor %}
+                <div id="projects" class="expert-content" style="display: none;" >
+                    <span>test notifications</span>
+                    <a href="{% url 'project_add' %}">Добавить проект</a>
+
+                    {% for expert_project in experts_projects %}
+                    {% endfor %}
                 </div>
 
             </div>
@@ -304,7 +307,17 @@
         var selectedMenuItem = document.querySelector(`.profile-menu-item[data-content="${contentId}"]`);
         selectedMenuItem.classList.add('selected');
       }
-    
+
+      function loadTabData(contentType) {
+          if (contentType == 'user_projects') {
+              let user_projects = Array()
+
+              //fetch("", )
+
+              doc
+          }
+      }
+
       document.addEventListener("DOMContentLoaded", function () {
         showContent('articles');
     

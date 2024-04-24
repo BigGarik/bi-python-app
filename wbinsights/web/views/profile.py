@@ -1,6 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.urls import reverse
 
 from wbappointment.models import Appointment
+from wbinsights.settings import SERVER_EMAIL
 from web.forms.users import UserProfilePasswordChangeForm
 from web.models import CustomUser, Profile
 from django import forms
@@ -29,6 +32,23 @@ def profile_view(request):
                 expert_profile_form = ExpertProfileChangeForm(request.POST, instance=request.user.expertprofile)
                 if expert_profile_form.is_valid():
                     expert_profile_form.save()
+                    expert_id = request.user.pk
+                    # Получаем список email-адресов всех модераторов
+                    moderators = CustomUser.objects.filter(is_staff=True)
+                    recipient_list = [moderator.email for moderator in moderators if moderator.email]
+                    message = (
+                        f'Новый эксперт заполнил анкету. Пожалуйста, проверьте и подтвердите верификацию. Ссылка на '
+                        f'анкету:'
+                        f'{request.build_absolute_uri(reverse("manage_unverified_experts_profile", kwargs={"pk": expert_id}))}'
+                        f'\nСписок всех Экспертов ожидающих верификации: '
+                        f'{request.build_absolute_uri(reverse("manage_unverified_experts_list"))}')
+
+                    send_mail(
+                        'Новая анкета эксперта на проверку',
+                        message,
+                        SERVER_EMAIL,
+                        recipient_list
+                    )
                     messages.success(request, 'Your profile has successfully been sent for verification')
                     return redirect('index')
             else:

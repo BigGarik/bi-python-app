@@ -1,0 +1,56 @@
+{% extends 'base123.html' %}
+
+
+{% load web_tags %}
+
+{% block center_col %}
+  <h2>Добавление нового проекта</h2>
+
+  <form method="post" enctype="multipart/form-data" id="project-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div id="members-container">
+      <label>Участники проекта:</label>
+      <ul id="members-list">
+        <!-- Список добавленных экспертов будет здесь -->
+      </ul>
+      <button type="button" id="add-member-btn">Добавить участника</button>
+    </div>
+
+    <label for="id_file">Загрузить файл:</label>
+    <input type="file" name="file_field_name" id="id_file">
+
+    <input type="submit" value="Создать проект">
+  </form>
+
+  <!-- Всплывающее окно со списком всех экспертов -->
+  <div id="experts-list" style="display:none;">
+    {% for expert in experts %}
+      <div ondblclick="addExpertToList('{{ expert.pk }}', '{{ expert.get_full_name }}')">
+        {{ expert.get_full_name }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <script type="text/javascript">
+    document.getElementById('add-member-btn').addEventListener('click', function() {
+      var expertsList = document.getElementById('experts-list');
+      expertsList.style.display = expertsList.style.display === 'none' ? 'block' : 'none';
+    });
+
+    function addExpertToList(expertId, expertName) {
+      var membersList = document.getElementById('members-list');
+      var memberItem = document.createElement('li');
+      memberItem.textContent = expertName;
+
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'members';
+      input.value = expertId;
+
+      memberItem.appendChild(input);
+      membersList.appendChild(memberItem);
+    }
+  </script>
+{% endblock %}
