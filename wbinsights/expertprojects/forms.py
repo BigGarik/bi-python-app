@@ -11,10 +11,17 @@ class UserProjectForm(forms.ModelForm):
     )
 
     class Meta:
+
         model = UserProject
         fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results_text']
+
         widgets = {
-            'goals': forms.Textarea(attrs={'rows': 4}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'customer': forms.TextInput(attrs={'class': 'form-control'}),
+            'year': forms.NumberInput(attrs={'class': 'form-control'}),
+            'goals': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'key_results_text': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):

@@ -8,7 +8,6 @@
       width: 100% !important;
     }
 
-
 </style>
 
 
@@ -16,11 +15,25 @@
 
 <form enctype="multipart/form-data" id="project-form" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <!--{{ form.as_p }}-->
+
+    <div style="display:flex; flex-direction:column; gap:20px">
+
+        {{form.name}}
+        {{form.category}}
+        {{form.customer}}
+        {{form.year}}
+        {{form.goals}}
+        {{form.key_results_text}}
+
+    </div>
+
+
+
 
     <div id="members-container">
         <label>Участники проекта:</label>
-        <select class="js-example-basic-single" id="search-experts" name="state">
+        <select class="js-example-basic-single form-control" id="search-experts" name="state">
             <option value="">Select an expert...</option>
             {% for member in userproject.members.all %}
             <option value="{{ member.id }}">{{ member.get_full_name }}</option>
