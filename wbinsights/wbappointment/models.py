@@ -1,12 +1,13 @@
 from django.db import models
+from django.db.models import UniqueConstraint
 
 
 class AppointmentStatus(models.IntegerChoices):
     NEW = 0, 'Новый'
-    СONFIRM = 1, 'Верифицирован'
-    DECLIAN = 2, 'Верифицирован'
-    CANCEL = 3, 'Верифицирован'
-    PAID = 4, 'Верифицирован'
+    СONFIRM = 1, 'Подтвержден'
+    DECLIAN = 2, 'Отклонен'
+    CANCEL = 3, 'Отменен'
+    PAID = 4, 'Оплачен'
 
 
 class Appointment(models.Model):
@@ -21,6 +22,8 @@ class Appointment(models.Model):
 
     class Meta:
         db_table = "appointment"
+        constraints = [UniqueConstraint(fields=['expert', 'appointment_date', 'appointment_time', 'status'],
+                                        name='unique_experts_appointment')]
 
 
 class AppointmentPayment(models.Model):
