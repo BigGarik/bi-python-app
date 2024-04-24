@@ -1,8 +1,6 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-
-from rest_framework import viewsets
 
 from web.models import Expert
 from .forms import AppointmentForm, SelectAppointmentDateForm
@@ -58,6 +56,7 @@ def add_appointment_view(request, *args, **kwargs):
     return render(request, 'add_appointment.html', context=context)
 
 
+@login_required()
 def get_expert_avalable_timeslots(request):
     form = SelectAppointmentDateForm(request.GET)
 
@@ -92,6 +91,9 @@ def get_expert_avalable_timeslots(request):
     return JsonResponse({'errors': dict(form.errors)}, status=400)
 
 
+
+
+@login_required
 def get_experts_appointment(request, *args, **kwargs):
     selected_expert = kwargs['expert_id']
     appointments = Appointment.objects.filter(expert_id=selected_expert)
