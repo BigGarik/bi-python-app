@@ -1,4 +1,6 @@
 from django.views.generic import ListView, DetailView
+
+from web.models.users import NonVerifiedExpert
 from web.models.users import NonVerifiedExpert
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import get_user_model

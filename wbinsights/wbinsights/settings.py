@@ -47,9 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'web.apps.WebConfig',
+    'expertprojects.apps.ExpertprojectsConfig',
     'django.contrib.admin',
     'wbappointment.apps.WbappointmentConfig',
     'rest_framework'
+
 ]
 
 
@@ -161,9 +163,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'wbappointment', 'static'),
+    os.path.join(BASE_DIR, 'expertprojects', 'static')
 
 ]
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
