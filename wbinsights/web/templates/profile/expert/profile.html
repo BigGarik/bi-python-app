@@ -376,9 +376,9 @@
                 `;
 
 
-                
+
                 //const ClientURL = `/experts/${appointment.client.id}`
-                
+
                 return {
                     start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
                     end: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
@@ -390,17 +390,13 @@
         }
 
 
+        let ec;
+
         function createEventCalendar(appointments) {
-
-<!--        let filteredAppointments = appointments.filter(appointment => {-->
-<!--            return moment(appointment.appointment_date).isoWeekday() <= 5; // mon to fri-->
-<!--        });-->
-
-
             let events = createCalendarEvents(appointments);
             console.log("events", events);
 
-            let ec = new EventCalendar(document.getElementById('event-calendar'), {
+            ec = new EventCalendar(document.getElementById('event-calendar'), {
                 view: 'timeGridWeek',
                 headerToolbar: {
                     start: 'prev,next today',
@@ -409,9 +405,32 @@
                 },
                 events: events,
                 slotMinTime: '07:00:00',
-                slotMaxTime: '18:00:00'
+                slotMaxTime: '18:00:00',
+
+                datesSet: function(dates) {
+
+                    if (ec) {
+                        // get start and end dates
+                        let startDate = dates.start;
+                        let endDate = dates.end;
+
+                        let filteredEvents = events.filter(event => {
+                            let eventDate = new Date(event.start);
+                            return eventDate >= startDate && eventDate <= endDate;
+                        });
+
+                        // updates calendar
+                        ec.setOption('events', filteredEvents);
+                        console.log("filteredEvents", filteredEvents);
+                    } else {
+                        console.error("not working");
+                    }
+                }
             });
+
+            console.log("Inner html", $('.ec-title').html());
         }
+
 
 
         $(function () {
