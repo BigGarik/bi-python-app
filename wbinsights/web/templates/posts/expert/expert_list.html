@@ -97,9 +97,12 @@ Experts
 							{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
 						</div>
 					</div>
-					<button type="button" class="btn expert-list-consult-btn">
-						Консультация &nbsp; <span class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</span>
-					</button>
+					{% if request.user.id != expert.id %}
+						{% if request.user.id != expert.id %}
+						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация <span class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</span></a>
+
+						{% endif %}
+					{%endif%}
 
 				</div>
 
@@ -109,8 +112,10 @@ Experts
 						{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
 					</div>
 					<div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
+						{% if request.user.id != expert.id %}
 						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация</a>
-						<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
+							<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
+						{% endif %}
 					</div>
 				</div>
 

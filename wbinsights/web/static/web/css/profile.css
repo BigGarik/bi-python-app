@@ -347,7 +347,7 @@
 .profile-menu-item {
     padding: 7px;
     cursor: pointer;
-    width: 25%;
+    /*width: 25%; */
     display: flex;
     justify-content: center;
     text-decoration: none;

@@ -1,198 +1,322 @@
 {% extends 'base123.html' %}
 {% load web_tags %}
-
 {% load static %}
-
+{% load i18n %}
 
 {% block center_col %}
-
-  <link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
-
-  <div class="prof-page-cont">
-    
-    <a href="{% url 'experts_list' %}" class="to-main-page"> 
-      <i class="bi bi-chevron-left chevron-left-css" ></i>
-      &nbsp; к списку экспертов
+<link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
+<div class="prof-page-cont">
+    <a href="{% url 'experts_list' %}" class="to-main-page">
+        <i class="bi bi-chevron-left chevron-left-css"></i>
+        &nbsp; к списку экспертов
     </a>
 
     <div class="profile-info-cont">
-
-      <!-- display for larger screens -->
+        <!-- display for larger screens -->
         <div class="top-half d-none d-md-flex" style="flex-direction:column">
-          <div style="display:flex">
-
-            <div class="prof-pic-cont">
-              <img src="{{ expert.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; max-width: 150px; max-height: 150px;min-width: 150px;min-height: 150px;object-fit: cover;">
-            </div>
-        
-            <div class="profile-information-cont">
-              <div class="user-display-name">
-                {{ expert.last_name }} {{ expert.first_name }}
-              </div>
-              <div class="user-rating-cont">
-                <div class="user-rating">Рейтинг:  4.5{{ expert.expertprofile.rating }} &nbsp;</div>
-                <div class="user-rate-and-stars">
-                  {% for ch in filled_stars_chipher %}
-                    {% if ch == 'f' %}
-                    <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-
-                    {% elif ch == 'h' %}
-                    <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-
-                    {% elif ch == 'e' %}
-                    <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-
-                    {% endif%}
-                  {% endfor %}
+            <div style="display:flex">
+                <div class="prof-pic-cont">
+                    <img src="{{ expert.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; max-width: 150px; max-height: 150px;min-width: 150px;min-height: 150px;object-fit: cover;">
                 </div>
-              </div>
-            
-              <div class="user-category-cont">
-                <div class="user-category">Эксперт в области:</div>
-                {% for exp_category in expert.expertprofile.expert_categories.all %}
-                    <div class="user-catagory-highlight {{exp_category.slug}}">
-                        {{ exp_category.name }}
+
+                <div class="profile-information-cont">
+                    <div class="user-display-name">
+                        {{ expert.last_name }} {{ expert.first_name }}
                     </div>
-                {% endfor %}
-              </div>
+                    <div class="user-rating-cont">
+                        <div class="user-rating">Рейтинг:  4.5{{ expert.expertprofile.rating }} &nbsp;</div>
+                        <div class="user-rate-and-stars">
+                            {% for ch in filled_stars_chipher %}
+                            {% if ch == 'f' %}
+                            <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'h' %}
+                            <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'e' %}
+                            <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% endif%}
+                            {% endfor %}
+                        </div>
+                    </div>
 
+                    <div class="user-category-cont">
+                        <div class="user-category">Эксперт в области:</div>
+                        {% for exp_category in expert.expertprofile.expert_categories.all %}
+                        <div class="user-catagory-highlight {{exp_category.slug}}">
+                            {{ exp_category.name }}
+                        </div>
+                        {% endfor %}
+                    </div>
 
+                    <div style="display:flex; flex-direction: column">
+                        <div class="user-stats">
+                            {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
+                            •
+                            {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
+                            •
+                            24 отзыва
+                        </div>
+                        <div class="user-settings">
+                            {% if request.user.id != expert.id %}
+                                <a href="{% url 'appointment_add' expert.id %}" class="btn btn-secondary btn-sm consult-expert-profile-btn">  Консультация</a>
+                            {% endif %}
+                        </div>
+                    </div>
 
-              <div style="display:flex; flex-direction: column">
-              <div class="user-stats">
-                {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
-                •
-                {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
-                • 
-                24 отзыва
-              </div>
-              <div class="user-settings">
-                <a href="{% url 'appointment_add' expert.id %}" class="btn btn-secondary btn-sm consult-expert-profile-btn"  >  Консультация</a>
-              </div>
+                </div> <!-- cant find any open divs -->
             </div>
-
-          </div> <!-- cant find any open divs -->
         </div>
-      </div>
 
         <!-- display for smaller screens -->
         <div class="top-half d-md-none" style="flex-direction:column">
-
-          <div style="display:flex">
-
-            <div class="prof-pic-cont">
-              <img src="{{ expert.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; max-width: 150px; max-height: 150px;min-width: 150px;min-height: 150px;object-fit: cover;">
-            </div>
-        
-            <div class="profile-information-cont">
-              <div class="user-display-name">
-                {{ expert.last_name }} {{ expert.first_name }}
-              </div>
-              <div class="user-rating-cont">
-                <div class="user-rating">Рейтинг:  4.5{{ expert.expertprofile.rating }} &nbsp;</div>
-                <div class="user-rate-and-stars">
-                  {% for ch in filled_stars_chipher %}
-                    {% if ch == 'f' %}
-                    <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-
-                    {% elif ch == 'h' %}
-                    <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-
-                    {% elif ch == 'e' %}
-                    <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
-
-                    {% endif%}
-                  {% endfor %}
+            <div style="display:flex">
+                <div class="prof-pic-cont">
+                    <img src="{{ expert.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; max-width: 150px; max-height: 150px;min-width: 150px;min-height: 150px;object-fit: cover;">
                 </div>
-              </div>
-            
-              <div class="user-category-cont">
-                <div class="user-category">Эксперт в области:</div>
-                {% for exp_category in expert.expertprofile.expert_categories.all %}
-                    <div class="user-catagory-highlight {% if exp_category.slug == 'banki' %}banki{% elif exp_category.slug == 'finansy' %}finansy{% elif exp_category.slug == 'it' %}it{% endif %}">
-                        {{ exp_category.name }}
+
+                <div class="profile-information-cont">
+                    <div class="user-display-name">
+                        {{ expert.last_name }} {{ expert.first_name }}
                     </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-          <div>
 
-            <div style="display:flex; flex-direction: row; justify-content:space-around; margin-top:10px">
-              <div class="user-stats">
-                {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
-                •
-                {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
-                • 
-                24 отзыва
-              </div>
-              <div class="user-settings">
-                <a href="{% url 'appointment_add' expert.id %}" class="btn btn-secondary btn-sm">  Консультация</a>
-              </div>
+                    <div class="user-rating-cont">
+                        <div class="user-rating">Рейтинг:  4.5{{ expert.expertprofile.rating }} &nbsp;</div>
+                        <div class="user-rate-and-stars">
+                            {% for ch in filled_stars_chipher %}
+                            {% if ch == 'f' %}
+                            <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'h' %}
+                            <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'e' %}
+                            <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% endif%}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="user-category-cont">
+                        <div class="user-category">Эксперт в области:</div>
+                        {% for exp_category in expert.expertprofile.expert_categories.all %}
+                        <div class="user-catagory-highlight {% if exp_category.slug == 'banki' %}banki{% elif exp_category.slug == 'finansy' %}finansy{% elif exp_category.slug == 'it' %}it{% endif %}">
+                            {{ exp_category.name }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
 
-          </div>
+            <div>
+                <div style="display:flex; flex-direction: row; justify-content:space-around; margin-top:10px">
+                    <div class="user-stats">
+                        {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
+                        •
+                        {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
+                        •
+                        24 отзыва
+                    </div>
+                    <div class="user-settings">
+                        {% if request.user.id != expert.id %}
+                            <a href="{% url 'appointment_add' expert.id %}" class="btn btn-secondary btn-sm">  Консультация</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="bottom-half">
-          <div class="bottom-info">
-            <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">Образование: &nbsp;</span>
-                <span class="">{{ expert.expertprofile.education }}</span>
+            <div class="bottom-info">
+                <div class="prof-bottom-cont">
+                    <span class="bottom-bold-text">Образование: &nbsp;</span>
+                    <span class="">{{ expert.expertprofile.education }}</span>
+                </div>
+                <div class="prof-bottom-cont">
+                    <span class="bottom-bold-text">Опыт:&nbsp;</span>
+                    <span class="">{{ expert.expertprofile.experience }}  {% get_write_phrase expert.expertprofile.experience 'год года лет' %}</span>
+                </div>
+                <div class="prof-bottom-cont">
+                    {{ expert.expertprofile.about }}
+                </div>
+                <div class="prof-bottom-cont">
+                    <span class="bottom-bold-text">Стоимость консультации:&nbsp;</span>
+                    <span class=""> {{ expert.expertprofile.hour_cost }} ₽/час</span>
+                </div>
             </div>
-            <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">Опыт:&nbsp;</span>
-                <span class="">{{ expert.expertprofile.experience }}  {% get_write_phrase expert.expertprofile.experience 'год года лет' %}</span>
-            </div>
-            <div class="prof-about-me-cont">
-              {{ expert.expertprofile.about }}
-            </div>
-            <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">Стоимость консультации:&nbsp;</span>
-                <span class=""> {{ expert.expertprofile.hour_cost }} ₽/час</span>
-            </div>
-          </div>
 
-          <div class="profile-links">
-          
-          </div>
-
-            <span class="expert-profile-title-content"> Статьи &nbsp; <span class="expert-profile-title-content-number">({{experts_articles_count}})</span> </span>
-
-            {% for article in experts_articles %}
-
-                <div class="expert-content-cont">
-
-                  <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">{{ article.title }}</a></span>
-                  <span class="article-content-loop-exp">{{article.description}}</span> 
-
-                  <span class="link-read-post">
-                      <a href="{{ article.get_absolute_url }}" style="color:black;" class="link-read-post">Читать пост &nbsp;
-                          <i class="bi bi-chevron-down" style="color:black; scale:1.3"></i>
-                      </a>
-                  </span>
-
-                  <div class="article-comments-andshare-cont-exp">
-
-                    <div class="article-comments-exp">
-                        <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
-                    </div>
-
-                    <div class="article-share-exp">
-                      <i class="bi bi-calendar2-week" style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
-                    </div>
-                  </div>
-
-                  <hr/>
+            <div class="profile-links">
+                <div class="prof-content-links-cont">
+                    <div class="profile-menu-item" data-content="articles" onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
+                    <div class="profile-menu-item" data-content="researches" onclick="showContent('researches')">{% trans 'ResearchesTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
+                    <div class="profile-menu-item" data-content="questions" onclick="showContent('questions')">{% trans 'QuestionsTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
+                    <div class="profile-menu-item" data-content="consultations" onclick="showContent('consultations')">{% trans 'ConsultationsTabLabel' %} ({{ experts_appointment_cnt }})</div>
+                    <div class="profile-menu-item" data-content="reviews" onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
+                    <!--<div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>#} -->
+                    <div class="profile-menu-item" data-content="projects" onclick="showContent('projects')">Проекты</div>
                 </div>
 
+            </div>
+
+            <div id="articles" class="expert-content" style="display: none;">
+                  {% for article in experts_articles %}
+
+                      <div class="expert-content-cont">
+
+                          <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">{{ article.title }}</a></span>
+                          <span class="article-content-loop-exp">{{article.description}}</span>
+                          <span class="link-read-post">
+                              <a href="{{ article.get_absolute_url }}" style="color:black;" class="link-read-post">{% trans 'ReadPostLabel' %} &nbsp;
+                                  <i class="bi bi-chevron-down" style="color:black; scale:1.3"></i>
+                              </a>
+                          </span>
+
+                          <div class="article-comments-andshare-cont-exp">
+                              <div class="article-comments-exp">
+                                  <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
+                              </div>
+                              <div class="article-share-exp">
+                                  <i class="bi bi-calendar2-week" style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
+
+                              </div>
+                          </div>
+
+                      </div>
+
+                      <hr>
+
+                  {% endfor %}
+            </div>
+
+
+            <div id="researches" class="expert-content" style="display: none;">
+              <span>test research</span>
+              {% for research in experts_researches %}
               {% endfor %}
+            </div>
 
-          </div>
+            <div id="questions" class="expert-content" style="display: none;">
+              <span>test questions</span>
+              {% for research in experts_researches %}
+              {% endfor %}
+            </div>
+
+            <div id="consultations" class="expert-content" style="display: none;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date Time</th>
+
+                            <th>Client</th>
+                            <th>Zoom</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for appointment in experts_appointment %}
+                        <tr>
+                            <td>{{ appointment.appointment_date }} {{ appointment.appointment_time }}</td>
+                            <td>
+                                <a href="{% url 'expert_profile' appointment.client.pk  %}">
+                                    {{ appointment.client.last_name }} {{ appointment.client.first_name }}
+                                </a>
+                            </td>
+                            <td>
+                                {% if appointment.zoom %}
+                                    <a href="{{ appointment.zoom }}">Ссылка на ZOOM</a>
+                                {% endif %}
+                            </td>
+                            <td>{{ appointment.status }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="reviews" class="expert-content" style="display: none;">
+                <span>test reviews</span>
+                {% for research in experts_researches %}
+                {% endfor %}
+            </div>
+            <div id="projects" class="expert-content" style="display: none;" >
+                <span>test notifications</span>
+                <a href="{% url 'project_add' %}">Добавить проект</a>
+
+                {% for expert_project in experts_projects %}
+                {% endfor %}
+            </div>
+
+
+
+<!--            <span class="expert-profile-title-content"> Статьи &nbsp; <span class="expert-profile-title-content-number">({{experts_articles_count}})</span> </span>-->
+<!--            {% for article in experts_articles %}-->
+<!--            <div class="expert-content-cont">-->
+<!--                <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">{{ article.title }}</a></span>-->
+<!--                <span class="article-content-loop-exp">{{article.description}}</span>-->
+<!--                <span class="link-read-post">-->
+<!--                    <a href="{{ article.get_absolute_url }}" style="color:black;" class="link-read-post">Читать пост &nbsp;<i class="bi bi-chevron-down" style="color:black; scale:1.3"></i></a>-->
+<!--                </span>-->
+<!--                <div class="article-comments-andshare-cont-exp">-->
+<!--                    <div class="article-comments-exp">-->
+<!--                        <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104-->
+<!--                    </div>-->
+<!--                    <div class="article-share-exp">-->
+<!--                        <i class="bi bi-calendar2-week" style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <hr/>-->
+<!--            </div>-->
+<!--            {% endfor %}-->
         </div>
+    </div>
+</div>
 
-  </div>
+<script>
+      function showContent(contentId) {
+        var contentBlocks = document.getElementsByClassName('expert-content');
 
-<!--  {{ customuser.email}}  -->
+        for (var i = 0; i < contentBlocks.length; i++) {
+          contentBlocks[i].style.display = 'none';
+        }
+
+        var menuItems = document.getElementsByClassName('profile-menu-item');
+
+        for (var i = 0; i < menuItems.length; i++) {
+          menuItems[i].classList.remove('selected');
+        }
+
+        var targetElement = document.getElementById(contentId);
+        targetElement.style.display = 'block';
+
+        var selectedMenuItem = document.querySelector(`.profile-menu-item[data-content="${contentId}"]`);
+        selectedMenuItem.classList.add('selected');
+      }
+
+      function loadTabData(contentType) {
+          if (contentType == 'user_projects') {
+              let user_projects = Array()
+
+              //fetch("", )
+
+              doc
+          }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        showContent('articles');
+
+        var currentUrl = window.location.pathname;
+        var menuItems = document.getElementsByClassName('profile-menu-item');
+
+        for (var i = 0; i < menuItems.length; i++) {
+          var contentId = menuItems[i].getAttribute("data-content");
+          var href = `#${contentId}`;
+
+          if (currentUrl.includes(href)) {
+            menuItems[i].classList.add('selected');
+            showContent(contentId);
+            break;
+          }
+        }
+      });
+    </script>
+
+
 
 {% endblock %}
