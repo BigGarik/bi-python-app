@@ -2,6 +2,10 @@
 {% load web_tags %}
 {% load file_filters %}
 {% block center_col %}
+{% load static %}
+
+
+<link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
 
 <style>
     .select2-container {
@@ -20,7 +24,13 @@
     <div style="display:flex; flex-direction:column; gap:20px">
 
         {{form.name}}
-        {{form.category}}
+
+        <select id="id_category" name="category" class="js-example-basic-single form-control" multiple="multiple">
+            {% for value, label in form.category.field.choices %}
+                <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+
         {{form.customer}}
         {{form.year}}
         {{form.goals}}
@@ -30,16 +40,24 @@
 
 
 
-
     <div id="members-container">
-        <label>Участники проекта:</label>
-        <select class="js-example-basic-single form-control" id="search-experts" name="state">
-            <option value="">Select an expert...</option>
-            {% for member in userproject.members.all %}
-            <option value="{{ member.id }}">{{ member.get_full_name }}</option>
-            {% endfor %}
-        </select>
+        <label for="search-experts">Search for an expert:</label>
+        <select class="js-example-basic-single form-control"  id="search-experts"  ></select>
     </div>
+
+
+
+<!--    <div id="members-container">-->
+<!--        <label for="search-experts">Search for an expert:</label>-->
+<!--        <select class="js-example-basic-single form-control"  name="state">-->
+<!--            <option value="">Search for an expert...</option>-->
+<!--            {% for member in userproject.members.all %}-->
+<!--            <option value="{{ member.id }}">{{ member.get_full_name }}</option>-->
+<!--            {% endfor %}-->
+<!--        </select>-->
+<!--    </div>-->
+
+
     <h3>Файлы проекта:</h3>
     <ul>
         {% for file in userproject.files.all %}
@@ -57,7 +75,7 @@
     <input id="id_file" name="file_field_name" type="file">
     <p></p>
 
-    <input type="submit" value="Сохранить изменения">
+    <button type="submit"  class="btn btn-primary"> Сохранить изменения </button>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -65,35 +83,55 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 
 <script type="text/javascript">
+
     $(document).ready(function() {
-      $('#search-experts').select2({
-        minimumInputLength: 0,
-        placeholder: 'Search for an expert...',
-        dropdownParent: null,
-        ajax: {
-          url: "{% url 'search_experts' %}",
-          dataType: 'json',
-          delay: 250,
-          processResults: function(data) {
-            return {
-              results: data.map(function(expert) {
+        $('.js-example-basic-multiple').select2();
+    });
+
+    $(document).ready(function() {
+      $('#id_category').select2();
+    });
+
+
+    $(document).ready(function() {
+        $('#search-experts').select2({
+            minimumInputLength: 0,
+            dropdownParent: null,
+            ajax: {
+                url: "{% url 'search_experts' %}",
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data.map(function(expert) {
+                            return {
+                                id: expert.id,
+                                text: expert.first_name + ' ' + expert.last_name
+                            };
+                        })
+                    };
+                },
+                cache: true,
+                data: function(params) {
+                    return {
+                        query: params.term
+                    };
+                }
+            },
+            tags: true, // Allow user to input their own value
+            createTag: function(params) {
                 return {
-                  id: expert.id,
-                  text: expert.first_name + ' ' + expert.last_name
+                    id: params.term,
+                    text: params.term,
+                    newOption: true
                 };
-              })
-            };
-          },
-          cache: true,
-          data: function(params) {
-            return {
-              query: params.term
-            };
-          }
-        }
-      });
+            }
+        });
     });
 </script>
+
+
+
 
 
 {% endblock %}
