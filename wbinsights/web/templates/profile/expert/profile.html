@@ -14,6 +14,8 @@
             integrity="sha384-eAqHgH66lTjivfTl6o5x2R7FSP5Qb5H1sVaVYQ4H9Fti5Aq3ck+CpK5+JeIMI99e5"
             crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@2.6.1/event-calendar.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@2.6.1/event-calendar.min.js"></script>
@@ -308,8 +310,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-
+<!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
                 </div>
             </div>
         </div>
@@ -360,41 +361,89 @@
         }
 
         function loadAppointment(appointmentId) {
-            const modalBody =  $('#appointmentTableBody');
+            const modalBody = $('#appointmentTableBody');
 
-            const appointment = appointments.find( (appointment) => {
-                return appointment.id == appointmentId
-            })
+            const appointment = appointments.find(appointment => appointment.id == appointmentId);
 
             if (!appointment) {
-                return
+                return;
             }
-
 
             modalBody.html(`
 
-                <div style = "display: flex">
-                    <div style = "display:flex; flex-direction:column;width:20% ;gap:10px">
+                <div style="display: flex">
+
+                    <div style="display:flex; flex-direction:column;width:20%;gap:20px">
                         <div>Дата:</div>
                         <div>Время:</div>
                         <div>Имя:</div>
                         <div>Zoom:</div>
                         <div>Статус:</div>
-
+                        <div>Time Created:</div>
                     </div>
-                    <div style = "display:flex; flex-direction:column;gap:10px">
+
+                    <div style="display:flex; flex-direction:column;gap:20px; width:80%">
                         <div>${moment(appointment.appointment_date).format("DD.MM.YYYY")}</div>
                         <div>${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}</div>
                         <div>${appointment.client.last_name} ${appointment.client.first_name} </div>
                         <div><a href="#">ZOOMLINK</a> </div>
-                        <div style="color: ${appointment.status == 0 ? '#0dcaf0' : (appointment.status == 1 ? 'yellow' : 'red')}">
-                            ${appointment.status == 0 ? 'New' : (appointment.status == 1 ? 'Confirmed' : 'Declined')}
+                        <div>
+                            <div style="color: ${getStatusColor(appointment.status)};">
+                                ${getStatusText(appointment.status)}
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; justify-content: space-between;">
+                            <div> ${moment(appointment.created_time).format("DD.MM.YY HH:mm")} </div>
+                            <div style="display: flex;align-items: center; ">
+                                <div>&nbsp; time left to confirm purchase : &nbsp;</div>
+                                <div id="countdownTimer" style="width: 120px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             `);
-        }
 
+            const createdTime = moment(appointment.created_time);
+            const TEN_MINUTES = 10 * 60 * 1000; //10 min in millisceonds
+
+            //clears the other countdown, so there is no gltiches
+            clearInterval(window.countdownInterval);
+
+            window.countdownInterval = setInterval(() => {
+                const elapsedTime = moment().diff(createdTime);
+                const remainingTime = TEN_MINUTES - elapsedTime;
+
+                if (remainingTime <= 0) {
+                    clearInterval(window.countdownInterval);
+                    renderExpiredButton();
+                } else {
+                    renderCountdownButton(remainingTime);
+                }
+            }, 1000);
+
+            function renderCountdownButton(remainingTime) {
+                const minutes = Math.floor(remainingTime / 60000);
+                const seconds = Math.floor((remainingTime % 60000) / 1000);
+                const formattedTime = `${padZero(minutes)}:${padZero(seconds)}`;
+                $('#countdownTimer').html(`<button type="button" class="btn btn-success">${formattedTime}</button>`);
+            }
+
+            function renderExpiredButton() {
+                $('#countdownTimer').html(`<button type="button" class="btn btn-danger">Time expired</button>`);
+            }
+
+            function getStatusColor(status) {
+                return status === 0 ? '#0dcaf0' : (status === 1 ? '#e3aa00' : (status === 2 ? 'red' : (status === 3 ? 'brown' : 'green')));
+            }
+
+            function getStatusText(status) {
+                return status === 0 ? 'New' : (status === 1 ? 'Confirmed' : (status === 2 ? 'Declined' : (status === 3 ? 'Cancelled' : 'Paid')));
+            }
+
+            function padZero(num) {
+                return num < 10 ? `0${num}` : num;
+            }
+        }
 
 
         function createCalendarEvents(appointments) {
@@ -403,7 +452,7 @@
                 const titleHTML = `
                     <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;">
                         <span>${appointment_title}</span>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:125px"
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:125px; height:25px"
                             onclick="loadAppointment(${appointment.id})">
                             View details
                         </button>
@@ -416,7 +465,7 @@
                         eventColor = "#0dcaf0"; //new
                         break;
                     case 1:
-                        eventColor = "yellow"; //confirm
+                        eventColor = "#e3aa00"; //confirm
                         break;
                     case 2:
                         eventColor = "red"; //declined
