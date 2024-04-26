@@ -11,7 +11,7 @@ from yookassa import Configuration, Payment
 import uuid
 
 from django.core import serializers
-
+from datetime import date, timedelta
 
 Configuration.account_id = '372377'
 Configuration.secret_key = 'test_GweuBNA4H85vWxRCLXLsz7gJLX2lA_YJ2GjYGpRBxLw'
@@ -33,7 +33,7 @@ def add_appointment_view(request, *args, **kwargs):
             status=AppointmentStatus.NEW
         )
 
-        if len(existAppointment) > 0:
+        if existAppointment.count() > 0:
             form = AppointmentForm(request.POST, instance=existAppointment[0])
 
         if form.is_valid():
@@ -44,16 +44,67 @@ def add_appointment_view(request, *args, **kwargs):
             return redirect('appointment_checkout', pk=new_appointment.id)
     else:
         form = AppointmentForm()
-        not_avalable_dates = ['18.04.2024', '19.04.2024']
+        not_avalable_dates = get_expert_working_dates(expert)
         context = {
             "expert": expert,
             'form': form,
-            'not_avalable_dates': not_avalable_dates
+            'start_cal_date': not_avalable_dates['data']['start'],
+            'end_cal_date': not_avalable_dates['data']['end'],
+            'not_working_dates': not_avalable_dates['data']['not_working_dates']
         }
 
-
-
     return render(request, 'add_appointment.html', context=context)
+
+
+def get_expert_working_dates(expert):
+
+    calendar_period = 120 #days
+
+    start_date = date.today()
+    end_date = start_date + timedelta(days=calendar_period)
+
+    expert_schedule = [
+        {
+            "week_day": 0,
+            "start": "09:00",
+            "end": "18:00",
+        },
+        {
+            "week_day": 1,
+            "start": "09:00",
+            "end": "18:00",
+        },
+        {
+            "week_day": 2,
+            "start": "09:00",
+            "end": "18:00",
+        },
+        {
+            "week_day": 3,
+            "start": "09:00",
+            "end": "18:00",
+        },
+        {
+            "week_day": 4,
+            "start": "09:00",
+            "end": "18:00",
+        }
+    ]
+
+    expert_schedule_working_days_numbers = []
+
+    for day in expert_schedule:
+        expert_schedule_working_days_numbers.append(day['week_day'])
+
+    not_working_dates = []
+
+    for i in range(calendar_period + 1):
+        day = start_date + timedelta(days=i)
+
+        if (day.weekday() not in expert_schedule_working_days_numbers):
+            not_working_dates.append(day.strftime("%Y-%m-%d"))
+
+    return {'data': {"start":start_date.strftime("%Y-%m-%d"),"end":end_date.strftime("%Y-%m-%d"),"not_working_dates":not_working_dates}}
 
 
 @login_required()
@@ -65,7 +116,7 @@ def get_expert_avalable_timeslots(request):
         busyExpertsSlots = (Appointment.objects.filter(
             expert_id=form.cleaned_data['expert_id'],
             appointment_date=form.cleaned_data['selected_date']
-        ).values_list("appointment_time",flat=True))
+        ).values_list("appointment_time", flat=True))
 
         # transform busy expert's slots to array of string
         busy_experts_str_slots = [dt.strftime('%H:%M') for dt in busyExpertsSlots]
@@ -89,8 +140,6 @@ def get_expert_avalable_timeslots(request):
         return JsonResponse(available_timeslots, safe=False)
 
     return JsonResponse({'errors': dict(form.errors)}, status=400)
-
-
 
 
 @login_required

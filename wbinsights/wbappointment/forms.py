@@ -43,7 +43,7 @@ class AppointmentForm(forms.ModelForm):
                 expert=expert,
                 appointment_date=appointment_date,
                 appointment_time=appointment_time,
-                status=AppointmentStatus.NEW,
+                status=AppointmentStatus.NEW.value,
                 created_time__gte=ten_minutes_ago
         ).exists():
             raise forms.ValidationError("An appointment already exists with these details.")

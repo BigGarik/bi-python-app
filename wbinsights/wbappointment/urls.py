@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from wbappointment.views import add_appointment_view, add_appointment_success_view, appointment_payment_callback_view, \
-    checkout_appointment_view, get_expert_avalable_timeslots, get_experts_appointment
+    checkout_appointment_view, get_expert_avalable_timeslots, get_experts_appointment, get_expert_working_dates
 
 # AppointmentExpertAvialableTimeForDateView
 
