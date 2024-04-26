@@ -5,25 +5,6 @@
 
 {% block center_col %}
     <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
-    
-    <style>
-        @media (max-width: 768px ) {
-
-            .prof-page-pic-cont img {
-                min-height: 100px !important;
-                min-width: 100px !important;
-            }
-
-        }
-
-        @media (min-width: 769px ) {
-            .prof-page-pic-cont img {
-                min-height: 130px !important;
-                min-width: 130px !important;
-            }
-
-        }
-    </style>
 
     <div class="prof-page-cont">
 
@@ -32,228 +13,122 @@
             &nbsp;{% trans 'ToMainPageLabel' %}
         </a>
 
-        <div class="profile-info-cont">
+        {% include 'components/experts/profile-info.html' with user=request.user buttons_template='profile/expert/profile_buttons.html'%}
 
-            <div class="col-12 top-half">
-
-                <div class=" col-sm-3 prof-page-pic-cont">
-                    <img src="{{ request.user.profile.avatar.url }}" alt="Avatar"
-                         style="border-radius: 50%;width: 80px;height: 80px;object-fit: cover;">
-                </div>
-
-                <div class=" col-sm-9  profile-information-cont">
-
-                    <div class="user-display-name">
-                        {{ request.user.first_name }} {{ request.user.last_name }}
-                    </div>
-
-                    <div class="user-rating-cont">
-
-                        <div class="user-rating">{% trans 'RatingLabel' %} {{ rating }} &nbsp;</div>
-
-                        <div class="user-rate-and-stars">
-                            {% for ch in filled_stars_chipher %}
-                                {% if ch == 'f' %}
-                                    <i class="bi bi-star-fill" style=" color: #e9be50; padding: 0 2px 0 2px"></i>
-                                {% elif ch == 'h' %}
-                                    <i class="bi bi-star-half" style=" color: #e9be50; padding: 0 2px 0 2px"></i>
-                                {% elif ch == 'e' %}
-                                    <i class="bi bi-star" style=" color: #e9be50; padding: 0 2px 0 2px"></i>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-
-                    </div>
-
-                    <div class="user-category-cont">
-
-                        <div class="user-category">Эксперт в области :</div>
-
-                        <div class="displayflex">
-                            {% for exp_category in request.user.expertprofile.expert_categories.all %}
-                                <div class="user-catagory-highlight {{ exp_category.slug }}">
-                                    {{ exp_category.name }}
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                    </div>
-
-                    <div class="user-stats">
-
-                        {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
-                        •
-                        {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
-                        • 24 отзыва
-
-                    </div>
-
-                    <div class="user-settings">
-
-                        <a href="{% url 'profile_edit' %}" type="button"
-                           class="btn prof-settings-btn">
-                            {% trans 'EditProfileLabel' %}
-                        </a>
-
-                        <form method="post" action="{% url 'logout' %}">
-                            {% csrf_token %}
-                            <button class="btn prof-logout-btn" type="submit">
-                                {% trans 'LogoutButtonLabel' %}
-                            </button>
-                        </form>
-
-                    </div>
-
-                </div>
-
+        <div class="prof-content-links-cont">
+            <div class="profile-menu-item" data-content="articles"
+                 onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %} &nbsp;<span
+                    class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
+            <div class="profile-menu-item" data-content="researches"
+                 onclick="showContent('researches')">{% trans 'ResearchesTabLabel' %} &nbsp;<span
+                    class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
+            <div class="profile-menu-item" data-content="questions"
+                 onclick="showContent('questions')">{% trans 'QuestionsTabLabel' %} &nbsp;<span
+                    class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
+            <div class="profile-menu-item" data-content="consultations"
+                 onclick="showContent('consultations')">{% trans 'ConsultationsTabLabel' %}
+                ({{ experts_appointment_cnt }})
             </div>
+            <div class="profile-menu-item" data-content="reviews"
+                 onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
+            {#<div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>#}
+            <div class="profile-menu-item" data-content="projects" onclick="showContent('projects')">
+                Проекты
+            </div>
+        </div>
 
-            <div class="bottom-half">
+        <div id="articles" class="expert-content" style="display: none;">
+            {% for article in experts_articles %}
 
-                <div class="bottom-info">
-
-                    <div class="prof-bottom-cont">
-                        <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp;</span>
-                        <span class="">{{ request.user.expertprofile.education }}</span>
-                    </div>
-
-                    <div class="prof-bottom-cont">
-
-                        <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}:&nbsp;</span>
-                        <span class="">{{ request.user.expertprofile.experience }}
-                            {% get_write_phrase request.user.expertprofile.experience 'год года лет' %}
-                        </span>
-
-                    </div>
-
-                    <div class="prof-about-me-cont">
-                        {{ request.user.expertprofile.about }}
-                    </div>
-
-                    <div class="prof-bottom-cont">
-
-                        <span class="bottom-bold-text">{% trans 'PricePerHourLabel' %}:&nbsp;</span>
-                        <span class=""> {{ request.user.expertprofile.hour_cost }} ₽/час</span>
-                    </div>
-
-                </div>
-
-                <div class="prof-content-links-cont">
-                    <div class="profile-menu-item" data-content="articles"
-                         onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %} &nbsp;<span
-                            class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
-                    <div class="profile-menu-item" data-content="researches"
-                         onclick="showContent('researches')">{% trans 'ResearchesTabLabel' %} &nbsp;<span
-                            class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
-                    <div class="profile-menu-item" data-content="questions"
-                         onclick="showContent('questions')">{% trans 'QuestionsTabLabel' %} &nbsp;<span
-                            class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
-                    <div class="profile-menu-item" data-content="consultations"
-                         onclick="showContent('consultations')">{% trans 'ConsultationsTabLabel' %}
-                        ({{ experts_appointment_cnt }})
-                    </div>
-                    <div class="profile-menu-item" data-content="reviews"
-                         onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
-                    {#<div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>#}
-                    <div class="profile-menu-item" data-content="projects" onclick="showContent('projects')">
-                        Проекты
-                    </div>
-                </div>
-
-                <div id="articles" class="expert-content" style="display: none;">
-                    {% for article in experts_articles %}
-
-                        <div class="expert-content-cont">
+                <div class="expert-content-cont">
 
                             <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}"
                                                                     style="text-decoration: none;color: #36364b;">{{ article.title }}</a></span>
-                            <span class="article-content-loop-exp">{{ article.description }}</span>
-                            <span class="link-read-post">
+                    <span class="article-content-loop-exp">{{ article.description }}</span>
+                    <span class="link-read-post">
                                 <a href="{{ article.get_absolute_url }}" style="color:black;"
                                    class="link-read-post">{% trans 'ReadPostLabel' %} &nbsp;
                                     <i class="bi bi-chevron-down" style="color:black; scale:1.3"></i>
                                 </a>
                             </span>
 
-                            <div class="article-comments-andshare-cont-exp">
-                                <div class="article-comments-exp">
-                                    <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
-                                </div>
-                                <div class="article-share-exp">
-                                    <i class="bi bi-calendar2-week"
-                                       style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
-
-                                </div>
-                            </div>
+                    <div class="article-comments-andshare-cont-exp">
+                        <div class="article-comments-exp">
+                            <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
+                        </div>
+                        <div class="article-share-exp">
+                            <i class="bi bi-calendar2-week"
+                               style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
 
                         </div>
+                    </div>
 
-                        <hr>
-
-                    {% endfor %}
                 </div>
 
+                <hr>
 
-                <div id="researches" class="expert-content" style="display: none;">
-                    <span>test research</span>
-                    {% for research in experts_researches %}
-                    {% endfor %}
-                </div>
-
-                <div id="questions" class="expert-content" style="display: none;">
-                    <span>test questions</span>
-                    {% for research in experts_researches %}
-                    {% endfor %}
-                </div>
-
-                <div id="consultations" class="expert-content" style="display: none;">
-                    <span>test consultations</span>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Date Time</th>
-
-                            <th>Client</th>
-                            <th>Zoom</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for appointment in experts_appointment %}
-                            <tr>
-                                <td>{{ appointment.appointment_date }} {{ appointment.appointment_time }}</td>
-                                <td>
-                                    <a href="{% url 'expert_profile' appointment.client.pk %}">
-                                        {{ appointment.client.last_name }} {{ appointment.client.first_name }}
-                                    </a>
-                                </td>
-                                <td>
-                                    {% if appointment.zoom %}
-                                        <a href="{{ appointment.zoom }}">Ссылка на ZOOM</a>
-                                    {% endif %}
-                                </td>
-                                <td>{{ appointment.status }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="reviews" class="expert-content" style="display: none;">
-                    <span>test reviews</span>
-                    {% for research in experts_researches %}
-                    {% endfor %}
-                </div>
-                <div id="projects" class="expert-content" style="display: none;">
-                    <span>test notifications</span>
-                    <a href="{% url 'project_add' %}">Добавить проект</a>
-
-                    {% for expert_project in experts_projects %}
-                    {% endfor %}
-                </div>
-
-            </div>
+            {% endfor %}
         </div>
+    
+        <div id="researches" class="expert-content" style="display: none;">
+            <span>test research</span>
+            {% for research in experts_researches %}
+            {% endfor %}
+        </div>
+
+        <div id="questions" class="expert-content" style="display: none;">
+            <span>test questions</span>
+            {% for research in experts_researches %}
+            {% endfor %}
+        </div>
+
+        <div id="consultations" class="expert-content" style="display: none;">
+            <span>test consultations</span>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Date Time</th>
+
+                    <th>Client</th>
+                    <th>Zoom</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for appointment in experts_appointment %}
+                    <tr>
+                        <td>{{ appointment.appointment_date }} {{ appointment.appointment_time }}</td>
+                        <td>
+                            <a href="{% url 'expert_profile' appointment.client.pk %}">
+                                {{ appointment.client.last_name }} {{ appointment.client.first_name }}
+                            </a>
+                        </td>
+                        <td>
+                            {% if appointment.zoom %}
+                                <a href="{{ appointment.zoom }}">Ссылка на ZOOM</a>
+                            {% endif %}
+                        </td>
+                        <td>{{ appointment.status }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="reviews" class="expert-content" style="display: none;">
+            <span>test reviews</span>
+            {% for research in experts_researches %}
+            {% endfor %}
+        </div>
+
+        <div id="projects" class="expert-content" style="display: none;">
+            <span>test notifications</span>
+            <a href="{% url 'project_add' %}">Добавить проект</a>
+
+            {% for expert_project in experts_projects %}
+            {% endfor %}
+        </div>
+
     </div>
 
 
@@ -284,7 +159,7 @@
 
                 //fetch("", )
 
-                doc
+
             }
         }
 
