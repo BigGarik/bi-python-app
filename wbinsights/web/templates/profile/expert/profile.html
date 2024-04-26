@@ -22,6 +22,32 @@
 
 
     <style>
+
+        .ec-day-grid .ec-event-body, .ec-all-day .ec-event-body {
+            flex-direction: column !important;
+        }
+
+
+<!--        .ec-event-body {-->
+<!--            display: flex;-->
+<!--            flex-direction: column !important;-->
+<!--            width: 100%;-->
+<!--        }-->
+
+        .ec-resourceTimeGridWeek {
+            display:none !important;
+        }
+
+        .ec-event-time {
+
+            font-size: 12px !important;
+        }
+
+        .ec-event-title span {
+            font-size: 12px !important;
+            display: flex !important;
+        }
+
         @media (max-width: 768px ) {
 
             .prof-page-pic-cont img {
@@ -259,7 +285,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Appointment Details</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Детали назначения</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -283,6 +309,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save changes</button>
+
                 </div>
             </div>
         </div>
@@ -343,51 +370,76 @@
                 return
             }
 
+
             modalBody.html(`
 
                 <div style = "display: flex">
                     <div style = "display:flex; flex-direction:column;width:20% ;gap:10px">
-                        <div>date:</div>
-                        <div>time:</div>
-                        <div>name:</div>
-                        <div>zoom:</div>
+                        <div>Дата:</div>
+                        <div>Время:</div>
+                        <div>Имя:</div>
+                        <div>Zoom:</div>
+                        <div>Статус:</div>
+
                     </div>
                     <div style = "display:flex; flex-direction:column;gap:10px">
                         <div>${moment(appointment.appointment_date).format("DD.MM.YYYY")}</div>
                         <div>${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}</div>
                         <div>${appointment.client.last_name} ${appointment.client.first_name} </div>
                         <div><a href="#">ZOOMLINK</a> </div>
+                        <div style="color: ${appointment.status == 0 ? '#0dcaf0' : (appointment.status == 1 ? 'yellow' : 'red')}">
+                            ${appointment.status == 0 ? 'New' : (appointment.status == 1 ? 'Confirmed' : 'Declined')}
+                        </div>
                     </div>
                 </div>
             `);
         }
 
-        function createCalendarEvents(appointments) {
 
+
+        function createCalendarEvents(appointments) {
             return appointments.map((appointment) => {
                 const clientID = `/experts/${appointment.client.id}`;
                 const titleHTML = `
-                    <span style="padding-top:4px">${appointment_title}</span><br/>
-
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;">
+                        <span>${appointment_title}</span>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:125px"
                             onclick="loadAppointment(${appointment.id})">
-                        View details
-                    </button>
+                            View details
+                        </button>
+                    </div>
                 `;
 
-
-
-                //const ClientURL = `/experts/${appointment.client.id}`
+                let eventColor;
+                switch (appointment.status) {
+                    case 0:
+                        eventColor = "#0dcaf0"; //new
+                        break;
+                    case 1:
+                        eventColor = "yellow"; //confirm
+                        break;
+                    case 2:
+                        eventColor = "red"; //declined
+                        break;
+                    case 3:
+                        eventColor = "brown"; //cancel
+                        break;
+                    case 4:
+                        eventColor = "green"; //paid
+                        break;
+                }
 
                 return {
                     start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
                     end: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
                     resourceId: 1,
                     title: { html: titleHTML },
-                    color: "#FE6B64",
+                    color: eventColor,
                 };
             });
         }
+
+
 
 
         let ec;
@@ -404,32 +456,42 @@
                     end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek resourceTimeGridWeek'
                 },
                 events: events,
+        <!--        slotDuration: '01:00:00', -->
+        <!--        slotLabelInterval: { hours: 1 }, -->
                 slotMinTime: '07:00:00',
                 slotMaxTime: '18:00:00',
+                buttonText: {
+                    timeGridDay: 'день',
+                    timeGridWeek: 'неделя',
+                    dayGridMonth: 'месяц',
+                    today: 'сегодня',
+                    listWeek: 'список'
+                },
+                locale: 'ru',
+        <!--        datesSet: function(dates) {-->
+        <!--            if (ec) {-->
+        <!--                // get start and end dates-->
+        <!--                let startDate = dates.start;-->
+        <!--                let endDate = dates.end;-->
 
-                datesSet: function(dates) {
+        <!--                let filteredEvents = events.filter(event => {-->
+        <!--                    let eventDate = new Date(event.start);-->
+        <!--                    return eventDate >= startDate && eventDate <= endDate;-->
+        <!--                });-->
 
-                    if (ec) {
-                        // get start and end dates
-                        let startDate = dates.start;
-                        let endDate = dates.end;
-
-                        let filteredEvents = events.filter(event => {
-                            let eventDate = new Date(event.start);
-                            return eventDate >= startDate && eventDate <= endDate;
-                        });
-
-                        // updates calendar
-                        ec.setOption('events', filteredEvents);
-                        console.log("filteredEvents", filteredEvents);
-                    } else {
-                        console.error("not working");
-                    }
-                }
+        <!--                // updates calendar-->
+        <!--                ec.setOption('events', filteredEvents);-->
+        <!--                console.log("filteredEvents", filteredEvents);-->
+        <!--            } else {-->
+        <!--                console.error("not working");-->
+        <!--            }-->
+        <!--        }-->
             });
 
             console.log("Inner HTML of ec-title:", $('.ec-title').html());
         }
+
+
 
 
 

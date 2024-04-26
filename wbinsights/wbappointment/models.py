@@ -5,7 +5,7 @@ from django.db.models import UniqueConstraint
 class AppointmentStatus(models.IntegerChoices):
     NEW = 0, 'Новый'
     СONFIRM = 1, 'Подтвержден'
-    DECLIAN = 2, 'Отклонен'
+    DECLINE = 2, 'Отклонен'
     CANCEL = 3, 'Отменен'
     PAID = 4, 'Оплачен'
 
