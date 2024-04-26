@@ -413,6 +413,7 @@
                 const elapsedTime = moment().diff(createdTime);
                 const remainingTime = TEN_MINUTES - elapsedTime;
 
+
                 if (remainingTime <= 0) {
                     clearInterval(window.countdownInterval);
                     renderExpiredButton();
@@ -496,7 +497,7 @@
         function createEventCalendar(appointments) {
             let events = createCalendarEvents(appointments);
             console.log("events", events);
-
+            $('#event-calendar').html('');
             ec = new EventCalendar(document.getElementById('event-calendar'), {
                 view: 'timeGridWeek',
                 headerToolbar: {

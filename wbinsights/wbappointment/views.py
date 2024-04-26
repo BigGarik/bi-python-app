@@ -33,7 +33,9 @@ def add_appointment_view(request, *args, **kwargs):
             status=AppointmentStatus.NEW
         )
 
-        if existAppointment.count() > 0:
+        if existAppointment.exists():
+            #If already exist such appointent just work with it
+            #No need to create new one
             form = AppointmentForm(request.POST, instance=existAppointment[0])
 
         if form.is_valid():

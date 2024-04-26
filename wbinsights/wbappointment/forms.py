@@ -22,12 +22,15 @@ class AppointmentForm(forms.ModelForm):
         widget=forms.Select(attrs={'class': 'appointment-form-control', 'disabled': 'disabled'})
     )
 
+    expert = forms.HiddenInput()
+
     def __init__(self, *args, **kwargs):
         super(AppointmentForm, self).__init__(*args, **kwargs)
         self.fields['appointment_date'].validators.append(validate_date)
 
     def clean(self):
         cleaned_data = super().clean()
+
         expert = cleaned_data.get('expert')
         appointment_date = cleaned_data.get('appointment_date')
         appointment_time = cleaned_data.get('appointment_time')
@@ -43,14 +46,16 @@ class AppointmentForm(forms.ModelForm):
                 expert=expert,
                 appointment_date=appointment_date,
                 appointment_time=appointment_time,
-                status=AppointmentStatus.NEW.value,
+                status=AppointmentStatus.NEW,
                 created_time__gte=ten_minutes_ago
         ).exists():
+            # We can't create this appointment because smobody else alreary booked it
+            # ANd we can book it if its no paid in 10 min
             raise forms.ValidationError("An appointment already exists with these details.")
 
     class Meta:
         model = Appointment
-        fields = ['appointment_date', 'appointment_time', 'notes']
+        fields = ['expert', 'appointment_date', 'appointment_time', 'notes']
         widgets = {
             'appointment_date': forms.HiddenInput(
                 attrs={
