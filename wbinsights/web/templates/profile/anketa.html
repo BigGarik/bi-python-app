@@ -70,17 +70,19 @@
 
             </div>
 
-
             <div class="anketa-btns-cont">
                 <button type="submit" class="btn btn-success">{% trans 'SendForVerifyLabel' %}</button>
             </div>
         
         </form>
-    
-        
 
     </div>
 
 </div>
 
+<script>
+    $(document).ready(function() {
+        $("[name='expert_categories']").select2();
+    });
+</script>
 {% endblock %}

@@ -6,7 +6,7 @@ from django.contrib import admin
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
-from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article
+from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article, ArticleAddView
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
@@ -23,6 +23,7 @@ urlpatterns = [
     path("articles/", ArticleListView.as_view(), name='article_list'),
     path("articles/category/<slug:category_slug>", CategoryArticleListView.as_view(), name='article_category_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
+    # path("articles/add/", ArticleAddView.as_view(), name='article_add'),
     path("articles/add/", create_article, name='article_add'),
 
     path("researches/", ResearchesListView.as_view(), name='research_list'),
