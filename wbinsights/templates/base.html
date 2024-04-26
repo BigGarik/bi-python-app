@@ -184,6 +184,12 @@
                 <div class="col-md-4 text-md-end all-profile-cont"
                      style="display: flex; justify-content: flex-end; align-items:center;">
                     {% if user.is_authenticated %}
+                        <div class="bell-cont" style="width:50px; height:50px">
+                            <a href="{% url 'index'%}">
+                                <i class="bi bi-house" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
+
                         <div class="comments-cont">
                             <a href="#" onclick="alert('В разработке');">
                                 <i class="bi bi-chat-left-text" style="color:white; font-size: 1.3em;"></i>
