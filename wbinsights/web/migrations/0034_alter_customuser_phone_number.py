@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0033_merge_20240424_1455'),
+        ('web', '0032_alter_expertprofile_expert_categories'),
     ]
 
     operations = [

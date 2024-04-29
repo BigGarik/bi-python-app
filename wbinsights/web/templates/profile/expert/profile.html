@@ -4,6 +4,7 @@
 {% load i18n %}
 
 {% block center_col %}
+    
     <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
 
     <div class="prof-page-cont">
@@ -14,65 +15,11 @@
         </a>
 
         {% include 'components/experts/profile_info.html' with user=request.user buttons_template='profile/expert/profile_buttons.html'%}
-
-        <div class="prof-content-links-cont">
-            <div class="profile-menu-item" data-content="articles"
-                 onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %} &nbsp;<span
-                    class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
-            <div class="profile-menu-item" data-content="researches"
-                 onclick="showContent('researches')">{% trans 'ResearchesTabLabel' %} &nbsp;<span
-                    class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
-            <div class="profile-menu-item" data-content="questions"
-                 onclick="showContent('questions')">{% trans 'QuestionsTabLabel' %} &nbsp;<span
-                    class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
-            <div class="profile-menu-item" data-content="consultations"
-                 onclick="showContent('consultations')">{% trans 'ConsultationsTabLabel' %}
-                ({{ experts_appointment_cnt }})
-            </div>
-            <div class="profile-menu-item" data-content="reviews"
-                 onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
-            {#<div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>#}
-            <div class="profile-menu-item" data-content="projects" onclick="showContent('projects')">
-                Проекты
-            </div>
-        </div>
-
-        <div id="articles" class="expert-content" style="display: none;">
-            {% for article in experts_articles %}
-
+        
         {% include 'profile/profile_content_items.html' %}
+    
     </div>
-
-    <script>
-        function showContent(contentId) {
-
-            $('.expert-content').each(function () {
-
-                if ($(this).attr("id") == contentId) {
-                    $(this).show()
-                } else {
-                    $(this).hide()
-                }
-
-            })
-
-            $('.profile-menu-item').each(function () {
-
-                if ($(this).attr("data-content") == contentId) {
-                    $(this).addClass('selected')
-                } else {
-                    $(this).removeClass('selected')
-                }
-
-            })
-        }
-
-        $(document).ready(function () {
-            showContent('articles')
-        })
-
-    </script>
-
+    
     {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
 
 {% endblock %}

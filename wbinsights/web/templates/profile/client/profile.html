@@ -14,150 +14,56 @@
         </a>
 
         <div class="profile-info-cont">
-
+    
             <div class="top-half">
-
+    
                 <div class="prof-page-pic-cont">
                     <img src="{{ request.user.profile.avatar.url }}" alt="Avatar"
                          style="border-radius: 50%;width: 160px;height: 160px;object-fit: cover;">
                 </div>
-
+    
                 <div class="profile-information-cont-client">
-
+    
                     <div class="user-display-name">
                         {{ request.user.first_name }} {{ request.user.last_name }}
                     </div>
-
+    
                     <div class="span-user-type">
-
+    
                         {% if user.profile.type == 0 %}
                             Клиент
                         {% endif %}
-
+    
                     </div>
-
+    
                     <div class="user-settings">
-
+    
                         <a href="{% url 'profile_edit' %}" type="button"
                            class="btn prof-settings-btn">
                             Настройки профиля
                         </a>
-
+    
                         <form method="post" action="{% url 'logout' %}">
                             {% csrf_token %}
                             <button class="btn prof-logout-btn" type="submit">
                                 Выйти
                             </button>
                         </form>
-
+    
                     </div>
-
+    
                 </div>
-
+    
             </div>
-
+    
         </div>
-
-
-        <div class="bottom-half">
-
-            <div class="prof-content-links-cont">
-
-                <div class="profile-menu-item selected" data-content="articles" onclick="showContent('articles')">
-                    Статьи
-                    &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span>
-                </div>
-
-                <div class="profile-menu-item" data-content="researches" onclick="showContent('researches')">
-                    Исследования &nbsp;
-                    <span class="expert-profile-title-content-number">{{ experts_researches_count }}</span>
-                </div>
-
-                <div class="profile-menu-item" data-content="questions" onclick="showContent('questions')">
-                    Вопросы &nbsp;
-                    <span class="expert-profile-title-content-number">0</span>
-                </div>
-
-                <div class="profile-menu-item" data-content="consultations" onclick="showContent('consultations');getExpertsAppointments() ">
-                    Консультации &nbsp;
-                    <span class="expert-profile-title-content-number">{{ clients_appointment_cnt }}</span>
-                </div>
-
-                <div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">
-                    Уведомления &nbsp;
-                     <span class="expert-profile-title-content-number">0</span>
-                </div>
-
-            </div>
-        </div>
-
-
-        <div id="articles" class="expert-content" style="display: none">
-            123
-        </div>
-
-        <div id="researches" class="expert-content" style="display: none;">
-            <span>test research</span>
-            {% for research in experts_researches %}
-            {% endfor %}
-        </div>
-
-        <div id="questions" class="expert-content" style="display: none;">
-            <span>test questions</span>
-            {% for research in experts_researches %}
-            {% endfor %}
-        </div>
-
-        <div id="consultations" class="expert-content" style="display: none;">
-            <div id="event-calendar"></div>
-
-        </div>
-
-        <div id="reviews" class="expert-content" style="display: none;">
-            <span>test reviews</span>
-            {% for research in experts_researches %}
-            {% endfor %}
-        </div>
-        <div id="notifications" class="expert-content" style="display: none;">
-            <span>test notifications</span>
-            {% for research in experts_researches %}
-            {% endfor %}
-        </div>
-
-
+    
+        {% include 'profile/profile_content_items.html' %}
+    
     </div>
 
-
-    <script>
-
-        function showContent(contentId) {
-
-            $('.expert-content').each(function () {
-
-                if ($(this).attr( "id" ) == contentId) {
-                    $(this).show()
-                } else {
-                    $(this).hide()
-                }
-
-            })
-
-            $('.profile-menu-item').each(function () {
-
-                if ($(this).attr( "data-content" ) == contentId) {
-                    $(this).addClass('selected')
-                } else {
-                    $(this).removeClass('selected')
-                }
-
-            })
-        }
-
-        $(document).ready(function () {
-            showContent('articles')
-        })
-
-    </script>
+    
+        
 
     {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
 

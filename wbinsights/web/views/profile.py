@@ -76,7 +76,7 @@ def profile_view(request):
                 "rating": 4.5,
                 "experts_researches_count": 0,
                 "filled_stars_chipher": 'ffffh',
-                "experts_appointment_cnt": experts_appointment_cnt,
+                "users_appointment_cnt": experts_appointment_cnt,
                 "appointment_title": "Онлайн консультация",
                 "user_type": Profile.TypeUser.EXPERT
 
@@ -88,7 +88,7 @@ def profile_view(request):
         #clients_appointment = Appointment.objects.filter(client=request.user)
         clients_appointment_cnt = Appointment.objects.filter(client=request.user).count()
         context.update({
-            "clients_appointment_cnt": clients_appointment_cnt,
+            "users_appointment_cnt": clients_appointment_cnt,
             "experts_articles": [],
             "experts_articles_count": 0,
             "experts_researches_count": 0,

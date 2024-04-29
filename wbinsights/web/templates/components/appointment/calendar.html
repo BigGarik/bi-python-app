@@ -49,7 +49,7 @@
     const appointment_path = user_type == 1 ? 'expert' : 'client'
     let appointments = []
 
-    function getExpertsAppointments() {
+    function getUsersAppointments() {
         $.ajax({
             url: `/appointment/list/${appointment_path}/${user_id}/json`,
             type: 'GET',
@@ -153,7 +153,7 @@
     function createCalendarEvents(appointments) {
         return appointments.map((appointment) => {
             const titleHTML = `
-                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;"
+                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 12px"
                         onclick="loadAppointment(${appointment.id})">
                         <span>${appointment_title}</span>
                     </div>
