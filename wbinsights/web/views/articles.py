@@ -1,13 +1,18 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+import itertools
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
-from django.urls import reverse_lazy
-from wbinsights.utilities import generate_unique_slug
+from pytils.translit import slugify
+
 from web.forms.articles import ArticleForm
 from web.models import Article, Category
 from django.http import JsonResponse
 
+
 from django.contrib.auth.decorators import login_required
+
+# from django.urls import reverse_lazy
+
+import time
 
 
 # def get_articles(request):
@@ -89,9 +94,8 @@ def create_article(request):
         article.content = data['content']
         article.main_img = request.FILES.get('main_img')
         article.author = request.user
-        generate_unique_slug(article, 'title', 'slug')
-        # max_length = Article._meta.get_field('slug').max_length
-        # article.slug = slugify(article.title + '-' + str(time.time()))[:max_length]
+        max_length = Article._meta.get_field('slug').max_length
+        article.slug = slugify(article.title + '-' + str(time.time()))[:max_length]
 
         # selectedCategorySlug = data['category']
         # if not selectedCategorySlug:
@@ -121,43 +125,29 @@ def create_article(request):
     return render(request, 'posts/article/article_add.html', context=context)
 
 
-class ArticleAddView(LoginRequiredMixin, CreateView):
+@login_required
+def edit_article(request, slug):
+    article = get_object_or_404(Article, slug=slug, author=request.user)
+    form = ArticleForm(instance=article)
+    # You may want to add additional logic here as needed
+    return render(request, 'posts/article/article_add.html', {'form': form})
+
+
+class ArticleAddView(CreateView):
     model = Article
     form_class = ArticleForm
     template_name = 'posts/article/article_add.html'
-    success_url = reverse_lazy('article_list')
 
     def form_valid(self, form):
-        # Устанавливаем автора статьи
-        form.instance.author = self.request.user
-        # Генерируем уникальный слаг для статьи
-        generate_unique_slug(form.instance, 'title', 'slug')
-        # Сохраняем статью
-        self.object = form.save()
-        # Возвращаем JSON-ответ с URL для перенаправления
-        return JsonResponse({
-            'success': True,
-            'redirect_url': self.get_success_url()
-        })
+        article = form.save(commit=False)  # Do not save the article yet
+        max_length = Article._meta.get_field('slug').max_length
+        article.slug = orig_slug = slugify(article.title)[:max_length]
 
-    def form_invalid(self, form):
-        # Возвращаем JSON-ответ с информацией об ошибках
-        return JsonResponse({
-            'success': False,
-            'errors': form.errors
-        }, status=400)
+        for x in itertools.count(1):
+            if not Article.objects.filter(slug=article.slug).exists():
+                break
+            # Truncate the original slug dynamically. Minus 1 for the hyphen.
+            article.slug = "%s-%d" % (orig_slug[:max_length - len(str(x)) - 1], x)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        return context
-
-    def get_success_url(self):
-        # Можно указать URL для перенаправления после успешного создания статьи
-        return reverse_lazy('articles_list')
-
-    # def form_valid(self, form):
-    #     self.object = form.save(commit=False)
-    #     generate_unique_slug(self.object, 'title', 'slug')
-    #     self.object.save()
-    #     return super().form_valid(form)
+        article.save()
+        return super().form_valid(form)

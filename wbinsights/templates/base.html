@@ -22,9 +22,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
     <title>{% block title %}{% endblock %}</title>
 
     {% block extra_static %} {% endblock %}
@@ -41,87 +38,6 @@
         body {
             background-color: #2980b9;
             font-family: monaco, Consolas, Lucida Console, monospace;
-        }
-
-        #sidebar {
-            width: 100%;
-            background: #36364b;
-            position: fixed;
-            height: 100%;
-            top: 0;
-            left: -850px;
-            transition: left 0.8s ease;
-            padding: 20px 10px 0 10px;
-            z-index: 1000;
-        }
-
-        #sidebar.visible {
-            left: 0px;
-            transition: left 0.7s ease;
-        }
-
-
-        #sidebar-btn {
-            display: inline-block;
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            margin: 10px;
-            position: absolute;
-        <!-- right: - 60 px;
-        --> top: 0px;
-        }
-
-        #sidebar-btn span {
-            background-color: white;
-            height: 1px;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        #sidebar-close-btn {
-            display: inline-block;
-            vertical-align: middle;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            margin: 10px;
-        <!-- right: - 60 px;
-        --> top: 0px;
-        }
-
-        #sidebar-close-btn span {
-            background-color: white;
-            height: 1px;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-
-        .test {
-            width: 100%;
-            height: 100%;
-        }
-
-        h1 {
-            color: white;
-            text-align: center;
-        }
-
-
-        .dropdown .dropdown-toggle::after {
-            display: none !important;
-            margin-left: 20px !important;
-        }
-
-        .p-4 {
-            padding: 0 !important;
-        }
-
-        .container-fluid {
-            padding-right: 0px !important;
-            padding-left: 0px !important;
         }
 
     </style>
@@ -156,14 +72,14 @@
                                 </button>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#"
-                                       onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>
+<!--                                    <a class="dropdown-item" href="#"-->
+<!--                                       onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>-->
                                     {% if user.profile.type == 1 %}
                                         <a class="dropdown-item"
                                            href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
                                     {% endif %}
-                                    <a class="dropdown-item" href="#"
-                                       onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>
+<!--                                    <a class="dropdown-item" href="#"-->
+<!--                                       onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>-->
                                 </div>
 
                             </div>
@@ -187,7 +103,13 @@
                 <div class="col-md-4 text-md-end all-profile-cont"
                      style="display: flex; justify-content: flex-end; align-items:center;">
                     {% if user.is_authenticated %}
-                        <div class="comments-cont">
+                        <div class="bell-cont" >
+                            <a href="{% url 'index'%}">
+                                <i class="bi bi-house" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
+
+                        <div class="bell-cont">
                             <a href="#" onclick="alert('В разработке');">
                                 <i class="bi bi-chat-left-text" style="color:white; font-size: 1.3em;"></i>
                             </a>
@@ -263,6 +185,13 @@
                     </div>
 
                     <div style="display:flex;width: 100%; justify-content: flex-end;">
+
+                        <div class="bell-cont" >
+                            <a href="{% url 'index'%}">
+                                <i class="bi bi-house" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
+
                         {% if user.is_authenticated %}
 
                             <div class="comments-cont">

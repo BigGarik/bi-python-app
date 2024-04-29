@@ -119,8 +119,9 @@
 }
 
 .expert-list-cont {
-    margin: 5px 0 5px 0;
     display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
 }
 
 .expert-research-catagory-container{
@@ -180,3 +181,93 @@
     align-items: flex-end;
     padding: 10px;
 }
+
+
+/* ------------------------------------------------- Mobile Screens CSS -------------------------------------------------------- */
+
+
+        .testing-class{
+			display: flex;
+			justify-content: flex-end;
+			margin-top:5px;
+		}
+
+		.consultions-btn-span {
+			font-weight: 500;
+			color: white;
+		}
+
+		@media (max-width: 768px ) {
+
+			.expert-list-consult-btn {
+				display: flex;
+				width: 100%;
+				justify-content: center;
+			}
+
+			.article-last {
+				align-items: flex-start !important;
+			}
+
+			.experts-list-rating-span {
+				justify-content: flex-start !important;
+				margin-top: 5px !important;
+			}
+
+
+			.user-catagory-highlight {
+				padding: 5px 10px 5px 10px !important;
+				font-size: 13px !important;
+			}
+
+			.expert-list-main-content {
+				gap: 0px !important;
+				justify-content: space-between !important;
+			}
+
+<!--			.article-last {-->
+<!--				justify-content: flex-start !important;-->
+<!--			}-->
+
+			.testing-class {
+				display: flex;
+				justify-content: flex-end !important;
+				margin-top: 10px;
+				gap:10px;
+			}
+
+			.catagory-cont {
+				width: auto !important;
+			}
+
+			.small-layout {
+				display: flex;
+				flex-direction:column;
+				width: 100%;
+			}
+
+			.article-last {
+				gap:10px !important ;
+				flex-direction: column !important;
+			}
+
+			.experts-list-main-cont {
+				padding: 20px 10px 20px 10px !important;
+			}
+		}
+
+		@media (min-width: 769px ) {
+			.small-layout {
+				display: flex;
+				flex-direction:row !important;
+				width: 100%;
+			}
+
+			.expert-stats-an-other {
+				justify-content: flex-end !important;
+			}
+
+			.article-last-2 {
+				display: flex !important;
+			}
+		}

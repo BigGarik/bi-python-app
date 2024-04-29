@@ -151,7 +151,7 @@
 .custom-control-label-checkbox{
     display: flex;
     flex-wrap: wrap;
-    text-wrap: pretty;
+    /*text-wrap: pretty;*/
     padding-left: 10px;
     padding-bottom: 0 !important;
 }

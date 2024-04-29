@@ -61,6 +61,11 @@
     margin-right:5px;
 }
 
+.flex-cont {
+    display:flex;
+    justify-content: space-between;
+}
+
 .research-question-main-cont{
     display: flex;
     flex-direction: column;
@@ -71,6 +76,12 @@
 }
 
 .question-answer-last{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+.question-answer-last2{
     display: flex;
     margin-top: 20px;
     justify-content: space-between;
@@ -88,4 +99,11 @@
     background-color: #6dc36b ; 
     border: none ;
     color: white;
+    height:100%;
+}
+
+.ask-question-btn:hover {
+    background-color: green;
+    color: white;
+
 }

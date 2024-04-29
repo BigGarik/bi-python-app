@@ -11,10 +11,11 @@ class QuestionAnswerListView(ListView):
         context = super().get_context_data(**kwargs)        
         context['categories'] = Category.objects.all()
         return context
-
-
+    
 class CategoryQuestionAnswerListView(QuestionAnswerListView):
 
+
+    
     def get_queryset(self):
 
         self.cat = ''

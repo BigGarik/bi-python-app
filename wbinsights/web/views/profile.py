@@ -16,7 +16,6 @@ from web.models import Article, Category
 
 from django.contrib.auth import update_session_auth_hash
 
-
 @login_required
 def profile_view(request):
     # Check if the user is an expert

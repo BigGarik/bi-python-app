@@ -18,7 +18,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from wbinsights.utilities import generate_unique_slug
 from web.models import CustomUser, Profile
 from .forms import UserProjectForm, UserProjectFileForm
 from .models import UserProject, UserProjectFile
@@ -41,7 +40,15 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.author = self.request.user  # Присваиваем текущего пользователя как автора проекта
 
-        generate_unique_slug(self.object, 'name', 'slug')
+        # Генерация уникального слага для проекта
+        max_length = UserProject._meta.get_field('slug').max_length
+        slug = orig_slug = slugify(self.object.name)[:max_length]
+        for x in itertools.count(1):
+            if not UserProject.objects.filter(slug=slug).exists():
+                break
+            # Обрезаем оригинальный слаг динамически. Минус 1 для дефиса.
+            slug = f"{orig_slug[:max_length - len(str(x)) - 1]}-{x}"
+        self.object.slug = slug
 
         # Сохранение проекта и связанных файлов в одной транзакции
         with transaction.atomic():

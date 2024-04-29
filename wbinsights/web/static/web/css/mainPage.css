@@ -156,6 +156,8 @@
 
 .displayflex{
     display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
 }
 
 .flex-center {
@@ -173,7 +175,7 @@
     color: #136dae;
     font-weight: 600;
     width: fit-content;
-    margin-top: 3px;
+    /*margin-top: 3px; */
 }
 
 .banki{
