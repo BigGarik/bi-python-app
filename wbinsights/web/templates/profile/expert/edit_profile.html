@@ -64,83 +64,91 @@
                         {{ expert_profile_form.about }}
                     </div>
 
-            </div>
-
-            <style>
-                label[for="id_avatar"] {
-                    display: none;
-                }
-            </style>
-            <div class="expert-edit-rows">
-
-                <div class="prof-edit-photo-cont">
-                    <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;max-height: 100px;max-width: 100px;min-width: 100px;min-height: 100px;object-fit: cover;">
-
-                    <div style="display:flex ; margin-left: 10px ; flex-direction:column">
-                        {% if profile_form.instance.avatar %}
-                            <p style= "color:white ; user-select: none; margin: 0;">На данный момент: <a href="{{ profile_form.instance.avatar.url }}" style="color: white;">{{ profile_form.instance.avatar.name }}</a></p>
-                        {% endif %}
-
-                        <label for="id_avatar">Изменить:</label>
-                        <input type="file" name="avatar" class="your-custom-class" accept="image/*" id="id_avatar">
-                    </div>
                 </div>
 
+                <style>
+                    label[for="id_avatar"] {
+                        display: none;
+                    }
+                </style>
+                <div class="expert-edit-rows">
 
-                <div class="prof-edit-duel-rows">
+                    <div class="prof-edit-photo-cont">
+                        <img src="{{ request.user.profile.avatar.url }}" alt="Avatar"
+                             style="border-radius: 50%;max-height: 100px;max-width: 100px;min-width: 100px;min-height: 100px;object-fit: cover;">
 
-                    <div class="prof-edit-input-title">
-                        <label for="{{ expert_profile_form.expert_categories.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
-                        {{ expert_profile_form.expert_categories }}
+                        <div style="display:flex ; margin-left: 10px ; flex-direction:column">
+                            {% if profile_form.instance.avatar %}
+                                <p style="color:white ; user-select: none; margin: 0;">На данный момент: <a
+                                        href="{{ profile_form.instance.avatar.url }}"
+                                        style="color: white;">{{ profile_form.instance.avatar.name }}</a></p>
+                            {% endif %}
+
+                            <label for="id_avatar">Изменить:</label>
+                            <input type="file" name="avatar" class="your-custom-class" accept="image/*" id="id_avatar">
+                        </div>
                     </div>
 
-                    <div class="prof-edit-input-title">
-                        <label for="{{ expert_profile_form.experience.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
-                        {{ expert_profile_form.experience }}
-                    </div>
 
-                    <div class="prof-edit-input-title">
-                        <label for="{{ expert_profile_form.hour_cost.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.hour_cost.label }}</label>
-                        {{ expert_profile_form.hour_cost }}
-                    </div>
+                    <div class="prof-edit-duel-rows">
 
-                </div>
+                        <div class="prof-edit-input-title">
+                            <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
+                            {{ expert_profile_form.expert_categories }}
+                        </div>
 
-            </div>
+                        <div class="prof-edit-input-title">
+                            <label for="{{ expert_profile_form.experience.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
+                            {{ expert_profile_form.experience }}
+                        </div>
 
-            <div class="expert-edit-rows">
+                        <div class="prof-edit-input-title">
+                            <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ expert_profile_form.hour_cost.label }}</label>
+                            {{ expert_profile_form.hour_cost }}
+                        </div>
 
-                <div class="prof-edit-duel-rows">
-
-                    <div class="prof-edit-info-cont">
-                        <label for="{{ expert_profile_form.education.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.education.label }}</label>
-                        {{ expert_profile_form.education }}
-                      </div>
-
-                    <div class="prof-edit-info-cont">
-                        <label for="{{ expert_profile_form.age.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
-                        {{ expert_profile_form.age }}
                     </div>
 
                 </div>
 
-            </div>
+                <div class="expert-edit-rows">
 
-            <div class="expert-edit-rows">
-                <span class="prof-edit-change-pass">Смена пароля</span>
-                <br/>
-                <span class="prof-edit-change-pass" style="font-size: 14px">для смены заполните поля, в противном случае оставьте пустыми</span>
+                    <div class="prof-edit-duel-rows">
 
+                        <div class="prof-edit-info-cont">
+                            <label for="{{ expert_profile_form.education.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ expert_profile_form.education.label }}</label>
+                            {{ expert_profile_form.education }}
+                        </div>
 
-                {% if user_change_password_form.errors %}
-                     <div class="alert alert-danger">
-                     
-                        {% for key, value  in user_change_password_form.errors.items  %}
-                            {{ value }}
-                        {% endfor %}
-    
+                        <div class="prof-edit-info-cont">
+                            <label for="{{ expert_profile_form.age.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
+                            {{ expert_profile_form.age }}
+                        </div>
+
                     </div>
-                {% endif %}
+
+                </div>
+
+                <div class="expert-edit-rows">
+                    <span class="prof-edit-change-pass">Смена пароля</span>
+                    <br/>
+                    <span class="prof-edit-change-pass" style="font-size: 14px">для смены заполните поля, в противном случае оставьте пустыми</span>
+
+
+                    {% if user_change_password_form.errors %}
+                        <div class="alert alert-danger">
+
+                            {% for key, value  in user_change_password_form.errors.items %}
+                                {{ value }}
+                            {% endfor %}
+
+                        </div>
+                    {% endif %}
 
                     <div class="prof-edit-duel-rows">
                         <div class="prof-edit-input-title">
@@ -225,13 +233,16 @@
 
         </div>
 
-</div>
+    </div>
+    <script>
 
-<script>
-    $(document).ready(function() {
-        $('.js-example-basic-multiple').select2();
-    });
-</script>
+        $(document).ready(function () {
+
+            $("#id_expert_categories").select2();
+
+        })
+
+    </script>
 
 
 {% endblock %}

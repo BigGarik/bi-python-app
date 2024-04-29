@@ -152,9 +152,7 @@
 
     function createCalendarEvents(appointments) {
         return appointments.map((appointment) => {
-            const titleHTML = `
-                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 12px"
-                        onclick="loadAppointment(${appointment.id})">
+            const titleHTML = `<div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 11px">
                         <span>${appointment_title}</span>
                     </div>
                 `;
@@ -184,9 +182,7 @@
                 resourceId: 1,
                 title: {html: titleHTML},
                 color: eventColor,
-                id: appointment.id,
-                expert: appointment.expert,
-                client: appointment.client
+                id: appointment.id
             };
         });
     }
@@ -196,14 +192,14 @@
 
     function createEventCalendar(appointments, calendar_element_id) {
         let events = createCalendarEvents(appointments);
-        console.log("events", events);
+        //console.log("events", events);
         $('#event-calendar').html('');
         ec = new EventCalendar(document.getElementById(calendar_element_id), {
             view: 'timeGridWeek',
             headerToolbar: {
                 start: 'prev,next today',
                 center: 'title',
-                end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek resourceTimeGridWeek'
+                end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
             events: events,
             <!--        slotDuration: '01:00:00', -->
@@ -219,7 +215,6 @@
             },
             locale: 'ru',
             eventClick: function (c_event) {
-                console.log(1)
                 loadAppointment(c_event.event.id)
                 $('#exampleModal').modal('show')
                 //alert(c_event.event.start)

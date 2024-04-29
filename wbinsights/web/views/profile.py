@@ -16,6 +16,7 @@ from web.models import Article, Category
 
 from django.contrib.auth import update_session_auth_hash
 
+
 @login_required
 def profile_view(request):
     # Check if the user is an expert
@@ -85,7 +86,7 @@ def profile_view(request):
     else:
         # For non-expert users, render the client profile template
         profile_template = "profile/client/profile.html"
-        #clients_appointment = Appointment.objects.filter(client=request.user)
+        # clients_appointment = Appointment.objects.filter(client=request.user)
         clients_appointment_cnt = Appointment.objects.filter(client=request.user).count()
         context.update({
             "users_appointment_cnt": clients_appointment_cnt,
