@@ -14,13 +14,13 @@
             integrity="sha384-eAqHgH66lTjivfTl6o5x2R7FSP5Qb5H1sVaVYQ4H9Fti5Aq3ck+CpK5+JeIMI99e5"
             crossorigin="anonymous"></script>
 
-    
+
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@2.6.1/event-calendar.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@2.6.1/event-calendar.min.js"></script>
 
-    
+
 
 
     <style>
@@ -30,14 +30,18 @@
         }
 
 
-<!--        .ec-event-body {-->
-<!--            display: flex;-->
-<!--            flex-direction: column !important;-->
-<!--            width: 100%;-->
-<!--        }-->
+        <!--
+        .ec-event-body {
+        --> <!-- display: flex;
+        --> <!-- flex-direction: column !important;
+        --> <!-- width: 100 %;
+        --> <!--
+        }
+
+        -->
 
         .ec-resourceTimeGridWeek {
-            display:none !important;
+            display: none !important;
         }
 
         .ec-event-time {
@@ -67,14 +71,13 @@
         }
 
 
-
         .modal {
             --bs-modal-width: 800px !important;
         }
 
         .ec-list .ec-event-title {
-            display:flex;
-            gap : 10px;
+            display: flex;
+            gap: 10px;
 
         }
 
@@ -165,7 +168,6 @@
             </div>
 
 
-
             <div class="bottom-half">
 
                 <div class="bottom-info">
@@ -199,16 +201,20 @@
                 <div class="prof-content-links-cont">
                     <div class="profile-menu-item" data-content="articles"
                          onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %}
-                        &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
+                        &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span>
+                    </div>
                     <div class="profile-menu-item" data-content="researches"
                          onclick="showContent('researches')">{% trans 'ResearchesTabLabel' %}
-                        &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
+                        &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span>
+                    </div>
                     <div class="profile-menu-item" data-content="questions"
                          onclick="showContent('questions')">{% trans 'QuestionsTabLabel' %}
-                        &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
+                        &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span>
+                    </div>
                     <div class="profile-menu-item" data-content="consultations"
                          onclick="showContent('consultations');getExpertsAppointments()">{% trans 'ConsultationsTabLabel' %}
-                         &nbsp;<span class="expert-profile-title-content-number">   ({{ experts_appointment_cnt }})</span>
+                        &nbsp;<span
+                                class="expert-profile-title-content-number">   ({{ experts_appointment_cnt }})</span>
                     </div>
                     <div class="profile-menu-item" data-content="reviews"
                          onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
@@ -283,26 +289,35 @@
         </div>
     </div>
 
-     <script>
-
+    <script>
         function showContent(contentId) {
 
             $('.expert-content').each(function () {
-                $(this).hide()
+
+                if ($(this).attr("id") == contentId) {
+                    $(this).show()
+                } else {
+                    $(this).hide()
+                }
+
             })
 
             $('.profile-menu-item').each(function () {
-                $(this).removeClass('selected')
+
+                if ($(this).attr("data-content") == contentId) {
+                    $(this).addClass('selected')
+                } else {
+                    $(this).removeClass('selected')
+                }
+
             })
-
-            const activeTab = $('#' + contentId)
-            activeTab.addClass('selected');
-            activeTab.show();
-
-
         }
 
-     </script>
+        $(document).ready(function () {
+            showContent('articles')
+        })
+
+    </script>
 
     {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
 
