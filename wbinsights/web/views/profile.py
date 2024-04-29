@@ -68,31 +68,32 @@ def profile_view(request):
             # Fetch the expert's articles if profile is verified
             expert_articles = Article.objects.filter(author=request.user)[:7]
             expert_articles_count = Article.objects.filter(author=request.user).count()
-            experts_appointment = Appointment.objects.filter(expert=request.user)
             experts_appointment_cnt = Appointment.objects.filter(expert=request.user).count()
             # Update the context with expert-specific data
+
             context.update({
                 "experts_articles": expert_articles,
                 "experts_articles_count": expert_articles_count,
                 "rating": 4.5,
                 "experts_researches_count": 0,
                 "filled_stars_chipher": 'ffffh',
-                "experts_appointment": experts_appointment,
                 "experts_appointment_cnt": experts_appointment_cnt,
+                "appointment_title": "Онлайн консультация",
+                "user_type": Profile.TypeUser.EXPERT
 
             })
 
     else:
         # For non-expert users, render the client profile template
         profile_template = "profile/client/profile.html"
-        clients_appointment = Appointment.objects.filter(client=request.user)
+        #clients_appointment = Appointment.objects.filter(client=request.user)
         clients_appointment_cnt = Appointment.objects.filter(client=request.user).count()
         context.update({
-            "clients_appointment":clients_appointment,
-            "clients_appointment_cnt":clients_appointment_cnt,
+            "clients_appointment_cnt": clients_appointment_cnt,
             "experts_articles": [],
             "experts_articles_count": 0,
             "experts_researches_count": 0,
+            "user_type": Profile.TypeUser.CLIENT
         })
 
     return render(request, profile_template, context=context)
@@ -117,8 +118,10 @@ class CustomUserChangeForm(forms.ModelForm):
         validators=[name_check]
     )
 
-    oldpassword = forms.CharField(label="Старый пароль", required=False, widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
-    newpassword = forms.CharField(label="Новый пароль", required=False, widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
+    oldpassword = forms.CharField(label="Старый пароль", required=False,
+                                  widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
+    newpassword = forms.CharField(label="Новый пароль", required=False,
+                                  widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
     confirmpassword = forms.CharField(label="Повторите новый пароль", required=False,
                                       widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
 
@@ -128,7 +131,6 @@ class CustomUserChangeForm(forms.ModelForm):
 
         if first_name and len(first_name) == 0:
             self.add.error('first_name', 'THIS FIELD CANNOT BE EMPTY')
-
 
     class Meta:
         model = CustomUser
@@ -161,7 +163,6 @@ class ExpertProfileChangeForm(forms.ModelForm):
 
 @login_required
 def edit_user_profile(request):
-
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
 
     profile_edit_template = 'profile/expert/edit_profile.html'
@@ -202,7 +203,7 @@ def edit_user_profile(request):
 
             if saveNewPassword:
                 user_change_password_form.save()
-                #переавторизовываем пользователя с новым паролем
+                # переавторизовываем пользователя с новым паролем
                 update_session_auth_hash(request, request.user)
 
             messages.success(request, 'Your profile is updated successfully')

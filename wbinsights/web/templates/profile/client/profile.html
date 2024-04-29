@@ -3,13 +3,13 @@
 {% load static %}
 
 {% block center_col %}
-    
+
     <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
-    
+
     <div class="prof-page-cont">
 
         <a href="{% url 'index' %}" class="to-main-page">
-            <i class="bi bi-chevron-left chevro-left-css" ></i>
+            <i class="bi bi-chevron-left chevro-left-css"></i>
             &nbsp;на главную
         </a>
 
@@ -28,13 +28,13 @@
                         {{ request.user.first_name }} {{ request.user.last_name }}
                     </div>
 
-                  <div class="span-user-type">
+                    <div class="span-user-type">
 
-                    {% if user.profile.type == 0 %}
-                      Клиент
-                    {% endif %}
+                        {% if user.profile.type == 0 %}
+                            Клиент
+                        {% endif %}
 
-                  </div>
+                    </div>
 
                     <div class="user-settings">
 
@@ -44,10 +44,10 @@
                         </a>
 
                         <form method="post" action="{% url 'logout' %}">
-                          {% csrf_token %}
-                          <button class="btn prof-logout-btn" type="submit" >
-                              Выйти
-                          </button>
+                            {% csrf_token %}
+                            <button class="btn prof-logout-btn" type="submit">
+                                Выйти
+                            </button>
                         </form>
 
                     </div>
@@ -56,138 +56,110 @@
 
             </div>
 
-            <div class="bottom-half">
+        </div>
 
-                <div class="prof-content-links-cont">
-                  <div class="profile-menu-item" data-content="articles" onclick="showContent('articles')">Статьи &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span></div>
-                  <div class="profile-menu-item" data-content="researches" onclick="showContent('researches')">Исследования &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span></div>
-                  <div class="profile-menu-item" data-content="questions" onclick="showContent('questions')">Вопросы &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span></div>
-                  <div class="profile-menu-item" data-content="consultations" onclick="showContent('consultations')">Консультации</div>
-                  <div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>
-                </div>
-                
-                <div id="articles" class="expert-content" style="display: none;">
-                    {% for article in experts_articles %}
-                        <div class="expert-content-cont">
-                            <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">
-                                {{ article.title }}</a>
-                            </span>
-                            <span class="article-content-loop-exp">
-                                {{ article.content }}
-                            </span>
-                
-                            <div class="article-comments-andshare-cont-exp">
-                                <div class="article-comments-exp">
-                                    <i class="bi bi-chat-left-text" style="color:grey;"></i>
-                                    &nbsp; 104
-                                </div>
-                                <div class="article-share-exp">
-                                    <i class="bi bi-calendar2-week" style="color:grey; "></i>
-                                    &nbsp;  {{ article.time_update|custom_time_display }}
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                
-                <div id="researches" class="expert-content" style="display: none;">
-                  <span>test research</span>
-                  {% for research in experts_researches %}
-                  {% endfor %}
+
+        <div class="bottom-half">
+
+            <div class="prof-content-links-cont">
+
+                <div class="profile-menu-item selected" data-content="articles" onclick="showContent('articles')">
+                    Статьи
+                    &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span>
                 </div>
 
-                <div id="questions" class="expert-content" style="display: none;">
-                  <span>test questions</span>
-                  {% for research in experts_researches %}
-                  {% endfor %}
+                <div class="profile-menu-item" data-content="researches" onclick="showContent('researches')">
+                    Исследования &nbsp;
+                    <span class="expert-profile-title-content-number">{{ experts_researches_count }}</span>
                 </div>
 
-                <div id="consultations" class="expert-content" style="display: none;">
-                  <span>test consultations</span>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Date Time</th>
-
-                                <th>Client</th>
-                                <th>Zoom</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for appointment in clients_appointment %}
-                            <tr>
-                                <td>{{ appointment.appointment_date }} {{ appointment.appointment_time }}</td>
-                                <td>
-                                    <a href="{% url 'expert_profile' appointment.client.pk  %}">
-                                        {{ appointment.client.last_name }} {{ appointment.client.first_name }}
-                                    </a>
-                                </td>
-                                <td>
-                                    {% if appointment.zoom %}
-                                        <a href="{{ appointment.zoom }}">Ссылка на ZOOM</a>
-                                    {% endif %}
-                                </td>
-                                <td>{{ appointment.status }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="profile-menu-item" data-content="questions" onclick="showContent('questions')">
+                    Вопросы &nbsp;
+                    <span class="expert-profile-title-content-number">0</span>
                 </div>
 
-                <div id="reviews" class="expert-content" style="display: none;">
-                  <span>test reviews</span>
-                  {% for research in experts_researches %}
-                  {% endfor %}
+                <div class="profile-menu-item" data-content="consultations" onclick="showContent('consultations');getExpertsAppointments() ">
+                    Консультации &nbsp;
+                    <span class="expert-profile-title-content-number">{{ clients_appointment_cnt }}</span>
                 </div>
-                <div id="notifications" class="expert-content" style="display: none;">
-                  <span>test notifications</span>
-                  {% for research in experts_researches %}
-                  {% endfor %}
+
+                <div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">
+                    Уведомления &nbsp;
+                     <span class="expert-profile-title-content-number">0</span>
                 </div>
 
             </div>
         </div>
+
+
+        <div id="articles" class="expert-content" style="display: none">
+            123
+        </div>
+
+        <div id="researches" class="expert-content" style="display: none;">
+            <span>test research</span>
+            {% for research in experts_researches %}
+            {% endfor %}
+        </div>
+
+        <div id="questions" class="expert-content" style="display: none;">
+            <span>test questions</span>
+            {% for research in experts_researches %}
+            {% endfor %}
+        </div>
+
+        <div id="consultations" class="expert-content" style="display: none;">
+            <div id="event-calendar"></div>
+
+        </div>
+
+        <div id="reviews" class="expert-content" style="display: none;">
+            <span>test reviews</span>
+            {% for research in experts_researches %}
+            {% endfor %}
+        </div>
+        <div id="notifications" class="expert-content" style="display: none;">
+            <span>test notifications</span>
+            {% for research in experts_researches %}
+            {% endfor %}
+        </div>
+
+
     </div>
 
 
     <script>
-      function showContent(contentId) {
-        var contentBlocks = document.getElementsByClassName('expert-content');
-    
-        for (var i = 0; i < contentBlocks.length; i++) {
-          contentBlocks[i].style.display = 'none';
+
+        function showContent(contentId) {
+
+            $('.expert-content').each(function () {
+
+                if ($(this).attr( "id" ) == contentId) {
+                    $(this).show()
+                } else {
+                    $(this).hide()
+                }
+
+            })
+
+            $('.profile-menu-item').each(function () {
+
+                if ($(this).attr( "data-content" ) == contentId) {
+                    $(this).addClass('selected')
+                } else {
+                    $(this).removeClass('selected')
+                }
+
+            })
         }
-    
-        var menuItems = document.getElementsByClassName('profile-menu-item');
-    
-        for (var i = 0; i < menuItems.length; i++) {
-          menuItems[i].classList.remove('selected');
-        }
-    
-        var targetElement = document.getElementById(contentId);
-        targetElement.style.display = 'block';
-    
-        var selectedMenuItem = document.querySelector(`.profile-menu-item[data-content="${contentId}"]`);
-        selectedMenuItem.classList.add('selected');
-      }
-    
-      document.addEventListener("DOMContentLoaded", function () {
-        showContent('articles');
-    
-        var currentUrl = window.location.pathname;
-        var menuItems = document.getElementsByClassName('profile-menu-item');
-    
-        for (var i = 0; i < menuItems.length; i++) {
-          var contentId = menuItems[i].getAttribute("data-content");
-          var href = `#${contentId}`;
-    
-          if (currentUrl.includes(href)) {
-            menuItems[i].classList.add('selected');
-            showContent(contentId);
-            break;
-          }
-        }
-      });
+
+        $(document).ready(function () {
+            showContent('articles')
+        })
+
     </script>
+
+    {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
+
+
 {% endblock %}

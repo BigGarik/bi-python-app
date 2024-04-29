@@ -1,28 +1,43 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.messages import api
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
-from rest_framework import viewsets
-
 from web.models import Expert
-from .forms import AppointmentForm
+from .forms import AppointmentForm, SelectAppointmentDateForm
 from .models import Appointment, AppointmentStatus, AppointmentPayment
-from .serializers import AppointmentTimeSerializer
+from .serializers import AppointmentSerializer
 
 from yookassa import Configuration, Payment
 import uuid
+
+from django.core import serializers
+from datetime import date, timedelta
 
 Configuration.account_id = '372377'
 Configuration.secret_key = 'test_GweuBNA4H85vWxRCLXLsz7gJLX2lA_YJ2GjYGpRBxLw'
 
 
-# Create your views here.
-
 @login_required
 def add_appointment_view(request, *args, **kwargs):
     expert = Expert.objects.get(pk=kwargs['pk'])
+
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
+        # check for existing appointment for this date and time with this expert
+        # don't create new one if already exist
+        existAppointment = Appointment.objects.filter(
+            expert=expert,
+            client=request.user,
+            appointment_date=form.data['appointment_date'],
+            appointment_time=form.data['appointment_time'],
+            status=AppointmentStatus.NEW
+        )
+
+        if existAppointment.exists():
+            #If already exist such appointent just work with it
+            #No need to create new one
+            form = AppointmentForm(request.POST, instance=existAppointment[0])
+
         if form.is_valid():
             new_appointment = form.save(commit=False)
             new_appointment.client = request.user
@@ -31,17 +46,120 @@ def add_appointment_view(request, *args, **kwargs):
             return redirect('appointment_checkout', pk=new_appointment.id)
     else:
         form = AppointmentForm()
-        not_avalable_dates = ['18.04.2024', '19.04.2024']
+        not_avalable_dates = get_expert_working_dates(expert)
         context = {
             "expert": expert,
             'form': form,
-            'not_avalable_dates': not_avalable_dates
+            'start_cal_date': not_avalable_dates['data']['start'],
+            'end_cal_date': not_avalable_dates['data']['end'],
+            'not_working_dates': not_avalable_dates['data']['not_working_dates']
         }
 
     return render(request, 'add_appointment.html', context=context)
 
+
+def get_expert_working_dates(expert):
+
+    calendar_period = 120 #days
+
+    start_date = date.today()
+    end_date = start_date + timedelta(days=calendar_period)
+
+    expert_schedule = [
+        {
+            "week_day": 0,
+            "start": "09:00",
+            "end": "18:00",
+        },
+        {
+            "week_day": 1,
+            "start": "09:00",
+            "end": "18:00",
+        },
+        {
+            "week_day": 2,
+            "start": "09:00",
+            "end": "18:00",
+        },
+        {
+            "week_day": 3,
+            "start": "09:00",
+            "end": "18:00",
+        },
+        {
+            "week_day": 4,
+            "start": "09:00",
+            "end": "18:00",
+        }
+    ]
+
+    expert_schedule_working_days_numbers = []
+
+    for day in expert_schedule:
+        expert_schedule_working_days_numbers.append(day['week_day'])
+
+    not_working_dates = []
+
+    for i in range(calendar_period + 1):
+        day = start_date + timedelta(days=i)
+
+        if (day.weekday() not in expert_schedule_working_days_numbers):
+            not_working_dates.append(day.strftime("%Y-%m-%d"))
+
+    return {'data': {"start":start_date.strftime("%Y-%m-%d"),"end":end_date.strftime("%Y-%m-%d"),"not_working_dates":not_working_dates}}
+
+
+@login_required()
+def get_expert_avalable_timeslots(request):
+    form = SelectAppointmentDateForm(request.GET)
+
+    if form.is_valid():
+        # get available expert's slot for certain date
+        busyExpertsSlots = (Appointment.objects.filter(
+            expert_id=form.cleaned_data['expert_id'],
+            appointment_date=form.cleaned_data['selected_date']
+        ).values_list("appointment_time", flat=True))
+
+        # transform busy expert's slots to array of string
+        busy_experts_str_slots = [dt.strftime('%H:%M') for dt in busyExpertsSlots]
+
+        timeslot = [
+            '09:00',
+            '10:00',
+            '11:00',
+            '12:00',
+            '13:00',
+            '14:00',
+            '15:00',
+            '16:00',
+            '17:00',
+            '18:00'
+        ]
+
+        # exclude from all slots already busy slots
+        available_timeslots = [slot for slot in timeslot if slot not in busy_experts_str_slots]
+
+        return JsonResponse(available_timeslots, safe=False)
+
+    return JsonResponse({'errors': dict(form.errors)}, status=400)
+
+
+@login_required
+def get_experts_appointment(request, *args, **kwargs):
+    selected_expert = kwargs['expert_id']
+    appointments = Appointment.objects.filter(expert_id=selected_expert)
+    return JsonResponse({'data': AppointmentSerializer(appointments, many=True).data})
+
+
+def get_clients_appointment(request, *args, **kwargs):
+    selected_client = kwargs['client_id']
+    appointments = Appointment.objects.filter(client_id=selected_client)
+    return JsonResponse({'data': AppointmentSerializer(appointments, many=True).data})
+
+
 def appointment_payment_callback_view(request, *args, **kwargs):
     return render(request, "add_appointment_success.html", **kwargs)
+
 
 @login_required()
 def add_appointment_success_view(request, *args, **kwargs):
@@ -54,62 +172,9 @@ def checkout_appointment_view(request, *args, **kwargs):
         appointment_id = request.POST['appointment_id']
         appointment = Appointment.objects.get(pk=appointment_id, client=request.user)
 
-        #if not appointment:
-         #throw exeption
-
         appointment_payment = AppointmentPayment()
         appointment_payment.appointment = appointment
         appointment_payment.summ = appointment.expert.expertprofile.hour_cost
-
-
-        # Create payment
-        # res = Payment.create(
-        #     {
-        #         "amount": {
-        #             "value": appointment.expert.expertprofile.hour_cost,
-        #             "currency": "RUB"
-        #         },
-        #         "confirmation": {
-        #             "type": "redirect",
-        #             "return_url": "https://0f84-176-74-217-47.ngrok-free.app/appointment/add/success"
-        #         },
-        #         "capture": True,
-        #         "description": "Оплата услуги консультации",
-        #         "metadata": {
-        #             'orderNumber': appointment.id
-        #         },
-        #         "receipt": {
-        #             "customer": {
-        #                 "full_name": appointment.client.last_name + ' ' +appointment.client.last_name ,
-        #                 "email": appointment.client.email,
-        #                 "phone": appointment.client.phone_number
-        #                 # "inn": "6321341814"
-        #             },
-        #             "items": [
-        #                 {
-        #                     "description": "Оплата услуги консультации",
-        #                     "quantity": "1.00",
-        #                     "amount": {
-        #                         "value": appointment.expert.expertprofile.hour_cost,
-        #                         "currency": "RUB"
-        #                     },
-        #                     "vat_code": "2",
-        #                     "payment_mode": "full_payment",
-        #                     "payment_subject": "commodity",
-        #                     "country_of_origin_code": "CN",
-        #                     "product_code": "44 4D 01 00 21 FA 41 00 23 05 41 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 12 00 AB 00",
-        #                     "customs_declaration_number": "10714040/140917/0090376",
-        #                     "excise": "20.00",
-        #                     "supplier": {
-        #                         "name": "string",
-        #                         "phone": "string",
-        #                         "inn": "string"
-        #                     }
-        #                 },
-        #             ]
-        #         }
-        #     }
-        # )
 
         payment = Payment.create({
             "amount": {
@@ -130,7 +195,6 @@ def checkout_appointment_view(request, *args, **kwargs):
         p_res = payment.confirmation
 
         return redirect(p_res.confirmation_url)
-        # var_dump.var_dump(res)
     else:
         appointment = Appointment.objects.get(pk=kwargs['pk'])
         context = {
@@ -138,18 +202,3 @@ def checkout_appointment_view(request, *args, **kwargs):
         }
 
     return render(request, 'checkout_appointment.html', context=context)
-
-
-# @api.get('/appointments/expert/availiable/time/{int:expert_id}/{str:app_date}/')
-# def get_available_expert_time_for_date(request, expert_id:int, app_date:str):
-#     return {'expert_id':expert_id}
-
-
-class AppointmentExpertAvialableTimeForDateView(viewsets.ModelViewSet):
-    serializer_class = AppointmentTimeSerializer
-
-    def get_queryset(self):
-        expert_id = self.request.query_params.get('expert_pk', None)
-        appointment_date = self.request.query_params.get('app_date', None)
-        queryset = Appointment.objects.filter(expert_id=expert_id, appointment_date=appointment_date)
-        return queryset

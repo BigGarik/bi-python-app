@@ -33,6 +33,9 @@
                     <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}"
                                                             style="text-decoration: none;color: #36364b;">{{ article.title }}</a></span>
                 <span class="article-content-loop-exp">{{ article.description }}</span>
+                        <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}"
+                                                                style="text-decoration: none;color: #36364b;">{{ article.title }}</a></span>
+                        <span class="article-content-loop-exp">{{ article.description }}</span>
 
                 <span class="link-read-post">
                       <a href="{{ article.get_absolute_url }}" style="color:black;" class="link-read-post">Читать пост &nbsp;
@@ -42,23 +45,25 @@
 
                 <div class="article-comments-andshare-cont-exp">
 
-                    <div class="article-comments-exp">
-                        <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
+                            <div class="article-comments-exp">
+                                <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
+                            </div>
+
+                            <div class="article-share-exp">
+                                <i class="bi bi-calendar2-week"
+                                   style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
+                            </div>
+                        </div>
+
+                        <hr/>
                     </div>
 
-                    <div class="article-share-exp">
-                        <i class="bi bi-calendar2-week"
-                           style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
-                    </div>
-                </div>
+                {% endfor %}
 
-                <hr/>
             </div>
-
-        {% endfor %}
+        </div>
 
     </div>
-
 
 
 {% endblock %}

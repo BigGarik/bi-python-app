@@ -1,12 +1,13 @@
 from django.db import models
+from django.db.models import UniqueConstraint
 
 
 class AppointmentStatus(models.IntegerChoices):
     NEW = 0, 'Новый'
-    СONFIRM = 1, 'Верифицирован'
-    DECLIAN = 2, 'Верифицирован'
-    CANCEL = 3, 'Верифицирован'
-    PAID = 4, 'Верифицирован'
+    СONFIRM = 1, 'Подтвержден'
+    DECLINE = 2, 'Отклонен'
+    CANCEL = 3, 'Отменен'
+    PAID = 4, 'Оплачен'
 
 
 class Appointment(models.Model):
@@ -21,6 +22,8 @@ class Appointment(models.Model):
 
     class Meta:
         db_table = "appointment"
+        constraints = [UniqueConstraint(fields=['expert', 'appointment_date', 'appointment_time', 'status'],
+                                        name='unique_experts_appointment')]
 
 
 class AppointmentPayment(models.Model):
@@ -35,3 +38,10 @@ class AppointmentPayment(models.Model):
 
     status = models.IntegerField(default=AppointmentPaymentStatus.PENDING, choices=AppointmentPaymentStatus.choices)
     uuid = models.UUIDField()
+
+
+class ExpertSchedule(models.Model):
+    expert = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="expert")
+    day_of_week = models.IntegerField(choices=[(i, i) for i in range(7)])
+    start_time = models.TimeField()
+    end_time = models.TimeField()

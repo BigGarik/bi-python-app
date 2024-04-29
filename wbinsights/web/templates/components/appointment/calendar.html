@@ -1,0 +1,247 @@
+{% load static %}
+{% load i18n %}
+
+<script src="{% static 'js/event-calendar/event-calendar.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/event-calendar/event-calendar.min.css' %}">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="{% static 'js/moment-with-locales.min.js' %}"></script>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Детали назначения</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div id="appointmentTableBody"></div>
+                <table class="table" style="display:none">
+                    <thead>
+                    <tr>
+                        <th scope="col"> Date</th>
+                        <th scope="col"> Time</th>
+                        <th scope="col"> Client Name</th>
+                        <th scope="col"> Zoom</th>
+                        <th scope="col"> Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    const user_id = {{ request.user.id }};
+    const appointment_title = '{{ appointment_title }}';
+    const user_type = {{ user_type }}
+    const appointment_path = user_type == 1 ? 'expert' : 'client'
+    let appointments = []
+
+    function getExpertsAppointments() {
+        $.ajax({
+            url: `/appointment/list/${appointment_path}/${user_id}/json`,
+            type: 'GET',
+            data: {},
+            success: function (response) {
+
+                createEventCalendar(response.data, 'event-calendar');
+                appointments = response.data;
+            }
+        });
+    }
+
+    function loadAppointment(appointmentId) {
+
+        const modalBody = $('#appointmentTableBody');
+
+        const appointment = appointments.find(appointment => appointment.id == appointmentId);
+
+        if (!appointment) {
+            return;
+        }
+
+        modalBody.html(`
+
+                <div style="display: flex">
+
+                    <div style="display:flex; flex-direction:column;width:20%;gap:20px">
+                        <div>Дата:</div>
+                        <div>Время:</div>
+                        <div>Имя:</div>
+                        <div>Zoom:</div>
+                        <div>Статус:</div>
+                        <div>Time Created:</div>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column;gap:20px; width:80%">
+                        <div>${moment(appointment.appointment_date).format("DD.MM.YYYY")}</div>
+                        <div>${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}</div>
+                        <div>${appointment.client.last_name} ${appointment.client.first_name} </div>
+                        <div><a href="#">ZOOMLINK</a> </div>
+                        <div>
+                            <div style="color: ${getStatusColor(appointment.status)};">
+                                ${getStatusText(appointment.status)}
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; justify-content: space-between;">
+                            <div> ${moment(appointment.created_time).format("DD.MM.YY HH:mm")} </div>
+                            <div style="display: flex;align-items: center; ">
+                                <div>&nbsp; time left to confirm purchase : &nbsp;</div>
+                                <div id="countdownTimer" style="width: 120px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `);
+
+        const createdTime = moment(appointment.created_time);
+        const TEN_MINUTES = 10 * 60 * 1000; //10 min in millisceonds
+
+        //clears the other countdown, so there is no gltiches
+        clearInterval(window.countdownInterval);
+
+        window.countdownInterval = setInterval(() => {
+            const elapsedTime = moment().diff(createdTime);
+            const remainingTime = TEN_MINUTES - elapsedTime;
+
+
+            if (remainingTime <= 0) {
+                clearInterval(window.countdownInterval);
+                renderExpiredButton();
+            } else {
+                renderCountdownButton(remainingTime);
+            }
+        }, 1000);
+
+        function renderCountdownButton(remainingTime) {
+            const minutes = Math.floor(remainingTime / 60000);
+            const seconds = Math.floor((remainingTime % 60000) / 1000);
+            const formattedTime = `${padZero(minutes)}:${padZero(seconds)}`;
+            $('#countdownTimer').html(`<button type="button" class="btn btn-success">${formattedTime}</button>`);
+        }
+
+        function renderExpiredButton() {
+            $('#countdownTimer').html(`<button type="button" class="btn btn-danger">Time expired</button>`);
+        }
+
+        function getStatusColor(status) {
+            return status === 0 ? '#0dcaf0' : (status === 1 ? '#e3aa00' : (status === 2 ? 'red' : (status === 3 ? 'brown' : 'green')));
+        }
+
+        function getStatusText(status) {
+            return status === 0 ? 'New' : (status === 1 ? 'Confirmed' : (status === 2 ? 'Declined' : (status === 3 ? 'Cancelled' : 'Paid')));
+        }
+
+        function padZero(num) {
+            return num < 10 ? `0${num}` : num;
+        }
+    }
+
+
+    function createCalendarEvents(appointments) {
+        return appointments.map((appointment) => {
+            const titleHTML = `
+                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;"
+                        onclick="loadAppointment(${appointment.id})">
+                        <span>${appointment_title}</span>
+                    </div>
+                `;
+
+            let eventColor;
+            switch (appointment.status) {
+                case 0:
+                    eventColor = "#0dcaf0"; //new
+                    break;
+                case 1:
+                    eventColor = "#e3aa00"; //confirm
+                    break;
+                case 2:
+                    eventColor = "red"; //declined
+                    break;
+                case 3:
+                    eventColor = "brown"; //cancel
+                    break;
+                case 4:
+                    eventColor = "green"; //paid
+                    break;
+            }
+
+            return {
+                start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
+                end: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
+                resourceId: 1,
+                title: {html: titleHTML},
+                color: eventColor,
+                expert: appointment.expert,
+                client: appointment.client
+            };
+        });
+    }
+
+
+    let ec;
+
+    function createEventCalendar(appointments, calendar_element_id) {
+        let events = createCalendarEvents(appointments);
+        console.log("events", events);
+        $('#event-calendar').html('');
+        ec = new EventCalendar(document.getElementById(calendar_element_id), {
+            view: 'timeGridWeek',
+            headerToolbar: {
+                start: 'prev,next today',
+                center: 'title',
+                end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek resourceTimeGridWeek'
+            },
+            events: events,
+            <!--        slotDuration: '01:00:00', -->
+            <!--        slotLabelInterval: { hours: 1 }, -->
+            slotMinTime: '07:00:00',
+            slotMaxTime: '19:00:00',
+            buttonText: {
+                timeGridDay: 'день',
+                timeGridWeek: 'неделя',
+                dayGridMonth: 'месяц',
+                today: 'сегодня',
+                listWeek: 'список'
+            },
+            locale: 'ru',
+            eventClick: function (c_event) {
+                alert(c_event.event.start)
+            }
+
+        });
+    }
+
+
+    $(function () {
+
+        showContent('articles');
+
+        var currentUrl = window.location.pathname;
+        var menuItems = document.getElementsByClassName('profile-menu-item');
+
+        for (var i = 0; i < menuItems.length; i++) {
+            var contentId = menuItems[i].getAttribute("data-content");
+            var href = `#${contentId}`;
+
+            if (currentUrl.includes(href)) {
+                menuItems[i].classList.add('selected');
+                showContent(contentId);
+                break;
+            }
+        }
+    });
+
+</script>
