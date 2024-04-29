@@ -99,4 +99,11 @@
     background-color: #6dc36b ; 
     border: none ;
     color: white;
+    height:100%;
+}
+
+.ask-question-btn:hover {
+    background-color: green;
+    color: white;
+
 }
