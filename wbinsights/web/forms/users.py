@@ -47,6 +47,16 @@ class CustomUserCreationForm(UserCreationForm):
 
         return cleaned_data
 
+    def clean_phone_number(self):
+        phone_number = super().clean()
+        phone_number = phone_number.get('phone_number')
+
+        if phone_number:
+            # Проверяем, существует ли активированный пользователь с таким же номером телефона
+            if CustomUser.objects.filter(phone_number=phone_number, is_active=True).exists():
+                raise ValidationError("Пользователь с таким номером телефона уже существует и активен.")
+        return phone_number
+
     def clean_email(self):
         email = self.cleaned_data['email']
         if email:
