@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'expertprojects.apps.ExpertprojectsConfig',
     'django.contrib.admin',
     'wbappointment.apps.WbappointmentConfig',
-    'rest_framework'
+    'django_recaptcha',
+    'rest_framework',
 
 ]
 
@@ -192,3 +193,6 @@ DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
 SERVER_EMAIL = env('EMAIL_HOST_USER')
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+RECAPTCHA_PRIVATE_KEY = env('RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY')
