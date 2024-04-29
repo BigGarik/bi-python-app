@@ -153,9 +153,9 @@
     function createCalendarEvents(appointments) {
         return appointments.map((appointment) => {
             const titleHTML = `
-                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;" 
+                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;"
                         onclick="loadAppointment(${appointment.id})">
-                        <span>${appointment_title}</span>                      
+                        <span>${appointment_title}</span>
                     </div>
                 `;
 
@@ -184,6 +184,8 @@
                 resourceId: 1,
                 title: {html: titleHTML},
                 color: eventColor,
+                expert: appointment.expert,
+                client: appointment.client
             };
         });
     }
@@ -206,7 +208,7 @@
             <!--        slotDuration: '01:00:00', -->
             <!--        slotLabelInterval: { hours: 1 }, -->
             slotMinTime: '07:00:00',
-            slotMaxTime: '18:00:00',
+            slotMaxTime: '19:00:00',
             buttonText: {
                 timeGridDay: 'день',
                 timeGridWeek: 'неделя',
@@ -215,6 +217,9 @@
                 listWeek: 'список'
             },
             locale: 'ru',
+            eventClick: function (c_event) {
+                alert(c_event.event.start)
+            }
 
         });
     }

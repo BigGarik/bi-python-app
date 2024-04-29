@@ -9,9 +9,16 @@ class ClientSerializer(dfr_serializes.ModelSerializer):
         fields = ("id", "first_name", "last_name")
 
 
+class ExpertSerializer(dfr_serializes.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ("id", "first_name", "last_name")
+
+
 class AppointmentSerializer(dfr_serializes.ModelSerializer):
     client = ClientSerializer()
+    expert = ExpertSerializer()
 
     class Meta:
         model = Appointment
-        fields = ("id", "appointment_date", "appointment_time", "client", "status", "created_time")
+        fields = ("id", "appointment_date", "appointment_time", "client", "expert", "status", "created_time")
