@@ -10,28 +10,14 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Детали назначения</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
 
-                <div id="appointmentTableBody"></div>
-                <table class="table" style="display:none">
-                    <thead>
-                    <tr>
-                        <th scope="col"> Date</th>
-                        <th scope="col"> Time</th>
-                        <th scope="col"> Client Name</th>
-                        <th scope="col"> Zoom</th>
-                        <th scope="col"> Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <div id="appointmentTableBody" class="modal-body"></div>
 
-                    </tbody>
-                </table>
-            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
@@ -62,9 +48,9 @@
         });
     }
 
-    function loadAppointment(appointmentId) {
+    const modalBody = $('#appointmentTableBody');
 
-        const modalBody = $('#appointmentTableBody');
+    function loadAppointment(appointmentId) {
 
         const appointment = appointments.find(appointment => appointment.id == appointmentId);
 
@@ -197,7 +183,7 @@
         ec = new EventCalendar(document.getElementById(calendar_element_id), {
             view: 'timeGridWeek',
             headerToolbar: {
-                start: 'prev,next today',
+                start: 'prev,next,today',
                 center: 'title',
                 end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
@@ -222,25 +208,5 @@
 
         });
     }
-
-
-    $(function () {
-
-        showContent('articles');
-
-        var currentUrl = window.location.pathname;
-        var menuItems = document.getElementsByClassName('profile-menu-item');
-
-        for (var i = 0; i < menuItems.length; i++) {
-            var contentId = menuItems[i].getAttribute("data-content");
-            var href = `#${contentId}`;
-
-            if (currentUrl.includes(href)) {
-                menuItems[i].classList.add('selected');
-                showContent(contentId);
-                break;
-            }
-        }
-    });
 
 </script>
