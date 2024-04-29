@@ -184,6 +184,7 @@
                 resourceId: 1,
                 title: {html: titleHTML},
                 color: eventColor,
+                id: appointment.id,
                 expert: appointment.expert,
                 client: appointment.client
             };
@@ -218,7 +219,10 @@
             },
             locale: 'ru',
             eventClick: function (c_event) {
-                alert(c_event.event.start)
+                console.log(1)
+                loadAppointment(c_event.event.id)
+                $('#exampleModal').modal('show')
+                //alert(c_event.event.start)
             }
 
         });
