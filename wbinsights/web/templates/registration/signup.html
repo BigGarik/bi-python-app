@@ -88,10 +88,13 @@
                 
                     {% csrf_token %}
                     {% for f in user_form %}
+                        {%if f.name != 'captcha' %}
+
                         <div>
                             <label for="{{ f.id_for_label }}">{{f.label}}</label>
                             {{f}}
                         </div>
+                        {%endif%}
                     {% endfor %}
                     {% for f in expert_form %}
                         <div class="expert-fields" style="display: none;">
@@ -99,11 +102,19 @@
                             {{f}}
                         </div>
                     {% endfor %}
+
+
                 
                     <div class="button-cont">
                         <input class="btn btn-success register-btn" type="submit" value="Зарегистрироваться">
                     </div>
-                    <div class="custom-control custom-checkbox" style="display: flex; align-items: start">
+
+                    {% if user_form.captcha %}
+                        {{user_form.captcha}}
+                    {%endif%}
+
+
+                    <div class="custom-control custom-checkbox" style="display: flex; align-items: start; margin-top:10px">
                         <input type="checkbox" id="checkbox" required name="agree_personal_data_policy" value="checkbox" style="display: flex;margin-top: 3px ">
                         <label class="custom-control-label-checkbox" style="margin-bottom: 0px !important;" for="checkbox">
                             <span>Я ознакомлен и согласен с <a href="{%url 'data_policies'%}" style="text-decoration: none;">политикой обработки персональных данных</a></span>

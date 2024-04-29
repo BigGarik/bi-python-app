@@ -4,6 +4,10 @@
 
 {% block center_col %}
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+
 <style>
 
     @media (max-width: 1400px ) {
@@ -12,8 +16,6 @@
             min-height: 100px !important;
             justify-content: space-between !important;
         }
-
-        
 
     }
 
@@ -82,12 +84,34 @@
                 </div>
 
 
+
+
+
+
                 <div class="prof-edit-duel-rows">
 
                     <div class="prof-edit-input-title">
                         <label for="{{ expert_profile_form.expert_categories.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
-                        {{ expert_profile_form.expert_categories }}
+                        <select id="{{ expert_profile_form.expert_categories.id_for_label }}" name="{{ expert_profile_form.expert_categories.html_name }}" class="js-example-basic-multiple form-control" multiple>
+                            {% for category_value, category_label in expert_profile_form.expert_categories.field.choices %}
+                                <option value="{{ category_value }}">{{ category_label }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
+
+
+
+
+<!--                    <div class="prof-edit-input-title">-->
+<!--                        <label for="{{ expert_profile_form.expert_categories.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>-->
+<!--                        <select id="{{ expert_profile_form.expert_categories.id_for_label }}" name="{{ expert_profile_form.expert_categories.html_name }}" class="form-control">-->
+<!--                            {% for category_value, category_label in expert_profile_form.expert_categories.field.choices %}-->
+<!--                                <option value="{{ category_value }}">{{ category_label }}</option>-->
+<!--                            {% endfor %}-->
+<!--                        </select>-->
+<!--                    </div>-->
+                    
+
 
                     <div class="prof-edit-input-title">
                         <label for="{{ expert_profile_form.experience.id_for_label }}" class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
@@ -211,6 +235,12 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+    });
+</script>
     
 
 {% endblock %}

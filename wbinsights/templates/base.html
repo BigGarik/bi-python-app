@@ -72,14 +72,14 @@
                                 </button>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#"
-                                       onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>
+<!--                                    <a class="dropdown-item" href="#"-->
+<!--                                       onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>-->
                                     {% if user.profile.type == 1 %}
                                         <a class="dropdown-item"
                                            href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
                                     {% endif %}
-                                    <a class="dropdown-item" href="#"
-                                       onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>
+<!--                                    <a class="dropdown-item" href="#"-->
+<!--                                       onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>-->
                                 </div>
 
                             </div>
