@@ -4,6 +4,7 @@ from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, Set
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.utils.translation import gettext_lazy as _
+from django_recaptcha.fields import ReCaptchaField
 
 from ..models.users import Profile, CustomUser, ExpertProfile, Category
 
@@ -30,10 +31,21 @@ class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
     password2 = forms.CharField(label="Повторите пароль",
                                 widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
+    captcha = ReCaptchaField(label="Капча")
 
     class Meta:
         model = CustomUser
         fields = ("user_type", "first_name", "last_name", "phone_number", "email", "password1", "password2")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+
+        if first_name and last_name and first_name.lower() == last_name.lower():
+            raise forms.ValidationError(_('Имя пользователя не может быть равно фамилии.'))
+
+        return cleaned_data
 
     def clean_email(self):
         email = self.cleaned_data['email']

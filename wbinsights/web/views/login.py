@@ -3,9 +3,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
 from django.http import HttpResponseRedirect
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from django.views.generic import CreateView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
@@ -36,13 +38,30 @@ def send_activation_email(user, request):
     token = signer.sign(user.pk)
     confirmation_link = request.build_absolute_uri(reverse('activate_account', kwargs={'token': token}))
 
-    send_mail(
+    html_content = render_to_string('emails/account_activation.html', {'confirmation_link': confirmation_link})
+    # Получаем текстовую версию письма из HTML
+    text_content = strip_tags(html_content)
+
+    # Создаем объект EmailMultiAlternatives
+    email = EmailMultiAlternatives(
         'Активация аккаунта',
-        f'Пожалуйста, активируйте свой аккаунт, перейдя по этой ссылке: {confirmation_link}',
+        text_content,
         'info_dev@24wbinside.ru',
-        [user.email],
-        fail_silently=False,
+        [user.email]
     )
+    # Добавляем HTML версию
+    email.attach_alternative(html_content, "text/html")
+
+    # Отправляем письмо
+    email.send(fail_silently=False)
+    #
+    # send_mail(
+    #     'Активация аккаунта',
+    #     f'Пожалуйста, активируйте свой аккаунт, перейдя по этой ссылке: {confirmation_link}',
+    #     'info_dev@24wbinside.ru',
+    #     [user.email],
+    #     fail_silently=False,
+    # )
 
 
 def resend_activation_email(request, email):
