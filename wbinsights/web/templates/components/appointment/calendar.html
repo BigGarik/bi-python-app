@@ -1,12 +1,11 @@
 {% load static %}
 {% load i18n %}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@2.6.1/event-calendar.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@2.6.1/event-calendar.min.js"></script>
+<script src="{% static 'js/event-calendar/event-calendar.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/event-calendar/event-calendar.min.css' %}">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
-
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -47,21 +46,16 @@
     const user_id = {{ request.user.id }};
     const appointment_title = '{{ appointment_title }}';
     const user_type = {{ user_type }}
-    const appointment_path = user_type == 1 ? 'expert':'client'
-
-{#    alert(appointment_path)#}
-
-
-
+    const appointment_path = user_type == 1 ? 'expert' : 'client'
     let appointments = []
-    
+
     function getExpertsAppointments() {
         $.ajax({
             url: `/appointment/list/${appointment_path}/${user_id}/json`,
             type: 'GET',
             data: {},
             success: function (response) {
-               
+
                 createEventCalendar(response.data, 'event-calendar');
                 appointments = response.data;
             }
@@ -69,6 +63,7 @@
     }
 
     function loadAppointment(appointmentId) {
+
         const modalBody = $('#appointmentTableBody');
 
         const appointment = appointments.find(appointment => appointment.id == appointmentId);
@@ -157,14 +152,10 @@
 
     function createCalendarEvents(appointments) {
         return appointments.map((appointment) => {
-            const clientID = `/experts/${appointment.client.id}`;
             const titleHTML = `
-                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;">
-                        <span>${appointment_title}</span>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:125px; height:25px"
-                            onclick="loadAppointment(${appointment.id})">
-                            View details
-                        </button>
+                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;" 
+                        onclick="loadAppointment(${appointment.id})">
+                        <span>${appointment_title}</span>                      
                     </div>
                 `;
 
@@ -224,28 +215,8 @@
                 listWeek: 'список'
             },
             locale: 'ru',
-        <!--        datesSet: function(dates) {-->
-        <!--            if (ec) {-->
-    <!--                // get start and end dates-->
-        <!--                let startDate = dates.start;-->
-        <!--                let endDate = dates.end;-->
 
-        <!--                let filteredEvents = events.filter(event => {-->
-        <!--                    let eventDate = new Date(event.start);-->
-        <!--                    return eventDate >= startDate && eventDate <= endDate;-->
-        <!--                });-->
-
-    <!--                // updates calendar-->
-        <!--                ec.setOption('events', filteredEvents);-->
-        <!--                console.log("filteredEvents", filteredEvents);-->
-        <!--            } else {-->
-        <!--                console.error("not working");-->
-        <!--            }-->
-        <!--        }-->
-    })
-        ;
-
-        console.log("Inner HTML of ec-title:", $('.ec-title').html());
+        });
     }
 
 
