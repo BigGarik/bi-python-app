@@ -31,6 +31,7 @@ class ExpertListView(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
 
+
         return context
 
 
@@ -113,9 +114,12 @@ class ExpertDetailView(DetailView):
 
         context['filled_stars_chipher'] = get_rate_chipher(4.5)
         user_articles_qs = Article.objects.filter(author__id=self.kwargs['pk'])
+
         context['experts_articles'] = user_articles_qs
         context['experts_articles_count'] = user_articles_qs.count()
         context['experts_researches'] = Article.objects.all()[:2]
+
         context['experts_researches_count'] = Article.objects.count()
+        context['rating'] = 4.5
 
         return context

@@ -1,0 +1,100 @@
+{% load i18n %}
+{% load web_tags %}
+{% load static %}
+
+<div class="profile-info-cont">
+
+    <div class="col-12 top-half">
+
+        <div class=" col-sm-3 prof-page-pic-cont">
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                 style="border-radius: 50%;width: 80px;height: 80px;object-fit: cover;">
+        </div>
+
+        <div class=" col-sm-9  profile-information-cont">
+
+            <div class="user-display-name">
+                {{ user.first_name }} {{ user.last_name }}
+            </div>
+
+            <div class="user-rating-cont">
+
+                <div class="user-rating">{% trans 'RatingLabel' %} {{ rating }} &nbsp;</div>
+
+                <div class="user-rate-and-stars">
+                    {% for ch in filled_stars_chipher %}
+                        {% if ch == 'f' %}
+                            <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                        {% elif ch == 'h' %}
+                            <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                        {% elif ch == 'e' %}
+                            <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="user-category-cont">
+
+                <div class="user-category">Эксперт в области :</div>
+
+                <div class="displayflex">
+                    {% for exp_category in user.expertprofile.expert_categories.all %}
+                        <div class="user-catagory-highlight {{ exp_category.slug }}">
+                            {{ exp_category.name }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="user-stats">
+
+                {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
+                •
+                {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
+                • 24 отзыва
+
+            </div>
+
+            <div class="user-settings">
+
+                {% include buttons_template %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bottom-half">
+
+        <div class="bottom-info">
+
+            <div class="prof-bottom-cont">
+                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp;</span>
+                <span class="">{{ user.expertprofile.education }}</span>
+            </div>
+
+            <div class="prof-bottom-cont">
+
+                <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}:&nbsp;</span>
+                <span class="">{{ user.expertprofile.experience }}
+                            {% get_write_phrase user.expertprofile.experience 'год года лет' %}
+                        </span>
+
+            </div>
+
+            <div class="prof-about-me-cont">
+                {{ user.expertprofile.about }}
+            </div>
+
+            <div class="prof-bottom-cont">
+                <span class="bottom-bold-text">{% trans 'PricePerHourLabel' %}:&nbsp;</span>
+                <span class=""> {{ user.expertprofile.hour_cost }} ₽/час</span>
+            </div>
+
+        </div>
+    </div>
+</div>
