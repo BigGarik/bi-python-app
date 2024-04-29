@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from wbappointment.views import add_appointment_view, add_appointment_success_view, appointment_payment_callback_view, \
-    checkout_appointment_view, get_expert_avalable_timeslots, get_experts_appointment, get_expert_working_dates
+    checkout_appointment_view, get_expert_avalable_timeslots, get_experts_appointment, get_clients_appointment
 
 # AppointmentExpertAvialableTimeForDateView
 
@@ -17,7 +17,8 @@ urlpatterns = [
     path("payment/callback/", appointment_payment_callback_view, name="appointment_add_success_callback"),
     path("checkout/<int:pk>/", checkout_appointment_view, name="appointment_checkout"),
     path("available/timeslots/json", get_expert_avalable_timeslots, name="get_expert_avalable_timeslots"),
-    path("list/expert/<int:expert_id>/json", get_experts_appointment, name="get_experts_appointment")
+    path("list/expert/<int:expert_id>/json", get_experts_appointment, name="get_experts_appointment"),
+    path("list/client/<int:client_id>/json", get_clients_appointment, name="get_clients_appointment")
 
     #path("expert/availiable/time/", AppointmentExpertAvialableTimeForDateView.as_view(), name="appointment_available_time_slots"),
 ]

@@ -153,9 +153,8 @@ def get_experts_appointment(request, *args, **kwargs):
 
 def get_clients_appointment(request, *args, **kwargs):
     selected_client = kwargs['client_id']
-    appointments = Appointment.objects.filter(cleint_id=selected_client)
-    data = serializers.serialize("json", appointments, fields=["appointment_date", "appointment_time", "client"])
-    return JsonResponse(data, safe=False)
+    appointments = Appointment.objects.filter(client_id=selected_client)
+    return JsonResponse({'data': AppointmentSerializer(appointments, many=True).data})
 
 
 def appointment_payment_callback_view(request, *args, **kwargs):
