@@ -1,3 +1,4 @@
+import logging
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm, UserCreationForm
@@ -7,6 +8,9 @@ from django.utils.translation import gettext_lazy as _
 from django_recaptcha.fields import ReCaptchaField
 
 from ..models.users import Profile, CustomUser, ExpertProfile, Category
+
+
+logger = logging.getLogger(__name__)
 
 
 class CustomUserForm(forms.ModelForm):
@@ -23,15 +27,15 @@ class CustomUserCreationForm(UserCreationForm):
         choices=Profile.TypeUser,
         widget=forms.RadioSelect(attrs={'class': 'form-choose-user-type'})
     )
-    first_name = forms.CharField(label="Имя", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    phone_number = forms.CharField(label="Телефон", widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+    first_name = forms.CharField(label=_("First name"), widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+    last_name = forms.CharField(label=_("Last name"), widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+    phone_number = forms.CharField(label=_("Phone number"), widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
 
-    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
-    password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-    password2 = forms.CharField(label="Повторите пароль",
+    email = forms.EmailField(label=_("Email"), widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
+    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
+    password2 = forms.CharField(label=_("Confirm password"),
                                 widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-    captcha = ReCaptchaField(label="Капча")
+    captcha = ReCaptchaField(label=_("Captcha"))
 
     class Meta:
         model = CustomUser
@@ -43,7 +47,7 @@ class CustomUserCreationForm(UserCreationForm):
         last_name = cleaned_data.get('last_name')
 
         if first_name and last_name and first_name.lower() == last_name.lower():
-            raise forms.ValidationError(_('Имя пользователя не может быть равно фамилии.'))
+            raise forms.ValidationError(_("The user's first name cannot be equal to the last name."))
 
         return cleaned_data
 
@@ -54,7 +58,7 @@ class CustomUserCreationForm(UserCreationForm):
         if phone_number:
             # Проверяем, существует ли активированный пользователь с таким же номером телефона
             if CustomUser.objects.filter(phone_number=phone_number, is_active=True).exists():
-                raise ValidationError("Пользователь с таким номером телефона уже существует и активен.")
+                raise ValidationError(_("User with this phone number already exists and is active."))
         return phone_number
 
     def clean_email(self):
@@ -63,23 +67,23 @@ class CustomUserCreationForm(UserCreationForm):
             try:
                 validate_email(email)
             except ValidationError:
-                raise ValidationError("Incorrect email format")
+                raise ValidationError(_("Incorrect email format"))
 
             if CustomUser.objects.filter(email=email).exists():
-                raise ValidationError("Пользователь с таким email уже существует")
+                raise ValidationError(_("User with this email already exists."))
         return email
 
 
 class ExpertProfileForm(forms.ModelForm):
-    about = forms.CharField(label="О себе", widget=forms.Textarea(
+    about = forms.CharField(label=_("About me"), widget=forms.Textarea(
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows': 3}))
-    experience = forms.DecimalField(label="Опыт", widget=forms.NumberInput(
+    experience = forms.DecimalField(label=_("Experience"), widget=forms.NumberInput(
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
-    hour_cost = forms.DecimalField(label="Стоимость", widget=forms.NumberInput(
+    hour_cost = forms.DecimalField(label=_("Price"), widget=forms.NumberInput(
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
 
     categories = forms.ModelMultipleChoiceField(
-        label="Категории экспертности",
+        label=_("Categories of expertise"),
         queryset=Category.objects.all(),
         widget=forms.SelectMultiple(attrs={'class': 'form-inputs-custom'})  
     )
@@ -139,7 +143,7 @@ class UserProfilePasswordChangeForm(PasswordChangeForm):
     )
 
     new_password2 = forms.CharField(
-        label=_("New password confirmation"),
+        label=_("Confirm new password"),
         strip=False,
         required=False,
         widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}),
@@ -148,7 +152,7 @@ class UserProfilePasswordChangeForm(PasswordChangeForm):
 
 class UserPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
-        label="Email",
+        label=_("Email"),
         max_length=254,
         widget=forms.EmailInput(
             attrs={'class': 'form-control',
@@ -160,24 +164,24 @@ class UserPasswordResetForm(PasswordResetForm):
 
 class UserSetNewPasswordForm(SetPasswordForm):
     error_messages = {
-        "password_mismatch": "Пароли не совпадают"
+        "password_mismatch": _("Password mismatch")
     }
     new_password1 = forms.CharField(
-        label='Новый пароль',
+        label=_("New password"),
         widget=forms.PasswordInput(
             attrs={'class': 'form-control',
-                   'placeholder': 'Введите новый пароль',
+                   'placeholder': _("Enter new password"),
                    "autocomplete": "new-password"}
         ),
         strip=False,
         help_text=password_validation.password_validators_help_text_html(),
     )
     new_password2 = forms.CharField(
-        label='Подтверждение нового пароля',
+        label=_("Confirm new password"),
         strip=False,
         widget=forms.PasswordInput(
             attrs={'class': 'form-control',
-                   'placeholder': 'Подтвердите новый пароль',
+                   'placeholder': _("Confirm new password"),
                    "autocomplete": "new-password"}
         ),
     )

@@ -1,5 +1,5 @@
 import itertools
-
+import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
@@ -9,7 +9,6 @@ from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
-from django.http import JsonResponse
 from django.db.models import Q
 from rest_framework import status
 from rest_framework.generics import ListAPIView
@@ -22,6 +21,9 @@ from web.models import CustomUser, Profile
 from .forms import UserProjectForm, UserProjectFileForm
 from .models import UserProject, UserProjectFile
 from .serializers import UserProjectSerializer, CustomUserSerializer
+
+
+logger = logging.getLogger(__name__)
 
 
 class UserProjectDetailView(DetailView):
@@ -198,35 +200,3 @@ class GetProjectsAPIView(ListAPIView):
         if fields is not None:
             kwargs['fields'] = fields
         return self.serializer_class(*args, **kwargs)
-
-
-# @login_required
-# def get_projects(request):
-#     # Определите белый список разрешенных полей
-#     allowed_fields = {'name', 'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
-#
-#     # Получаем словарь параметров запроса
-#     query_params = request.GET.dict()
-#
-#     # Извлекаем параметр fields, если он существует, и удаляем его из словаря query_params
-#     fields = query_params.pop('fields', None)
-#     if fields:
-#         fields = fields.split(',')  # Преобразуем строку в список полей
-#         # Фильтруем список полей, чтобы оставить только разрешенные
-#         fields = [field for field in fields if field in allowed_fields]
-#     else:
-#         fields = allowed_fields  # Если параметр fields не указан, используем все разрешенные поля
-#
-#     # Создаем объект Q для динамического построения запроса
-#     query = Q()
-#     for param, value in query_params.items():
-#         # Добавляем условия фильтрации для каждого параметра запроса
-#         if param in allowed_fields:
-#             query &= Q(**{param: value})
-#
-#     # Фильтруем проекты с использованием созданного запроса
-#     projects = UserProject.objects.filter(query)
-#
-#     # Используем сериализатор для создания JSON ответа
-#     serializer = UserProjectSerializer(projects, many=True, fields=fields)
-#     return JsonResponse(serializer.data, safe=False)

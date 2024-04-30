@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+from web.models import Category
+
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -36,7 +38,7 @@ class Article(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT, verbose_name="Статус")
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='article', blank=True, verbose_name="Категории", )
+    cat = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='article', blank=True, verbose_name="Категории", )
 
     objects = models.Manager()
     published = PublishedManager()
@@ -52,19 +54,3 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'slug': self.slug})
-    
-    
-    
-    
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    icon = models.CharField(max_length=50, null=True)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('category', kwargs={'cat_slug': self.slug})

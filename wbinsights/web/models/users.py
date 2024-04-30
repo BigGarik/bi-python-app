@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django.db.models import Q
 
-from web.models.articles import Category
+from web.models import Category
 
 phone_regex = RegexValidator(
     regex=r'^((8|\+374|\+994|\+995|\+375|\+7|\+380|\+38|\+996|\+998|\+993)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{'
@@ -16,9 +16,9 @@ phone_regex = RegexValidator(
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(_("email address"), unique=True, )
+    email = models.EmailField(_("Email"), unique=True, )
     phone_number = models.CharField(
-        _("phone number"),
+        _("Phone number"),
         # unique=True,
         validators=[phone_regex],
         max_length=17,

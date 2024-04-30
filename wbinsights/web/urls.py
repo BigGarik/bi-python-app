@@ -6,7 +6,7 @@ from django.contrib import admin
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
-from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article , edit_article
+from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article, edit_article
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView

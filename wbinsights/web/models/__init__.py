@@ -1,5 +1,5 @@
-from .models import Image
+from .models import Image, Category
 from .users import CustomUser, Expert, Profile
-from .articles import Article, Category
+from .articles import Article
 from .researches import Research
 from .question_answer import QuestionAnswer

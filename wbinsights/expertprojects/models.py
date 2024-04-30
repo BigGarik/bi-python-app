@@ -1,27 +1,21 @@
+import logging
+
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
 
+from web.models import Category
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    icon = models.CharField(max_length=50, null=True)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('category', kwargs={'cat_slug': self.slug})
+logger = logging.getLogger(__name__)
 
 
 class UserProject(models.Model):
     author = models.ForeignKey('web.CustomUser', on_delete=models.CASCADE, related_name="userproject")
     members = models.ManyToManyField('web.CustomUser', related_name='userprojects', verbose_name="Участники")
     name = models.CharField(max_length=255, verbose_name="Заголовок")
-    category = models.ManyToManyField('Category', related_name='userprojects', verbose_name="Категории")
+    category = models.ManyToManyField(Category, related_name='userprojects', verbose_name="Категории")
     key_results = ArrayField(models.CharField(max_length=200), blank=True)
     customer = models.ForeignKey('UserProjectCustomer', on_delete=models.SET_NULL, null=True, related_name="userproject")
     year = models.IntegerField()

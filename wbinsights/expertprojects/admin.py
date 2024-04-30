@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .forms import UserProjectForm
-from .models import UserProject, UserProjectCustomer, Category
+from .models import UserProject, UserProjectCustomer
 
 
 class UserProjectAdmin(admin.ModelAdmin):
@@ -19,14 +19,6 @@ class UserProjectAdmin(admin.ModelAdmin):
 
 
 admin.site.register(UserProject, UserProjectAdmin)
-
-
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'icon', 'slug',)
-    prepopulated_fields = {'slug': ('name',)}
-
-
-admin.site.register(Category, CategoryAdmin)
 
 
 class UserProjectCustomerAdmin(admin.ModelAdmin):

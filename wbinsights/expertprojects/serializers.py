@@ -1,6 +1,11 @@
+import logging
+
 from rest_framework import serializers
 from web.models import CustomUser
 from .models import UserProject, Category, UserProjectCustomer
+
+
+logger = logging.getLogger(__name__)
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
