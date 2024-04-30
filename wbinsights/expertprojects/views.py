@@ -3,7 +3,7 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
@@ -163,7 +163,7 @@ class SearchExpertsAPIView(APIView):
 
         # Использование сериализатора для сериализации данных
         serializer = CustomUserSerializer(experts, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return JsonResponse({'data':serializer.data})
 
 
 # Класс для настройки пагинации

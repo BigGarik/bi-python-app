@@ -4,53 +4,79 @@
 {% load web_tags %}
 
 {% block center_col %}
-  <h2>Добавление нового проекта</h2>
+    <h2>Добавление нового проекта</h2>
 
-  <form method="post" enctype="multipart/form-data" id="project-form">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <form method="post" enctype="multipart/form-data" id="project-form">
+        {% csrf_token %}
+        {{ form.as_p }}
 
-    <div id="members-container">
-      <label>Участники проекта:</label>
-      <ul id="members-list">
-        <!-- Список добавленных экспертов будет здесь -->
-      </ul>
-      <button type="button" id="add-member-btn">Добавить участника</button>
-    </div>
 
-    <label for="id_file">Загрузить файл:</label>
-    <input type="file" name="file_field_name" id="id_file">
+        <label for="id_file">Загрузить файл:</label>
+        <input type="file" name="file_field_name" id="id_file">
 
-    <input type="submit" value="Создать проект">
-  </form>
+        <input type="submit" value="Создать проект">
+    </form>
 
-  <!-- Всплывающее окно со списком всех экспертов -->
-  <div id="experts-list" style="display:none;">
-    {% for expert in experts %}
-      <div ondblclick="addExpertToList('{{ expert.pk }}', '{{ expert.get_full_name }}')">
-        {{ expert.get_full_name }}
-      </div>
-    {% endfor %}
-  </div>
+    <style>
 
-  <script type="text/javascript">
-    document.getElementById('add-member-btn').addEventListener('click', function() {
-      var expertsList = document.getElementById('experts-list');
-      expertsList.style.display = expertsList.style.display === 'none' ? 'block' : 'none';
-    });
+    </style>
 
-    function addExpertToList(expertId, expertName) {
-      var membersList = document.getElementById('members-list');
-      var memberItem = document.createElement('li');
-      memberItem.textContent = expertName;
+    <script type="text/javascript">
 
-      var input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = 'members';
-      input.value = expertId;
 
-      memberItem.appendChild(input);
-      membersList.appendChild(memberItem);
-    }
-  </script>
+        $('#id_category').select2({
+            width: '100%'
+        });
+
+        function formatResult(result) {
+            if (!result.id) return result.text;
+            return result.last_name + ' ' + result.first_name;
+        }
+
+        function formatSelection(result) {
+            return result.last_name + ' ' + result.first_name;
+        }
+
+        $("#id_members").select2({
+            ajax: {
+                url: "/expert/search-experts/",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        query: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+
+                    console.log(1)
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) {
+                return markup;
+            }, // let our custom formatter work
+            templateResult: formatResult, // omitted for brevity, see the source of this page
+            templateSelection: formatSelection,
+            minimumInputLength: 3,
+            width: '100%'
+        });
+
+
+
+
+    </script>
 {% endblock %}
