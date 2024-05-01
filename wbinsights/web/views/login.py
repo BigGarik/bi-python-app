@@ -51,17 +51,7 @@ def send_activation_email(user, request):
     )
     # Добавляем HTML версию
     email.attach_alternative(html_content, "text/html")
-
-    # Отправляем письмо
-    email.send(fail_silently=False)
-    #
-    # send_mail(
-    #     'Активация аккаунта',
-    #     f'Пожалуйста, активируйте свой аккаунт, перейдя по этой ссылке: {confirmation_link}',
-    #     'info_dev@24wbinside.ru',
-    #     [user.email],
-    #     fail_silently=False,
-    # )
+    email.send()
 
 
 def resend_activation_email(request, email):

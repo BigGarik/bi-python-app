@@ -18,7 +18,7 @@
             <span class="anketa-page-title">{% trans 'FillAllFieldsLabel' %}</span>
 
 
-            <form method="post" enctype="multipart/form-data" action="{% url 'activate_account' request.user.id %}">
+                <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <div class="prof-edit-rows">
@@ -100,5 +100,11 @@
         })
 
     </script>
-
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 {% endblock %}

@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.html import strip_tags
 
 from wbappointment.models import Appointment
 from wbinsights.settings import SERVER_EMAIL
@@ -37,19 +39,40 @@ def profile_view(request):
                     # Получаем список email-адресов всех модераторов
                     moderators = CustomUser.objects.filter(is_staff=True)
                     recipient_list = [moderator.email for moderator in moderators if moderator.email]
-                    message = (
-                        f'Новый эксперт заполнил анкету. Пожалуйста, проверьте и подтвердите верификацию. Ссылка на '
-                        f'анкету:'
-                        f'{request.build_absolute_uri(reverse("manage_unverified_experts_profile", kwargs={"pk": expert_id}))}'
-                        f'\nСписок всех Экспертов ожидающих верификации: '
-                        f'{request.build_absolute_uri(reverse("manage_unverified_experts_list"))}')
+                    manage_unverified_experts_profile = request.build_absolute_uri(
+                                                        reverse("manage_unverified_experts_profile",
+                                                                kwargs={"pk": expert_id}))
+                    manage_unverified_experts_list = request.build_absolute_uri(reverse("manage_unverified_experts_list"))
 
-                    send_mail(
+                    html_content = render_to_string('emails/verification_email.html',
+                                                    {'manage_unverified_experts_profile': manage_unverified_experts_profile,
+                                                     'manage_unverified_experts_list': manage_unverified_experts_list})
+                    text_content = strip_tags(html_content)
+
+                    # Создаем объект EmailMultiAlternatives
+                    email = EmailMultiAlternatives(
                         'Новая анкета эксперта на проверку',
-                        message,
+                        text_content,
                         SERVER_EMAIL,
                         recipient_list
                     )
+                    # Добавляем HTML версию
+                    email.attach_alternative(html_content, "text/html")
+                    email.send()
+
+                    # message = (
+                    #     f'Новый эксперт заполнил анкету. Пожалуйста, проверьте и подтвердите верификацию. Ссылка на '
+                    #     f'анкету:'
+                    #     f'{request.build_absolute_uri(reverse("manage_unverified_experts_profile", kwargs={"pk": expert_id}))}'
+                    #     f'\nСписок всех Экспертов ожидающих верификации: '
+                    #     f'{request.build_absolute_uri(reverse("manage_unverified_experts_list"))}')
+                    #
+                    # send_mail(
+                    #     'Новая анкета эксперта на проверку',
+                    #     message,
+                    #     SERVER_EMAIL,
+                    #     recipient_list
+                    # )
                     messages.success(request, 'Your profile has successfully been sent for verification')
                     return redirect('index')
             else:

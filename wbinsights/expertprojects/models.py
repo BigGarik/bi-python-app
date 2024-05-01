@@ -12,13 +12,15 @@ logger = logging.getLogger(__name__)
 
 
 class UserProject(models.Model):
-    author = models.ForeignKey('web.CustomUser', on_delete=models.CASCADE, related_name="userproject")
+    author = models.ForeignKey('web.CustomUser', on_delete=models.CASCADE, related_name="userproject",
+                               verbose_name="Автор")
     members = models.ManyToManyField('web.CustomUser', related_name='userprojects', verbose_name="Участники")
-    name = models.CharField(max_length=255, verbose_name="Заголовок")
-    category = models.ManyToManyField(Category, related_name='userprojects', verbose_name="Категории")
-    key_results = ArrayField(models.CharField(max_length=200), blank=True)
-    customer = models.ForeignKey('UserProjectCustomer', on_delete=models.SET_NULL, null=True, related_name="userproject")
-    year = models.IntegerField()
+    name = models.CharField(max_length=255, verbose_name=_("Heading"))
+    category = models.ManyToManyField(Category, related_name='userprojects', verbose_name=_("Category"))
+    key_results = ArrayField(models.CharField(max_length=200), blank=True, verbose_name="Результаты")
+    customer = models.ForeignKey('UserProjectCustomer', on_delete=models.SET_NULL, null=True,
+                                 related_name="userproject", verbose_name="Заказчик")
+    year = models.IntegerField(verbose_name="Год")
     goals = models.TextField(blank=True, verbose_name="Текст проекта")
 
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
