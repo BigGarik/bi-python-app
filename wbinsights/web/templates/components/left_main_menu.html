@@ -2,79 +2,40 @@
 
 <style>
 
-    .navcss{
+    .navcss {
         display: flex;
         flex-direction: column;
-        height: 100%; 
+        height: 100%;
         padding: 0;
         margin-bottom: 15px
     }
 
-    div.right-category-list>a.selected {
+    div.right-category-list > a.selected {
         background-color: white;
         border-radius: 10px;
     }
 
+    
+    @media (max-width: 768px ) {
 
+        .navbar-brand {
+            color: white !important;
+        }
 
-<!--        @media (max-width: 992px) {-->
+        div.right-category-list > a.selected {
 
+            color: black !important;
+        }
 
-<!--            .navcss {-->
-<!--                gap:10px;-->
-<!--            }-->
-
-<!--            .container-fluid-nav {-->
-<!--                flex-direction: row !important;-->
-<!--                margin-bottom: 10px !important;-->
-<!--                justify-content: space-around;-->
-
-<!--            }-->
-
-<!--            .navbar-brand{-->
-<!--                font-size:14px !important;-->
-<!--                margin-right: 0 !important;-->
-<!--                justify-content: center !important;-->
-<!--                padding: 0px 10px 0px 10px !important;-->
-<!--                margin-bottom:10px !important;-->
-<!--                width:auto !important;-->
-<!--            }-->
-
-<!--            .nav-item-class {-->
-<!--                display: none !important;-->
-<!--            }-->
-
-<!--            .navbar-brand {-->
-<!--                scale: 2 ;-->
-<!--            }-->
-
-
-<!--        }-->
-
-
-
-       @media (max-width: 768px ) {
-
-            .navbar-brand {
-                color: white !important;
-            }
-
-            div.right-category-list>a.selected {
-
-                color: black !important;
-            }
-
-       }
-
-
+    }
 
 
 </style>
 
 <div class="col-12 d-md-block">
-    <nav class="navbar navcss " >
+    <nav class="navbar navcss ">
 
-        <div class="container-fluid-nav right-category-list" >
+        <div class="container-fluid-nav right-category-list">
 
             {% split request.path "/" "first" as first_path %}
 
@@ -82,26 +43,26 @@
 
 
             <a class="navbar-brand {% if last_path == 'popular' %} selected {% endif %}"
-                    href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">
-                <i class="bi bi-fire" style="scale: 0.9;" ></i>
+               href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">
+                <i class="bi bi-fire" style="scale: 0.9;"></i>
 
                 <span class="nav-item-class">Популярное</span>
             </a>
 
             <a class="navbar-brand {% if last_path == 'new' %} selected {% endif %}"
-                    href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">
-                <i class="bi bi-clock-fill" style="scale: 0.9; " ></i>
+               href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">
+                <i class="bi bi-clock-fill" style="scale: 0.9; "></i>
                 <span class="nav-item-class">Новое</span>
             </a>
 
             {% get_all_categories as categories %}
             {% for category in categories %}
 
-            <a class="navbar-brand {% if last_path == category.slug %} selected {% endif %}"
-                    href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
-                <i class="bi bi-{{ category.icon }}" style="scale: 0.9;" ></i>
-                <span class="nav-item-class">{{ category.name }}</span>
-            </a>
+                <a class="navbar-brand {% if last_path == category.slug %} selected {% endif %}"
+                   href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
+                    <i class="bi bi-{{ category.icon }}" style="scale: 0.9;"></i>
+                    <span class="nav-item-class">{{ category.name }}</span>
+                </a>
 
 
             {% endfor %}
