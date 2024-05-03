@@ -213,12 +213,14 @@ COMMENTS_XTD_MAX_THREAD_LEVEL = 3  # default is 0
 # Change comment order, by default is ('thread_id', 'order').
 COMMENTS_XTD_LIST_ORDER = ('-thread_id', 'order')
 
+COMMENTS_XTD_API_GET_USER_AVATAR = "web.utils.get_avatar_url"
+
 COMMENTS_XTD_APP_MODEL_OPTIONS = {
     'default': {
         'allow_flagging': False,
         'allow_feedback': True,
         'show_feedback': True,
-        'who_can_post': 'all'  # Valid values: 'all', users'
+        'who_can_post': 'users'  # Valid values: 'all', 'users'
     }
 }
 
