@@ -15,17 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls.static import static
-# from django.contrib import manage
 from django.urls import include, path
-from django.views.generic import TemplateView
-
+from django.views.i18n import JavaScriptCatalog
 from wbinsights import settings
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
     path('', include('web.urls')),
     path('expert/',include('expertprojects.urls')),
     path('appointment/', include('wbappointment.urls')),
+    path(r'jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path(r'comments/', include('django_comments_xtd.urls')),
 ]
 
 if settings.DEBUG:

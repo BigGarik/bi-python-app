@@ -45,7 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django_extensions',
+    'django_comments_xtd',
+    'django_comments',
+    'corsheaders',
     'web.apps.WebConfig',
     'expertprojects.apps.ExpertprojectsConfig',
     'django.contrib.admin',
@@ -55,11 +59,12 @@ INSTALLED_APPS = [
 
 ]
 
-
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -196,6 +201,33 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 RECAPTCHA_PRIVATE_KEY = env('RECAPTCHA_PRIVATE_KEY')
 RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY')
+
+# django.contrib.comments -->
+COMMENTS_APP = 'django_comments_xtd'
+
+COMMENTS_XTD_CONFIRM_EMAIL = False
+
+# Change comment threading.
+COMMENTS_XTD_MAX_THREAD_LEVEL = 3  # default is 0
+
+# Change comment order, by default is ('thread_id', 'order').
+COMMENTS_XTD_LIST_ORDER = ('-thread_id', 'order')
+
+COMMENTS_XTD_APP_MODEL_OPTIONS = {
+    'default': {
+        'allow_flagging': False,
+        'allow_feedback': True,
+        'show_feedback': True,
+        'who_can_post': 'all'  # Valid values: 'all', users'
+    }
+}
+
+# We are loading scripts from these CDNs.
+CORS_ALLOWED_ORIGINS = [
+    "https://cdnjs.cloudflare.com",
+    "https://cdn.jsdelivr.net",
+]
+# django.contrib.comments <--
 
 LOGGING = {
     'version': 1,
