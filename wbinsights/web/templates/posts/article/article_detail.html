@@ -7,11 +7,11 @@
 {% load web_tags %}
 
 <style>
-  
-  .article-detail-main-content img {
-    max-width: 100%;
-    height: auto;
-  }
+
+    .article-detail-main-content img {
+        max-width: 100%;
+        height: auto;
+    }
 
 </style>
 
@@ -20,87 +20,100 @@
 
 <div class="base-Content">
 
-  <div class="article-detail-page-content">
+    <div class="article-detail-page-content">
 
-    <div class="article-detail-page-back-btn">
-      <a href="{% url 'article_list' %}" style="text-decoration:none;color:  black;align-items: center;display: flex;">
+        <div class="article-detail-page-back-btn">
+            <a href="{% url 'article_list' %}"
+               style="text-decoration:none;color:  black;align-items: center;display: flex;">
 
-        <i class="bi bi-chevron-left" ></i> &nbsp;Ко всем статьям
-      </a>
-    </div>
+                <i class="bi bi-chevron-left"></i> &nbsp;Ко всем статьям
+            </a>
+        </div>
 
-    <div class="article-detail-page-publish-date">
-      <i class="bi bi-calendar2-week" style="color:#a9b4ca; scale:1.3"></i>
-      &nbsp;  {{ article.time_update|custom_time_display }}
-
-    </div>
-
-    <div class="article-detail-title">{{article.title}}</div>
-
-{#    <div class="artile-list-image">#}
-{#      {% if article.main_img %}#}
-{#        <img src="{{ article.main_img.url }}" alt="Article Image" style="max-width:100%">#}
-{#      {% endif %}#}
-{#    </div>#}
-
-    <div class="article-detail-main-content">
-
-      {% autoescape off %}
-
-      {{article.content}}
-
-      {% endautoescape %}
-
-      <div class="article-detail-page-last">
-
-        <div class="article-detail-comments-andshare-cont">
-          <div class="article-detail-comments">
-            <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
-          </div>
-
-          <div class="article-share">
-            <i class="bi bi-box-arrow-up-right" style="color:grey;"></i>
-          </div>
+        <div class="article-detail-page-publish-date">
+            <i class="bi bi-calendar2-week" style="color:#a9b4ca; scale:1.3"></i>
+            &nbsp; {{ article.time_update|custom_time_display }}
 
         </div>
 
-      </div>
+        <div class="article-detail-title">{{ article.title }}</div>
 
-      
+        {#    <div class="artile-list-image">#}
+        {#      {% if article.main_img %}#}
+        {#        <img src="{{ article.main_img.url }}" alt="Article Image" style="max-width:100%">#}
+        {#      {% endif %}#}
+        {#    </div>#}
+
+        <div class="article-detail-main-content">
+
+            {% autoescape off %}
+
+            {{ article.content }}
+
+            {% endautoescape %}
+
+            <div id="comments"></div>
+            <div class="article-detail-page-last">
+
+
+
+                <div class="article-detail-comments-andshare-cont">
+                    <div class="article-detail-comments">
+                        {% get_comment_count for object as comment_count %}
+                        <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; {{ comment_count }}
+                    </div>
+
+                    <div class="article-share">
+                        <i class="bi bi-box-arrow-up-right" style="color:grey;"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
     </div>
 
-  </div>
-  
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"
+        integrity="sha512-QVs8Lo43F9lSuBykadDb0oSXDL/BbZ588urWVCRwSIoewQv/Ewg1f84mK3U790bZ0FfhFa1YSQUmIhG+pIRKeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"
+        integrity="sha512-6a1107rTlA4gYpgHAqbwLAtxmWipBdJFcq8y5S/aTge3Bp+VAklABm2LO+Kg51vOWR9JMZq1Ovjl5tpluNpTeQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/2.0.1/remarkable.min.js"
+        integrity="sha512-skYYbQHAuOTpeJTthhUH3flZohep8blA+qjZOY0VqmfXMDiYcWxu29F5UbxU4LxaIpGkRBk+3Qf8qaXfd9jngg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    window.comments_props = {% get_commentbox_props for object %};
+    window.comments_props_override = {
+        allow_comments: {%if object.allow_comments%}true{%else%}false{%endif%},
+        allow_feedback: true,
+        show_feedback: true,
+        allow_flagging: false,
+        polling_interval: 5000  // In milliseconds.
+    };
+</script>
+
+<script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+<script src="{% static 'django_comments_xtd/js/django-comments-xtd-2.10.0.js' %}"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', (_) => {
+        const tooltipQs = '[data-bs-toggle="tooltip"]';
+        const tooltipList = document.querySelectorAll(tooltipQs);
+        [...tooltipList].map(el => new bootstrap.Tooltip(el, {html: true}));
+    });
+
+</script>
 
 {% endblock %}
 
-{% block extra-js %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js" integrity="sha512-QVs8Lo43F9lSuBykadDb0oSXDL/BbZ588urWVCRwSIoewQv/Ewg1f84mK3U790bZ0FfhFa1YSQUmIhG+pIRKeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js" integrity="sha512-6a1107rTlA4gYpgHAqbwLAtxmWipBdJFcq8y5S/aTge3Bp+VAklABm2LO+Kg51vOWR9JMZq1Ovjl5tpluNpTeQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/2.0.1/remarkable.min.js" integrity="sha512-skYYbQHAuOTpeJTthhUH3flZohep8blA+qjZOY0VqmfXMDiYcWxu29F5UbxU4LxaIpGkRBk+3Qf8qaXfd9jngg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-  window.comments_props = {% get_commentbox_props for object %};
-  window.comments_props_override = {
-      allow_comments: {%if object.allow_comments%}true{%else%}false{%endif%},
-      allow_feedback: true,
-      show_feedback: true,
-      allow_flagging: false,
-      polling_interval: 5000  // In milliseconds.
-  };
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-<script
-  type="text/javascript"
-  src="{% url 'javascript-catalog' %}"></script>
-<script src="{% static 'django_comments_xtd/js/django-comments-xtd-2.10.0.js' %}"></script>
-<script>
-  window.addEventListener('DOMContentLoaded', (_) => {
-    const tooltipQs = '[data-bs-toggle="tooltip"]';
-    const tooltipList = document.querySelectorAll(tooltipQs);
-    [...tooltipList].map(el => new bootstrap.Tooltip(el, {html: true}));
-  });
 
-</script>
 
-{%endblock%}
+
+

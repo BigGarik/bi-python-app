@@ -6,6 +6,8 @@
 {% endblock %}
 {% load web_tags %}
 {% load static %}
+{% load comments %}
+{% load comments_xtd %}
 
 {% block posts_content %}
 
@@ -104,7 +106,8 @@
 
 						<div class="article-list-comments">
 							<i class="bi bi-chat-left-text" style="color:grey;"></i>
-						    104
+                            {% get_comment_count for article as comment_count %}
+						    {{ comment_count }}
                         </div>
 
                         <div class="article-list-share">
