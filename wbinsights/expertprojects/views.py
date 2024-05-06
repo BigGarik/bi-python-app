@@ -2,6 +2,8 @@ import itertools
 import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core import serializers
+from django.core.serializers import json
 from django.db import transaction
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -79,7 +81,7 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
         if 'file_form' not in context:
             context['file_form'] = self.file_form_class()
             # Добавляем список экспертов для элемента выбора участников на форме
-        context['experts'] = CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT)
+        #context['experts'] = CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT)
         return context
 
 
@@ -100,6 +102,9 @@ class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         context = super().get_context_data(**kwargs)
         context['file_form'] = UserProjectFileForm()
         context['files'] = self.object.files.all()
+
+        context['members_json'] = CustomUserSerializer(self.get_object().members.all(), many=True).data
+        context['members'] = self.get_object().members.all()
         context['experts'] = CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT)
         return context
 
@@ -132,7 +137,7 @@ class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         return HttpResponseRedirect(self.get_success_url())
 
 
-class UserProjectDeleteView(DeleteView):
+class UserProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = UserProject
     template_name = 'user_project_confirm_delete.html'
     success_url = reverse_lazy('index')

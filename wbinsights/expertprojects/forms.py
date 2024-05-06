@@ -1,9 +1,10 @@
+import datetime
+
 from django import forms
 from django.core.validators import FileExtensionValidator
-from django.forms import SelectMultiple
 
 from web.models import CustomUser, Category
-from .models import UserProject, UserProjectFile
+from .models import UserProject, UserProjectFile, UserProjectCustomer
 
 
 class UserProjectForm(forms.ModelForm):
@@ -13,18 +14,30 @@ class UserProjectForm(forms.ModelForm):
         required=False
     )
 
-    members = forms.ModelMultipleChoiceField(label="Members", queryset=CustomUser.objects.all()[:0])
-    category = forms.ModelMultipleChoiceField(label="Категории проекта", queryset=Category.objects.all())
+   # members = forms.SelectMultiple()
+    category = forms.ModelMultipleChoiceField(label="Категории проекта", queryset=Category.objects.all(), )
+    customer = forms.ModelChoiceField(queryset=UserProjectCustomer.objects.all())
+
+    year = forms.IntegerField(initial=datetime.date.today().year,
+                              min_value=1985,
+                              max_value=datetime.date.today().year,
+                              label="Год проекта",
+                              widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+    files = forms.FileField(widget = forms.TextInput(attrs={
+            "name": "images",
+            "type": "File",
+            "class": "form-control",
+            "multiple": "True",
+        }), label = "Файлы проекта", required=False)
 
     class Meta:
 
         model = UserProject
-        fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results_text', 'members']
+        fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results_text']
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'customer': forms.TextInput(attrs={'class': 'form-control'}),
-            'year': forms.NumberInput(attrs={'class': 'form-control'}),
             'goals': forms.Textarea(attrs={'class': 'form-control form-control-resize', 'rows': 4}),
         }
 

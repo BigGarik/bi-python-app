@@ -9,5 +9,5 @@ urlpatterns = [
     path('project/<slug:slug>/delete/', UserProjectDeleteView.as_view(), name='project_delete'),
     path('project/file/<int:pk>/delete/', project_file_delete, name='project_file_delete'),
     path('search-experts/', SearchExpertsAPIView.as_view(), name='search_experts'),
-    path('projects/', GetProjectsAPIView.as_view(), name='projects'),
+    path('projects/json', GetProjectsAPIView.as_view(), name='projects'),
 ]
