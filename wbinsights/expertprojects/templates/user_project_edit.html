@@ -9,7 +9,7 @@
 
 <style>
     .select2-container {
-      width: 100% !important;
+        width: 100% !important;
     }
 
 </style>
@@ -19,55 +19,25 @@
 
 <form enctype="multipart/form-data" id="project-form" method="post">
     {% csrf_token %}
-    <!--{{ form.as_p }}-->
+    {{ form.as_p }}
 
-    <div style="display:flex; flex-direction:column; gap:20px">
+    <select name="members" id="id_members" multiple>
+        {%  for member in members %}
+            <option selected value="{{ member.id }}">{{ member.email }}</option>
+        {% endfor %}
 
-        {{form.name}}
-
-        <select id="id_category" name="category" class="js-example-basic-single form-control" multiple="multiple">
-            {% for value, label in form.category.field.choices %}
-                <option value="{{ value }}">{{ label }}</option>
-            {% endfor %}
-        </select>
-
-        {{form.customer}}
-        {{form.year}}
-        {{form.goals}}
-        {{form.key_results_text}}
-
-    </div>
-
-
-
-    <div id="members-container">
-        <label for="search-experts">Search for an expert:</label>
-        <select class="js-example-basic-single form-control"  id="search-experts"  ></select>
-    </div>
-
-
-
-<!--    <div id="members-container">-->
-<!--        <label for="search-experts">Search for an expert:</label>-->
-<!--        <select class="js-example-basic-single form-control"  name="state">-->
-<!--            <option value="">Search for an expert...</option>-->
-<!--            {% for member in userproject.members.all %}-->
-<!--            <option value="{{ member.id }}">{{ member.get_full_name }}</option>-->
-<!--            {% endfor %}-->
-<!--        </select>-->
-<!--    </div>-->
-
+    </select>
 
     <h3>Файлы проекта:</h3>
     <ul>
         {% for file in userproject.files.all %}
-        <li>
-            {% if file.file %}
-            <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
-            {% else %}
-            Файл отсутствует.
-            {% endif %}
-        </li>
+            <li>
+                {% if file.file %}
+                    <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
+                {% else %}
+                    Файл отсутствует.
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
     <p></p>
@@ -75,63 +45,92 @@
     <input id="id_file" name="file_field_name" type="file">
     <p></p>
 
-    <button type="submit"  class="btn btn-primary"> Сохранить изменения </button>
+    <button type="submit" class="btn btn-primary"> Сохранить изменения</button>
 </form>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 
 <script type="text/javascript">
 
-    $(document).ready(function() {
-        $('.js-example-basic-multiple').select2();
-    });
+    function formatResult(result) {
+        if (!result.id) return result.text;
+        //return result.last_name + ' ' + result.first_name;
+        const res = `<div style="display: flex; align-items: center">
+                            <img width="70" height="70" style="padding: 5px; border-radius: 50%" src="${result.profile_photo}"/>
+                            ${result.last_name} ${result.first_name} (${result.email})
+            </div>`
+        return res;
+    }
 
-    $(document).ready(function() {
-      $('#id_category').select2();
-    });
+    function formatSelection(result) {
+        const res = `<div style="display: flex; align-items: center">
+                            ${result.last_name} ${result.first_name} (${result.email})
+            </div>`
+        return res;
+    }
 
+    console.log(2)
+    {% autoescape off %}
 
-    $(document).ready(function() {
-        $('#search-experts').select2({
-            minimumInputLength: 0,
-            dropdownParent: null,
+    const raw_json_members = {{ members_json }}
+
+    const proceedmembers = $.map(raw_json_members, function (item) {
+        return {
+            id: item.id,
+            text: item.email,
+            email: item.email,
+            last_name: item.last_name,
+            first_name: item.first_name,
+            profile_photo: item.profile_photo,
+        };
+    })
+
+    {% endautoescape %}
+
+    $(document).ready(function () {
+        $('#id_category').select2();
+        $('#id_customer').select2();
+
+        $("#id_members").select2({
+            data: proceedmembers,
             ajax: {
-                url: "{% url 'search_experts' %}",
+                url: "/expert/search-experts/",
                 dataType: 'json',
                 delay: 250,
-                processResults: function(data) {
+                tags: true,
+                data: function (params) {
                     return {
-                        results: data.map(function(expert) {
+                        query: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: $.map(data.data, function (item) {
                             return {
-                                id: expert.id,
-                                text: expert.first_name + ' ' + expert.last_name
+                                id: item.id,
+                                text: item.email,
+                                email: item.email,
+                                last_name: item.last_name,
+                                first_name: item.first_name,
+                                profile_photo: item.profile_photo,
                             };
                         })
                     };
                 },
-                cache: true,
-                data: function(params) {
-                    return {
-                        query: params.term
-                    };
-                }
+                cache: true
             },
-            tags: true, // Allow user to input their own value
-            createTag: function(params) {
-                return {
-                    id: params.term,
-                    text: params.term,
-                    newOption: true
-                };
-            }
+
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+            templateResult: formatResult,
+            templateSelection: formatSelection,
+            minimumInputLength: 3,
+            width: '100%'
         });
+
     });
 </script>
-
-
-
 
 
 {% endblock %}

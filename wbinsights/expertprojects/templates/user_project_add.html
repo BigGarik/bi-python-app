@@ -11,10 +11,9 @@
         {{ form.as_p }}
 
 
-        <label for="id_file">Загрузить файл:</label>
-        <input type="file" name="file_field_name" id="id_file">
+        <select name="members" id="id_members" multiple></select>
 
-        <input type="submit" value="Создать проект">
+        <input type="submit" value="Создать проект" >
     </form>
 
     <style>
@@ -28,20 +27,34 @@
             width: '100%'
         });
 
+        $('#id_customer').select2({
+            width: '100%'
+        });
+
         function formatResult(result) {
             if (!result.id) return result.text;
-            return result.last_name + ' ' + result.first_name;
+            //return result.last_name + ' ' + result.first_name;
+            const res = `<div style="display: flex; align-items: center">
+                            <img width="70" height="70" style="padding: 5px; border-radius: 50%" src="${result.profile_photo}"/>
+                            ${result.last_name} ${result.first_name} (${result.email})
+            </div>`
+            return res;
         }
 
         function formatSelection(result) {
-            return result.last_name + ' ' + result.first_name;
+            const res = `<div style="display: flex; align-items: center">
+                            ${result.last_name} ${result.first_name} (${result.email})
+            </div>`
+            return res;
         }
+
 
         $("#id_members").select2({
             ajax: {
                 url: "/expert/search-experts/",
                 dataType: 'json',
                 delay: 250,
+                tags: true,
                 data: function (params) {
                     return {
                         query: params.term, // search term
@@ -49,23 +62,22 @@
                     };
                 },
                 processResults: function (data, params) {
-                    // parse the results into the format expected by Select2
-                    // since we are using custom formatting functions we do not need to
-                    // alter the remote JSON data, except to indicate that infinite
-                    // scrolling can be used
-
-                    console.log(1)
-                    params.page = params.page || 1;
-
                     return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
+                        results: $.map(data.data, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.email,
+                                email: item.email,
+                                last_name: item.last_name,
+                                first_name: item.first_name,
+                                profile_photo: item.profile_photo,
+                            };
+                        })
                     };
                 },
                 cache: true
             },
+
             escapeMarkup: function (markup) {
                 return markup;
             }, // let our custom formatter work
@@ -74,6 +86,8 @@
             minimumInputLength: 3,
             width: '100%'
         });
+
+
 
 
 
