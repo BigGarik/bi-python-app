@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_comments_xtd',
     'django_comments',
-    'rosetta',
     'corsheaders',
     'web.apps.WebConfig',
     'expertprojects.apps.ExpertprojectsConfig',
