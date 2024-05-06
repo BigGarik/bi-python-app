@@ -92,6 +92,7 @@ def profile_view(request):
             expert_articles = Article.objects.filter(author=request.user)[:7]
             expert_articles_count = Article.objects.filter(author=request.user).count()
             experts_appointment_cnt = Appointment.objects.filter(expert=request.user).count()
+
             # Update the context with expert-specific data
 
             context.update({

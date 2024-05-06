@@ -27,7 +27,7 @@
          onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
     {#<div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>#}
 
-    <div class="profile-menu-item" data-content="projects" onclick="showContent('projects')">
+    <div class="profile-menu-item" data-content="projects" onclick="showContent('projects');getUsersProjects()">
         Проекты
     </div>
 </div>
@@ -90,10 +90,147 @@
 
 <div id="projects" class="expert-content" style="display: none;">
     <span>test notifications</span>
+
     <a href="{% url 'project_add' %}">Добавить проект</a>
 
-    {% for expert_project in experts_projects %}
-    {% endfor %}
+    <div id="id_project_catalog" style="display:flex; justify-content: space-around"></div>
+
+    <div id="id_project" style="display:flex;">
+
+        <div style="display: flex; flex-direction: column; width: 30%; margin: 5px">
+            <div class="project-customer" ></div>
+            <div class="project-year"></div>
+
+            <div style="background-color: lightgray; height: 100%;">
+                <div class="project-goals-caption" style="margin: 5px">Цели проекта</div>
+                <div class="project-goals" style="margin: 5px"></div>
+            </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; width: 70%;margin: 5px">
+            <div class="project-name"></div>
+            <div class="project-key-results-caption">Ключевые результаты проекта</div>
+            <div class="project-key-results"></div>
+            <div>
+                <div class="project-files"></div>
+                <div class="project-members-container">
+                    <div class="project-members-caption">Участники</div>
+                    <div class="project-members"></div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <style>
+
+        .item-project {
+            width: 100px;
+            height: 120px;
+            border: 2px solid blue;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-project-name {
+            margin: 5px;
+        }
+
+        .item-project-year {
+            margin: 5px;
+        }
+
+        #id_project {
+            border: 1px solid lightgray;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .project-name {
+            width: 100%;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .member-img {
+            width: 40px;
+            border-radius: 50%;
+            height: 40px;
+            margin: 0px 10px 5px 10px;
+        }
+    </style>
+
+    <script>
+
+
+        let userProjects = []
+
+        function loadProject(project_idx) {
+            const selectedProject = userProjects[project_idx];
+
+            const projectCustomerCont = $('.project-customer');
+            projectCustomerCont.html('Клиент:' + selectedProject.customer.name)
+
+            const projectYearCont = $('.project-year');
+            projectYearCont.html('Год:' + selectedProject.year)
+
+            const projectGoalsCont = $('.project-goals');
+            projectGoalsCont.html('' + selectedProject.goals)
+
+            const projectNameCont = $('.project-name');
+            projectNameCont.html('' + selectedProject.name)
+
+            const projectKeyResultsCont = $('.project-key-results');
+            projectKeyResultsCont.html('');
+            projectKeyResultsCont.append(`<ul>`)
+            selectedProject.key_results.map( (key_res) => {
+                projectKeyResultsCont.find('ul').append(`<li>${key_res}</li>`)
+            })
+
+
+
+
+            const projectMembersFieldSetCont = $('.project-members');
+
+            projectMembersFieldSetCont.html('');
+            selectedProject.members.map((member) => {
+                projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`)
+            })
+
+        }
+
+
+        function getUsersProjects() {
+            $.ajax({
+                url: `/expert/projects/json`,
+                type: 'GET',
+                data: {
+                    "author": {{ user.id }}
+                },
+                success: function (response) {
+
+
+                    console.log(response.results)
+                    userProjects = response.results;
+
+                    const projectListCont = $('#id_project_catalog');
+                    projectListCont.html('')
+                    response.results.map((project, index) => {
+                        projectListCont.append(`<div class="item-project" onclick="loadProject(${index})">
+                                <div class="item-project-name">${project.name}</div>
+                                <div class="item-project-year">${project.year} г.</div>
+                            </div>`)
+                    })
+                    // createEventCalendar(response.data, 'event-calendar');
+                    //appointments = response.data;
+                }
+            });
+        }
+
+
+    </script>
 </div>
 
 
