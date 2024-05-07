@@ -183,14 +183,17 @@ class GetProjectsAPIView(ListAPIView):
 
     def get_queryset(self):
         # Определите белый список разрешенных полей
-        allowed_fields = {'name', 'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+        allowed_fields = {'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
         query_params = self.request.query_params
 
         # Создаем объект Q для динамического построения запроса
         query = Q()
         for param, value in query_params.items():
-            # Добавляем условия фильтрации для каждого параметра запроса
-            if param in allowed_fields:
+            # Для поля 'name' используем фильтр 'icontains' для поиска по подстроке
+            if param == 'name':
+                query &= Q(**{f'{param}__icontains': value})
+            # Добавляем условия фильтрации для остальных параметров запроса
+            elif param in allowed_fields:
                 query &= Q(**{param: value})
 
         # Фильтруем проекты с использованием созданного запроса

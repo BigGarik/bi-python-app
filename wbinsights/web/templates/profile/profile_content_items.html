@@ -122,10 +122,9 @@
 
 <div id="projects" class="expert-content" style="display: none; padding:20px">
 
-
     <div style="display:flex; justify-content:space-between; margin-bottom:30px">
 
-        <input type="text" class="project-search-bar global-border-radius" placeholder="Название проекта">
+        <input type="text" id="project-search-bar" class="project-search-bar global-border-radius" placeholder="Название проекта">
 
         {% if request.path == '/profile' %}
             <a href="{% url 'project_add' %}" class="btn btn-primary" role="button" aria-pressed="true">Добавить проект</a>
@@ -145,9 +144,6 @@
                   <a class="dropdown-item" href="#">KPI и мотивация</a>
               </div>
         </div>
-
-
-
     </div>
 
     <div id="id_project_catalog" style="display:flex; justify-content: space-between; gap: 10px; "></div>
@@ -239,14 +235,13 @@
         }
 
 
-
-        function getUsersProjects() {
+        function getUsersProjects(searchQuery = '') {
             $.ajax({
                 url: `/expert/projects/json`,
                 type: 'GET',
                 data: {
                     "author": {{ user.id }},
-<!--                    "name": "test"-->
+                    "name": searchQuery
                 },
                 success: function (response) {
                     console.log(response.results);
@@ -276,7 +271,16 @@
                 }
             });
         }
+        $(document).ready(function () {
+                // Обработчик события для строки поиска
+                $('#project-search-bar').on('input', function() {
+                    const searchQuery = $(this).val();
+                    getUsersProjects(searchQuery);
+                });
 
+                // Загрузка всех проектов при инициализации
+                getUsersProjects();
+            });
 
     </script>
 </div>
