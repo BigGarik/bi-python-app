@@ -1,57 +1,64 @@
- <div style="display: none" id="user-projects-container">
+{% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
+    <a href="{% url 'project_add' %}" class="btn btn-primary" style="margin-bottom: 10px" role="button" aria-pressed="true">Добавить проект</a>
+{% endif %}
 
-     <div style="display:flex; justify-content:space-between; margin-bottom:30px">
+<div style="display: none" id="user-projects-container">
 
-        <input type="text" class="project-search-bar global-border-radius" placeholder="Название проекта123">
 
-        {% if request.path == '/profile' %}
-            <a href="{% url 'project_add' %}" class="btn btn-primary" role="button" aria-pressed="true">Добавить проект</a>
-        {%endif%}
+    <div style="display:flex; justify-content:space-between; margin-bottom:30px">
+
+        <input type="text" class="project-search-bar11 form-control global-border-radius11" placeholder="Название проекта123">
 
         <div class="dropdown show">
-              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 0px !important;">
-                  Project Category
-              </a>
 
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">Стратегия</a>
-                  <a class="dropdown-item" href="#">Эффективность</a>
-                  <a class="dropdown-item" href="#">KPI и мотивация</a>
-              </div>
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 0px !important;">
+                Project Category
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Стратегия</a>
+                <a class="dropdown-item" href="#">Эффективность</a>
+                <a class="dropdown-item" href="#">KPI и мотивация</a>
+            </div>
+
         </div>
 
     </div>
 
-    <div id="id_project_catalog" style="display:flex; justify-content: space-between; gap: 10px; "></div>
+    <div id="id_project_catalog" style="display:flex; justify-content: space-between; gap: 10px;"></div>
 
-    <div id="id_project" style="display:flex; flex-direction: column">
+    <div id="id_project" style="display:flex; flex-direction: column" class="wb-jumbotron">
 
-        <div class="container">
             <div class="row" style="margin-bottom: 10px;">
+
                 <div class="col-3">
                     <div class="client-year-cont">
                         <div class="project-customer"></div>
                         <div class="project-year"></div>
                     </div>
                 </div>
+
                 <div class="col-9">
                     <div class="edit-project-search-bar global-border-radius">
                         <div class="project-name"></div>
                     </div>
                 </div>
+
             </div>
+
             <div class="row">
                 <div class="col-3">
                     <div class="jumbotron jumbotron-fluid jumbo-styles">
                         <div class="container">
-                            <div class="project-goals-caption" >Цели проекта:</div>
-                            <div class="project-goals" ></div>
+                            <div class="project-goals-caption">Цели проекта:</div>
+                            <div class="project-goals"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-9">
                     <div class="jumbotron jumbotron-fluid jumbo-styles">
-                        <div class="container" >
+                        <div class="container">
                             <div class="project-key-results-caption">Ключевые результаты проекта</div>
                             <div class="project-key-results"></div>
                         </div>
@@ -62,13 +69,14 @@
                     </div>
                 </div>
             </div>
-        </div>
+
     </div>
+
 </div>
 
+<div style="display: none" id="user-projects-container-no-projects">No projects found</div>
 
 <script>
-
 
     let userProjects = []
 
@@ -95,7 +103,7 @@
         const projectKeyResultsCont = $('.project-key-results');
         projectKeyResultsCont.html('');
         projectKeyResultsCont.append(`<ul>`)
-        selectedProject.key_results.map( (key_res) => {
+        selectedProject.key_results.map((key_res) => {
             projectKeyResultsCont.find('ul').append(`<li>${key_res}</li>`)
         })
 
@@ -113,7 +121,7 @@
             type: 'GET',
             data: {
                 "author": {{ user.id }},
-<!--                    "name": "test"-->
+                <!--                    "name": "test"-->
             },
             success: function (response) {
                 console.log(response.results);
@@ -135,13 +143,19 @@
                     `);
                 });
 
+                const user_projects_container_no_projects = $('#user-projects-container-no-projects')
+                const user_projects_container = $('#user-projects-container')
                 // load first project as defualt
                 if (userProjects.length > 0) {
-                    $('#user-projects-container').show();
                     loadProject(0);
+                    user_projects_container.show();
+                    user_projects_container_no_projects.hide()
+
                 } else {
 
-                    projectListCont.append(`<div class="item-project">No projects found</div>`);
+                    user_projects_container.hide();
+                    user_projects_container_no_projects.show()
+
 
                 }
             }
