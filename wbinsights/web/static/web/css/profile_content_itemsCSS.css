@@ -1,0 +1,164 @@
+.project-members{
+    display:flex;
+    justify-content: center;
+}
+
+.project-goals-caption{
+    font-weight:600;
+}
+
+.jumbo-styles {
+    display: flex;
+    box-shadow: 0 0 5px hsla(0, 0%, 66%, .8);
+    background-color: #f4f4f4;
+    padding:5px;
+    height: 100%;
+}
+
+.item-project {
+    width: 20%;
+    height: 200px;
+    border: 3px solid #294e8e;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    cursor: pointer;
+    padding: 5px;
+    gap: 10px;
+}
+
+.item-project:hover {
+    background-color: #4472c4;
+    color: white;
+}
+
+.selectedProj {
+    background-color: #4472c4 !important;
+    color: white;
+    border: 3px solid #294e8e !important;
+}
+
+.item-project-name {
+    margin: 5px;
+}
+
+.item-project-year {
+    margin: 5px;
+    font-weight: 600;
+    font-size: 16px
+}
+
+#id_project {
+    border: 3px solid #294e8e;
+    margin-top: 20px;
+    padding:10px
+}
+
+.project-name {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    justify-content: center;
+    display: flex;
+    font-weight: 600;
+}
+
+.member-img {
+    width: 40px;
+    border-radius: 50%;
+    height: 40px;
+    margin: 0px 10px 5px 10px;
+}
+
+.project-tab-cont{
+    display:flex;
+    justify-content: space-between;
+    margin: 20px 0px 30px 0px;
+}
+
+.project-tab{
+    display: flex;
+    border-radius: 20px;
+    background-color: #bfbfbf;
+    color: white;
+    padding: 5px 20px 5px 20px;
+    border: grey;
+    width: 20%;
+    justify-content: center;
+    font-weight: 500;
+    align-items: center;
+    cursor:pointer;
+}
+
+.project-icon-cont{
+    display:flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.project-icon-main-cont{
+    display:flex;
+    gap: 5px;
+    justify-content: space-evenly;
+}
+
+.edit-project-search-bar{
+    display: flex;
+    padding: 5px;
+    border: 2px solid grey;
+    justify-content: center;
+    align-items: center;
+}
+.project-search-bar{
+    display: flex;
+    padding: 5px;
+    border: 2px solid grey;
+    justify-content: center;
+    width: 50%;
+    text-align: center;
+    align-items: center;
+    height: fit-content;
+}
+
+.client-year-cont{
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    width:30%
+}
+
+.pentagon {
+    width: 30%;
+    height: 200px;
+    background-color: #edebff;
+    clip-path: polygon(90% 0%, 100% 50%, 90% 100%, 0% 100%, 0% 0%);
+    padding: 10px;
+    margin-right: 20px;
+}
+
+.project-information-cont{
+    display: flex;
+    background-color: #edebff;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 20px 10px 10px;
+}
+
+.project-users-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.member-box{
+    border-radius: 10px 10px 0 0;
+    border: 1px solid #adadad;
+    border-top: none;
+    border-radius: 10px;
+    padding: 0px 10px 10px 10px;
+}
+
+.project-members-caption {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}

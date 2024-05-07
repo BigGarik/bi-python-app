@@ -3,6 +3,7 @@
 {% load i18n %}
 
 
+<link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
 
 <div class="prof-content-links-cont">
     <div class="profile-menu-item" data-content="articles"
@@ -121,14 +122,16 @@
 <div id="projects" class="expert-content" style="display: none; padding:20px">
 
 
-
-
-
     <div style="display:flex; justify-content:space-between; margin-bottom:30px">
 
-        <input type="text" class="project-search-bar" placeholder="Название проекта">
+        <input type="text" class="project-search-bar global-border-radius" placeholder="Название проекта">
 
-        <a href="{% url 'project_add' %}" class="btn btn-primary" role="button" aria-pressed="true">Добавить проект</a>
+        {% if request.path == '/profile' %}
+            <a href="{% url 'project_add' %}" class="btn btn-primary" role="button" aria-pressed="true">Добавить проект</a>
+        {%endif%}
+
+
+
 
         <div class="dropdown show">
               <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 0px !important;">
@@ -141,207 +144,54 @@
                   <a class="dropdown-item" href="#">KPI и мотивация</a>
               </div>
         </div>
+
+
+
     </div>
 
-    <div id="id_project_catalog" style="display:flex; justify-content: space-between; "></div>
+    <div id="id_project_catalog" style="display:flex; justify-content: space-between; gap: 10px; "></div>
 
     <div id="id_project" style="display:flex; flex-direction: column">
 
-
-        <div style="display: flex;  margin: 5px; gap:5px ;">
-            <div class="client-year-cont">
-                <div class="project-customer"></div>
-                <div class="project-year"></div>
-            </div>
-            <div class="edit-project-search-bar">
-                <div class="project-name"></div>
-            </div>
-        </div>
-
-
-        <div style="display: flex;margin: 5px">
-
-            <div class="pentagon">
-                <div class="project-goals-caption" style="margin: 5px">Цели проекта</div>
-                <div class="project-goals" style="margin: 5px"></div>
-            </div>
-            <div class="project-information-cont">
-
-                <div class="project-users-info">
-                    <div>
-                        <div class="project-key-results-caption">Ключевые результаты проекта</div>
-                        <div class="project-key-results"></div>
+        <div class="container">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-3">
+                    <div class="client-year-cont">
+                        <div class="project-customer"></div>
+                        <div class="project-year"></div>
                     </div>
-                    <div class="member-box">
-                        <div class="project-files"></div>
-                        <div class="project-members-container">
+                </div>
+                <div class="col-9">
+                    <div class="edit-project-search-bar global-border-radius">
+                        <div class="project-name"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="jumbotron jumbotron-fluid jumbo-styles">
+                        <div class="container">
+                            <div class="project-goals-caption" >Цели проекта:</div>
+                            <div class="project-goals" ></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="jumbotron jumbotron-fluid jumbo-styles">
+                        <div class="container" >
+                            <div class="project-key-results-caption">Ключевые результаты проекта</div>
+                            <div class="project-key-results"></div>
+                        </div>
+                        <div class="container">
                             <div class="project-members-caption">Участники</div>
                             <div class="project-members"></div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
-    <style>
-
-        .item-project {
-            width: 20%;
-            height: 200px;
-            border: 3px solid #294e8e;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            cursor: pointer;
-            padding: 5px;
-            gap: 10px;
-        }
-
-        .item-project:hover {
-            background-color: #4472c4;
-            color: white;
-        }
-
-        .selectedProj {
-            background-color: #4472c4 !important;
-            color: white;
-            border: 3px solid #294e8e !important;
-        }
-
-        .item-project-name {
-            margin: 5px;
-        }
-
-        .item-project-year {
-            margin: 5px;
-            font-weight: 600;
-            font-size: 16px
-        }
-
-        #id_project {
-            border: 3px solid #294e8e;
-            margin-top: 20px;
-            padding: 20px;
-        }
-
-        .project-name {
-            width: 100%;
-            text-align: center;
-            font-size: 18px;
-            justify-content: center;
-            display: flex;
-            font-style: italic;
-            font-weight: 600;
-        }
-
-        .member-img {
-            width: 40px;
-            border-radius: 50%;
-            height: 40px;
-            margin: 0px 10px 5px 10px;
-        }
-
-        .project-tab-cont{
-            display:flex;
-            justify-content: space-between;
-            margin: 20px 0px 30px 0px;
-        }
-
-        .project-tab{
-            display: flex;
-            border-radius: 20px;
-            background-color: #bfbfbf;
-            color: white;
-            padding: 5px 20px 5px 20px;
-            border: grey;
-            width: 20%;
-            justify-content: center;
-            font-weight: 500;
-            align-items: center;
-            cursor:pointer;
-        }
-
-        .project-icon-cont{
-            display:flex;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .project-icon-main-cont{
-            display:flex;
-            gap: 5px;
-            justify-content: space-evenly;
-        }
-
-        .edit-project-search-bar{
-            display: flex;
-            border-radius: 20px;
-            padding: 5px;
-            border: 2px solid grey;
-            justify-content: center;
-            width:90%;
-            align-items: center;
-        }
-        .project-search-bar{
-            display: flex;
-            border-radius: 20px;
-            padding: 5px;
-            border: 2px solid grey;
-            justify-content: center;
-            width: 50%;
-            text-align: center;
-            align-items: center;
-            height: fit-content;
-        }
-
-        .client-year-cont{
-            display: flex;
-            flex-direction: column;
-            font-weight: 600;
-            width:30%
-        }
-
-        .pentagon {
-            width: 30%;
-            height: 200px;
-            background-color: #edebff;
-            clip-path: polygon(90% 0%, 100% 50%, 90% 100%, 0% 100%, 0% 0%);
-            padding: 10px;
-            margin-right: 20px;
-        }
-
-        .project-information-cont{
-            display: flex;
-            background-color: #edebff;
-            flex-direction: column;
-            width: 100%;
-            padding: 10px 20px 10px 10px;
-        }
-
-        .project-users-info{
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .member-box{
-            border-radius: 10px 10px 0 0;
-            border: 1px solid #adadad;
-            border-top: none;
-            border-radius: 10px;
-            padding: 0px 10px 10px 10px;
-        }
-
-        .project-members-caption {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-
-    </style>
 
     <script>
 
@@ -350,8 +200,6 @@
 
             $(`.project-tab:eq(${tabIndex})`).addClass('selectedProj');
         }
-
-
 
         let userProjects = []
 
@@ -381,7 +229,6 @@
                 projectKeyResultsCont.find('ul').append(`<li>${key_res}</li>`)
             })
 
-
             const projectMembersFieldSetCont = $('.project-members');
 
             projectMembersFieldSetCont.html('');
@@ -391,12 +238,13 @@
         }
 
 
+
         function getUsersProjects() {
             $.ajax({
                 url: `/expert/projects/json`,
                 type: 'GET',
                 data: {
-                    "author": {{ request.user.id }},
+                    "author": {{ user.id }},
 <!--                    "name": "test"-->
                 },
                 success: function (response) {
@@ -419,7 +267,10 @@
 
                     // load first project as defualt
                     if (userProjects.length > 0) {
+                        $('#projects').show();
                         loadProject(0);
+                    } else {
+                        $('#projects').hide();
                     }
                 }
             });
