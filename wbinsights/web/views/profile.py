@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import strip_tags
 
+from wbappointment.forms import ExpertScheduleForm
 from wbappointment.models import Appointment
 from wbinsights.settings import SERVER_EMAIL
 from web.forms.users import UserProfilePasswordChangeForm
@@ -89,12 +90,12 @@ def profile_view(request):
             })
         else:
             # Fetch the expert's articles if profile is verified
-            expert_articles = Article.objects.filter(author=request.user)[:7]
+            expert_articles = Article.objects.filter(author=request.user)
             expert_articles_count = Article.objects.filter(author=request.user).count()
+
             experts_appointment_cnt = Appointment.objects.filter(expert=request.user).count()
 
             # Update the context with expert-specific data
-
             context.update({
                 "experts_articles": expert_articles,
                 "experts_articles_count": expert_articles_count,
@@ -108,7 +109,7 @@ def profile_view(request):
             })
 
     else:
-        # For non-expert users, render the client profile template
+        #For non-expert users, render the client profile template
         profile_template = "profile/client/profile.html"
         # clients_appointment = Appointment.objects.filter(client=request.user)
         clients_appointment_cnt = Appointment.objects.filter(client=request.user).count()

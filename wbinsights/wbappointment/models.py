@@ -42,6 +42,23 @@ class AppointmentPayment(models.Model):
 
 class ExpertSchedule(models.Model):
     expert = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="expert")
-    day_of_week = models.IntegerField(choices=[(i, i) for i in range(7)])
+
+    DAY_CHOICES = [
+        (1, 'Monday'),
+        (2, 'Tuesday'),
+        (3, 'Wednesday'),
+        (4, 'Thursday'),
+        (5, 'Friday'),
+        (6, 'Saturday'),
+        (7, 'Sunday'),
+    ]
+
+    day_of_week = models.IntegerField(choices=DAY_CHOICES)
     start_time = models.TimeField()
     end_time = models.TimeField()
+
+# class ExpertScheduleSpecialDays(models.Model):
+#    expert = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="expert")
+#    day_of_week = models.DateField(choices=[(i, i) for i in range(7)])
+#    start_time = models.TimeField()
+#    end_time = models.TimeField()

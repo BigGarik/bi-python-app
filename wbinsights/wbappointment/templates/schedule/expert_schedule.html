@@ -1,10 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% load wbappointment_tags %}
 
-</body>
-</html>
+{% if request.path == '/profile' %}
+
+    <div class="modal fade" id="expertCommonSchedule" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content" style="padding: 20px">
+
+                <form method="post" action="{% url 'add_schedule' %}">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Расписание</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    {% get_expert_schedule_form_set_tag as formset %}
+
+                    <div style="padding: 10px;">
+
+                        {% csrf_token %}
+                        {{ formset.management_form }}
+                        {% for form in formset %}
+
+                            <div style="padding-bottom: 20px">
+
+                                <div class="row">
+
+                                    <div class="col">
+                                        <label for="{{ form.start_time.id_for_label }}" class="">день недели</label>
+                                        {{ form.day_of_week }}
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="{{ form.start_time.id_for_label }}" class="">начало</label>
+                                        {{ form.start_time }}
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="{{ form.start_time.id_for_label }}" class="">конец</label>
+                                        {{ form.end_time }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function showExpertScheduleForm() {
+            $('#expertCommonSchedule').modal("show");
+        }
+
+        function addExpertScheduleLink() {
+            $('#consultations')
+                .prepend('<div id="expert-schedule" style="margin: 0px 10px 20px 0px;" onclick="showExpertScheduleForm()"><a class="btn btn-primary btn-sm">Настроить расписание</a></div>')
+        }
+
+        $(function () {
+            addExpertScheduleLink();
+        })
+
+
+    </script>
+
+{% endif %}

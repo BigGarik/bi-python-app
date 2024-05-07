@@ -27,6 +27,46 @@
 </div>
 
 
+{% if request.path == '/profile' %}
+    
+    <div class="modal fade" id="selectDateRangeModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Детали назначения</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div id="custom-event-date-range-content" class="modal-body">
+                        <label for="id-start-date">Дата начала</label>
+                        <input id='id-start-date' class="start-date form-control"/>
+                        <label for="id-end-date">Дата окончания</label>
+                        <input id='id-end-date' class="end-date form-control"/>
+
+                        <label for="id-date-range-action">Действие</label>
+                        <select class="form-control">
+                            <option>Доступно для бронирования</option>
+                            <option>Недоступно для бронирования</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+{% endif %}
+
+{% include 'schedule/expert_schedule.html' %}
+
 <script>
 
     const user_id = {{ request.user.id }};
@@ -173,6 +213,14 @@
         });
     }
 
+    function loadCustomDateRange(info) {
+
+
+        $('.start-date').val(moment(info.start).format('DD.MM.yyyy HH:mm'))
+        $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'))
+        $('#selectDateRangeModal').modal('show');
+    }
+
 
     let ec;
 
@@ -181,6 +229,7 @@
         //console.log("events", events);
         $('#event-calendar').html('');
         ec = new EventCalendar(document.getElementById(calendar_element_id), {
+
             view: 'timeGridWeek',
             headerToolbar: {
                 start: 'prev,next,today',
@@ -199,7 +248,15 @@
                 today: 'сегодня',
                 listWeek: 'список'
             },
+            allDaySlot: false,
+            firstDay: 1,
             locale: 'ru',
+
+            highlightedDates: ['2024-05-06', '2024-05-07', '2024-05-08', '2024-05-09', '2024-05-10'],
+            selectable: true,
+            select: function (info) {
+                loadCustomDateRange(info)
+            },
             eventClick: function (c_event) {
                 loadAppointment(c_event.event.id)
                 $('#exampleModal').modal('show')

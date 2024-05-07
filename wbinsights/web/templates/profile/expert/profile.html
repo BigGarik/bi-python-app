@@ -16,10 +16,10 @@
 
         {% include 'components/experts/profile_info.html' with user=request.user buttons_template='profile/expert/profile_buttons.html'%}
         
-        {% include 'profile/profile_content_items.html'  with user=request.user %}
+        {% include 'profile/profile_content_items.html' with user=request.user %}
     
     </div>
     
-    {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
+    {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' formset=formset %}
 
 {% endblock %}

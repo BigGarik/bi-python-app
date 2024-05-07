@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 
 from .models import Appointment, ExpertSchedule, AppointmentStatus
 
+from django.utils.translation import gettext as _
+
 
 def validate_date(date):
     if date < timezone.now().date():
@@ -13,9 +15,6 @@ def validate_date(date):
 
 class AppointmentForm(forms.ModelForm):
     hour_choices = [(str(i).zfill(2) + ":00", str(i).zfill(2) + ":00") for i in range(24)]  # hour choices
-
-    # hour_choices = [(str(i).zfill(2) + ":" + str(j).zfill(2), str(i).zfill(2) + ":" + str(j).zfill(2)) for i in
-    #                 range(24) for j in range(0, 60, 30)]   # with increments of 30 min
 
     appointment_time = forms.ChoiceField(
         choices=hour_choices,
@@ -72,13 +71,28 @@ class AppointmentForm(forms.ModelForm):
 
 
 class ExpertScheduleForm(forms.ModelForm):
+
+    HOUR_CHOICES = [(f'{hour:02}:00', f'{hour:02}:00') for hour in range(6, 22)]  # Generate choices from 06:00 to 22:00
+
+    start_time = forms.ChoiceField(choices=HOUR_CHOICES, initial=6,  widget=forms.Select(attrs={'class':'form-control form-control-sm'}))
+    end_time   = forms.ChoiceField(choices=HOUR_CHOICES, initial=22, widget=forms.Select(attrs={'class':'form-control form-control-sm expert-schedule-form-control'}))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        start_time = cleaned_data.get("start_time")
+        end_time = cleaned_data.get("end_time")
+
+        if start_time and end_time:
+            if start_time >= end_time:
+                raise ValidationError(_("End time must be after start time."))
+
+        return cleaned_data
+
     class Meta:
         model = ExpertSchedule
         fields = ['day_of_week', 'start_time', 'end_time']
         widgets = {
-            'day_of_week': forms.Select(attrs={'class': ''}),
-            'start_time': forms.TimeInput(attrs={'class': 'expert-schedule-form-control'}),
-            'end_time': forms.TimeInput(attrs={'class': 'expert-schedule-form-control'}),
+            'day_of_week': forms.Select(attrs={'class': 'form-control form-control-sm'}),
         }
 
 

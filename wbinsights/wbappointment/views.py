@@ -3,14 +3,14 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from web.models import Expert
-from .forms import AppointmentForm, SelectAppointmentDateForm
+from .forms import AppointmentForm, SelectAppointmentDateForm, ExpertScheduleForm
 from .models import Appointment, AppointmentStatus, AppointmentPayment
 from .serializers import AppointmentSerializer
 
 from yookassa import Configuration, Payment
 import uuid
 
-from django.core import serializers
+from django.forms import formset_factory
 from datetime import date, timedelta
 
 Configuration.account_id = '372377'
@@ -57,6 +57,16 @@ def add_appointment_view(request, *args, **kwargs):
 
     return render(request, 'add_appointment.html', context=context)
 
+
+def add_expert_schedule_view(request):
+    ExpertScheduleFormSet = formset_factory(ExpertScheduleForm, extra=7)
+    if request.method == "POST":
+        formset = ExpertScheduleFormSet(request.POST)
+        if formset.is_valid():
+            for form in formset.forms:
+                form.save(commit=False)
+
+    return  JsonResponse({'result': "success"}, status=200)
 
 def get_expert_working_dates(expert):
 
@@ -123,18 +133,7 @@ def get_expert_avalable_timeslots(request):
         # transform busy expert's slots to array of string
         busy_experts_str_slots = [dt.strftime('%H:%M') for dt in busyExpertsSlots]
 
-        timeslot = [
-            '09:00',
-            '10:00',
-            '11:00',
-            '12:00',
-            '13:00',
-            '14:00',
-            '15:00',
-            '16:00',
-            '17:00',
-            '18:00'
-        ]
+        timeslot = [(f'{hour:02}:00') for hour in range(9, 18)]  # Generate choices from 06:00 to 22:00
 
         # exclude from all slots already busy slots
         available_timeslots = [slot for slot in timeslot if slot not in busy_experts_str_slots]
