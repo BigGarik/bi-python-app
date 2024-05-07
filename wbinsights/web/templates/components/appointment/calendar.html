@@ -7,6 +7,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
 
+<div id="event-calendar"></div>
+
+<div>
+    <div style="display: flex;justify-content: space-evenly;margin-top: 10px;">
+        <div style="display: flex; align-items: center; ">
+            <div style="width: 30px; height: 20px; background-color: #0dcaf0; margin-right: 5px;"></div>
+            <span>- Новый</span>
+        </div>
+        <div style="display: flex; align-items: center; ">
+            <div style="width: 30px; height: 20px; background-color: #e3aa00; margin-right: 5px;"></div>
+            <span>- Подтвержден</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <div style="width: 30px; height: 20px; background-color: red; margin-right: 5px;"></div>
+            <span>- Отклонен</span>
+        </div>
+        <div style="display: flex; align-items: center; ">
+            <div style="width: 30px; height: 20px; background-color: brown; margin-right: 5px;"></div>
+            <span>- Отменен</span>
+        </div>
+        <div style="display: flex; align-items: center; ">
+            <div style="width: 30px; height: 20px; background-color: #008000; margin-right: 5px;"></div>
+            <span>- Оплачен</span>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -28,15 +55,15 @@
 
 
 {% if request.path == '/profile' %}
-    
-    <div class="modal fade" id="selectDateRangeModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+
+    <div class="modal fade" id="selectDateRangeModal" tabindex="-1" aria-labelledby="selectDateRangeModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <form>
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Детали назначения</h5>
+                        <h5 class="modal-title" id="selectDateRangeModalLabel">Детали назначения</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -62,7 +89,7 @@
         </div>
     </div>
 
-    
+
 {% endif %}
 
 {% include 'schedule/expert_schedule.html' %}

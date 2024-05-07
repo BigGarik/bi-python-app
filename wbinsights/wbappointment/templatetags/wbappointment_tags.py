@@ -10,5 +10,5 @@ from wbappointment.utils import get_expert_schedule_form_set
 register = template.Library()
 
 @register.simple_tag
-def get_expert_schedule_form_set_tag():
-    return get_expert_schedule_form_set()
+def get_expert_schedule_form_set_tag(request):
+    return get_expert_schedule_form_set(request)
