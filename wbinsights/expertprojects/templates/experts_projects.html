@@ -1,4 +1,6 @@
- <div style="display:flex; justify-content:space-between; margin-bottom:30px">
+ <div style="display: none" id="user-projects-container">
+
+     <div style="display:flex; justify-content:space-between; margin-bottom:30px">
 
         <input type="text" class="project-search-bar global-border-radius" placeholder="Название проекта123">
 
@@ -62,87 +64,88 @@
             </div>
         </div>
     </div>
+</div>
 
 
-    <script>
+<script>
 
-        function selectProjectTab(tabIndex) {
-            $('.project-tab').removeClass('selectedProj');
 
-            $(`.project-tab:eq(${tabIndex})`).addClass('selectedProj');
-        }
+    let userProjects = []
 
-        let userProjects = []
+    function loadProject(project_idx) {
 
-        function loadProject(project_idx) {
-            const selectedProject = userProjects[project_idx];
+        const selectedProject = userProjects[project_idx];
 
-            $('.item-project').removeClass('selectedProj');
+        $('.item-project').removeClass('selectedProj');
 
-            $(`.item-project:eq(${project_idx})`).addClass('selectedProj');
+        $(`.item-project:eq(${project_idx})`).addClass('selectedProj');
 
-            const projectCustomerCont = $('.project-customer');
-            projectCustomerCont.html('Клиент:' + selectedProject.customer.name)
+        const projectCustomerCont = $('.project-customer');
+        projectCustomerCont.html('Клиент:' + selectedProject.customer.name)
 
-            const projectYearCont = $('.project-year');
-            projectYearCont.html('Год:' + selectedProject.year)
+        const projectYearCont = $('.project-year');
+        projectYearCont.html('Год:' + selectedProject.year)
 
-            const projectGoalsCont = $('.project-goals');
-            projectGoalsCont.html('' + selectedProject.goals)
+        const projectGoalsCont = $('.project-goals');
+        projectGoalsCont.html('' + selectedProject.goals)
 
-            const projectNameCont = $('.project-name');
-            projectNameCont.html('' + selectedProject.name)
+        const projectNameCont = $('.project-name');
+        projectNameCont.html('' + selectedProject.name)
 
-            const projectKeyResultsCont = $('.project-key-results');
-            projectKeyResultsCont.html('');
-            projectKeyResultsCont.append(`<ul>`)
-            selectedProject.key_results.map( (key_res) => {
-                projectKeyResultsCont.find('ul').append(`<li>${key_res}</li>`)
-            })
+        const projectKeyResultsCont = $('.project-key-results');
+        projectKeyResultsCont.html('');
+        projectKeyResultsCont.append(`<ul>`)
+        selectedProject.key_results.map( (key_res) => {
+            projectKeyResultsCont.find('ul').append(`<li>${key_res}</li>`)
+        })
 
-            const projectMembersFieldSetCont = $('.project-members');
+        const projectMembersFieldSetCont = $('.project-members');
 
-            projectMembersFieldSetCont.html('');
-            selectedProject.members.map((member) => {
-                projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`)
-            })
-        }
+        projectMembersFieldSetCont.html('');
+        selectedProject.members.map((member) => {
+            projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`)
+        })
+    }
 
-        function getUsersProjects() {
-            $.ajax({
-                url: `/expert/projects/json`,
-                type: 'GET',
-                data: {
-                    "author": {{ user.id }},
+    function getUsersProjects() {
+        $.ajax({
+            url: `/expert/projects/json`,
+            type: 'GET',
+            data: {
+                "author": {{ user.id }},
 <!--                    "name": "test"-->
-                },
-                success: function (response) {
-                    console.log(response.results);
-                    userProjects = response.results;
-                    const projectListCont = $('#id_project_catalog');
-                    projectListCont.html('');
-                    response.results.map((project, index) => {
-                        projectListCont.append(`
-                            <div class="item-project" onclick="loadProject(${index})">
-                                <div class="item-project-name">${project.name}</div>
-                                <div class="item-project-year">${project.year} г.</div>
-                                <div class="project-icon-main-cont">
-                                    <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 24px"></i> 46 </div>
-                                    <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px"></i> 46 </div>
-                                </div>
+            },
+            success: function (response) {
+                console.log(response.results);
+                userProjects = response.results;
+                const projectListCont = $('#id_project_catalog');
+                projectListCont.html('');
+
+
+                userProjects.map((project, index) => {
+                    projectListCont.append(`
+                        <div class="item-project" onclick="loadProject(${index})">
+                            <div class="item-project-name">${project.name}</div>
+                            <div class="item-project-year">${project.year} г.</div>
+                            <div class="project-icon-main-cont">
+                                <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 24px"></i> 46 </div>
+                                <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px"></i> 46 </div>
                             </div>
-                        `);
-                    });
+                        </div>
+                    `);
+                });
 
-                    // load first project as defualt
-                    if (userProjects.length > 0) {
-                        $('#projects').show();
-                        loadProject(0);
-                    } else {
-                        $('#projects').hide();
-                    }
+                // load first project as defualt
+                if (userProjects.length > 0) {
+                    $('#user-projects-container').show();
+                    loadProject(0);
+                } else {
+
+                    projectListCont.append(`<div class="item-project">No projects found</div>`);
+
                 }
-            });
-        }
+            }
+        });
+    }
 
-    </script>
+</script>
