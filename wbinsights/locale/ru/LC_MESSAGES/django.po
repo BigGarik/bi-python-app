@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-30 09:29+0500\n"
+"POT-Creation-Date: 2024-05-07 15:37+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,56 +20,68 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\expertprojects\models.py:56
+#: .\expertprojects\models.py:18
+msgid "Heading"
+msgstr ""
+
+#: .\expertprojects\models.py:19
+#, fuzzy
+#| msgid "CreateArticleLabel"
+msgid "Category"
+msgstr "Написать статью"
+
+#: .\expertprojects\models.py:47
 msgid "Unsupported file extension."
 msgstr "Неподдерживаемый тип файла."
 
-#: .\templates\base.html:158 .\templates\base.html:333
+#: .\templates\base.html:82 .\templates\base.html:297
 msgid "MakeResearch"
 msgstr "Провести исследование"
 
-#: .\templates\base.html:160 .\templates\base.html:335
+#: .\templates\base.html:85 .\templates\base.html:300
 msgid "CreateArticleLabel"
 msgstr "Написать статью"
 
-#: .\templates\base.html:162 .\templates\base.html:337
+#: .\templates\base.html:88 .\templates\base.html:303
 #, fuzzy
 #| msgid "BackButtonLabel"
 msgid "AskQuestionLabel"
 msgstr "Назад"
 
-#: .\templates\base.html:176
+#: .\templates\base.html:102
 msgid "VerifyAccountLabel"
 msgstr ""
 
-#: .\templates\base.html:217 .\templates\base.html:287
+#: .\templates\base.html:154 .\templates\base.html:244
 msgid "PersonalAccountLabel"
 msgstr "Личный кабинет"
 
-#: .\templates\base.html:223 .\templates\base.html:293
+#: .\templates\base.html:160 .\templates\base.html:250
 #: .\web\templates\profile\expert\profile_buttons.html:12
 msgid "LogoutButtonLabel"
 msgstr "Выйти"
 
-#: .\templates\base.html:233 .\templates\base.html:303
+#: .\templates\base.html:171 .\templates\base.html:261
 msgid "LoginBtnLabel"
 msgstr "Войти"
 
-#: .\templates\base.html:236 .\templates\base.html:306
+#: .\templates\base.html:174 .\templates\base.html:265
 msgid "RegisterBtnLabel"
 msgstr "Зарегистрироваться"
 
-#: .\wbappointment\templates\add_appointment.html:12
-msgid "MakeAppointmentWithLabel"
+#: .\wbappointment\forms.py:87
+msgid "End time must be after start time."
 msgstr ""
 
-#: .\wbappointment\templates\add_appointment.html:29
+#: .\wbappointment\templates\add_appointment.html:70
 msgid "SubmitButtonLabel"
 msgstr "Выйти"
 
 #: .\web\backends.py:25
 msgid "Please check your email to activate your account."
-msgstr "Пожалуйста, проверьте свою электронную почту, чтобы активировать свою учетную запись."
+msgstr ""
+"Пожалуйста, проверьте свою электронную почту, чтобы активировать свою "
+"учетную запись."
 
 #: .\web\forms\users.py:30
 msgid "First name"
@@ -79,13 +91,11 @@ msgstr "Имя"
 msgid "Last name"
 msgstr "Фамилия"
 
-#: .\web\forms\users.py:32
-#: .\web\models\users.py:21
+#: .\web\forms\users.py:32 .\web\models\users.py:21
 msgid "Phone number"
 msgstr "Телефонный номер"
 
-#: .\web\forms\users.py:34 .\web\forms\users.py:159
-#: .\web\models\users.py:19
+#: .\web\forms\users.py:34 .\web\forms\users.py:155 .\web\models\users.py:19
 msgid "Email"
 msgstr "Email"
 
@@ -105,69 +115,60 @@ msgstr "Captcha"
 msgid "The user's first name cannot be equal to the last name."
 msgstr "Имя пользователя не может совпадать с фамилией."
 
-#: .\web\forms\users.py:58
-msgid "Announcement"
-msgstr "Информация"
-
-#: .\web\forms\users.py:59
-msgid "Warning"
-msgstr "Предупреждение"
-
-#: .\web\forms\users.py:60
-msgid "Error"
-msgstr "Ошибка"
-
-#: .\web\forms\users.py:65
+#: .\web\forms\users.py:61
 msgid "User with this phone number already exists and is active."
 msgstr "Пользователь с таким номером телефона уже существует и активен."
 
-#: .\web\forms\users.py:74
+#: .\web\forms\users.py:70
 msgid "Incorrect email format"
 msgstr "Неправильный формат электронной почты."
 
-#: .\web\forms\users.py:77
+#: .\web\forms\users.py:73
 msgid "User with this email already exists."
 msgstr "Пользователь с таким адресом электронной почты уже существует."
 
-#: .\web\forms\users.py:82
+#: .\web\forms\users.py:78
 msgid "About me"
 msgstr "О себе"
 
-#: .\web\forms\users.py:84
+#: .\web\forms\users.py:80
 msgid "Experience"
 msgstr "Опыт"
 
-#: .\web\forms\users.py:86
+#: .\web\forms\users.py:82
 msgid "Price"
 msgstr "Стоимость"
 
-#: .\web\forms\users.py:90
+#: .\web\forms\users.py:86
 msgid "Categories of expertise"
 msgstr "Категории экспертности"
 
-#: .\web\forms\users.py:133
+#: .\web\forms\users.py:129
 msgid "Old password"
 msgstr "Старый пароль"
 
-#: .\web\forms\users.py:142 .\web\forms\users.py:174
+#: .\web\forms\users.py:138 .\web\forms\users.py:170
 msgid "New password"
 msgstr "Новый пароль"
 
-#: .\web\forms\users.py:150 .\web\forms\users.py:184 .\web\forms\users.py:188
+#: .\web\forms\users.py:146 .\web\forms\users.py:180 .\web\forms\users.py:184
 msgid "Confirm new password"
 msgstr "Подтвердите новый пароль"
 
-#: .\web\forms\users.py:171
+#: .\web\forms\users.py:167
 msgid "Password mismatch"
 msgstr "Пароли не совпадают"
 
-#: .\web\forms\users.py:177
+#: .\web\forms\users.py:173
 msgid "Enter new password"
 msgstr "Введите новый пароль"
 
 #: .\web\models\users.py:14
-msgid "Phone number must be entered in the format: '+79997654321'. Up to 15 digits allowed."
-msgstr "Телефонный номер должен быть в формате '+79997654321'. Не более 15 цифр"
+msgid ""
+"Phone number must be entered in the format: '+79997654321'. Up to 15 digits "
+"allowed."
+msgstr ""
+"Телефонный номер должен быть в формате '+79997654321'. Не более 15 цифр"
 
 #: .\web\models\users.py:28
 msgid "active"
@@ -232,7 +233,7 @@ msgid "ActionsLabel"
 msgstr "Назад"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:14
-#: .\web\templates\profile\anketa.html:14
+#: .\web\templates\profile\anketa.html:15
 msgid "BackButtonLabel"
 msgstr "Назад"
 
@@ -266,11 +267,11 @@ msgstr "Согласовать"
 msgid "DenyButtonLabel"
 msgstr "Отклонить"
 
-#: .\web\templates\profile\anketa.html:17
+#: .\web\templates\profile\anketa.html:18
 msgid "FillAllFieldsLabel"
 msgstr "Анкета Эксперта"
 
-#: .\web\templates\profile\anketa.html:74
+#: .\web\templates\profile\anketa.html:84
 msgid "SendForVerifyLabel"
 msgstr "Отправить на верификацию"
 
@@ -278,37 +279,37 @@ msgstr "Отправить на верификацию"
 msgid "ProfileSettingsCaption"
 msgstr ""
 
-#: .\web\templates\profile\expert\profile.html:13
+#: .\web\templates\profile\expert\profile.html:14
 msgid "ToMainPageLabel"
 msgstr "На главную"
-
-#: .\web\templates\profile\expert\profile.html:20
-msgid "ArticlesTabLabel"
-msgstr "Статьи"
-
-#: .\web\templates\profile\expert\profile.html:23
-msgid "ResearchesTabLabel"
-msgstr "Исследования"
-
-#: .\web\templates\profile\expert\profile.html:26
-msgid "QuestionsTabLabel"
-msgstr "Вопросы"
-
-#: .\web\templates\profile\expert\profile.html:29
-msgid "ConsultationsTabLabel"
-msgstr "Консультации"
-
-#: .\web\templates\profile\expert\profile.html:33
-msgid "ReviewsTabLabel"
-msgstr "Отзывы"
-
-#: .\web\templates\profile\expert\profile.html:50
-msgid "ReadPostLabel"
-msgstr "Читать далее..."
 
 #: .\web\templates\profile\expert\profile_buttons.html:6
 msgid "EditProfileLabel"
 msgstr "Настройки профиля"
+
+#: .\web\templates\profile\profile_content_items.html:10
+msgid "ArticlesTabLabel"
+msgstr "Статьи"
+
+#: .\web\templates\profile\profile_content_items.html:15
+msgid "ResearchesTabLabel"
+msgstr "Исследования"
+
+#: .\web\templates\profile\profile_content_items.html:20
+msgid "QuestionsTabLabel"
+msgstr "Вопросы"
+
+#: .\web\templates\profile\profile_content_items.html:25
+msgid "ConsultationsTabLabel"
+msgstr "Консультации"
+
+#: .\web\templates\profile\profile_content_items.html:30
+msgid "ReviewsTabLabel"
+msgstr "Отзывы"
+
+#: .\web\templates\profile\profile_content_items.html:51
+msgid "ReadPostLabel"
+msgstr "Читать далее..."
 
 #: .\web\templates\registration\email\password_reset_email.html:2
 #, python-format
@@ -370,14 +371,23 @@ msgstr ""
 msgid "часов назад"
 msgstr ""
 
-#: .\web\views\login.py:178
+#: .\web\views\login.py:168
 msgid "Your account is already activated."
 msgstr ""
 
-#: .\web\views\login.py:186
+#: .\web\views\login.py:176
 msgid "Activation link is invalid."
 msgstr ""
 
-#: .\web\views\login.py:189
+#: .\web\views\login.py:179
 msgid "Account activation error: user not found."
 msgstr ""
+
+#~ msgid "Announcement"
+#~ msgstr "Информация"
+
+#~ msgid "Warning"
+#~ msgstr "Предупреждение"
+
+#~ msgid "Error"
+#~ msgstr "Ошибка"

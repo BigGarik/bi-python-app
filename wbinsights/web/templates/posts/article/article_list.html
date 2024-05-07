@@ -42,11 +42,17 @@
 
 	<div class="articles-list-main-cont" >
 
-		<div class="article-list-search-and-cat-cont">
+		<div class="search-and-cat-cont">
 
-			<input type="text" class="article-list-search-cont" placeholder="Поиск">
+			<div class="col-5">
+				<input type="text" class="lists-search-cont" placeholder="Поиск">
+			</div>
 
-			{% include "components/post_category_filter.html" %}
+
+			<div class="col-7 catagory-cont">
+				{% include "components/post_category_filter.html" %}
+			</div>
+
 
 		</div>
 

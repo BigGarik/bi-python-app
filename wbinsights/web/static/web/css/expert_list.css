@@ -38,18 +38,6 @@
     margin-top: 0px;
 }
 
-/* .experts-list-catagory-text{
-    display: flex;
-    font-family: sans-serif;
-    font-size: 14px;
-}
-
-.expert-list-catagory-choose{
-    display: flex;
-    font-family: sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-} */
 
 .expert-list-catagory-dropdown{
     width: 100%;
@@ -189,8 +177,8 @@
         .testing-class{
 			display: flex;
 			justify-content: flex-end;
-			margin-top:5px;
 		}
+
 
 		.consultions-btn-span {
 			font-weight: 500;
@@ -225,9 +213,6 @@
 				justify-content: space-between !important;
 			}
 
-<!--			.article-last {-->
-<!--				justify-content: flex-start !important;-->
-<!--			}-->
 
 			.testing-class {
 				display: flex;

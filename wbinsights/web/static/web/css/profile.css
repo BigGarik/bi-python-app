@@ -189,41 +189,39 @@
 
 }
 
-.prof-settings-btn {
+.prof-btn {
     margin-top: 0;
-    background-color: white;
-    border: 1px solid #a5b1c8;
     border-radius: 7px;
     font-size: 15px;
-    color: #36364b;
     font-weight: 600;
     font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.prof-settings-btn {
+    background-color: white;
+    border: 1px solid #a5b1c8;
+    color: #36364b;
 }
 
 .prof-settings-btn:hover {
     background-color: lightgrey;
 }
 
-
 .prof-logout-btn {
-    margin-top: 0;
     background-color: #ffeaea;
     border: none;
-    border-radius: 7px;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: sans-serif; 
-    margin-left: 10px; 
+    margin-left: 10px;
     color: #dd3838;
-    align-items: center;
-    display: flex;
-    height: 100%;
 }
 
 .prof-logout-btn:hover {
     background-color: #ffd0d0;
     color: #dd3838;
 }
+
 
 
 .prof-content-links-cont {
