@@ -2,6 +2,8 @@
 {% load static %}
 {% load i18n %}
 
+
+
 <div class="prof-content-links-cont">
     <div class="profile-menu-item" data-content="articles"
          onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %} &nbsp;<span
@@ -24,8 +26,10 @@
     </div>
 
     <div class="profile-menu-item" data-content="reviews"
-         onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}</div>
-    {#<div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>#}
+         onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}
+    </div>
+
+<!--    <div class="profile-menu-item" data-content="notifications" onclick="showContent('notifications')">Уведомления</div>-->
 
     <div class="profile-menu-item" data-content="projects" onclick="showContent('projects');getUsersProjects()">
         Проекты
@@ -36,32 +40,32 @@
     123
     {% for article in experts_articles %}
 
-        <div class="expert-content-cont">
+    <div class="expert-content-cont">
 
             <span class="article-title-loop-exp"><a href="{% url 'article_detail' article.slug %}"
                                                     style="text-decoration: none;color: #36364b;">{{ article.title }}</a></span>
-            <span class="article-content-loop-exp">{{ article.description }}</span>
-            <span class="link-read-post">
+        <span class="article-content-loop-exp">{{ article.description }}</span>
+        <span class="link-read-post">
                         <a href="{{ article.get_absolute_url }}" style="color:black;"
                            class="link-read-post">{% trans 'ReadPostLabel' %} &nbsp;
                             <i class="bi bi-chevron-down" style="color:black; scale:1.3"></i>
                         </a>
                     </span>
 
-            <div class="article-comments-andshare-cont-exp">
-                <div class="article-comments-exp">
-                    <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
-                </div>
-                <div class="article-share-exp">
-                    <i class="bi bi-calendar2-week"
-                       style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
-
-                </div>
+        <div class="article-comments-andshare-cont-exp">
+            <div class="article-comments-exp">
+                <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
             </div>
+            <div class="article-share-exp">
+                <i class="bi bi-calendar2-week"
+                   style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
 
+            </div>
         </div>
 
-        <hr>
+    </div>
+
+    <hr>
 
     {% endfor %}
 </div>
@@ -114,37 +118,70 @@
     {% endfor %}
 </div>
 
-<div id="projects" class="expert-content" style="display: none;">
-    <span>test notifications</span>
+<div id="projects" class="expert-content" style="display: none; padding:20px">
 
-    <a href="{% url 'project_add' %}">Добавить проект</a>
 
-    <div id="id_project_catalog" style="display:flex; justify-content: space-around"></div>
 
-    <div id="id_project" style="display:flex;">
 
-        <div style="display: flex; flex-direction: column; width: 30%; margin: 5px">
-            <div class="project-customer" ></div>
-            <div class="project-year"></div>
 
-            <div style="background-color: lightgray; height: 100%;">
-                <div class="project-goals-caption" style="margin: 5px">Цели проекта</div>
-                <div class="project-goals" style="margin: 5px"></div>
+    <div style="display:flex; justify-content:space-between; margin-bottom:30px">
+
+        <input type="text" class="project-search-bar" placeholder="Название проекта">
+
+        <a href="{% url 'project_add' %}" class="btn btn-primary btn-md" role="button" aria-pressed="true">Добавить проект</a>
+
+        <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Project Category
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="#">Стратегия</a>
+                  <a class="dropdown-item" href="#">Эффективность</a>
+                  <a class="dropdown-item" href="#">KPI и мотивация</a>
+              </div>
+        </div>
+    </div>
+
+    <div id="id_project_catalog" style="display:flex; justify-content: space-between; "></div>
+
+    <div id="id_project" style="display:flex; flex-direction: column">
+
+
+        <div style="display: flex;  margin: 5px; gap:5px ;">
+            <div class="client-year-cont">
+                <div class="project-customer"></div>
+                <div class="project-year"></div>
+            </div>
+            <div class="edit-project-search-bar">
+                <div class="project-name"></div>
             </div>
         </div>
 
-        <div style="display: flex; flex-direction: column; width: 70%;margin: 5px">
-            <div class="project-name"></div>
-            <div class="project-key-results-caption">Ключевые результаты проекта</div>
-            <div class="project-key-results"></div>
-            <div>
-                <div class="project-files"></div>
-                <div class="project-members-container">
-                    <div class="project-members-caption">Участники</div>
-                    <div class="project-members"></div>
-                </div>
-                
+
+        <div style="display: flex;margin: 5px">
+
+            <div class="pentagon">
+                <div class="project-goals-caption" style="margin: 5px">Цели проекта</div>
+                <div class="project-goals" style="margin: 5px"></div>
             </div>
+            <div class="project-information-cont">
+
+                <div class="project-users-info">
+                    <div>
+                        <div class="project-key-results-caption">Ключевые результаты проекта</div>
+                        <div class="project-key-results"></div>
+                    </div>
+                    <div class="member-box">
+                        <div class="project-files"></div>
+                        <div class="project-members-container">
+                            <div class="project-members-caption">Участники</div>
+                            <div class="project-members"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -152,12 +189,26 @@
     <style>
 
         .item-project {
-            width: 100px;
-            height: 120px;
-            border: 2px solid blue;
+            width: 20%;
+            height: 200px;
+            border: 3px solid #294e8e;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-end;
+            cursor: pointer;
+            padding: 5px;
+            gap: 10px;
+        }
+
+        .item-project:hover {
+            background-color: #4472c4;
+            color: white;
+        }
+
+        .selectedProj {
+            background-color: #4472c4 !important;
+            color: white;
+            border: 3px solid #294e8e !important;
         }
 
         .item-project-name {
@@ -166,18 +217,24 @@
 
         .item-project-year {
             margin: 5px;
+            font-weight: 600;
+            font-size: 16px
         }
 
         #id_project {
-            border: 1px solid lightgray;
-            margin: 20px;
+            border: 3px solid #294e8e;
+            margin-top: 20px;
             padding: 20px;
         }
 
         .project-name {
             width: 100%;
             text-align: center;
-            margin: 5px;
+            font-size: 18px;
+            justify-content: center;
+            display: flex;
+            font-style: italic;
+            font-weight: 600;
         }
 
         .member-img {
@@ -186,15 +243,124 @@
             height: 40px;
             margin: 0px 10px 5px 10px;
         }
+
+        .project-tab-cont{
+            display:flex;
+            justify-content: space-between;
+            margin: 20px 0px 30px 0px;
+        }
+
+        .project-tab{
+            display: flex;
+            border-radius: 20px;
+            background-color: #bfbfbf;
+            color: white;
+            padding: 5px 20px 5px 20px;
+            border: grey;
+            width: 20%;
+            justify-content: center;
+            font-weight: 500;
+            align-items: center;
+            cursor:pointer;
+        }
+
+        .project-icon-cont{
+            display:flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .project-icon-main-cont{
+            display:flex;
+            gap: 5px;
+            justify-content: space-evenly;
+        }
+
+        .edit-project-search-bar{
+            display: flex;
+            border-radius: 20px;
+            padding: 5px;
+            border: 2px solid grey;
+            justify-content: center;
+            width:90%;
+            align-items: center;
+        }
+        .project-search-bar{
+            display: flex;
+            border-radius: 20px;
+            padding: 5px;
+            border: 2px solid grey;
+            justify-content: center;
+            width: 100%;
+            text-align: center;
+            align-items: center;
+            height: fit-content;
+        }
+
+        .client-year-cont{
+            display: flex;
+            flex-direction: column;
+            font-weight: 600;
+            width:30%
+        }
+
+        .pentagon {
+            width: 30%;
+            height: 200px;
+            background-color: #edebff;
+            clip-path: polygon(90% 0%, 100% 50%, 90% 100%, 0% 100%, 0% 0%);
+            padding: 10px;
+            margin-right: 20px;
+        }
+
+        .project-information-cont{
+            display: flex;
+            background-color: #edebff;
+            flex-direction: column;
+            width: 100%;
+            padding: 10px 20px 10px 10px;
+        }
+
+        .project-users-info{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .member-box{
+            border-radius: 10px 10px 0 0;
+            border: 1px solid #adadad;
+            border-top: none;
+            border-radius: 10px;
+            padding: 0px 10px 10px 10px;
+        }
+
+        .project-members-caption {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+
     </style>
 
     <script>
+
+        function selectProjectTab(tabIndex) {
+            $('.project-tab').removeClass('selectedProj');
+
+            $(`.project-tab:eq(${tabIndex})`).addClass('selectedProj');
+        }
+
 
 
         let userProjects = []
 
         function loadProject(project_idx) {
             const selectedProject = userProjects[project_idx];
+
+            $('.item-project').removeClass('selectedProj');
+
+            $(`.item-project:eq(${project_idx})`).addClass('selectedProj');
 
             const projectCustomerCont = $('.project-customer');
             projectCustomerCont.html('Клиент:' + selectedProject.customer.name)
@@ -216,15 +382,12 @@
             })
 
 
-
-
             const projectMembersFieldSetCont = $('.project-members');
 
             projectMembersFieldSetCont.html('');
             selectedProject.members.map((member) => {
                 projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`)
             })
-
         }
 
 
@@ -233,24 +396,31 @@
                 url: `/expert/projects/json`,
                 type: 'GET',
                 data: {
-                    "author": {{ user.id }}
+                    "author": {{ request.user.id }},
+<!--                    "name": "test"-->
                 },
                 success: function (response) {
-
-
-                    console.log(response.results)
+                    console.log(response.results);
                     userProjects = response.results;
-
                     const projectListCont = $('#id_project_catalog');
-                    projectListCont.html('')
+                    projectListCont.html('');
                     response.results.map((project, index) => {
-                        projectListCont.append(`<div class="item-project" onclick="loadProject(${index})">
+                        projectListCont.append(`
+                            <div class="item-project" onclick="loadProject(${index})">
                                 <div class="item-project-name">${project.name}</div>
                                 <div class="item-project-year">${project.year} г.</div>
-                            </div>`)
-                    })
-                    // createEventCalendar(response.data, 'event-calendar');
-                    //appointments = response.data;
+                                <div class="project-icon-main-cont">
+                                    <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 24px"></i> 46 </div>
+                                    <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px"></i> 46 </div>
+                                </div>
+                            </div>
+                        `);
+                    });
+
+                    // load first project as defualt
+                    if (userProjects.length > 0) {
+                        loadProject(0);
+                    }
                 }
             });
         }
