@@ -42,7 +42,7 @@
 
 .container-fluid-nav-contact .navbar-brand-contact:hover,
 .container-fluid-nav-contact .navbar-brand-contact.selected {
-    background-color: black;
+    background-color: #36364b;
     color: white;
 }
 .container-fluid-nav-contact .navbar-brand-contact.selected:first-child,

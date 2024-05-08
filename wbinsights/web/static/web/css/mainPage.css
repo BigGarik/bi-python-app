@@ -55,8 +55,6 @@
     font-size: 14px;
 }
 
-
-
 .article-news{
     display: flex;
     font-family: sans-serif;
@@ -167,6 +165,7 @@
     color: #136dae;
     font-weight: 600;
     width: fit-content;
+    margin-left:5px;
     /*margin-top: 3px; */
 }
 
@@ -195,7 +194,6 @@
 .search-and-cat-cont{
     display: flex;
     justify-content: space-between;
-
 }
 
 .row-margin {
@@ -205,14 +203,12 @@
     margin-left: 0px !important;
 }
 
-
 .catagory-cont{
     display: flex;
     align-items: center;
     width:200px;
     justify-content: flex-end;
 }
-
 
 .catagory-choose{
     display: flex;
@@ -259,7 +255,6 @@
 .article-img{
     max-height: 300px;
 }
-
 
 .article-add-title {
     padding: 5px;
@@ -356,14 +351,6 @@
 .expert-name{
     display: flex;
     text-decoration: none;
-}
-
-.side-avatar-container {
-    width: 50px; 
-    height: 50px; 
-    border-radius: 50%; 
-    overflow: hidden; 
-    border: 1px solid #ccc; 
 }
 
 
