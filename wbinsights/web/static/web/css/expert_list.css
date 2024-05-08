@@ -1,13 +1,4 @@
 
-.experts-list-main-cont{
-    display: flex;
-    flex-direction: column;
-    padding: 20px 30px 20px 30px;
-    background-color: white ;
-    border-radius: 15px;
-    margin-top: 20px;
-}
-
 .experts-list-search-and-cat-cont{
     display: flex;
     justify-content: space-between;
@@ -148,8 +139,6 @@
     color :black ;
 }
 
-
-
 .article-last{
     display: flex;
     justify-content: space-between;
@@ -230,7 +219,7 @@
 				flex-direction: column !important;
 			}
 
-			.experts-list-main-cont {
+			.list-main-containers {
 				padding: 20px 10px 20px 10px !important;
 			}
 		}

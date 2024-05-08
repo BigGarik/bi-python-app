@@ -63,14 +63,6 @@
     justify-content: space-between;
 }
 
-.research-question-main-cont{
-    display: flex;
-    flex-direction: column;
-    padding: 20px 30px 20px 30px;
-    background-color: white ;
-    border-radius: 15px;
-    margin-top: 20px;
-}
 
 .question-answer-last{
     display: flex;

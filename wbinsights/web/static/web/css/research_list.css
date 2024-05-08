@@ -1,16 +1,7 @@
-.research-main-cont{
-    display: flex;
-    flex-direction: column;
-    padding: 20px 30px 20px 30px;
-    background-color: white ;
-    border-radius: 15px;
-}
-
 
 .research-date-and-cat{
     display: flex;
 }
-
 
 .finance-cat{
     display: flex;

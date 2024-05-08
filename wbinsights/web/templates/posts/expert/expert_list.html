@@ -8,11 +8,16 @@ Experts
 
 {% block posts_content %}
 
+<style>
 
-	<!--<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">-->
-	<link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
 
-	<div class="experts-list-main-cont">
+
+</style>
+
+
+	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
+
+	<div class="list-main-containers">
 
 		<div class="experts-list-search-and-cat-cont">
 		
@@ -48,6 +53,16 @@ Experts
 						<div class="experts-list-avatar-container">
 							<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
 						</div>
+
+<!--						<div class="experts-list-avatar-container">-->
+<!--							{% if expert.profile.type == 0 %}-->
+<!--								<img src="{{ expert.profile.avatar.url }}" alt="User Avatar" class="img-fluid" />-->
+<!--							{% else %}-->
+<!--								<div class="user-initials">-->
+<!--									{{ expert.first_name.0 }}{{ expert.last_name.0 }}-->
+<!--								</div>-->
+<!--							{% endif %}-->
+<!--						</div>-->
 						<div class="d-none d-md-block">
 							<span class="experts-list-rating-span">
 								<i class="bi bi-star-fill" style="color: #e9be50;"></i>

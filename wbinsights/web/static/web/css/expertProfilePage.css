@@ -1,20 +1,6 @@
-.prof-page-cont{
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-
-}
 
 .profile-info-cont{
     display: flex;
-
-}
-
-.top-half{
-    display: flex;
-    margin-bottom: 15px;
 }
 
 .bottom-half{
@@ -133,32 +119,6 @@
     font-family: sans-serif;
 }
 
-/* .profile-settings-btn{
-    display: flex;
-    text-decoration: none;
-    border: 1px solid #a5b1c8;
-    border-radius: 10px;
-    padding: 5px 10px 5px 10px;
-    color: #36364b;
-    margin-right: 15px;
-    font-weight: 600;
-} */
-
-/* .profile-logout-btn{
-    display: flex;
-    text-decoration: none;
-    border-radius: 10px;
-    align-items: center;
-    border: none;
-    padding: 5px 10px 5px 10px;
-    font-weight: 600;
-    background-color: #ffeaea;
-    color: #dd3838;
-} */
-
-
-
-
 .user-rate-and-stars{
     display: flex;
     font-family: sans-serif;
@@ -179,26 +139,6 @@
     margin-bottom: 20px;
 }
 
-/* .user-profile-links{
-
-    display: flex;
-}
-
-.expert-name{
-    display: flex;
-    text-decoration: none;
-}
-
-
-
-/* .expert-name a {
-    font-family: sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: normal;
-    text-decoration: none;
-    color: black;
-} */
 
 .chevron-left-css{
     font-weight: bold; 
@@ -221,40 +161,6 @@
     display:  flex;
     padding-bottom: 5px;
 }
-
-/* .bottom-bold-text{
-    display: flex;
-    font-weight: bold;
-    font-family: sans-serif;
-} */
-
-/* .each-link-cont{
-    display:  flex;
-    padding: 5px 10px 5px 10px;
-    align-items: center;
-    
-}
-
-.each-link-cont:hover {
-    text-decoration: underline;
-    cursor: pointer;
-    bottom: -3px;
-}
-    
-
-
-.link-name{    
-    font-size: 15px;
-    font-family: sans-serif;
-    font-weight: 500;
-} */
-
-/* .link-count{
-    font-size: 14px;
-    font-family: sans-serif;
-    font-weight: 500;
-    color: lightslategray;
-} */
 
 .expert-profile-title-content{
     display: flex;
@@ -288,10 +194,6 @@
     font-size: 400;
     margin-bottom: 5px;
     color: #5b5b6c;
-}
-
-.article-comments-andshare-cont-exp{
-    display: flex;
 }
 
 .article-comments-exp{
