@@ -117,7 +117,7 @@
                             url: '/appointment/available/timeslots/json',
                             type: 'GET',
                             data: {
-                                expert_id: 9,
+                                expert_id: {{expert.id}},
                                 selected_date: self.selectedDates[0]
                             },
                             success: function (response) {

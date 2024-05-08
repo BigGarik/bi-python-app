@@ -1,16 +1,19 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.serializers import serialize
+from django.db.models import Max, Min
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST
 
 from web.models import Expert
 from .forms import AppointmentForm, SelectAppointmentDateForm, ExpertScheduleForm
-from .models import Appointment, AppointmentStatus, AppointmentPayment
+from .models import Appointment, AppointmentStatus, AppointmentPayment, ExpertSchedule
 from .serializers import AppointmentSerializer
 
 from yookassa import Configuration, Payment
 import uuid
 
-from django.forms import formset_factory
+from django.forms import formset_factory, modelformset_factory
 from datetime import date, timedelta
 
 Configuration.account_id = '372377'
@@ -34,8 +37,8 @@ def add_appointment_view(request, *args, **kwargs):
         )
 
         if existAppointment.exists():
-            #If already exist such appointent just work with it
-            #No need to create new one
+            # If already exist such appointent just work with it
+            # No need to create new one
             form = AppointmentForm(request.POST, instance=existAppointment[0])
 
         if form.is_valid():
@@ -58,55 +61,39 @@ def add_appointment_view(request, *args, **kwargs):
     return render(request, 'add_appointment.html', context=context)
 
 
+@require_POST
 def add_expert_schedule_view(request):
-    ExpertScheduleFormSet = formset_factory(ExpertScheduleForm, extra=7)
-    if request.method == "POST":
-        formset = ExpertScheduleFormSet(request.POST)
-        if formset.is_valid():
-            for form in formset.forms:
-                form.save(commit=False)
+    queryset = ExpertSchedule.objects.filter(expert=request.user)
+    ExpertScheduleFormSet = modelformset_factory(ExpertSchedule, form=ExpertScheduleForm, exclude=[])
 
-    return  JsonResponse({'result': "success"}, status=200)
+    formset = ExpertScheduleFormSet(request.POST, queryset=queryset)
+    if formset.is_valid():
+        saved_objects = []
+        for form in formset.forms:
+            expert_schedule = form.save(commit=False)
+            expert_schedule.expert = request.user
+            expert_schedule.save()
+            saved_objects.append(expert_schedule)
+        #json_data = serialize('json', saved_objects)
+        # {'result': "success", 'data': json_data}, status=200)
+
+    return redirect(request.POST['origin-path'])
+
+# return  JsonResponse({'result': "success"}, status=200)
+
 
 def get_expert_working_dates(expert):
-
-    calendar_period = 120 #days
+    calendar_period = 120  # days
 
     start_date = date.today()
     end_date = start_date + timedelta(days=calendar_period)
 
-    expert_schedule = [
-        {
-            "week_day": 0,
-            "start": "09:00",
-            "end": "18:00",
-        },
-        {
-            "week_day": 1,
-            "start": "09:00",
-            "end": "18:00",
-        },
-        {
-            "week_day": 2,
-            "start": "09:00",
-            "end": "18:00",
-        },
-        {
-            "week_day": 3,
-            "start": "09:00",
-            "end": "18:00",
-        },
-        {
-            "week_day": 4,
-            "start": "09:00",
-            "end": "18:00",
-        }
-    ]
+    expert_schedule = ExpertSchedule.objects.filter(expert=expert).all()
 
     expert_schedule_working_days_numbers = []
 
     for day in expert_schedule:
-        expert_schedule_working_days_numbers.append(day['week_day'])
+        expert_schedule_working_days_numbers.append(day.day_of_week)
 
     not_working_dates = []
 
@@ -116,7 +103,8 @@ def get_expert_working_dates(expert):
         if (day.weekday() not in expert_schedule_working_days_numbers):
             not_working_dates.append(day.strftime("%Y-%m-%d"))
 
-    return {'data': {"start":start_date.strftime("%Y-%m-%d"),"end":end_date.strftime("%Y-%m-%d"),"not_working_dates":not_working_dates}}
+    return {'data': {"start": start_date.strftime("%Y-%m-%d"), "end": end_date.strftime("%Y-%m-%d"),
+                     "not_working_dates": not_working_dates}}
 
 
 @login_required()
@@ -124,16 +112,32 @@ def get_expert_avalable_timeslots(request):
     form = SelectAppointmentDateForm(request.GET)
 
     if form.is_valid():
+
+        expert_id = form.cleaned_data['expert_id']
+        selected_date = form.cleaned_data['selected_date']
+
         # get available expert's slot for certain date
         busyExpertsSlots = (Appointment.objects.filter(
-            expert_id=form.cleaned_data['expert_id'],
-            appointment_date=form.cleaned_data['selected_date']
+            expert_id=expert_id,
+            appointment_date=selected_date
         ).values_list("appointment_time", flat=True))
 
         # transform busy expert's slots to array of string
         busy_experts_str_slots = [dt.strftime('%H:%M') for dt in busyExpertsSlots]
 
-        timeslot = [(f'{hour:02}:00') for hour in range(9, 18)]  # Generate choices from 06:00 to 22:00
+        # get expert's schedule for certain day (+1 because in db schedule's day number starts from 1)
+        expert_schedule = ExpertSchedule.objects.filter(expert_id=expert_id,
+                                                        day_of_week=selected_date.weekday() + 1).all()
+
+        start_time = 9
+        end_time = 18
+
+        if len(expert_schedule) > 0:
+            start_time = expert_schedule[0].start_time.hour
+            end_time = expert_schedule[0].end_time.hour
+
+        timeslot = [(f'{hour:02}:00') for hour in
+                    range(start_time, end_time)]  # Generate choices from start_time to end_time
 
         # exclude from all slots already busy slots
         available_timeslots = [slot for slot in timeslot if slot not in busy_experts_str_slots]

@@ -27,7 +27,7 @@ class UserProject(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
 
-    objects = models.Manager()
+    # objects = models.Manager()
 
     def __str__(self):
         return self.name
