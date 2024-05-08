@@ -15,5 +15,12 @@
 .search-and-cat-cont{
     display: flex;
     justify-content: space-between;
+}
+
+.list-publish-date {
+    display: flex;
+    color: grey;
+    align-items: center;
+    font-size: 12px;
 
 }
