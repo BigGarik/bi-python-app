@@ -7,7 +7,7 @@
 
     <div style="display:flex; justify-content:space-between; margin-bottom:30px">
 
-        <input type="text" class="project-search-bar11 form-control global-border-radius11" placeholder="Название проекта123">
+        <input type="text" id="project-search-bar" class="project-search-bar11 form-control global-border-radius11" placeholder="Название проекта123">
 
         <div class="dropdown show">
 
@@ -114,22 +114,36 @@
             projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`)
         })
     }
+    let searchTimeout; // переменная для хранения идентификатора таймера
+    let isFirstSearchDone = false; // флаг для отслеживания первого запроса
 
-    function getUsersProjects() {
+    function getUsersProjects(searchQuery = '') {
+        if (isFirstSearchDone) {
+            if (searchTimeout) {
+                clearTimeout(searchTimeout); // очистить предыдущий таймер
+            }
+            searchTimeout = setTimeout(function() {
+                performSearch(searchQuery);
+            }, 2000); // установить задержку в 2 секунды после первого отображения
+        } else {
+            performSearch(searchQuery);
+        }        
+    }
+    
+    function performSearch(searchQuery) {
         $.ajax({
             url: `/expert/projects/json`,
             type: 'GET',
             data: {
                 "author": {{ user.id }},
-                <!--                    "name": "test"-->
+                "name": searchQuery
             },
             success: function (response) {
                 console.log(response.results);
                 userProjects = response.results;
                 const projectListCont = $('#id_project_catalog');
                 projectListCont.html('');
-
-
+                
                 userProjects.map((project, index) => {
                     projectListCont.append(`
                         <div class="item-project" onclick="loadProject(${index})">
@@ -142,7 +156,6 @@
                         </div>
                     `);
                 });
-
                 const user_projects_container_no_projects = $('#user-projects-container-no-projects')
                 const user_projects_container = $('#user-projects-container')
                 // load first project as defualt
@@ -150,16 +163,22 @@
                     loadProject(0);
                     user_projects_container.show();
                     user_projects_container_no_projects.hide()
-
                 } else {
-
                     user_projects_container.hide();
                     user_projects_container_no_projects.show()
-
-
                 }
+            isFirstSearchDone = true; // установить флаг после первого успешного запроса    
             }
         });
     }
-
+    
+    $(document).ready(function () {
+        // Обработчик события для строки поиска
+        $('#project-search-bar').on('input', function() {
+            const searchQuery = $(this).val();
+            getUsersProjects(searchQuery);
+        });
+        // Загрузка всех проектов при инициализации
+        getUsersProjects();
+    });
 </script>
