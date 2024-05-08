@@ -5,9 +5,9 @@
 <div style="display: none" id="user-projects-container">
 
 
-    <div style="display:flex; justify-content:space-between; margin-bottom:30px">
+    <div style="display:flex; justify-content:space-between; margin-bottom:30px; gap:10px">
 
-        <input type="text" id="project-search-bar" class="project-search-bar11 form-control global-border-radius11" placeholder="Название проекта123">
+        <input type="text" id="project-search-bar" class="lists-search-cont" placeholder="Название проекта123">
 
         <div class="dropdown show">
 
@@ -28,14 +28,14 @@
 
     <div id="id_project_catalog" style="display:flex; justify-content: space-between; gap: 10px;"></div>
 
-    <div id="id_project" style="display:flex; flex-direction: column" class="wb-jumbotron">
+    <div id="id_project" style="display:flex; flex-direction: column ; padding:10px" class="card border-dark mb-3">
 
             <div class="row" style="margin-bottom: 10px;">
 
                 <div class="col-3">
                     <div class="client-year-cont">
-                        <div class="project-customer"></div>
-                        <div class="project-year"></div>
+                        <div class="project-customer projects-flex"></div>
+                        <div class="project-year projects-flex"></div>
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
                 <div class="col-3">
                     <div class="jumbotron jumbotron-fluid jumbo-styles">
                         <div class="container">
-                            <div class="project-goals-caption">Цели проекта:</div>
+                            <div class="project-members-caption">Цели проекта:</div>
                             <div class="project-goals"></div>
                         </div>
                     </div>
@@ -59,11 +59,11 @@
                 <div class="col-9">
                     <div class="jumbotron jumbotron-fluid jumbo-styles">
                         <div class="container">
-                            <div class="project-key-results-caption">Ключевые результаты проекта</div>
+                            <div class="project-members-caption">Ключевые результаты проекта:</div>
                             <div class="project-key-results"></div>
                         </div>
                         <div class="container">
-                            <div class="project-members-caption">Участники</div>
+                            <div class="project-members-caption">Участники:</div>
                             <div class="project-members"></div>
                         </div>
                     </div>
@@ -76,44 +76,57 @@
 
 <div style="display: none" id="user-projects-container-no-projects">No projects found</div>
 
+
+<style>
+
+    .card-custom{
+        width: 200px;
+        height: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+</style>
+
 <script>
 
     let userProjects = []
 
     function loadProject(project_idx) {
 
+        $('.card.border-dark.mb-3').removeClass('selectedProj');
+
+        $(`.card.border-dark.mb-3:eq(${project_idx})`).addClass('selectedProj');
+
         const selectedProject = userProjects[project_idx];
 
-        $('.item-project').removeClass('selectedProj');
-
-        $(`.item-project:eq(${project_idx})`).addClass('selectedProj');
-
         const projectCustomerCont = $('.project-customer');
-        projectCustomerCont.html('Клиент:' + selectedProject.customer.name)
+        projectCustomerCont.html('Клиент:&nbsp;' + selectedProject.customer.name);
 
         const projectYearCont = $('.project-year');
-        projectYearCont.html('Год:' + selectedProject.year)
+        projectYearCont.html('Год:&nbsp;' + selectedProject.year);
 
         const projectGoalsCont = $('.project-goals');
-        projectGoalsCont.html('' + selectedProject.goals)
+        projectGoalsCont.html(selectedProject.goals);
 
         const projectNameCont = $('.project-name');
-        projectNameCont.html('' + selectedProject.name)
+        projectNameCont.html(selectedProject.name);
 
         const projectKeyResultsCont = $('.project-key-results');
         projectKeyResultsCont.html('');
-        projectKeyResultsCont.append(`<ul>`)
-        selectedProject.key_results.map((key_res) => {
-            projectKeyResultsCont.find('ul').append(`<li>${key_res}</li>`)
-        })
+        projectKeyResultsCont.append('<ul>');
+        selectedProject.key_results.forEach((key_res) => {
+            projectKeyResultsCont.find('ul').append(`<li>${key_res}</li>`);
+        });
 
         const projectMembersFieldSetCont = $('.project-members');
-
         projectMembersFieldSetCont.html('');
-        selectedProject.members.map((member) => {
-            projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`)
-        })
+        selectedProject.members.forEach((member) => {
+            projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`);
+        });
     }
+
     let searchTimeout; // переменная для хранения идентификатора таймера
     let isFirstSearchDone = false; // флаг для отслеживания первого запроса
 
@@ -127,9 +140,9 @@
             }, 2000); // установить задержку в 2 секунды после первого отображения
         } else {
             performSearch(searchQuery);
-        }        
+        }
     }
-    
+
     function performSearch(searchQuery) {
         $.ajax({
             url: `/expert/projects/json`,
@@ -143,19 +156,24 @@
                 userProjects = response.results;
                 const projectListCont = $('#id_project_catalog');
                 projectListCont.html('');
-                
+
                 userProjects.map((project, index) => {
                     projectListCont.append(`
-                        <div class="item-project" onclick="loadProject(${index})">
-                            <div class="item-project-name">${project.name}</div>
-                            <div class="item-project-year">${project.year} г.</div>
-                            <div class="project-icon-main-cont">
-                                <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 24px"></i> 46 </div>
-                                <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px"></i> 46 </div>
+                        <div class="card border-dark mb-3" style="width:20%; cursor: pointer;" onclick="loadProject(${index})">
+                            <div class="card-body text-dark card-css">
+                                <h5 class="card-title">${project.name}</h5>
+                                <h5 class="card-title">${project.year} г.</h5>
+                                <div class="project-icon-main-cont">
+                                    <div class="project-icon-cont" ><i class="bi bi-eye" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
+                                    <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
+                                </div>
                             </div>
                         </div>
                     `);
                 });
+
+                $('.card.border-dark.mb-3:first').addClass('selectedProj');
+
                 const user_projects_container_no_projects = $('#user-projects-container-no-projects')
                 const user_projects_container = $('#user-projects-container')
                 // load first project as defualt
@@ -167,11 +185,11 @@
                     user_projects_container.hide();
                     user_projects_container_no_projects.show()
                 }
-            isFirstSearchDone = true; // установить флаг после первого успешного запроса    
+            isFirstSearchDone = true; // установить флаг после первого успешного запроса
             }
         });
     }
-    
+
     $(document).ready(function () {
         // Обработчик события для строки поиска
         $('#project-search-bar').on('input', function() {

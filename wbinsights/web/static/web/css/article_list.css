@@ -28,20 +28,6 @@
 
 }
 
-.article-list-search-cont{
-    display: flex;
-    padding: 5px 10px 5px 10px;
-    border: 1px solid #dadada;
-    font-family: sans-serif;
-    width: 50%;
-    border-radius: 7px;
-    outline: none !important;
-}
-
-/* .dropdown{
-    display: flex;
-    align-items: center;
-} */
 
 .article-list-catagory-cont{
     display: flex;
@@ -136,9 +122,6 @@
 .article-img{
     max-height: 300px;
 }
-
-
-
 
 .article-list-last{
     display: flex;
