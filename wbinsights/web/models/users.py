@@ -116,9 +116,7 @@ class ExpertProfile(models.Model):
     experience_documents = models.ManyToManyField('Document', blank=True, related_name='experience_documents',
                                                   verbose_name=_('Документы подтверждающие стаж'))
     degree_documents = models.ManyToManyField('Document', blank=True, related_name='degree_documents',
-                                              verbose_name=_('Дипломы об образовании'))
-    certification_documents = models.ManyToManyField('Document', blank=True, related_name='certification_documents',
-                                                     verbose_name=_('Сертификаты об образовании'))
+                                              verbose_name=_('Документы об образовании'))
 
     class ExpertVerifiedStatus(models.IntegerChoices):
         NOT_VERIFIED = 0, _('Неверифицирован')
