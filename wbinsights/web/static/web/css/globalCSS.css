@@ -22,5 +22,41 @@
     color: grey;
     align-items: center;
     font-size: 12px;
+}
 
+.comments-andshare-cont {
+    display: flex;
+    gap: 10px ;
+
+
+.list-comments {
+    display: flex;
+    color: #a5b1c8;
+    margin-right: 10px;
+    align-items: center;
+    font-size: 15px;
+    gap: 5px;
+}
+
+.list-share {
+    display:flex;
+    cursor:pointer;
+}
+
+.user-stats {
+    display: flex;
+    font-family: sans-serif;
+    color: red;
+    font-size: 12px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.list-main-containers{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px 20px 30px;
+    background-color: white;
+    border-radius: 15px;
+    margin-top: 20px;
 }

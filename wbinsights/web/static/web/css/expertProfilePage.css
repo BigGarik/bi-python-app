@@ -127,15 +127,6 @@
     margin-right: 10px;
 }
 
-.user-stats{
-    display: flex;
-    font-family: sans-serif;
-    color: grey;
-    font-size: 12px;
-    padding-top: 5px;
-    padding-bottom: 10px;
-
-}
 
 .user-settings{
     display: flex;

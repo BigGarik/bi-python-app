@@ -136,13 +136,6 @@
     font-weight: 600;
 }
 
-
-.article-list-comments-andshare-cont{
-    display: flex;
-    align-items: center;
-}
-
-
 .article-list-comments{
     display: flex;
     color: #a5b1c8;
@@ -150,14 +143,6 @@
     align-items: center;
     font-size: 15px;
     gap: 2px;
-}
-
-
-.article-list-share {
-    display: flex;
-    align-items: center;
-    color: #a5b1c8;
-    cursor: pointer;
 }
 
 .article-list-author-name{

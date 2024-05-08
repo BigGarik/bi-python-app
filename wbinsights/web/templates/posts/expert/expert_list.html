@@ -9,7 +9,8 @@ Experts
 {% block posts_content %}
 
 
-	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
+	<!--<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">-->
+	<link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
 
 	<div class="experts-list-main-cont">
 
@@ -93,13 +94,13 @@ Experts
 				<!-- smaller than md -->
 				<div class="d-md-none article-last">
 					<div style="display:flex;justify-content:flex-start">
-						<div class="col-sm expert-stats-an-other">
+						<div class="col-sm user-stats">
 							{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
 						</div>
 					</div>
 					{% if request.user.id != expert.id %}
 						{% if request.user.id != expert.id %}
-						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация <span class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</span></a>
+						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn btn-success  expert-list-consult-btn">Консультация <span class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</span></a>
 
 						{% endif %}
 					{%endif%}
@@ -108,7 +109,7 @@ Experts
 
 				<!-- larger than md -->
 				<div class="d-none d-md-block article-last-2" style="display:flex ">
-					<div class="col-sm order-md-2 expert-stats-an-other">
+					<div class="col-sm order-md-2 user-stats">
 						{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
 					</div>
 					<div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
