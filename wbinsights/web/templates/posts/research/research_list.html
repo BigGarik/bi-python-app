@@ -1,4 +1,3 @@
-
 {% extends 'basePostList.html' %}
 {% load static %}
 
@@ -8,82 +7,86 @@ Research
 
 {% block posts_content %}
 
-    <style>
+<style>
 
-        @media (max-width: 768px ) {
+    @media (max-width: 768px ) {
 
-            .research-publish-date {
+        .research-publish-date {
 
-                font-size:11px !important;
-                margin-right: 2px !important;
-            }
-
+            font-size:11px !important;
+            margin-right: 2px !important;
         }
-    </style>
+
+    }
+</style>
 
 
-    <link rel="stylesheet" href="{% static 'web/css/research_list.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/research_list.css' %}">
 
-    
-    <div class="research-main-cont" style="margin-top: 20px;">	
-    
-        <div class="research-content">
 
-            <div class="research-date-and-cat">
-                
-                <div class="research-publish-date">
-                    <i class="bi bi-calendar2-week" style="color:grey; scale:1.3"></i>
-                    &nbsp;  сегодня в 16:30
-        
-                </div>
-                <div class="user-catagory-highlight finansy">Финансы</div>
-                <div class="user-catagory-highlight banki">Банки</div>
+<div class="research-main-cont" style="margin-top: 20px;">
+
+    <div class="research-content">
+
+        <div class="research-date-and-cat">
+
+            <div class="list-publish-date">
+                <i class="bi bi-calendar2-week" style="color:grey; scale:1.3"></i>
+                &nbsp; сегодня в 16:30
 
             </div>
-    
-            <div class="research-main-content">
-            
-                <div class="research-title">
-                    Выбранный нами инновационный путь так же органично вписывается в наши планы
-                </div>
-    
-                <div class="article-main-content-text">Описание публикации: Сложно сказать, почему активно развивающиеся страны третьего мира представляют собой не что иное</div>
-            
-                <img src="https://unsplash.com/photos/XN6Z9g3DM4A/download?force=true&w=400" alt="A person standing in the sand near some rocks" class="img-fluid" style="height: 200px; width: 100%;">
+            <div class="user-catagory-highlight finansy">Финансы</div>
+            <div class="user-catagory-highlight banki">Банки</div>
 
-    
-                <div class="research-last">
-    
-                    <div class="article-author-cont">
-
-                        {% for researchprofpic in '12345' %}
-                        <div class="author-pic">
-                            <i class="bi bi-person-circle" style="color:black; scale:1.2 ; display: flex;"></i>
-                        </div>
-                    
-                        {%endfor%}
-
-                    </div>
-    
-                    <div class="article-comments-andshare-cont">
-
-                        <div class="article-comments">
-                            <i class="bi bi-chat-left-text" style="color:grey; scale:1"></i>
-                            &nbsp; 104
-                        </div>
-
-                        <div class="article-share">
-                            <i class="bi bi-box-arrow-up-right" style="color:grey; scale:0.9"></i>
-                        </div>
-    
-                    </div>
-    
-                </div>
-                
-            </div>
-            
         </div>
-    
+
+        <div class="research-main-content">
+
+            <div class="research-title">
+                Выбранный нами инновационный путь так же органично вписывается в наши планы
+            </div>
+
+            <div class="article-main-content-text">Описание публикации: Сложно сказать, почему активно развивающиеся
+                страны третьего мира представляют собой не что иное
+            </div>
+
+            <img src="https://unsplash.com/photos/XN6Z9g3DM4A/download?force=true&w=400"
+                 alt="A person standing in the sand near some rocks" class="img-fluid"
+                 style="height: 200px; width: 100%;">
+
+
+            <div class="research-last">
+
+                <div class="article-author-cont">
+
+                    {% for researchprofpic in '12345' %}
+                    <div class="author-pic">
+                        <i class="bi bi-person-circle" style="color:black; scale:1.2 ; display: flex;"></i>
+                    </div>
+
+                    {%endfor%}
+
+                </div>
+
+                <div class="article-comments-andshare-cont">
+
+                    <div class="article-comments">
+                        <i class="bi bi-chat-left-text" style="color:grey; scale:1"></i>
+                        &nbsp; 104
+                    </div>
+
+                    <div class="article-share">
+                        <i class="bi bi-box-arrow-up-right" style="color:grey; scale:0.9"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
+</div>
 
 {% endblock %}

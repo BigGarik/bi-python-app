@@ -108,6 +108,8 @@
     width:100%;
     text-decoration: none;
     color: black;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .logout-btn-style {

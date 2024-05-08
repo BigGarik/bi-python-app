@@ -71,13 +71,6 @@
     margin-top: 25px;
 }
 
-.article-list-publish-date{
-    display: flex;
-    color:  grey;
-    align-items: center;
-    font-size: 12px;
-    margin-bottom: 5px;
-}
 
 .article-list-title{
     display: flex;

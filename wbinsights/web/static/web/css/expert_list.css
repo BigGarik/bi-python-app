@@ -93,7 +93,7 @@
 .expert-list-main-content {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     width: 100%;
     padding: 10px;
 }

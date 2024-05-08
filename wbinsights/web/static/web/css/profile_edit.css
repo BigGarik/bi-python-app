@@ -63,29 +63,26 @@
 
 .prof-edit-bot-btns-cont{
     display:flex ; 
-    align-items: center
-    
+    align-items: center;
+    gap:10px;
 }
 
 .prof-edit-save-btn{
-    margin: 0;
-    padding: 0;
-    height: 40px;
-    padding: 0 10px 0 10px; 
-    background-color:#6dc36b ; 
+    background-color:#6dc36b ;
     border:none ; 
-    font-size: 14px; 
-    margin-right: 10px 
+}
+.prof-edit-save-btn:hover{
+    background-color: #7ee87b;
 }
 
 .prof-edit-delete-btn {
-    background-color:white;
-    color:red;
-    margin: 0;
     border:none;
-    font-weight: 600; 
-    font-size:14px; 
-    margin-left:10px
+    font-weight: 600;
+    background-color: #ff7777;
+}
+
+.prof-edit-delete-btn:hover {
+    background-color: orangered;
 }
 
 .custom-form-css{
