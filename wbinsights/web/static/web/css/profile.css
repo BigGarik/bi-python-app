@@ -49,21 +49,6 @@
     height: auto; 
 }
 
-.profile-information-cont{
-    display: flex;
-    width: 80%;
-    flex-direction: column;
-    padding-left: 20px;
-    justify-content: space-between;
-}
-
-.profile-information-cont-client{
-    display: flex;
-    width: 80%;
-    flex-direction: column;
-    padding-left: 20px;
-    justify-content: space-evenly;
-}
 
 .user-display-name{
    display: flex;

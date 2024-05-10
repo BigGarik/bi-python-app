@@ -55,7 +55,7 @@ Experts
 						</div>
 
 <!--						<div class="experts-list-avatar-container">-->
-<!--							{% if expert.profile.type == 0 %}-->
+<!--							{% if expert.profile.avatar.url %}-->
 <!--								<img src="{{ expert.profile.avatar.url }}" alt="User Avatar" class="img-fluid" />-->
 <!--							{% else %}-->
 <!--								<div class="user-initials">-->
@@ -63,6 +63,7 @@ Experts
 <!--								</div>-->
 <!--							{% endif %}-->
 <!--						</div>-->
+
 						<div class="d-none d-md-block">
 							<span class="experts-list-rating-span">
 								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
@@ -152,6 +153,8 @@ Experts
 				}
 			}
 		}
+
+		console.log("Avatar URL:", "{{ expert.profile.avatar.url }}");
 	</script>
 
 {% endblock %}
