@@ -58,11 +58,12 @@ class CustomUser(AbstractUser):
 # Общий профиль
 class Profile(models.Model):
     class TypeUser(models.IntegerChoices):
-        CLIENT = 0, 'Пользователь'
-        EXPERT = 1, 'Эксперт'
+        CLIENT = 0, _('Client')
+        EXPERT = 1, _('Expert')
 
-    avatar = models.ImageField('Аватар', upload_to="avatars", default="avatars/profile_picture_icon.png")
-    type = models.IntegerField("Категория пользователя", choices=TypeUser.choices, default=TypeUser.CLIENT)
+    avatar = models.ImageField(verbose_name=_('Avatar'), upload_to="avatars",
+                               default="avatars/profile_picture_icon.png")
+    type = models.IntegerField(verbose_name=_('Category user'), choices=TypeUser.choices, default=TypeUser.CLIENT)
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
 
 
@@ -105,29 +106,35 @@ class NonVerifiedExpert(CustomUser):
 # Профиль эксперта
 class ExpertProfile(models.Model):
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertprofile')
-
     about = models.CharField(max_length=2000, null=True)
-    education = models.CharField(max_length=250, null=True)
     age = models.IntegerField(null=True)
     hour_cost = models.IntegerField(null=True)
+    expert_categories = models.ManyToManyField(Category)
+    """ Опыт работы """
     experience = models.IntegerField(default=0)
-    hh_link = models.URLField(max_length=200, blank=True, verbose_name=_('Ссылка на HH'))
-    linkedin_link = models.URLField(max_length=200, blank=True, verbose_name=_('Ссылка на LinkedIn'))
+    hh_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to HH'))
+    linkedin_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to LinkedIn'))
     experience_documents = models.ManyToManyField('Document', blank=True, related_name='experience_documents',
-                                                  verbose_name=_('Документы подтверждающие стаж'))
+                                                  verbose_name=_('Documents confirming experience'))
+    """ Образование """
+    education = models.CharField(max_length=250, null=True, blank=True)  # Степень образования?
+    specialized_education = models.BooleanField(default=False)  # Профильное или нет образование
+    educational_institution = models.CharField(max_length=250, null=True, blank=True)  # образовательное учреждение
+    number_diploma = models.CharField(max_length=250, null=True, blank=True)
     degree_documents = models.ManyToManyField('Document', blank=True, related_name='degree_documents',
-                                              verbose_name=_('Документы об образовании'))
+                                              verbose_name=_('Education documents'))
+    """ Верификация """
 
     class ExpertVerifiedStatus(models.IntegerChoices):
-        NOT_VERIFIED = 0, _('Неверифицирован')
-        VERIFIED = 1, _('Верифицирован')
+        NOT_VERIFIED = 0, _('Unverified')
+        VERIFIED = 1, _('Verified')
 
     is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerifiedStatus.choices,
                                       default=ExpertVerifiedStatus.NOT_VERIFIED)
-    # rating = models.FloatField(null=True)
-    expert_categories = models.ManyToManyField(Category)
 
-    def calculate_experience_rating(self):
+    rating = models.FloatField(null=True)
+
+    def _calculate_experience_rating(self):
         # Проверяем наличие ссылок или документов
         has_links_or_documents = self.hh_link or self.linkedin_link or self.experience_documents.exists()
 
@@ -141,16 +148,36 @@ class ExpertProfile(models.Model):
             return 2
         elif self.experience >= 3:
             return 1
-        elif self.experience >= 2:
+        elif self.experience >= 2 and has_links_or_documents:
             return 1
         else:
             return 0
 
+    def _calculate_education_rating(self):
+        if ((self.specialized_education and self.educational_institution and self.number_diploma)
+                or self.degree_documents.exists()
+                and self.is_verified == ExpertProfile.ExpertVerifiedStatus.VERIFIED):
+            return 2
+        elif (self.specialized_education and self.educational_institution
+              and (not self.number_diploma or not self.degree_documents.exists())
+              and self.is_verified == ExpertProfile.ExpertVerifiedStatus.VERIFIED):
+            return 1
+        else:
+            return 0
+
+    def _calculate_rating(self):
+        ratings = [
+            self._calculate_education_rating(),
+            self._calculate_experience_rating(),
+            # Добавить сюда вызовы других методов расчета рейтинга по мере их создания
+        ]
+        self.rating = sum(ratings) / len(ratings) if ratings else 0
+
 
 class Document(models.Model):
     expertprofile = models.ForeignKey(ExpertProfile, on_delete=models.CASCADE, related_name='documents')
-    file = models.FileField(upload_to=UploadToPathAndRename('expert/documents'), verbose_name=_('Файл'))
-    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Дата загрузки'))
+    file = models.FileField(upload_to=UploadToPathAndRename('expert/documents'), verbose_name=_('File'))
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Date of upload'))
 
     def __str__(self):
         return _(f"Document {self.id} uploaded by {self.expertprofile.user.username}")
