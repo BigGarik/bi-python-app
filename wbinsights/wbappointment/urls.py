@@ -1,26 +1,24 @@
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 
-from wbappointment.views import add_appointment_view, add_appointment_success_view, appointment_payment_callback_view, \
-    checkout_appointment_view, get_expert_avalable_timeslots, get_experts_appointment, get_clients_appointment, add_expert_schedule_view
+from wbappointment.views.appointments import add_appointment_view, checkout_appointment_view, \
+    get_expert_avalable_timeslots, add_appointment_success_view, appointment_payment_callback_view
 
-# AppointmentExpertAvialableTimeForDateView
-
-# router = routers.DefaultRouter("api")
-# router.register('expert/availiable/time', AppointmentExpertAvialableTimeForDateView)
-#router.register('groups', views.GroupViewSet)
+from wbappointment.views.calendar import add_expert_schedule_view, add_appointment_range_view, get_experts_appointment, \
+    get_clients_appointment
 
 urlpatterns = [
     # path("", handleIndex, name="index"),
     path("add/<int:pk>/", add_appointment_view, name="appointment_add"),
-    path("add/success/", add_appointment_success_view, name="appointment_add_success"),
-    path("add/schedule/", add_expert_schedule_view, name="add_schedule"),
-    path("add/range/", add_appointment_view, name="add_range"),
-    path("payment/callback/", appointment_payment_callback_view, name="appointment_add_success_callback"),
+
     path("checkout/<int:pk>/", checkout_appointment_view, name="appointment_checkout"),
     path("available/timeslots/json", get_expert_avalable_timeslots, name="get_expert_avalable_timeslots"),
-    path("list/expert/<int:expert_id>/json", get_experts_appointment, name="get_experts_appointment"),
-    path("list/client/<int:client_id>/json", get_clients_appointment, name="get_clients_appointment")
+    path("add/success/", add_appointment_success_view, name="appointment_add_success"),
+    path("payment/callback/", appointment_payment_callback_view, name="appointment_add_success_callback"),
+
+    path("calendar/add/schedule/", add_expert_schedule_view, name="add_calendar_schedule"),
+    path("calendar/add/range/", add_appointment_range_view, name="add_calendar_range"),
+    path("calendar/expert/<int:expert_id>/json", get_experts_appointment, name="get_experts_appointment"),
+    path("calendar/client/<int:client_id>/json", get_clients_appointment, name="get_clients_appointment")
 
     #path("expert/availiable/time/", AppointmentExpertAvialableTimeForDateView.as_view(), name="appointment_available_time_slots"),
 ]

@@ -14,8 +14,9 @@ def get_expert_schedule_form_set(request):
 
     expertScheduleFormSet = modelformset_factory(ExpertSchedule,
                                                  form=ExpertScheduleForm, exclude=[], extra=7)
-    initial_values = [{'day_of_week': day_num + 1, 'start_time': '09:00:00', 'end_time': '18:00:00'} for day_num in
-                      range(0, 7)]
+    initial_values = [{'day_of_week': day_num, 'start_time': '09:00:00', 'end_time': '18:00:00'} for day_num in
+                      range(1, 8)]
+
     return expertScheduleFormSet(initial=initial_values)
 
 

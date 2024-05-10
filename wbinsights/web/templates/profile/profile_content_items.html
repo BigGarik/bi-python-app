@@ -5,7 +5,7 @@
 <style>
     @media (max-width: 768px) {
         .prof-content-links-cont {
-                flex-wrap: wrap;
+            flex-wrap: wrap;
         }
     }
 
@@ -49,35 +49,36 @@
 
     {% for article in experts_articles %}
 
-    <div class="expert-content-cont">
+        <div class="expert-content-cont">
 
         <span class="article-title-loop-exp">
-            <a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">{{ article.title }}</a>
+            <a href="{% url 'article_detail' article.slug %}"
+               style="text-decoration: none;color: #36364b;">{{ article.title }}</a>
         </span>
 
-        <span class="article-content-loop-exp">{{ article.description }}</span>
+            <span class="article-content-loop-exp">{{ article.description }}</span>
 
-        <span class="link-read-post">
+            <span class="link-read-post">
             <a href="{{ article.get_absolute_url }}" style="color:black;"
                class="link-read-post">{% trans 'ReadPostLabel' %} &nbsp;
                 <i class="bi bi-chevron-down" style="color:black; scale:1.3"></i>
             </a>
         </span>
 
-        <div class="article-comments-andshare-cont-exp">
-            <div class="article-comments-exp">
-                <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
-            </div>
-            <div class="article-share-exp">
-                <i class="bi bi-calendar2-week"
-                   style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
+            <div class="article-comments-andshare-cont-exp">
+                <div class="article-comments-exp">
+                    <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
+                </div>
+                <div class="article-share-exp">
+                    <i class="bi bi-calendar2-week"
+                       style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
 
+                </div>
             </div>
+
         </div>
 
-    </div>
-
-    <hr>
+        <hr>
 
     {% endfor %}
 </div>
@@ -134,7 +135,33 @@
     }
 
     $(document).ready(function () {
-        showContent('articles')
+
+        const host = window.location.host;
+        const pathname = window.location.pathname;
+        const search = window.location.search;
+        const hash = window.location.hash;
+
+        const currentUrl = window.location.href;
+        console.log(currentUrl);
+
+        let params = new URLSearchParams(search);
+        console.log(params.get('tab'))
+
+        {#params.get('page'); // '2'#}
+
+
+        let activeTabName = 'articles';
+        $('.prof-content-links-cont div').map( (tab) => {
+            //console.log(tab.attr('data-content'))
+            console.log($(this).attr('data-content'))
+        })
+        const possibleTabNames = []
+        if (params.has("tab"))
+            activeTabName = params.get('tab')
+
+
+        //showContent('consultations')
+        $('[data-content="consultations"]').click()
     })
 
 </script>

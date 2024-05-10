@@ -40,6 +40,7 @@ class AppointmentPayment(models.Model):
     uuid = models.UUIDField()
 
 
+# TODO add restriction day_of_week - expert unique
 class ExpertSchedule(models.Model):
     expert = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="expert")
 
@@ -56,9 +57,20 @@ class ExpertSchedule(models.Model):
     day_of_week = models.IntegerField(choices=DAY_CHOICES)
     start_time = models.TimeField()
     end_time = models.TimeField()
+    is_work_day = models.BooleanField(default=True, )
 
-# class ExpertScheduleSpecialDays(models.Model):
-#    expert = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="expert")
-#    day_of_week = models.DateField(choices=[(i, i) for i in range(7)])
-#    start_time = models.TimeField()
-#    end_time = models.TimeField()
+    class Meta:
+        constraints = [UniqueConstraint(fields=['expert', 'day_of_week'],
+                                        name='unique_experts_schedule')]
+
+
+class ExpertScheduleSpecialDays(models.Model):
+    expert = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="_expert")
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+
+    SPECIAL_DAY_TYPE = [
+        (0, 'Unavailable'),
+        (1, 'Available'),
+    ]
+    type = models.IntegerField(choices=SPECIAL_DAY_TYPE)

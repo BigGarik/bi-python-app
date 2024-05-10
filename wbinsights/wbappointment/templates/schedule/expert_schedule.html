@@ -2,6 +2,24 @@
 
 {% if request.path == '/profile' and request.user.profile.type == 1 %}
 
+    <style>
+
+        .modal-schedule-cell-checkbox {
+            display: flex;
+            justify-content: center;
+        }
+
+        .modal-schedule-cell {
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-schedule-header {
+            text-align: center;
+        }
+
+    </style>
+
     <div class="modal fade" id="expertCommonSchedule" tabindex="-1" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
 
@@ -9,7 +27,7 @@
 
             <div class="modal-content" style="padding: 20px">
 
-                <form method="post" action="{% url 'add_schedule' %}" id="expert-schedule-form">
+                <form method="post" action="{% url 'add_calendar_schedule' %}" id="expert-schedule-form">
 
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Расписание</h5>
@@ -17,8 +35,17 @@
                     </div>
 
                     <input type="hidden" name="origin-path" value="{{ request.path }}">
+                    <input type="hidden" name="origin-query" value="{{ request.GET.urlencode }}">
 
                     {% get_expert_schedule_form_set_tag request as formset %}
+
+                    <div class="row">
+                        <div class="col modal-schedule-header">Доступен</div>
+                        <div class="col modal-schedule-header">День недели</div>
+                        <div class="col modal-schedule-header">Начало</div>
+                        <div class="col modal-schedule-header">Конец</div>
+
+                    </div>
 
                     <div style="padding: 10px;">
 
@@ -30,20 +57,24 @@
 
                                 <div class="row">
 
-                                    <div class="col">
-                                        <label for="{{ form.start_time.id_for_label }}" class="">день недели</label>
+                                    <div class="col modal-schedule-cell-checkbox">
+                                        {{ form.is_work_day }}
+                                    </div>
+
+                                    <div class="col modal-schedule-cell">
+                                        <label for="{{ form.start_time.id_for_label }}" class=""></label>
                                         {{ form.id }}
                                         {{ form.day_of_week }}
                                         {{ form.day_of_week.value | get_day_name }}
                                     </div>
 
-                                    <div class="col">
-                                        <label for="{{ form.start_time.id_for_label }}" class="">начало</label>
+                                    <div class="col modal-schedule-cell">
+                                        <label for="{{ form.start_time.id_for_label }}" class=""></label>
                                         {{ form.start_time }}
                                     </div>
 
-                                    <div class="col">
-                                        <label for="{{ form.start_time.id_for_label }}" class="">конец</label>
+                                    <div class="col modal-schedule-cell">
+                                        <label for="{{ form.start_time.id_for_label }}" class=""></label>
                                         {{ form.end_time }}
                                     </div>
 
@@ -73,14 +104,14 @@
 
     <script>
 
-        $('#expert-schedule-form1').submit(function(event) {
+        $('#expert-schedule-form1').submit(function (event) {
 
             event.preventDefault();
             const form = $(this);
             //const formData = new FormData(form);
 
             $.ajax({
-                url: '{% url 'add_schedule' %}',
+                url: '{% url 'add_calendar_schedule' %}',
                 type: 'POST',
                 data: form.serialize(),
                 success: function (response) {

@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from datetime import datetime, timedelta
 
-from .models import Appointment, ExpertSchedule, AppointmentStatus
+from .models import Appointment, ExpertSchedule, AppointmentStatus, ExpertScheduleSpecialDays
 
 from django.utils.translation import gettext as _
 
@@ -71,12 +71,15 @@ class AppointmentForm(forms.ModelForm):
 
 
 class ExpertScheduleForm(forms.ModelForm):
-
-    HOUR_CHOICES = [(f'{hour:02}:00:00', f'{hour:02}:00') for hour in range(6, 22)]  # Generate choices from 06:00 to 22:00
+    HOUR_CHOICES = [(f'{hour:02}:00:00', f'{hour:02}:00') for hour in
+                    range(6, 22)]  # Generate choices from 06:00 to 22:00
 
     id = forms.HiddenInput()
-    start_time = forms.ChoiceField(choices=HOUR_CHOICES, initial=6,  widget=forms.Select(attrs={'class':'form-control form-control-sm'}))
-    end_time   = forms.ChoiceField(choices=HOUR_CHOICES, initial=22, widget=forms.Select(attrs={'class':'form-control form-control-sm expert-schedule-form-control'}))
+    start_time = forms.ChoiceField(choices=HOUR_CHOICES, initial=6,
+                                   widget=forms.Select(attrs={'class': 'form-control form-control-sm'}))
+    end_time = forms.ChoiceField(choices=HOUR_CHOICES, initial=22, widget=forms.Select(
+        attrs={'class': 'form-control form-control-sm expert-schedule-form-control'}))
+    is_work_day = forms.BooleanField(required=False)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -91,7 +94,7 @@ class ExpertScheduleForm(forms.ModelForm):
 
     class Meta:
         model = ExpertSchedule
-        fields = ['day_of_week', 'start_time', 'end_time', 'id']
+        fields = ['is_work_day', 'day_of_week', 'start_time', 'end_time', 'id']
         widgets = {
             'day_of_week': forms.HiddenInput(attrs={'class': 'form-control form-control-sm'}),
         }
@@ -100,3 +103,15 @@ class ExpertScheduleForm(forms.ModelForm):
 class SelectAppointmentDateForm(forms.Form):
     selected_date = forms.DateField()
     expert_id = forms.IntegerField()
+
+
+class ExpertScheduleSpecialDaysForm(forms.ModelForm):
+    type_choices = [(choice_id, choice_name) for choice_id, choice_name in ExpertScheduleSpecialDays.SPECIAL_DAY_TYPE]
+
+    type = forms.ChoiceField(choices=type_choices)
+    start = forms.DateTimeField()
+    end = forms.DateTimeField()
+
+    class Meta:
+        model = ExpertScheduleSpecialDays
+        fields = ['start', 'end', 'type']

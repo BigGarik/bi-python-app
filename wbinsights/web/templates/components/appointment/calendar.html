@@ -54,40 +54,69 @@
 </div>
 
 
-{% if request.path == '/profile' %}
+{% if request.path == '/profile' and request.user.profile.type == 1 %}
 
     <div class="modal fade" id="selectDateRangeModal" tabindex="-1" aria-labelledby="selectDateRangeModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <form>
+                <form method="post" action="{% url 'add_calendar_range' %}" id="schedule-range-form">
+                    {% csrf_token %}
                     <div class="modal-header">
                         <h5 class="modal-title" id="selectDateRangeModalLabel">Детали назначения</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div id="custom-event-date-range-content" class="modal-body">
-                        <label for="id-start-date">Дата начала</label>
-                        <input id='id-start-date' class="start-date form-control"/>
-                        <label for="id-end-date">Дата окончания</label>
-                        <input id='id-end-date' class="end-date form-control"/>
+                        <label for="id-start-date">Начало</label>
+                        <input id='id-start-date' name="start" class="start-date form-control"/>
+
+                        <label for="id-end-date">Конец</label>
+                        <input id='id-end-date' name="end" class="end-date form-control"/>
 
                         <label for="id-date-range-action">Действие</label>
-                        <select class="form-control">
-                            <option>Доступно для бронирования</option>
-                            <option>Недоступно для бронирования</option>
+                        <select class="form-control" name="type">
+                            <option value="0">Сделать недоступным для бронирования</option>
+                            <option value="1">Сделать доступным для бронирования</option>
                         </select>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+
+        $('#schedule-range-form').submit(function (event) {
+
+            event.preventDefault();
+            const form = $(this);
+
+            $.ajax({
+                url: '{% url 'add_calendar_range' %}',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    console.log(123213213)
+
+                    getUsersAppointments();
+
+                }
+            })
+        })
+
+        function loadCustomDateRange(info) {
+            $('.start-date').val(moment(info.start).format('DD.MM.yyyy HH:mm'))
+            $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'))
+            $('#selectDateRangeModal').modal('show');
+        }
+    </script>
 
 
 {% endif %}
@@ -104,18 +133,24 @@
 
     function getUsersAppointments() {
         $.ajax({
-            url: `/appointment/list/${appointment_path}/${user_id}/json`,
+            url: `/appointment/calendar/${appointment_path}/${user_id}/json`,
             type: 'GET',
             data: {},
             success: function (response) {
 
-                createEventCalendar(response.data, 'event-calendar');
-                appointments = response.data;
+                createEventCalendar(response.data.appointments, response.data.schedule, response.data.extra_dates, 'event-calendar');
+                appointments = response.data.appointments;
+                console.log(123)
             }
+
         });
     }
 
     const modalBody = $('#appointmentTableBody');
+
+    function loadExtraDate(extraDateId) {
+        alert(extraDateId)
+    }
 
     function loadAppointment(appointmentId) {
 
@@ -158,6 +193,8 @@
                     </div>
                 </div>
             `);
+
+        $('#exampleModal').modal('show')
 
         const createdTime = moment(appointment.created_time);
         const TEN_MINUTES = 10 * 60 * 1000; //10 min in millisceonds
@@ -203,56 +240,100 @@
     }
 
 
-    function createCalendarEvents(appointments) {
-        return appointments.map((appointment) => {
-            const titleHTML = `<div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 11px">
-                        <span>${appointment_title}</span>
+    function createEvent(title, status, start_date, start_time, end_date, end_time, id, type) {
+        const titleHTML = `<div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 11px">
+                        <span>${title}</span>
                     </div>
                 `;
 
-            let eventColor;
-            switch (appointment.status) {
-                case 0:
-                    eventColor = "#0dcaf0"; //new
-                    break;
-                case 1:
-                    eventColor = "#e3aa00"; //confirm
-                    break;
-                case 2:
-                    eventColor = "red"; //declined
-                    break;
-                case 3:
-                    eventColor = "brown"; //cancel
-                    break;
-                case 4:
-                    eventColor = "green"; //paid
-                    break;
-            }
+        let eventColor;
+        switch (status) {
+            case 0:
+                eventColor = "#0dcaf0"; //new
+                break;
+            case 1:
+                eventColor = "#e3aa00"; //confirm
+                break;
+            case 2:
+                eventColor = "red"; //declined
+                break;
+            case 3:
+                eventColor = "brown"; //cancel
+                break;
+            case 4:
+                eventColor = "green"; //paid
+                break;
+            case 10:
+                eventColor = "brown"; //paid
+                break;
+            case 11:
+                eventColor = "darkcyan"; //paid
+                break;
+        }
 
-            return {
-                start: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
-                end: appointment.appointment_date + " " + moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
-                resourceId: 1,
-                title: {html: titleHTML},
-                color: eventColor,
-                id: appointment.id
-            };
-        });
+        return {
+            start: start_date + " " + start_time,
+            end: end_date + " " + end_time,
+            resourceId: 1,
+            title: {html: titleHTML},
+            color: eventColor,
+            id: id,
+            extendedProps: {
+                type: type
+            }
+        };
     }
 
-    function loadCustomDateRange(info) {
+    function createCalendarEvents(appointments, extradates) {
+
+        let dates =
+
+            extradates.map((extradate) => {
+                title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования'
+                const date_format = 'yyyy-MM-DD'
+                const moment_start = moment(extradate.start)
+                const start_date = moment_start.format(date_format)
+                const start_time = moment_start.format("HH:mm")
+
+                const moment_end = moment(extradate.end)
+                const end_date = moment_end.format(date_format)
+                const end_time = moment_end.format("HH:mm")
+
+                return createEvent(title,
+                    extradate.type + 10,
+                    start_date,
+                    start_time,
+                    end_date,
+                    end_time,
+                    extradate.id,
+                    "extradate"
+                )
+            })
 
 
-        $('.start-date').val(moment(info.start).format('DD.MM.yyyy HH:mm'))
-        $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'))
-        $('#selectDateRangeModal').modal('show');
+        appointments.map((appointment) => {
+            dates.push(
+                createEvent(appointment_title,
+                    appointment.status,
+                    appointment.appointment_date,
+                    moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
+                    appointment.appointment_date,
+                    moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
+                    appointment.id,
+                    'appointment'
+                )
+            );
+        })
+
+
+        return dates
     }
 
 
     let ec;
 
-    function createEventCalendar(appointments, calendar_element_id) {
-        let events = createCalendarEvents(appointments);
+    function createEventCalendar(appointments, schedule, extradates, calendar_element_id) {
+        let events = createCalendarEvents(appointments, extradates);
         //console.log("events", events);
         $('#event-calendar').html('');
         ec = new EventCalendar(document.getElementById(calendar_element_id), {
@@ -266,8 +347,8 @@
             events: events,
             <!--        slotDuration: '01:00:00', -->
             <!--        slotLabelInterval: { hours: 1 }, -->
-            slotMinTime: '07:00:00',
-            slotMaxTime: '19:00:00',
+            slotMinTime: '05:00:00',
+            slotMaxTime: '22:00:00',
             buttonText: {
                 timeGridDay: 'день',
                 timeGridWeek: 'неделя',
@@ -278,15 +359,24 @@
             allDaySlot: false,
             firstDay: 1,
             locale: 'ru',
-
-            highlightedDates: ['2024-05-06', '2024-05-07', '2024-05-08', '2024-05-09', '2024-05-10'],
-            selectable: true,
-            select: function (info) {
-                loadCustomDateRange(info)
-            },
+            slotDuration: '00:30:00',
+            nowIndicator: true,
+            eventDurationEditable: false,
+            //highlightedDates: ['2024-05-06 14:00', '2024-05-07', '2024-05-08', '2024-05-09', '2024-05-10'],
+            selectable: user_type == 1,
+            {% if request.path == '/profile' and request.user.profile.type == 1 %}
+                select: function (info) {
+                    loadCustomDateRange(info)
+                },
+            {% endif %}
             eventClick: function (c_event) {
-                loadAppointment(c_event.event.id)
-                $('#exampleModal').modal('show')
+                if (c_event.event.extendedProps.type == 'appointment')
+                    loadAppointment(c_event.event.id)
+
+                if (c_event.event.extendedProps.type == 'extradate')
+                    loadExtraDate(c_event.event.id)
+
+
                 //alert(c_event.event.start)
             }
 
