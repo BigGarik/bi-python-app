@@ -3,7 +3,6 @@
 }
 
 
-
 .lists-search-cont{
     display: flex;
     padding: 5px 10px 5px 10px;
@@ -77,4 +76,155 @@
     justify-content: space-between;
 }
 
+.global-back-btn {
+    display: flex;
+    color: grey;
+    margin-bottom: 15px;
+    font-size: 14px;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 500;
+
+}
+
+.back-btn-cont{
+    display: flex;
+    width: 100%;
+    padding: 0 0px 5px 5px;
+    color: #777786;
+    font-family: sans-serif;
+    font-weight: 400;
+    align-items: center;
+    font-size: 20px;
+}
+
+.link-read-post{
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: blue;
+    font-family: sans-serif;
+    align-items: center;
+    font-size: 12px;
+}
+
+.prof-user-setting {
+    display: flex;
+    font-family: sans-serif;
+}
+
+.global-catagory-text{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+.global-catagory-choose{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.global-cat-dropdown {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: black;
+    border: none;
+    margin-top: 0px;
+}
+
+.user-catagory-highlight{
+    display: flex;
+    align-items: center;
+    padding: 5px 15px 5px 15px;
+    border-radius: 20px;
+    margin-right: 5px;
+    font-size: 14px;
+    color: #136dae;
+    font-weight: 600;
+    width: fit-content;
+    margin-left:5px;
+    /*margin-top: 3px; */
+}
+
+
+.banki{
+    background-color: #ecffd4;
+    color: #60ae13;
+}
+
+.it{
+    background-color:#d4eaff ;
+    color: #136dae;
+}
+
+.finansy {
+    background-color:#fff5d4 ;
+    color: #d6b537;
+}
+
+.catagory-cont{
+    display: flex;
+    align-items: center;
+    width:200px;
+    justify-content: flex-end;
+}
+
+.expert-name{
+    display: flex;
+    text-decoration: none;
+}
+
+.expert-name a {
+    font-family: sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: normal;
+    text-decoration: none;
+    color: black;
+}
+
+.profile-info-cont{
+    display: flex;
+
+}
+
+.user-display-name{
+   display: flex;
+   font-size: 22px;
+   font-family: sans-serif;
+   padding-top: 5px;
+   padding-bottom: 5px;
+   font-weight: 600;
+}
+
+.user-rating{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 600;
+}
+
+.user-rating-cont{
+    display: flex;
+}
+
+.prof-edit-rows{
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-form-css{
+    padding: 8px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #dadada;
+    width: 100%;
+}
 

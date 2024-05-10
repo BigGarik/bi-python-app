@@ -13,16 +13,6 @@
     flex-direction: column;
 }
 
-.article-detail-page-back-btn{
-    cursor: pointer;
-    text-decoration: none;
-    color: grey;
-    outline: none;
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    font-weight: 500;
-}
 
 .article-detail-page-publish-date{
     display: flex;

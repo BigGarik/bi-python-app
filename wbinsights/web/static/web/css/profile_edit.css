@@ -10,10 +10,6 @@
     margin-top: 15px;
 }
 
-.prof-edit-rows{
-    display: flex;
-    flex-direction: column;
-}
 
 .prof-edit-duel-rows{
     display: flex;
@@ -76,13 +72,6 @@
     background-color: orangered;
 }
 
-.custom-form-css{
-    padding: 8px;
-    border-radius: 5px;
-    outline: none;
-    border: 1px solid #dadada;
-    width: 100%;
-}
 
 .custom-aboutme-form{
     padding: 5px;

@@ -15,7 +15,6 @@
     color: #a9a9a9; 
     font-size: 14px;
     font-family: sans-serif;
-
 }
 
 .all-experts  {
@@ -44,11 +43,6 @@
     FONT-WEIGHT: 700;
 }
 
-.expert-prof-pic{
-    display: flex;
-    width: 20%;
-    justify-content: center;
-}
 
 .expert-list-info{
     display: flex;
@@ -64,11 +58,6 @@
     line-height: normal;
 }
 
-.expert-name{
-    display: flex;
-    text-decoration: none;
-
-}
 
 .side-avatar-container {
     width: 50px; 
@@ -83,16 +72,6 @@
     height: 50px; 
     object-fit: cover; 
 }
-
-.expert-name a {
-    font-family: sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: normal;
-    text-decoration: none;
-    color: black;
-}
-
 
 .user-rating-right-list {
     display: flex;
