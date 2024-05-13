@@ -1,3 +1,8 @@
+{% load web_tags %}
+
+
+
+
 {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
     <a href="{% url 'project_add' %}" class="btn btn-primary" style="margin-bottom: 10px" role="button" aria-pressed="true">Добавить проект</a>
 {% endif %}
@@ -7,22 +12,23 @@
 
     <div style="display:flex; justify-content:space-between; margin-bottom:30px; gap:10px">
 
-        <input type="text" id="project-search-bar" class="lists-search-cont" placeholder="Название проекта123">
+        <input type="text" id="project-search-bar" class="lists-search-cont" placeholder="Название проекта">
 
         <div class="dropdown show">
-
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 0px !important;">
-                Project Category
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Стратегия</a>
-                <a class="dropdown-item" href="#">Эффективность</a>
-                <a class="dropdown-item" href="#">KPI и мотивация</a>
-            </div>
+                <a class="dropdown-item" href="javascript:void(0)" onclick="loadProjectsByCategory('')">Все </a>
 
+                {% get_all_categories as categories %}
+                {% for category in categories %}
+                    <a class="dropdown-item" href="javascript:void(0)" onclick="loadProjectsByCategory('{{ category.name }}')">{{ category.name }}</a>
+                {% endfor %}
+            </div>
         </div>
+
 
     </div>
 
@@ -32,23 +38,24 @@
 
             <div class="row" style="margin-bottom: 10px;">
 
-                <div class="col-3">
+                <div class="col-4">
                     <div class="client-year-cont">
                         <div class="project-customer projects-flex"></div>
                         <div class="project-year projects-flex"></div>
                     </div>
                 </div>
 
-                <div class="col-9">
+                <div class="col-8">
                     <div class="edit-project-search-bar global-border-radius">
-                        <div class="project-name"></div>
+                        <div class="project-name">
+                        </div>
                     </div>
                 </div>
 
             </div>
 
             <div class="row">
-                <div class="col-3">
+                <div class="col-4">
                     <div class="jumbotron jumbotron-fluid jumbo-styles">
                         <div class="container">
                             <div class="project-members-caption">Цели проекта:</div>
@@ -56,21 +63,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-9">
+                <div class="col-8">
                     <div class="jumbotron jumbotron-fluid jumbo-styles">
                         <div class="container">
                             <div class="project-members-caption">Ключевые результаты проекта:</div>
                             <div class="project-key-results"></div>
                         </div>
-                        <div class="container">
-                            <div class="project-members-caption">Участники:</div>
+                        <div class="container"style="display: flex;flex-direction: column;justify-content: space-between;margin-right:0px ">
+                            <div class="project-members-caption">Участники: </div>
                             <div class="project-members"></div>
+                            {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
+                            <div style="display: flex;justify-content: flex-end;gap: 5px;margin-top: 10px;">
+                                <div class="button-proj-edit"></div>
+                                <div class="button-proj-delete"></div>
+                            </div>
+                            {%endif%}
+
                         </div>
                     </div>
                 </div>
             </div>
 
     </div>
+
+    <div style="display: none" id="user-project-no-cat">No projects found</div>
 
 </div>
 
@@ -90,19 +106,22 @@
 </style>
 
 <script>
-
-    let userProjects = []
+    let selectedProject;
+    let selectedCategory = '';
+    let searchTimeout;
+    let userProjects = [];
+    let isFirstProjectLoaded = false;
 
     function loadProject(project_idx) {
-
         $('.card.border-dark.mb-3').removeClass('selectedProj');
-
         $(`.card.border-dark.mb-3:eq(${project_idx})`).addClass('selectedProj');
+
 
         const selectedProject = userProjects[project_idx];
 
         const projectCustomerCont = $('.project-customer');
         projectCustomerCont.html('Клиент:&nbsp;' + selectedProject.customer.name);
+        console.log('selectedProject', selectedProject);
 
         const projectYearCont = $('.project-year');
         projectYearCont.html('Год:&nbsp;' + selectedProject.year);
@@ -125,25 +144,32 @@
         selectedProject.members.forEach((member) => {
             projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`);
         });
+
+        //edit button, remove prevents duplicates of button
+        $('#editButton').remove();
+        const editButtonHtml = `<a href="/expert/project/${selectedProject.slug}/edit/" id="editButton" class="btn btn-primary btn-sm">Edit</a>`;
+        $('.button-proj-edit').append(editButtonHtml);
+
+        //delete button
+        $('#deleteButton').remove();
+        const deleteButtonHtml = `<a href="/expert/project/${selectedProject.slug}/delete/" id="deleteButton" class="btn btn-danger btn-sm">Delete</a>`;
+        $('.button-proj-delete').append(deleteButtonHtml);
+
+        $('#id_project').show();
     }
 
-    let searchTimeout; // переменная для хранения идентификатора таймера
-    let isFirstSearchDone = false; // флаг для отслеживания первого запроса
+    function loadProjectsByCategory(category) {
+
+        selectedCategory = category;
+        $('#dropdownMenuLink').text(`Категория (${category || 'Все'})`);
+        getUsersProjects($('#dropdownMenuLink').val(), category);
+
+        // hide project div when switching categoryies
+        $('#id_project').hide();
+    }
 
     function getUsersProjects(searchQuery = '') {
-        if (isFirstSearchDone) {
-            if (searchTimeout) {
-                clearTimeout(searchTimeout); // очистить предыдущий таймер
-            }
-            searchTimeout = setTimeout(function() {
-                performSearch(searchQuery);
-            }, 2000); // установить задержку в 2 секунды после первого отображения
-        } else {
-            performSearch(searchQuery);
-        }
-    }
 
-    function performSearch(searchQuery) {
         $.ajax({
             url: `/expert/projects/json`,
             type: 'GET',
@@ -152,51 +178,80 @@
                 "name": searchQuery
             },
             success: function (response) {
-                console.log(response.results);
+
                 userProjects = response.results;
                 const projectListCont = $('#id_project_catalog');
                 projectListCont.html('');
 
-                userProjects.map((project, index) => {
-                    projectListCont.append(`
-                        <div class="card border-dark mb-3" style="width:20%; cursor: pointer;" onclick="loadProject(${index})">
-                            <div class="card-body text-dark card-css">
-                                <h5 class="card-title">${project.name}</h5>
-                                <h5 class="card-title">${project.year} г.</h5>
-                                <div class="project-icon-main-cont">
-                                    <div class="project-icon-cont" ><i class="bi bi-eye" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
-                                    <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
-                                </div>
-                            </div>
-                        </div>
-                    `);
+                const projectsInSelectedCategory = userProjects.filter(project => {
+                    const projectCategories = project.category.map(category => category.name);
+                    return selectedCategory === '' || projectCategories.includes(selectedCategory);
                 });
 
-                $('.card.border-dark.mb-3:first').addClass('selectedProj');
+                if (projectsInSelectedCategory.length > 0) {
+                    projectsInSelectedCategory.forEach((project, index) => {
+                        projectListCont.append(`
 
-                const user_projects_container_no_projects = $('#user-projects-container-no-projects')
-                const user_projects_container = $('#user-projects-container')
-                // load first project as defualt
-                if (userProjects.length > 0) {
-                    loadProject(0);
-                    user_projects_container.show();
-                    user_projects_container_no_projects.hide()
+                            <div class="card border-dark mb-3" style="width:20%; cursor: pointer;" onclick="loadProject(${index})">
+                                <div class="card-body text-dark card-css">
+
+                                    <h5 class="card-title">${project.name}</h5>
+                                    <h5 class="card-title">${project.year} г.</h5>
+
+                                    <div class="project-icon-main-cont">
+                                        <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
+                                        <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        `);
+                    });
+                    if (!isFirstProjectLoaded && projectsInSelectedCategory.length > 0) {
+                        loadProject(0);
+                        isFirstProjectLoaded = true;
+                    }
+                    $('#user-project-no-cat').hide();
                 } else {
-                    user_projects_container.hide();
-                    user_projects_container_no_projects.show()
+                    $('#user-project-no-cat').html(`No projects found for ${selectedCategory}`).show();
                 }
-            isFirstSearchDone = true; // установить флаг после первого успешного запроса
+
+                const user_projects_container_no_projects = $('#user-projects-container-no-projects');
+                const user_projects_container = $('#user-projects-container');
+
+                if (userProjects.length > 0) {
+                    user_projects_container.show();
+                    user_projects_container_no_projects.hide();
+
+                } else {
+                    // hide proj div when no proj in that category
+                    $('#id_project').hide();
+                    user_projects_container_no_projects.show();
+                }
             }
         });
     }
 
     $(document).ready(function () {
-        // Обработчик события для строки поиска
-        $('#project-search-bar').on('input', function() {
+        $('#dropdownMenuLink').text("Категория (Все)");
+
+        $('#project-search-bar').on('input', function () {
             const searchQuery = $(this).val();
-            getUsersProjects(searchQuery);
+            if (searchTimeout) {
+                clearTimeout(searchTimeout);
+            }
+            searchTimeout = setTimeout(function () {
+                getUsersProjects(searchQuery);
+            }, 2000);
         });
-        // Загрузка всех проектов при инициализации
+
         getUsersProjects();
     });
 </script>
+
+
+
+
+
+
