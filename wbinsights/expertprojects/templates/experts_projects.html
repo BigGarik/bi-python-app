@@ -147,12 +147,12 @@
 
         //edit button, remove prevents duplicates of button
         $('#editButton').remove();
-        const editButtonHtml = `<a href="/expert/project/${selectedProject.slug}/edit/" id="editButton" class="btn btn-primary btn-sm">Edit</a>`;
+        const editButtonHtml = `<a href="/expert/project/${selectedProject.slug}/edit/" id="editButton" class="btn btn-primary btn-sm">Редактировать</a>`;
         $('.button-proj-edit').append(editButtonHtml);
 
         //delete button
         $('#deleteButton').remove();
-        const deleteButtonHtml = `<a href="/expert/project/${selectedProject.slug}/delete/" id="deleteButton" class="btn btn-danger btn-sm">Delete</a>`;
+        const deleteButtonHtml = `<a href="/expert/project/${selectedProject.slug}/delete/" id="deleteButton" class="btn btn-danger btn-sm">Удалить</a>`;
         $('.button-proj-delete').append(deleteButtonHtml);
 
         $('#id_project').show();
