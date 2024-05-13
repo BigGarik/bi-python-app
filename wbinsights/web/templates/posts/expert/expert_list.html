@@ -8,10 +8,16 @@ Experts
 
 {% block posts_content %}
 
+<style>
+
+
+
+</style>
+
 
 	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
 
-	<div class="experts-list-main-cont">
+	<div class="list-main-containers">
 
 		<div class="experts-list-search-and-cat-cont">
 		
@@ -22,8 +28,8 @@ Experts
 				<div class="col-sm-12 col-md-7 testing-class">
 					<div class="dropdown" style="display: flex; align-items: center;">
 						<button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-							<span class="experts-list-catagory-text"> Рейтинг: &nbsp;</span>
-							<span class="expert-list-catagory-choose"> 4 и выше  </span>
+							<span class="global-catagory-text"> Рейтинг: &nbsp;</span>
+							<span class="global-catagory-choose"> 4 и выше  </span>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
 							<li><a class="dropdown-item" href="#">3 и выше</a></li>
@@ -47,6 +53,17 @@ Experts
 						<div class="experts-list-avatar-container">
 							<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
 						</div>
+
+<!--						<div class="experts-list-avatar-container">-->
+<!--							{% if expert.profile.avatar.url %}-->
+<!--								<img src="{{ expert.profile.avatar.url }}" alt="User Avatar" class="img-fluid" />-->
+<!--							{% else %}-->
+<!--								<div class="user-initials">-->
+<!--									{{ expert.first_name.0 }}{{ expert.last_name.0 }}-->
+<!--								</div>-->
+<!--							{% endif %}-->
+<!--						</div>-->
+
 						<div class="d-none d-md-block">
 							<span class="experts-list-rating-span">
 								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
@@ -93,13 +110,13 @@ Experts
 				<!-- smaller than md -->
 				<div class="d-md-none article-last">
 					<div style="display:flex;justify-content:flex-start">
-						<div class="col-sm expert-stats-an-other">
+						<div class="col-sm user-stats">
 							{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
 						</div>
 					</div>
 					{% if request.user.id != expert.id %}
 						{% if request.user.id != expert.id %}
-						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация <span class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</span></a>
+						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn btn-success  expert-list-consult-btn">Консультация <span class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</span></a>
 
 						{% endif %}
 					{%endif%}
@@ -108,7 +125,7 @@ Experts
 
 				<!-- larger than md -->
 				<div class="d-none d-md-block article-last-2" style="display:flex ">
-					<div class="col-sm order-md-2 expert-stats-an-other">
+					<div class="col-sm order-md-2 user-stats">
 						{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
 					</div>
 					<div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
@@ -136,6 +153,8 @@ Experts
 				}
 			}
 		}
+
+		console.log("Avatar URL:", "{{ expert.profile.avatar.url }}");
 	</script>
 
 {% endblock %}

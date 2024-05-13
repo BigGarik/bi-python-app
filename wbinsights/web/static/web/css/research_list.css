@@ -1,16 +1,7 @@
-.research-main-cont{
-    display: flex;
-    flex-direction: column;
-    padding: 20px 30px 20px 30px;
-    background-color: white ;
-    border-radius: 15px;
-}
-
 
 .research-date-and-cat{
     display: flex;
 }
-
 
 .finance-cat{
     display: flex;
@@ -76,17 +67,6 @@
     margin-bottom: 10px;
 }
 
-.article-catagory-container{
-    background-color: #fff5d4;
-    padding: 10px 15px 10px 15px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-family: sans-serif;
-    font-weight: 500;
-    color: #d6b537;
-
-}
-
 .article-main-content-text{
     display: flex;
     font-size: 18px;
@@ -98,11 +78,7 @@
     max-height: 300px;
 }
 
-.article-comments-andshare-cont{
-    display: flex;
-    gap: 10px;
-}
-
 .article-author-cont {
     display: flex;
 }
+

@@ -17,13 +17,6 @@
     margin-bottom: 10%;
 }
 
-.back-btn-login {
-    cursor: pointer; 
-    text-decoration: none; 
-    outline: none;
-    font-size: 22px;
-}
-
 .button-cont{
     display: flex;
     width: 60%;
@@ -92,22 +85,10 @@
     width: 100%;
 }
 
-.back-btn{
-    display: flex;
-    width: 100%;
-    padding: 0 0px 5px 5px;
-    color: #777786;
-    font-family: sans-serif;
-    font-weight: 400;
-    align-items: center;
-    font-size: 20px;
-}
-
 .check-box-cont{
     display: flex;
     width: 100%;
     font-family: sans-serif;
-
 }
 
 
@@ -143,9 +124,7 @@
     gap: 10px;
 }
 
-.back-btn a {
-    color: #777786 !important;
-}
+
 
 .custom-control {
     display: flex;

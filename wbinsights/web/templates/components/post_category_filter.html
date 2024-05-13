@@ -9,10 +9,10 @@
     {% get_category_by_slug path_category_name as curr_cat %}
 
     <div class="dropdown">
-        <button class="article-list-dropdown dropdown-toggle " type="button" id="categoryDropdown"
+        <button class="global-cat-dropdown dropdown-toggle " type="button" id="categoryDropdown"
                 data-bs-toggle="dropdown" aria-expanded="false" >
-            <span class="experts-list-catagory-text"> Категория: &nbsp;</span>
-            <span class="expert-list-catagory-choose">
+            <span class="global-catagory-text"> Категория: &nbsp;</span>
+            <span class="global-catagory-choose">
             {% if curr_cat is None %}
                 Все
             {% else %}

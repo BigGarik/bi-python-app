@@ -24,7 +24,7 @@ QandA
 				text-wrap: nowrap !important;
 			}
 
-			.article-comments-andshare-cont {
+			.comments-andshare-cont {
 				justify-content: flex-end;
 				align-items:center;
 			}
@@ -37,7 +37,7 @@ QandA
 				font-size:14px;
 			}
 
-			.article-comments{
+			.list-comments{
 				font-size: 14px;
 			}
 
@@ -52,7 +52,7 @@ QandA
 		}
     </style>
 
-	<div class="research-question-main-cont">	
+	<div class="list-main-containers">
 
 		<div class="search-and-cat-cont d-none d-md-flex">
 
@@ -84,14 +84,14 @@ QandA
 		{% for questionsandanswers in '123' %}
 		<div class="article-content">
 			<div style=" margin-top:10px ; margin-bottom: 10px">
-				<span class="article-catagory-container"> Финансы </span>
+				<span class="user-catagory-highlight finansy"> Финансы </span>
 			</div>
 			<div class="question-answer-title">Вот вам яркий пример современных тенденций - сложившаяся структура организации</div>
 			<div class="article-main-content">
 				<span class="qa-main-content-text" style="display: block">
 					Повседневная практика показывает, что 
 					высококачественный прототип будущего проекта однозначно определяет каждого участника как способного принимать 
-					собственные решения касаемо соответствующих условий активизации. &nbsp;<a href="#" style="text-decoration:none">Читать пост</a>
+					собственные решения касаемо соответствующих условий активизации. &nbsp;<a href="#" class="link-read-post">Читать пост</a>
 				</span>
 
 				<div class="question-answer-last2 d-none d-md-flex" >
@@ -102,12 +102,12 @@ QandA
 						<div class="author-name">Александр Александров</div>
 						<span class="hours-ago">18 часов назад</span>
 					</div>
-					<div class="article-comments-andshare-cont">
-						<div class="article-comments">
+					<div class="comments-andshare-cont">
+						<div class="list-comments">
 							<i class="bi bi-chat-left-text" style="color:grey; "></i>
 							&nbsp; 104
 						</div>
-						<div class="article-share">
+						<div class="list-share">
 							<i class="bi bi-box-arrow-up-right" style="color:grey; "></i>
 						</div>
 					</div>
@@ -125,13 +125,13 @@ QandA
 								<div class="author-name">Александр Александров</div>
 
 							</div>
-							<div class="article-comments-andshare-cont">
-								<div class="article-comments">
-									<i class="bi bi-chat-left-text" style="color:grey; font-size:14px "></i>
+							<div class="comments-andshare-cont">
+								<div class="list-comments">
+									<i class="bi bi-chat-left-text" style="color:grey; "></i>
 									&nbsp; 104
 								</div>
-								<div class="article-share">
-									<i class="bi bi-box-arrow-up-right" style="color:grey; font-size:14px"></i>
+								<div class="list-share">
+									<i class="bi bi-box-arrow-up-right" style="color:grey;"></i>
 								</div>
 							</div>
 						</div>

@@ -71,27 +71,6 @@
     margin-top:  10px;
 }
 
-.article-back-btn{
-    display: flex;
-    align-items:  center;
-    color: #727281;
-    font-size: 12px;
-    margin-bottom: 20px;
-}
-
-/* .gjs-one-bg{
-    background-color: white !important;
-} */
-/* 
-.add-article-dropdown{
-    background-color: white;
-    color: grey;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-} */
-
 .article-list-fonts{
     margin: 5px 0 5px 0;
     font-family: sans-serif;

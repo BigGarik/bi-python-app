@@ -1,35 +1,4 @@
-.prof-page-cont{
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
 
-}
-
-.profile-info-cont{
-    display: flex;
-
-}
-
-.top-half{
-    display: flex;
-    margin-bottom: 15px;
-}
-
-.bottom-half{
-    display: flex;
-    flex-direction: column;
-}
-
-.to-main-page{
-    display: flex;
-    color: grey;
-    margin-bottom: 15px;
-    font-size: 14px;
-    align-items: center;
-    text-decoration: none;
-}
 
 .prof-pic-cont{
     display: flex;
@@ -41,40 +10,6 @@
     border-radius: 50%;
     width: 100%; 
     height: auto; 
-}
-
- 
-.expert-content-cont {
-    display:flex ; 
-    flex-direction: column; 
-    margin: 10px 0 10px 0;
-} 
-
-.profile-information-cont{
-    display: flex;
-    width: 80%;
-    flex-direction: column;
-    padding-left: 20px;
-    justify-content: space-between;
-}
-
-.user-display-name{
-   display: flex;
-   font-size: 22px;
-   font-family: sans-serif;
-   padding-top: 5px;
-   padding-bottom: 5px;
-   font-weight: 600;
-
-}
-
-.user-rating{
-    display: flex;
-    font-family: sans-serif;
-    font-size: 14px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-weight: 600;
 }
 
 .user-category-cont {
@@ -93,29 +28,6 @@
     padding: 6px 12px 6px 12px;
 }
 
-.prof-content-links-cont {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px
-}
-
-.profile-menu-item {
-    padding: 7px;
-    cursor: pointer;
-    /*width: 25%; */
-    display: flex;
-    justify-content: center;
-    text-decoration: none;
-    color: #404054;
-    align-items: center;
-    font-weight: 600;
-}
-
-.profile-menu-item.selected {
-    border-bottom: 2px solid black;
-}
-
-
 .user-category{
     display: flex;
     font-family: sans-serif;
@@ -127,88 +39,6 @@
     margin-right: 10px;
 }
 
-.user-stats{
-    display: flex;
-    font-family: sans-serif;
-    color: grey;
-    font-size: 12px;
-    padding-top: 5px;
-    padding-bottom: 10px;
-
-}
-
-.user-settings{
-    display: flex;
-    font-family: sans-serif;
-}
-
-/* .profile-settings-btn{
-    display: flex;
-    text-decoration: none;
-    border: 1px solid #a5b1c8;
-    border-radius: 10px;
-    padding: 5px 10px 5px 10px;
-    color: #36364b;
-    margin-right: 15px;
-    font-weight: 600;
-} */
-
-/* .profile-logout-btn{
-    display: flex;
-    text-decoration: none;
-    border-radius: 10px;
-    align-items: center;
-    border: none;
-    padding: 5px 10px 5px 10px;
-    font-weight: 600;
-    background-color: #ffeaea;
-    color: #dd3838;
-} */
-
-
-
-
-.user-rate-and-stars{
-    display: flex;
-    font-family: sans-serif;
-    font-size: 14px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-weight: 600;
-}
-
-
-.user-rating-cont{
-    display: flex;
-}
-
-.bottom-info{
-    display:  flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-/* .user-profile-links{
-
-    display: flex;
-}
-
-.expert-name{
-    display: flex;
-    text-decoration: none;
-}
-
-
-
-/* .expert-name a {
-    font-family: sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: normal;
-    text-decoration: none;
-    color: black;
-} */
-
 .chevron-left-css{
     font-weight: bold; 
     color: #777786; 
@@ -216,105 +46,8 @@
 
 } 
 
-.prof-bottom-cont{
-    display: flex;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 14px;
-    gap: 5px;
-    flex-wrap: wrap;
-
-}
-
 .prof-about-me-cont{
     display:  flex;
     padding-bottom: 5px;
 }
 
-/* .bottom-bold-text{
-    display: flex;
-    font-weight: bold;
-    font-family: sans-serif;
-} */
-
-/* .each-link-cont{
-    display:  flex;
-    padding: 5px 10px 5px 10px;
-    align-items: center;
-    
-}
-
-.each-link-cont:hover {
-    text-decoration: underline;
-    cursor: pointer;
-    bottom: -3px;
-}
-    
-
-
-.link-name{    
-    font-size: 15px;
-    font-family: sans-serif;
-    font-weight: 500;
-} */
-
-/* .link-count{
-    font-size: 14px;
-    font-family: sans-serif;
-    font-weight: 500;
-    color: lightslategray;
-} */
-
-.expert-profile-title-content{
-    display: flex;
-    margin-bottom: 10px;
-    font-size: 20px;
-    font-weight: 700;
-    align-items: center;
-    color: #4e4e60;
-
-}
-
-.expert-profile-title-content-number {
-    display: flex;
-    color: grey;
-    font-size: 20px;
-    font-weight: 500;
-    color: #a8b4ca;
-}
-
-.article-title-loop-exp{
-    font-size: 22px;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: #5b5b6c;
-    display: flex;
-
-}
-
-.article-content-loop-exp {
-    font-size: 14px !important;
-    font-size: 400;
-    margin-bottom: 5px;
-    color: #5b5b6c;
-}
-
-.article-comments-andshare-cont-exp{
-    display: flex;
-}
-
-.article-comments-exp{
-    display: flex;
-    color: #a5b1c8;
-    margin-right: 10px;
-    align-items: center;
-    font-size: 13px;
-}
-
-.article-share-exp {
-    display: flex;
-    align-items: center;
-    color: #a5b1c8;
-    cursor: pointer;
-    font-size: 13px;
-}

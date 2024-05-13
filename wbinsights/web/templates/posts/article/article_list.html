@@ -40,7 +40,7 @@
 
 <body>
 
-	<div class="articles-list-main-cont" >
+	<div class="list-main-containers" >
 
 		<div class="search-and-cat-cont">
 
@@ -108,15 +108,15 @@
 						
 					</div>
 
-					<div class="article-list-comments-andshare-cont">
+					<div class="comments-andshare-cont">
 
-						<div class="article-list-comments">
+						<div class="list-comments">
 							<i class="bi bi-chat-left-text" style="color:grey;"></i>
                             {% get_comment_count for article as comment_count %}
 						    {{ comment_count }}
                         </div>
 
-                        <div class="article-list-share">
+                        <div class="list-share">
 							<i class="bi bi-box-arrow-up-right" style="color:grey; "></i>
 						</div>
 

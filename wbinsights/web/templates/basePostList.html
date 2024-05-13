@@ -51,12 +51,12 @@
     </style>
 
 
-    <div class="base-Content">
+    <div class="list-main-containers" style="margin-top: 0px">
 
        
         <div class="article-text-top">
             <span class="article-news">Новости</span>
-            <span class="article-return" role="button" onclick="toggleCollapse()" aria-expanded="true">
+            <span class="news-open-close" role="button" onclick="toggleCollapse()" aria-expanded="true">
                 <i class="bi bi-chevron-up" ></i>
                 &nbsp; свернуть
             </span>
@@ -72,13 +72,13 @@
                 </div>
 
                 <div class="col-md-9">
-                    <div class="base-article-title">Постоянный количественный рост ни к чему нас не обязывает</div>
-                    <div class="base-article-content">В целом, конечно, новая модель организационной деятельности создаёт предпосылки для приоритизации разума над эмоциями</div>
-                    <div class="base-article-stats">
-                        <div class="base-article-stats-comments">
+                    <div class="base-news-title">Постоянный количественный рост ни к чему нас не обязывает</div>
+                    <div class="base-news-content">В целом, конечно, новая модель организационной деятельности создаёт предпосылки для приоритизации разума над эмоциями</div>
+                    <div class="base-news-stats">
+                        <div class="base-news-stats-comments">
                             <i class="bi bi-chat-left-text" ></i> &nbsp; 104
                         </div>
-                        <div class="base-article-stats-last">
+                        <div class="base-news-stats-last">
                             <i class="bi bi-calendar3" ></i> &nbsp; 2 дня назад
                         </div>
                     </div>
@@ -111,10 +111,10 @@
 
             if (collapseElement.is(':visible')) {
                 collapseElement.slideUp(500, 'easeInOutExpo');
-                $('.article-return i').removeClass('bi-chevron-up').addClass('bi-chevron-down');
+                $('.news-open-close i').removeClass('bi-chevron-up').addClass('bi-chevron-down');
             } else {
                 collapseElement.slideDown(500, 'easeInOutExpo');
-                $('.article-return i').removeClass('bi-chevron-down').addClass('bi-chevron-up');
+                $('.news-open-close i').removeClass('bi-chevron-down').addClass('bi-chevron-up');
             }
         }
     </script>

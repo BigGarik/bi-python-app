@@ -1,45 +1,11 @@
 
-.experts-list-main-cont{
-    display: flex;
-    flex-direction: column;
-    padding: 20px 30px 20px 30px;
-    background-color: white ;
-    border-radius: 15px;
-    margin-top: 20px;
-}
-
 .experts-list-search-and-cat-cont{
     display: flex;
     justify-content: space-between;
 
 }
 
-.experts-list-search-cont{
-    display: flex;
-    padding: 5px 10px 5px 10px;
-    border: 1px solid #dadada;
-    font-family: sans-serif;
-    width: 100%;
-    border-radius: 7px;
-    outline: none !important;
-}
-
-.experts-list-catagory-cont {
-    display: flex;
-}
-
 .expert-list-dropdown {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: white;
-    color: black;
-    border: none;
-    margin-top: 0px;
-}
-
-
-.expert-list-catagory-dropdown{
     width: 100%;
     display: flex;
     align-items: center;
@@ -73,7 +39,6 @@
     overflow: hidden; 
     border: 1px solid #ccc; 
 }
-
 
 .experts-list-avatar-container img {
     width: 100%; 
@@ -112,32 +77,20 @@
     gap: 3px;
 }
 
-.expert-research-catagory-container{
-    background-color: #fff5d4;
-    /* padding: 10px; */
-    padding: 5px 10px 5px 10px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-family: sans-serif;
-    font-weight: 500;
-    color: #d6b537;
-
-}
-
 .question-btn-and-money{
     display: flex;
     gap: 10px;
 }
 
 .expert-list-consult-btn{
-    margin-top: 0;
     background-color: #6dc36b;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
     font-weight: 600;
-    color: white;
-    padding:10px;
+    color:white !important;
+}
+
+.expert-list-consult-btn:hover{
+    background-color: #21941f;
 }
 
 .money-rate{
@@ -146,14 +99,6 @@
     margin-left: 10px;
     font-weight: 600;
     color :black ;
-}
-
-.expert-stats-an-other{
-    display: flex;
-    color: #b3bdd1;
-    font-size: 13px;
-    /*margin-right: 10px; */
-    font-weight: 500;
 }
 
 .article-last{
@@ -174,85 +119,79 @@
 /* ------------------------------------------------- Mobile Screens CSS -------------------------------------------------------- */
 
 
-        .testing-class{
-			display: flex;
-			justify-content: flex-end;
-		}
+.testing-class{
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media (max-width: 768px ) {
+
+    .expert-list-consult-btn {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .article-last {
+        align-items: flex-start !important;
+    }
+
+    .experts-list-rating-span {
+        justify-content: flex-start !important;
+        margin-top: 5px !important;
+    }
 
 
-		.consultions-btn-span {
-			font-weight: 500;
-			color: white;
-		}
+    .user-catagory-highlight {
+        padding: 5px 10px 5px 10px !important;
+        font-size: 13px !important;
+    }
 
-		@media (max-width: 768px ) {
-
-			.expert-list-consult-btn {
-				display: flex;
-				width: 100%;
-				justify-content: center;
-			}
-
-			.article-last {
-				align-items: flex-start !important;
-			}
-
-			.experts-list-rating-span {
-				justify-content: flex-start !important;
-				margin-top: 5px !important;
-			}
+    .expert-list-main-content {
+        gap: 0px !important;
+        justify-content: space-between !important;
+    }
 
 
-			.user-catagory-highlight {
-				padding: 5px 10px 5px 10px !important;
-				font-size: 13px !important;
-			}
+    .testing-class {
+        display: flex;
+        justify-content: flex-end !important;
+        margin-top: 10px;
+        gap:10px;
+    }
 
-			.expert-list-main-content {
-				gap: 0px !important;
-				justify-content: space-between !important;
-			}
+    .catagory-cont {
+        width: auto !important;
+    }
 
+    .small-layout {
+        display: flex;
+        flex-direction:column;
+        width: 100%;
+    }
 
-			.testing-class {
-				display: flex;
-				justify-content: flex-end !important;
-				margin-top: 10px;
-				gap:10px;
-			}
+    .article-last {
+        gap:10px !important ;
+        flex-direction: column !important;
+    }
 
-			.catagory-cont {
-				width: auto !important;
-			}
+    .list-main-containers {
+        padding: 20px 10px 20px 10px !important;
+    }
+}
 
-			.small-layout {
-				display: flex;
-				flex-direction:column;
-				width: 100%;
-			}
+@media (min-width: 769px ) {
+    .small-layout {
+        display: flex;
+        flex-direction:row !important;
+        width: 100%;
+    }
 
-			.article-last {
-				gap:10px !important ;
-				flex-direction: column !important;
-			}
+    .user-stats {
+        justify-content: flex-end !important;
+    }
 
-			.experts-list-main-cont {
-				padding: 20px 10px 20px 10px !important;
-			}
-		}
-
-		@media (min-width: 769px ) {
-			.small-layout {
-				display: flex;
-				flex-direction:row !important;
-				width: 100%;
-			}
-
-			.expert-stats-an-other {
-				justify-content: flex-end !important;
-			}
-
-			.article-last-2 {
-				display: flex !important;
-			}
-		}
+    .article-last-2 {
+        display: flex !important;
+    }
+}

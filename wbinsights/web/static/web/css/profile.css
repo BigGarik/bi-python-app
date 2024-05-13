@@ -16,43 +16,13 @@
 
 }
 
-.prof-page-cont{
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-
-}
-
-.profile-info-cont{
-    display: flex;
-
-}
-
-.top-half{
-    display: flex;
-    margin-bottom: 15px;
-}
-
 .bottom-half{
     display: flex;
     flex-direction: column;
 }
 
-.to-main-page{
-    display: flex;
-    color: grey;
-    margin-bottom: 15px;
-    font-size: 14px;
-    align-items: center;
-    text-decoration: none;
-    font-weight: 500;
-}
-
 .prof-page-pic-cont{
     display: flex;
-    /* width: 20%; */
     align-items: center;
     justify-content: center;
 }
@@ -63,45 +33,11 @@
     height: auto; 
 }
 
-.profile-information-cont{
-    display: flex;
-    width: 80%;
-    flex-direction: column;
-    padding-left: 20px;
-    justify-content: space-between;
-}
-
-.profile-information-cont-client{
-    display: flex;
-    width: 80%;
-    flex-direction: column;
-    padding-left: 20px;
-    justify-content: space-evenly;
-}
-
-.user-display-name{
-   display: flex;
-   font-size: 28px;
-   font-family: sans-serif;
-   padding-top: 5px;
-   padding-bottom: 5px;
-   font-weight: 600;
-
-}
-
-.user-rating{
-    display: flex;
-    font-family: sans-serif;
-    font-size: 14px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-weight: 600;
-}
-
 .user-category-cont {
     display: flex;
     flex-wrap: wrap;
 }
+
 .user-category{
     display: flex;
     font-family: sans-serif;
@@ -110,20 +46,6 @@
     padding-right: 5px;
     font-weight: 600;
     margin-right:5px;
-}
-
-.user-stats{
-    display: flex;
-    font-family: sans-serif;
-    color: grey;
-    font-size: 12px;
-    padding-top: 5px;
-    padding-bottom: 10px;
-}
-
-.user-settings{
-    display: flex;
-    font-family: sans-serif;
 }
 
 .profile-settings-btn{
@@ -161,32 +83,16 @@
     font-weight: 600;
 }
 
-
-.user-rating-cont{
-    display: flex;
-}
-
 .bottom-info{
     display:  flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-.user-profile-links{
-
-    display: flex;
-}
-
-.expert-name{
-    display: flex;
-    text-decoration: none;
-}
-
 .chevro-left-css{
-    font-weight: bold; 
-    color: #777786; 
+    font-weight: bold;
+    color: #777786;
     padding: 0 2px 0 2px
-
 }
 
 .prof-btn {
@@ -222,8 +128,6 @@
     color: #dd3838;
 }
 
-
-
 .prof-content-links-cont {
     display: flex; 
     justify-content: space-between; 
@@ -236,39 +140,13 @@
     margin: 20px 0 20px 0;
 } 
 
-.stars-css{
-    color: #e9be50; 
-    padding: 0 2px 0 2px
-}
-
-.profile-img-css{
-    border-radius: 50%;
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-}
-
-.expert-name a {
-    font-family: sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: normal;
-    text-decoration: none;
-    color: black;
-}
-
 .prof-bottom-cont{
     display: flex;
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 14px;
-
 }
 
-.prof-about-me-cont{
-    display:  flex;
-    padding-bottom: 5px;
-}
 
 .bottom-bold-text{
     display: flex;
@@ -276,43 +154,6 @@
     font-family: sans-serif;
 }
 
-.each-link-cont{
-    display:  flex;
-    padding: 5px 10px 5px 10px;
-    align-items: center;
-    
-}
-
-.each-link-cont:hover {
-    text-decoration: underline;
-    cursor: pointer;
-    bottom: -3px;
-}
-    
-
-
-.link-name{    
-    font-size: 15px;
-    font-family: sans-serif;
-    font-weight: 500;
-}
-
-.link-count{
-    font-size: 14px;
-    font-family: sans-serif;
-    font-weight: 500;
-    color: lightslategray;
-}
-
-.expert-profile-title-content{
-    display: flex;
-    margin-bottom: 10px;
-    font-size: 20px;
-    font-weight: 700;
-    align-items: center;
-    color: #4e4e60;
-
-}
 
 .expert-profile-title-content-number {
     display: flex;
@@ -328,7 +169,6 @@
     margin-bottom: 10px;
     color: #5b5b6c;
     display: flex;
-
 }
 
 .article-content-loop-exp {
@@ -336,26 +176,6 @@
     font-size: 400;
     margin-bottom: 10px;
     color: #5b5b6c;
-}
-
-.article-comments-andshare-cont-exp{
-    display: flex;
-}
-
-.article-comments-exp{
-    display: flex;
-    color: #a5b1c8;
-    margin-right: 10px;
-    align-items: center;
-    font-size: 13px;
-}
-
-.article-share-exp {
-    display: flex;
-    align-items: center;
-    color: #a5b1c8;
-    cursor: pointer;
-    font-size: 13px;
 }
 
 .profile-menu-item {
