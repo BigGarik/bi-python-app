@@ -33,10 +33,10 @@
 .list-comments {
     display: flex;
     color: #a5b1c8;
-    margin-right: 10px;
+    margin-right: 5px;
     align-items: center;
     font-size: 13px;
-    gap: 5px;
+   /* gap: 5px; */
 }
 
 .list-share {
@@ -84,7 +84,6 @@
     align-items: center;
     text-decoration: none;
     font-weight: 500;
-
 }
 
 .back-btn-cont{
@@ -190,7 +189,6 @@
 
 .profile-info-cont{
     display: flex;
-
 }
 
 .user-display-name{
