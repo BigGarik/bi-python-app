@@ -36,6 +36,11 @@ def add_appointment_view(request, *args, **kwargs):
             new_appointment = form.save(commit=False)
             new_appointment.client = request.user
             new_appointment.expert = expert
+
+            # Получение текущего времени
+            end_time = form.data['appointment_time'] + timedelta(hours=1)
+
+            new_appointment.timeslot = (form.data['appointment_date'] + ' ' + form.data['appointment_time'], form.data['appointment_date'] + ' ' + end_time)
             new_appointment.save()
             return redirect('appointment_checkout', pk=new_appointment.id)
     else:
