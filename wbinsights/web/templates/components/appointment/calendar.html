@@ -91,6 +91,31 @@
         </div>
     </div>
 
+    <div class="modal fade" id="deleteDateRangeModal" tabindex="-1" aria-labelledby="deleteDateRangeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form method="post" action="{% url 'add_calendar_range' %}" id="delete-range-form">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="selectDateRangeModalLabel">Удаление записи</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <input type="hidden" name="range_id" />
+                    <div id="custom-event-date-range-content" class="modal-body">
+                        <div id="delete-extra-date-info"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Удалить</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
 
         $('#schedule-range-form').submit(function (event) {
@@ -104,6 +129,23 @@
                 data: form.serialize(),
                 success: function (response) {
                     getUsersAppointments()
+                }
+            })
+        })
+
+        $('#delete-range-form').submit(function (event) {
+
+            event.preventDefault();
+            const form = $(this);
+
+            $.ajax({
+                url: '{% url 'delete_calendar_range' %}',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+
+                    if (response.result == 'success')
+                        getUsersAppointments()
                 }
             })
         })
@@ -127,9 +169,10 @@
     const user_type = {{ user_type }}
     const appointment_path = user_type == 1 ? 'expert' : 'client'
     let appointments = []
+    let extra_dates = []
 
     function getUsersAppointments() {
-        
+
         createEventCalendar('event-calendar');
 
     }
@@ -145,7 +188,7 @@
             },
             success: function (response) {
 
-                appointments = response.data.appointments;
+                appointments = response.data.appointments.as_expert;
                 extra_dates = response.data.extra_dates;
                 successCallback(createCalendarEvents(appointments, extra_dates))
 
@@ -160,10 +203,18 @@
     const modalBody = $('#appointmentTableBody');
 
     function loadExtraDate(extraDateId) {
-        alert(extraDateId)
+       const deleteExtraDate = extra_dates.find( extra_date => extra_date.id == extraDateId)
+       $('#delete-extra-date-info').html('Удалить запись ' + deleteExtraDate.start + ' - ' + deleteExtraDate.end + '?');
+       $('[name="range_id"]').val(deleteExtraDate.id)
+       //console.log(deleteExtraDate)
+       $('#deleteDateRangeModal').modal('show')
     }
 
-    function loadAppointment(appointmentId) {
+    function loadClientAppointment(appointmentId) {
+        alert(appointmentId)
+    }
+
+    function loadExpertAppointment(appointmentId) {
 
         const appointment = appointments.find(appointment => appointment.id == appointmentId);
 
@@ -295,7 +346,7 @@
         };
     }
 
-    function createCalendarEvents(appointments, extradates) {
+    function createCalendarEvents(appointments_as_expert, extradates) {
 
         let dates =
 
@@ -322,7 +373,7 @@
             })
 
 
-        appointments.map((appointment) => {
+        appointments_as_expert.map((appointment) => {
             dates.push(
                 createEvent(appointment_title,
                     appointment.status,
@@ -331,7 +382,7 @@
                     appointment.appointment_date,
                     moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
                     appointment.id,
-                    'appointment'
+                    'appointments_as_expert'
                 )
             );
         })
@@ -344,8 +395,7 @@
     let ec;
 
     function createEventCalendar(calendar_element_id) {
-        //let events = createCalendarEvents(appointments, extradates);
-        //console.log("events", events);
+
         $('#event-calendar').html('');
         ec = new EventCalendar(document.getElementById(calendar_element_id), {
 
@@ -355,17 +405,11 @@
                 center: 'title',
                 end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
-           /* eventSources: [{
-                url: `/appointment/calendar/${appointment_path}/${user_id}/json`,
-                method: 'GET',
-                extraParams: {
-                    "m":123
-                }
-            }], */
+
             eventSources: [{
                 events: fetchAppointments
             }],
-            //events: events,
+
             <!--        slotDuration: '01:00:00', -->
             <!--        slotLabelInterval: { hours: 1 }, -->
             slotMinTime: '05:00:00',
@@ -383,7 +427,6 @@
             slotDuration: '00:30:00',
             nowIndicator: true,
             eventDurationEditable: false,
-            //highlightedDates: ['2024-05-06 14:00', '2024-05-07', '2024-05-08', '2024-05-09', '2024-05-10'],
             selectable: user_type == 1,
             {% if request.path == '/profile' and request.user.profile.type == 1 %}
                 select: function (info) {
@@ -391,14 +434,17 @@
                 },
             {% endif %}
             eventClick: function (c_event) {
-                if (c_event.event.extendedProps.type == 'appointment')
-                    loadAppointment(c_event.event.id)
+
+                //alert(c_event.event.extendedProps.type)
+                if (c_event.event.extendedProps.type == 'appointment_as_expert')
+                    loadExpertAppointment(c_event.event.id)
+
+                if (c_event.event.extendedProps.type == 'appointment_as_client')
+                    loadClientAppointment(c_event.event.id)
 
                 if (c_event.event.extendedProps.type == 'extradate')
                     loadExtraDate(c_event.event.id)
 
-
-                //alert(c_event.event.start)
             }
 
         });
