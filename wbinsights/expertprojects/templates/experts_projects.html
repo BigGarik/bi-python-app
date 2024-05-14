@@ -1,10 +1,9 @@
 {% load web_tags %}
 
 
-
-
 {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
-    <a href="{% url 'project_add' %}" class="btn btn-primary" style="margin-bottom: 10px" role="button" aria-pressed="true">Добавить проект</a>
+<a href="{% url 'project_add' %}" class="btn btn-primary" style="margin-bottom: 10px" role="button" aria-pressed="true">Добавить
+    проект</a>
 {% endif %}
 
 <div style="display: none" id="user-projects-container">
@@ -24,7 +23,8 @@
 
                 {% get_all_categories as categories %}
                 {% for category in categories %}
-                    <a class="dropdown-item" href="javascript:void(0)" onclick="loadProjectsByCategory('{{ category.id }}', '{{ category.name }}')">{{ category.name }}</a>
+                <a class="dropdown-item" href="javascript:void(0)"
+                   onclick="loadProjectsByCategory('{{ category.id }}', '{{ category.name }}')">{{ category.name }}</a>
                 {% endfor %}
             </div>
         </div>
@@ -36,53 +36,56 @@
 
     <div id="id_project" style="display:flex; flex-direction: column ; padding:10px" class="card border-dark mb-3">
 
-            <div class="row" style="margin-bottom: 10px;">
+        <div class="row" style="margin-bottom: 10px;">
 
-                <div class="col-4">
-                    <div class="client-year-cont">
-                        <div class="project-customer projects-flex"></div>
-                        <div class="project-year projects-flex"></div>
-                    </div>
+            <div class="col-4">
+                <div class="client-year-cont">
+                    <div class="project-customer projects-flex"></div>
+                    <div class="project-year projects-flex"></div>
                 </div>
-
-                <div class="col-8">
-                    <div class="edit-project-search-bar global-border-radius">
-                        <div class="project-name">
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <div class="row">
-                <div class="col-4">
-                    <div class="jumbotron jumbotron-fluid jumbo-styles">
-                        <div class="container">
-                            <div class="project-members-caption">Цели проекта:</div>
-                            <div class="project-goals"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-8">
-                    <div class="jumbotron jumbotron-fluid jumbo-styles">
-                        <div class="container">
-                            <div class="project-members-caption">Ключевые результаты проекта:</div>
-                            <div class="project-key-results"></div>
-                        </div>
-                        <div class="container"style="display: flex;flex-direction: column;justify-content: space-between;margin-right:0px ">
-                            <div class="project-members-caption">Участники: </div>
-                            <div class="project-members"></div>
-                            {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
-                            <div style="display: flex;justify-content: flex-end;gap: 5px;margin-top: 10px;">
-                                <div class="button-proj-edit"></div>
-                                <div class="button-proj-delete"></div>
-                            </div>
-                            {%endif%}
-
-                        </div>
+            <div class="col-8">
+                <div class="edit-project-search-bar global-border-radius">
+                    <div class="project-name">
                     </div>
                 </div>
             </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <div class="jumbotron jumbotron-fluid jumbo-styles">
+                    <div class="container">
+                        <div class="project-members-caption">Цели проекта:</div>
+                        <div class="project-goals"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="jumbotron jumbotron-fluid jumbo-styles">
+                    <div class="container">
+                        <div class="project-members-caption">Ключевые результаты проекта:</div>
+                        <div class="project-key-results"></div>
+                    </div>
+                    <div class="container"
+                         style="display: flex;flex-direction: column;margin-right:0px ">
+                        <div class="project-members-caption">Участники:</div>
+                        <div class="project-members"></div>
+
+
+                    </div>
+                </div>
+            </div>
+            {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
+            <div style="display: flex;justify-content: flex-end;gap: 5px;margin-top: 10px;">
+                <div class="button-proj-edit"></div>
+                <div class="button-proj-delete"></div>
+            </div>
+            {%endif%}
+
+        </div>
 
     </div>
 
@@ -106,9 +109,7 @@
 </style>
 
 <script>
-    let selectedCategory = '';
     let searchTimeout;
-    let isFirstProjectLoaded = false;
     let userProjects = [];
 
     function loadProject(project_idx) {
@@ -117,25 +118,18 @@
 
         const selectedProject = userProjects[project_idx];
 
-        const projectCustomerCont = $('.project-customer');
-        projectCustomerCont.html('Клиент:&nbsp;' + selectedProject.customer.name);
-        console.log('selectedProject', selectedProject);
-
-        const projectYearCont = $('.project-year');
-        projectYearCont.html('Год:&nbsp;' + selectedProject.year);
-
-        const projectGoalsCont = $('.project-goals');
-        projectGoalsCont.html(selectedProject.goals);
-
-        const projectNameCont = $('.project-name');
-        projectNameCont.html(selectedProject.name);
+        $('.project-customer').html('Клиент:&nbsp;' + selectedProject.customer.name);
+        $('.project-year').html('Год:&nbsp;' + selectedProject.year);
+        $('.project-goals').html(selectedProject.goals);
+        $('.project-name').html(selectedProject.name);
 
         const projectKeyResultsCont = $('.project-key-results');
         projectKeyResultsCont.html('');
-        projectKeyResultsCont.append('<ul>');
+        const keyResultsList = $('<ul>');
         selectedProject.key_results.forEach((key_res) => {
-            projectKeyResultsCont.find('ul').append(`<li>${key_res}</li>`);
+            keyResultsList.append(`<li>${key_res}</li>`);
         });
+        projectKeyResultsCont.append(keyResultsList);
 
         const projectMembersFieldSetCont = $('.project-members');
         projectMembersFieldSetCont.html('');
@@ -157,75 +151,48 @@
     }
 
     function loadProjectsByCategory(category_id, category_name) {
-
-        //selectedCategory = category;
         $('#dropdownMenuLink').text(`Категория (${category_name || 'Все'})`);
-        getUsersProjects('',category_id);
-
-        // hide project div when switching categoryies
+        getUsersProjects('', category_id);
         $('#id_project').hide();
     }
 
     function createProjectItem(project, index) {
         return `<div class="card border-dark mb-3" style="width:20%; cursor: pointer;" onclick="loadProject(${index})">
                     <div class="card-body text-dark card-css">
-
                         <h5 class="card-title">${project.name}</h5>
                         <h5 class="card-title">${project.year} г.</h5>
-
                         <div class="project-icon-main-cont">
                             <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
                             <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
                         </div>
-
                     </div>
-                </div>
-
-            `
+                </div>`;
     }
 
     function getUsersProjects(searchQuery = '', category = undefined) {
-
-        let data = {
-                "author": {{ user.id }},
-                "name": searchQuery
-            }
+        const data = {
+            "author": {{ user.id }},
+            "name": searchQuery
+        };
 
         if (category) {
-            data.category = category
+            data.category = category;
         }
-
-
-      console.log(2222)
-
-
 
         $.ajax({
             url: `/expert/projects/json`,
             type: 'GET',
             data: data,
             success: function (response) {
-
                 userProjects = response.results;
                 const projectListCont = $('#id_project_catalog');
                 projectListCont.html('');
 
-                const projectsInSelectedCategory = userProjects.filter(project => {
-                    const projectCategories = project.category.map(category => category.name);
-                    return selectedCategory === '' || projectCategories.includes(selectedCategory);
-                });
-
-                if (projectsInSelectedCategory.length > 0) {
-
-                    projectsInSelectedCategory.forEach((project, index) => {
+                if (userProjects.length > 0) {
+                    userProjects.forEach((project, index) => {
                         projectListCont.append(createProjectItem(project, index));
                     });
-
-
-                    if (!isFirstProjectLoaded && projectsInSelectedCategory.length > 0) {
-                        loadProject(0);
-                        isFirstProjectLoaded = true;
-                    }
+                    loadProject(0); // Load the first project if the list is not empty
                     $('#user-project-no-cat').hide();
                 } else {
                     $('#user-project-no-cat').html(`No projects found for ${selectedCategory}`).show();
@@ -237,17 +204,13 @@
                 if (userProjects.length > 0) {
                     user_projects_container.show();
                     user_projects_container_no_projects.hide();
-
                 } else {
-                    // hide proj div when no proj in that category
                     $('#id_project').hide();
                     user_projects_container_no_projects.show();
                 }
             }
         });
     }
-
-
 
     $(document).ready(function () {
         $('#dropdownMenuLink').text("Категория (Все)");
@@ -262,15 +225,11 @@
             }, 2000);
         });
 
-        // maybe temporary
-        loadProject(0);
-
         getUsersProjects();
     });
-
-
-
 </script>
+
+
 
 
 
