@@ -4,7 +4,7 @@ from wbappointment.views.appointments import add_appointment_view, checkout_appo
     get_expert_available_timeslots, add_appointment_success_view, appointment_payment_callback_view
 
 from wbappointment.views.calendar import add_expert_schedule_view, add_appointment_range_view, get_experts_appointment, \
-    get_clients_appointment
+    get_clients_appointment, delete_appointment_range_view
 
 urlpatterns = [
     # path("", handleIndex, name="index"),
@@ -17,6 +17,7 @@ urlpatterns = [
 
     path("calendar/add/schedule/", add_expert_schedule_view, name="add_calendar_schedule"),
     path("calendar/add/range/", add_appointment_range_view, name="add_calendar_range"),
+    path("calendar/delete/range/", delete_appointment_range_view, name="delete_calendar_range"),
     path("calendar/expert/json", get_experts_appointment, name="get_experts_appointment"),
     path("calendar/client/json", get_clients_appointment, name="get_clients_appointment")
 
