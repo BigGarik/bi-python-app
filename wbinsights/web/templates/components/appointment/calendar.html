@@ -103,10 +103,7 @@
                 type: 'POST',
                 data: form.serialize(),
                 success: function (response) {
-                    console.log(123213213)
-
-                    getUsersAppointments();
-
+                    getUsersAppointments()
                 }
             })
         })
@@ -132,19 +129,33 @@
     let appointments = []
 
     function getUsersAppointments() {
+        
+        createEventCalendar('event-calendar');
+
+    }
+
+    function fetchAppointments(fetchInfo, successCallback, failureCallback) {
+
         $.ajax({
-            url: `/appointment/calendar/${appointment_path}/${user_id}/json`,
+            url: `/appointment/calendar/${appointment_path}/json`,
             type: 'GET',
-            data: {},
+            data: {
+                start:fetchInfo.startStr,
+                end:fetchInfo.endStr,
+            },
             success: function (response) {
 
-                createEventCalendar(response.data.appointments, response.data.schedule, response.data.extra_dates, 'event-calendar');
                 appointments = response.data.appointments;
-                console.log(123)
+                extra_dates = response.data.extra_dates;
+                successCallback(createCalendarEvents(appointments, extra_dates))
+
             }
 
         });
+
+
     }
+
 
     const modalBody = $('#appointmentTableBody');
 
@@ -332,8 +343,8 @@
 
     let ec;
 
-    function createEventCalendar(appointments, schedule, extradates, calendar_element_id) {
-        let events = createCalendarEvents(appointments, extradates);
+    function createEventCalendar(calendar_element_id) {
+        //let events = createCalendarEvents(appointments, extradates);
         //console.log("events", events);
         $('#event-calendar').html('');
         ec = new EventCalendar(document.getElementById(calendar_element_id), {
@@ -344,7 +355,17 @@
                 center: 'title',
                 end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
-            events: events,
+           /* eventSources: [{
+                url: `/appointment/calendar/${appointment_path}/${user_id}/json`,
+                method: 'GET',
+                extraParams: {
+                    "m":123
+                }
+            }], */
+            eventSources: [{
+                events: fetchAppointments
+            }],
+            //events: events,
             <!--        slotDuration: '01:00:00', -->
             <!--        slotLabelInterval: { hours: 1 }, -->
             slotMinTime: '05:00:00',

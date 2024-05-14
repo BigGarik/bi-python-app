@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 
-from wbappointment.forms import ExpertScheduleForm, ExpertScheduleSpecialDaysForm
+from wbappointment.forms import ExpertScheduleForm, ExpertScheduleSpecialDaysForm, CalendarEventForm
 from wbappointment.models import ExpertSchedule, ExpertScheduleSpecialDays, Appointment
 from wbappointment.serializers import AppointmentSerializer, ExpertScheduleSerializer, \
     ExpertScheduleSpecialDaysSerializer
@@ -66,16 +66,23 @@ def get_start_of_week():
 
 @login_required
 def get_experts_appointment(request, *args, **kwargs):
-    selected_expert = kwargs['expert_id']
+    selected_expert = request.user
 
-    appointments = Appointment.objects.filter(expert_id=selected_expert)
+    calendarForm = CalendarEventForm(request.GET)
 
+    if calendarForm.is_valid():
 
-    extra_dates = ExpertScheduleSpecialDays.objects.filter(expert_id=selected_expert, start__gte=get_start_of_week())
-    expert_schedule = ExpertSchedule.objects.filter(expert_id=selected_expert)
-    return JsonResponse({'data': {'appointments': AppointmentSerializer(appointments, many=True).data,
-                                  'extra_dates': ExpertScheduleSpecialDaysSerializer(extra_dates, many=True).data,
-                                  'schedule': ExpertScheduleSerializer(expert_schedule, many=True).data}})
+        start_date = calendarForm.cleaned_data['start']
+        end_date = calendarForm.cleaned_data['end']
+
+        #Возвращаем все что будет отображаться на календаре
+        appointments = Appointment.objects.filter(expert=selected_expert, appointment_date__gte=start_date.date(), appointment_date__lte=end_date.date())
+        extra_dates = ExpertScheduleSpecialDays.objects.filter(expert_id=selected_expert, start__gte=get_start_of_week())
+        expert_schedule = ExpertSchedule.objects.filter(expert_id=selected_expert)
+        return JsonResponse({'data': {'appointments': AppointmentSerializer(appointments, many=True).data,
+                                      'extra_dates': ExpertScheduleSpecialDaysSerializer(extra_dates, many=True).data,
+                                      'schedule': ExpertScheduleSerializer(expert_schedule, many=True).data}})
+        #return JsonResponse(AppointmentSerializer(appointments, many=True).data)
 
 
 @login_required

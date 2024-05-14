@@ -14,7 +14,7 @@ def validate_date(date):
 
 
 class AppointmentForm(forms.ModelForm):
-    hour_choices = [(str(i).zfill(2) + ":00", str(i).zfill(2) + ":00") for i in range(24)]  # hour choices
+    hour_choices = [(f'{hour:02}:00:00', f'{hour:02}:00')  for hour in range(24)]  # hour choices
 
     appointment_time = forms.ChoiceField(
         choices=hour_choices,
@@ -68,6 +68,11 @@ class AppointmentForm(forms.ModelForm):
                 }
             )
         }
+
+
+class CalendarEventForm(forms.Form):
+    start = forms.DateTimeField()
+    end = forms.DateTimeField()
 
 
 class ExpertScheduleForm(forms.ModelForm):
