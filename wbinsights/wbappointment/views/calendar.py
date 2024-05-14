@@ -6,10 +6,10 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 
-from wbappointment.forms import ExpertScheduleForm, ExpertScheduleSpecialDaysForm, CalendarEventForm
-from wbappointment.models import ExpertSchedule, ExpertScheduleSpecialDays, Appointment
-from wbappointment.serializers import Appointment, ExpertScheduleSerializer, \
-    ExpertScheduleSpecialDaysSerializer
+from wbappointment.forms import *
+from wbappointment.models import *
+from wbappointment.serializers import AppointmentSerializer, ExpertScheduleSpecialDaysSerializer, \
+    ExpertScheduleSerializer
 
 
 @require_POST
@@ -105,8 +105,8 @@ def get_experts_appointment(request, *args, **kwargs):
         return JsonResponse(
             {'data':
                 {'appointments': {
-                    'as_expert': Appointment(appointments_as_expert, many=True).data,
-                    'as_client': Appointment(appointments_as_client, many=True).data,
+                    'as_expert':  AppointmentSerializer(appointments_as_expert, many=True).data,
+                    'as_client':  AppointmentSerializer(appointments_as_client, many=True).data,
                 },
                     'extra_dates': ExpertScheduleSpecialDaysSerializer(extra_dates, many=True).data,
                     'schedule': ExpertScheduleSerializer(expert_schedule, many=True).data
