@@ -24,7 +24,7 @@
 
                 {% get_all_categories as categories %}
                 {% for category in categories %}
-                    <a class="dropdown-item" href="javascript:void(0)" onclick="loadProjectsByCategory('{{ category.name }}')">{{ category.name }}</a>
+                    <a class="dropdown-item" href="javascript:void(0)" onclick="loadProjectsByCategory('{{ category.id }}', '{{ category.name }}')">{{ category.name }}</a>
                 {% endfor %}
             </div>
         </div>
@@ -156,25 +156,54 @@
         $('#id_project').show();
     }
 
-    function loadProjectsByCategory(category) {
+    function loadProjectsByCategory(category_id, category_name) {
 
-        selectedCategory = category;
-        $('#dropdownMenuLink').text(`Категория (${category || 'Все'})`);
-        getUsersProjects($('#dropdownMenuLink').val(), category);
+        //selectedCategory = category;
+        $('#dropdownMenuLink').text(`Категория (${category_name || 'Все'})`);
+        getUsersProjects('',category_id);
 
         // hide project div when switching categoryies
         $('#id_project').hide();
     }
 
-    function getUsersProjects(searchQuery = '') {
+    function createProjectItem(project, index) {
+        return `<div class="card border-dark mb-3" style="width:20%; cursor: pointer;" onclick="loadProject(${index})">
+                    <div class="card-body text-dark card-css">
+
+                        <h5 class="card-title">${project.name}</h5>
+                        <h5 class="card-title">${project.year} г.</h5>
+
+                        <div class="project-icon-main-cont">
+                            <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
+                            <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            `
+    }
+
+    function getUsersProjects(searchQuery = '', category = undefined) {
+
+        let data = {
+                "author": {{ user.id }},
+                "name": searchQuery
+            }
+
+        if (category) {
+            data.category = category
+        }
+
+
+      console.log(2222)
+
+
 
         $.ajax({
             url: `/expert/projects/json`,
             type: 'GET',
-            data: {
-                "author": {{ user.id }},
-                "name": searchQuery
-            },
+            data: data,
             success: function (response) {
 
                 userProjects = response.results;
@@ -187,25 +216,12 @@
                 });
 
                 if (projectsInSelectedCategory.length > 0) {
+
                     projectsInSelectedCategory.forEach((project, index) => {
-                        projectListCont.append(`
-
-                            <div class="card border-dark mb-3" style="width:20%; cursor: pointer;" onclick="loadProject(${index})">
-                                <div class="card-body text-dark card-css">
-
-                                    <h5 class="card-title">${project.name}</h5>
-                                    <h5 class="card-title">${project.year} г.</h5>
-
-                                    <div class="project-icon-main-cont">
-                                        <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
-                                        <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        `);
+                        projectListCont.append(createProjectItem(project, index));
                     });
+
+
                     if (!isFirstProjectLoaded && projectsInSelectedCategory.length > 0) {
                         loadProject(0);
                         isFirstProjectLoaded = true;
