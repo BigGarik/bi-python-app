@@ -61,7 +61,8 @@ class Profile(models.Model):
         CLIENT = 0, _('Client')
         EXPERT = 1, _('Expert')
 
-    avatar = models.ImageField(verbose_name=_('Avatar'), upload_to="avatars", blank=True)
+    avatar = models.ImageField(verbose_name=_('Avatar'), upload_to="avatars",
+                               default="avatars/profile_picture_icon.png")
     type = models.IntegerField(verbose_name=_('Category user'), choices=TypeUser.choices, default=TypeUser.CLIENT)
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
 
