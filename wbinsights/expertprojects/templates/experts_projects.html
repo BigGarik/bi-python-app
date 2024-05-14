@@ -15,7 +15,7 @@
         <input type="text" id="project-search-bar" class="lists-search-cont" placeholder="Название проекта">
 
         <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+            <a class="btn btn-secondary dropdown-toggle" href="javascript:void(0)" role="button" id="dropdownMenuLink"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin: 0px !important;">
             </a>
 
@@ -106,16 +106,14 @@
 </style>
 
 <script>
-    let selectedProject;
     let selectedCategory = '';
     let searchTimeout;
-    let userProjects = [];
     let isFirstProjectLoaded = false;
+    let userProjects = [];
 
     function loadProject(project_idx) {
         $('.card.border-dark.mb-3').removeClass('selectedProj');
         $(`.card.border-dark.mb-3:eq(${project_idx})`).addClass('selectedProj');
-
 
         const selectedProject = userProjects[project_idx];
 
@@ -233,6 +231,8 @@
         });
     }
 
+
+
     $(document).ready(function () {
         $('#dropdownMenuLink').text("Категория (Все)");
 
@@ -246,8 +246,14 @@
             }, 2000);
         });
 
+        // maybe temporary
+        loadProject(0);
+
         getUsersProjects();
     });
+
+
+
 </script>
 
 
