@@ -20,7 +20,6 @@ class Appointment(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     appointment_date = models.DateField()
     appointment_time = models.TimeField()
-    timeslot = DateTimeRangeField(default=(timezone.now(), timezone.now()))
     status = models.IntegerField(default=AppointmentStatus.NEW, choices=AppointmentStatus.choices)
     zoom_link = models.CharField(null=True)
     notes = models.TextField(null=True, blank=True)
