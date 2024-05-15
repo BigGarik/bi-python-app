@@ -64,7 +64,7 @@
     height: 50px; 
     border-radius: 50%; 
     overflow: hidden; 
-    border: 1px solid #ccc; 
+    /*border: 1px solid #ccc; */
 }
 
 .side-avatar-container img {

@@ -32,7 +32,7 @@
 
     </div>
 
-    <div id="id_project_catalog" style="display:flex; justify-content: space-between; gap: 10px; flex-wrap: wrap"></div>
+    <div id="id_project_catalog" style="display:flex; justify-content: flex-start; gap: 10px; flex-wrap: wrap"></div>
 
     <div id="id_project" style="display:flex; flex-direction: column ; padding:10px" class="card border-dark mb-3">
 
@@ -117,6 +117,7 @@
         $(`.card.border-dark.mb-3:eq(${project_idx})`).addClass('selectedProj');
 
         const selectedProject = userProjects[project_idx];
+        console.log('selectedProject', selectedProject)
 
         $('.project-customer').html('Клиент:&nbsp;' + selectedProject.customer.name);
         $('.project-year').html('Год:&nbsp;' + selectedProject.year);
@@ -137,7 +138,7 @@
             projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`);
         });
 
-        //edit button, remove prevents duplicates of button
+        //edit button
         $('#editButton').remove();
         const editButtonHtml = `<a href="/expert/project/${selectedProject.slug}/edit/" id="editButton" class="btn btn-primary btn-sm">Редактировать</a>`;
         $('.button-proj-edit').append(editButtonHtml);
@@ -157,13 +158,17 @@
     }
 
     function createProjectItem(project, index) {
-        return `<div class="card border-dark mb-3" style="width:20%; cursor: pointer;" onclick="loadProject(${index})">
+
+        let categoryNames = project.category.map(cat => cat.name).join(', ');
+
+        return `<div class="card border-dark mb-3" style="width:19%; cursor: pointer;" onclick="loadProject(${index})">
                     <div class="card-body text-dark card-css">
-                        <h5 class="card-title">${project.name}</h5>
-                        <h5 class="card-title">${project.year} г.</h5>
+                        <h6 class="card-title" style="font-weight: bold">${project.name}</h6>
+                        <h6 class="card-title" >${project.year} г.</h6>
+                        <h6 class="card-title" >${categoryNames}</h6>
                         <div class="project-icon-main-cont">
-                            <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
-                            <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 24px" onclick="alert('in progress')"></i> 46</div>
+                            <div class="project-icon-cont"><i class="bi bi-eye" style="font-size: 20px" onclick="alert('in progress')"></i> 46</div>
+                            <div class="project-icon-cont"><i class="bi bi-hand-thumbs-up" style="font-size: 20px" onclick="alert('in progress')"></i> 46</div>
                         </div>
                     </div>
                 </div>`;
@@ -192,7 +197,7 @@
                     userProjects.forEach((project, index) => {
                         projectListCont.append(createProjectItem(project, index));
                     });
-                    loadProject(0); // Load the first project if the list is not empty
+                    loadProject(0);
                     $('#user-project-no-cat').hide();
                 } else {
                     $('#user-project-no-cat').html(`No projects found for ${selectedCategory}`).show();

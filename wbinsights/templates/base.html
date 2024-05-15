@@ -46,6 +46,12 @@
             font-family: monaco, Consolas, Lucida Console, monospace;
         }
 
+        .for-pic img {
+            max-width: 100%;
+            height: auto;
+        }
+
+
     </style>
 
 </head>
@@ -187,7 +193,7 @@
                 <div style="display:flex">
 
                     <div id="sidebar-btn">
-                        <i class="bi bi-list" style="color: white; font-size: 22px;"></i>
+                        <i class="bi bi-list" style="color: white; font-size: 24px;"></i>
                     </div>
 
                     <div style="display:flex;width: 100%; justify-content: flex-end;">
@@ -200,7 +206,7 @@
 
                         {% if user.is_authenticated %}
 
-                            <div class="comments-cont">
+                            <div class="header-icon-cont">
                                 <a href="#" onclick="alert('В разработке');">
                                     <i class="bi bi-chat-left-text" style="color: white;"></i>
                                 </a>
@@ -272,9 +278,9 @@
 
                 <div id="sidebar">
 
-                    <div style="display:flex; flex-direction:row ;    justify-content: space-between; height:50px">
+                    <div style="display:flex; flex-direction:row ;    justify-content: flex-end; height:50px">
                         <div id="sidebar-close-btn" style="display: none;">
-                            <i class="bi bi-list" style="color: white; font-size:22px;"></i>
+                            <i class="bi bi-list" style="color: white; font-size:24px;"></i>
                         </div>
                     </div>
 

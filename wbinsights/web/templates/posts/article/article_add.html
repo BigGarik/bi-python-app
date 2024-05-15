@@ -240,6 +240,7 @@
 
     function saveArticle() {
       const editorContent = editor.getHtml();
+      console.log('editorContent' ,editorContent)
       const title = document.getElementById('title').value;
       const description = document.getElementById('description').value;
       const selectedCategory = document.getElementById('categoryDropdownBtn').innerText.trim();

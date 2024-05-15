@@ -42,6 +42,10 @@
 .list-share {
     display:flex;
     cursor:pointer;
+    color: #a5b1c8;
+    margin-right: 5px;
+    align-items: center;
+    font-size: 13px;
 }
 
 .list-main-containers{

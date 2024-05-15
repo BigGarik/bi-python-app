@@ -8,11 +8,6 @@ Experts
 
 {% block posts_content %}
 
-<style>
-
-
-
-</style>
 
 
 	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
@@ -54,15 +49,7 @@ Experts
 							<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
 						</div>
 
-<!--						<div class="experts-list-avatar-container">-->
-<!--							{% if expert.profile.avatar.url %}-->
-<!--								<img src="{{ expert.profile.avatar.url }}" alt="User Avatar" class="img-fluid" />-->
-<!--							{% else %}-->
-<!--								<div class="user-initials">-->
-<!--									{{ expert.first_name.0 }}{{ expert.last_name.0 }}-->
-<!--								</div>-->
-<!--							{% endif %}-->
-<!--						</div>-->
+
 
 						<div class="d-none d-md-block">
 							<span class="experts-list-rating-span">
