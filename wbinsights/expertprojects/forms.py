@@ -24,12 +24,12 @@ class UserProjectForm(forms.ModelForm):
                               label="Год проекта",
                               widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
-    files = forms.FileField(widget = forms.TextInput(attrs={
-            "name": "images",
-            "type": "File",
-            "class": "form-control",
-            "multiple": "True",
-        }), label = "Файлы проекта", required=False)
+    # files = forms.FileField(widget = forms.TextInput(attrs={
+    #         "name": "images",
+    #         "type": "File",
+    #         "class": "form-control",
+    #         "multiple": "True",
+    #     }), label = "Файлы проекта", required=False)
 
     class Meta:
 
