@@ -22,28 +22,99 @@
     {{ form.as_p }}
 
     <select name="members" id="id_members" multiple>
-        {%  for member in members %}
+        {% for member in members %}
             <option selected value="{{ member.id }}">{{ member.email }}</option>
         {% endfor %}
 
     </select>
 
-    <h3>Файлы проекта:</h3>
-    <ul>
-        {% for file in userproject.files.all %}
-            <li>
-                {% if file.file %}
-                    <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
-                {% else %}
-                    Файл отсутствует.
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-    <p></p>
-    <label for="id_file">Загрузить файл:</label>
-    <input id="id_file" name="file_field_name" type="file">
-    <p></p>
+
+    <div style="display: flex; padding-top: 10px; padding-bottom: 10px">
+        <h3>Файлы проекта:</h3>
+        <button id="fileInputBtn" class="btn btn-primary btn-sm" style="margin-left: 10px">Добавить файлы</button>
+    </div>
+
+    <div id="fileList">
+        <ul>
+            {% for file in files.all %}
+                <li>
+                    {% if file.file %}
+                        <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
+                    {% else %}
+                        Файл отсутствует.
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <input type="file" id="fileInput" name="files" multiple style="display: none;">
+
+    <script>
+
+        document.getElementById('fileInputBtn').addEventListener('click', function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение кнопки
+            document.getElementById('fileInput').click();
+        });
+
+        let fileList = []; // Хранит список выбранных файлов
+
+        // Функция для обновления списка файлов в документе
+        function updateFileList() {
+            const fileListDiv = document.getElementById('fileList');
+            let ul = fileListDiv.querySelector('ul');
+            //fileListDiv.innerHTML = ''; // Очищаем список перед добавлением новых файлов
+
+            fileList.forEach(function (file, index) {
+                const listItem = document.createElement('li');
+                //listItem.classList.add('list-group-item');
+                listItem.textContent = file.name;
+
+                const deleteButton = document.createElement('a');
+                const deleteButtonInsideITag = document.createElement('i');
+                deleteButtonInsideITag.classList.add('fa-solid', 'fa-trash-can');
+
+                deleteButton.append(deleteButtonInsideITag)
+                {#deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');#}
+                {#deleteButton.textContent = 'Удалить';#}
+                deleteButton.addEventListener('click', function () {
+                    fileList.splice(index, 1); // Удаляем файл из массива fileList
+                    updateFileList(); // Обновляем список файлов в документе
+                });
+
+                listItem.appendChild(deleteButton);
+                ul.appendChild(listItem);
+            });
+        }
+
+        // Добавляем обработчик события change для элемента input с id="fileInput"
+        document.getElementById('fileInput').addEventListener('change', function () {
+            const files = this.files;
+
+            for (let i = 0; i < files.length; i++) {
+                fileList.push(files[i]); // Добавляем каждый файл к общему списку
+            }
+
+            updateFileList(); // Обновляем список файлов в документе
+        });
+
+        document.getElementById('project-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Предотвращение отправки формы по умолчанию
+
+            // Получение объекта FormData из формы
+            const formData = new FormData(this);
+
+            // Добавление файлов в объект FormData
+            const fileInput = document.getElementById('fileInput');
+            for (let i = 0; i < fileInput.files.length; i++) {
+                formData.append('files', fileInput.files[i]);
+            }
+
+            // Отправка данных на сервер
+            this.submit();
+        });
+    </script>
+
 
     <button type="submit" class="btn btn-primary"> Сохранить изменения</button>
 </form>

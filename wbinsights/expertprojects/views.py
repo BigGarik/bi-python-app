@@ -124,7 +124,7 @@ class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
 
             # Обработка файлов
             # Add
-            files = self.request.FILES.getlist('file_field_name')
+            files = self.request.FILES.getlist('files')
             for file_data in files:
                 UserProjectFile.objects.create(project=self.object, file=file_data)
             # Delite
