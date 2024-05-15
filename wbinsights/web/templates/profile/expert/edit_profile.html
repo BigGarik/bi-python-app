@@ -119,12 +119,6 @@
                     <div class="prof-edit-duel-rows">
 
                         <div class="prof-edit-info-cont">
-                            <label for="{{ expert_profile_form.education.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.education.label }}</label>
-                            {{ expert_profile_form.education }}
-                        </div>
-
-                        <div class="prof-edit-info-cont">
                             <label for="{{ expert_profile_form.age.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
                             {{ expert_profile_form.age }}
@@ -139,6 +133,7 @@
                     {{ education_expert_formset.management_form }}
                     {% for form in education_expert_formset %}
                         <div class="education-form">
+                            {{ form.id }}
                             {{ form.errors }}
                             <div class="prof-edit-duel-rows">
                                 <div class="prof-edit-input-title">
@@ -165,16 +160,16 @@
                     <button type="button" class="btn btn-secondary add-education-btn">Добавить образование</button>
                 </div>
                 <script>
-                    // Скрипт для добавления новой формы образования (если требуется)
+                    // Скрипт для добавления новой формы образования
                     $('.add-education-btn').click(function() {
                         // Клонируем последнюю форму в формсете
-                        var newForm = $('.education-form:last').clone();
+                        const newForm = $('.education-form:last').clone();
                         // Очищаем значения в клонированной форме
                         newForm.find('input').val('');
                         newForm.find('select').val('');
                         // Изменяем индекс в именах и id полей
-                        var formRegex = RegExp('form-(\\d+)-', 'g');
-                        var formNum = parseInt($('#id_form-TOTAL_FORMS').val());
+                        const formRegex = RegExp('form-(\\d+)-', 'g');
+                        const formNum = parseInt($('#id_form-TOTAL_FORMS').val());
                         newForm.html(newForm.html().replace(formRegex, 'form-' + formNum + '-'));
                         // Увеличиваем общее количество форм в управляющей форме
                         $('#id_form-TOTAL_FORMS').val(formNum + 1);

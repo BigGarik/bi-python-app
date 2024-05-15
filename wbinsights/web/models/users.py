@@ -232,6 +232,20 @@ class Education(models.Model):
     degree_documents = models.ManyToManyField('Document', blank=True, related_name='degree_documents',
                                               verbose_name=_('Education documents'))
 
+    def save(self, *args, **kwargs):
+        # Если экземпляр уже существует в базе данных (не новый)
+        if self.pk:
+            # Получаем старый экземпляр из базы данных
+            old_instance = Education.objects.get(pk=self.pk)
+            # Проверяем, изменилось ли поле
+            if old_instance.educational_institution != self.educational_institution:
+                # Если изменилось, устанавливаем 'educational_institution_verified' в False
+                self.educational_institution_verified = False
+            if old_instance.diploma_number != self.diploma_number:
+                # Если изменилось, устанавливаем 'diploma_number_verified' в False
+                self.diploma_number_verified = False
+        super().save(*args, **kwargs)
+
 
 class Document(models.Model):
     file = models.FileField(upload_to=UploadToPathAndRename('expert/documents'), verbose_name=_('File'))

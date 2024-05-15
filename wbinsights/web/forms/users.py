@@ -118,7 +118,10 @@ class UserProfilePasswordChangeForm(PasswordChangeForm):
         strip=False,
         required=False,
         widget=forms.PasswordInput(
-            attrs={'class': 'custom-form-css'}
+            attrs={
+                    'class': 'custom-form-css',
+                    'autocomplete': 'off',
+                   }
         ),
     )
 
@@ -280,4 +283,4 @@ class EducationForm(forms.ModelForm):
         fields = ['education_type', 'specialized_education', 'educational_institution', 'educational_institution_verified', 'diploma_number', 'diploma_number_verified', 'degree_documents']
 
 
-EducationFormSet = modelformset_factory(Education, form=EducationForm, extra=1)
+EducationFormSet = modelformset_factory(Education, form=EducationForm, extra=0)
