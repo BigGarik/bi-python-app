@@ -29,24 +29,39 @@
     </select>
 
 
-    <div style="display: flex; padding-top: 10px; padding-bottom: 10px">
-        <h3>Файлы проекта:</h3>
+    <div style="display: flex; margin : 20px 0 20px 0; align-items: baseline;">
+        <span style="font-size: 20px;">Файлы проекта:</span>
         <button id="fileInputBtn" class="btn btn-primary btn-sm" style="margin-left: 10px">Добавить файлы</button>
     </div>
+
+
+    <style>
+        .trash-icon:hover {
+            color: red !important;
+            cursor: pointer;
+        }
+    </style>
 
     <div id="fileList">
         <ul>
             {% for file in files.all %}
-                <li>
-                    {% if file.file %}
-                        <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
-                    {% else %}
-                        Файл отсутствует.
-                    {% endif %}
+                <li style="margin: 5px 0 5px 0;">
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 250px; font-size: 18px;">
+                            {% if file.file %}
+                                <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
+                            {% else %}
+                                Файл отсутствует.
+                            {% endif %}
+                        </div>
+                        <i class="bi bi-trash trash-icon" style="font-size:20px"></i>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
     </div>
+
+
 
     <input type="file" id="fileInput" name="files" multiple style="display: none;">
 
@@ -116,7 +131,7 @@
     </script>
 
 
-    <button type="submit" class="btn btn-primary"> Сохранить изменения</button>
+    <button type="submit" class="btn btn-primary btn-sm"> Сохранить изменения</button>
 </form>
 
 
