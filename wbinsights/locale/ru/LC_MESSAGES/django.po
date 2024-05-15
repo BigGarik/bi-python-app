@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-08 13:25+0300\n"
+"POT-Creation-Date: 2024-05-15 14:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,40 +32,44 @@ msgstr "Категория"
 msgid "Unsupported file extension."
 msgstr "Неподдерживаемый тип файла."
 
-#: .\templates\base.html:82 .\templates\base.html:297
+#: .\templates\base.html:82 .\templates\base.html:313
 msgid "MakeResearch"
 msgstr "Провести исследование"
 
-#: .\templates\base.html:85 .\templates\base.html:300
+#: .\templates\base.html:85 .\templates\base.html:316
 msgid "CreateArticleLabel"
 msgstr "Написать статью"
 
-#: .\templates\base.html:88 .\templates\base.html:303
+#: .\templates\base.html:88 .\templates\base.html:319
 msgid "AskQuestionLabel"
 msgstr "Задать вопрос"
 
-#: .\templates\base.html:102
-msgid "VerifyAccountLabel"
-msgstr "Верифицирован"
+#: .\templates\base.html:104
+msgid "Анкета эксперта"
+msgstr ""
 
-#: .\templates\base.html:154 .\templates\base.html:244
+#: .\templates\base.html:118
+msgid "VerifyAccountLabel"
+msgstr "Не верифицирован"
+
+#: .\templates\base.html:170 .\templates\base.html:260
 msgid "PersonalAccountLabel"
 msgstr "Личный кабинет"
 
-#: .\templates\base.html:160 .\templates\base.html:250
+#: .\templates\base.html:176 .\templates\base.html:266
 #: .\web\templates\profile\expert\profile_buttons.html:11
 msgid "LogoutButtonLabel"
 msgstr "Выйти"
 
-#: .\templates\base.html:171 .\templates\base.html:261
+#: .\templates\base.html:187 .\templates\base.html:277
 msgid "LoginBtnLabel"
 msgstr "Войти"
 
-#: .\templates\base.html:174 .\templates\base.html:265
+#: .\templates\base.html:190 .\templates\base.html:281
 msgid "RegisterBtnLabel"
 msgstr "Зарегистрироваться"
 
-#: .\wbappointment\forms.py:88
+#: .\wbappointment\forms.py:96
 msgid "End time must be after start time."
 msgstr "Время окончания должно быть позже времени начала."
 
@@ -75,7 +79,9 @@ msgstr "Подтвердить"
 
 #: .\web\backends.py:25
 msgid "Please check your email to activate your account."
-msgstr "Пожалуйста, проверьте свою электронную почту, чтобы активировать свою учетную запись."
+msgstr ""
+"Пожалуйста, проверьте свою электронную почту, чтобы активировать свою "
+"учетную запись."
 
 #: .\web\forms\users.py:30
 msgid "First name"
@@ -85,11 +91,11 @@ msgstr "Имя"
 msgid "Last name"
 msgstr "Фамилия"
 
-#: .\web\forms\users.py:32 .\web\models\users.py:32
+#: .\web\forms\users.py:32 .\web\models\users.py:34
 msgid "Phone number"
 msgstr "Телефонный номер"
 
-#: .\web\forms\users.py:34 .\web\forms\users.py:155 .\web\models\users.py:30
+#: .\web\forms\users.py:34 .\web\forms\users.py:146 .\web\models\users.py:32
 msgid "Email"
 msgstr "Email"
 
@@ -121,7 +127,7 @@ msgstr "Неправильный формат электронной почты.
 msgid "User with this email already exists."
 msgstr "Пользователь с таким адресом электронной почты уже существует."
 
-#: .\web\forms\users.py:78
+#: .\web\forms\users.py:78 .\web\forms\users.py:242
 msgid "About me"
 msgstr "О себе"
 
@@ -133,104 +139,162 @@ msgstr "Опыт"
 msgid "Price"
 msgstr "Стоимость"
 
-#: .\web\forms\users.py:86
+#: .\web\forms\users.py:86 .\web\forms\users.py:247
 msgid "Categories of expertise"
 msgstr "Категории экспертности"
 
-#: .\web\forms\users.py:129
+#: .\web\forms\users.py:117
 msgid "Old password"
 msgstr "Старый пароль"
 
-#: .\web\forms\users.py:138 .\web\forms\users.py:170
+#: .\web\forms\users.py:129 .\web\forms\users.py:161
 msgid "New password"
 msgstr "Новый пароль"
 
-#: .\web\forms\users.py:146 .\web\forms\users.py:180 .\web\forms\users.py:184
+#: .\web\forms\users.py:137 .\web\forms\users.py:171 .\web\forms\users.py:175
 msgid "Confirm new password"
 msgstr "Подтвердите новый пароль"
 
-#: .\web\forms\users.py:167
+#: .\web\forms\users.py:158
 msgid "Password mismatch"
 msgstr "Пароли не совпадают"
 
-#: .\web\forms\users.py:173
+#: .\web\forms\users.py:164
 msgid "Enter new password"
 msgstr "Введите новый пароль"
 
-#: .\web\models\users.py:15
-msgid "Phone number must be entered in the format: '+79997654321'. Up to 15 digits allowed."
-msgstr "Телефонный номер должен быть в формате '+79997654321'. Не более 15 цифр"
+#: .\web\forms\users.py:244
+msgid "Age"
+msgstr "Возраст"
 
-#: .\web\models\users.py:39
-msgid "active"
-msgstr "Активный"
+#: .\web\forms\users.py:245
+msgid "Hourly rate"
+msgstr "Стоимость часа"
 
-#: .\web\models\users.py:42
-msgid "Designates whether this user should be treated as active. Unselect this instead of deleting accounts."
-msgstr "Определяет, следует ли считать этого пользователя активным. Снимите этот флажок вместо удаления учетных записей."
+#: .\web\forms\users.py:251
+msgid "Experience (years)"
+msgstr "Опыт (лет)"
 
-#: .\web\models\users.py:61
-msgid "Client"
-msgstr "Пользователь"
+#: .\web\forms\users.py:252
+msgid "Consulting experience (years)"
+msgstr "Опыт консультирования (лет)"
 
-#: .\web\models\users.py:62
-msgid "Expert"
-msgstr "Эксперт"
+#: .\web\forms\users.py:253
+msgid "Link to HeadHunter"
+msgstr "Ссылка на HeadHunter"
 
-#: .\web\models\users.py:64
-msgid "Avatar"
-msgstr "Аватар"
-
-#: .\web\models\users.py:65
-msgid "Category user"
-msgstr "Категория пользователя"
-
-#: .\web\models\users.py:114
-msgid "Link to HH"
-msgstr "Ссылка на HH"
-
-#: .\web\models\users.py:115
+#: .\web\forms\users.py:254 .\web\models\users.py:119
 msgid "Link to LinkedIn"
 msgstr "Ссылка на LinkedIn"
 
-#: .\web\models\users.py:117
+#: .\web\forms\users.py:256 .\web\models\users.py:121
 msgid "Documents confirming experience"
 msgstr "Документы подтверждающие стаж"
 
-#: .\web\models\users.py:119
+#: .\web\forms\users.py:268
+msgid "Type of education"
+msgstr "Тип образования"
+
+#: .\web\forms\users.py:269
+msgid "Specialized education"
+msgstr "Специализированное образование"
+
+#: .\web\forms\users.py:270 .\web\models\users.py:227 .\web\models\users.py:230
+msgid "Educational institution"
+msgstr "Образовательное учреждение"
+
+#: .\web\forms\users.py:271
+msgid "Institution verified"
+msgstr "Учреждение проверено"
+
+#: .\web\forms\users.py:272
+msgid "Diploma number"
+msgstr "Номер диплома"
+
+#: .\web\forms\users.py:273
+msgid "Diploma number verified"
+msgstr "Номер диплома проверен"
+
+#: .\web\forms\users.py:275 .\web\models\users.py:233
 msgid "Education documents"
 msgstr "Документы об образовании"
 
-#: .\web\models\users.py:122
+#: .\web\models\users.py:17
+msgid ""
+"Phone number must be entered in the format: '+79997654321'. Up to 15 digits "
+"allowed."
+msgstr ""
+"Телефонный номер должен быть в формате '+79997654321'. Не более 15 цифр"
+
+#: .\web\models\users.py:41
+msgid "active"
+msgstr "Активный"
+
+#: .\web\models\users.py:44
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+"Определяет, следует ли считать этого пользователя активным. Снимите этот "
+"флажок вместо удаления учетных записей."
+
+#: .\web\models\users.py:63
+msgid "Client"
+msgstr "Пользователь"
+
+#: .\web\models\users.py:64
+msgid "Expert"
+msgstr "Эксперт"
+
+#: .\web\models\users.py:66
+msgid "Avatar"
+msgstr "Аватар"
+
+#: .\web\models\users.py:68
+msgid "Category user"
+msgstr "Категория пользователя"
+
+#: .\web\models\users.py:118
+msgid "Link to HH"
+msgstr "Ссылка на HH"
+
+#: .\web\models\users.py:125
 msgid "Unverified"
 msgstr "Неверифицирован"
 
-#: .\web\models\users.py:123
+#: .\web\models\users.py:126
 msgid "Verified"
 msgstr "Верифицирован"
 
-#: .\web\models\users.py:125
+#: .\web\models\users.py:128
 msgid "Expert verification status"
 msgstr "Статус верификации"
 
-#: .\web\models\users.py:152
+#: .\web\models\users.py:219
+msgid "Primary"
+msgstr "Основное"
+
+#: .\web\models\users.py:220
+msgid "Additional"
+msgstr "Дополнительное"
+
+#: .\web\models\users.py:224
+msgid "Education Type"
+msgstr "Тип образования"
+
+#: .\web\models\users.py:251
 msgid "File"
 msgstr "Файл"
 
-#: .\web\models\users.py:153
+#: .\web\models\users.py:252
 msgid "Date of upload"
 msgstr "Дата загрузки"
 
-#: .\web\models\users.py:156
-#, python-brace-format
-msgid "Document {self.id} uploaded by {self.expertprofile.user.username}"
-msgstr "Документ {self.id} загружен пользователем {self.expertprofile.user.username}"
-
-#: .\web\models\users.py:159
+#: .\web\models\users.py:256
 msgid "Document"
 msgstr "Документ"
 
-#: .\web\models\users.py:160
+#: .\web\models\users.py:257
 msgid "Documents"
 msgstr "Документы"
 
@@ -242,21 +306,21 @@ msgstr "Все эксперты"
 msgid "MoreExpertsLabel"
 msgstr "Показать больше"
 
-#: .\web\templates\components\experts\profile_info.html:22
+#: .\web\templates\components\experts\profile_info.html:24
 msgid "RatingLabel"
 msgstr "Рейтинг"
 
-#: .\web\templates\components\experts\profile_info.html:76
+#: .\web\templates\components\experts\profile_info.html:78
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:57
 msgid "EducationLabel"
 msgstr "Образование"
 
-#: .\web\templates\components\experts\profile_info.html:82
+#: .\web\templates\components\experts\profile_info.html:84
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:43
 msgid "ExperienceLabel"
 msgstr "Опыт"
 
-#: .\web\templates\components\experts\profile_info.html:94
+#: .\web\templates\components\experts\profile_info.html:96
 msgid "PricePerHourLabel"
 msgstr "Стоимость консультации"
 
@@ -280,7 +344,7 @@ msgstr "Email"
 #, fuzzy
 #| msgid "BackButtonLabel"
 msgid "ActionsLabel"
-msgstr "Назад"
+msgstr "Действие"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:14
 #: .\web\templates\profile\anketa.html:15
@@ -301,7 +365,7 @@ msgstr "Категория"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:50
 msgid "HourRateLabel"
-msgstr ""
+msgstr "Стоимость часа"
 
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:64
 msgid "AgeLabel"
@@ -355,14 +419,18 @@ msgstr "Консультации"
 msgid "ReviewsTabLabel"
 msgstr "Отзывы"
 
-#: .\web\templates\profile\profile_content_items.html:62
+#: .\web\templates\profile\profile_content_items.html:63
 msgid "ReadPostLabel"
 msgstr "Читать далее..."
 
 #: .\web\templates\registration\email\password_reset_email.html:2
 #, python-format
-msgid "You're receiving this email because you requested a password reset for your user account at %(site_name)s."
-msgstr "Вы получили это электронное письмо, поскольку запросили сброс пароля для своей учетной записи на сайте %(site_name)s."
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Вы получили это электронное письмо, поскольку запросили сброс пароля для "
+"своей учетной записи на сайте %(site_name)s."
 
 #: .\web\templates\registration\email\password_reset_email.html:4
 msgid "Please go to the following page and choose a new password:"
@@ -428,6 +496,20 @@ msgstr "Ссылка активации недействительна."
 #: .\web\views\login.py:179
 msgid "Account activation error: user not found."
 msgstr "Ошибка активации аккаунта: пользователь не найден."
+
+#: .\web\views\profile.py:58
+msgid "Your profile has successfully been sent for verification"
+msgstr "Ваш профиль успешно отправлен на проверку"
+
+#: .\web\views\profile.py:177
+msgid "Your profile is updated successfully"
+msgstr "Ваш профиль успешно обновлен"
+
+#, python-brace-format
+#~ msgid "Document {self.id} uploaded by {self.expertprofile.user.username}"
+#~ msgstr ""
+#~ "Документ {self.id} загружен пользователем {self.expertprofile.user."
+#~ "username}"
 
 #~ msgid "Warning"
 #~ msgstr "Предупреждение"

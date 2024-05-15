@@ -6,7 +6,7 @@ from django.core import serializers
 from django.core.serializers import json
 from django.db import transaction
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
@@ -123,9 +123,15 @@ class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
             form.save_m2m()
 
             # Обработка файлов
-            files = self.request.FILES.getlist('file_field_name')
+            # Add
+            files = self.request.FILES.getlist('files')
             for file_data in files:
                 UserProjectFile.objects.create(project=self.object, file=file_data)
+            # Delite
+            delete_files_ids = self.request.POST.getlist('delete_files_ids')
+            if delete_files_ids:
+                files_to_delete = UserProjectFile.objects.filter(pk__in=delete_files_ids, project__author=self.request.user)
+                files_to_delete.delete()
 
             # Обработка участников проекта
             members_ids = self.request.POST.getlist('members')  # Используем getlist для безопасного получения списка

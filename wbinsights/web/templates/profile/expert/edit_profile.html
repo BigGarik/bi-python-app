@@ -119,12 +119,6 @@
                     <div class="prof-edit-duel-rows">
 
                         <div class="prof-edit-info-cont">
-                            <label for="{{ expert_profile_form.education.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.education.label }}</label>
-                            {{ expert_profile_form.education }}
-                        </div>
-
-                        <div class="prof-edit-info-cont">
                             <label for="{{ expert_profile_form.age.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
                             {{ expert_profile_form.age }}
@@ -133,6 +127,56 @@
                     </div>
 
                 </div>
+                <!-- Добавляем формсет для образования -->
+                <div class="education-formset-container">
+                    <span class="prof-edit-page-title">Образование</span>
+                    {{ education_expert_formset.management_form }}
+                    {% for form in education_expert_formset %}
+                        <div class="education-form">
+                            {{ form.id }}
+                            {{ form.errors }}
+                            <div class="prof-edit-duel-rows">
+                                <div class="prof-edit-input-title">
+                                    <label for="{{ form.education_type.id_for_label }}" class="prof-edit-input-labels">{{ form.education_type.label }}</label>
+                                    {{ form.education_type }}
+                                </div>
+                                <div class="prof-edit-input-title">
+                                    <label for="{{ form.specialized_education.id_for_label }}" class="prof-edit-input-labels">{{ form.specialized_education.label }}</label>
+                                    {{ form.specialized_education }}
+                                </div>
+                                <div class="prof-edit-input-title">
+                                    <label for="{{ form.educational_institution.id_for_label }}" class="prof-edit-input-labels">{{ form.educational_institution.label }}</label>
+                                    {{ form.educational_institution }}
+                                </div>
+                                <div class="prof-edit-input-title">
+                                    <label for="{{ form.diploma_number.id_for_label }}" class="prof-edit-input-labels">{{ form.diploma_number.label }}</label>
+                                    {{ form.diploma_number }}
+                                </div>
+                                <!-- Добавьте остальные поля формы здесь -->
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <!-- Кнопка для добавления нового образования (если требуется) -->
+                    <button type="button" class="btn btn-secondary add-education-btn">Добавить образование</button>
+                </div>
+                <script>
+                    // Скрипт для добавления новой формы образования
+                    $('.add-education-btn').click(function() {
+                        // Клонируем последнюю форму в формсете
+                        const newForm = $('.education-form:last').clone();
+                        // Очищаем значения в клонированной форме
+                        newForm.find('input').val('');
+                        newForm.find('select').val('');
+                        // Изменяем индекс в именах и id полей
+                        const formRegex = RegExp('form-(\\d+)-', 'g');
+                        const formNum = parseInt($('#id_form-TOTAL_FORMS').val());
+                        newForm.html(newForm.html().replace(formRegex, 'form-' + formNum + '-'));
+                        // Увеличиваем общее количество форм в управляющей форме
+                        $('#id_form-TOTAL_FORMS').val(formNum + 1);
+                        // Добавляем новую форму в DOM
+                        newForm.insertBefore($(this));
+                    });
+                </script>
 
                 <div class="expert-edit-rows">
                     <span class="prof-edit-change-pass">Смена пароля</span>

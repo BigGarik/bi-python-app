@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
@@ -61,7 +63,8 @@ class Profile(models.Model):
         CLIENT = 0, _('Client')
         EXPERT = 1, _('Expert')
 
-    avatar = models.ImageField(verbose_name=_('Avatar'), upload_to="avatars", blank=True)
+    avatar = models.ImageField(verbose_name=_('Avatar'), upload_to="avatars",
+                               default="avatars/profile_picture_icon.png")
     type = models.IntegerField(verbose_name=_('Category user'), choices=TypeUser.choices, default=TypeUser.CLIENT)
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
 
@@ -118,7 +121,6 @@ class ExpertProfile(models.Model):
                                                   verbose_name=_('Documents confirming experience'))
 
     """ Верификация """
-
     class ExpertVerifiedStatus(models.IntegerChoices):
         NOT_VERIFIED = 0, _('Unverified')
         VERIFIED = 1, _('Verified')
@@ -200,7 +202,7 @@ class ExpertProfile(models.Model):
         # Возвращаем итоговый рейтинг
         return rating
 
-    def _calculate_rating(self):
+    def calculate_rating(self):
         ratings = [
             self._calculate_primary_education_rating(),
             self._calculate_experience_rating(),
@@ -230,6 +232,20 @@ class Education(models.Model):
     degree_documents = models.ManyToManyField('Document', blank=True, related_name='degree_documents',
                                               verbose_name=_('Education documents'))
 
+    def save(self, *args, **kwargs):
+        # Если экземпляр уже существует в базе данных (не новый)
+        if self.pk:
+            # Получаем старый экземпляр из базы данных
+            old_instance = Education.objects.get(pk=self.pk)
+            # Проверяем, изменилось ли поле
+            if old_instance.educational_institution != self.educational_institution:
+                # Если изменилось, устанавливаем 'educational_institution_verified' в False
+                self.educational_institution_verified = False
+            if old_instance.diploma_number != self.diploma_number:
+                # Если изменилось, устанавливаем 'diploma_number_verified' в False
+                self.diploma_number_verified = False
+        super().save(*args, **kwargs)
+
 
 class Document(models.Model):
     file = models.FileField(upload_to=UploadToPathAndRename('expert/documents'), verbose_name=_('File'))
@@ -251,3 +267,14 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     else:
         instance.profile.save()
+
+
+# Создаем обработчик сигнала для расчета рейтинга при сохранении профиля эксперта
+@receiver(post_save, sender=ExpertProfile)
+def update_rating(sender, instance, **kwargs):
+    # Проверяем, не является ли текущее сохранение результатом вызова из этого обработчика
+    if kwargs.get('update_fields') is None:
+        # Вызываем метод для расчета рейтинга
+        instance.calculate_rating()
+        # Обновляем только поле 'rating', чтобы избежать повторного вызова сигнала
+        instance.save(update_fields=['rating'])
