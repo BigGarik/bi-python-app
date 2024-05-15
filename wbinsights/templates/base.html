@@ -90,6 +90,22 @@
 
                             </div>
                         {% endif %}
+                        {% if user.is_staff %}
+                            <div class="dropdown">
+
+                                <button class="btn btn-secondary fullscreen-dropdown" type="button"
+                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <span style="color: black;">Ссылки для модерации</span>
+                                </button>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item"
+                                           href="{% url 'anketa' %}">{% trans 'Анкета эксперта' %}</a>
+                                </div>
+
+                            </div>
+                        {% endif %}
 
                     </div>
 

@@ -21,6 +21,58 @@ from django.contrib.auth import update_session_auth_hash
 
 
 @login_required
+def anketa_view(request):
+    if not request.user.profile.type == Profile.TypeUser.EXPERT:  #  or request.user.expertprofile.is_verified:
+        # Если пользователь не эксперт или его анкета уже верифицирована, перенаправляем на главную страницу
+        return redirect('index')
+
+    if request.method == 'POST':
+        expert_profile_form = ExpertProfileChangeForm(request.POST, instance=request.user.expertprofile)
+        if expert_profile_form.is_valid():
+            # Сохраняем форму и отправляем уведомление модераторам
+            expert_profile_form.save()
+            expert_id = request.user.pk
+            # Получаем список email-адресов всех модераторов
+            moderators = CustomUser.objects.filter(is_staff=True)
+            recipient_list = [moderator.email for moderator in moderators if moderator.email]
+            manage_unverified_experts_profile = request.build_absolute_uri(
+                reverse("manage_unverified_experts_profile",
+                        kwargs={"pk": expert_id}))
+            manage_unverified_experts_list = request.build_absolute_uri(reverse("manage_unverified_experts_list"))
+
+            html_content = render_to_string('emails/verification_email.html',
+                                            {'manage_unverified_experts_profile': manage_unverified_experts_profile,
+                                             'manage_unverified_experts_list': manage_unverified_experts_list})
+            text_content = strip_tags(html_content)
+
+            # Создаем объект EmailMultiAlternatives
+            email = EmailMultiAlternatives(
+                'Новая анкета эксперта на проверку',
+                text_content,
+                SERVER_EMAIL,
+                recipient_list
+            )
+            # Добавляем HTML версию
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+            messages.success(request, _('Your profile has successfully been sent for verification'))
+            return redirect('index')
+    else:
+        expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertprofile)
+
+    context = {
+        "expert_profile_form": expert_profile_form,
+        "experts_articles": [],
+        "rating": 4.5,
+        "experts_articles_count": 0,
+        "experts_researches_count": 0,
+        "filled_stars_chipher": 'ffffh'
+    }
+
+    return render(request, 'profile/anketa.html', context)
+
+
+@login_required
 def profile_view(request):
     # Check if the user is an expert
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
@@ -31,50 +83,8 @@ def profile_view(request):
 
     if is_expert:
         if not request.user.expertprofile.is_verified:
-            # If expert profile is not verified, render the anketa template
-            if request.method == 'POST':
-                expert_profile_form = ExpertProfileChangeForm(request.POST, instance=request.user.expertprofile)
-                if expert_profile_form.is_valid():
-                    expert_profile_form.save()
-                    expert_id = request.user.pk
-                    # Получаем список email-адресов всех модераторов
-                    moderators = CustomUser.objects.filter(is_staff=True)
-                    recipient_list = [moderator.email for moderator in moderators if moderator.email]
-                    manage_unverified_experts_profile = request.build_absolute_uri(
-                                                        reverse("manage_unverified_experts_profile",
-                                                                kwargs={"pk": expert_id}))
-                    manage_unverified_experts_list = request.build_absolute_uri(reverse("manage_unverified_experts_list"))
+            return anketa_view(request)
 
-                    html_content = render_to_string('emails/verification_email.html',
-                                                    {'manage_unverified_experts_profile': manage_unverified_experts_profile,
-                                                     'manage_unverified_experts_list': manage_unverified_experts_list})
-                    text_content = strip_tags(html_content)
-
-                    # Создаем объект EmailMultiAlternatives
-                    email = EmailMultiAlternatives(
-                        'Новая анкета эксперта на проверку',
-                        text_content,
-                        SERVER_EMAIL,
-                        recipient_list
-                    )
-                    # Добавляем HTML версию
-                    email.attach_alternative(html_content, "text/html")
-                    email.send()
-
-                    messages.success(request, 'Your profile has successfully been sent for verification')
-                    return redirect('index')
-            else:
-                expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertprofile)
-
-            profile_template = 'profile/anketa.html'
-            context.update({
-                "expert_profile_form": expert_profile_form,
-                "experts_articles": [],
-                "rating": 4.5,
-                "experts_articles_count": 0,
-                "experts_researches_count": 0,
-                "filled_stars_chipher": 'ffffh'
-            })
         else:
             # Fetch the expert's articles if profile is verified
             expert_articles = Article.objects.filter(author=request.user)
