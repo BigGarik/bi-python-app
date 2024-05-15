@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
@@ -119,7 +121,6 @@ class ExpertProfile(models.Model):
                                                   verbose_name=_('Documents confirming experience'))
 
     """ Верификация """
-
     class ExpertVerifiedStatus(models.IntegerChoices):
         NOT_VERIFIED = 0, _('Unverified')
         VERIFIED = 1, _('Verified')
@@ -201,7 +202,7 @@ class ExpertProfile(models.Model):
         # Возвращаем итоговый рейтинг
         return rating
 
-    def _calculate_rating(self):
+    def calculate_rating(self):
         ratings = [
             self._calculate_primary_education_rating(),
             self._calculate_experience_rating(),
@@ -252,3 +253,14 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     else:
         instance.profile.save()
+
+
+# Создаем обработчик сигнала для расчета рейтинга при сохранении профиля эксперта
+@receiver(post_save, sender=ExpertProfile)
+def update_rating(sender, instance, **kwargs):
+    # Проверяем, не является ли текущее сохранение результатом вызова из этого обработчика
+    if kwargs.get('update_fields') is None:
+        # Вызываем метод для расчета рейтинга
+        instance.calculate_rating()
+        # Обновляем только поле 'rating', чтобы избежать повторного вызова сигнала
+        instance.save(update_fields=['rating'])

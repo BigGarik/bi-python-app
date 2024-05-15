@@ -4,11 +4,11 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm, UserCreationForm
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.forms import modelformset_factory
 from django.utils.translation import gettext_lazy as _
 from django_recaptcha.fields import ReCaptchaField
 
-from ..models.users import Profile, CustomUser, ExpertProfile, Category
-
+from ..models.users import Profile, CustomUser, ExpertProfile, Category, Document, Education
 
 logger = logging.getLogger(__name__)
 
@@ -19,8 +19,8 @@ class CustomUserForm(forms.ModelForm):
         fields = ['username', 'email', 'first_name', 'last_name']
 
 
-# Форма регистрации пользователя
 class CustomUserCreationForm(UserCreationForm):
+    """ Форма регистрации пользователя """
     user_type = forms.ChoiceField(
         label="",
         initial=Profile.TypeUser.CLIENT,
@@ -100,18 +100,9 @@ class ProfileForm(forms.ModelForm):
 
 
 class UserPasswordChangeForm(PasswordChangeForm):
-    """
-        Форма изменения пароля
-    """
-
-    # class Meta:
-    #     model = CustomUser
-    #     fields = ['old_password', 'new_password1', 'new_password2']
-
+    """ Форма изменения пароля """
     def __init__(self, *args, **kwargs):
-        """
-        Обновление стилей формы
-        """
+        """ Обновление стилей формы """
         super().__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({
@@ -121,10 +112,7 @@ class UserPasswordChangeForm(PasswordChangeForm):
 
 
 class UserProfilePasswordChangeForm(PasswordChangeForm):
-    """
-        Форма изменения пароля а странице профиля пользователя
-    """
-
+    """ Форма изменения пароля на странице профиля пользователя """
     old_password = forms.CharField(
         label=_("Old password"),
         strip=False,
@@ -198,3 +186,98 @@ class VerifyExpertForm(forms.ModelForm):
         if self.cleaned_data['verify']:
             self.instance.is_verified = ExpertProfile.ExpertVerifiedStatus.VERIFIED
         self.instance.save()
+
+
+def name_check(value):
+    if len(value) < 2:
+        raise forms.ValidationError('TESTING TESTING TESTING TESTING')
+
+
+class CustomUserChangeForm(forms.ModelForm):
+    first_name = forms.CharField(
+        label="Имя",
+        widget=forms.TextInput(attrs={'class': 'custom-form-css', 'placeholder': 'Введите имя'}),
+        error_messages={'required': 'Пожалуйста, заполните это поле.'},
+        validators=[name_check]
+    )
+    last_name = forms.CharField(
+        label="Фамилия",
+        widget=forms.TextInput(attrs={'class': 'custom-form-css', 'placeholder': 'Введите фамилию'}),
+        error_messages={'required': 'Пожалуйста, заполните это поле.'},
+        validators=[name_check]
+    )
+
+    oldpassword = forms.CharField(label="Старый пароль", required=False,
+                                  widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
+    newpassword = forms.CharField(label="Новый пароль", required=False,
+                                  widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
+    confirmpassword = forms.CharField(label="Повторите новый пароль", required=False,
+                                      widget=forms.PasswordInput(attrs={'class': 'custom-form-css'}))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+
+        if first_name and len(first_name) == 0:
+            self.add.error('first_name', 'THIS FIELD CANNOT BE EMPTY')
+
+    class Meta:
+        model = CustomUser
+        fields = ("first_name", "last_name")
+
+
+class ProfileChangeForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ("avatar",)
+        widgets = {
+            'avatar': forms.ClearableFileInput(attrs={'class': 'your-custom-class'}),
+        }
+
+
+class ExpertProfileChangeForm(forms.ModelForm):
+    about = forms.CharField(label=_("About me"), widget=forms.Textarea(
+        attrs={'class': 'custom-aboutme-form', 'rows': 3, 'placeholder': 'Напишите текст о себе'}))
+    age = forms.IntegerField(label=_("Age"), widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))
+    hour_cost = forms.IntegerField(label=_("Hourly rate"), widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))
+    expert_categories = forms.ModelMultipleChoiceField(
+        label=_("Categories of expertise"),
+        queryset=Category.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'custom-form-css'})
+    )
+    experience = forms.IntegerField(label=_("Experience (years)"), widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))
+    consulting_experience = forms.IntegerField(label=_("Consulting experience (years)"), required=False, widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))
+    hh_link = forms.URLField(label=_("Link to HeadHunter"), required=False, widget=forms.URLInput(attrs={'class': 'custom-form-css'}))
+    linkedin_link = forms.URLField(label=_("Link to LinkedIn"), required=False, widget=forms.URLInput(attrs={'class': 'custom-form-css'}))
+    experience_documents = forms.ModelMultipleChoiceField(
+        label=_("Documents confirming experience"),
+        queryset=Document.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'custom-form-css'}),
+        required=False
+    )
+
+    class Meta:
+        model = ExpertProfile
+        fields = ['about', 'age', 'hour_cost', 'expert_categories', 'experience', 'consulting_experience', 'hh_link', 'linkedin_link', 'experience_documents']
+
+
+class EducationForm(forms.ModelForm):
+    education_type = forms.ChoiceField(label=_("Type of education"), choices=Education.EDUCATION_TYPE_CHOICES, widget=forms.Select(attrs={'class': 'custom-form-css'}))
+    specialized_education = forms.BooleanField(label=_("Specialized education"), required=False, widget=forms.CheckboxInput(attrs={'class': 'custom-form-css'}))
+    educational_institution = forms.CharField(label=_("Educational institution"), required=False, widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
+    educational_institution_verified = forms.BooleanField(label=_("Institution verified"), required=False, widget=forms.CheckboxInput(attrs={'class': 'custom-form-css'}))
+    diploma_number = forms.IntegerField(label=_("Diploma number"), required=False, widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))
+    diploma_number_verified = forms.BooleanField(label=_("Diploma number verified"), required=False, widget=forms.CheckboxInput(attrs={'class': 'custom-form-css'}))
+    degree_documents = forms.ModelMultipleChoiceField(
+        label=_("Education documents"),
+        queryset=Document.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'custom-form-css'}),
+        required=False
+    )
+
+    class Meta:
+        model = Education
+        fields = ['education_type', 'specialized_education', 'educational_institution', 'educational_institution_verified', 'diploma_number', 'diploma_number_verified', 'degree_documents']
+
+
+EducationFormSet = modelformset_factory(Education, form=EducationForm, extra=1)
