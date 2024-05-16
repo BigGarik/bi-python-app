@@ -45,7 +45,7 @@
     <div id="fileList">
         <ul>
             {% for file in files.all %}
-                <li style="margin: 5px 0 5px 0;">
+                <li style="margin: 5px 0 5px 0;" class="loaded-from-server">
                     <div style="display: flex; align-items: center;">
                         <div style="width: 250px; font-size: 18px;">
                             {% if file.file %}
@@ -60,79 +60,90 @@
             {% endfor %}
         </ul>
     </div>
-
-
-
     <input type="file" id="fileInput" name="files" multiple style="display: none;">
-
-    <script>
-
-        document.getElementById('fileInputBtn').addEventListener('click', function (event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение кнопки
-            document.getElementById('fileInput').click();
-        });
-
-        let fileList = []; // Хранит список выбранных файлов
-
-        // Функция для обновления списка файлов в документе
-        function updateFileList() {
-            const fileListDiv = document.getElementById('fileList');
-            let ul = fileListDiv.querySelector('ul');
-            //fileListDiv.innerHTML = ''; // Очищаем список перед добавлением новых файлов
-
-            fileList.forEach(function (file, index) {
-                const listItem = document.createElement('li');
-                //listItem.classList.add('list-group-item');
-                listItem.textContent = file.name;
-
-                const deleteButton = document.createElement('a');
-                const deleteButtonInsideITag = document.createElement('i');
-                deleteButtonInsideITag.classList.add('fa-solid', 'fa-trash-can');
-
-                deleteButton.append(deleteButtonInsideITag)
-                {#deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');#}
-                {#deleteButton.textContent = 'Удалить';#}
-                deleteButton.addEventListener('click', function () {
-                    fileList.splice(index, 1); // Удаляем файл из массива fileList
-                    updateFileList(); // Обновляем список файлов в документе
-                });
-
-                listItem.appendChild(deleteButton);
-                ul.appendChild(listItem);
-            });
-        }
-
-        // Добавляем обработчик события change для элемента input с id="fileInput"
-        document.getElementById('fileInput').addEventListener('change', function () {
-            const files = this.files;
-
-            for (let i = 0; i < files.length; i++) {
-                fileList.push(files[i]); // Добавляем каждый файл к общему списку
-            }
-
-            updateFileList(); // Обновляем список файлов в документе
-        });
-
-        document.getElementById('project-form').addEventListener('submit', function (event) {
-            event.preventDefault(); // Предотвращение отправки формы по умолчанию
-
-            // Получение объекта FormData из формы
-            const formData = new FormData(this);
-
-            // Добавление файлов в объект FormData
-            const fileInput = document.getElementById('fileInput');
-            for (let i = 0; i < fileInput.files.length; i++) {
-                formData.append('files', fileInput.files[i]);
-            }
-
-            // Отправка данных на сервер
-            this.submit();
-        });
-    </script>
-
-
     <button type="submit" class="btn btn-primary btn-sm"> Сохранить изменения</button>
 </form>
+
+
+<script>
+
+    document.getElementById('fileInputBtn').addEventListener('click', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение кнопки
+        document.getElementById('fileInput').click();
+    });
+
+    let fileList = []; // Хранит список выбранных файлов
+
+    // Функция для обновления списка файлов в документе
+    function updateFileList() {
+        const fileListDiv = document.getElementById('fileList');
+        let ul = fileListDiv.querySelector('ul');
+        //fileListDiv.innerHTML = ''; // Очищаем список перед добавлением новых файлов
+
+        fileList.forEach(function (file, index) {
+            const listItem = document.createElement('li');
+            //listItem.classList.add('list-group-item');
+            listItem.textContent = file.name;
+
+            const deleteButton = document.createElement('a');
+            const deleteButtonInsideITag = document.createElement('i');
+            deleteButtonInsideITag.classList.add('fa-solid', 'fa-trash-can');
+
+            deleteButton.append(deleteButtonInsideITag)
+            {#deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');#}
+            {#deleteButton.textContent = 'Удалить';#}
+            deleteButton.addEventListener('click', function () {
+                fileList.splice(index, 1); // Удаляем файл из массива fileList
+                updateFileList(); // Обновляем список файлов в документе
+            });
+
+            listItem.appendChild(deleteButton);
+            ul.appendChild(listItem);
+        });
+    }
+
+    // Добавляем обработчик события change для элемента input с id="fileInput"
+    document.getElementById('fileInput').addEventListener('change', function () {
+        const files = this.files;
+
+        for (let i = 0; i < files.length; i++) {
+            fileList.push(files[i]); //Добавляем каждый файл к общему списку
+        }
+
+        updateFileList(); //Обновляем список файлов в документе
+    });
+
+    console.log(1234)
+
+    document.getElementById('project-form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращение отправки формы по умолчанию
+
+        // Получение объекта FormData из формы
+        const formData = new FormData(this);
+
+        for (let i = 0; i < fileList.length; i++) {
+            formData.append('files', fileList[i]);
+        }
+
+        fetch('{% url 'project_edit' userproject.slug %}', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Files uploaded successfully!');
+
+                    window.location.href = '{% url 'profile' %}'
+                } else {
+                    console.error('Failed to upload files:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    });
+</script>
 
 
 <script type="text/javascript">

@@ -59,8 +59,8 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
             self.object.save()
             form.save_m2m()  # Сохраняем данные many-to-many, включая участников проекта
 
-            # Обработка файлов
-            files = self.request.FILES.getlist('file_field_name')
+
+            files = self.request.FILES.getlist('files')
             UserProjectFile.objects.bulk_create([
                 UserProjectFile(project=self.object, file=file) for file in files
             ])
@@ -107,6 +107,17 @@ class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         context['members'] = self.get_object().members.all()
         context['experts'] = CustomUser.objects.filter(profile__type=Profile.TypeUser.EXPERT)
         return context
+
+    # def post(self, request, *args, **kwargs):
+    #     # Получаем список загруженных файлов из объекта FormData
+    #     uploaded_files = request.FILES.getlist('files')
+    #
+    #     # Обрабатываем каждый файл
+    #     for uploaded_file in uploaded_files:
+    #         # Обрабатываем каждый загруженный файл, например, сохраняем его на сервере
+    #         print(uploaded_file)
+    #
+    #     return JsonResponse({'message': 'Files uploaded successfully!'})
 
     def form_valid(self, form):
         with transaction.atomic():

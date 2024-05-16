@@ -14,7 +14,6 @@ class UserProjectForm(forms.ModelForm):
         required=False
     )
 
-   # members = forms.SelectMultiple()
     category = forms.ModelMultipleChoiceField(label="Категории проекта", queryset=Category.objects.all(), )
     customer = forms.ModelChoiceField(queryset=UserProjectCustomer.objects.all())
 
@@ -23,13 +22,6 @@ class UserProjectForm(forms.ModelForm):
                               max_value=datetime.date.today().year,
                               label="Год проекта",
                               widget=forms.NumberInput(attrs={'class': 'form-control'}))
-
-    # files = forms.FileField(widget = forms.TextInput(attrs={
-    #         "name": "images",
-    #         "type": "File",
-    #         "class": "form-control",
-    #         "multiple": "True",
-    #     }), label = "Файлы проекта", required=False)
 
     class Meta:
 
