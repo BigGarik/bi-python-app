@@ -130,88 +130,6 @@ class ExpertProfile(models.Model):
 
     rating = models.FloatField(null=True)
 
-    def _calculate_experience_rating(self):
-        # Проверяем наличие ссылок или документов
-        has_links_or_documents = self.hh_link or self.linkedin_link or self.experience_documents.exists()
-
-        if self.experience >= 10:
-            return 3
-        elif self.experience >= 5 and has_links_or_documents:
-            return 3
-        elif self.experience >= 5:
-            return 2
-        elif self.experience >= 2 and has_links_or_documents:
-            return 2
-        elif self.experience >= 3:
-            return 1
-        elif self.experience >= 2 and has_links_or_documents:
-            return 1
-        else:
-            return 0
-
-    def _calculate_primary_education_rating(self):
-        # Получаем основное образование эксперта
-        primary_education = self.educations.filter(education_type='primary').first()
-
-        # Если основное образование существует и является профильным
-        if primary_education and primary_education.specialized_education:
-            # Проверяем заполненность учебного заведения и статус верификации
-            if primary_education.educational_institution_verified:
-                # Проверяем заполненность номера диплома и статус верификации
-                if primary_education.diploma_number_verified:
-                    return 2
-                # Проверяем наличие верифицированных документов об образовании
-                elif primary_education.degree_documents.filter(is_verified=True).exists():
-                    return 2
-                else:
-                    return 1
-        # В ином случае присваиваем значение 0
-        return 0
-
-    def _calculate_consulting_experience_rating(self):
-        # Проверяем наличие ссылок или документов
-        has_links_or_documents = self.hh_link or self.linkedin_link or self.experience_documents.exists()
-
-        if self.consulting_experience >= 5:
-            return 3
-        elif self.consulting_experience >= 3 and has_links_or_documents:
-            return 3
-        elif self.consulting_experience >= 3:
-            return 2
-        elif self.consulting_experience >= 2 and has_links_or_documents:
-            return 2
-        else:
-            return 0
-
-    def _calculate_additional_education_rating(self):
-        # Получаем все дополнительные образования эксперта, которые являются профильными
-        additional_educations = self.educations.filter(education_type='additional', specialized_education=True)
-        # Инициализируем рейтинг
-        rating = 0
-        # Перебираем все дополнительные образования
-        for education in additional_educations:
-            # Проверяем, верифицировано ли учебное заведение
-            if education.educational_institution_verified:
-                # Проверяем, есть ли верифицированные документы об образовании
-                if education.degree_documents.filter(is_verified=True).exists():
-                    # Присваиваем балл 2
-                    rating += 2
-                else:
-                    # Присваиваем балл 1
-                    rating += 1
-        # Возвращаем итоговый рейтинг
-        return rating
-
-    def calculate_rating(self):
-        ratings = [
-            self._calculate_primary_education_rating(),
-            self._calculate_experience_rating(),
-            self._calculate_consulting_experience_rating(),
-            self._calculate_additional_education_rating(),
-            # Добавить сюда вызовы других методов расчета рейтинга по мере их создания
-        ]
-        self.rating = sum(ratings) if ratings else 0
-
 
 class Education(models.Model):
     """ Образование """
@@ -232,6 +150,7 @@ class Education(models.Model):
     degree_documents = models.ManyToManyField('Document', blank=True, related_name='degree_documents',
                                               verbose_name=_('Education documents'))
 
+# TODO проверить сброс верификации полей образования при изменении
     def save(self, *args, **kwargs):
         # Если экземпляр уже существует в базе данных (не новый)
         if self.pk:
@@ -267,14 +186,3 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     else:
         instance.profile.save()
-
-
-# Создаем обработчик сигнала для расчета рейтинга при сохранении профиля эксперта
-@receiver(post_save, sender=ExpertProfile)
-def update_rating(sender, instance, **kwargs):
-    # Проверяем, не является ли текущее сохранение результатом вызова из этого обработчика
-    if kwargs.get('update_fields') is None:
-        # Вызываем метод для расчета рейтинга
-        instance.calculate_rating()
-        # Обновляем только поле 'rating', чтобы избежать повторного вызова сигнала
-        instance.save(update_fields=['rating'])
