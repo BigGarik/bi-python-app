@@ -1,6 +1,8 @@
 from django.test import TestCase
 
-from web.models.users import UploadToPathAndRename, CustomUser, ExpertProfile, Education, Document
+from web.models.users import UploadToPathAndRename
+
+from web.services import ExpertRatingCalculation, ExpertEducationsRow, ExpertProfileRow
 
 
 # Моки для имитации экземпляров моделей
@@ -42,72 +44,71 @@ class UploadToPathAndRenameTestCase(TestCase):
         self.assertEqual(generated_path, expected_path)
 
 
-class ExpertProfileRatingTestCase(TestCase):
+class ExpertRatingCalculationTests(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        # Здесь вы можете создать тестовые данные в базе данных, если это необходимо
+        pass
+
     def setUp(self):
-        # Создаем пользователя для связи с профилем эксперта
-        self.user = CustomUser.objects.create(username='testuser')
-        # Создаем экземпляр ExpertProfile для тестирования
-        self.expert_profile = ExpertProfile.objects.create(
-            user=self.user,
-            experience=0,
-            is_verified=ExpertProfile.ExpertVerifiedStatus.NOT_VERIFIED
-        )
-        # Создаем основное образование для эксперта
-        self.primary_education = Education.objects.create(
-            expert_profile=self.expert_profile,
-            education_type='primary',
-            specialized_education=True,
-            educational_institution='Test University',
-            diploma_number=123456,
-            educational_institution_verified=False,
-            diploma_number_verified=False
-        )
-
-    def test_calculate_experience_rating(self):
-        # Тестирование расчета рейтинга опыта
-        self.expert_profile.experience = 10
-        self.assertEqual(self.expert_profile._calculate_experience_rating(), 3)
-
-        self.expert_profile.experience = 5
-        self.expert_profile.hh_link = 'http://example.com/hh'
-        self.assertEqual(self.expert_profile._calculate_experience_rating(), 3)
-
-        # Добавить дополнительные тесты для других сценариев
+        # Этот метод вызывается перед каждым тестовым методом
+        self.calculator = ExpertRatingCalculation()
 
     def test_calculate_primary_education_rating(self):
-        # Сценарий, когда учебное заведение и номер диплома верифицированы
-        self.primary_education.educational_institution_verified = True
-        self.primary_education.diploma_number_verified = True
-        self.primary_education.save()
-        self.assertEqual(self.expert_profile._calculate_primary_education_rating(), 2)
+        educations = [
+            ExpertEducationsRow(
+                education_type='primary',
+                specialized_education=True,
+                educational_institution='Test University',
+                educational_institution_verified=True,
+                diploma_number=123,
+                diploma_number_verified=True
+            ),
+            # Добавьте больше экземпляров ExpertEducationsRow для тестирования различных сценариев
+        ]
+        rating = self.calculator._calculate_primary_education_rating(educations)
+        print('primary_education_rating ', rating)
+        self.assertEqual(rating, 2)  # Ожидаемое значение рейтинга
 
-        # Сценарий, когда учебное заведение верифицировано, но номер диплома нет
-        self.primary_education.diploma_number_verified = False
-        self.primary_education.save()
-        # Создаем и верифицируем документ об образовании
-        verified_document = Document.objects.create(is_verified=True)
-        self.primary_education.degree_documents.add(verified_document)
-        self.assertEqual(self.expert_profile._calculate_primary_education_rating(), 2)
+    def test_calculate_additional_education_rating(self):
+        educations = [
+            ExpertEducationsRow(
+                education_type='additional',
+                specialized_education=True,
+                educational_institution='Test Course',
+                educational_institution_verified=True,
+                diploma_number=456,
+                diploma_number_verified=False
+            ),
+            # Добавьте больше экземпляров ExpertEducationsRow для тестирования различных сценариев
+        ]
+        rating = self.calculator._calculate_additional_education_rating(educations)
+        print('additional_education_rating ', rating)
+        self.assertEqual(rating, 2)  # Ожидаемое значение рейтинга
 
-        # Сценарий, когда учебное заведение верифицировано, но нет верифицированных документов
-        self.primary_education.degree_documents.clear()
-        self.assertEqual(self.expert_profile._calculate_primary_education_rating(), 1)
+    def test_calculate_consulting_experience_rating(self):
+        profile = ExpertProfileRow(
+            expert_categories=['Category1', 'Category2'],
+            consulting_experience=5,
+            experience=10,
+            hh_link='http://example.com',
+            linkedin_link='http://linkedin.com',
+            is_verified=1
+        )
+        rating = self.calculator._calculate_consulting_experience_rating(profile)
+        print('consulting_experience_rating ', rating)
+        self.assertEqual(rating, 3)  # Ожидаемое значение рейтинга
 
-        # Сценарий, когда учебное заведение не верифицировано
-        self.primary_education.educational_institution_verified = False
-        self.primary_education.save()
-        self.assertEqual(self.expert_profile._calculate_primary_education_rating(), 0)
-
-        # Добавить дополнительные тесты для других сценариев
-
-    def test_calculate_rating(self):
-        # Тестирование расчета среднего рейтинга
-        self.expert_profile.experience = 10
-        self.expert_profile.specialized_education = True
-        self.expert_profile.educational_institution = 'University'
-        self.expert_profile.number_diploma = '123456'
-        self.expert_profile.is_verified = ExpertProfile.ExpertVerifiedStatus.VERIFIED
-        self.expert_profile._calculate_rating()
-        self.assertEqual(self.expert_profile.rating, 2.5)
-
-        # Добавить дополнительные тесты для других сценариев
+    def test_calculate_experience_rating(self):
+        profile = ExpertProfileRow(
+            expert_categories=['Category1', 'Category2'],
+            consulting_experience=2,
+            experience=5,
+            hh_link='http://example.com',
+            linkedin_link='http://linkedin.com',
+            is_verified=1
+        )
+        rating = self.calculator._calculate_experience_rating(profile)
+        print('experience_rating ', rating)
+        self.assertEqual(rating, 3)  # Ожидаемое значение рейтинга
