@@ -61,7 +61,7 @@
         </ul>
     </div>
 
-    <input type="hidden" id="delete_files_ids" name="delete_files_ids" multiple>
+    <input type="hidden" id="delete_file_ids" name="delete_file_ids" multiple>
 
 
     <input type="file" id="fileInput" name="files" multiple style="display: none;">
@@ -141,7 +141,7 @@
         });
 
         function updateDeletedFileIdsInput() {
-            const deleteFilesInput = document.getElementById('delete_files_ids');
+            const deleteFilesInput = document.getElementById('delete_file_ids');
 <!--            deleteFilesInput.value = deletedFileIds.join(',');-->
             deleteFilesInput.value = deletedFileIds
             console.log('deleteFilesInput.value', deleteFilesInput.value);
@@ -163,14 +163,15 @@
             }
 
             // check if arr is empty
-            const deleteFilesInput = document.getElementById('delete_files_ids');
+            const deleteFilesInput = document.getElementById('delete_file_ids');
             if (deleteFilesInput.value.trim() === '') {
                 deleteFilesInput.disabled = true;
             }
 
             console.log("FormData entries:", [...formData.entries()]);
+            console.log('fileList', fileList)
 
-            this.submit();
+            //this.submit();
         });
     </script>
 
