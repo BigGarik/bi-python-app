@@ -25,7 +25,6 @@ from .models import UserProject, UserProjectFile
 from .serializers import UserProjectSerializer, CustomUserSerializer
 
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -60,19 +59,11 @@ class UserProjectCreateView(LoginRequiredMixin, CreateView):
             self.object.save()
             form.save_m2m()  # Сохраняем данные many-to-many, включая участников проекта
 
-            # Обработка файлов
-            files = self.request.FILES.getlist('files')
 
             files = self.request.FILES.getlist('files')
             UserProjectFile.objects.bulk_create([
                 UserProjectFile(project=self.object, file=file) for file in files
             ])
-
-
-            # files = self.request.FILES.getlist('files')
-            # for file_data in files:
-            #     UserProjectFile.objects.create(project=self.object, file=file_data)
-
 
             # Обработка участников проекта
             members_ids = self.request.POST.getlist('members')
@@ -148,18 +139,11 @@ class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
             for file_data in files:
                 UserProjectFile.objects.create(project=self.object, file=file_data)
             # Delite
-            delete_files_ids = self.request.POST.getlist('delete_files_ids')
-            logger.info(f'delete_files_ids = {delete_files_ids}')
-            var_1231 = [5,3]
-            logger.info(f'var_1231 = {var_1231}')
-            # if delete_files_ids:
-            #     logger.info(f'delete_files_ids = {delete_files_ids}')
-            #     if isinstance(delete_files_ids, str):
-            #         delete_files_ids = delete_files_ids.split(',')
-            #         delete_files_ids = [int(number) for number in delete_files_ids]
-            #     logger.info(f'delete_files_ids = {delete_files_ids}')
-            #     files_to_delete = UserProjectFile.objects.filter(pk__in=delete_files_ids, project__author=self.request.user)
-            #     files_to_delete.delete()
+            delete_file_ids_str = self.request.POST.getlist('delete_file_ids', [''])[0]
+            if delete_file_ids_str:
+                delete_file_ids_list_str = delete_file_ids_str.split(',')
+                delete_file_ids = [int(file_id) for file_id in delete_file_ids_list_str if file_id.isdigit()]
+                UserProjectFile.objects.filter(id__in=delete_file_ids).delete()
 
             # Обработка участников проекта
             members_ids = self.request.POST.getlist('members')  # Используем getlist для безопасного получения списка
@@ -174,7 +158,7 @@ class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
 class UserProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = UserProject
     template_name = 'user_project_confirm_delete.html'
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('index')
 
 
 @login_required
