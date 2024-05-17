@@ -45,9 +45,9 @@
     <div id="fileList">
         <ul>
             {% for file in files.all %}
-                <li style="margin: 5px 0 5px 0;" class="loaded-from-server">
+                <li style="margin: 5px 0 5px 0;" data-file-id="{{ file.id }}">
                     <div style="display: flex; align-items: center;">
-                        <div style="width: 250px; font-size: 18px;">
+                        <div style="min-width: 350px; font-size: 18px;">
                             {% if file.file %}
                                 <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
                             {% else %}
@@ -60,90 +60,123 @@
             {% endfor %}
         </ul>
     </div>
+
+    <input type="hidden" id="delete_files_ids" name="delete_files_ids" multiple>
+
+
     <input type="file" id="fileInput" name="files" multiple style="display: none;">
+
+    <script>
+        document.getElementById('fileInputBtn').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('fileInput').click();
+        });
+
+        let fileList = [];
+        let deletedFileIds = [];
+
+        function updateFileList() {
+            console.log("ypdating file list");
+            const fileListDiv = document.getElementById('fileList');
+            let ul = fileListDiv.querySelector('ul');
+
+            fileList.forEach(function (file, index) {
+                const existingFileItem = ul.querySelector(`[data-file-name="${file.name}"]`);
+
+                if (!existingFileItem) {
+                    console.log("appending file:", file.name);
+                    const listItem = document.createElement('li');
+                    listItem.dataset.fileName = file.name;
+
+                    const fileLink = document.createElement('a');
+                    fileLink.href = file.url;
+                    fileLink.textContent = file.name;
+
+                    const deleteButton = document.createElement('i');
+                    deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
+                    deleteButton.style.fontSize = '20px';
+                    deleteButton.style.cursor = 'pointer';
+                    deleteButton.addEventListener('click', function () {
+                        console.log("deleting file:", file.name);
+                        fileList.splice(index, 1);
+                        updateFileList();
+                    });
+
+                    listItem.appendChild(fileLink);
+                    listItem.appendChild(deleteButton);
+                    ul.appendChild(listItem);
+                }
+            });
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function () {
+            const files = this.files;
+
+            for (let i = 0; i < files.length; i++) {
+                console.log("add file to lsit", files[i].name);
+                fileList.push(files[i]);
+            }
+
+            updateFileList();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const deleteButtons = document.querySelectorAll('.trash-icon');
+
+            deleteButtons.forEach(function(deleteButton) {
+                deleteButton.addEventListener('click', function () {
+                    console.log("Delete button clicked");
+                    const listItem = this.closest('li');
+                    const fileId = listItem.dataset.fileId;
+                    console.log("File ID:", fileId);
+
+                    deletedFileIds.push(fileId);
+
+                    updateDeletedFileIdsInput();
+
+                    listItem.remove();
+                });
+            });
+        });
+
+        function updateDeletedFileIdsInput() {
+            const deleteFilesInput = document.getElementById('delete_files_ids');
+<!--            deleteFilesInput.value = deletedFileIds.join(',');-->
+            deleteFilesInput.value = deletedFileIds
+            console.log('deleteFilesInput.value', deleteFilesInput.value);
+        }
+
+        document.getElementById('project-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+
+            const formInputs = document.querySelectorAll('#project-form input, #project-form select');
+            formInputs.forEach(input => {
+                formData.append(input.name, input.value);
+            });
+
+            const fileInput = document.getElementById('fileInput');
+            for (let i = 0; i < fileInput.files.length; i++) {
+                formData.append('files', fileInput.files[i]);
+            }
+
+            // check if arr is empty
+            const deleteFilesInput = document.getElementById('delete_files_ids');
+            if (deleteFilesInput.value.trim() === '') {
+                deleteFilesInput.disabled = true;
+            }
+
+            console.log("FormData entries:", [...formData.entries()]);
+
+            this.submit();
+        });
+    </script>
+
+
     <button type="submit" class="btn btn-primary btn-sm"> Сохранить изменения</button>
 </form>
-
-
-<script>
-
-    document.getElementById('fileInputBtn').addEventListener('click', function (event) {
-        event.preventDefault(); // Предотвращаем стандартное поведение кнопки
-        document.getElementById('fileInput').click();
-    });
-
-    let fileList = []; // Хранит список выбранных файлов
-
-    // Функция для обновления списка файлов в документе
-    function updateFileList() {
-        const fileListDiv = document.getElementById('fileList');
-        let ul = fileListDiv.querySelector('ul');
-        //fileListDiv.innerHTML = ''; // Очищаем список перед добавлением новых файлов
-
-        fileList.forEach(function (file, index) {
-            const listItem = document.createElement('li');
-            //listItem.classList.add('list-group-item');
-            listItem.textContent = file.name;
-
-            const deleteButton = document.createElement('a');
-            const deleteButtonInsideITag = document.createElement('i');
-            deleteButtonInsideITag.classList.add('fa-solid', 'fa-trash-can');
-
-            deleteButton.append(deleteButtonInsideITag)
-            {#deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');#}
-            {#deleteButton.textContent = 'Удалить';#}
-            deleteButton.addEventListener('click', function () {
-                fileList.splice(index, 1); // Удаляем файл из массива fileList
-                updateFileList(); // Обновляем список файлов в документе
-            });
-
-            listItem.appendChild(deleteButton);
-            ul.appendChild(listItem);
-        });
-    }
-
-    // Добавляем обработчик события change для элемента input с id="fileInput"
-    document.getElementById('fileInput').addEventListener('change', function () {
-        const files = this.files;
-
-        for (let i = 0; i < files.length; i++) {
-            fileList.push(files[i]); //Добавляем каждый файл к общему списку
-        }
-
-        updateFileList(); //Обновляем список файлов в документе
-    });
-
-    console.log(1234)
-
-    document.getElementById('project-form').addEventListener('submit', function (event) {
-        event.preventDefault(); // Предотвращение отправки формы по умолчанию
-
-        // Получение объекта FormData из формы
-        const formData = new FormData(this);
-
-        for (let i = 0; i < fileList.length; i++) {
-            formData.append('files', fileList[i]);
-        }
-
-        fetch('{% url 'project_edit' userproject.slug %}', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Files uploaded successfully!');
-
-                    window.location.href = '{% url 'profile' %}'
-                } else {
-                    console.error('Failed to upload files:', response.statusText);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-
-    });
-</script>
 
 
 <script type="text/javascript">

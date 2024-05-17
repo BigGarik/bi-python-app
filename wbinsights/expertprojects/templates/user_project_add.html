@@ -18,6 +18,38 @@
         <input type="file" id="fileInput" name="files" multiple style="display: none;">
 
 
+         <div style="display: flex; margin : 20px 0 20px 0; align-items: baseline;">
+            <span style="font-size: 20px;">Файлы проекта:</span>
+            <button id="fileInputBtn" class="btn btn-primary btn-sm" style="margin-left: 10px">Добавить файлы</button>
+        </div>
+
+        <style>
+            .trash-icon:hover {
+                color: red !important;
+                cursor: pointer;
+            }
+        </style>
+
+        <div id="fileList">
+            <ul>
+                {% for file in files.all %}
+                    <li style="margin: 5px 0 5px 0;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="min-width: 350px; font-size: 18px;">
+                                <a href="{{ file.file.url }}">{{ file.file.name}}</a>
+                            </div>
+                            <i class="bi bi-trash trash-icon" style="font-size:20px; cursor:pointer;"></i>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+
+
+        <input type="file" id="fileInput" name="files" multiple style="display: none;">
+
         <input type="submit" value="Создать проект" >
     </form>
 
@@ -26,6 +58,75 @@
     </style>
 
     <script type="text/javascript">
+
+        document.getElementById('fileInputBtn').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('fileInput').click();
+        });
+
+        let fileList = [];
+
+        function updateFileList() {
+            console.log("Updating file list");
+            const fileListDiv = document.getElementById('fileList');
+            let ul = fileListDiv.querySelector('ul');
+            ul.innerHTML = '';
+
+            fileList.forEach(function (file, index) {
+                console.log("Appending file:", file.name);
+                const listItem = document.createElement('li');
+                const fileLink = document.createElement('a');
+                fileLink.href = file.url;
+                fileLink.textContent = file.name;
+
+                const deleteButton = document.createElement('i');
+                deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
+                deleteButton.style.fontSize = '20px';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.addEventListener('click', function () {
+                    console.log("Deleting file:", file.name);
+                    fileList.splice(index, 1);
+                    updateFileList();
+                });
+
+                listItem.appendChild(fileLink);
+                listItem.appendChild(deleteButton);
+                ul.appendChild(listItem);
+            });
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function () {
+            console.log("File input changed");
+            const files = this.files;
+
+            for (let i = 0; i < files.length; i++) {
+                console.log("Adding file to list:", files[i].name);
+                fileList.push(files[i]);
+            }
+
+            updateFileList();
+        });
+
+        document.getElementById('project-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+
+            const formInputs = document.querySelectorAll('#project-form input, #project-form select');
+            formInputs.forEach(input => {
+                formData.append(input.name, input.value);
+            });
+
+            const fileInput = document.getElementById('fileInput');
+            for (let i = 0; i < fileInput.files.length; i++) {
+                formData.append('files', fileInput.files[i]);
+            }
+
+            console.log("FormData entries:", [...formData.entries()]);
+
+
+            this.submit();
+        });
 
 
         $('#id_category').select2({
