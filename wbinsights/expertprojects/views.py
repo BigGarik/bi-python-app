@@ -1,3 +1,4 @@
+import os
 import itertools
 import logging
 from django.contrib.auth.decorators import login_required
@@ -143,7 +144,16 @@ class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
             if delete_file_ids_str:
                 delete_file_ids_list_str = delete_file_ids_str.split(',')
                 delete_file_ids = [int(file_id) for file_id in delete_file_ids_list_str if file_id.isdigit()]
-                UserProjectFile.objects.filter(id__in=delete_file_ids).delete()
+                files_to_delete = UserProjectFile.objects.filter(id__in=delete_file_ids)
+                with transaction.atomic():
+                    for file_obj in files_to_delete:
+                        file_path = file_obj.file.path
+                        if os.path.isfile(file_path):
+                            try:
+                                os.remove(file_path)
+                                file_obj.delete()
+                            except OSError as e:
+                                logger.error(f"Ошибка при удалении файла {file_path}: {e}")
 
             # Обработка участников проекта
             members_ids = self.request.POST.getlist('members')  # Используем getlist для безопасного получения списка
