@@ -113,14 +113,14 @@
 <script>
     let searchTimeout;
     let userProjects = [];
-    let page_number = 0;
-    const recornd_on_page = 10;
+    let page = 1;
+    const page_size = 10;
 
     $(function () {
         $('#load-more-btn').click(function () {
 
-            page_number = page_number + 1;
-            console.log(page_number)
+            page = page + 1;
+            console.log(page)
             getUsersProjects('')
         })
     })
@@ -190,15 +190,17 @@
     function getUsersProjects(searchQuery = '', category = undefined) {
         const data = {
             "author": {{ user.id }},
-            "name": searchQuery
+            "name": searchQuery,
+            {#"page": page,#}
+            "page_size": page_size
         };
 
         if (category) {
             data.category = category;
         }
 
-        if (page_number != 0) {
-                data.start_record = page_number * recornd_on_page;
+        if (page > 1) {
+                data.page_size = page * page_size;
         }
 
 
@@ -210,7 +212,7 @@
             success: function (response) {
                 userProjects = response.results;
                 const projectListCont = $('#id_project_catalog');
-                if (page_number == 0)
+                if (page == 1)
                     projectListCont.html('');
 
                 if (userProjects.length > 0) {

@@ -201,7 +201,8 @@ class SearchExpertsAPIView(APIView):
 
 # Класс для настройки пагинации
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 100  # Установите размер страницы для пагинации по умолчанию
+    def get_page_size(self, request):
+        return request.query_params.get('page_size', self.page_size)
 
 
 class GetProjectsAPIView(ListAPIView):
