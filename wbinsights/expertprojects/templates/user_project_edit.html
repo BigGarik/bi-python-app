@@ -40,12 +40,17 @@
             color: red !important;
             cursor: pointer;
         }
+
+        .list-class {
+            min-width: 50%;
+            font-size: 18px;
+        }
     </style>
 
     <div id="fileList">
         <ul>
             {% for file in files.all %}
-                <li style="margin: 5px 0 5px 0;" data-file-id="{{ file.id }}">
+                <li style="margin: 5px 0 5px 0;" data-file-id="{{ file.id }}" class="loaded-from-server">
                     <div style="display: flex; align-items: center;">
                         <div style="min-width: 350px; font-size: 18px;">
                             {% if file.file %}
@@ -76,36 +81,34 @@
         let deletedFileIds = [];
 
         function updateFileList() {
-            console.log("ypdating file list");
             const fileListDiv = document.getElementById('fileList');
             let ul = fileListDiv.querySelector('ul');
 
+            // Clear the list of newly added files to avoid duplicates
+            ul.querySelectorAll('.new-file').forEach(el => el.remove());
+
             fileList.forEach(function (file, index) {
-                const existingFileItem = ul.querySelector(`[data-file-name="${file.name}"]`);
+                const listItem = document.createElement('li');
+                listItem.dataset.fileName = file.name;
+                listItem.classList.add('new-file');
 
-                if (!existingFileItem) {
-                    console.log("appending file:", file.name);
-                    const listItem = document.createElement('li');
-                    listItem.dataset.fileName = file.name;
+                const fileLink = document.createElement('a');
+                fileLink.href = file.url ? file.url : '#';
+                fileLink.textContent = file.name;
 
-                    const fileLink = document.createElement('a');
-                    fileLink.href = file.url;
-                    fileLink.textContent = file.name;
+                const deleteButton = document.createElement('i');
+                deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
+                deleteButton.style.fontSize = '20px';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.addEventListener('click', function () {
+                    //console.log("Deleting file:", file.name);
+                    fileList.splice(index, 1);
+                    updateFileList();
+                });
 
-                    const deleteButton = document.createElement('i');
-                    deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
-                    deleteButton.style.fontSize = '20px';
-                    deleteButton.style.cursor = 'pointer';
-                    deleteButton.addEventListener('click', function () {
-                        console.log("deleting file:", file.name);
-                        fileList.splice(index, 1);
-                        updateFileList();
-                    });
-
-                    listItem.appendChild(fileLink);
-                    listItem.appendChild(deleteButton);
-                    ul.appendChild(listItem);
-                }
+                listItem.appendChild(fileLink);
+                listItem.appendChild(deleteButton);
+                ul.appendChild(listItem);
             });
         }
 
@@ -113,7 +116,7 @@
             const files = this.files;
 
             for (let i = 0; i < files.length; i++) {
-                console.log("add file to lsit", files[i].name);
+                //console.log("Add file to list:", files[i].name);
                 fileList.push(files[i]);
             }
 
@@ -121,19 +124,22 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-
             const deleteButtons = document.querySelectorAll('.trash-icon');
 
             deleteButtons.forEach(function(deleteButton) {
                 deleteButton.addEventListener('click', function () {
-                    console.log("Delete button clicked");
                     const listItem = this.closest('li');
                     const fileId = listItem.dataset.fileId;
-                    console.log("File ID:", fileId);
+                    //console.log("File ID:", fileId);
 
-                    deletedFileIds.push(fileId);
-
-                    updateDeletedFileIdsInput();
+                    if (fileId) {
+                        deletedFileIds.push(fileId);
+                        updateDeletedFileIdsInput();
+                    } else {
+                        const fileName = listItem.dataset.fileName;
+                        fileList = fileList.filter(file => file.name !== fileName);
+                        updateFileList();
+                    }
 
                     listItem.remove();
                 });
@@ -142,37 +148,43 @@
 
         function updateDeletedFileIdsInput() {
             const deleteFilesInput = document.getElementById('delete_file_ids');
-<!--            deleteFilesInput.value = deletedFileIds.join(',');-->
-            deleteFilesInput.value = deletedFileIds
-            console.log('deleteFilesInput.value', deleteFilesInput.value);
+            deleteFilesInput.value = deletedFileIds;
+            //console.log('deleteFilesInput.value', deleteFilesInput.value);
         }
 
         document.getElementById('project-form').addEventListener('submit', function (event) {
             event.preventDefault();
 
-            const formData = new FormData();
+            const formData = new FormData(this);
 
-            const formInputs = document.querySelectorAll('#project-form input, #project-form select');
-            formInputs.forEach(input => {
-                formData.append(input.name, input.value);
-            });
-
-            const fileInput = document.getElementById('fileInput');
-            for (let i = 0; i < fileInput.files.length; i++) {
-                formData.append('files', fileInput.files[i]);
+            for (let i = 0; i < fileList.length; i++) {
+                formData.append('files', fileList[i]);
             }
 
-            // check if arr is empty
             const deleteFilesInput = document.getElementById('delete_file_ids');
             if (deleteFilesInput.value.trim() === '') {
                 deleteFilesInput.disabled = true;
             }
 
-            console.log("FormData entries:", [...formData.entries()]);
-            console.log('fileList', fileList)
+            //console.log("FormData entries:", [...formData.entries()]);
 
-            //this.submit();
+            fetch('{% url 'project_edit' userproject.slug %}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Files uploaded successfully!');
+                    window.location.href = '{% url 'profile' %}';
+                } else {
+                    console.error('Failed to upload files:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
+
     </script>
 
 
