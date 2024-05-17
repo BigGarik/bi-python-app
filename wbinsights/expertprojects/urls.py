@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import UserProjectCreateView, UserProjectDetailView, UserProjectUpdateView, UserProjectDeleteView, \
-    project_file_delete, SearchExpertsAPIView, GetProjectsAPIView
+    project_file_delete, SearchExpertsAPIView, GetProjectsAPIView, GetProjectsView
 
 urlpatterns = [
     path('project/add/', UserProjectCreateView.as_view(), name='project_add'),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('project/file/<int:pk>/delete/', project_file_delete, name='project_file_delete'),
     path('search-experts/', SearchExpertsAPIView.as_view(), name='search_experts'),
     path('projects/json', GetProjectsAPIView.as_view(), name='projects'),
+    path('projects/', GetProjectsView.as_view(), name='project-list'),
 ]

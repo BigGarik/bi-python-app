@@ -1,0 +1,69 @@
+{% extends 'base123.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block center_col %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+<div class="container">
+    <h2>{% trans 'Projects' %}</h2>
+
+<!-- Форма для фильтрации и выбора количества проектов на странице -->
+    
+    <form method="get" id="filter-form">
+        <div>
+            <label for="category-filter">{% trans 'Filter by category:' %}</label>
+            <select name="category" id="category-filter">
+                <option value="">{% trans 'All Categories' %}</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="page-size">{% trans 'Projects per page:' %}</label>
+            <select name="page_size" id="page-size" onchange="document.getElementById('filter-form').submit();">
+                <option value="5" {% if request.GET.page_size == "5" %}selected{% endif %}>5</option>
+                <option value="10" {% if request.GET.page_size == "10" %}selected{% endif %}>10</option>
+                <option value="20" {% if request.GET.page_size == "20" %}selected{% endif %}>20</option>
+                <option value="50" {% if request.GET.page_size == "50" %}selected{% endif %}>50</option>
+            </select>
+        </div>
+        <button type="submit">{% trans 'Apply filters' %}</button>
+    </form>
+
+    <!-- Список проектов -->
+    <ul class="project-list">
+        {% for project in projects %}
+        <li>
+            <h3>{{ project.name }}</h3>
+            <!-- Дополнительная информация о проекте -->
+        </li>
+        {% empty %}
+        <li>{% trans 'No projects found.' %}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Пагинация -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if projects.has_previous %}
+            <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&laquo; {% trans 'first' %}</a>
+            <a href="?page={{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{% trans 'previous' %}</a>
+            {% endif %}
+
+            <span class="current">
+                {% trans 'Page' %} {{ projects.number }} {% trans 'of' %} {{ projects.paginator.num_pages }}.
+            </span>
+
+            {% if projects.has_next %}
+            <a href="?page={{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{% trans 'next' %}</a>
+            <a href="?page={{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&raquo; {% trans 'last' %}</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+
+{% endblock %}

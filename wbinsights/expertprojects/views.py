@@ -4,13 +4,14 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core import serializers
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.serializers import json
 from django.db import transaction
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, ListView
 from pytils.translit import slugify
 from django.db.models import Q
 from rest_framework import status
@@ -196,7 +197,7 @@ class SearchExpertsAPIView(APIView):
 
         # Использование сериализатора для сериализации данных
         serializer = CustomUserSerializer(experts, many=True)
-        return JsonResponse({'data':serializer.data})
+        return JsonResponse({'data': serializer.data})
 
 
 # Класс для настройки пагинации
@@ -237,3 +238,59 @@ class GetProjectsAPIView(ListAPIView):
         if fields is not None:
             kwargs['fields'] = fields
         return self.serializer_class(*args, **kwargs)
+
+
+class GetProjectsView(LoginRequiredMixin, ListView):
+    model = UserProject
+    context_object_name = 'projects'
+    template_name = 'project_list.html'  # Укажите путь к вашему шаблону
+    paginate_by = 2  # Установите количество объектов на страницу
+
+    def get_paginate_by(self, queryset):
+        # Получаем значение page_size из параметров запроса или используем значение по умолчанию
+        page_size = self.request.GET.get('page_size', self.paginate_by)
+        try:
+            return max(1, int(page_size))  # Преобразуем в int и гарантируем, что значение больше 1
+        except (TypeError, ValueError):
+            return self.paginate_by
+
+    def get_queryset(self):
+        allowed_fields = {'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+        query_params = self.request.GET
+
+        query = Q()
+        for param, value in query_params.items():
+            # Для поля 'category' проверяем, что значение является числом
+            if param == 'category':
+                try:
+                    value = int(value)  # Преобразуем значение в число
+                    query &= Q(**{param: value})
+                except ValueError:
+                    # Если значение не может быть преобразовано в число, игнорируем этот параметр фильтрации
+                    continue
+            else:
+                # Для поля 'name' используем фильтр 'icontains' для поиска по подстроке
+                if param == 'name':
+                    query &= Q(**{f'{param}__icontains': value})
+                elif param in allowed_fields:
+                    query &= Q(**{param: value})
+                print(query)
+
+        return UserProject.objects.filter(query)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Пагинация
+        page = self.request.GET.get('page', 1)
+        paginator = Paginator(self.get_queryset(), self.get_paginate_by(self.get_queryset()))
+
+        try:
+            projects = paginator.page(page)
+        except PageNotAnInteger:
+            projects = paginator.page(1)
+        except EmptyPage:
+            projects = paginator.page(paginator.num_pages)
+
+        context['projects'] = projects
+        return context
