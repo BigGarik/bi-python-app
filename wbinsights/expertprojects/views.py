@@ -139,16 +139,11 @@ class UserProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
             for file_data in files:
                 UserProjectFile.objects.create(project=self.object, file=file_data)
             # Delite
-            delete_files_ids = self.request.POST.getlist('delete_files_ids')
-            logger.debug('delete_files_ids = ', delete_files_ids)
-            if delete_files_ids:
-                logger.debug('delete_files_ids = ', delete_files_ids)
-                if isinstance(delete_files_ids, str):
-                    delete_files_ids = delete_files_ids.split(',')
-                    delete_files_ids = [int(number) for number in delete_files_ids]
-                logger.debug('delete_files_ids = ', delete_files_ids)
-                files_to_delete = UserProjectFile.objects.filter(pk__in=delete_files_ids, project__author=self.request.user)
-                files_to_delete.delete()
+            delete_file_ids_str = self.request.POST.getlist('delete_file_ids', [''])[0]
+            if delete_file_ids_str:
+                delete_file_ids_list_str = delete_file_ids_str.split(',')
+                delete_file_ids = [int(file_id) for file_id in delete_file_ids_list_str if file_id.isdigit()]
+                UserProjectFile.objects.filter(id__in=delete_file_ids).delete()
 
             # Обработка участников проекта
             members_ids = self.request.POST.getlist('members')  # Используем getlist для безопасного получения списка
