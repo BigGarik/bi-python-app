@@ -69,109 +69,125 @@
     <input type="hidden" id="delete_file_ids" name="delete_file_ids" multiple>
 
 
-    <input type="file" id="fileInput" name="files" multiple style="display: none;">
+    <button type="submit" class="btn btn-primary btn-sm"> Сохранить изменения</button>
 
-    <script>
-        document.getElementById('fileInputBtn').addEventListener('click', function (event) {
-            event.preventDefault();
-            document.getElementById('fileInput').click();
+</form>
+
+<input type="file" id="fileInput" name="files" multiple style="display: none;">
+
+<script>
+    document.getElementById('fileInputBtn').addEventListener('click', function (event) {
+        event.preventDefault();
+        document.getElementById('fileInput').click();
+    });
+
+    let fileList = [];
+    let deletedFileIds = [];
+
+    function updateFileList() {
+
+        const fileListDiv = document.getElementById('fileList');
+        let ul = fileListDiv.querySelector('ul');
+
+        // Clear the list of newly added files to avoid duplicates
+        ul.querySelectorAll('.new-file').forEach(el => el.remove());
+
+        fileList.forEach(function (file, index) {
+            const listItem = document.createElement('li');
+            listItem.dataset.fileName = file.name;
+            listItem.classList.add('new-file');
+
+            const fileLink = document.createElement('a');
+            fileLink.href = file.url ? file.url : '#';
+            fileLink.textContent = file.name;
+
+            const deleteButton = document.createElement('i');
+            deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
+            deleteButton.style.fontSize = '20px';
+            deleteButton.style.cursor = 'pointer';
+            deleteButton.addEventListener('click', function () {
+                //console.log("Deleting file:", file.name);
+                fileList.splice(index, 1);
+                updateFileList();
+            });
+
+            listItem.appendChild(fileLink);
+            listItem.appendChild(deleteButton);
+            ul.appendChild(listItem);
         });
+    }
 
-        let fileList = [];
-        let deletedFileIds = [];
+    document.getElementById('fileInput').addEventListener('change', function () {
+        const files = this.files;
 
-        function updateFileList() {
-            const fileListDiv = document.getElementById('fileList');
-            let ul = fileListDiv.querySelector('ul');
+        for (let i = 0; i < files.length; i++) {
+            //console.log("Add file to list:", files[i].name);
+            fileList.push(files[i]);
+        }
 
-            // Clear the list of newly added files to avoid duplicates
-            ul.querySelectorAll('.new-file').forEach(el => el.remove());
+        updateFileList();
+    });
 
-            fileList.forEach(function (file, index) {
-                const listItem = document.createElement('li');
-                listItem.dataset.fileName = file.name;
-                listItem.classList.add('new-file');
+    /*
+    $(function () {
+        $('.trash-icon').click(function () {
+            $(this)
+        })
+    })
+    */
 
-                const fileLink = document.createElement('a');
-                fileLink.href = file.url ? file.url : '#';
-                fileLink.textContent = file.name;
 
-                const deleteButton = document.createElement('i');
-                deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
-                deleteButton.style.fontSize = '20px';
-                deleteButton.style.cursor = 'pointer';
-                deleteButton.addEventListener('click', function () {
-                    //console.log("Deleting file:", file.name);
-                    fileList.splice(index, 1);
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.trash-icon');
+
+        document.querySelectorAll('.trash-icon').addEventListener(function ())
+
+        deleteButtons.forEach(function (deleteButton) {
+            deleteButton.addEventListener('click', function () {
+                const listItem = this.closest('li');
+                const fileId = listItem.dataset.fileId;
+                //console.log("File ID:", fileId);
+
+                if (fileId) {
+                    deletedFileIds.push(fileId);
+                    updateDeletedFileIdsInput();
+                } else {
+                    const fileName = listItem.dataset.fileName;
+                    fileList = fileList.filter(file => file.name !== fileName);
                     updateFileList();
-                });
+                }
 
-                listItem.appendChild(fileLink);
-                listItem.appendChild(deleteButton);
-                ul.appendChild(listItem);
-            });
-        }
-
-        document.getElementById('fileInput').addEventListener('change', function () {
-            const files = this.files;
-
-            for (let i = 0; i < files.length; i++) {
-                //console.log("Add file to list:", files[i].name);
-                fileList.push(files[i]);
-            }
-
-            updateFileList();
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteButtons = document.querySelectorAll('.trash-icon');
-
-            deleteButtons.forEach(function(deleteButton) {
-                deleteButton.addEventListener('click', function () {
-                    const listItem = this.closest('li');
-                    const fileId = listItem.dataset.fileId;
-                    //console.log("File ID:", fileId);
-
-                    if (fileId) {
-                        deletedFileIds.push(fileId);
-                        updateDeletedFileIdsInput();
-                    } else {
-                        const fileName = listItem.dataset.fileName;
-                        fileList = fileList.filter(file => file.name !== fileName);
-                        updateFileList();
-                    }
-
-                    listItem.remove();
-                });
+                listItem.remove();
             });
         });
+    });
 
-        function updateDeletedFileIdsInput() {
-            const deleteFilesInput = document.getElementById('delete_file_ids');
-            deleteFilesInput.value = deletedFileIds;
-            //console.log('deleteFilesInput.value', deleteFilesInput.value);
+    function updateDeletedFileIdsInput() {
+        const deleteFilesInput = document.getElementById('delete_file_ids');
+        deleteFilesInput.value = deletedFileIds;
+        //console.log('deleteFilesInput.value', deleteFilesInput.value);
+    }
+
+    document.getElementById('project-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        for (let i = 0; i < fileList.length; i++) {
+            formData.append('files', fileList[i]);
         }
+/*
+        const deleteFilesInput = document.getElementById('delete_file_ids');
+        if (deleteFilesInput.value.trim() === '') {
+            deleteFilesInput.disabled = true;
+        }
+*/
+        //console.log("FormData entries:", [...formData.entries()]);
 
-        document.getElementById('project-form').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const formData = new FormData(this);
-
-            for (let i = 0; i < fileList.length; i++) {
-                formData.append('files', fileList[i]);
-            }
-
-            const deleteFilesInput = document.getElementById('delete_file_ids');
-            if (deleteFilesInput.value.trim() === '') {
-                deleteFilesInput.disabled = true;
-            }
-
-            //console.log("FormData entries:", [...formData.entries()]);
-
-            fetch('{% url 'project_edit' userproject.slug %}', {
-                method: 'POST',
-                body: formData
-            })
+        fetch('{% url 'project_edit' userproject.slug %}', {
+            method: 'POST',
+            body: formData
+        })
             .then(response => {
                 if (response.ok) {
                     console.log('Files uploaded successfully!');
@@ -183,13 +199,9 @@
             .catch(error => {
                 console.error('Error:', error);
             });
-        });
+    });
 
-    </script>
-
-
-    <button type="submit" class="btn btn-primary btn-sm"> Сохранить изменения</button>
-</form>
+</script>
 
 
 <script type="text/javascript">

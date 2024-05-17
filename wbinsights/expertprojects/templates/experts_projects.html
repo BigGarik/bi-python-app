@@ -95,6 +95,8 @@
 
 <div style="display: none" id="user-projects-container-no-projects">No projects found</div>
 
+<button id="load-more-btn">Load more</button>
+
 
 <style>
 
@@ -111,6 +113,17 @@
 <script>
     let searchTimeout;
     let userProjects = [];
+    let page_number = 0;
+    const recornd_on_page = 10;
+
+    $(function () {
+        $('#load-more-btn').click(function () {
+
+            page_number = page_number + 1;
+            console.log(page_number)
+            getUsersProjects('')
+        })
+    })
 
     function loadProject(project_idx) {
         $('.card.border-dark.mb-3').removeClass('selectedProj');
@@ -184,6 +197,12 @@
             data.category = category;
         }
 
+        if (page_number != 0) {
+                data.start_record = page_number * recornd_on_page;
+        }
+
+
+
         $.ajax({
             url: `/expert/projects/json`,
             type: 'GET',
@@ -191,7 +210,8 @@
             success: function (response) {
                 userProjects = response.results;
                 const projectListCont = $('#id_project_catalog');
-                projectListCont.html('');
+                if (page_number == 0)
+                    projectListCont.html('');
 
                 if (userProjects.length > 0) {
                     userProjects.forEach((project, index) => {
