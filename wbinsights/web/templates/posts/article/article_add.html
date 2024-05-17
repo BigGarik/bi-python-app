@@ -45,31 +45,31 @@
 
             </div>
 
-<!--            <form method="post" enctype="multipart/form-data">-->
-<!--                {% csrf_token %}-->
-<!--                {{ form.as_p }}-->
-<!--                <button type="submit" class="btn btn-success">Update Article</button>-->
-<!--            </form>-->
+            <!--            <form method="post" enctype="multipart/form-data">-->
+            <!--                {% csrf_token %}-->
+            <!--                {{ form.as_p }}-->
+            <!--                <button type="submit" class="btn btn-success">Update Article</button>-->
+            <!--            </form>-->
 
-<!--            {% if object %}-->
-<!--                <div>{{ object.title }}</div>-->
-<!--            {% else %}-->
-<!--                <div>no article found</div>-->
-<!--            {% endif %}-->
+            <!--            {% if object %}-->
+            <!--                <div>{{ object.title }}</div>-->
+            <!--            {% else %}-->
+            <!--                <div>no article found</div>-->
+            <!--            {% endif %}-->
 
             {{form.title}}
             {{form.description}}
             {{ form.title.value }}
 
 
-            <input type="text" id="title" name="title" class="article-add-title" placeholder="Article Title" value="{{ form.title.value }}"> </input>
+            <input type="text" id="title" name="title" class="article-add-title" placeholder="Article Title"
+                   value="{{ form.title.value }}"> </input>
 
             <div style="position: relative;">
                 <textarea id="description" name="description" class="article-add-desc-cont"
                           placeholder="Short article description" maxlength="1000" style="resize: none;">{{form.description.value}}</textarea>
                 <div id="char-count" style="position: absolute;bottom: 10px;right: 10px;"></div>
             </div>
-
 
 
             <div style="position: relative;">
@@ -100,8 +100,8 @@
             </div>
 
             <span class="article-add-desc">
-            Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
-          </span>
+                Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
+            </span>
 
             <div id="blocks"></div>
 
@@ -384,8 +384,6 @@
       };
       reader.readAsDataURL(file);
     }
-
-
 
 
 </script>

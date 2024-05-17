@@ -115,6 +115,7 @@
     let userProjects = [];
     let page = 1;
     const page_size = 10;
+    let globalcat ;
 
     $(function () {
         $('#load-more-btn').click(function () {
@@ -123,6 +124,8 @@
             console.log(page)
             getUsersProjects('')
         })
+
+
     })
 
     function loadProject(project_idx) {
@@ -167,6 +170,7 @@
     function loadProjectsByCategory(category_id, category_name) {
         $('#dropdownMenuLink').text(`Категория (${category_name || 'Все'})`);
         getUsersProjects('', category_id);
+        globalcat = category_id ;
         $('#id_project').hide();
     }
 
@@ -187,21 +191,23 @@
                 </div>`;
     }
 
-    function getUsersProjects(searchQuery = '', category = undefined) {
+    function getUsersProjects(searchQuery = '', category = globalcat) {
         const data = {
             "author": {{ user.id }},
             "name": searchQuery,
-            {#"page": page,#}
-            "page_size": page_size
+            "page": page,
+            "page_size": page_size,
+            "category": category
+
         };
 
-        if (category) {
-            data.category = category;
-        }
+<!--        if (category) {-->
+<!--            data.category = category;-->
+<!--        }-->
 
-        if (page > 1) {
-                data.page_size = page * page_size;
-        }
+<!--        if (page >= 1) {-->
+<!--                data.page_size = page * page_size;-->
+<!--        }-->
 
 
 
