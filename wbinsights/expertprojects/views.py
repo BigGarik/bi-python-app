@@ -244,7 +244,7 @@ class GetProjectsView(LoginRequiredMixin, ListView):
     model = UserProject
     context_object_name = 'projects'
     template_name = 'project_list.html'  # Укажите путь к вашему шаблону
-    paginate_by = 2  # Установите количество объектов на страницу
+    paginate_by = 5  # Установите количество объектов на страницу
 
     def get_paginate_by(self, queryset):
         # Получаем значение page_size из параметров запроса или используем значение по умолчанию
