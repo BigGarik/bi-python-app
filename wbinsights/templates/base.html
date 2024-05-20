@@ -187,13 +187,18 @@
                             </div>
                         </div>
                     {% else %}
+                        <div class="header-icon-cont" >
+                            <a href="{% url 'index'%}">
+                                <i class="bi bi-house" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
                         <div class="buttons-log-cont">
                             <a href="{% url 'login' %}">
                                 <button type="button"
-                                        class="btn btn-dark logout-btn-style">{% trans 'LoginBtnLabel' %}</button>
+                                        class="btn btn-dark logout-btn-style" style="font-size: 16px">{% trans 'LoginBtnLabel' %}</button>
                             </a>
                             <a href="{% url 'signup' %}">
-                                <button type="button" class="btn btn-primary">{% trans 'RegisterBtnLabel' %}</button>
+                                <button type="button" class="btn btn-primary" style="font-size: 16px " >{% trans 'RegisterBtnLabel' %}</button>
                             </a>
                         </div>
                     {% endif %}
@@ -214,13 +219,9 @@
 
                     <div style="display:flex;width: 100%; justify-content: flex-end;">
 
-                        <div class="header-icon-cont" >
-                            <a href="{% url 'index'%}">
-                                <i class="bi bi-house" style="color:white; font-size: 1.3em;"></i>
-                            </a>
-                        </div>
 
                         {% if user.is_authenticated %}
+
 
                             <div class="header-icon-cont">
                                 <a href="#" onclick="alert('В разработке');">
@@ -277,16 +278,24 @@
                                 </div>
                             </div>
                         {% else %}
-                            <div class="buttons-log-cont" style="width:100%; justify-content: flex-end; gap:15px">
+
+                            <div class="buttons-log-cont" style="width:100%; justify-content: flex-end;">
+                                <div class="header-icon-cont" >
+                                <a href="{% url 'index'%}">
+                                    <i class="bi bi-house" style="color:white; font-size: 1.3em;"></i>
+                                </a>
+                            </div>
+
                                 <a href="{% url 'login' %}">
-                                    <button type="button" class="btn btn-dark logout-btn-style"
+                                    <button type="button" class="btn btn-dark logout-btn-style" style="font-size: 16px !important"
                                             style="font-size: 18px ; background-color: #4a4a5e !important;">{% trans 'LoginBtnLabel' %}</button>
                                 </a>
                                 <a href="{% url 'signup' %}">
-                                    <button type="button" class="btn btn-primary"
+                                    <button type="button" class="btn btn-primary" style="font-size: 16px !important"
                                             style="font-size: 18px;">{% trans 'RegisterBtnLabel' %}</button>
                                 </a>
                             </div>
+
                         {% endif %}
 
                     </div>

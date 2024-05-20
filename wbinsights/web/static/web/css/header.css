@@ -86,14 +86,6 @@
     background-color: white !important; 
 }
 
-.logout-btn-styles {
-    padding:0px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-start; 
-    align-items: center;
-}
-
 .prof-page-btn-styles {
     margin-bottom: 0;
     display: flex;
