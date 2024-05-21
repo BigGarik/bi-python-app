@@ -8,160 +8,55 @@
             flex-wrap: wrap;
         }
     }
-
 </style>
 
 
 <link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
 
 <div class="prof-content-links-cont">
-    <div class="profile-menu-item" data-content="articles"
-         onclick="showContent('articles')">{% trans 'ArticlesTabLabel' %} &nbsp;<span
+    <div class="profile-menu-item {% if request.GET.tab == "articles" or not request.GET.tab %}selected{% endif %}" data-content="articles"
+         onclick="window.location.href='?tab=articles'">{% trans 'ArticlesTabLabel' %} &nbsp;<span
             class="expert-profile-title-content-number">{{ experts_articles_count }}</span>
     </div>
 
-    <div class="profile-menu-item" data-content="researches"
-         onclick="showContent('researches')">{% trans 'ResearchesTabLabel' %} &nbsp;
+    <div class="profile-menu-item {% if request.GET.tab == "researches" %}selected{% endif %}" data-content="researches"
+         onclick="window.location.href='?tab=researches'">{% trans 'ResearchesTabLabel' %} &nbsp;
         <span class="expert-profile-title-content-number">{{ experts_researches_count }}</span>
     </div>
 
-    <div class="profile-menu-item" data-content="questions"
-         onclick="showContent('questions')">{% trans 'QuestionsTabLabel' %} &nbsp;
+    <div class="profile-menu-item {% if request.GET.tab == "questions" %}selected{% endif %}" data-content="questions"
+         onclick="window.location.href='?tab=questions'">{% trans 'QuestionsTabLabel' %} &nbsp;
         <span class="expert-profile-title-content-number">{{ experts_questions_count }}</span>
     </div>
 
-    <div class="profile-menu-item" data-content="consultations"
-         onclick="showContent('consultations');getUsersAppointments()">{% trans 'ConsultationsTabLabel' %}
+    <div class="profile-menu-item {% if request.GET.tab == "consultations" %}selected{% endif %}" data-content="consultations"
+         onclick="window.location.href='?tab=consultations';getUsersAppointments()">{% trans 'ConsultationsTabLabel' %}
         <span class="expert-profile-title-content-number">&nbsp;{{ users_appointment_cnt }}</span>
     </div>
 
-    <div class="profile-menu-item" data-content="reviews"
-         onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}
+    <div class="profile-menu-item {% if request.GET.tab == "reviews" %}selected{% endif %}" data-content="reviews"
+         onclick="window.location.href='?tab=reviews'">{% trans 'ReviewsTabLabel' %}
     </div>
 
-    <div class="profile-menu-item" data-content="projects" onclick="showContent('projects');getUsersProjects()">
+    <div class="profile-menu-item {% if request.GET.tab == "projects" %}selected{% endif %}" data-content="projects" onclick="window.location.href='?tab=projects';">
         Проекты
     </div>
-
 </div>
 
-<div id="articles" class="expert-content" style="display: none;">
-
-    {% for article in experts_articles %}
-
-        <div class="expert-content-cont">
-
-        <span class="article-title-loop-exp">
-            <a href="{% url 'article_detail' article.slug %}"
-               style="text-decoration: none;color: #36364b;">{{ article.title }}</a>
-        </span>
-
-            <span class="article-content-loop-exp">{{ article.description }}</span>
-
-            <span class="link-read-post">
-            <a href="{{ article.get_absolute_url }}" style="color:black;"
-               class="link-read-post">{% trans 'ReadPostLabel' %} &nbsp;
-                <i class="bi bi-chevron-down" style="color:black; scale:1.3"></i>
-            </a>
-        </span>
-
-            <div class="comments-andshare-cont">
-                <div class="list-comments">
-                    <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
-                </div>
-                <div class="list-share">
-                    <i class="bi bi-calendar2-week"
-                       style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
-
-                </div>
-            </div>
-
-        </div>
-
-        <hr>
-
-    {% endfor %}
+<div id="content-container">
+    {% if request.GET.tab == "articles" %}
+     {% include 'posts/article/article-profile-list.html' with user=user %}
+    {% elif request.GET.tab == "researches" %}
+     researches_template
+    {% elif request.GET.tab == "questions" %}
+    questions_template
+    {% elif request.GET.tab == "consultations" %}
+       {% include 'components/appointment/calendar.html' %}
+    {% elif request.GET.tab == "reviews" %}
+       reviews_template
+    {% elif request.GET.tab == "projects" %}
+        {% include 'project_list.html' with user=user %}
+    {% else %}
+        {% include 'posts/article/article-profile-list.html' with user=user %}
+    {% endif %}
 </div>
-
-<div id="researches" class="expert-content" style="display: none;">
-    <span>test research</span>
-    {% for research in experts_researches %}
-    {% endfor %}
-</div>
-
-<div id="questions" class="expert-content" style="display: none;">
-    <span>test questions</span>
-    {% for research in experts_researches %}
-    {% endfor %}
-</div>
-
-<div id="consultations" class="expert-content" style="display: none;">
-    {% include 'components/appointment/calendar.html' %}
-</div>
-
-<div id="reviews" class="expert-content" style="display: none;">
-    <span>test reviews</span>
-    {% for research in experts_researches %}
-    {% endfor %}
-</div>
-
-<div id="projects" class="expert-content" style="display: none; padding:20px">
-    {% include 'experts_projects.html' with user=user %}
-</div>
-
-
-<script>
-    function showContent(contentId) {
-
-        $('.expert-content').each(function () {
-
-            if ($(this).attr("id") == contentId) {
-                $(this).show()
-            } else {
-                $(this).hide()
-            }
-
-        })
-
-        $('.profile-menu-item').each(function () {
-
-            if ($(this).attr("data-content") == contentId) {
-                $(this).addClass('selected')
-            } else {
-                $(this).removeClass('selected')
-            }
-
-        })
-    }
-
-    $(document).ready(function () {
-
-        const host = window.location.host;
-        const pathname = window.location.pathname;
-        const search = window.location.search;
-        const hash = window.location.hash;
-
-        const currentUrl = window.location.href;
-        console.log(currentUrl);
-
-        let params = new URLSearchParams(search);
-        console.log(params.get('tab'))
-
-        {#params.get('page'); // '2'#}
-
-
-        let activeTabName = 'articles';
-        $('.prof-content-links-cont div').map( (tab) => {
-            //console.log(tab.attr('data-content'))
-            console.log($(this).attr('data-content'))
-        })
-        const possibleTabNames = []
-        if (params.has("tab"))
-            activeTabName = params.get('tab')
-
-
-        //showContent('consultations')
-        $('[data-content="consultations"]').click()
-    })
-
-</script>

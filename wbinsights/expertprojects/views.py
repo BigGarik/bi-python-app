@@ -254,7 +254,7 @@ class GetProjectsView(LoginRequiredMixin, ListView):
         except (TypeError, ValueError):
             return self.paginate_by
 
-    def get_queryset(self):
+    def get_queryset(self, user=None):
         allowed_fields = {'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
         query_params = self.request.GET
 
@@ -276,7 +276,9 @@ class GetProjectsView(LoginRequiredMixin, ListView):
                     query &= Q(**{param: value})
                 print(query)
 
-        return UserProject.objects.filter(query)
+        # Start with all the user's projects
+        projects = UserProject.objects.filter(author=user if user else self.request.user)
+        return projects.filter(query)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -293,4 +295,5 @@ class GetProjectsView(LoginRequiredMixin, ListView):
             projects = paginator.page(paginator.num_pages)
 
         context['projects'] = projects
+        print(context)
         return context

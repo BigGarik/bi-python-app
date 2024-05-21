@@ -52,6 +52,7 @@ urlpatterns = [
 
     # users
     path("profile", profile_view, name='profile'),
+    # path('profile/tab/<str:tab>/', profile_view, name='profile_tab'),
     path("profile/edit", edit_user_profile, name='profile_edit'),
     # path('profile/anketa', profile_view, name='anketa'),
     path('profile/anketa/', anketa_view, name='anketa'),
