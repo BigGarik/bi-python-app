@@ -39,15 +39,9 @@
          onclick="showContent('reviews')">{% trans 'ReviewsTabLabel' %}
     </div>
 
-{#    <div class="profile-menu-item" data-content="projects" onclick="showContent('projects');getUsersProjects()">#}
-{#        Проекты#}
-{#    </div>#}
-
-    <div class="profile-menu-item">
-    <a href="{% url 'project-list' %}">
+    <div class="profile-menu-item" data-content="projects" onclick="showContent('projects');getUsersProjects()">
         Проекты
-    </a>
-</div>
+    </div>
 
 </div>
 
@@ -111,9 +105,9 @@
     {% endfor %}
 </div>
 
-{#<div id="projects" class="expert-content" style="display: none; padding:20px">#}
-{#    {% include 'experts_projects.html' with user=user %}#}
-{#</div>#}
+<div id="projects" class="expert-content" style="display: none; padding:20px">
+    {% include 'experts_projects.html' with user=user %}
+</div>
 
 
 <script>
