@@ -14,34 +14,31 @@
 <link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
 
 <div class="prof-content-links-cont">
-    <div class="profile-menu-item {% if request.GET.tab == "articles" or not request.GET.tab %}selected{% endif %}" data-content="articles"
-         onclick="window.location.href='?tab=articles'">{% trans 'ArticlesTabLabel' %} &nbsp;<span
-            class="expert-profile-title-content-number">{{ experts_articles_count }}</span>
-    </div>
+    <a href="?tab=articles" class="profile-menu-item {% if request.GET.tab == 'articles' or not request.GET.tab %}selected{% endif %}" data-content="articles">
+        {% trans 'ArticlesTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span>
+    </a>
 
-    <div class="profile-menu-item {% if request.GET.tab == "researches" %}selected{% endif %}" data-content="researches"
-         onclick="window.location.href='?tab=researches'">{% trans 'ResearchesTabLabel' %} &nbsp;
-        <span class="expert-profile-title-content-number">{{ experts_researches_count }}</span>
-    </div>
+    <a href="?tab=researches" class="profile-menu-item {% if request.GET.tab == 'researches' %}selected{% endif %}" data-content="researches">
+        {% trans 'ResearchesTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span>
+    </a>
 
-    <div class="profile-menu-item {% if request.GET.tab == "questions" %}selected{% endif %}" data-content="questions"
-         onclick="window.location.href='?tab=questions'">{% trans 'QuestionsTabLabel' %} &nbsp;
-        <span class="expert-profile-title-content-number">{{ experts_questions_count }}</span>
-    </div>
+    <a href="?tab=questions" class="profile-menu-item {% if request.GET.tab == 'questions' %}selected{% endif %}" data-content="questions">
+        {% trans 'QuestionsTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span>
+    </a>
 
-    <div class="profile-menu-item {% if request.GET.tab == "consultations" %}selected{% endif %}" data-content="consultations"
-         onclick="window.location.href='?tab=consultations';getUsersAppointments()">{% trans 'ConsultationsTabLabel' %}
-        <span class="expert-profile-title-content-number">&nbsp;{{ users_appointment_cnt }}</span>
-    </div>
+    <a href="?tab=consultations" class="profile-menu-item {% if request.GET.tab == 'consultations' %}selected{% endif %}" data-content="consultations" onclick="getUsersAppointments()">
+        {% trans 'ConsultationsTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ users_appointment_cnt }}</span>
+    </a>
 
-    <div class="profile-menu-item {% if request.GET.tab == "reviews" %}selected{% endif %}" data-content="reviews"
-         onclick="window.location.href='?tab=reviews'">{% trans 'ReviewsTabLabel' %}
-    </div>
+    <a href="?tab=reviews" class="profile-menu-item {% if request.GET.tab == 'reviews' %}selected{% endif %}" data-content="reviews">
+        {% trans 'ReviewsTabLabel' %}
+    </a>
 
-    <div class="profile-menu-item {% if request.GET.tab == "projects" %}selected{% endif %}" data-content="projects" onclick="window.location.href='?tab=projects';">
-        Проекты
-    </div>
+    <a href="?tab=projects" class="profile-menu-item {% if request.GET.tab == 'projects' %}selected{% endif %}" data-content="projects">
+        {% trans 'ProjectsTabLabel' %}
+    </a>
 </div>
+
 
 <div id="content-container">
     {% if request.GET.tab == "articles" %}
@@ -57,6 +54,5 @@
     {% elif request.GET.tab == "projects" %}
         {% include 'project_list.html' with user=user %}
     {% else %}
-        {% include 'posts/article/article-profile-list.html' with user=user %}
     {% endif %}
 </div>
