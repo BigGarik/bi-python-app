@@ -48,7 +48,9 @@
     {% elif request.GET.tab == "questions" %}
     questions_template
     {% elif request.GET.tab == "consultations" %}
+        <div id="consultations" class="expert-content" >
        {% include 'components/appointment/calendar.html' %}
+        </div>
     {% elif request.GET.tab == "reviews" %}
        reviews_template
     {% elif request.GET.tab == "projects" %}
