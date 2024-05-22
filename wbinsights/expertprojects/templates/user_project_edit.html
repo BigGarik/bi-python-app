@@ -17,6 +17,12 @@
         display: flex !important;
     }
 
+    .new-file {
+        display:flex;
+        justify-content: space-between;
+
+    }
+
 </style>
 
 
@@ -56,7 +62,7 @@
         <ul>
             {% for file in files.all %}
                 <li style="margin: 5px 0 5px 0;" data-file-id="{{ file.id }}" class="loaded-from-server">
-                    <div style="display: flex; align-items: center;">
+                    <div style="display: flex; align-items: center; justify-content: space-between">
                         <div style="min-width: 350px; font-size: 18px;">
                             {% if file.file %}
                                 <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>

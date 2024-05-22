@@ -4,6 +4,12 @@
     flex-direction:column
 }
 
+.project-goals{
+    display: flex;
+    overflow-wrap: anywhere;
+
+}
+
 .project-goals-caption{
     font-weight:600;
 }
@@ -92,7 +98,7 @@
     display: flex;
     flex-direction: column;
     font-weight: 600;
-    /*width:30%*/
+    gap: 5px;
 }
 
 .project-members-caption {
@@ -100,4 +106,5 @@
     justify-content: center;
     margin-bottom: 10px;
     font-weight: 600;
+
 }

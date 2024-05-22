@@ -26,75 +26,79 @@
         {% get_all_categories as categories %}
         <form method="get" id="filter-form" class="mb-4 py-2"">
 
+        <div class="form-group">
+            <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name"
+                   value="{{ request.GET.name }}">
+        </div>
+
+        <div style="display: flex;justify-content: flex-end;gap: 10px;" class=" py-2">
             <div class="form-group">
-                <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name"
-                       value="{{ request.GET.name }}">
-            </div>
-
-            <div style="display: flex;justify-content: flex-end;gap: 10px;" class=" py-2">
-                <div class="form-group">
-                    <div class="dropdown mb-3">
-                        <button id="categoryDropdown" class="btn btn-secondary dropdown-toggle" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {% if request.GET.category %}
-                                Category:
-                                {% for category in categories %}
-                                    {% if category.id|stringformat:"s" == request.GET.category %}
-                                        {{ category.name }}
-                                    {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                Filter by category: All
-                            {% endif %}
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="categoryDropdown">
-                            <a class="dropdown-item" href="?{{ get_params.urlencode }}">All Categories</a>
+                <div class="dropdown mb-3">
+                    <button id="categoryDropdown" class="btn btn-secondary dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if request.GET.category %}
+                            Category:
                             {% for category in categories %}
-                                <a class="dropdown-item{% if request.GET.category == category.id|stringformat:"s" %} active{% endif %}"
-                                   href="?{{ get_params.urlencode }}&category={{ category.id }}">
+                                {% if category.id|stringformat:"s" == request.GET.category %}
                                     {{ category.name }}
-                                </a>
+                                {% endif %}
                             {% endfor %}
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    <div class="dropdown">
-                        <button id="pageSizeDropdown" class="btn btn-secondary dropdown-toggle" type="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Projects per page:
-                            {% if request.GET.page_size %}
-                                {{ request.GET.page_size }}
-                            {% else %}
-                                5 <!-- Default value -->
-                            {% endif %}
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="pageSizeDropdown">
-                            <a class="dropdown-item{% if request.GET.page_size == '5' %} active{% endif %}"
-                               href="?page_size=5
-                                       {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">5</a>
-                            <a class="dropdown-item{% if request.GET.page_size == '10' %} active{% endif %}"
-                               href="?page_size=10
-                                       {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">10</a>
-                            <a class="dropdown-item{% if request.GET.page_size == '20' %} active{% endif %}"
-                               href="?page_size=20
-                                       {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">20</a>
-                            <a class="dropdown-item{% if request.GET.page_size == '50' %} active{% endif %}"
-                               href="?page_size=50
-                                       {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">50</a>
-                        </div>
+                        {% else %}
+                            Filter by category: All
+                        {% endif %}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+                        <a class="dropdown-item" href="?{{ get_params.urlencode }}">All Categories</a>
+                        {% for category in categories %}
+                            <a class="dropdown-item{% if request.GET.category == category.id|stringformat:"s" %} active{% endif %}"
+                               href="?{{ get_params.urlencode }}&category={{ category.id }}">
+                                {{ category.name }}
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
 
 
-            {% for key, value in request.GET.items %}
-                {% if key != 'name' %}
-                    <input type="hidden" name="{{ key }}" value="{{ value }}">
-                {% endif %}
-            {% endfor %}
+            <div class="form-group">
+                <div class="dropdown">
+                    <button id="pageSizeDropdown" class="btn btn-secondary dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Projects per page:
+                        {% if request.GET.page_size %}
+                            {{ request.GET.page_size }}
+                        {% else %}
+                            5 <!-- Default value -->
+                        {% endif %}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="pageSizeDropdown">
+                        <a class="dropdown-item{% if request.GET.page_size == '5' %} active{% endif %}"
+                           href="?page_size=5
+
+                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">5</a>
+                        <a class="dropdown-item{% if request.GET.page_size == '10' %} active{% endif %}"
+                           href="?page_size=10
+
+                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">10</a>
+                        <a class="dropdown-item{% if request.GET.page_size == '20' %} active{% endif %}"
+                           href="?page_size=20
+
+                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">20</a>
+                        <a class="dropdown-item{% if request.GET.page_size == '50' %} active{% endif %}"
+                           href="?page_size=50
+
+                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">50</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {% for key, value in request.GET.items %}
+            {% if key != 'name' %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endif %}
+        {% endfor %}
 
         </form>
 
@@ -135,13 +139,19 @@
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-4">
                             <div class="client-year-cont">
-                                <div class="project-customer projects-flex">Клиент: {{ project.customer.name }}</div>
-                                <div class="project-year projects-flex">Год: {{ project.year }}</div>
+                                <div class="project-customer projects-flex">
+                                    <span style="min-width: 75px;"> Клиент:  </span>
+                                    <span> {{ project.customer.name }} </span>
+                                </div>
+                                <div class="project-year projects-flex">
+                                    <span style="min-width: 75px;"> Год: </span>
+                                    <span> {{ project.year }} </span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-8">
                             <div class="edit-project-search-bar global-border-radius">
-                                <div class="project-name"><h3>{{ project.name }}</h3></div>
+                                <div class="project-name"><h3 style="margin-bottom: 0px;font-size: 22px;">{{ project.name }}</h3></div>
                             </div>
                         </div>
                     </div>
@@ -160,7 +170,7 @@
                                 <div class="container">
                                     <div class="project-members-caption">Ключевые результаты проекта:</div>
                                     <div class="project-key-results">
-                                        <ul>
+                                        <ul style="gap: 5px;display: flex;flex-direction: column;">
                                             {% for key_result in project.key_results %}
                                                 <li>{{ key_result }}</li>
                                             {% endfor %}
@@ -177,8 +187,9 @@
                                                     <a href="/experts/{{ member.id }}"
                                                        style="display: flex;align-items: center;width: 100%;justify-content: flex-start;">
                                                         <img class="member-img" src="{{ member.profile_photo }}" alt="
+
                                                                 {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}"
-                                                             style="width: 50px; height: auto; margin-right: 10px;">
+                                                             style="min-width: 50px;height: auto;height: 50px;margin-right: 10px;align-content: center;">
                                                         <span> {{ member.last_name }} {{ member.first_name }} </span>
                                                     </a>
                                                 </div>
@@ -211,6 +222,7 @@
                 {% if projects.has_previous %}
                     <li class="page-item">
                         <a class="page-link" href="?page=1
+
                                 {% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="First">
                             <span aria-hidden="true">&laquo; First</span>
@@ -218,6 +230,7 @@
                     </li>
                     <li class="page-item">
                         <a class="page-link" href="?page=
+
                                 {{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="Previous">
                             <span aria-hidden="true">&lsaquo; Previous</span>
@@ -241,6 +254,7 @@
                 {% if projects.has_next %}
                     <li class="page-item">
                         <a class="page-link" href="?page=
+
                                 {{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="Next">
                             <span aria-hidden="true">Next &rsaquo;</span>
@@ -248,6 +262,7 @@
                     </li>
                     <li class="page-item">
                         <a class="page-link" href="?page=
+
                                 {{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="Last">
                             <span aria-hidden="true">Last &raquo;</span>
