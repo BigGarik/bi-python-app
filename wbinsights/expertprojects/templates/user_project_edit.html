@@ -12,6 +12,11 @@
         width: 100% !important;
     }
 
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+        list-style: none;
+        display: flex !important;
+    }
+
 </style>
 
 
@@ -94,7 +99,7 @@
 
         fileList.forEach(function (file, index) {
             const listItem = document.createElement('li');
-            listItem.dataset.fileName = file.name;
+            listItem.dataset.fileIndex = index;
             listItem.classList.add('new-file');
 
             const fileLink = document.createElement('a');
@@ -106,8 +111,9 @@
             deleteButton.style.fontSize = '20px';
             deleteButton.style.cursor = 'pointer';
             deleteButton.addEventListener('click', function () {
-                //console.log("Deleting file:", file.name);
-                fileList.splice(index, 1);
+                const listItem = this.closest('li');
+                const fileIndex = listItem.dataset.fileIndex;
+                fileList.splice(fileIndex, 1);
                 updateFileList();
             });
 
@@ -140,24 +146,21 @@
     document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.trash-icon');
 
-        document.querySelectorAll('.trash-icon').addEventListener(function ())
-
         deleteButtons.forEach(function (deleteButton) {
             deleteButton.addEventListener('click', function () {
                 const listItem = this.closest('li');
                 const fileId = listItem.dataset.fileId;
-                //console.log("File ID:", fileId);
 
                 if (fileId) {
                     deletedFileIds.push(fileId);
                     updateDeletedFileIdsInput();
+                    listItem.remove();
                 } else {
-                    const fileName = listItem.dataset.fileName;
-                    fileList = fileList.filter(file => file.name !== fileName);
+                    const fileIndex = listItem.dataset.fileIndex;
+                    fileList.splice(fileIndex, 1);
                     updateFileList();
+                    listItem.remove();
                 }
-
-                listItem.remove();
             });
         });
     });
