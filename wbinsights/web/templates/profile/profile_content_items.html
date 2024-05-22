@@ -41,7 +41,7 @@
 
 
 <div id="content-container">
-    {% if request.GET.tab == "articles" %}
+    {% if request.GET.tab == "articles" or not request.GET.tab %}
      {% include 'posts/article/article-profile-list.html' with user=user %}
     {% elif request.GET.tab == "researches" %}
      researches_template
@@ -49,13 +49,12 @@
     questions_template
     {% elif request.GET.tab == "consultations" %}
         <div id="consultations" class="expert-content" >
-       {% include 'components/appointment/calendar.html' %}
+            {% include 'components/appointment/calendar.html' %}
         </div>
     {% elif request.GET.tab == "reviews" %}
        reviews_template
     {% elif request.GET.tab == "projects" %}
         {% include 'project_list.html' with user=user %}
-    {% else %}
     {% endif %}
 </div>
 
@@ -64,6 +63,14 @@
 
     $(document).ready(function () {
         $('[data-content="consultations"]').click()
+    })
+
+    $(document).ready(function () {
+        // Check if a tab is already selected
+        if (!window.location.search) {
+            // If not, select the articles tab
+            $('[data-content="articles"]').click()
+        }
     })
 
 </script>
