@@ -162,8 +162,10 @@ def checkout_appointment_view(request, *args, **kwargs):
         appointment_payment = AppointmentPayment()
         appointment_payment.appointment = appointment
         appointment_payment.summ = appointment.expert.expertprofile.hour_cost
+        #appointment_payment.status = AppointmentPayment.AppointmentPaymentStatus.PENDING
 
-        payment = create_yookassa_payment(appointment_payment.summ)
+        current_base_url = request.scheme + '://' + request.get_host()
+        payment = create_yookassa_payment(appointment_payment.summ, current_base_url)
 
         appointment_payment.uuid = payment.id
         appointment_payment.save()
