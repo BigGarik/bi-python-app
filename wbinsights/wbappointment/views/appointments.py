@@ -145,6 +145,24 @@ def get_expert_available_timeslots(request):
 
 
 def appointment_payment_callback_view(request, *args, **kwargs):
+    # Print HTTP method
+    print("Method:", request.method)
+
+    # Print request path
+    print("Path:", request.path)
+
+    # Print GET parameters
+    print("GET parameters:", request.GET)
+
+    # Print POST parameters (if applicable)
+    if request.method == "POST":
+        print("POST parameters:", request.POST)
+
+    # Print headers
+    print("Headers:", dict(request.headers))
+
+    # Print body (if applicable, such as in POST requests)
+    print("Body:", request.body.decode('utf-8'))
     return render(request, "add_appointment_success.html", **kwargs)
 
 
@@ -162,8 +180,10 @@ def checkout_appointment_view(request, *args, **kwargs):
         appointment_payment = AppointmentPayment()
         appointment_payment.appointment = appointment
         appointment_payment.summ = appointment.expert.expertprofile.hour_cost
+        #appointment_payment.status = AppointmentPayment.AppointmentPaymentStatus.PENDING
 
-        payment = create_yookassa_payment(appointment_payment.summ)
+        current_base_url = request.scheme + '://' + request.get_host()
+        payment = create_yookassa_payment(appointment_payment.summ, current_base_url)
 
         appointment_payment.uuid = payment.id
         appointment_payment.save()

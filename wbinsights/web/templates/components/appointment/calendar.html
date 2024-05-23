@@ -10,153 +10,193 @@
 <div id="event-calendar"></div>
 
 <div>
-    <div style="display: flex;justify-content: space-evenly;margin-top: 10px;">
-        <div style="display: flex; align-items: center; ">
-            <div style="width: 30px; height: 20px; background-color: #0dcaf0; margin-right: 5px;"></div>
-            <span>- Новый</span>
-        </div>
-        <div style="display: flex; align-items: center; ">
-            <div style="width: 30px; height: 20px; background-color: #e3aa00; margin-right: 5px;"></div>
-            <span>- Подтвержден</span>
-        </div>
-        <div style="display: flex; align-items: center;">
-            <div style="width: 30px; height: 20px; background-color: red; margin-right: 5px;"></div>
-            <span>- Отклонен</span>
-        </div>
-        <div style="display: flex; align-items: center; ">
-            <div style="width: 30px; height: 20px; background-color: brown; margin-right: 5px;"></div>
-            <span>- Отменен</span>
-        </div>
-        <div style="display: flex; align-items: center; ">
-            <div style="width: 30px; height: 20px; background-color: #008000; margin-right: 5px;"></div>
-            <span>- Оплачен</span>
-        </div>
-    </div>
+
+    <script>
+
+        $(function () {
+            const color_legend_div = $('#color_legend');
+            status_colors.map((item) => {
+                color_legend_div.append(
+                    `<div style="display: flex; align-items: center;">
+                        <div style="width: 30px; height: 20px; background-color: ${item.color}; margin-right: 5px;"></div>
+                        <span>- ${item.name}</span>
+                    </div>`)
+            })
+        })
+
+    </script>
+
+    <div id="color_legend"
+         style="display: flex; flex-wrap:wrap; justify-content: space-between; margin-top: 10px;"></div>
+
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="appointmentDetailModal" tabindex="-1" aria-labelledby="appointmentDetailModalLabel"
+     aria-hidden="true">
+
     <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Детали назначения</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Детали встечи</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div id="appointmentTableBody" class="modal-body"></div>
+            <div id="appointmentTableBody" class="modal-body">
+
+                <div style="display: flex">
+
+                    <div style="display:flex; flex-direction:column;width:40%;gap:20px">
+                        <div>Дата:</div>
+                        <div>Время:</div>
+                        <div id="appointment-detail-user-type">Имя:</div>
+                        <div>Zoom:</div>
+                        <div>Статус:</div>
+                        <div>Время создания:</div>
+                        <div>Время брони слота: <br/> <span style="font-size: 12px;">(10 минут)</span></div>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column;gap:20px;width:60%">
+                        <div id="appointment-detail-date">${moment(appointment.appointment_date).format("DD.MM.YYYY")}
+                        </div>
+                        <div id="appointment-detail-time">${moment(appointment.appointment_time,
+                            "HH:mm:ss").format("HH:mm")}
+                        </div>
+                        <div id="appointment-detail-user">${appointment.client.last_name}
+                            ${appointment.client.first_name}
+                        </div>
+                        <div id="appointment-detail-zoom"><a href="#">ZOOMLINK</a></div>
+                        <div id="appointment-detail-status"></div>
+                        <div id="appointment-detail-create-time"></div>
+                        <div id="appointment-left-for-pay"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
 </div>
 
+{% if request.path == '/profile' %}
 
-{% if request.path == '/profile' and request.user.profile.type == 1 %}
+    {% if request.user.profile.type == 1 %}
+        <div class="modal fade" id="selectDateRangeModal" tabindex="-1" aria-labelledby="selectDateRangeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-    <div class="modal fade" id="selectDateRangeModal" tabindex="-1" aria-labelledby="selectDateRangeModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+                    <form method="post" action="{% url 'add_calendar_range' %}" id="schedule-range-form">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="selectDateRangeModalLabel">Детали назначения</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
 
-                <form method="post" action="{% url 'add_calendar_range' %}" id="schedule-range-form">
-                    {% csrf_token %}
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="selectDateRangeModalLabel">Детали назначения</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+                        <div id="custom-event-date-range-content" class="modal-body">
+                            <label for="id-start-date">Начало</label>
+                            <input id='id-start-date' name="start" class="start-date form-control"/>
 
-                    <div id="custom-event-date-range-content" class="modal-body">
-                        <label for="id-start-date">Начало</label>
-                        <input id='id-start-date' name="start" class="start-date form-control"/>
+                            <label for="id-end-date">Конец</label>
+                            <input id='id-end-date' name="end" class="end-date form-control"/>
 
-                        <label for="id-end-date">Конец</label>
-                        <input id='id-end-date' name="end" class="end-date form-control"/>
+                            <label for="id-date-range-action">Действие</label>
+                            <select class="form-control" name="type">
+                                <option value="0">Сделать недоступным для бронирования</option>
+                                <option value="1">Сделать доступным для бронирования</option>
+                            </select>
+                        </div>
 
-                        <label for="id-date-range-action">Действие</label>
-                        <select class="form-control" name="type">
-                            <option value="0">Сделать недоступным для бронирования</option>
-                            <option value="1">Сделать доступным для бронирования</option>
-                        </select>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="deleteDateRangeModal" tabindex="-1" aria-labelledby="deleteDateRangeModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="modal fade" id="deleteDateRangeModal" tabindex="-1" aria-labelledby="deleteDateRangeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-                <form method="post" action="{% url 'add_calendar_range' %}" id="delete-range-form">
-                    {% csrf_token %}
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="selectDateRangeModalLabel">Удаление записи</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <input type="hidden" name="range_id" />
-                    <div id="custom-event-date-range-content" class="modal-body">
-                        <div id="delete-extra-date-info"></div>
-                    </div>
+                    <form method="post" action="{% url 'add_calendar_range' %}" id="delete-range-form">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="selectDateRangeModalLabel">Удаление записи</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
 
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Удалить</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    </div>
-                </form>
+                        <input type="hidden" name="range_id"/>
+                        <div id="custom-event-date-range-content" class="modal-body">
+                            <div id="delete-extra-date-info"></div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Удалить</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
+        <script>
 
-        $('#schedule-range-form').submit(function (event) {
+            $('#schedule-range-form').submit(function (event) {
 
-            event.preventDefault();
-            const form = $(this);
+                event.preventDefault();
+                const form = $(this);
 
-            $.ajax({
-                url: '{% url 'add_calendar_range' %}',
-                type: 'POST',
-                data: form.serialize(),
-                success: function (response) {
-                    getUsersAppointments()
-                }
-            })
-        })
-
-        $('#delete-range-form').submit(function (event) {
-
-            event.preventDefault();
-            const form = $(this);
-
-            $.ajax({
-                url: '{% url 'delete_calendar_range' %}',
-                type: 'POST',
-                data: form.serialize(),
-                success: function (response) {
-
-                    if (response.result == 'success')
+                $.ajax({
+                    url: '{% url 'add_calendar_range' %}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (response) {
                         getUsersAppointments()
-                }
+                    }
+                })
             })
-        })
 
-        function loadCustomDateRange(info) {
-            $('.start-date').val(moment(info.start).format('DD.MM.yyyy HH:mm'))
-            $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'))
-            $('#selectDateRangeModal').modal('show');
+            $('#delete-range-form').submit(function (event) {
+
+                event.preventDefault();
+                const form = $(this);
+
+                $.ajax({
+                    url: '{% url 'delete_calendar_range' %}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.result == 'success')
+                            getUsersAppointments()
+                    }
+                })
+            })
+
+            function loadCustomDateRange(info) {
+                $('.start-date').val(moment(info.start).format('DD.MM.yyyy HH:mm'))
+                $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'))
+                $('#selectDateRangeModal').modal('show');
+            }
+
+        </script>
+
+    {% endif %}
+
+    <style>
+        .striped-div {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(to right, red 50%, blue 50%);
         }
-    </script>
-
+    </style>
 
 {% endif %}
 
@@ -169,13 +209,38 @@
     const user_type = {{ user_type }}
     const appointment_path = user_type == 1 ? 'expert' : 'client'
     let appointments = []
+    let appointments_as_client = []
     let extra_dates = []
 
-    function getUsersAppointments() {
-
-        createEventCalendar('event-calendar');
-
-    }
+    const status_colors = [{
+        status: 0,
+        color: "#0dcaf0",
+        name: "Новый"
+    }, {
+        status: 1,
+        color: "#e3aa00",
+        name: "Подтвержден"
+    }, {
+        status: 2,
+        color: "red",
+        name: "Отклонен"
+    }, {
+        status: 3,
+        color: "brown",
+        name: "Отменен"
+    }, {
+        status: 4,
+        color: "green",
+        name: "Оплачен"
+    }, {
+        status: 10,
+        color: "lightgrey",
+        name: "Недоступен для бронирования"
+    }, {
+        status: 11,
+        color: "darkcyan",
+        name: "Доступен для бронирования"
+    }]
 
     function fetchAppointments(fetchInfo, successCallback, failureCallback) {
 
@@ -183,162 +248,152 @@
             url: `/appointment/calendar/${appointment_path}/json`,
             type: 'GET',
             data: {
-                start:fetchInfo.startStr,
-                end:fetchInfo.endStr,
+                start: fetchInfo.startStr,
+                end: fetchInfo.endStr,
             },
             success: function (response) {
 
                 appointments = response.data.appointments.as_expert;
+                appointments_as_client = response.data.appointments.as_client;
                 extra_dates = response.data.extra_dates;
-                successCallback(createCalendarEvents(appointments, extra_dates))
+                successCallback(createCalendarEvents(appointments, appointments_as_client, extra_dates))
 
             }
-
         });
-
-
     }
-
 
     const modalBody = $('#appointmentTableBody');
 
     function loadExtraDate(extraDateId) {
-       const deleteExtraDate = extra_dates.find( extra_date => extra_date.id == extraDateId)
-       $('#delete-extra-date-info').html('Удалить запись ' + deleteExtraDate.start + ' - ' + deleteExtraDate.end + '?');
-       $('[name="range_id"]').val(deleteExtraDate.id)
-       //console.log(deleteExtraDate)
-       $('#deleteDateRangeModal').modal('show')
+        const deleteExtraDate = extra_dates.find(extra_date => extra_date.id == extraDateId)
+        $('#delete-extra-date-info').html('Удалить запись ' + deleteExtraDate.start + ' - ' + deleteExtraDate.end + '?');
+        $('[name="range_id"]').val(deleteExtraDate.id)
+        $('#deleteDateRangeModal').modal('show')
     }
 
-    function loadClientAppointment(appointmentId) {
-        alert(appointmentId)
+
+    function getStatusColor(status) {
+
+        const finded_status_color = status_colors.find(item => item.status == status);
+
+        if (finded_status_color) {
+            return finded_status_color.color
+        }
+
+        return "blue"
+
+    }
+
+    function getStatusText(status) {
+
+        const finded_status_color = status_colors.find(item => item.status == status);
+
+        if (finded_status_color) {
+            return finded_status_color.name
+        }
+
+        return ""
     }
 
     function loadExpertAppointment(appointmentId) {
-
         const appointment = appointments.find(appointment => appointment.id == appointmentId);
 
         if (!appointment) {
             return;
         }
 
-        modalBody.html(`
+        loadAppointment(appointment, 'expert')
 
-                <div style="display: flex">
+    }
 
-                    <div style="display:flex; flex-direction:column;width:20%;gap:20px">
-                        <div>Дата:</div>
-                        <div>Время:</div>
-                        <div>Имя:</div>
-                        <div>Zoom:</div>
-                        <div>Статус:</div>
-                        <div>Time Created:</div>
-                    </div>
+    function loadClientAppointment(appointmentId) {
+        const appointment = appointments_as_client.find(appointment => appointment.id == appointmentId);
 
-                    <div style="display:flex; flex-direction:column;gap:20px; width:80%">
-                        <div>${moment(appointment.appointment_date).format("DD.MM.YYYY")}</div>
-                        <div>${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}</div>
-                        <div>${appointment.client.last_name} ${appointment.client.first_name} </div>
-                        <div><a href="#">ZOOMLINK</a> </div>
-                        <div>
-                            <div style="color: ${getStatusColor(appointment.status)};">
-                                ${getStatusText(appointment.status)}
-                            </div>
-                        </div>
-                        <div style="display:flex; align-items:center; justify-content: space-between;">
-                            <div> ${moment(appointment.created_time).format("DD.MM.YY HH:mm")} </div>
-                            <div style="display: flex;align-items: center; ">
-                                <div>&nbsp; time left to confirm purchase : &nbsp;</div>
-                                <div id="countdownTimer" style="width: 120px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `);
-
-        $('#exampleModal').modal('show')
-
-        const createdTime = moment(appointment.created_time);
-        const TEN_MINUTES = 10 * 60 * 1000; //10 min in millisceonds
-
-        //clears the other countdown, so there is no gltiches
-        clearInterval(window.countdownInterval);
-
-        window.countdownInterval = setInterval(() => {
-            const elapsedTime = moment().diff(createdTime);
-            const remainingTime = TEN_MINUTES - elapsedTime;
-
-
-            if (remainingTime <= 0) {
-                clearInterval(window.countdownInterval);
-                renderExpiredButton();
-            } else {
-                renderCountdownButton(remainingTime);
-            }
-        }, 1000);
-
-        function renderCountdownButton(remainingTime) {
-            const minutes = Math.floor(remainingTime / 60000);
-            const seconds = Math.floor((remainingTime % 60000) / 1000);
-            const formattedTime = `${padZero(minutes)}:${padZero(seconds)}`;
-            $('#countdownTimer').html(`<button type="button" class="btn btn-success">${formattedTime}</button>`);
+        if (!appointment) {
+            return;
         }
 
-        function renderExpiredButton() {
-            $('#countdownTimer').html(`<button type="button" class="btn btn-danger">Time expired</button>`);
-        }
-
-        function getStatusColor(status) {
-            return status === 0 ? '#0dcaf0' : (status === 1 ? '#e3aa00' : (status === 2 ? 'red' : (status === 3 ? 'brown' : 'green')));
-        }
-
-        function getStatusText(status) {
-            return status === 0 ? 'New' : (status === 1 ? 'Confirmed' : (status === 2 ? 'Declined' : (status === 3 ? 'Cancelled' : 'Paid')));
-        }
-
-        function padZero(num) {
-            return num < 10 ? `0${num}` : num;
-        }
+        loadAppointment(appointment, 'client')
     }
 
 
+    let countdownInterval = null;
+    function countdown(appointment_create_datetime) {
+        const last_moment =  moment(appointment_create_datetime).add(30, 'minutes');
+        const currentTime = moment();
+
+        const distance = last_moment - currentTime;
+        const appointmentLeftForPay = document.getElementById("appointment-left-for-pay")
+        if (distance < 0) {
+            clearInterval(countdownInterval);
+            appointmentLeftForPay.innerHTML = "EXPIRED";
+        } else {
+            appointmentLeftForPay.innerHTML = moment(distance).format("mm:ss");
+        }
+
+    }
+
+    const checkout_url = "{% url 'appointment_checkout' 0 %}"
+    function loadAppointment(appointment, type) {
+
+        //console.log(0123)
+
+        $('#appointment-detail-date').html(`${moment(appointment.appointment_date).format("DD.MM.YYYY")}`);
+        $('#appointment-detail-time').html(`${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}`);
+
+        if (type == 'expert') {
+            $('#appointment-detail-user-type').html("Клиент:")
+            $('#appointment-detail-user').html(`${appointment.client.last_name} ${appointment.client.first_name}`);
+        }
+
+        if (type == 'client') {
+            $('#appointment-detail-user-type').html("Эксперт:")
+            $('#appointment-detail-user').html(`${appointment.expert.last_name} ${appointment.expert.first_name}`);
+        }
+
+        $('#appointment-detail-zoom').find('a').html('ZOOMLINK');
+        if (appointment.status == 0) {
+           
+            const checkout_url_parts =  checkout_url.split("/");
+            console.log(checkout_url_parts)
+            $('#appointment-detail-status').html(`
+                            <div style="color: ${getStatusColor(appointment.status)};">
+                                ${getStatusText(appointment.status)} <a href="/${checkout_url_parts[1]}/${checkout_url_parts[2]}/${appointment.id}/" style="margin-left: 10px">[Оплатить]</a>
+                            </div>`);
+        } else {
+            $('#appointment-detail-status').html(`
+                            <div style="color: ${getStatusColor(appointment.status)};">
+                                ${getStatusText(appointment.status)}
+                            </div>`);
+        }
+
+        $('#appointment-detail-create-time').html(`${moment(appointment.created_time).format("DD.MM.YY HH:mm")}`);
+
+        countdown(appointment.created_time);
+        countdownInterval = setInterval(() => {
+                countdown(appointment.created_time)
+            },
+            1000
+        );
+
+
+        $('#appointmentDetailModal').modal('show')
+
+    }
+
     function createEvent(title, status, start_date, start_time, end_date, end_time, id, type) {
-        const titleHTML = `<div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 11px">
+        const titleHTML = `
+                    <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 11px">
                         <span>${title}</span>
                     </div>
                 `;
-
-        let eventColor;
-        switch (status) {
-            case 0:
-                eventColor = "#0dcaf0"; //new
-                break;
-            case 1:
-                eventColor = "#e3aa00"; //confirm
-                break;
-            case 2:
-                eventColor = "red"; //declined
-                break;
-            case 3:
-                eventColor = "brown"; //cancel
-                break;
-            case 4:
-                eventColor = "green"; //paid
-                break;
-            case 10:
-                eventColor = "brown"; //paid
-                break;
-            case 11:
-                eventColor = "darkcyan"; //paid
-                break;
-        }
 
         return {
             start: start_date + " " + start_time,
             end: end_date + " " + end_time,
             resourceId: 1,
             title: {html: titleHTML},
-            color: eventColor,
+            color: getStatusColor(status),
             id: id,
             extendedProps: {
                 type: type
@@ -346,7 +401,7 @@
         };
     }
 
-    function createCalendarEvents(appointments_as_expert, extradates) {
+    function createCalendarEvents(appointments_as_expert, appointments_as_client, extradates) {
 
         let dates =
 
@@ -387,10 +442,23 @@
             );
         })
 
+        appointments_as_client.map((appointment) => {
+            dates.push(
+                createEvent(appointment_title,
+                    appointment.status,
+                    appointment.appointment_date,
+                    moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
+                    appointment.appointment_date,
+                    moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
+                    appointment.id,
+                    'appointment_as_client'
+                )
+            );
+        })
+
 
         return dates
     }
-
 
     let ec;
 
@@ -435,7 +503,6 @@
             {% endif %}
             eventClick: function (c_event) {
 
-                //alert(c_event.event.extendedProps.type)
                 if (c_event.event.extendedProps.type == 'appointment_as_expert')
                     loadExpertAppointment(c_event.event.id)
 
@@ -448,6 +515,12 @@
             }
 
         });
+    }
+
+    function getUsersAppointments() {
+
+        createEventCalendar('event-calendar');
+
     }
 
 </script>

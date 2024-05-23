@@ -102,6 +102,8 @@ def get_experts_appointment(request, *args, **kwargs):
                                                                start__gte=get_start_of_week())
         expert_schedule = ExpertSchedule.objects.filter(expert_id=selected_expert)
 
+
+
         return JsonResponse(
             {'data':
                 {'appointments': {
