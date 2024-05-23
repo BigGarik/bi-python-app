@@ -1,69 +1,326 @@
-{% extends 'base123.html' %}
 {% load static %}
 {% load i18n %}
+{% load web_tags %}
 
-{% block center_col %}
-<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
+
+<style>
+    .card-css {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 200px;
+    }
+</style>
 
 <div class="container">
-    <h2>{% trans 'Projects' %}</h2>
-
-<!-- Форма для фильтрации и выбора количества проектов на странице -->
-    
-    <form method="get" id="filter-form">
-        <div>
-            <label for="category-filter">{% trans 'Filter by category:' %}</label>
-            <select name="category" id="category-filter">
-                <option value="">{% trans 'All Categories' %}</option>
-                {% for category in categories %}
-                <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
-                    {{ category.name }}
-                </option>
-                {% endfor %}
-            </select>
-        </div>
-        <div>
-            <label for="page-size">{% trans 'Projects per page:' %}</label>
-            <select name="page_size" id="page-size" onchange="document.getElementById('filter-form').submit();">
-                <option value="5" {% if request.GET.page_size == "5" %}selected{% endif %}>5</option>
-                <option value="10" {% if request.GET.page_size == "10" %}selected{% endif %}>10</option>
-                <option value="20" {% if request.GET.page_size == "20" %}selected{% endif %}>20</option>
-                <option value="50" {% if request.GET.page_size == "50" %}selected{% endif %}>50</option>
-            </select>
-        </div>
-        <button type="submit">{% trans 'Apply filters' %}</button>
-    </form>
-
-    <!-- Список проектов -->
-    <ul class="project-list">
-        {% for project in projects %}
-        <li>
-            <h3>{{ project.name }}</h3>
-            <!-- Дополнительная информация о проекте -->
-        </li>
-        {% empty %}
-        <li>{% trans 'No projects found.' %}</li>
-        {% endfor %}
-    </ul>
-
-    <!-- Пагинация -->
-    <div class="pagination">
-        <span class="step-links">
-            {% if projects.has_previous %}
-            <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&laquo; {% trans 'first' %}</a>
-            <a href="?page={{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{% trans 'previous' %}</a>
-            {% endif %}
-
-            <span class="current">
-                {% trans 'Page' %} {{ projects.number }} {% trans 'of' %} {{ projects.paginator.num_pages }}.
-            </span>
-
-            {% if projects.has_next %}
-            <a href="?page={{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{% trans 'next' %}</a>
-            <a href="?page={{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&raquo; {% trans 'last' %}</a>
-            {% endif %}
-        </span>
-    </div>
+    {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
+        <a href="{% url 'project_add' %}" class="btn btn-primary" style="margin-bottom: 10px" role="button"
+           aria-pressed="true">Добавить
+            проект</a>
+    {% endif %}
 </div>
 
-{% endblock %}
+<div class="container">
+    {% if projects %}
+        {% get_all_categories as categories %}
+        <form method="get" id="filter-form" class="mb-4 py-2"">
+
+        <div class="form-group">
+            <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name"
+                   value="{{ request.GET.name }}">
+        </div>
+
+        <div style="display: flex;justify-content: flex-end;gap: 10px;" class=" py-2">
+            <div class="form-group">
+                <div class="dropdown mb-3">
+                    <button id="categoryDropdown" class="btn btn-secondary dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if request.GET.category %}
+                            Category:
+                            {% for category in categories %}
+                                {% if category.id|stringformat:"s" == request.GET.category %}
+                                    {{ category.name }}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            Filter by category: All
+                        {% endif %}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+                        <a class="dropdown-item" href="?{{ get_params.urlencode }}">All Categories</a>
+                        {% for category in categories %}
+                            <a class="dropdown-item{% if request.GET.category == category.id|stringformat:"s" %} active{% endif %}"
+                               href="?{{ get_params.urlencode }}&category={{ category.id }}">
+                                {{ category.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="dropdown">
+                    <button id="pageSizeDropdown" class="btn btn-secondary dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Projects per page:
+                        {% if request.GET.page_size %}
+                            {{ request.GET.page_size }}
+                        {% else %}
+                            5 <!-- Default value -->
+                        {% endif %}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="pageSizeDropdown">
+                        <a class="dropdown-item{% if request.GET.page_size == '5' %} active{% endif %}"
+                           href="?page_size=5
+
+                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">5</a>
+                        <a class="dropdown-item{% if request.GET.page_size == '10' %} active{% endif %}"
+                           href="?page_size=10
+
+                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">10</a>
+                        <a class="dropdown-item{% if request.GET.page_size == '20' %} active{% endif %}"
+                           href="?page_size=20
+
+                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">20</a>
+                        <a class="dropdown-item{% if request.GET.page_size == '50' %} active{% endif %}"
+                           href="?page_size=50
+
+                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">50</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {% for key, value in request.GET.items %}
+            {% if key != 'name' %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endif %}
+        {% endfor %}
+
+        </form>
+
+    {% else %}
+        <div></div>
+    {% endif %}
+
+
+
+    {% if projects %}
+        <div class="project-list" style="display:flex; justify-content: space-around; gap: 10px; flex-wrap: wrap">
+
+            {% for project in projects %}
+                <div class="card border-dark mb-3" style="width:19%; cursor: pointer;"
+                     onclick="showProjectDetails('{{ project.id }}')" data-project-id="{{ project.id }}">
+                    <div class="card-body text-dark card-css">
+                        <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
+                        <h6 class="card-title">{{ project.year }} г.</h6>
+                        <h6 class="card-title">
+                            {% for category in project.category.all %}
+                                {{ category.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </h6>
+                        <div class="project-icon-main-cont">
+                            <div class="project-icon-cont">
+                                <i class="bi bi-eye" style="font-size: 20px" onclick="alert('in progress')"></i> 46
+                            </div>
+                            <div class="project-icon-cont">
+                                <i class="bi bi-hand-thumbs-up" style="font-size: 20px"
+                                   onclick="alert('in progress')"></i>
+                                46
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="details-{{ project.id }}" class="card border-dark mb-3 project-details-modal-content"
+                     style="display: none; padding: 10px;">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-4">
+                            <div class="client-year-cont">
+                                <div class="project-customer projects-flex">
+                                    <span style="min-width: 75px;"> Клиент:  </span>
+                                    <span> {{ project.customer.name }} </span>
+                                </div>
+                                <div class="project-year projects-flex">
+                                    <span style="min-width: 75px;"> Год: </span>
+                                    <span> {{ project.year }} </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="edit-project-search-bar global-border-radius">
+                                <div class="project-name"><h3 style="margin-bottom: 0px;font-size: 22px;">{{ project.name }}</h3></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="jumbotron jumbotron-fluid jumbo-styles">
+                                <div class="container">
+                                    <div class="project-members-caption">Цели проекта:</div>
+                                    <div class="project-goals">{{ project.goals }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="jumbotron jumbotron-fluid jumbo-styles">
+                                <div class="container">
+                                    <div class="project-members-caption">Ключевые результаты проекта:</div>
+                                    <div class="project-key-results">
+                                        <ul style="gap: 5px;display: flex;flex-direction: column;">
+                                            {% for key_result in project.key_results %}
+                                                <li>{{ key_result }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="container"
+                                     style="display: flex; flex-direction: column; margin-right: 0px;">
+                                    <div class="project-members-caption">Участники:</div>
+                                    <div class="project-members">
+                                        <ul>
+                                            {% for member in project.members.all %}
+                                                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                                    <a href="/experts/{{ member.id }}"
+                                                       style="display: flex;align-items: center;width: 100%;justify-content: flex-start;">
+                                                        <img class="member-img" src="{{ member.profile_photo }}" alt="
+
+                                                                {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}"
+                                                             style="min-width: 50px;height: auto;height: 50px;margin-right: 10px;align-content: center;">
+                                                        <span> {{ member.last_name }} {{ member.first_name }} </span>
+                                                    </a>
+                                                </div>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if request.user.is_authenticated and request.user.profile.type == 1 %}
+                        <div style="display: flex; justify-content: flex-end; gap: 5px; margin-top: 10px;">
+                            <a href="/expert/project/{{ project.slug }}/edit/"
+                               class="btn btn-primary btn-sm">Редактировать</a>
+                            <a href="/expert/project/{{ project.slug }}/delete/"
+                               class="btn btn-danger btn-sm">Удалить</a>
+                        </div>
+                    {% endif %}
+                </div>
+
+            {% endfor %}
+        </div>
+
+
+        <!-- bootstrap pagination -->
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if projects.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1
+
+                                {% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           aria-label="First">
+                            <span aria-hidden="true">&laquo; First</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=
+
+                                {{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&lsaquo; Previous</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&laquo; First</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&lsaquo; Previous</span>
+                    </li>
+                {% endif %}
+
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        Page {{ projects.number }} of {{ projects.paginator.num_pages }}
+                    </span>
+                </li>
+
+                {% if projects.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=
+
+                                {{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           aria-label="Next">
+                            <span aria-hidden="true">Next &rsaquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=
+
+                                {{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           aria-label="Last">
+                            <span aria-hidden="true">Last &raquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">Next &rsaquo;</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">Last &raquo;</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% else %}
+        <!-- Display a message if the user has no projects -->
+        <p>User has no projects.</p>
+    {% endif %}
+
+
+
+    <div class="modal fade" id="projectDetailsModal" tabindex="-1" role="dialog"
+         aria-labelledby="projectDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="projectDetailsModalLabel">Project Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="projectDetailsModalBody">
+                    <!-- details here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    function showProjectDetails(projectId) {
+        const projectDetails = document.getElementById(`details-${projectId}`).innerHTML;
+        document.getElementById('projectDetailsModalBody').innerHTML = projectDetails;
+        $('#projectDetailsModal').modal('show');
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const projectCount = document.querySelectorAll('.project-list .card').length;
+        console.log(`Total number of projects: ${projectCount}`);
+    });
+
+
+</script>
+
+
+
+
+
+
+

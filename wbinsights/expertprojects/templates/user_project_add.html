@@ -1,9 +1,19 @@
 {% extends 'base123.html' %}
 
-
 {% load web_tags %}
 
+
+
 {% block center_col %}
+    <style>
+
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+        list-style: none;
+        display: flex !important;
+    }
+
+</style>
+
     <h2>Добавление нового проекта</h2>
 
     <form method="post" enctype="multipart/form-data" id="project-form">
@@ -108,25 +118,37 @@
         });
 
         document.getElementById('project-form').addEventListener('submit', function (event) {
-            event.preventDefault();
+    event.preventDefault();
 
-            const formData = new FormData();
+    const formData = new FormData();
 
-            const formInputs = document.querySelectorAll('#project-form input, #project-form select');
-            formInputs.forEach(input => {
-                formData.append(input.name, input.value);
-            });
+    const formInputs = document.querySelectorAll('#project-form input, #project-form select');
+    formInputs.forEach(input => {
+        if (input.type !== 'file') {
+            formData.append(input.name, input.value);
+        }
+    });
 
-            const fileInput = document.getElementById('fileInput');
-            for (let i = 0; i < fileInput.files.length; i++) {
-                formData.append('files', fileInput.files[i]);
-            }
+    fileList.forEach((file) => {
+        formData.append('files', file);
+    });
 
-            console.log("FormData entries:", [...formData.entries()]);
-
-
-            this.submit();
-        });
+    fetch('{% url 'project_add' %}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Files uploaded successfully!');
+            window.location.href = '{% url 'profile' %}';
+        } else {
+            console.error('Failed to upload files:', response.statusText);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
 
 
         $('#id_category').select2({

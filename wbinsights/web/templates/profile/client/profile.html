@@ -15,7 +15,7 @@
 
         <div class="profile-info-cont">
     
-            <div class="top-half">
+            <div class="top-half" style="display: flex;gap: 20px;margin: 30px 0 30px 0;">
     
                 <div class="prof-page-pic-cont">
                     <img src="{{ request.user.profile.avatar.url }}" alt="Avatar"
@@ -65,7 +65,7 @@
     
         
 
-    {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
+{#    {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}#}
 
 
 {% endblock %}

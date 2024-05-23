@@ -2,73 +2,114 @@
 {% load web_tags %}
 {% load static %}
 
+<style>
+
+    @media (max-width: 768px) {
+        .prof-user-setting {
+            display: flex;
+            font-family: sans-serif;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: space-evenly;
+        }
+
+        .user-category {
+            margin-bottom: 5px;
+        }
+
+        .user-catagory-highlight{
+            margin-right: 0px !important;
+            margin-left: 0px !important;
+        }
+    }
+
+
+</style>
 
 
 <div class="profile-info-cont">
 
-    <div class="col-12 top-half-prof">
-
-        <div class=" col-sm-3 prof-page-pic-cont">
-            <img src="{{ user.profile.avatar.url }}" alt="Avatar"
-                 style="border-radius: 50%;width: 80px;height: 80px;object-fit: cover;">
-        </div>
-
-        <div class=" col-sm-9  profile-information-cont">
-
-            <div class="user-display-name">
-                {{ user.first_name }} {{ user.last_name }}
+    <div class="d-none d-md-block col-12 top-half-prof">
+        <div style="display:flex; gap: 10px;">
+            <div class="col-sm-3 prof-page-pic-cont">
+                <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                     style="border-radius: 50%;width: 80px;height: 80px;object-fit: cover;">
             </div>
-
-            <div class="user-rating-cont">
-
-                <div class="user-rating">{% trans 'RatingLabel' %} : {{ rating }} &nbsp;</div>
-
-                <div class="user-rate-and-stars">
-                    {% for ch in filled_stars_chipher %}
-                        {% if ch == 'f' %}
-                            <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                        {% elif ch == 'h' %}
-                            <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                        {% elif ch == 'e' %}
-                            <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                        {% endif %}
-                    {% endfor %}
+            <div class="col-sm-9 profile-information-cont">
+                <div class="user-display-name">
+                    {{ user.first_name }} {{ user.last_name }}
                 </div>
-
-            </div>
-
-            <div class="user-category-cont">
-
-                <div class="user-category">Эксперт в области :</div>
-
-                <div class="displayflex">
-                    {% for exp_category in user.expertprofile.expert_categories.all %}
-                        <div class="user-catagory-highlight {{ exp_category.slug }}">
-                            {{ exp_category.name }}
-                        </div>
-                    {% endfor %}
+                <div class="user-rating-cont">
+                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ rating }} &nbsp;</div>
+                    <div class="user-rate-and-stars">
+                        {% for ch in filled_stars_chipher %}
+                            {% if ch == 'f' %}
+                                <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'h' %}
+                                <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'e' %}
+                                <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-
+                <div class="user-category-cont">
+                    <div class="user-category">Эксперт в области :</div>
+                    <div class="displayflex">
+                        {% for exp_category in user.expertprofile.expert_categories.all %}
+                            <div class="user-catagory-highlight {{ exp_category.slug }}">
+                                {{ exp_category.name }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="prof-user-setting">
+                    {% include buttons_template with user=expert %}
+                </div>
             </div>
-
-            <div class="user-stats">
-
-                {{ experts_articles_count }} {% get_write_phrase experts_articles_count 'статья статьи статей' %}
-                •
-                {{ experts_researches_count }} {% get_write_phrase experts_researches_count 'исследование исследования исследований' %}
-                • 
-                24 отзыва
-
-            </div>
-
-            <div class="prof-user-setting">
-
-                {% include buttons_template with user=expert %}
-
-            </div>
-
         </div>
+    </div>
 
+    <!-- Mobile View -->
+    <div class="d-block d-md-none col-12 top-half-prof" style="display: flex; flex-direction: column;">
+        <div style="display: flex;">
+            <div class="col-sm-3 prof-page-pic-cont">
+                <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                     style="border-radius: 50%;width: 80px;height: 80px;object-fit: cover;">
+            </div>
+            <div class="col-sm-9 profile-information-cont">
+                <div class="user-display-name">
+                    {{ user.first_name }} {{ user.last_name }}
+                </div>
+                <div class="user-rating-cont">
+                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ rating }} &nbsp;</div>
+                    <div class="user-rate-and-stars">
+                        {% for ch in filled_stars_chipher %}
+                            {% if ch == 'f' %}
+                                <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'h' %}
+                                <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'e' %}
+                                <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="user-category-cont">
+                    <div class="user-category">Эксперт в области :</div>
+                    <div class="displayflex">
+                        {% for exp_category in user.expertprofile.expert_categories.all %}
+                            <div class="user-catagory-highlight {{ exp_category.slug }}">
+                                {{ exp_category.name }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="prof-user-setting">
+            {% include buttons_template with user=expert %}
+        </div>
     </div>
 
     <div class="bottom-half">

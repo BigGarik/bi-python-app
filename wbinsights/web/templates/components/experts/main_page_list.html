@@ -34,7 +34,7 @@
 				</div>
 
                 <div class="expert-list-info">
-                    <div class="expert-name"><a href="{% url 'expert_profile' expert.pk %}" style="color:black">{{ expert.first_name }} {{ expert.last_name }}</a></div>
+                    <div class="expert-name"><a href="{% url 'expert_profile' expert.pk %}?tab=articles" style="color:black">{{ expert.first_name }} {{ expert.last_name }}</a></div>
                     <div class="expert-job">
                         {% for expert_category in expert.expertprofile.expert_categories.all %}
                             {{ expert_category.name }}

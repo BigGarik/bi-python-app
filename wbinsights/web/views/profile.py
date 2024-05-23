@@ -19,6 +19,10 @@ from web.models import Article
 
 from django.contrib.auth import update_session_auth_hash
 
+from expertprojects.views import GetProjectsView
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 @login_required
 def anketa_view(request):
@@ -72,25 +76,47 @@ def anketa_view(request):
     return render(request, 'profile/anketa.html', context)
 
 
+
+
 @login_required
 def profile_view(request):
     # Check if the user is an expert
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
 
+    # context = {'tab': tab}
+
+    # Remove 'category' from the GET parameters
+    get_params = request.GET.copy()
+    if 'category' in get_params:
+        del get_params['category']
+
     # Initialize the context with common data
-    context = {}
+    context = {'get_params': get_params}
     profile_template = "profile/expert/profile.html"
 
     if is_expert:
         if not request.user.expertprofile.is_verified:
             return anketa_view(request)
-
         else:
             # Fetch the expert's articles if profile is verified
             expert_articles = Article.objects.filter(author=request.user)
             expert_articles_count = Article.objects.filter(author=request.user).count()
-
             experts_appointment_cnt = Appointment.objects.filter(expert=request.user).count()
+
+            # Fetch the expert's projects
+            projects_view = GetProjectsView()
+            projects_view.request = request
+            queryset = projects_view.get_queryset()
+            page_size = projects_view.get_paginate_by(queryset)
+            paginator = Paginator(queryset, page_size)
+            page = request.GET.get('page', 1)
+
+            try:
+                projects = paginator.page(page)
+            except PageNotAnInteger:
+                projects = paginator.page(1)
+            except EmptyPage:
+                projects = paginator.page(paginator.num_pages)
 
             # Update the context with expert-specific data
             context.update({
@@ -101,14 +127,12 @@ def profile_view(request):
                 "filled_stars_chipher": 'ffffh',
                 "users_appointment_cnt": experts_appointment_cnt,
                 "appointment_title": "Онлайн консультация",
-                "user_type": Profile.TypeUser.EXPERT
-
+                "user_type": Profile.TypeUser.EXPERT,
+                "projects": projects,
             })
-
     else:
         # For non-expert users, render the client profile template
         profile_template = "profile/client/profile.html"
-        # clients_appointment = Appointment.objects.filter(client=request.user)
         clients_appointment_cnt = Appointment.objects.filter(client=request.user).count()
         context.update({
             "users_appointment_cnt": clients_appointment_cnt,
