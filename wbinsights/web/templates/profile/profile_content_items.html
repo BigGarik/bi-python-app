@@ -44,7 +44,7 @@
     </a>
 
     <a href="?tab=projects" class="profile-menu-item {% if request.GET.tab == 'projects' %}selected{% endif %}" data-content="projects">
-        <span> {% trans 'ProjectsTabLabel' %} &nbsp;</span> <span class="expert-profile-title-content-number">0</span>
+        <span> {% trans 'ProjectsTabLabel' %} &nbsp;</span> <span class="expert-profile-title-content-number">{{ projects_count }}</span>
     </a>
 </div>
 

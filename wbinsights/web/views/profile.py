@@ -20,6 +20,7 @@ from web.models import Article
 from django.contrib.auth import update_session_auth_hash
 
 from expertprojects.views import GetProjectsView
+from expertprojects.models import UserProject
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -102,6 +103,7 @@ def profile_view(request):
             expert_articles = Article.objects.filter(author=request.user)
             expert_articles_count = Article.objects.filter(author=request.user).count()
             experts_appointment_cnt = Appointment.objects.filter(expert=request.user).count()
+            projects_count = UserProject.objects.filter(author=request.user).count()
 
             # Fetch the expert's projects
             projects_view = GetProjectsView()
@@ -129,6 +131,7 @@ def profile_view(request):
                 "appointment_title": "Онлайн консультация",
                 "user_type": Profile.TypeUser.EXPERT,
                 "projects": projects,
+                "projects_count": projects_count,
             })
     else:
         # For non-expert users, render the client profile template
