@@ -1,11 +1,6 @@
 from django.db import models
 from django.db.models import UniqueConstraint
 
-from django.contrib.postgres.fields import DateTimeRangeField
-from django.utils import timezone
-
-
-
 class AppointmentStatus(models.IntegerChoices):
     NEW = 0, 'Новый'
     СONFIRM = 1, 'Подтвержден'

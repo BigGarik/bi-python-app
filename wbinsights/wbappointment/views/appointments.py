@@ -145,6 +145,24 @@ def get_expert_available_timeslots(request):
 
 
 def appointment_payment_callback_view(request, *args, **kwargs):
+    # Print HTTP method
+    print("Method:", request.method)
+
+    # Print request path
+    print("Path:", request.path)
+
+    # Print GET parameters
+    print("GET parameters:", request.GET)
+
+    # Print POST parameters (if applicable)
+    if request.method == "POST":
+        print("POST parameters:", request.POST)
+
+    # Print headers
+    print("Headers:", dict(request.headers))
+
+    # Print body (if applicable, such as in POST requests)
+    print("Body:", request.body.decode('utf-8'))
     return render(request, "add_appointment_success.html", **kwargs)
 
 
