@@ -1,9 +1,19 @@
 {% extends 'base123.html' %}
 
-
 {% load web_tags %}
 
+
+
 {% block center_col %}
+    <style>
+
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+        list-style: none;
+        display: flex !important;
+    }
+
+</style>
+
     <h2>Добавление нового проекта</h2>
 
     <form method="post" enctype="multipart/form-data" id="project-form">
