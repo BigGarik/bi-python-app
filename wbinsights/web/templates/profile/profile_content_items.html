@@ -5,8 +5,17 @@
 <style>
     @media (max-width: 768px) {
         .prof-content-links-cont {
-            flex-wrap: wrap;
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
         }
+        {#.profile-menu-item {#}
+        {#    align-items: flex-start !important;#}
+        {#        height: 40px;#}
+        .profile-menu-item{
+            align-items: flex-start !important;
+        }
+
     }
 </style>
 
@@ -15,29 +24,32 @@
 
 <div class="prof-content-links-cont">
     <a href="?tab=articles" class="profile-menu-item {% if request.GET.tab == 'articles' or not request.GET.tab %}selected{% endif %}" data-content="articles">
-        {% trans 'ArticlesTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_articles_count }}</span>
+        <span>{% trans 'ArticlesTabLabel' %}&nbsp;</span> <span class="expert-profile-title-content-number">{{ experts_articles_count }}</span>
     </a>
 
     <a href="?tab=researches" class="profile-menu-item {% if request.GET.tab == 'researches' %}selected{% endif %}" data-content="researches">
-        {% trans 'ResearchesTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_researches_count }}</span>
+        <span>{% trans 'ResearchesTabLabel' %}&nbsp;</span> <span class="expert-profile-title-content-number">0</span>
     </a>
 
     <a href="?tab=questions" class="profile-menu-item {% if request.GET.tab == 'questions' %}selected{% endif %}" data-content="questions">
-        {% trans 'QuestionsTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ experts_questions_count }}</span>
+        <span>{% trans 'QuestionsTabLabel' %}&nbsp;</span> <span class="expert-profile-title-content-number">0</span>
     </a>
 
     <a href="?tab=consultations" class="profile-menu-item {% if request.GET.tab == 'consultations' %}selected{% endif %}" data-content="consultations" onclick="getUsersAppointments()">
-        {% trans 'ConsultationsTabLabel' %} &nbsp;<span class="expert-profile-title-content-number">{{ users_appointment_cnt }}</span>
+        <span>{% trans 'ConsultationsTabLabel' %} &nbsp;</span><span class="expert-profile-title-content-number">{{ users_appointment_cnt }}</span>
     </a>
 
     <a href="?tab=reviews" class="profile-menu-item {% if request.GET.tab == 'reviews' %}selected{% endif %}" data-content="reviews">
-        {% trans 'ReviewsTabLabel' %}
+        <span> {% trans 'ReviewsTabLabel' %} &nbsp;</span> <span class="expert-profile-title-content-number">0</span>
     </a>
 
     <a href="?tab=projects" class="profile-menu-item {% if request.GET.tab == 'projects' %}selected{% endif %}" data-content="projects">
-        {% trans 'ProjectsTabLabel' %}
+        <span> {% trans 'ProjectsTabLabel' %} &nbsp;</span> <span class="expert-profile-title-content-number">0</span>
     </a>
 </div>
+
+
+
 
 
 <div id="content-container">

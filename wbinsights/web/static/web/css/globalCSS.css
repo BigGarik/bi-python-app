@@ -78,6 +78,7 @@
     flex-direction: column;
     padding-left: 20px;
     justify-content: space-between;
+    gap: 10px;
 }
 
 .global-back-btn {
