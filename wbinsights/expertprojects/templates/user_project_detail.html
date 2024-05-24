@@ -6,7 +6,7 @@
 {% block center_col %}
 <h1>{{ userproject.name }}</h1>
   <p><strong>Категории:</strong> {{ userproject.category.all|join:", " }}</p>
-  <p><strong>Заказчик:</strong> {{ userproject.customer }}</p>
+  <p><strong>Заказчик:</strong> {{ userproject.company }}</p>
   <p><strong>Год:</strong> {{ userproject.year }}</p>
   <p><strong>Цели:</strong> {{ userproject.goals }}</p>
   <p><strong>Ключевые результаты:</strong></p>

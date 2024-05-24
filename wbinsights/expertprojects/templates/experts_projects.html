@@ -39,7 +39,7 @@
 
             <div class="col-4">
                 <div class="client-year-cont">
-                    <div class="project-customer projects-flex"></div>
+                    <div class="project-company projects-flex"></div>
                     <div class="project-year projects-flex"></div>
                 </div>
             </div>
@@ -131,7 +131,7 @@
         const selectedProject = userProjects[project_idx];
         console.log('selectedProject', selectedProject)
 
-        $('.project-customer').html('Клиент:&nbsp;' + selectedProject.customer.name);
+        $('.project-company').html('Клиент:&nbsp;' + selectedProject.company);
         $('.project-year').html('Год:&nbsp;' + selectedProject.year);
         $('.project-goals').html(selectedProject.goals);
         $('.project-name').html(selectedProject.name);

@@ -139,9 +139,9 @@
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-4">
                             <div class="client-year-cont">
-                                <div class="project-customer projects-flex">
+                                <div class="project-ccompany projects-flex">
                                     <span style="min-width: 75px;"> Клиент:  </span>
-                                    <span> {{ project.customer.name }} </span>
+                                    <span> {{ project.company }} </span>
                                 </div>
                                 <div class="project-year projects-flex">
                                     <span style="min-width: 75px;"> Год: </span>
@@ -216,7 +216,7 @@
 
 
         <!-- bootstrap pagination -->
-
+    {% if projects.paginator.num_pages > 1 %}
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 {% if projects.has_previous %}
@@ -278,6 +278,7 @@
                 {% endif %}
             </ul>
         </nav>
+    {% endif %}    
     {% else %}
         <!-- Display a message if the user has no projects -->
         <p>User has no projects.</p>

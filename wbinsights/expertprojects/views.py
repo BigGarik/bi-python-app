@@ -213,7 +213,7 @@ class GetProjectsAPIView(ListAPIView):
 
     def get_queryset(self):
         # Определите белый список разрешенных полей
-        allowed_fields = {'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+        allowed_fields = {'author', 'members', 'category', 'key_results', 'company', 'year', 'goals'}
         query_params = self.request.query_params
 
         # Создаем объект Q для динамического построения запроса
@@ -255,7 +255,7 @@ class GetProjectsView(LoginRequiredMixin, ListView):
             return self.paginate_by
 
     def get_queryset(self, user=None):
-        allowed_fields = {'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+        allowed_fields = {'author', 'members', 'category', 'key_results', 'company', 'year', 'goals'}
         query_params = self.request.GET
 
         query = Q()

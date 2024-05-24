@@ -6,8 +6,8 @@ from .models import UserProject, UserProjectCustomer
 
 class UserProjectAdmin(admin.ModelAdmin):
     form = UserProjectForm
-    list_display = ('name', 'display_categories', 'customer', 'year', 'time_create', 'time_update')
-    list_filter = ('time_create', 'customer', 'year', 'category')
+    list_display = ('name', 'display_categories', 'company', 'year', 'time_create', 'time_update')
+    list_filter = ('time_create', 'company', 'year', 'category')
     search_fields = ('name', 'goals', 'key_results')
     prepopulated_fields = {"slug": ("name",)}
     ordering = ('-time_create',)
