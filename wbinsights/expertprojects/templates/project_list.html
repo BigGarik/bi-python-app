@@ -22,13 +22,16 @@
 </div>
 
 <div class="container">
+
+
     {% if projects %}
         {% get_all_categories as categories %}
         <form method="get" id="filter-form" class="mb-4 py-2"">
 
         <div class="form-group">
             <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name"
-                   value="{{ request.GET.name }}">
+                   value="{{ request.GET.name }} ">
+
         </div>
 
         <div style="display: flex;justify-content: flex-end;gap: 10px;" class=" py-2">
@@ -72,22 +75,16 @@
                         {% endif %}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="pageSizeDropdown">
-                        <a class="dropdown-item{% if request.GET.page_size == '5' %} active{% endif %}"
-                           href="?page_size=5
+                        {% with page_cnt_array='5 10 20 50 100 500' %}
 
-                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">5</a>
-                        <a class="dropdown-item{% if request.GET.page_size == '10' %} active{% endif %}"
-                           href="?page_size=10
+                            {% for item in page_cnt_array.split %}
+                                <a class="dropdown-item{% if request.GET.page_size ==  item  %} active{% endif %}"
+                                   href="?page_size={{ item }}{% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ item }}</a>
+                            {% endfor %}
 
-                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">10</a>
-                        <a class="dropdown-item{% if request.GET.page_size == '20' %} active{% endif %}"
-                           href="?page_size=20
+                        {% endwith %}
 
-                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">20</a>
-                        <a class="dropdown-item{% if request.GET.page_size == '50' %} active{% endif %}"
-                           href="?page_size=50
 
-                                   {% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">50</a>
                     </div>
                 </div>
             </div>
@@ -112,15 +109,14 @@
         <div class="project-list" style="display:flex; gap: 10px; flex-wrap: wrap">
 
             {% for project in projects %}
+
                 <div class="card border-dark mb-3" style="width:19%; cursor: pointer;"
                      onclick="showProjectDetails('{{ project.id }}')" data-project-id="{{ project.id }}">
                     <div class="card-body text-dark card-css">
                         <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
                         <h6 class="card-title">{{ project.year }} г.</h6>
                         <h6 class="card-title">
-                            {% for category in project.category.all %}
-                                {{ category.name }}{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
+                            {{ project.category.all | join:", " }}
                         </h6>
                         <div class="project-icon-main-cont">
                             <div class="project-icon-cont">
@@ -151,7 +147,8 @@
                         </div>
                         <div class="col-8">
                             <div class="edit-project-search-bar global-border-radius">
-                                <div class="project-name"><h3 style="margin-bottom: 0px;font-size: 22px;">{{ project.name }}</h3></div>
+                                <div class="project-name"><h3
+                                        style="margin-bottom: 0px;font-size: 22px;">{{ project.name }}</h3></div>
                             </div>
                         </div>
                     </div>
@@ -187,7 +184,6 @@
                                                     <a href="/experts/{{ member.id }}"
                                                        style="display: flex;align-items: center;width: 100%;justify-content: flex-start;">
                                                         <img class="member-img" src="{{ member.profile_photo }}" alt="
-
                                                                 {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}"
                                                              style="min-width: 50px;height: auto;height: 50px;margin-right: 10px;align-content: center;">
                                                         <span> {{ member.last_name }} {{ member.first_name }} </span>
@@ -216,69 +212,73 @@
 
 
         <!-- bootstrap pagination -->
-    {% if projects.paginator.num_pages > 1 %}
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                {% if projects.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1
+        {% if projects.paginator.num_pages > 1 %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if projects.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1
 
-                                {% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-                           aria-label="First">
-                            <span aria-hidden="true">&laquo; First</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page=
 
-                                {{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-                           aria-label="Previous">
-                            <span aria-hidden="true">&lsaquo; Previous</span>
-                        </a>
-                    </li>
-                {% else %}
+                                    {% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               aria-label="First">
+                                <span aria-hidden="true">&laquo; First</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=
+
+
+                                    {{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo; Previous</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&laquo; First</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&lsaquo; Previous</span>
+                        </li>
+                    {% endif %}
+
                     <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">&laquo; First</span>
-                    </li>
-                    <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">&lsaquo; Previous</span>
-                    </li>
-                {% endif %}
-
-                <li class="page-item disabled">
                     <span class="page-link">
                         Page {{ projects.number }} of {{ projects.paginator.num_pages }}
                     </span>
-                </li>
+                    </li>
 
-                {% if projects.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=
+                    {% if projects.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=
 
-                                {{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-                           aria-label="Next">
-                            <span aria-hidden="true">Next &rsaquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page=
 
-                                {{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-                           aria-label="Last">
-                            <span aria-hidden="true">Last &raquo;</span>
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">Next &rsaquo;</span>
-                    </li>
-                    <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">Last &raquo;</span>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    {% endif %}    
+                                    {{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               aria-label="Next">
+                                <span aria-hidden="true">Next &rsaquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=
+
+
+                                    {{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               aria-label="Last">
+                                <span aria-hidden="true">Last &raquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">Next &rsaquo;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">Last &raquo;</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
     {% else %}
         <!-- Display a message if the user has no projects -->
         <p>User has no projects.</p>

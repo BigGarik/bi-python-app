@@ -21,7 +21,7 @@ class AppointmentSerializer(dfr_serializes.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ("id", "appointment_date", "appointment_time", "client", "expert", "status", "created_time")
+        fields = ("id", "appointment_date", "appointment_time", "client", "expert", "status", "created_time", "zoom_link")
 
 
 class ExpertScheduleSerializer(dfr_serializes.ModelSerializer):

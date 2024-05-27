@@ -65,7 +65,7 @@
                         <div id="appointment-detail-user">${appointment.client.last_name}
                             ${appointment.client.first_name}
                         </div>
-                        <div id="appointment-detail-zoom"><a href="#">ZOOMLINK</a></div>
+                        <div id="appointment-detail-zoom"></div>
                         <div id="appointment-detail-status"></div>
                         <div id="appointment-detail-create-time"></div>
                         <div id="appointment-left-for-pay"></div>
@@ -352,7 +352,12 @@
             $('#appointment-detail-user').html(`${appointment.expert.last_name} ${appointment.expert.first_name}`);
         }
 
-        $('#appointment-detail-zoom').find('a').html('ZOOMLINK');
+        
+        if (appointment.zoom_link) {
+            $('#appointment-detail-zoom').html(`<a href="${appointment.zoom_link}">подключитcя по zoom</a>`);
+        } else {
+            $('#appointment-detail-zoom').html('<div style="height: 24px"></div>')
+        }
         if (appointment.status == 0) {
            
             const checkout_url_parts =  checkout_url.split("/");
