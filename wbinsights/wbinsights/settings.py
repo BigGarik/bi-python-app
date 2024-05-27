@@ -20,7 +20,6 @@ environs.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -30,11 +29,9 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-#https://0f84-176-74-217-47.ngrok-free.app
+# https://0f84-176-74-217-47.ngrok-free.app
 ALLOWED_HOSTS = ["*"]
-#CSRF_TRUSTED_ORIGINS=["https://0f84-176-74-217-47.ngrok-free.app/"]
-
+# CSRF_TRUSTED_ORIGINS=["https://0f84-176-74-217-47.ngrok-free.app/"]
 
 
 # Application definition
@@ -56,6 +53,7 @@ INSTALLED_APPS = [
     'wbappointment.apps.WbappointmentConfig',
     'django_recaptcha',
     'rest_framework',
+    'zoomus'
 
 ]
 
@@ -70,7 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'django.middleware.locale.LocaleMiddleware',
+    # 'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'wbinsights.urls'
@@ -95,13 +93,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wbinsights.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
 DATABASES = {
-    
+
     'default0': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
@@ -115,7 +112,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -134,7 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -155,7 +150,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -229,59 +223,34 @@ CORS_ALLOWED_ORIGINS = [
     "https://cdnjs.cloudflare.com",
     "https://cdn.jsdelivr.net",
 ]
-# django.contrib.comments <--
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {module} {message}',
-            'style': '{',
-        },
-    },
     'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'logs/django.log',
-            'maxBytes': 1024 * 1024 * 100,  # 100 MB
-            'backupCount': 10,
-            'formatter': 'verbose',
-        },
         'console': {
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple',
+        },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/django-0.log',
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler"
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
             'propagate': True,
         },
-        'web': {
-            'handlers': ['file', 'console'],
+        'django-info': {
+            'handlers': ['console', 'file'],
             'level': 'INFO',
-            'propagate': True,
-        },
-        'expertprojects': {
-            'handlers': ['file', 'console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'wbappointment': {
-            'handlers': ['file', 'console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'wbmanagement': {
-            'handlers': ['file', 'console'],
-
             'propagate': True,
         },
     },

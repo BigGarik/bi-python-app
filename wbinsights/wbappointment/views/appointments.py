@@ -1,14 +1,26 @@
 from datetime import date, timedelta, datetime, time
+import json
+import logging
 
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+#from django.core import send_mail
+from django.db import transaction
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
 
 from wbappointment.forms import AppointmentForm, SelectAppointmentDateForm
 from wbappointment.models import Appointment, AppointmentStatus, ExpertSchedule, AppointmentPayment, \
     ExpertScheduleSpecialDays
 from wbappointment.views.yookassa import create_yookassa_payment
 from web.models import Expert
+
+from zoom_utils import create_zoom_meeting
+
+info_logger = logging.getLogger("django-info")
 
 
 @login_required
@@ -144,26 +156,48 @@ def get_expert_available_timeslots(request):
     return JsonResponse({'errors': dict(form.errors)}, status=400)
 
 
-def appointment_payment_callback_view(request, *args, **kwargs):
-    # Print HTTP method
-    print("Method:", request.method)
+class AppointmentPaymentNotification(APIView):
+    permission_classes = [AllowAny]
 
-    # Print request path
-    print("Path:", request.path)
+    def post(self, request):
+        payment_id = request.data['object']['id']
+        print("payment_id = " + payment_id)
 
-    # Print GET parameters
-    print("GET parameters:", request.GET)
+        payment = AppointmentPayment.objects.get(uuid=payment_id)
 
-    # Print POST parameters (if applicable)
-    if request.method == "POST":
-        print("POST parameters:", request.POST)
+        if request['status'] == 'canceled':
+            payment.status = AppointmentPayment.AppointmentPaymentStatus.CANCELED
+            payment.save()
+            payment.appointment.status = AppointmentStatus.CANCEL
+            payment.appointment.save()
 
-    # Print headers
-    print("Headers:", dict(request.headers))
+        if request['status'] == 'succeeded':
+            zoom_link = create_zoom_meeting(payment.appointment)
+            payment.status = AppointmentPayment.AppointmentPaymentStatus.COMPLETED
+            payment.save()
+            payment.appointment.status = AppointmentStatus.PAID
+            payment.appointment.zoom_link = zoom_link
+            payment.appointment.save()
 
-    # Print body (if applicable, such as in POST requests)
-    print("Body:", request.body.decode('utf-8'))
-    return render(request, "add_appointment_success.html", **kwargs)
+            #Отправка уведомления Эксперту
+            # send_mail(
+            #     subject='Обращение с сайта',
+            #     message=message,
+            #     from_email='info_dev@24wbinside.ru',
+            #     recipient_list=["contact_us@24wbinside.ru"],
+            #     fail_silently=False,
+            # )
+
+            # Отправка уведомления Клиенту
+            # send_mail(
+            #     subject='Обращение с сайта',
+            #     message=message,
+            #     from_email='info_dev@24wbinside.ru',
+            #     recipient_list=["contact_us@24wbinside.ru"],
+            #     fail_silently=False,
+            # )
+
+        return HttpResponse(status=200)
 
 
 @login_required()
@@ -185,6 +219,8 @@ def checkout_appointment_view(request, *args, **kwargs):
         current_base_url = request.scheme + '://' + request.get_host()
         payment = create_yookassa_payment(appointment_payment.summ, current_base_url)
 
+        print("#### payment status = " + payment.status)
+        #Меняем статус платежа
         appointment_payment.uuid = payment.id
         appointment_payment.save()
 
