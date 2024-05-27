@@ -155,6 +155,10 @@ def get_expert_available_timeslots(request):
 
     return JsonResponse({'errors': dict(form.errors)}, status=400)
 
+def appointment_test(request):
+    appointment = Appointment.objects.get(pk=1)
+    json_response = create_zoom_meeting(appointment)
+    return JsonResponse({"zoom":json_response})
 
 class AppointmentPaymentNotification(APIView):
     permission_classes = [AllowAny]
@@ -164,14 +168,15 @@ class AppointmentPaymentNotification(APIView):
         print("payment_id = " + payment_id)
 
         payment = AppointmentPayment.objects.get(uuid=payment_id)
+        print("payment status is " + request.data['object']['status']);
 
-        if request['status'] == 'canceled':
+        if request.data['object']['status'] == 'canceled':
             payment.status = AppointmentPayment.AppointmentPaymentStatus.CANCELED
             payment.save()
             payment.appointment.status = AppointmentStatus.CANCEL
             payment.appointment.save()
 
-        if request['status'] == 'succeeded':
+        if request.data['object']['status'] == 'succeeded':
             zoom_link = create_zoom_meeting(payment.appointment)
             payment.status = AppointmentPayment.AppointmentPaymentStatus.COMPLETED
             payment.save()

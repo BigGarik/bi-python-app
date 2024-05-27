@@ -7,18 +7,20 @@ import os
 
 
 def create_zoom_meeting(appointment):
-    api_key = os.getenv('ZOOM_API_KEY')
-    api_secret = os.getenv('ZOOM_API_SECRET')
+    print("1##################")
+    zoom_api_key = os.getenv('ZOOM_API_KEY')
+    zoom_api_secret = os.getenv('ZOOM_API_SECRET')
+    zoom_api_account_id = os.getenv('ZOOM_ACCOUNT_ID')
 
     # Инициализация клиента Zoom
-    client = ZoomClient(api_key, api_secret)
+    client = ZoomClient(zoom_api_key, zoom_api_secret, api_account_id=zoom_api_account_id)
 
     # Данные для создания встречи
     topic = "Онлайн консультация"
 
     # Формат времени: ГГГГ-ММ-ДДTЧЧ:ММ:ССZ
-    start_time = datetime.combine(appointment.appointment_date, appointment.appointment_time).strftime(
-        '%Y-%m-%dT%H:%M:%SZ')
+    start_time = datetime.combine(appointment.appointment_date, appointment.appointment_time)
+
 
     # Продолжительность в минутах
     duration = 45
@@ -29,11 +31,11 @@ def create_zoom_meeting(appointment):
     # Создание встречи
     response = client.meeting.create(user_id='me', topic=topic, start_time=start_time, duration=duration,
                                      settings={'participants': participants})
-
+    json_response = response.json()
     # Проверка успешности создания встречи
-    if response.get('status') == 'success':
-        meeting_id = response.get('id')
-        join_url = response.get('join_url')
+    if response.ok:
+        meeting_id = json_response.get('id')
+        join_url = json_response.get('join_url')
         return join_url
     # else:
     #     error_message = response.get('message', 'Failed to create meeting')
