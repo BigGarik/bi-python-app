@@ -31,11 +31,12 @@ def create_zoom_meeting(appointment):
     # Создание встречи
     response = client.meeting.create(user_id='me', topic=topic, start_time=start_time, duration=duration,
                                      settings={'participants': participants})
-    json_response = response.json()
+
     # Проверка успешности создания встречи
     if response.ok:
-        meeting_id = json_response.get('id')
-        join_url = json_response.get('join_url')
+        data = response.json()
+        meeting_id = data.get('id')
+        join_url = data.get('join_url')
         return join_url
     # else:
     #     error_message = response.get('message', 'Failed to create meeting')
