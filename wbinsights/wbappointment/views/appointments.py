@@ -18,7 +18,7 @@ from wbappointment.models import Appointment, AppointmentStatus, ExpertSchedule,
 from wbappointment.views.yookassa import create_yookassa_payment
 from web.models import Expert
 
-from zoom_utils import create_zoom_meeting
+from wbappointment.views.zoom_utils import create_zoom_meeting
 
 info_logger = logging.getLogger("django-info")
 
