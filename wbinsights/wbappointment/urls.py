@@ -1,7 +1,7 @@
 from django.urls import path
 
 from wbappointment.views.appointments import add_appointment_view, checkout_appointment_view, \
-    get_expert_available_timeslots, add_appointment_success_view, appointment_payment_callback_view, \
+    get_expert_available_timeslots, add_appointment_success_view, \
     AppointmentPaymentNotification
 
 from wbappointment.views.calendar import add_expert_schedule_view, add_appointment_range_view, get_experts_appointment, \
