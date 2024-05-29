@@ -1,7 +1,4 @@
-.right-expert-col-cont{
-    padding: 15px 20px 15px 20px;
-    background-color: white;
-    border-radius: 15px;
+.right-expert-col-cont {
     position: sticky;
     top:20px;
 }

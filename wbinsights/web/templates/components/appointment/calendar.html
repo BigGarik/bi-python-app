@@ -27,7 +27,7 @@
     </script>
 
     <div id="color_legend"
-         style="display: flex; flex-wrap:wrap; justify-content: space-between; margin-top: 10px;"></div>
+         style="display: flex; flex-wrap:wrap; justify-content: space-between; flex-direction: column; margin-top: 10px;"></div>
 
 </div>
 
@@ -52,7 +52,7 @@
                         <div id="appointment-detail-user-type">Имя:</div>
                         <div>Zoom:</div>
                         <div>Статус:</div>
-                        <div>Время создания:</div>
+                        <div>Забронировано:</div>
                         <div id="appointment-left-for-pay-label" style="display: none">Время брони слота: <br/> <span
                                 style="font-size: 12px;">(10 минут)</span></div>
                     </div>
@@ -244,7 +244,7 @@
         name: "Недоступен для бронирования"
     }, {
         status: 11,
-        color: "darkcyan",
+        color: "#a6db69",
         name: "Доступен для бронирования"
     }]
 
@@ -380,10 +380,13 @@
 
             const checkout_url_parts = checkout_url.split("/");
 
+            let status_text = getStatusText(appointment.status);
+            if (type == 'client') {
+                status_text += ` <a href="/${checkout_url_parts[1]}/${checkout_url_parts[2]}/${appointment.id}/" style="margin-left: 10px">[Оплатить]</a>`
+            }
+
             $('#appointment-detail-status').html(`
-                            <div style="color: ${getStatusColor(appointment.status)};">
-                                ${getStatusText(appointment.status)} <a href="/${checkout_url_parts[1]}/${checkout_url_parts[2]}/${appointment.id}/" style="margin-left: 10px">[Оплатить]</a>
-                            </div>`);
+                            <div style="color: ${getStatusColor(appointment.status)};">${status_text}</div>`);
         } else {
             $('#appointment-detail-status').html(`
                             <div style="color: ${getStatusColor(appointment.status)};">
@@ -479,10 +482,8 @@
                 extradate.id,
                 "extradate"
             ))
-
-
         })
-        if (false) {
+        if (true) {
             appointments_as_expert.map((appointment) => {
                 dates.push(
                     createEvent(appointment_title,
@@ -497,20 +498,21 @@
                 );
             })
         }
-
-        appointments_as_client.map((appointment) => {
-            dates.push(
-                createEvent(appointment_title,
-                    appointment.status,
-                    appointment.appointment_date,
-                    moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
-                    appointment.appointment_date,
-                    moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
-                    appointment.id,
-                    'appointment_as_client'
-                )
-            );
-        })
+        if (false) {
+            appointments_as_client.map((appointment) => {
+                dates.push(
+                    createEvent(appointment_title,
+                        appointment.status,
+                        appointment.appointment_date,
+                        moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
+                        appointment.appointment_date,
+                        moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
+                        appointment.id,
+                        'appointment_as_client'
+                    )
+                );
+            })
+        }
 
 
         return dates

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 #from django.core import send_mail
 #from django.core import send_mail
 from django.db import transaction
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -237,7 +237,10 @@ def add_appointment_success_view(request, *args, **kwargs):
 def checkout_appointment_view(request, *args, **kwargs):
     if request.method == 'POST':
         appointment_id = request.POST['appointment_id']
-        appointment = Appointment.objects.get(pk=appointment_id, client=request.user)
+        try:
+            appointment = Appointment.objects.get(pk=appointment_id, client=request.user)
+        except Appointment.DoesNotExist:
+            raise Http404("Entity does not exist")
 
         appointment_payment = AppointmentPayment()
         appointment_payment.appointment = appointment
@@ -247,7 +250,7 @@ def checkout_appointment_view(request, *args, **kwargs):
         current_base_url = request.scheme + '://' + request.get_host()
         payment = create_yookassa_payment(appointment_payment.summ, current_base_url)
 
-        print("#### payment status = " + payment.status)
+        #print("#### payment status = " + payment.status)
         #Меняем статус платежа
         appointment_payment.uuid = payment.id
         appointment_payment.save()
