@@ -4,6 +4,7 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 #from django.core import send_mail
+#from django.core import send_mail
 from django.db import transaction
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
@@ -151,14 +152,23 @@ def get_expert_available_timeslots(request):
             if busy_time in available_time_slots:
                 available_time_slots.remove(busy_time)
 
+        busyClientsSlots = Appointment.objects.filter(client=request.user, appointment_date=selected_date).values_list(
+            "appointment_time", flat=True)
+
+        for busy_time in busyClientsSlots:
+            if busy_time in available_time_slots:
+                available_time_slots.remove(busy_time)
+
         return JsonResponse([dt.strftime('%H:%M') for dt in available_time_slots], safe=False)
 
     return JsonResponse({'errors': dict(form.errors)}, status=400)
 
+
 def appointment_test(request):
     appointment = Appointment.objects.get(pk=1)
     json_response = create_zoom_meeting(appointment)
-    return JsonResponse({"zoom":json_response})
+    return JsonResponse({"zoom": json_response})
+
 
 class AppointmentPaymentNotification(APIView):
     permission_classes = [AllowAny]
@@ -171,27 +181,36 @@ class AppointmentPaymentNotification(APIView):
         print("payment status is " + request.data['object']['status']);
 
         if request.data['object']['status'] == 'canceled':
-            payment.status = AppointmentPayment.AppointmentPaymentStatus.CANCELED
-            payment.save()
-            payment.appointment.status = AppointmentStatus.CANCEL
-            payment.appointment.save()
+            try:
+                with transaction.atomic():
+                    payment.status = AppointmentPayment.AppointmentPaymentStatus.CANCELED
+                    payment.save()
+                    payment.appointment.status = AppointmentStatus.CANCEL
+                    payment.appointment.save()
+            except Exception as e:
+                # Если произошла ошибка, откатываем транзакцию
+                print(f"An error occurred: {e}")
 
         if request.data['object']['status'] == 'succeeded':
-            zoom_link = create_zoom_meeting(payment.appointment)
-            payment.status = AppointmentPayment.AppointmentPaymentStatus.COMPLETED
-            payment.save()
-            payment.appointment.status = AppointmentStatus.PAID
-            payment.appointment.zoom_link = zoom_link
-            payment.appointment.save()
-
-            #Отправка уведомления Эксперту
-            # send_mail(
-            #     subject='Обращение с сайта',
-            #     message=message,
-            #     from_email='info_dev@24wbinside.ru',
-            #     recipient_list=["contact_us@24wbinside.ru"],
-            #     fail_silently=False,
-            # )
+            try:
+                with transaction.atomic():
+                    zoom_link = create_zoom_meeting(payment.appointment)
+                    payment.status = AppointmentPayment.AppointmentPaymentStatus.COMPLETED
+                    payment.save()
+                    payment.appointment.status = AppointmentStatus.PAID
+                    payment.appointment.zoom_link = zoom_link
+                    payment.appointment.save()
+                    #Отправка уведомления Эксперту
+                    # send_mail(
+                    #     subject='Обращение с сайта',
+                    #     message=message,
+                    #     from_email='info_dev@24wbinside.ru',
+                    #     recipient_list=["contact_us@24wbinside.ru"],
+                    #     fail_silently=False,
+                    # )
+            except Exception as e:
+                # Если произошла ошибка, откатываем транзакцию
+                print(f"An error occurred: {e}")
 
             # Отправка уведомления Клиенту
             # send_mail(
