@@ -7,6 +7,7 @@
 {% block center_col %}
 
 <link rel="stylesheet" href="{% static 'css/add_appointment.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
 <link rel="stylesheet" href="{% static 'css/vanila-calendar/vanilla-calendar.min.css' %}"/>
 <script src="{% static 'js/vanila-calendar/vanilla-calendar.min.js' %}"></script>
 
@@ -29,7 +30,7 @@
                      style="border-radius: 50%;width: 130px;height: 130px;object-fit: cover;">
             </div>
 
-            <div class=" col-sm-9  profile-information-cont">
+            <div class=" col-sm-9  profile-information-cont" style="margin-top: 25px; margin-bottom: 30px;">
 
                 <div class="user-display-name">
                     {{ expert.first_name }} {{ expert.last_name }}
@@ -78,7 +79,7 @@
             <div id="calendar" style="transform: scale(1.2);"></div>
         </div>
 
-        <div class="time-slots" style="padding-left: 25px; display: flex; flex-wrap: wrap">
+        <div class="time-slots" style="padding-left: 25px;">
             Не выбрана дата
         </div>
 
@@ -169,7 +170,7 @@
                                 response.forEach(slot => {
 
                                     selectAppointmentTime.append('<option value="' + slot + ':00' + '">' + slot + '</option>');
-                                    timeSlotsDiv.append(`<button type="button" class="time-slot-item btn btn-outline-primary" style="height: 35px" onclick="selectTimeSlot('${slot + ':00'}', event)">${slot}</button>`);
+                                    timeSlotsDiv.append(`<button type="button" class="time-slot-item btn btn-outline-primary" style="height: 35px;margin-left: 5px; margin-bottom: 5px" onclick="selectTimeSlot('${slot + ':00'}', event)">${slot}</button>`);
                                     //timeSlotsDiv.append(`<div class="time-slot-item" onclick="selectTimeSlot('${slot + ':00'}')">${slot}</div>`);
                                 });
 

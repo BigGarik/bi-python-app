@@ -35,7 +35,7 @@
         <span>{% trans 'QuestionsTabLabel' %}&nbsp;</span> <span class="expert-profile-title-content-number">0</span>
     </a>
 
-    <a href="?tab=consultations" class="profile-menu-item {% if request.GET.tab == 'consultations' %}selected{% endif %}" data-content="consultations" onclick="getUsersAppointments()">
+    <a href="?tab=consultations" class="profile-menu-item {% if request.GET.tab == 'consultations' %}selected{% endif %}" data-content="consultations">
         <span>{% trans 'ConsultationsTabLabel' %} &nbsp;</span><span class="expert-profile-title-content-number">{{ users_appointment_cnt }}</span>
     </a>
 
@@ -56,15 +56,15 @@
     {% if request.GET.tab == "articles" or not request.GET.tab %}
      {% include 'posts/article/article-profile-list.html' with user=user %}
     {% elif request.GET.tab == "researches" %}
-     researches_template
+{#     researches_template #}
     {% elif request.GET.tab == "questions" %}
-    questions_template
+{#     questions_template  #}
     {% elif request.GET.tab == "consultations" %}
         <div id="consultations" class="expert-content" >
             {% include 'components/appointment/calendar.html' %}
         </div>
     {% elif request.GET.tab == "reviews" %}
-       reviews_template
+{#       reviews_template#}
     {% elif request.GET.tab == "projects" %}
         {% include 'project_list.html' with user=user %}
     {% endif %}
