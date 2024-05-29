@@ -269,8 +269,6 @@
                 appointments = response.data.appointments.as_expert;
                 appointments_as_client = response.data.appointments.as_client;
                 extra_dates = response.data.extra_dates;
-                //createSchedule(response.data.schedule);
-                //console.log(schedule)
                 successCallback(createCalendarEvents(appointments, appointments_as_client, extra_dates, response.data.schedule))
 
             }
@@ -366,13 +364,13 @@
             $('#appointment-detail-user-type').html("Эксперт:")
             $('#appointment-detail-user').html(`${appointment.expert.last_name} ${appointment.expert.first_name}`);
         }
-
-
-        if (appointment.zoom_link) {
+        
+        if (appointment.zoom_link && appointment.status == 3) {
             $('#appointment-detail-zoom').html(`<a href="${appointment.zoom_link}">подключитcя по zoom</a>`);
         } else {
             $('#appointment-detail-zoom').html('<div style="height: 24px"></div>')
         }
+        
         if (appointment.status == 0) {
            
             const checkout_url_parts =  checkout_url.split("/");
@@ -388,15 +386,18 @@
                             </div>`);
         }
 
-        if (appointment.status == 0) {
-            $('#appointment-detail-create-time').html(`${moment(appointment.created_time).format("DD.MM.YY HH:mm")}`);
+        
 
+        $('#appointment-detail-create-time').html(`${moment(appointment.created_time).format("DD.MM.YY HH:mm")}`);
+        
+        if (appointment.status == 0) {
             countdown(appointment.created_time);
             countdownInterval = setInterval(() => {
                     countdown(appointment.created_time)
                 },
                 1000
             );
+
         }
 
 

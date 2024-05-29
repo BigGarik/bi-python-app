@@ -185,6 +185,7 @@ class AppointmentPaymentNotification(APIView):
                 with transaction.atomic():
                     payment.status = AppointmentPayment.AppointmentPaymentStatus.CANCELED
                     payment.save()
+                    payment.appointment.zoom_link = ''
                     payment.appointment.status = AppointmentStatus.CANCEL
                     payment.appointment.save()
             except Exception as e:
