@@ -94,7 +94,7 @@
 .back-btn-cont{
     display: flex;
     width: 100%;
-    padding: 0 0px 5px 5px;
+    padding: 0 0 5px 5px;
     color: #777786;
     font-family: sans-serif;
     font-weight: 400;
@@ -138,7 +138,7 @@
     background-color: white;
     color: black;
     border: none;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .user-catagory-highlight{
@@ -171,10 +171,10 @@
     color: #d6b537;
 }
 
-.catagory-cont{
+.catagory-cont {
     display: flex;
     align-items: center;
-    width:200px;
+    /*width:200px;*/
     justify-content: flex-end;
 }
 

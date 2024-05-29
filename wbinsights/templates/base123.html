@@ -5,12 +5,12 @@
 {% block content %}
 
 
-<div class="row py-3 row-margin" >
-
-    <div class="col-1 d-none d-lg-block"></div>
+<div class="row py-3 row-margin" style="display: flex; justify-content: center">
 
 
-    <div class="d-none d-lg-block col-lg-2 ">
+
+
+    <div class="d-none d-lg-block col-lg-3 " style="max-width: 300px">
 
         {% include "components/left_main_menu.html" %}
 
@@ -25,13 +25,13 @@
 
     </div>
 
-    <div class="d-none d-md-block col-md-4 col-lg-2">
+    <div class="d-none d-md-block col-md-4 col-lg-3" style="max-width: 300px">
 
         {% include "components/experts/main_page_list.html" %}
 
     </div>
 
-    <div class="col-1 d-none d-lg-block "></div>
+
     
 </div>
 

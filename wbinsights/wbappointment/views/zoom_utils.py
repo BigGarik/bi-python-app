@@ -7,7 +7,7 @@ import os
 
 
 def create_zoom_meeting(appointment):
-    print("1##################")
+
     zoom_api_key = os.getenv('ZOOM_API_KEY')
     zoom_api_secret = os.getenv('ZOOM_API_SECRET')
     zoom_api_account_id = os.getenv('ZOOM_ACCOUNT_ID')
@@ -21,7 +21,6 @@ def create_zoom_meeting(appointment):
     # Формат времени: ГГГГ-ММ-ДДTЧЧ:ММ:ССZ
     start_time = datetime.combine(appointment.appointment_date, appointment.appointment_time)
 
-
     # Продолжительность в минутах
     duration = 45
 
@@ -30,7 +29,7 @@ def create_zoom_meeting(appointment):
 
     # Создание встречи
     response = client.meeting.create(user_id='me', topic=topic, start_time=start_time, duration=duration,
-                                     settings={'participants': participants})
+                                     settings={'participants': participants, 'join_before_host': False})
 
     # Проверка успешности создания встречи
     if response.ok:
