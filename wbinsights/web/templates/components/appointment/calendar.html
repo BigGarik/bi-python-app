@@ -373,14 +373,16 @@
                             </div>`);
         }
 
-        $('#appointment-detail-create-time').html(`${moment(appointment.created_time).format("DD.MM.YY HH:mm")}`);
+        if (appointment.status == 0) {
+            $('#appointment-detail-create-time').html(`${moment(appointment.created_time).format("DD.MM.YY HH:mm")}`);
 
-        countdown(appointment.created_time);
-        countdownInterval = setInterval(() => {
-                countdown(appointment.created_time)
-            },
-            1000
-        );
+            countdown(appointment.created_time);
+            countdownInterval = setInterval(() => {
+                    countdown(appointment.created_time)
+                },
+                1000
+            );
+        }
 
 
         $('#appointmentDetailModal').modal('show')
