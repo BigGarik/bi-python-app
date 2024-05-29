@@ -28,6 +28,9 @@ info_logger = logging.getLogger("django-info")
 def add_appointment_view(request, *args, **kwargs):
     expert = Expert.objects.get(pk=kwargs['pk'])
 
+    if request.user == expert:
+        return redirect("profile")
+
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
         # check for existing appointment for this date and time with this expert

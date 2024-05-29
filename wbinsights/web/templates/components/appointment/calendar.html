@@ -53,7 +53,8 @@
                         <div>Zoom:</div>
                         <div>Статус:</div>
                         <div>Время создания:</div>
-                        <div>Время брони слота: <br/> <span style="font-size: 12px;">(10 минут)</span></div>
+                        <div id="appointment-left-for-pay-label" style="display: none">Время брони слота: <br/> <span
+                                style="font-size: 12px;">(10 минут)</span></div>
                     </div>
 
                     <div style="display:flex; flex-direction:column;gap:20px;width:60%">
@@ -68,7 +69,7 @@
                         <div id="appointment-detail-zoom"></div>
                         <div id="appointment-detail-status"></div>
                         <div id="appointment-detail-create-time"></div>
-                        <div id="appointment-left-for-pay"></div>
+                        <div id="appointment-left-for-pay" style="display: none"></div>
 
                     </div>
 
@@ -249,7 +250,7 @@
 
     function createSchedule(dates) {
         schedule = [];
-        dates.map( (day) => {
+        dates.map((day) => {
             const schedule_item = day.start + " - " + day.end;
             schedule.push(schedule_item)
         })
@@ -274,6 +275,7 @@
             }
         });
     }
+
     console.log(123)
 
     const modalBody = $('#appointmentTableBody');
@@ -332,12 +334,16 @@
 
 
     let countdownInterval = null;
+
     function countdown(appointment_create_datetime) {
-        const last_moment =  moment(appointment_create_datetime).add(30, 'minutes');
+        const last_moment = moment(appointment_create_datetime).add(30, 'minutes');
         const currentTime = moment();
 
         const distance = last_moment - currentTime;
-        const appointmentLeftForPay = document.getElementById("appointment-left-for-pay")
+        const appointmentLeftForPayLabel = document.getElementById("appointment-left-for-pay-label");
+        appointmentLeftForPayLabel.style.display = "block";
+        const appointmentLeftForPay = document.getElementById("appointment-left-for-pay");
+        appointmentLeftForPay.style.display = "block"
         if (distance < 0) {
             clearInterval(countdownInterval);
             appointmentLeftForPay.innerHTML = "EXPIRED";
@@ -348,9 +354,8 @@
     }
 
     const checkout_url = "{% url 'appointment_checkout' 0 %}"
-    function loadAppointment(appointment, type) {
 
-        //console.log(0123)
+    function loadAppointment(appointment, type) {
 
         $('#appointment-detail-date').html(`${moment(appointment.appointment_date).format("DD.MM.YYYY")}`);
         $('#appointment-detail-time').html(`${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}`);
@@ -364,17 +369,17 @@
             $('#appointment-detail-user-type').html("Эксперт:")
             $('#appointment-detail-user').html(`${appointment.expert.last_name} ${appointment.expert.first_name}`);
         }
-        
-        if (appointment.zoom_link && appointment.status == 3) {
+        //console.log(12313)
+        if (appointment.zoom_link && appointment.status == 4) {
             $('#appointment-detail-zoom').html(`<a href="${appointment.zoom_link}">подключитcя по zoom</a>`);
         } else {
             $('#appointment-detail-zoom').html('<div style="height: 24px"></div>')
         }
-        
+
         if (appointment.status == 0) {
-           
-            const checkout_url_parts =  checkout_url.split("/");
-            console.log(checkout_url_parts)
+
+            const checkout_url_parts = checkout_url.split("/");
+
             $('#appointment-detail-status').html(`
                             <div style="color: ${getStatusColor(appointment.status)};">
                                 ${getStatusText(appointment.status)} <a href="/${checkout_url_parts[1]}/${checkout_url_parts[2]}/${appointment.id}/" style="margin-left: 10px">[Оплатить]</a>
@@ -386,11 +391,11 @@
                             </div>`);
         }
 
-        
 
         $('#appointment-detail-create-time').html(`${moment(appointment.created_time).format("DD.MM.YY HH:mm")}`);
-        
-        if (appointment.status == 0) {
+
+        if (appointment.status == 0 && type == 'client') {
+
             countdown(appointment.created_time);
             countdownInterval = setInterval(() => {
                     countdown(appointment.created_time)
@@ -477,20 +482,21 @@
 
 
         })
-
-        appointments_as_expert.map((appointment) => {
-            dates.push(
-                createEvent(appointment_title,
-                    appointment.status,
-                    appointment.appointment_date,
-                    moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
-                    appointment.appointment_date,
-                    moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
-                    appointment.id,
-                    'appointment_as_expert'
-                )
-            );
-        })
+        if (false) {
+            appointments_as_expert.map((appointment) => {
+                dates.push(
+                    createEvent(appointment_title,
+                        appointment.status,
+                        appointment.appointment_date,
+                        moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
+                        appointment.appointment_date,
+                        moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
+                        appointment.id,
+                        'appointment_as_expert'
+                    )
+                );
+            })
+        }
 
         appointments_as_client.map((appointment) => {
             dates.push(

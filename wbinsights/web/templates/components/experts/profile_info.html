@@ -57,9 +57,7 @@
                     <div class="user-category">Эксперт в области :</div>
                     <div class="displayflex">
                         {% for exp_category in user.expertprofile.expert_categories.all %}
-                            <div class="user-catagory-highlight {{ exp_category.slug }}">
-                                {{ exp_category.name }}
-                            </div>
+                            <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
                         {% endfor %}
                     </div>
                 </div>
@@ -108,7 +106,9 @@
             </div>
         </div>
         <div class="prof-user-setting">
-            {% include buttons_template with user=expert %}
+
+            {% include buttons_template with user=expert%}
+
         </div>
     </div>
 

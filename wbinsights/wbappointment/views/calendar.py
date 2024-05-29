@@ -1,8 +1,5 @@
-from datetime import datetime, timedelta, time
-
 from django.contrib.auth.decorators import login_required
-from django.core.serializers import serialize
-from django.db.migrations import serializer
+
 from django.forms import modelformset_factory
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -10,8 +7,7 @@ from django.views.decorators.http import require_POST
 
 from wbappointment.forms import *
 from wbappointment.models import *
-from wbappointment.serializers import AppointmentSerializer, ExpertScheduleSpecialDaysSerializer, \
-    ExpertScheduleSerializer
+from wbappointment.serializers import AppointmentSerializer, ExpertScheduleSpecialDaysSerializer
 
 
 @require_POST
