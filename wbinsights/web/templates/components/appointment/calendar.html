@@ -211,8 +211,13 @@
     let appointments = []
     let appointments_as_client = []
     let extra_dates = []
+    let schedule = []
 
     const status_colors = [{
+        status: -1,
+        color: "#edc794",
+        name: "Расписание"
+    }, {
         status: 0,
         color: "#0dcaf0",
         name: "Новый"
@@ -242,6 +247,14 @@
         name: "Доступен для бронирования"
     }]
 
+    function createSchedule(dates) {
+        schedule = [];
+        dates.map( (day) => {
+            const schedule_item = day.start + " - " + day.end;
+            schedule.push(schedule_item)
+        })
+    }
+
     function fetchAppointments(fetchInfo, successCallback, failureCallback) {
 
         $.ajax({
@@ -256,7 +269,9 @@
                 appointments = response.data.appointments.as_expert;
                 appointments_as_client = response.data.appointments.as_client;
                 extra_dates = response.data.extra_dates;
-                successCallback(createCalendarEvents(appointments, appointments_as_client, extra_dates))
+                //createSchedule(response.data.schedule);
+                //console.log(schedule)
+                successCallback(createCalendarEvents(appointments, appointments_as_client, extra_dates, response.data.schedule))
 
             }
         });
@@ -396,7 +411,7 @@
                     </div>
                 `;
 
-        return {
+        let event = {
             start: start_date + " " + start_time,
             end: end_date + " " + end_time,
             resourceId: 1,
@@ -407,34 +422,60 @@
                 type: type
             }
         };
+
+        if (type == 'schedule') {
+            event.display = "background"
+        }
+
+        return event
     }
 
-    function createCalendarEvents(appointments_as_expert, appointments_as_client, extradates) {
+    function createCalendarEvents(appointments_as_expert, appointments_as_client, extradates, schedule) {
+        //display: "background"
+        let dates = []
 
-        let dates =
+        schedule.map((schedule_item, index) => {
+            const date_format = 'yyyy-MM-DD'
+            const moment_start = moment(schedule_item.start)
+            const start_date = moment_start.format(date_format)
+            const start_time = moment_start.format("HH:mm")
 
-            extradates.map((extradate) => {
-                title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования'
-                const date_format = 'yyyy-MM-DD'
-                const moment_start = moment(extradate.start)
-                const start_date = moment_start.format(date_format)
-                const start_time = moment_start.format("HH:mm")
+            const moment_end = moment(schedule_item.end)
+            const end_date = moment_end.format(date_format)
+            const end_time = moment_end.format("HH:mm")
+            dates.push(createEvent('',
+                -1,
+                start_date,
+                start_time,
+                end_date,
+                end_time,
+                index,
+                "schedule"
+            ))
+        })
 
-                const moment_end = moment(extradate.end)
-                const end_date = moment_end.format(date_format)
-                const end_time = moment_end.format("HH:mm")
+        extradates.map((extradate) => {
+            title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования'
+            const date_format = 'yyyy-MM-DD'
+            const moment_start = moment(extradate.start)
+            const start_date = moment_start.format(date_format)
+            const start_time = moment_start.format("HH:mm")
 
-                return createEvent(title,
-                    extradate.type + 10,
-                    start_date,
-                    start_time,
-                    end_date,
-                    end_time,
-                    extradate.id,
-                    "extradate"
-                )
-            })
+            const moment_end = moment(extradate.end)
+            const end_date = moment_end.format(date_format)
+            const end_time = moment_end.format("HH:mm")
+            dates.push(createEvent(title,
+                extradate.type + 10,
+                start_date,
+                start_time,
+                end_date,
+                end_time,
+                extradate.id,
+                "extradate"
+            ))
 
+
+        })
 
         appointments_as_expert.map((appointment) => {
             dates.push(
@@ -502,6 +543,7 @@
             locale: 'ru',
             slotDuration: '00:30:00',
             nowIndicator: true,
+            highlightedDates: schedule,
             eventDurationEditable: false,
             selectable: user_type == 1,
             {% if request.path == '/profile' and request.user.profile.type == 1 %}
