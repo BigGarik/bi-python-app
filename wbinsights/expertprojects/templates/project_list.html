@@ -110,7 +110,7 @@
 
             {% for project in projects %}
 
-                <div class="card card-body border-dark1 text-dark card-css mb-3 " style="width:19%; cursor: pointer;"
+                <div class="card card-body border-dark1 text-dark card-css mb-3 " style="width:19%; max-width:19%; cursor: pointer;"
                      onclick="showProjectDetails('{{ project.id }}')">
                         <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
                         <h6 class="card-title">{{ project.year }} г.</h6>
