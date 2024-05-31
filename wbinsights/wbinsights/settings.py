@@ -176,6 +176,8 @@ AUTH_USER_MODEL = "web.CustomUser"  # new
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "index"
 
+LOGIN_URL = 'login'
+
 AUTHENTICATION_BACKENDS = [
     'web.backends.UserModelBackend'
 ]
