@@ -498,7 +498,7 @@
                 );
             })
         }
-        if (false) {
+        if (true) {
             appointments_as_client.map((appointment) => {
                 dates.push(
                     createEvent(appointment_title,
@@ -578,7 +578,10 @@
 
     function getUsersAppointments() {
 
-        createEventCalendar('event-calendar');
+        setTimeout(() =>  {
+            createEventCalendar('event-calendar');
+        }, 200)
+
 
     }
 
