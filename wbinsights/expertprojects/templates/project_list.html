@@ -27,74 +27,85 @@
         {% get_all_categories as categories %}
         <form method="get" id="filter-form" class="mb-4 py-2">
 
-        <div class="form-group">
-            <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name"
-                   value="{{ request.GET.name }} ">
-
-        </div>
-
-        <div style="display: flex;justify-content: flex-end;gap: 10px;" class=" py-2">
             <div class="form-group">
-                <div class="dropdown mb-3">
-                    <button id="categoryDropdown" class="btn btn-secondary dropdown-toggle" type="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% if request.GET.category %}
-                            Category:
+                <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name"
+                       value="{{ request.GET.name }} ">
+
+            </div>
+
+            <div style="display: flex;justify-content: flex-end;gap: 10px;" class=" py-2">
+
+                <div class="form-group">
+
+                    <div class="dropdown mb-3">
+
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                            {% if request.GET.category %}
+                                {% trans 'Category' %}:
+                                {% for category in categories %}
+                                    {% if category.id|stringformat:"s" == request.GET.category %}
+                                        {{ category.name }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {% trans 'Filter by category' %}: {% trans 'All' %}
+
+                            {% endif %}
+                        </button>
+
+                        <ul class="dropdown-menu">
+
+                            <li><a class="dropdown-item" href="?{{ get_params.urlencode }}">{% trans 'All' %} {% trans 'Categories' %}</a></li>
                             {% for category in categories %}
-                                {% if category.id|stringformat:"s" == request.GET.category %}
-                                    {{ category.name }}
-                                {% endif %}
+                                <li>
+                                    <a class="dropdown-item{% if request.GET.category == category.id|stringformat:"s" %} active{% endif %}"
+                                       href="?{{ get_params.urlencode }}&category={{ category.id }}">
+                                        {{ category.name }}
+                                    </a>
+                                </li>
                             {% endfor %}
-                        {% else %}
-                            Filter by category: All
-                        {% endif %}
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="categoryDropdown">
-                        <a class="dropdown-item" href="?{{ get_params.urlencode }}">All Categories</a>
-                        {% for category in categories %}
-                            <a class="dropdown-item{% if request.GET.category == category.id|stringformat:"s" %} active{% endif %}"
-                               href="?{{ get_params.urlencode }}&category={{ category.id }}">
-                                {{ category.name }}
-                            </a>
-                        {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="dropdown">
+
+                        <button id="pageSizeDropdown" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            {% trans 'Projects per page' %}:
+                            {% if request.GET.page_size %}
+                                {{ request.GET.page_size }}
+                            {% else %}
+                                5 <!-- Default value -->
+                            {% endif %}
+                        </button>
+
+                        <ul class="dropdown-menu" >
+                            {% with page_cnt_array='5 10 20 50 100 500' %}
+
+                                {% for item in page_cnt_array.split %}
+
+                                    <li><a class="dropdown-item{% if request.GET.page_size ==  item %} active{% endif %}"
+                                       href="?page_size={{ item }}{% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ item }}</a></li>
+
+                                {% endfor %}
+
+                            {% endwith %}
+
+
+                        </ul>
                     </div>
                 </div>
             </div>
 
 
-            <div class="form-group">
-                <div class="dropdown">
-                    <button id="pageSizeDropdown" class="btn btn-secondary dropdown-toggle" type="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Projects per page:
-                        {% if request.GET.page_size %}
-                            {{ request.GET.page_size }}
-                        {% else %}
-                            5 <!-- Default value -->
-                        {% endif %}
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="pageSizeDropdown">
-                        {% with page_cnt_array='5 10 20 50 100 500' %}
-
-                            {% for item in page_cnt_array.split %}
-                                <a class="dropdown-item{% if request.GET.page_size ==  item %} active{% endif %}"
-                                   href="?page_size={{ item }}{% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ item }}</a>
-                            {% endfor %}
-
-                        {% endwith %}
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        {% for key, value in request.GET.items %}
-            {% if key != 'name' %}
-                <input type="hidden" name="{{ key }}" value="{{ value }}">
-            {% endif %}
-        {% endfor %}
+            {% for key, value in request.GET.items %}
+                {% if key != 'name' %}
+                    <input type="hidden" name="{{ key }}" value="{{ value }}">
+                {% endif %}
+            {% endfor %}
 
         </form>
 
@@ -108,23 +119,24 @@
 
             {% for project in projects %}
 
-                <div class="card card-body border-dark1 text-dark card-css mb-3 " style="width:19%; max-width:19%; cursor: pointer;"
+                <div class="card card-body border-dark1 text-dark card-css mb-3 "
+                     style="width:19%; max-width:19%; cursor: pointer;"
                      onclick="showProjectDetails('{{ project.id }}')">
-                        <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
-                        <h6 class="card-title">{{ project.year }} г.</h6>
-                        <h6 class="card-title">
-                            {{ project.category.all | join:", " }}
-                        </h6>
-                        <div class="project-icon-main-cont">
-                            <div class="project-icon-cont">
-                                <i class="bi bi-eye" style="font-size: 20px" onclick="alert('in progress')"></i> 46
-                            </div>
-                            <div class="project-icon-cont">
-                                <i class="bi bi-hand-thumbs-up" style="font-size: 20px"
-                                   onclick="alert('in progress')"></i>
-                                46
-                            </div>
+                    <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
+                    <h6 class="card-title">{{ project.year }} г.</h6>
+                    <h6 class="card-title">
+                        {{ project.category.all | join:", " }}
+                    </h6>
+                    <div class="project-icon-main-cont">
+                        <div class="project-icon-cont">
+                            <i class="bi bi-eye" style="font-size: 20px" onclick="alert('in progress')"></i> 46
                         </div>
+                        <div class="project-icon-cont">
+                            <i class="bi bi-hand-thumbs-up" style="font-size: 20px"
+                               onclick="alert('in progress')"></i>
+                            46
+                        </div>
+                    </div>
 
                 </div>
 
@@ -153,10 +165,10 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="jumbotron jumbotron-fluid jumbo-styles">
-{#                                <div class="container">#}
-                                    <div class="project-members-caption">Цели проекта:</div>
-                                    <div class="project-goals">{{ project.goals }}</div>
-{#                                </div>#}
+                                {#                                <div class="container">#}
+                                <div class="project-members-caption">Цели проекта:</div>
+                                <div class="project-goals">{{ project.goals }}</div>
+                                {#                                </div>#}
                             </div>
                         </div>
                         <div class="col-8">
@@ -173,12 +185,15 @@
                                     </div>
                                 </div>
 
-                                <div class="container" style="display: flex; flex-direction: column; margin-right: 0px;">
+                                <div class="container"
+                                     style="display: flex; flex-direction: column; margin-right: 0px;">
                                     <div class="project-members-caption">Участники:</div>
                                     <div class="project-members">
                                         {% for member in project.members.all %}
                                             <a href="/experts/{{ member.id }}">
-                                                <img class="member-img" src="{{ member.profile.avatar.url }}" title="{{ member.last_name }} {{ member.first_name }}" alt="{{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}"
+                                                <img class="member-img" src="{{ member.profile.avatar.url }}"
+                                                     title="{{ member.last_name }} {{ member.first_name }}" alt="
+                                                        {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}"
                                                      style="width: 40px;height: 40px;">
                                             </a>
                                         {% endfor %}
@@ -209,67 +224,51 @@
                 <ul class="pagination justify-content-center">
                     {% if projects.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="?page=1
-
-
-
-                                    {% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                            <a class="page-link" href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                                aria-label="First">
-                                <span aria-hidden="true">&laquo; First</span>
+                                <span aria-hidden="true">&laquo; {% trans 'First' %}</span>
                             </a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="?page=
-
-
-
-                                    {{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                            <a class="page-link" href="?page={{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                                aria-label="Previous">
-                                <span aria-hidden="true">&lsaquo; Previous</span>
+                                <span aria-hidden="true">&lsaquo; {% trans 'Previous' %}</span>
                             </a>
                         </li>
                     {% else %}
                         <li class="page-item disabled">
-                            <span class="page-link" aria-hidden="true">&laquo; First</span>
+                            <span class="page-link" aria-hidden="true">&laquo; {% trans 'First' %}</span>
                         </li>
                         <li class="page-item disabled">
-                            <span class="page-link" aria-hidden="true">&lsaquo; Previous</span>
+                            <span class="page-link" aria-hidden="true">&lsaquo; {% trans 'Previous' %}</span>
                         </li>
                     {% endif %}
 
                     <li class="page-item disabled">
                     <span class="page-link">
-                        Page {{ projects.number }} of {{ projects.paginator.num_pages }}
+                        {% trans 'Page' %} {{ projects.number }} of {{ projects.paginator.num_pages }}
                     </span>
                     </li>
 
                     {% if projects.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="?page=
-
-
-
-                                    {{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                            <a class="page-link" href="?page={{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                                aria-label="Next">
-                                <span aria-hidden="true">Next &rsaquo;</span>
+                                <span aria-hidden="true">{% trans 'Next page' %} &rsaquo;</span>
                             </a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="?page=
-
-
-
-                                    {{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                            <a class="page-link" href="?page={{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                                aria-label="Last">
-                                <span aria-hidden="true">Last &raquo;</span>
+                                <span aria-hidden="true">{% trans 'Last page' %} &raquo;</span>
                             </a>
                         </li>
                     {% else %}
                         <li class="page-item disabled">
-                            <span class="page-link" aria-hidden="true">Next &rsaquo;</span>
+                            <span class="page-link" aria-hidden="true">{% trans 'Next page' %} &rsaquo;</span>
                         </li>
                         <li class="page-item disabled">
-                            <span class="page-link" aria-hidden="true">Last &raquo;</span>
+                            <span class="page-link" aria-hidden="true">{% trans 'Last page' %} &raquo;</span>
                         </li>
                     {% endif %}
                 </ul>
@@ -287,7 +286,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="projectDetailsModalLabel">Project Details</h5>
+                    <h5 class="modal-title" id="projectDetailsModalLabel">{% trans 'Project Details' %}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="projectDetailsModalBody">
