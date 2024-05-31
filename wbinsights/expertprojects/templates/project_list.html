@@ -2,8 +2,6 @@
 {% load i18n %}
 {% load web_tags %}
 
-<link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
-
 <style>
     .card-css {
         display: flex;
@@ -25,8 +23,9 @@
 
 
     {% if projects %}
+
         {% get_all_categories as categories %}
-        <form method="get" id="filter-form" class="mb-4 py-2"">
+        <form method="get" id="filter-form" class="mb-4 py-2">
 
         <div class="form-group">
             <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name"
@@ -78,7 +77,7 @@
                         {% with page_cnt_array='5 10 20 50 100 500' %}
 
                             {% for item in page_cnt_array.split %}
-                                <a class="dropdown-item{% if request.GET.page_size ==  item  %} active{% endif %}"
+                                <a class="dropdown-item{% if request.GET.page_size ==  item %} active{% endif %}"
                                    href="?page_size={{ item }}{% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ item }}</a>
                             {% endfor %}
 
@@ -106,13 +105,13 @@
 
 
     {% if projects %}
+
         <div class="project-list" style="display:flex; gap: 10px; flex-wrap: wrap">
 
             {% for project in projects %}
 
-                <div class="card border-dark mb-3" style="width:19%; cursor: pointer;"
-                     onclick="showProjectDetails('{{ project.id }}')" data-project-id="{{ project.id }}">
-                    <div class="card-body text-dark card-css">
+                <div class="card card-body border-dark1 text-dark card-css mb-3 " style="width:19%; cursor: pointer;"
+                     onclick="showProjectDetails('{{ project.id }}')">
                         <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
                         <h6 class="card-title">{{ project.year }} г.</h6>
                         <h6 class="card-title">
@@ -128,8 +127,9 @@
                                 46
                             </div>
                         </div>
-                    </div>
+
                 </div>
+
                 <div id="details-{{ project.id }}" class="card border-dark mb-3 project-details-modal-content"
                      style="display: none; padding: 10px;">
                     <div class="row" style="margin-bottom: 10px;">
@@ -147,8 +147,7 @@
                         </div>
                         <div class="col-8">
                             <div class="edit-project-search-bar global-border-radius">
-                                <div class="project-name"><h3
-                                        style="margin-bottom: 0px;font-size: 22px;">{{ project.name }}</h3></div>
+                                <h3 style="margin-bottom: 0px;font-size: 22px;">{{ project.name }}</h3>
                             </div>
                         </div>
                     </div>
@@ -156,48 +155,43 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="jumbotron jumbotron-fluid jumbo-styles">
-                                <div class="container">
+{#                                <div class="container">#}
                                     <div class="project-members-caption">Цели проекта:</div>
                                     <div class="project-goals">{{ project.goals }}</div>
-                                </div>
+{#                                </div>#}
                             </div>
                         </div>
                         <div class="col-8">
                             <div class="jumbotron jumbotron-fluid jumbo-styles">
+
                                 <div class="container">
                                     <div class="project-members-caption">Ключевые результаты проекта:</div>
                                     <div class="project-key-results">
-                                        <ul style="gap: 5px;display: flex;flex-direction: column;">
+                                        <ul style="gap: 5px;display: flex; flex-direction: column;">
                                             {% for key_result in project.key_results %}
                                                 <li>{{ key_result }}</li>
                                             {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="container"
-                                     style="display: flex; flex-direction: column; margin-right: 0px;">
+
+                                <div class="container" style="display: flex; flex-direction: column; margin-right: 0px;">
                                     <div class="project-members-caption">Участники:</div>
                                     <div class="project-members">
-                                        <ul>
-                                            {% for member in project.members.all %}
-                                                <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                                                    <a href="/experts/{{ member.id }}"
-                                                       style="display: flex;align-items: center;width: 100%;justify-content: flex-start;">
-                                                        <img class="member-img" src="{{ member.profile_photo }}" alt="
-                                                                {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}"
-                                                             style="min-width: 50px;height: auto;height: 50px;margin-right: 10px;align-content: center;">
-                                                        <span> {{ member.last_name }} {{ member.first_name }} </span>
-                                                    </a>
-                                                </div>
-                                            {% endfor %}
-                                        </ul>
+                                        {% for member in project.members.all %}
+                                            <a href="/experts/{{ member.id }}">
+                                                <img class="member-img" src="{{ member.profile.avatar.url }}" title="{{ member.last_name }} {{ member.first_name }}" alt="{{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}"
+                                                     style="width: 40px;height: 40px;">
+                                            </a>
+                                        {% endfor %}
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
 
-                    {% if request.user.is_authenticated and request.user.profile.type == 1 %}
+                    {% if request.user.is_authenticated and request.user.profile.type == 1 and request.path == '/profile' %}
                         <div style="display: flex; justify-content: flex-end; gap: 5px; margin-top: 10px;">
                             <a href="/expert/project/{{ project.slug }}/edit/"
                                class="btn btn-primary btn-sm">Редактировать</a>
@@ -220,6 +214,7 @@
                             <a class="page-link" href="?page=1
 
 
+
                                     {% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                                aria-label="First">
                                 <span aria-hidden="true">&laquo; First</span>
@@ -227,6 +222,7 @@
                         </li>
                         <li class="page-item">
                             <a class="page-link" href="?page=
+
 
 
                                     {{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
@@ -254,6 +250,7 @@
                             <a class="page-link" href="?page=
 
 
+
                                     {{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                                aria-label="Next">
                                 <span aria-hidden="true">Next &rsaquo;</span>
@@ -261,6 +258,7 @@
                         </li>
                         <li class="page-item">
                             <a class="page-link" href="?page=
+
 
 
                                     {{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
