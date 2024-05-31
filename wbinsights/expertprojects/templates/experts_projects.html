@@ -147,7 +147,8 @@
         const projectMembersFieldSetCont = $('.project-members');
         projectMembersFieldSetCont.html('');
         selectedProject.members.forEach((member) => {
-            projectMembersFieldSetCont.append(`<a href="/experts/${member.id}"><img class="member-img" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`);
+            projectMembersFieldSetCont.append(`<a href="/experts/${member.id}">
+                    <img class="member-img12" src="${member.profile_photo}" />${member.last_name} ${member.first_name}</a>`);
         });
 
         //edit button
@@ -173,7 +174,7 @@
 
         let categoryNames = project.category.map(cat => cat.name).join(', ');
 
-        return `<div class="card border-dark mb-3" style="width:19%; cursor: pointer;" onclick="loadProject(${index})">
+        return `<div class="card border-dark mb-3" style="width:19%; max-width:19%; cursor: pointer;" onclick="loadProject(${index})">
                     <div class="card-body text-dark card-css">
                         <h6 class="card-title" style="font-weight: bold">${project.name}</h6>
                         <h6 class="card-title" >${project.year} г.</h6>
