@@ -186,6 +186,11 @@ class AppointmentPaymentNotification(APIView):
         print("payment_id = " + payment_id)
 
         payment = AppointmentPayment.objects.get(uuid=payment_id)
+
+        if payment.status == AppointmentPayment.AppointmentPaymentStatus.COMPLETED:
+            print("payment_id = " + payment_id + " already paid")
+            return HttpResponse(status=200)
+
         print("payment status is " + request.data['object']['status'])
 
         if request.data['object']['status'] == 'canceled':
@@ -227,12 +232,11 @@ class AppointmentPaymentNotification(APIView):
                         'Новое бронирование',
                         text_content,
                         'info_dev@24wbinside.ru',
-                        [payment.appointment.client.email, 'edemerchan@yandex.ru']
+                        [payment.appointment.expert.email]
                     )
                     # Добавляем HTML версию
                     email.attach_alternative(html_content, "text/html")
-                    print("email send result is ")
-
+                    email.send()
 
             except Exception as e:
                 # Если произошла ошибка, откатываем транзакцию
