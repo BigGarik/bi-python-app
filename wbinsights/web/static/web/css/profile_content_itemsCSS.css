@@ -17,7 +17,7 @@
 .jumbo-styles {
     display: flex;
     box-shadow: 0 0 5px hsla(0, 0%, 66%, .8);
-    background-color: #f4f4f4;
+    /*background-color: #f4f4f4;*/
     padding:10px;
     height: 100%;
 }
