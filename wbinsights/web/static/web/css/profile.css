@@ -36,6 +36,7 @@
 .user-category-cont {
     display: flex;
     flex-wrap: wrap;
+    height: 30px;
 }
 
 .user-category{
