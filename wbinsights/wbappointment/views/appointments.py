@@ -3,8 +3,8 @@ import json
 import logging
 
 from django.contrib.auth.decorators import login_required
-#from django.core import send_mail
-#from django.core import send_mail
+# from django.core import send_mail
+# from django.core import send_mail
 from django.db import transaction
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect, render
@@ -12,6 +12,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 
 from wbappointment.forms import AppointmentForm, SelectAppointmentDateForm
 from wbappointment.models import Appointment, AppointmentStatus, ExpertSchedule, AppointmentPayment, \
@@ -56,7 +61,7 @@ def add_appointment_view(request, *args, **kwargs):
             new_appointment.expert = expert
 
             # Получение текущего времени
-            #end_time = form.cleaned_data['appointment_time'] + timedelta(hours=1)
+            # end_time = form.cleaned_data['appointment_time'] + timedelta(hours=1)
 
             new_appointment.save()
             return redirect('appointment_checkout', pk=new_appointment.id)
@@ -181,7 +186,7 @@ class AppointmentPaymentNotification(APIView):
         print("payment_id = " + payment_id)
 
         payment = AppointmentPayment.objects.get(uuid=payment_id)
-        print("payment status is " + request.data['object']['status']);
+        print("payment status is " + request.data['object']['status'])
 
         if request.data['object']['status'] == 'canceled':
             try:
@@ -198,32 +203,41 @@ class AppointmentPaymentNotification(APIView):
         if request.data['object']['status'] == 'succeeded':
             try:
                 with transaction.atomic():
+
                     zoom_link = create_zoom_meeting(payment.appointment)
                     payment.status = AppointmentPayment.AppointmentPaymentStatus.COMPLETED
                     payment.save()
+
                     payment.appointment.status = AppointmentStatus.PAID
                     payment.appointment.zoom_link = zoom_link
                     payment.appointment.save()
-                    #Отправка уведомления Эксперту
-                    # send_mail(
-                    #     subject='Обращение с сайта',
-                    #     message=message,
-                    #     from_email='info_dev@24wbinside.ru',
-                    #     recipient_list=["contact_us@24wbinside.ru"],
-                    #     fail_silently=False,
-                    # )
+
+                    # Отправка уведомления Эксперту
+                    html_content = render_to_string('emails/appointment_created.html',
+                                                    {
+                                                        'client': payment.appointment.client,
+                                                        'appointment':payment.appointment,
+                                                        'site_url': 'https://24wbinside.ru/'
+                                                    })
+                    # Получаем текстовую версию письма из HTML
+                    text_content = strip_tags(html_content)
+
+                    # Создаем объект EmailMultiAlternatives
+                    email = EmailMultiAlternatives(
+                        'Новое бронирование',
+                        text_content,
+                        'info_dev@24wbinside.ru',
+                        [payment.appointment.client.email, 'edemerchan@yandex.ru']
+                    )
+                    # Добавляем HTML версию
+                    email.attach_alternative(html_content, "text/html")
+                    print("email send result is ")
+
+
             except Exception as e:
                 # Если произошла ошибка, откатываем транзакцию
                 print(f"An error occurred: {e}")
-
-            # Отправка уведомления Клиенту
-            # send_mail(
-            #     subject='Обращение с сайта',
-            #     message=message,
-            #     from_email='info_dev@24wbinside.ru',
-            #     recipient_list=["contact_us@24wbinside.ru"],
-            #     fail_silently=False,
-            # )
+                return HttpResponse(status=500)
 
         return HttpResponse(status=200)
 
@@ -245,13 +259,13 @@ def checkout_appointment_view(request, *args, **kwargs):
         appointment_payment = AppointmentPayment()
         appointment_payment.appointment = appointment
         appointment_payment.summ = appointment.expert.expertprofile.hour_cost
-        #appointment_payment.status = AppointmentPayment.AppointmentPaymentStatus.PENDING
+        # appointment_payment.status = AppointmentPayment.AppointmentPaymentStatus.PENDING
 
         current_base_url = request.scheme + '://' + request.get_host()
         payment = create_yookassa_payment(appointment_payment.summ, current_base_url)
 
-        #print("#### payment status = " + payment.status)
-        #Меняем статус платежа
+        # print("#### payment status = " + payment.status)
+        # Меняем статус платежа
         appointment_payment.uuid = payment.id
         appointment_payment.save()
 
