@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            {% include "components/comments.html" %}
+            
 
             {% if user.is_authenticated and user == article.author %}
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
@@ -58,6 +58,8 @@
             {% endif %}
 
         </div>
+    
+        {% include "components/comments.html" %}
 
     </div>
 
