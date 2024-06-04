@@ -1,7 +1,9 @@
-
 {% load i18n %}
 {% load web_tags %}
-<div id="articles" class="expert-content" >
+{% load comments %}
+{% load comments_xtd %}
+
+<div id="articles" class="expert-content">
 
     {% for article in experts_articles %}
 
@@ -21,15 +23,30 @@
             </a>
         </span>
 
-            <div class="comments-andshare-cont">
-                <div class="list-comments">
-                    <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; 104
-                </div>
-                <div class="list-share">
-                    <i class="bi bi-calendar2-week"
-                       style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
+            <div class="comments-andshare-cont" style="justify-content: space-between">
 
+                <div style="display: flex; gap: 10px">
+                    <div class="list-comments">
+                        {% get_comment_count for article as comment_count %}
+                        <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp;{{ comment_count }}
+                    </div>
+
+                    <div class="list-share">
+                        <i class="bi bi-calendar2-week"
+                           style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
+
+                    </div>
                 </div>
+
+                <div class="manage-buttons" style="display: flex; gap: 15px ">
+                    <a href="{% url 'article_edit' slug=article.slug %}" style="transform: scale(1.2)">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{% url 'article_edit' slug=article.slug %}" style="transform: scale(1.2)">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </div>
+
             </div>
 
         </div>
@@ -38,9 +55,3 @@
 
     {% endfor %}
 </div>
-
-<script>
-
-    console.log('articles')
-
-</script>
