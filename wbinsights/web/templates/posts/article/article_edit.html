@@ -34,21 +34,31 @@
                 <div id="gjs" style="min-height: 300px;"></div>
             </div>
 
-            <div class="col-3" style="gap:10px; display: flex; flex-direction: column; position: sticky">
+            <div class="col-3" style="gap:10px; display: flex; flex-direction: column;">
 
-                <div>
-                    <div></div>
-                    <div></div>
-                </div>
+                <div class="article-add-right-btns">
 
-                <div id="blocks"></div>
+                    <div class="article-settings">
+                        <span>Настройки</span>
+                        <span><i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё</span>
+                    </div>
 
-                {{ form.cat }}
+                    <span class="article-add-desc">
+                    Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
+                </span>
 
-                {{ form.is_published }}
+                    <div id="blocks"></div>
 
-                <div class="d-grid gap-2 d-block">
-                    <input type="submit" value="Опубликовать" class="btn btn-success"/>
+                    <hr class="solid"/>
+
+                    {{ form.cat }}
+
+                    {{ form.is_published }}
+
+                    <div class="d-grid gap-2 d-block">
+                        <input type="submit" value="Опубликовать" class="btn btn-success"/>
+                    </div>
+
                 </div>
 
             </div>
@@ -65,9 +75,6 @@
         //Обновляем значение поля content перед ее отправкой
         document.getElementById('article-form').addEventListener('submit', function (event) {
             document.getElementsByName('content')[0].value = editor.getHtml()
-            console.log(editor.getHTML())
-            alert(editor.getHTML())
-            event.preventDefault()
         })
 
         editor.setComponents($('input[name=content]').val())
