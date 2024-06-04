@@ -268,9 +268,9 @@ class EducationForm(forms.ModelForm):
     education_type = forms.ChoiceField(label=_("Type of education"), choices=Education.EDUCATION_TYPE_CHOICES, widget=forms.Select(attrs={'class': 'custom-form-css'}))
     specialized_education = forms.BooleanField(label=_("Specialized education"), required=False, widget=forms.CheckboxInput(attrs={'class': 'custom-form-css'}))
     educational_institution = forms.CharField(label=_("Educational institution"), required=False, widget=forms.TextInput(attrs={'class': 'custom-form-css'}))
-    educational_institution_verified = forms.BooleanField(label=_("Institution verified"), required=False, widget=forms.CheckboxInput(attrs={'class': 'custom-form-css'}))
+    # educational_institution_verified = forms.BooleanField(label=_("Institution verified"), required=False, widget=forms.CheckboxInput(attrs={'class': 'custom-form-css'}))
     diploma_number = forms.IntegerField(label=_("Diploma number"), required=False, widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))
-    diploma_number_verified = forms.BooleanField(label=_("Diploma number verified"), required=False, widget=forms.CheckboxInput(attrs={'class': 'custom-form-css'}))
+    # diploma_number_verified = forms.BooleanField(label=_("Diploma number verified"), required=False, widget=forms.CheckboxInput(attrs={'class': 'custom-form-css'}))
     degree_documents = forms.ModelMultipleChoiceField(
         label=_("Education documents"),
         queryset=Document.objects.all(),
@@ -280,7 +280,7 @@ class EducationForm(forms.ModelForm):
 
     class Meta:
         model = Education
-        fields = ['education_type', 'specialized_education', 'educational_institution', 'educational_institution_verified', 'diploma_number', 'diploma_number_verified', 'degree_documents']
+        fields = ['education_type', 'specialized_education', 'educational_institution', 'diploma_number', 'degree_documents']
 
 
 EducationFormSet = modelformset_factory(Education, form=EducationForm, extra=0)

@@ -45,7 +45,6 @@ class CustomUser(AbstractUser):
             "Unselect this instead of deleting accounts."
         ),
     )
-    # profile = models.OneToOneField('Profile', on_delete=models.CASCADE, related_name='user', null=True, blank=True)
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
@@ -117,18 +116,31 @@ class ExpertProfile(models.Model):
     experience = models.IntegerField(default=0)
     hh_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to HH'))
     linkedin_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to LinkedIn'))
-    experience_documents = models.ManyToManyField('Document', blank=True, related_name='experience_documents',
-                                                  verbose_name=_('Documents confirming experience'))
+
+    anketa = models.JSONField(blank=True, null=True)
 
     """ Верификация """
+
     class ExpertVerifiedStatus(models.IntegerChoices):
         NOT_VERIFIED = 0, _('Unverified')
         VERIFIED = 1, _('Verified')
 
     is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerifiedStatus.choices,
                                       default=ExpertVerifiedStatus.NOT_VERIFIED)
-
     rating = models.FloatField(null=True)
+
+
+class ExpertVerifiedProfileManager(models.Manager):
+    def get_queryset(self):
+        return super(ExpertVerifiedProfileManager, self).get_queryset().filter(
+            Q(expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED))
+
+
+class ExpertVerifiedProfile(ExpertProfile):
+    objects = ExpertVerifiedProfileManager()
+
+    class Meta:
+        proxy = True
 
 
 class Education(models.Model):
@@ -143,33 +155,35 @@ class Education(models.Model):
     specialized_education = models.BooleanField(default=False)  # Профильное или нет образование
     educational_institution = models.CharField(max_length=250, null=True, blank=True,
                                                verbose_name=_('Educational Institution'))
-    educational_institution_verified = models.BooleanField(default=False)
     diploma_number = models.IntegerField(null=True, blank=True,
                                          verbose_name=_('Educational Institution'))
-    diploma_number_verified = models.BooleanField(default=False)
-    degree_documents = models.ManyToManyField('Document', blank=True, related_name='degree_documents',
-                                              verbose_name=_('Education documents'))
+    # degree_documents = models.ManyToManyField('Document', blank=True, related_name='degree_documents',
+                                              # verbose_name=_('Education documents'))
 
-# TODO проверить сброс верификации полей образования при изменении
-    def save(self, *args, **kwargs):
-        # Если экземпляр уже существует в базе данных (не новый)
-        if self.pk:
-            # Получаем старый экземпляр из базы данных
-            old_instance = Education.objects.get(pk=self.pk)
-            # Проверяем, изменилось ли поле
-            if old_instance.educational_institution != self.educational_institution:
-                # Если изменилось, устанавливаем 'educational_institution_verified' в False
-                self.educational_institution_verified = False
-            if old_instance.diploma_number != self.diploma_number:
-                # Если изменилось, устанавливаем 'diploma_number_verified' в False
-                self.diploma_number_verified = False
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     # Если экземпляр уже существует в базе данных (не новый)
+    #     if self.pk:
+    #         # Получаем старый экземпляр из базы данных
+    #         old_instance = Education.objects.get(pk=self.pk)
+    #         # Проверяем, изменилось ли поле
+    #         if old_instance.educational_institution != self.educational_institution:
+    #             # Если изменилось, устанавливаем 'educational_institution_verified' в False
+    #             self.educational_institution_verified = False
+    #         if old_instance.diploma_number != self.diploma_number:
+    #             # Если изменилось, устанавливаем 'diploma_number_verified' в False
+    #             self.diploma_number_verified = False
+    #     super().save(*args, **kwargs)
 
 
 class Document(models.Model):
     file = models.FileField(upload_to=UploadToPathAndRename('expert/documents'), verbose_name=_('File'))
     uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Date of upload'))
-    is_verified = models.BooleanField(default=False)
+    # Добавьте ForeignKey для связи с ExpertProfile
+    expert_profile = models.ForeignKey(ExpertProfile, on_delete=models.CASCADE, related_name='documents', null=True,
+                                       blank=True)
+    # Добавляем ForeignKey для Education
+    education = models.ForeignKey(Education, on_delete=models.CASCADE, related_name='degree_documents', null=True,
+                                  blank=True)
 
     class Meta:
         verbose_name = _('Document')
