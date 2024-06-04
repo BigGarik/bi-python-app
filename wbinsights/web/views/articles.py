@@ -15,8 +15,8 @@ from django.contrib.auth.decorators import login_required
 
 from django.db.models import Q
 
-
 import time
+
 
 class ArticleListView(ListView):
     model = Article
@@ -66,11 +66,8 @@ class ArticleDetailView(DetailView):
     template_name = 'posts/article/article_detail.html'
     form_class = ArticleForm
 
-    def form_valid(self, form):
-        return HttpResponseRedirect(self.get_success_url())
 
-
-class ArticleEditView(UpdateView, LoginRequiredMixin):
+class ArticleEditView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     model = Article
     form_class = ArticleForm
     context_object_name = 'article'
@@ -81,52 +78,9 @@ class ArticleEditView(UpdateView, LoginRequiredMixin):
         form.save()
         return redirect(self.get_success_url())
 
-
-#
-#
-# @login_required
-# def create_article(request):
-#
-#     if request.method == "POST":
-#
-#         data = request.POST
-#
-#         article = Article()
-#         article.title = data['title']
-#         article.description = data['description']
-#         article.content = data['content']
-#         article.main_img = request.FILES.get('main_img')
-#         article.author = request.user
-#         max_length = Article._meta.get_field('slug').max_length
-#         article.slug = slugify(article.title + '-' + str(time.time()))[:max_length]
-#
-#         # selectedCategorySlug = data['category']
-#         # if not selectedCategorySlug:
-#         selected_category = data['category']
-#         if not selected_category:
-#             print("Error")
-#
-#         try:
-#             # categoryFromDB = Category.objects.get(slug=selectedCategorySlug)
-#             category_from_db = Category.objects.get(name=selected_category)
-#             article.cat = category_from_db
-#             article.save()  # Save the article instance to the database
-#         except Category.DoesNotExist:
-#             print("Category not found")
-#
-#         resp = {
-#             "toUrl": "articles/"
-#         }
-#
-#         return JsonResponse(resp)
-#
-#     allCategories = Category.objects.all()
-#     context = {
-#         "categories": allCategories
-#     }
-#
-#     return render(request, 'posts/article/article_add.html', context=context)
-
+    def test_func(self):
+        article = self.get_object()
+        return self.request.user == article.author
 
 
 def delete_article(request, slug):
@@ -135,7 +89,6 @@ def delete_article(request, slug):
         article.delete()
         return redirect('profile')
     return redirect('profile', slug=slug)
-
 
 
 class ArticleAddView(CreateView, LoginRequiredMixin):
