@@ -14,4 +14,5 @@ class ArticleForm(forms.ModelForm):
         fields = ['title', 'description', 'content', 'main_img', 'cat', 'is_published']
         widgets = {
             'cat': forms.Select(attrs={'class': 'form-control'}),
+            'is_published': forms.Select(attrs={'class': 'form-control'})
         }
