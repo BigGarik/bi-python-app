@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, UpdateView
 
 from django.shortcuts import render, get_object_or_404
 
+from expertprojects.models import UserProject
 # from web.forms.users import ProfileForm, UserPasswordChangeForm, CustomUserForm
 from web.models import CustomUser, Expert
 from web.forms.articles import ArticleForm
@@ -132,6 +133,8 @@ class ExpertDetailView(DetailView):
         context['experts_researches_count'] = Article.objects.count()
         context['rating'] = 4.5
 
+        projects_count = UserProject.objects.filter(author__id=self.kwargs['pk']).count()
+
         # Fetch the expert's projects
         projects_view = GetProjectsView()
         projects_view.request = self.request
@@ -148,5 +151,6 @@ class ExpertDetailView(DetailView):
             projects = paginator.page(paginator.num_pages)
 
         context['projects'] = projects
+        context['projects_count'] = projects_count
 
         return context
