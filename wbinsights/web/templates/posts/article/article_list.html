@@ -45,7 +45,7 @@
 		<div class="search-and-cat-cont">
 
 			<div class="col-6">
-				<input type="text" class="lists-search-cont" placeholder="Поиск">
+				<input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск" value="{{ search_q }}">
 			</div>
 
 
@@ -56,7 +56,7 @@
 
 		</div>
 
-		{% for article in object_list %}
+		{% for article in articles %}
 
 		<div class="article-list-content">
 			<div class="list-publish-date">
@@ -140,6 +140,14 @@
         </div>
 
 	</div>
+
+    <script>
+        document.getElementById("search-article-query").addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    window.location.href = {{ request.path }} + '?search_q=' + this.value
+                }
+        })
+    </script>
 
 </body>
 

@@ -11,48 +11,28 @@ from django.http import JsonResponse
 
 from django.contrib.auth.decorators import login_required
 
-# from django.urls import reverse_lazy
+from django.db.models import Q
+
 
 import time
-
-
-# def get_articles(request):
-#     articles = Article.objects.all()
-#
-#     data = {
-#         'title': 'Статьи',
-#         'articles': articles,
-#     }
-#
-#     return render(request, 'articles.html', context=data)
-#
-#
-# def show_article(request, post_slug):
-#     article = get_object_or_404(Article, slug=post_slug)
-#
-#     data = {
-#         'title': article.title,
-#         'article': article,
-#         'cat_selected': 1,
-#     }
-#
-#     return render(request, 'articles.html', context=data)
-
 
 class ArticleListView(ListView):
     model = Article
     template_name = 'posts/article/article_list.html'
+    context_object_name = 'articles'
 
-    # Название переменной для списка статей вместо object_list
-    # context_object_name = articles
+    def get_queryset(self):
+        query = self.request.GET.get('search_q')
+        if query:
+            return Article.objects.filter(Q(content__icontains=query) | Q(title__icontains=query))
+        return Article.objects.all()
 
     # Добавляем параметры в контекст
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
         context['categories'] = Category.objects.all()
         context['selected_category'] = ''
+        context['search_q'] = self.request.GET.get('search_q', '')
         return context
 
 
@@ -91,7 +71,7 @@ class ArticleDetailView(DetailView):
 class ArticleEditView(UpdateView):
     model = Article
     form_class = ArticleForm
-    context_object_name = 'userproject'
+    context_object_name = 'article'
     template_name = 'posts/article/article_edit.html'
     success_url = 'article_list'
 
