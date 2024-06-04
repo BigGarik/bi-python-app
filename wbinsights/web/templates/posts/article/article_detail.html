@@ -12,11 +12,11 @@
 
     <div class="article-detail-page-content">
 
-<!--        <div class="global-back-btn">-->
-<!--            <a href="{% url 'article_list' %}" class="global-back-btn">-->
-<!--                <i class="bi bi-chevron-left"></i> &nbsp;Ко всем статьям-->
-<!--            </a>-->
-<!--        </div>-->
+        <!--        <div class="global-back-btn">-->
+        <!--            <a href="{% url 'article_list' %}" class="global-back-btn">-->
+        <!--                <i class="bi bi-chevron-left"></i> &nbsp;Ко всем статьям-->
+        <!--            </a>-->
+        <!--        </div>-->
 
         <div class="global-back-btn">
             <a href="javascript:history.back()" class="global-back-btn">
@@ -24,10 +24,25 @@
             </a>
         </div>
 
-        <div class="article-detail-page-publish-date">
-            <i class="bi bi-calendar2-week" style="color:#a9b4ca; scale:1.3"></i>
-            &nbsp; {{ article.time_update|custom_time_display }}
+        <div style="display: flex; justify-content: space-between">
+            <div class="article-detail-page-publish-date">
+                <i class="bi bi-calendar2-week" style="color:#a9b4ca; scale:1.3"></i>
+                &nbsp; {{ article.time_update|custom_time_display }}
+            </div>
+
+            {% if user.is_authenticated and user == article.author %}
+                <div class="manage-buttons" style="display: flex; gap: 15px ">
+                    <a href="{% url 'article_edit' slug=article.slug %}" style="transform: scale(1.2)">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{% url 'article_edit' slug=article.slug %}" style="transform: scale(1.2)">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </div>
+            {% endif %}
+
         </div>
+
 
         <div class="article-detail-title">{{ article.title }}</div>
 
@@ -49,19 +64,20 @@
                 </div>
             </div>
 
-            
 
-            {% if user.is_authenticated and user == article.author %}
-                <a href="{% url 'article_edit' slug=article.slug  %}" type="button" class="btn btn-primary">
-                Редактировать статью 
-            </a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
-                Delete Article
-            </button>
-            {% endif %}
+
+{#            {% if user.is_authenticated and user == article.author %}#}
+{#                <a href="{% url 'article_edit' slug=article.slug %}" type="button" class="btn btn-primary">#}
+{#                    Редактировать статью#}
+{#                </a>#}
+{#                <button type="button" class="btn btn-danger" data-bs-toggle="modal"#}
+{#                        data-bs-target="#confirmDeleteModal">#}
+{#                    Delete Article#}
+{#                </button>#}
+{#            {% endif %}#}
 
         </div>
-    
+
         {% include "components/comments.html" %}
 
     </div>
@@ -69,7 +85,8 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
