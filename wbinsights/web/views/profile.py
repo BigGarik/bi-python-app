@@ -1,12 +1,16 @@
+import io
+
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import strip_tags
+from rest_framework.parsers import JSONParser
 
 from wbappointment.forms import ExpertScheduleForm
 from wbappointment.models import Appointment
 from wbinsights.settings import SERVER_EMAIL
+from web.forms.anketa import ExpertAnketaForm
 from web.forms.users import UserProfilePasswordChangeForm, ExpertProfileChangeForm, CustomUserChangeForm, \
     ProfileChangeForm, EducationFormSet
 from web.models import CustomUser, Profile
@@ -162,7 +166,15 @@ def edit_user_profile(request):
     user_change_password_form = UserProfilePasswordChangeForm(user=request.user)
 
     if is_expert:
-        expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertprofile)
+        """ Анкета """
+        anketa_data = request.user.expertprofile.anketa
+        if anketa_data:
+            # Десериализация данных из JSON
+            stream = io.BytesIO(anketa_data.encode('utf-8'))
+            data = JSONParser().parse(stream)
+            expert_profile_form = ExpertAnketaForm(data)
+        else:
+            expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertprofile)
         education_expert_formset = EducationFormSet(queryset=request.user.expertprofile.educations.all())
 
     context = {}
