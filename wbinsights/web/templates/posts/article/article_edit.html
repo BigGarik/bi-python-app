@@ -1,0 +1,82 @@
+{% extends 'base12.html' %}
+
+{% load static %}
+
+{% block title %}
+    Редактирование статьи
+{% endblock %}
+
+{% block center_col %}
+
+    <link rel="stylesheet" href="//unpkg.com/grapesjs/dist/css/grapes.min.css">
+    <script src="//unpkg.com/grapesjs"></script>
+    <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for key, value in form.errors.items %}
+                {{ key }} {{ value }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" id="article-form">
+        {% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-9">
+                {{ form.title }}
+                {{ form.description }}
+                <img src="{{ form.main_img.value.url }}" style="width: 100%"/>
+                {{ form.main_img }}
+                {{ form.content }}
+                <div id="gjs" style="min-height: 300px;"></div>
+            </div>
+
+            <div class="col-3" style="gap:10px; display: flex; flex-direction: column; position: sticky">
+
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
+
+                <div id="blocks"></div>
+
+                {{ form.cat }}
+
+                {{ form.is_published }}
+
+                <div class="d-grid gap-2 d-block">
+                    <input type="submit" value="Опубликовать" class="btn btn-success"/>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </form>
+
+    {% include 'posts/article/article_js_editor.html' %}
+
+    <script>
+
+        //Обновляем значение поля content перед ее отправкой
+        document.getElementById('article-form').addEventListener('submit', function (event) {
+            document.getElementsByName('content')[0].value = editor.getHtml()
+            console.log(editor.getHTML())
+            alert(editor.getHTML())
+            event.preventDefault()
+        })
+
+        editor.setComponents($('input[name=content]').val())
+
+
+    </script>
+
+
+
+
+
+{% endblock %}
