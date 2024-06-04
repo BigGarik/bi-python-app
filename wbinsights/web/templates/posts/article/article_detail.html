@@ -52,6 +52,9 @@
             
 
             {% if user.is_authenticated and user == article.author %}
+                <a href="{% url 'article_edit' slug=article.slug  %}" type="button" class="btn btn-primary">
+                Редактировать статью 
+            </a>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
                 Delete Article
             </button>

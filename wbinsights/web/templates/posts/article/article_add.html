@@ -148,7 +148,8 @@
     </div>
 
     <script>
-        var csrftoken = '{{ csrf_token }}';
+        var csrftoken = '{{ csrf_token }}'
+        
 
         const editor = grapesjs.init({
             container: '#gjs',
@@ -238,10 +239,14 @@
             const categoryDropdownBtn = document.getElementById('categoryDropdownBtn');
             categoryDropdownBtn.innerText = category;
         }
+        
+        function loadArticle() {
+             
+        }
 
         function saveArticle() {
             const editorContent = editor.getHtml();
-            console.log('editorContent', editorContent)
+            //console.log('editorContent', editorContent)
             const title = document.getElementById('title').value;
             const description = document.getElementById('description').value;
             const selectedCategory = document.getElementById('categoryDropdownBtn').innerText.trim();

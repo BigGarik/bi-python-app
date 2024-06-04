@@ -1,6 +1,8 @@
 import itertools
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from pytils.translit import slugify
 
 from web.forms.articles import ArticleForm
@@ -80,11 +82,29 @@ class CategoryArticleListView(ArticleListView):
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'posts/article/article_detail.html'
+    form_class = ArticleForm
+
+    def form_valid(self, form):
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class ArticleEditView(UpdateView):
+    model = Article
+    form_class = ArticleForm
+    context_object_name = 'userproject'
+    template_name = 'posts/article/article_edit.html'
+    success_url = 'article_list'
+
+    def form_valid(self, form):
+        form.save()
+        return redirect(self.get_success_url())
 
 
 @login_required
 def create_article(request):
+
     if request.method == "POST":
+
         data = request.POST
 
         article = Article()
