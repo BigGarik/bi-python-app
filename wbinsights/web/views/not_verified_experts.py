@@ -131,32 +131,23 @@ class UnverifiedExpertDetailView(LoginRequiredMixin, UserPassesTestMixin, Detail
         expert_profile = expert.expertprofile
 
         if action == 'approve':
-            """ # Сериализация для теста
-            serializer = ExpertProfileSerializer(expert_profile)
-            json_data = JSONRenderer().render(serializer.data)
-            print(json_data.decode('utf-8'))
-            expert_profile.anketa = json_data.decode('utf-8')
-             """
-            # Копируем данные из анкеты в профиль эксперта
+            # # Сериализация для теста
+            # serializer = ExpertProfileSerializer(expert_profile)
+            # json_data = JSONRenderer().render(serializer.data)
+            # print(json_data.decode('utf-8'))
+            # expert_profile.anketa = json_data.decode('utf-8')
+
             anketa_data = expert_profile.anketa
             if anketa_data:
-                anketa_object = json.loads(anketa_data)
-                for key, value in anketa_object.items():
-                    if hasattr(expert_profile, key):
-                        field = expert_profile._meta.get_field(key)
-                        if isinstance(field, ManyToManyField):
-                            # Обновляем ManyToManyField
-                            related_objects = [Category.objects.get_or_create(name=item['name'])[0] for item in value]
-                            getattr(expert_profile, key).set(related_objects)
-                        elif isinstance(field, ForeignKey):
-                            # Обновляем ForeignKey
-                            related_object = field.related_model.objects.get_or_create(name=value['name'])[0]
-                            setattr(expert_profile, key, related_object)
-                        else:
-                            setattr(expert_profile, key, value)
-            # установить статус Анкеты в верифицирована
-            # expert_profile.anketa.is_verified = ExpertProfile.ExpertVerifiedStatus.VERIFIED
-            expert_profile.is_verified = ExpertProfile.ExpertVerifiedStatus.VERIFIED
+                # Десериализация данных из JSON
+                stream = io.BytesIO(anketa_data.encode('utf-8'))
+                data = JSONParser().parse(stream)
+
+                # Создание экземпляра сериализатора с данными
+                serializer = ExpertProfileSerializer(data=data).update(expert_profile, data)
+            # TODO установить статус Анкеты в верифицирована
+            # expert_profile.anketa.is_verified = ExpertProfile.ExpertVerifiedStatus.VERIFIED # пример что бы не забыть
+            # expert_profile.is_verified = ExpertProfile.ExpertVerifiedStatus.VERIFIED
             expert_profile.save()
 
             # Перенаправление после подтверждения

@@ -4,7 +4,7 @@ from django.db import transaction
 from django.db.models import ForeignKey, ManyToManyField, OneToOneField
 from rest_framework import serializers
 from web.models import ExpertProfile, Category, CustomUser, Education, Document
-
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -68,7 +68,7 @@ class DocumentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class EducationSerializer(serializers.ModelSerializer):
+class EducationSerializer(WritableNestedModelSerializer):
     degree_documents = DocumentSerializer(many=True)
 
     class Meta:
@@ -88,64 +88,65 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ExpertProfileSerializer(serializers.ModelSerializer):
-    # user = CustomUserSerializer()
+class ExpertProfileSerializer(WritableNestedModelSerializer):
+    user = CustomUserSerializer()
     expert_categories = CategorySerializer(many=True)
     educations = EducationSerializer(many=True)
     documents = DocumentSerializer(many=True)
-    # user = CustomUserSerializer()
-    # documents = DocumentSerializer()
-    # educations = EducationSerializer()
-    # expert_categories = CategorySerializer()
 
     class Meta:
         model = ExpertProfile
-        exclude = ['anketa', 'user']
+        exclude = ['anketa']
 
-    # def update(self, instance, validated_data):
-    #     # Обновляем простые поля
-    #     instance.about = validated_data.get('about', instance.about)
-    #     instance.age = validated_data.get('age', instance.age)
-    #     instance.hour_cost = validated_data.get('hour_cost', instance.hour_cost)
-    #     instance.consulting_experience = validated_data.get('consulting_experience', instance.consulting_experience)
-    #     instance.experience = validated_data.get('experience', instance.experience)
-    #     instance.hh_link = validated_data.get('hh_link', instance.hh_link)
-    #     instance.linkedin_link = validated_data.get('linkedin_link', instance.linkedin_link)
-    #     instance.is_verified = validated_data.get('is_verified', instance.is_verified)
-    #     instance.rating = validated_data.get('rating', instance.rating)
-    #     instance.save()
-    #
-    #     # Обновляем связанные объекты ManyToMany
-    #     categories_data = validated_data.get('expert_categories')
-    #     if categories_data:
-    #         instance.expert_categories.set([Category.objects.get_or_create(**cat_data)[0] for cat_data in categories_data])
-    #
-    #     # Обновляем связанные объекты OneToMany
-    #     educations_data = validated_data.get('educations')
-    #     if educations_data:
-    #         for education_data in educations_data:
-    #             education_id = education_data.get('id')
-    #             if education_id:
-    #                 education = Education.objects.get(id=education_id, expert_profile=instance)
-    #                 education.education_type = education_data.get('education_type', education.education_type)
-    #                 education.specialized_education = education_data.get('specialized_education', education.specialized_education)
-    #                 education.educational_institution = education_data.get('educational_institution', education.educational_institution)
-    #                 education.diploma_number = education_data.get('diploma_number', education.diploma_number)
-    #                 education.save()
-    #             else:
-    #                 Education.objects.create(expert_profile=instance, **education_data)
-    #
-    #     # Обновляем связанные документы
-    #     documents_data = validated_data.get('documents')
-    #     if documents_data:
-    #         for document_data in documents_data:
-    #             document_id = document_data.get('id')
-    #             if document_id:
-    #                 document = Document.objects.get(id=document_id, expert_profile=instance)
-    #                 document.file = document_data.get('file', document.file)
-    #                 document.uploaded_at = document_data.get('uploaded_at', document.uploaded_at)
-    #                 document.save()
-    #             else:
-    #                 Document.objects.create(expert_profile=instance, **document_data)
-    #
-    #     return instance
+    def update(self, instance, validated_data):
+
+        # Обновляем связанные объекты ManyToMany
+        if 'expert_categories' in validated_data:
+            categories_data = validated_data.pop('expert_categories')
+            category_slugs = [cat['slug'] for cat in categories_data]
+            categories = Category.objects.filter(slug__in=category_slugs)
+            instance.expert_categories.set(categories)
+
+        # Обновляем связанные объекты OneToMany
+        if 'educations' in validated_data:
+            educations_data = validated_data.pop('educations')
+            for education_data in educations_data:
+                education_id = education_data.get('id')
+                if education_id:
+                    education = Education.objects.get(id=education_id, expert_profile=instance)
+                    education.education_type = education_data.get('education_type', education.education_type)
+                    education.specialized_education = education_data.get('specialized_education',
+                                                                         education.specialized_education)
+                    education.educational_institution = education_data.get('educational_institution',
+                                                                           education.educational_institution)
+                    education.diploma_number = education_data.get('diploma_number', education.diploma_number)
+                    education.save()
+                else:
+                    Education.objects.create(expert_profile=instance, **education_data)
+
+        # Обновляем связанные документы
+        if 'documents' in validated_data:
+            documents_data = validated_data.pop('documents')
+            for document_data in documents_data:
+                document_id = document_data.get('id')
+                if document_id:
+                    document = Document.objects.get(id=document_id, expert_profile=instance)
+                    document.file = document_data.get('file', document.file)
+                    document.uploaded_at = document_data.get('uploaded_at', document.uploaded_at)
+                    document.save()
+                else:
+                    Document.objects.create(expert_profile=instance, **document_data)
+        # Обновляем простые поля
+        instance.about = validated_data.get('about', instance.about)
+        instance.age = validated_data.get('age', instance.age)
+        instance.hour_cost = validated_data.get('hour_cost', instance.hour_cost)
+        instance.consulting_experience = validated_data.get('consulting_experience',
+                                                            instance.consulting_experience)
+        instance.experience = validated_data.get('experience', instance.experience)
+        instance.hh_link = validated_data.get('hh_link', instance.hh_link)
+        instance.linkedin_link = validated_data.get('linkedin_link', instance.linkedin_link)
+        instance.is_verified = validated_data.get('is_verified', instance.is_verified)
+        instance.rating = validated_data.get('rating', instance.rating)
+        instance.save()
+
+        return instance
