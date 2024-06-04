@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from pytils.translit import slugify
 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
 from web.forms.articles import ArticleForm
 from web.models import Article, Category
 from django.http import JsonResponse
@@ -68,11 +70,11 @@ class ArticleDetailView(DetailView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class ArticleEditView(UpdateView):
+class ArticleEditView(UpdateView, LoginRequiredMixin):
     model = Article
     form_class = ArticleForm
     context_object_name = 'article'
-    template_name = 'posts/article/article_edit.html'
+    template_name = 'posts/article/article_add.html'
     success_url = 'article_list'
 
     def form_valid(self, form):
@@ -80,48 +82,50 @@ class ArticleEditView(UpdateView):
         return redirect(self.get_success_url())
 
 
-@login_required
-def create_article(request):
-
-    if request.method == "POST":
-
-        data = request.POST
-
-        article = Article()
-        article.title = data['title']
-        article.description = data['description']
-        article.content = data['content']
-        article.main_img = request.FILES.get('main_img')
-        article.author = request.user
-        max_length = Article._meta.get_field('slug').max_length
-        article.slug = slugify(article.title + '-' + str(time.time()))[:max_length]
-
-        # selectedCategorySlug = data['category']
-        # if not selectedCategorySlug:
-        selected_category = data['category']
-        if not selected_category:
-            print("Error")
-
-        try:
-            # categoryFromDB = Category.objects.get(slug=selectedCategorySlug)
-            category_from_db = Category.objects.get(name=selected_category)
-            article.cat = category_from_db
-            article.save()  # Save the article instance to the database
-        except Category.DoesNotExist:
-            print("Category not found")
-
-        resp = {
-            "toUrl": "articles/"
-        }
-
-        return JsonResponse(resp)
-
-    allCategories = Category.objects.all()
-    context = {
-        "categories": allCategories
-    }
-
-    return render(request, 'posts/article/article_add.html', context=context)
+#
+#
+# @login_required
+# def create_article(request):
+#
+#     if request.method == "POST":
+#
+#         data = request.POST
+#
+#         article = Article()
+#         article.title = data['title']
+#         article.description = data['description']
+#         article.content = data['content']
+#         article.main_img = request.FILES.get('main_img')
+#         article.author = request.user
+#         max_length = Article._meta.get_field('slug').max_length
+#         article.slug = slugify(article.title + '-' + str(time.time()))[:max_length]
+#
+#         # selectedCategorySlug = data['category']
+#         # if not selectedCategorySlug:
+#         selected_category = data['category']
+#         if not selected_category:
+#             print("Error")
+#
+#         try:
+#             # categoryFromDB = Category.objects.get(slug=selectedCategorySlug)
+#             category_from_db = Category.objects.get(name=selected_category)
+#             article.cat = category_from_db
+#             article.save()  # Save the article instance to the database
+#         except Category.DoesNotExist:
+#             print("Category not found")
+#
+#         resp = {
+#             "toUrl": "articles/"
+#         }
+#
+#         return JsonResponse(resp)
+#
+#     allCategories = Category.objects.all()
+#     context = {
+#         "categories": allCategories
+#     }
+#
+#     return render(request, 'posts/article/article_add.html', context=context)
 
 
 
@@ -134,13 +138,16 @@ def delete_article(request, slug):
 
 
 
-class ArticleAddView(CreateView):
+class ArticleAddView(CreateView, LoginRequiredMixin):
     model = Article
     form_class = ArticleForm
+    context_object_name = 'article'
     template_name = 'posts/article/article_add.html'
+    success_url = 'article_list'
 
     def form_valid(self, form):
         article = form.save(commit=False)  # Do not save the article yet
+        article.author = self.request.user
         max_length = Article._meta.get_field('slug').max_length
         article.slug = orig_slug = slugify(article.title)[:max_length]
 
@@ -151,4 +158,5 @@ class ArticleAddView(CreateView):
             article.slug = "%s-%d" % (orig_slug[:max_length - len(str(x)) - 1], x)
 
         article.save()
+        #return redirect(self.get_success_url())
         return super().form_valid(form)
