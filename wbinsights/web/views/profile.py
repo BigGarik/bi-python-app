@@ -28,6 +28,8 @@ from expertprojects.models import UserProject
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from web.services import ExpertRatingCalculation
+
 
 @login_required
 def anketa_view(request):
@@ -171,8 +173,8 @@ def edit_user_profile(request):
         if anketa_data:
             # Десериализация данных из JSON
             stream = io.BytesIO(anketa_data.encode('utf-8'))
-            data = JSONParser().parse(stream)
-            expert_profile_form = ExpertAnketaForm(data)
+            json_data = JSONParser().parse(stream)
+            expert_profile_form = ExpertAnketaForm(json_data=anketa_data.encode('utf-8'))
         else:
             expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertprofile)
         education_expert_formset = EducationFormSet(queryset=request.user.expertprofile.educations.all())
@@ -214,6 +216,8 @@ def edit_user_profile(request):
                 update_session_auth_hash(request, request.user)
 
             messages.success(request, _('Your profile is updated successfully'))
+            calculator = ExpertRatingCalculation()
+            rating = calculator.calculate_rating(user=request.user)
             return redirect('profile')
 
     #  user_change_password_form

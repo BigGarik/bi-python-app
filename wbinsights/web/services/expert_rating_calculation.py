@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from django.db.models import Prefetch
-
-from ..models import ExpertProfile
+from django.utils.translation import gettext_lazy as _
+from ..models import ExpertProfile, RatingRole, RatingCalculate, CustomUser
 
 
 @dataclass
@@ -50,8 +50,8 @@ class ExpertRatingCalculation:
             is_verified=expert_profile.is_verified
         )
 
-    def _calculate_primary_education_rating(self, expert_educations: list[ExpertEducationsRow]) -> int:
-        rating = 0
+    def _calculate_primary_education_rating(self, user: CustomUser, expert_educations: list[ExpertEducationsRow]) -> int:
+        score = 0
         # находим все основные образования эксперта
         for education_row in expert_educations:
             if education_row.education_type == 'primary' and education_row.specialized_education:
@@ -59,16 +59,20 @@ class ExpertRatingCalculation:
                 if education_row.educational_institution_verified:
                     # Проверяем статус верификации номера диплома
                     if education_row.diploma_number_verified:
-                        rating += 2
+                        score += 2
                     # # Проверяем наличие верифицированных документов об образовании
                     # elif education_row.degree_documents.filter(is_verified=True).exists():
                     #     rating += 2
                     else:
-                        rating += 1
-        return rating
+                        score += 1
+        # Сохраняем результат в таблицу RatingCalculate
+        rating_role, created = RatingRole.objects.get_or_create(name='calculate_primary_education_rating',
+                                                                text=_('Текст с условиями расчета основного образования'))
+        RatingCalculate.objects.update_or_create(role=rating_role, user=user, score=score)
+        return score
 
-    def _calculate_additional_education_rating(self, expert_educations: list[ExpertEducationsRow]) -> int:
-        rating = 0
+    def _calculate_additional_education_rating(self, user: CustomUser, expert_educations: list[ExpertEducationsRow]) -> int:
+        score = 0
         # Получаем все дополнительные образования эксперта, которые являются профильными
         for education_row in expert_educations:
             if education_row.education_type == 'additional' and education_row.specialized_education:
@@ -76,50 +80,66 @@ class ExpertRatingCalculation:
                 if education_row.educational_institution_verified:
                     # # Проверяем, есть ли верифицированные документы об образовании
                     # if education_row.degree_documents.filter(is_verified=True).exists():
-                    rating += 2
+                    score += 2
                 else:
-                    rating += 1
-        return rating
+                    score += 1
+        # Сохраняем результат в таблицу RatingCalculate
+        rating_role, created = RatingRole.objects.get_or_create(name='calculate_additional_education_rating',
+                                                    text=_('Текст с условиями расчета дополнительного образования'))
+        RatingCalculate.objects.update_or_create(role=rating_role, user=user, score=score)
 
-    def _calculate_consulting_experience_rating(self, expert_profile: ExpertProfileRow) -> int:
+        return score
+
+    def _calculate_consulting_experience_rating(self, user: CustomUser, expert_profile: ExpertProfileRow) -> int:
         has_links_or_documents = expert_profile.hh_link or expert_profile.linkedin_link
-
         if expert_profile.consulting_experience >= 5:
-            return 3
+            score = 3
         elif expert_profile.consulting_experience >= 3 and has_links_or_documents:
-            return 3
+            score = 3
         elif expert_profile.consulting_experience >= 3:
-            return 2
+            score = 2
         elif expert_profile.consulting_experience >= 2 and has_links_or_documents:
-            return 2
+            score = 2
         else:
-            return 0
+            score = 0
+        # Сохраняем результат в таблицу RatingCalculate
+        rating_role, created = RatingRole.objects.get_or_create(name='calculate_consulting_experience_rating',
+                                                    text=_('Текст с условиями расчета опыта консультаций'))
+        RatingCalculate.objects.update_or_create(role=rating_role, user=user, score=score)
+        return score
 
-    def _calculate_experience_rating(self, expert_profile: ExpertProfileRow) -> int:
+    def _calculate_experience_rating(self, user: CustomUser, expert_profile: ExpertProfileRow) -> int:
         has_links_or_documents = expert_profile.hh_link or expert_profile.linkedin_link
         if expert_profile.experience >= 10:
-            return 3
+            score = 3
         elif expert_profile.experience >= 5 and has_links_or_documents:
-            return 3
+            score = 3
         elif expert_profile.experience >= 5:
-            return 2
+            score = 2
         elif expert_profile.experience >= 2 and has_links_or_documents:
-            return 2
+            score = 2
         elif expert_profile.experience >= 3:
-            return 1
+            score = 1
         elif expert_profile.experience >= 2 and has_links_or_documents:
-            return 1
+            score = 1
         else:
-            return 0
+            score = 0
+        # Сохраняем результат в таблицу RatingCalculate
+        rating_role, created = RatingRole.objects.get_or_create(name='calculate_experience_rating',
+                                                    text=_('Текст с условиями расчета опыта работы'))
+        RatingCalculate.objects.update_or_create(role=rating_role, user=user, score=score)
 
-    def calculate_rating(self, user_id: int) -> int:
+        return score
+
+    def calculate_rating(self, user: CustomUser) -> int:
+        user_id = user.id
         expert_profile: ExpertProfileRow = self._extract_expert_profile(user_id)
         expert_educations: list[ExpertEducationsRow] = self._extract_expert_educations(user_id)
         ratings: list[int] = [
-            self._calculate_primary_education_rating(expert_educations),
-            self._calculate_experience_rating(expert_profile),
-            self._calculate_consulting_experience_rating(expert_profile),
-            self._calculate_additional_education_rating(expert_educations),
+            self._calculate_primary_education_rating(user, expert_educations),
+            self._calculate_experience_rating(user, expert_profile),
+            self._calculate_consulting_experience_rating(user, expert_profile),
+            self._calculate_additional_education_rating(user, expert_educations),
             # Добавить сюда вызовы других методов расчета рейтинга по мере их создания
         ]
         return sum(ratings) if ratings else 0
