@@ -3,6 +3,7 @@ from django.urls import path
 
 from django.contrib import admin
 
+from .services.expert_rating_calculation import calculate_rating_for_all_expert
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
@@ -73,6 +74,6 @@ urlpatterns = [
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
 
     path('admin/', admin.site.urls),
-
+    path('calculate_rating/', calculate_rating_for_all_expert, name='calculate_rating_for_all_expert'),
 
 ]

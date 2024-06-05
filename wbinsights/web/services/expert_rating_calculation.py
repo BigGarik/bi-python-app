@@ -1,7 +1,10 @@
 from dataclasses import dataclass
+
+from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Prefetch
+from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
-from ..models import ExpertProfile, RatingRole, RatingCalculate, CustomUser
+from ..models import ExpertProfile, RatingRole, RatingCalculate, CustomUser, Expert
 
 
 @dataclass
@@ -143,3 +146,13 @@ class ExpertRatingCalculation:
             # Добавить сюда вызовы других методов расчета рейтинга по мере их создания
         ]
         return sum(ratings) if ratings else 0
+
+
+@staff_member_required
+def calculate_rating_for_all_expert(request):
+    experts = Expert.objects.all()
+    for expert in experts:
+        # Считаем рейтинг эксперта
+        calculator = ExpertRatingCalculation()
+        calculator.calculate_rating(user=expert)
+    return HttpResponse(_("Ratings calculated for all experts."))

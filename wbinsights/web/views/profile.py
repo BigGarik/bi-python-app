@@ -216,8 +216,6 @@ def edit_user_profile(request):
                 update_session_auth_hash(request, request.user)
 
             messages.success(request, _('Your profile is updated successfully'))
-            calculator = ExpertRatingCalculation()
-            rating = calculator.calculate_rating(user=request.user)
             return redirect('profile')
 
     #  user_change_password_form
