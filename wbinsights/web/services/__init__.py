@@ -1,1 +1,1 @@
-from expert_rating_calculation import ExpertRatingCalculation, ExpertEducationsRow, ExpertProfileRow
+from .expert_rating_calculation import ExpertRatingCalculation, ExpertEducationsRow, ExpertProfileRow
