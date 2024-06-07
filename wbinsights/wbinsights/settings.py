@@ -53,8 +53,10 @@ INSTALLED_APPS = [
     'wbappointment.apps.WbappointmentConfig',
     'django_recaptcha',
     'rest_framework',
-    'zoomus'
 
+    # 'debug_toolbar',  # Закомментировать перед пушем
+
+    'zoomus',
 ]
 
 SITE_ID = 1
@@ -68,7 +70,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',  # Закомментировать перед пушем
+
     # 'django.middleware.locale.LocaleMiddleware',
+]
+
+INTERNAL_IPS = [  # Закомментировать перед пушем
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'wbinsights.urls'

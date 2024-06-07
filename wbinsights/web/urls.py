@@ -1,5 +1,6 @@
+import debug_toolbar
 from django.contrib.auth.views import LoginView
-from django.urls import path
+from django.urls import path, include
 
 from django.contrib import admin
 
@@ -75,5 +76,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('calculate_rating/', calculate_rating_for_all_expert, name='calculate_rating_for_all_expert'),
+
+    path('__debug__/', include('debug_toolbar.urls')),   # Закомментировать перед пушем
 
 ]
