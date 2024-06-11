@@ -1,5 +1,4 @@
 <script>
-
     const editor = grapesjs.init({
         container: '#gjs',
         fromElement: true,
@@ -12,6 +11,7 @@
             stepsBeforeSave: 1,
             id: 'gjs',
         },
+
         panels: {defaults: []},
         blockManager: {
             appendTo: '#blocks',
@@ -70,7 +70,57 @@
 
             ]
         },
-    })
+        styleManager: {
+            appendTo: '#style-manager-container',
+            sectors: [
+                {
+                    name: 'Dimension',
+                    open: false,
+                    buildProps: ['width', 'height', 'max-width', 'min-height', 'margin', 'padding'],
+                    properties: [
+                        {
+                            property: 'margin',
+                            properties: [
+                                { name: 'Top', property: 'margin-top' },
+                                { name: 'Right', property: 'margin-right' },
+                                { name: 'Bottom', property: 'margin-bottom' },
+                                { name: 'Left', property: 'margin-left' }
+                            ],
+                        },
+                        {
+                            property: 'padding',
+                            properties: [
+                                { name: 'Top', property: 'padding-top' },
+                                { name: 'Right', property: 'padding-right' },
+                                { name: 'Bottom', property: 'padding-bottom' },
+                                { name: 'Left', property: 'padding-left' }
+                            ],
+                        }
+                    ]
+                },
+                {
+                    name: 'Typography',
+                    open: false,
+                    buildProps: ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'color'],
+                },
+                {
+                    name: 'Alignment',
+                    open: false,
+                    buildProps: ['float', 'text-align'],
+                },
+                {
+                    name: 'Flexbox',
+                    open: false,
+                    buildProps: ['display', 'flex-direction', 'flex-wrap', 'justify-content', 'align-items', 'align-content', 'order'],
+                },
+                {
+                    name: 'Positioning',
+                    open: false,
+                    buildProps: ['position', 'top', 'right', 'bottom', 'left'],
+                },
+            ]
+        }
+    });
 
     editor.on('load', () => {
         const gjsContainer = document.getElementById('gjs');
@@ -81,6 +131,5 @@
             gjsContainer.style.padding = '10px';
         }
     });
-
 
 </script>
