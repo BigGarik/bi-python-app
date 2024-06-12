@@ -1,60 +1,25 @@
 {% load web_tags %}
-
 {% load static %}
-
 
 <link rel="stylesheet" href="{% static 'web/css/contact_navbar.css' %}">
 
-<nav class="navbar element-container">
-
-    <div class="container-fluid-nav">
-
-        <a class="navbar-brand {% if request.path == '/contact/' %}selected{% endif %}"
+<nav class="navbar contact" style="background-color: white; border-radius: 10px; padding: 0px">
+    <div class="container-fluid-nav-contact container-fluid-right">
+        <a class="navbar-brand-contact {% if request.path == '/contact/' %}selected{% endif %}"
            href="{% url 'contact' %}">
-            <span class="contact-span">О ресурсе</span>
+            <span>О ресурсе</span>
         </a>
-
-        <a class="navbar-brand {% if request.path == '#' %}selected{% endif %}"
+        <a class="navbar-brand-contact {% if request.path == '#' %}selected{% endif %}"
            href="#">
             <span>Правила</span>
         </a>
-
-        <a class="navbar-brand {% if request.path == '/data_policies/' %}selected{% endif %}"
+        <a class="navbar-brand-contact {% if request.path == '/data_policies/' %}selected{% endif %}"
            href="{% url 'data_policies' %}">
             <span>Политика обработки данных</span>
         </a>
-
-        <a class="navbar-brand {% if request.path == '/contact_us/' %}selected{% endif %}"
+        <a class="navbar-brand-contact {% if request.path == '/contact_us/' %}selected{% endif %}"
            href="{% url 'contact_us' %}">
             <span>Написать нам</span>
-
         </a>
-
     </div>
 </nav>
-
-{#<nav class="navbar">#}
-{##}
-{#    <div class="container-fluid-nav">#}
-{##}
-{#        {% split request.path "/" "first" as first_path %}#}
-{##}
-{#        {% split request.path "/" "last" as last_path %}#}
-{##}
-{#        <a class="navbar-brand {% if last_path == 'popular' %} selected {% endif %}"#}
-{#           href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">#}
-{#            <i class="bi bi-fire" style="scale: 0.9;"></i>#}
-{#            <span class="nav-item-class">Популярное</span>#}
-{#        </a>#}
-{##}
-{#        <a class="navbar-brand {% if last_path == 'new' %} selected {% endif %}"#}
-{#           href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">#}
-{#            <i class="bi bi-clock-fill" style="scale: 0.9; "></i>#}
-{#            <span class="nav-item-class">Новое</span>#}
-{#        </a>#}
-{##}
-{#        #}
-{##}
-{#    </div>#}
-{##}
-{#</nav>#}
