@@ -9,6 +9,7 @@
 
 <link rel="stylesheet" href="//unpkg.com/grapesjs/dist/css/grapes.min.css">
 <script src="//unpkg.com/grapesjs"></script>
+<script src="//unpkg.com/grapesjs/dist/grapesjs-plugin-i18n.min.js"></script>
 <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
 
 <style>
@@ -19,6 +20,31 @@
     .gjs-selected {
         outline-offset: 0px !important;
     }
+
+    .gjs-one-bg {
+        background-color: #edf0f6 !important;
+    }
+
+    .gjs-category-title, .gjs-layer-title, .gjs-block-category .gjs-title, .gjs-sm-sector-title, .gjs-trait-category .gjs-title {
+        color: black !important;
+        background-color: #edf0f6 !important;
+    }
+
+    .gjs-sm-properties {
+        color: black !important;
+    }
+
+    .gjs-field-colorp {
+         padding: 0px !important;
+    }
+
+    .gjs-four-color {
+        color: #666666 !important;
+    }
+
+
+
+
 </style>
 
 <form method="post" enctype="multipart/form-data" id="article-form">
@@ -59,6 +85,7 @@
                 <span class="article-add-desc">
                     Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
                 </span>
+
                 <div id="blocks"></div>
                 <div id="style-manager-container" style="margin: 10px 2.5% 5px;"></div>
                 <hr class="solid"/>
@@ -156,7 +183,7 @@
         document.getElementsByName('styles')[0].value = editor.getCss(); //maybe?
     });
 
-    // Load existing content and styles
+    //load existing content and styles
     editor.setComponents($('input[name=content]').val());
     editor.setStyle($('input[name=styles]').val());
 </script>
