@@ -1,180 +1,164 @@
 {% extends 'base12.html' %}
-
 {% load static %}
 
 {% block title %}
-    Создание статьи
+Создание статьи
 {% endblock %}
 
 {% block center_col %}
 
-    <link rel="stylesheet" href="//unpkg.com/grapesjs/dist/css/grapes.min.css">
-    <script src="//unpkg.com/grapesjs"></script>
-    <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
+<link rel="stylesheet" href="//unpkg.com/grapesjs/dist/css/grapes.min.css">
+<script src="//unpkg.com/grapesjs"></script>
+<link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
 
-    <style>
+<style>
+    .clear-all:hover {
+        cursor: pointer;
+    }
 
-        .clear-all:hover {
-            cursor: pointer;
-        }
+    .gjs-selected {
+        outline-offset: 0px !important;
+    }
+</style>
 
-    </style>
+<form method="post" enctype="multipart/form-data" id="article-form">
+    {% csrf_token %}
 
-    <form method="post" enctype="multipart/form-data"id="article-form">
-
-        {% csrf_token %}
-
-        <div class="row">
-            <div class="col-9" style="gap: 10px">
-
-                <div class="global-back-btn">
-                    <span class="global-back-btn" onclick="goBack()" style="cursor:pointer">
-                        <i class="bi bi-chevron-left" style="scale:1"></i> &nbsp;Назад
-                    </span>
-                </div>
-
-                {{ form.title.label }}
-                {{ form.title }}
-                <br>
-                {{ form.description.label }}
-                {{ form.description }}
-                <br>
-
-                {{ form.main_img.label }}
-                <div id="imageContainer">
-                    <img id="uploadedImage" src="{{ form.main_img.value.url }}" style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
-                </div>
-                {{ form.main_img }}
-                <br>
-                {{ form.content }}
-                <div id="gjs" style="min-height: 300px;"></div>
-
+    <div class="row">
+        <div class="col-9" style="gap: 10px">
+            <div class="global-back-btn">
+                <span class="global-back-btn" onclick="goBack()" style="cursor:pointer">
+                    <i class="bi bi-chevron-left" style="scale:1"></i> &nbsp;Назад
+                </span>
             </div>
 
-            <div class="col-3">
+            {{ form.title.label }}
+            {{ form.title }}
+            <br>
+            {{ form.description.label }}
+            {{ form.description }}
+            <br>
 
-                <div class="article-add-right-btns">
-
-                    <div class="article-settings">
-                        <div>Настройки</div>
-                        <div class="clear-all" onclick="clearEditorContent()"><i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё</div>
-                    </div>
-
-                    <span class="article-add-desc">
-                        Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
-                    </span>
-
-                    <div id="blocks"></div>
-                    <div id="style-manager-container" style="margin: 10px 2.5% 5px;"></div>
-
-                    <hr class="solid"/>
-                    <div>Категория</div>
-                    {{ form.cat }}
-                    <br>
-                    <div>Статус публикации</div>
-                    {{ form.is_published }}
-                    <br>
-                    <div class="d-grid gap-2 d-block">
-                        <input type="submit" value="Опубликовать" class="btn btn-success"/>
-                    </div>
-
-                </div>
-
+            {{ form.main_img.label }}
+            <div id="imageContainer">
+                <img id="uploadedImage" src="{{ form.main_img.value.url }}" style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
             </div>
-
+            {{ form.main_img }}
+            <br>
+            {{ form.content }}
+            <div id="gjs" style="min-height: 300px;"></div>
+            <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
         </div>
-    </form>
 
-    {% include 'posts/article/article_js_editor.html' %}
+        <div class="col-3">
+            <div class="article-add-right-btns">
+                <div class="article-settings">
+                    <div>Настройки</div>
+                    <div class="clear-all" onclick="clearEditorContent()"><i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё</div>
+                </div>
+                <span class="article-add-desc">
+                    Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
+                </span>
+                <div id="blocks"></div>
+                <div id="style-manager-container" style="margin: 10px 2.5% 5px;"></div>
+                <hr class="solid"/>
+                <div>Категория</div>
+                {{ form.cat }}
+                <br>
+                <div>Статус публикации</div>
+                {{ form.is_published }}
+                <br>
+                <div class="d-grid gap-2 d-block">
+                    <input type="submit" value="Опубликовать" class="btn btn-success"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
-    <script>
+{% include 'posts/article/article_js_editor.html' %}
 
-        function clearEditorContent() {
-            editor.setComponents('');
-        }
+<script>
+    function clearEditorContent() {
+        editor.setComponents('');
+    }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const clearButton = document.querySelector('.bi-trash');
-            if (clearButton) {
-                clearButton.addEventListener('click', function () {
-                    const isConfirmed = confirm('ARE YOU SURE??');
-                    if (isConfirmed) {
-                        clearEditorContent();
-                    }
-                });
-
-                clearButton.addEventListener('mouseover', function () {
-                    clearButton.style.color = 'red';
-                });
-
-                clearButton.addEventListener('mouseout', function () {
-                    clearButton.style.color = '';
-                });
-            }
-        });
-
-        function goBack() {
-            window.history.back();
-        }
-
-        //selected tags
-        $('#tagSelect').on('select2:select', function (e) {
-            const selectedTag = e.params.data.text;
-            displaySelectedTag(selectedTag);
-        });
-
-        function displaySelectedTag(tag) {
-            const tagContainer = document.getElementById('selectedTags');
-            const tagElement = document.createElement('span');
-            tagElement.innerHTML = `<span>${tag} <button type="button" onclick="removeTag('${tag}')" class="btn btn-sm btn-danger">X</button></span>`;
-            tagContainer.appendChild(tagElement);
-        }
-
-        function removeTag(tag) {
-            //remove selected tags
-            const tagContainer = document.getElementById('selectedTags');
-            tagContainer.querySelectorAll('span').forEach(tagElement => {
-                if (tagElement.innerText.includes(tag)) {
-                    tagElement.remove();
+    document.addEventListener('DOMContentLoaded', function () {
+        const clearButton = document.querySelector('.bi-trash');
+        if (clearButton) {
+            clearButton.addEventListener('click', function () {
+                const isConfirmed = confirm('ARE YOU SURE??');
+                if (isConfirmed) {
+                    clearEditorContent();
                 }
             });
+
+            clearButton.addEventListener('mouseover', function () {
+                clearButton.style.color = 'red';
+            });
+
+            clearButton.addEventListener('mouseout', function () {
+                clearButton.style.color = '';
+            });
         }
+    });
 
+    function goBack() {
+        window.history.back();
+    }
 
-        document.getElementById('id_main_img').addEventListener('change', handleFileSelect);
+    $('#tagSelect').on('select2:select', function (e) {
+        const selectedTag = e.params.data.text;
+        displaySelectedTag(selectedTag);
+    });
 
-        {#document.getElementById('imageContainer').addEventListener('dragover', allowDrop);#}
-        {#document.getElementById('imageContainer').addEventListener('drop', handleDrop);#}
+    function displaySelectedTag(tag) {
+        const tagContainer = document.getElementById('selectedTags');
+        const tagElement = document.createElement('span');
+        tagElement.innerHTML = `<span>${tag} <button type="button" onclick="removeTag('${tag}')" class="btn btn-sm btn-danger">X</button></span>`;
+        tagContainer.appendChild(tagElement);
+    }
 
-        function allowDrop(event) {
-            event.preventDefault();
-        }
+    function removeTag(tag) {
+        const tagContainer = document.getElementById('selectedTags');
+        tagContainer.querySelectorAll('span').forEach(tagElement => {
+            if (tagElement.innerText.includes(tag)) {
+                tagElement.remove();
+            }
+        });
+    }
 
-        function handleDrop(event) {
-            event.preventDefault();
-            const file = event.dataTransfer.files[0];
-            handleFileSelect(file);
-        }
+    document.getElementById('id_main_img').addEventListener('change', handleFileSelect);
 
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById('uploadedImage').src = e.target.result;
-                document.getElementById('uploadedImage').style.display = 'block';
-                // document.getElementById('imagePlaceholder').style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
+    function allowDrop(event) {
+        event.preventDefault();
+    }
 
-        //Обновляем значение поля content перед ее отправкой
-        document.getElementById('article-form').addEventListener('submit', function (event) {
-            document.getElementsByName('content')[0].value = editor.getHtml()
-        })
+    function handleDrop(event) {
+        event.preventDefault();
+        const file = event.dataTransfer.files[0];
+        handleFileSelect(file);
+    }
 
-        editor.setComponents($('input[name=content]').val())
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('uploadedImage').src = e.target.result;
+            document.getElementById('uploadedImage').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
 
+    // Обновляем значение поля content перед ее отправкой
+    document.getElementById('article-form').addEventListener('submit', function (event) {
+        document.getElementsByName('content')[0].value = editor.getHtml();
+        document.getElementsByName('styles')[0].value = editor.getCss(); //maybe?
+    });
 
-    </script>
+    // Load existing content and styles
+    editor.setComponents($('input[name=content]').val());
+    editor.setStyle($('input[name=styles]').val());
+</script>
 
 {% endblock %}
