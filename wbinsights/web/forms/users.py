@@ -8,7 +8,7 @@ from django.forms import modelformset_factory
 from django.utils.translation import gettext_lazy as _
 from django_recaptcha.fields import ReCaptchaField
 
-from ..models.users import Profile, CustomUser, ExpertProfile, Category, Document, Education, ExpertAnketa
+from web.models.users import Profile, CustomUser, ExpertProfile, Category, Document, Education, ExpertAnketa
 
 logger = logging.getLogger(__name__)
 
