@@ -17,7 +17,7 @@
             margin-bottom: 5px;
         }
 
-        .user-catagory-highlight{
+        .user-catagory-highlight {
             margin-right: 0px !important;
             margin-left: 0px !important;
         }
@@ -26,6 +26,8 @@
 
 </style>
 
+
+{% get_rate_chipher user.expertprofile.rating as filled_stars_chipher%}
 
 <div class="profile-info-cont">
 
@@ -40,7 +42,9 @@
                     {{ user.first_name }} {{ user.last_name }}
                 </div>
                 <div class="user-rating-cont">
-                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ rating }} &nbsp;</div>
+                    <div class="user-rating">{% trans 'RatingLabel' %} : {{  user.expertprofile.rating|default_if_none:0 }} &nbsp;</div>
+
+                   
                     <div class="user-rate-and-stars">
                         {% for ch in filled_stars_chipher %}
                             {% if ch == 'f' %}
@@ -56,7 +60,7 @@
                 <div class="user-category-cont">
                     <div class="user-category">Эксперт в области :</div>
                     <div class="displayflex">
-                        {% for exp_category in user.expertprofile.expert_categories.all %}
+                        {% for exp_category in profile.expert_categories.all %}
                             <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
                         {% endfor %}
                     </div>
@@ -72,7 +76,7 @@
     <div class="d-block d-md-none col-12 top-half-prof" style="display: flex; flex-direction: column;">
         <div style="display: flex;">
             <div class="col-sm-3 prof-page-pic-cont">
-                <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                <img src="{{ profile.avatar.url }}" alt="Avatar"
                      style="border-radius: 50%;width: 80px;height: 80px;object-fit: cover;">
             </div>
             <div class="col-sm-9 profile-information-cont">
@@ -80,8 +84,10 @@
                     {{ user.first_name }} {{ user.last_name }}
                 </div>
                 <div class="user-rating-cont">
-                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ rating }} &nbsp;</div>
+                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating|default_if_none:0 }} &nbsp;</div>
                     <div class="user-rate-and-stars">
+
+                    {{ filled_stars_chipher }}
                         {% for ch in filled_stars_chipher %}
                             {% if ch == 'f' %}
                                 <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
@@ -96,7 +102,7 @@
                 <div class="user-category-cont">
                     <div class="user-category">Эксперт в области :</div>
                     <div class="displayflex">
-                        {% for exp_category in user.expertprofile.expert_categories.all %}
+                        {% for exp_category in profile.expert_categories.all %}
                             <div class="user-catagory-highlight {{ exp_category.slug }}">
                                 {{ exp_category.name }}
                             </div>
@@ -107,7 +113,7 @@
         </div>
         <div class="prof-user-setting">
 
-            {% include buttons_template with user=expert%}
+            {% include buttons_template with user=expert %}
 
         </div>
     </div>
@@ -117,26 +123,41 @@
         <div class="bottom-info">
 
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp;</span>
-                <span class="">{{ user.expertprofile.education }}</span>
+                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp</span>
+                {% for edu in education %}
+                    {% if edu.education_type == 'primary' %}
+                        <span class="">{{ edu.educational_institution }}</span>
+                    {% endif %}
+                {% endfor %}
             </div>
 
             <div class="prof-bottom-cont">
 
                 <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}:&nbsp;</span>
-                <span class="">{{ user.expertprofile.experience }}
-                            {% get_write_phrase user.expertprofile.experience 'год года лет' %}
+                <span class="">{{ profile.experience }}
+                            {% get_write_phrase profile.experience 'год года лет' %}
                         </span>
 
             </div>
 
             <div class="prof-bottom-cont">
-                {{ user.expertprofile.about }}
+                {{ profile.about }}
             </div>
 
             <div class="prof-bottom-cont">
                 <span class="bottom-bold-text">{% trans 'PricePerHourLabel' %}:&nbsp;</span>
-                <span class=""> {{ user.expertprofile.hour_cost }} ₽/час</span>
+                <span class=""> {{ profile.hour_cost }} ₽/час</span>
+            </div>
+
+
+            <div class="prof-bottom-cont">
+                <span class="bottom-bold-text">{% trans 'hhLinkLabel' %}:&nbsp;</span>
+                <span class=""> {{ profile.hh_link }} </span>
+            </div>
+
+            <div class="prof-bottom-cont">
+                <span class="bottom-bold-text">{% trans 'LinkedInLinkLabel' %}:&nbsp;</span>
+                <a href="{{ profile.linkedin_link }}" class=""> {{ profile.linkedin_link }}</a>
             </div>
 
         </div>

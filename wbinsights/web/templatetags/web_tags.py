@@ -1,13 +1,40 @@
+import math
+
 from django import template
 
 from web.models import Expert, Category
 
-from django.utils.timesince import timesince
 from django.utils.timezone import now
 
 from django.utils.translation import gettext as _
 
 register = template.Library()
+
+
+@register.simple_tag
+def get_rate_chipher(rating):
+    ratechipher = ''
+
+    if rating is None or rating < 0:
+        rating = 0
+
+    if rating > 5:
+        rating = 5
+
+    frac, intnum = math.modf(rating)
+
+    for idx in range(int(intnum)):
+        ratechipher += 'f'
+
+    if frac > 0:
+        ratechipher += 'h'
+
+    e_starts_cnt = 5 - len(ratechipher)
+
+    for idx in range(e_starts_cnt):
+        ratechipher += 'e'
+
+    return ratechipher
 
 
 @register.simple_tag
@@ -19,9 +46,9 @@ def get_top_experts():
 def get_all_categories():
     return Category.objects.all()
 
+
 @register.simple_tag
 def get_category_by_slug(slug):
-
     cat = Category.objects.filter(slug=slug)
     if len(cat) > 0:
         return cat[0]
@@ -56,8 +83,9 @@ def split(value, key, element=None):
     if element == 'first':
         return res[0]
     if element == 'last':
-        return res[len(res)-1]
+        return res[len(res) - 1]
     return res
+
 
 @register.filter
 def get_post_url_or_none(value):
@@ -66,22 +94,20 @@ def get_post_url_or_none(value):
     return None
 
 
-
 # custom time repush 2
 @register.filter
 def custom_time_display(datetime_value):
-    
     time_difference = now() - datetime_value
     days_difference = time_difference.days
 
     if days_difference > 7:
         return datetime_value.strftime('%d.%m.%Y')
-    
+
     elif days_difference == 1:
         return _('вчера в ') + datetime_value.strftime('%H:%M')
-    
+
     elif days_difference > 1:
-        
+
         if days_difference in (2, 3, 4):
             return f'{days_difference} ' + _('дня назад')
         else:
@@ -89,9 +115,9 @@ def custom_time_display(datetime_value):
     else:
         #round to the nearest 30 minutes
         total_minutes = int((time_difference.total_seconds() + 900) // 1800) * 30
-        
+
         hours = total_minutes // 60
-        
+
         if hours == 0:
             minutes = total_minutes % 60
             if minutes == 0:
@@ -100,15 +126,15 @@ def custom_time_display(datetime_value):
                 return _('1 минута назад')
             else:
                 return f'{minutes} ' + _('минут назад')
-            
+
         elif hours == 1:
             return _('1 час назад')
-        
+
         elif hours in (2, 3, 4):
             return f'{hours} ' + _('часа назад')
-        
+
         else:
             return f'{hours} ' + _('часов назад')
 
-register.filter('custom_time_display', custom_time_display)
 
+register.filter('custom_time_display', custom_time_display)

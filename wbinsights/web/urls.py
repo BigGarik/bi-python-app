@@ -1,4 +1,4 @@
-import debug_toolbar
+#import debug_toolbar
 from django.contrib.auth.views import LoginView
 from django.urls import path, include
 
@@ -8,7 +8,8 @@ from .services.expert_rating_calculation import calculate_rating_for_all_expert
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
-from .views.articles import ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView, CategoryArticleListView, delete_article
+from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView,
+                             CategoryArticleListView, delete_article)
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.researches import ResearchesListView, ResearchesDetailView
@@ -77,6 +78,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('calculate_rating/', calculate_rating_for_all_expert, name='calculate_rating_for_all_expert'),
 
-    path('__debug__/', include('debug_toolbar.urls')),   # Закомментировать перед пушем
+    #path('__debug__/', include('debug_toolbar.urls')),   # Закомментировать перед пушем
 
 ]
