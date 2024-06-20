@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0045_ratingrole_ratingcalculate'),
+        ('web', '0046_expertanketa_delete_expertverifiedprofile_and_more'),
     ]
 
     operations = [
