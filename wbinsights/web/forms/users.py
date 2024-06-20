@@ -8,10 +8,9 @@ from django.forms import modelformset_factory
 from django.utils.translation import gettext_lazy as _
 from django_recaptcha.fields import ReCaptchaField
 
-from ..models.users import Profile, CustomUser, ExpertProfile, Category, Document, Education
+from ..models.users import Profile, CustomUser, ExpertProfile, Category, Document, Education, ExpertAnketa
 
 logger = logging.getLogger(__name__)
-
 
 class CustomUserForm(forms.ModelForm):
     class Meta:
@@ -74,11 +73,13 @@ class CustomUserCreationForm(UserCreationForm):
         return email
 
 
-class ExpertProfileForm(forms.ModelForm):
+class ExpertAnketaForm(forms.ModelForm):
     about = forms.CharField(label=_("About me"), widget=forms.Textarea(
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled', 'rows': 3}))
+
     experience = forms.DecimalField(label=_("Experience"), widget=forms.NumberInput(
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
+
     hour_cost = forms.DecimalField(label=_("Price"), widget=forms.NumberInput(
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
 
@@ -89,8 +90,8 @@ class ExpertProfileForm(forms.ModelForm):
     )
 
     class Meta:
-        model = ExpertProfile
-        fields = ("about", "experience", "hour_cost", "categories")
+        model = ExpertAnketa
+        fields = ("about", "experience", "hour_cost", "expert_categories")
 
 
 class ProfileForm(forms.ModelForm):
@@ -260,7 +261,7 @@ class ExpertProfileChangeForm(forms.ModelForm):
     )
 
     class Meta:
-        model = ExpertProfile
+        model = ExpertAnketa
         fields = ['about', 'age', 'hour_cost', 'expert_categories', 'experience', 'consulting_experience', 'hh_link', 'linkedin_link', 'experience_documents']
 
 
