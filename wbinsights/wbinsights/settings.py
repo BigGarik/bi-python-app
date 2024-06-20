@@ -247,6 +247,7 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
             'filename': 'logs/django-0.log',
+            'formatter': 'verbose',  # Specify the formatter here
         },
         "mail_admins": {
             "level": "ERROR",
@@ -263,6 +264,14 @@ LOGGING = {
             'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': True,
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
         },
     },
 }
