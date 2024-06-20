@@ -5,10 +5,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMultiAlternatives
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
-from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.views.generic import CreateView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 from web.forms.users import CustomUserCreationForm, ExpertAnketaForm, UserPasswordResetForm, UserSetNewPasswordForm, \
@@ -112,12 +110,6 @@ def register_user(request):
 
         return render(request, "registration/signup.html", context=context)
 
-
-# class WBIRegisterUser(CreateView):
-#
-#     form_class = CustomUserCreationForm
-#     success_url = reverse_lazy("login")
-#     template_name = "registration/signup.html"
 
 def activate_account(request, token):
     signer = TimestampSigner()

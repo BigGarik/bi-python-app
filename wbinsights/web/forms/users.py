@@ -239,7 +239,7 @@ class ProfileChangeForm(forms.ModelForm):
         }
 
 
-class ExpertProfileChangeForm(forms.ModelForm):
+class ExpertAnketaChangeForm(forms.ModelForm):
     about = forms.CharField(label=_("About me"), widget=forms.Textarea(
         attrs={'class': 'custom-aboutme-form', 'rows': 3, 'placeholder': 'Напишите текст о себе'}))
     age = forms.IntegerField(label=_("Age"), widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))

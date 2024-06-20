@@ -6,10 +6,10 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import strip_tags
 
-from web.models.users import  Education, ExpertAnketa
+from web.models.users import Education, ExpertAnketa
 from wbappointment.models import Appointment
 from wbinsights.settings import SERVER_EMAIL
-from web.forms.users import UserProfilePasswordChangeForm, ExpertProfileChangeForm, CustomUserChangeForm, \
+from web.forms.users import UserProfilePasswordChangeForm, ExpertAnketaChangeForm, CustomUserChangeForm, \
     ProfileChangeForm, EducationForm
 from web.models import CustomUser, Profile
 from django.utils.translation import gettext_lazy as _
@@ -32,7 +32,7 @@ def anketa_view(request):
         return redirect('index')
 
     if request.method == 'POST':
-        expert_profile_form = ExpertProfileChangeForm(request.POST, instance=request.user.expertprofile)
+        expert_profile_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertprofile)
         if expert_profile_form.is_valid():
             # Сохраняем форму и отправляем уведомление модераторам
             expert_profile_form.save()
@@ -63,7 +63,7 @@ def anketa_view(request):
             messages.success(request, _('Your profile has successfully been sent for verification'))
             return redirect('index')
     else:
-        expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertprofile)
+        expert_profile_form = ExpertAnketaChangeForm(instance=request.user.expertprofile)
 
     context = {
         "expert_profile_form": expert_profile_form,
@@ -75,6 +75,7 @@ def anketa_view(request):
     }
 
     return render(request, 'profile/anketa.html', context)
+
 
 # class ProfileView(DetailView):
 #     model = CustomUser
@@ -159,7 +160,6 @@ def profile_view(request):
 
     return render(request, profile_template, context=context)
 
-
 class ClientProfileEditHandler:
 
     def __init__(self, request):
@@ -175,41 +175,30 @@ class ClientProfileEditHandler:
         return 'profile/client/edit_profile.html'
 
 
-class ExpertProfileData:
-
-    def __init__(self, user, profile, educations):
-        self.user = user
-        self.profile = profile
-        self.educations = educations
-
-    def get_user(self):
-        return self.user
-
-    def get_profile(self):
-        return self.profile
-
-    def get_educations(self):
-        return self.educations
-
-
 class ExpertProfileEditHandler:
 
-    def __init__(self, request):
-        self.user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        self.expert_anketa_form = ExpertProfileChangeForm(request.POST, instance=request.user.expertanketa)
-        educationFormSet_0 = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
-        self.education_expert_anketa_formset = educationFormSet_0(request.POST,
-                                                                queryset=request.user.expertanketa.education.all())
 
-    @transaction.atomic
-    def save_anketa(self):
-        self.user_form.save()
-        expert_anketa = self.expert_anketa_form.save(commit=False)
-        expert_anketa.is_verified = ExpertAnketa.AnketaVerifiedStatus.NOT_VERIFIED
-        expert_anketa.save()
-        educations = self.education_expert_anketa_formset.save(commit=False)
-        for education in educations:
-            education.save()
+    def save_anketa(self, request):
+
+        user_form = CustomUserChangeForm(request.POST, instance=request.user)
+        expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
+        educationFormSet_0 = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
+        education_expert_anketa_formset = educationFormSet_0(request.POST, queryset=request.user.expertanketa.education.all())
+
+        if user_form.is_valid() and expert_anketa_form.is_valid() and education_expert_anketa_formset.is_valid():
+
+            user_form.save()
+
+            updated_expert_anketa: ExpertAnketa = expert_anketa_form.save(commit=False)
+            updated_expert_anketa.is_verified = ExpertAnketa.AnketaVerifiedStatus.NOT_VERIFIED
+            updated_expert_anketa.save()
+
+            for cat in updated_expert_anketa.expert_categories.all():
+                print(cat.slug)
+
+            educations = education_expert_anketa_formset.save(commit=False)
+            for education in educations:
+                education.save()
 
     def is_valid(self):
         return (self.user_form.is_valid()
@@ -245,11 +234,12 @@ def edit_user_profile(request):
             """ Анкета """
 
             # user_form = CustomUserChangeForm(instance=request.user)
-            expert_profile_form = ExpertProfileChangeForm(instance=request.user.expertanketa)
+            expert_profile_form = ExpertAnketaChangeForm(instance=request.user.expertanketa)
 
             user_education = request.user.expertanketa.education
             if user_education.exists():
-                education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
+                education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, exclude=[],
+                                                                        extra=0)
                 education_expert_formset = education_expert_formset_factory(queryset=user_education.all())
             else:
                 education_expert_formset = modelformset_factory(Education, form=EducationForm, extra=0)
@@ -287,10 +277,27 @@ def edit_user_profile(request):
             # Эксперт может сохранить свои данные только в виде анкеты
             # В профиль эти данные сохранит менеджер при аппруве анкеты
 
-            expertProfileEditHandler = ExpertProfileEditHandler(request)
+            user_form = CustomUserChangeForm(request.POST, instance=request.user)
+            expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
+            educationFormSet_0 = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
+            education_expert_anketa_formset = educationFormSet_0(request.POST,
+                                                                 queryset=request.user.expertanketa.education.all())
 
-            if expertProfileEditHandler.is_valid():
-                expertProfileEditHandler.save_anketa()
+            if user_form.is_valid() and expert_anketa_form.is_valid() and education_expert_anketa_formset.is_valid():
+
+                user_form.save()
+
+                #Здесь мы не можем сделать save(commit=False) потому что сущности еще может не быть и мы
+                #по сути можем сделать ссылку на несуществующую сущность, поэтому django не сохраняет manyTomany
+                #методом save(commit=False)
+                updated_expert_anketa: ExpertAnketa = expert_anketa_form.save()
+
+                updated_expert_anketa.is_verified = ExpertAnketa.AnketaVerifiedStatus.NOT_VERIFIED
+                updated_expert_anketa.save()
+
+                educations = education_expert_anketa_formset.save(commit=False)
+                for education in educations:
+                    education.save()
 
                 # expert_anketa = request.user.expertanketa
                 #
