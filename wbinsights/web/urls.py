@@ -12,6 +12,7 @@ from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView,
                              CategoryArticleListView, delete_article)
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
+from .views.rating import RatingListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
 from .views.profile import profile_view, edit_user_profile, anketa_view
@@ -59,6 +60,7 @@ urlpatterns = [
     # path('profile/tab/<str:tab>/', profile_view, name='profile_tab'),
     path("profile/edit", edit_user_profile, name='profile_edit'),
     # path('profile/anketa', profile_view, name='anketa'),
+    path('profile/ratings/', RatingListView.as_view(), name='rating-list'),
     path('profile/anketa/', anketa_view, name='anketa'),
 
     path("login/", LoginView.as_view(next_page='index'), name="login"),
