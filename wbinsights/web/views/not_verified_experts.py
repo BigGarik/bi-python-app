@@ -110,11 +110,10 @@ class UnverifiedExpertDetailView(LoginRequiredMixin, UserPassesTestMixin, Detail
     def post(self, request, *args, **kwargs):
         #Сохранение анкеты в профиль
         action = request.POST.get('action')
-        expert = self.get_object()
+        expert_anketa: ExpertAnketa = self.get_object()
 
         if action == 'approve':
-            expert_profile: ExpertProfile = expert.expertprofile
-            expert_anketa: ExpertAnketa = expert.expertanketa
+            expert_profile: ExpertProfile = expert_anketa.user.expertprofile
 
             expert_profile.experience = expert_anketa.experience
             expert_profile.age = expert_anketa.experience
