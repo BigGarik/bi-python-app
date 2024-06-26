@@ -19,7 +19,7 @@ class ExpertProfileRow:
     experience: int
     hh_link: str
     linkedin_link: str
-    is_verified: int
+    # is_verified: int
 
 
 @dataclass
@@ -57,9 +57,10 @@ class ExpertRatingCalculation:
         async with conn.transaction():
             rows = await conn.fetch(
                 """
-                SELECT web_education.* 
-                FROM web_education 
-                JOIN web_expertprofile ON web_education.expert_profile_id = web_expertprofile.id 
+                SELECT web_education.*
+                FROM web_education
+                JOIN web_expertprofile_education ON web_education.id = web_expertprofile_education.education_id
+                JOIN web_expertprofile ON web_expertprofile_education.expertprofile_id = web_expertprofile.id
                 WHERE web_expertprofile.user_id = $1
                 """, user_id
             )
@@ -83,7 +84,7 @@ class ExpertRatingCalculation:
                 experience=row['experience'],
                 hh_link=row['hh_link'],
                 linkedin_link=row['linkedin_link'],
-                is_verified=row['is_verified']
+                # is_verified=row['is_verified']
             )
 
     async def _calculate_primary_education_rating(self, conn, user_id: int,
