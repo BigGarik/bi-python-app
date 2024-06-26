@@ -72,9 +72,8 @@ class ExpertManager(models.Manager):
     #
     def get_queryset(self):
         return super(ExpertManager, self).get_queryset().filter(
-            Q(profile__type=Profile.TypeUser.EXPERT) & Q(
-                expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED) & Q(
-                is_active=True))
+            Q(profile__type=Profile.TypeUser.EXPERT) & Q(expertprofile__isnull=False) &
+            Q(is_active=True))
 
 
 # Сущность Эксперта
@@ -85,62 +84,39 @@ class Expert(CustomUser):
         proxy = True
 
 
-class NonVerifiedExpertManager(models.Manager):
-    #
-    def get_queryset(self):
-        return super(NonVerifiedExpertManager, self).get_queryset().filter(
-            Q(profile__type=Profile.TypeUser.EXPERT) & Q(
-                expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.NOT_VERIFIED) & Q(
-                is_active=True))
-
-
-class NonVerifiedExpert(CustomUser):
-    objects = NonVerifiedExpertManager()
-
-    class Meta:
-        proxy = True
-
-    def __str__(self):
-        return self.last_name + ' ' + self.first_name
-
-
-# Профиль эксперта
-class ExpertProfile(models.Model):
-    user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertprofile')
+class BaseExpertProfile(models.Model):
     about = models.CharField(max_length=2000, null=True)
     age = models.IntegerField(null=True)
     hour_cost = models.IntegerField(null=True)  # Стоимость часа
-    expert_categories = models.ManyToManyField(Category)  # Категории экспертности
+    expert_categories = models.ManyToManyField(Category)
+    education = models.ManyToManyField('Education')
+    documents = models.ManyToManyField('Document')
     consulting_experience = models.IntegerField(default=0)  # Опыт консультирования
     """ Опыт работы """
     experience = models.IntegerField(default=0)
     hh_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to HH'))
     linkedin_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to LinkedIn'))
 
-    anketa = models.JSONField(blank=True, null=True)
+    class Meta:
+        abstract = True
 
-    """ Верификация """
 
-    class ExpertVerifiedStatus(models.IntegerChoices):
-        NOT_VERIFIED = 0, _('Unverified')
-        VERIFIED = 1, _('Verified')
+# Профиль эксперта
+class ExpertProfile(BaseExpertProfile):
+    user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertprofile')
 
-    is_verified = models.IntegerField(_("Expert verification status"), choices=ExpertVerifiedStatus.choices,
-                                      default=ExpertVerifiedStatus.NOT_VERIFIED)
     rating = models.FloatField(null=True)
 
 
-class ExpertVerifiedProfileManager(models.Manager):
-    def get_queryset(self):
-        return super(ExpertVerifiedProfileManager, self).get_queryset().filter(
-            Q(expertprofile__is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED))
+class ExpertAnketa(BaseExpertProfile):
+    class AnketaVerifiedStatus(models.IntegerChoices):
+        NOT_VERIFIED = 0, _('Unverified')
+        VERIFIED = 1, _('Verified')
 
+    is_verified = models.IntegerField(_("Expert verification status"), choices=AnketaVerifiedStatus.choices,
+                                      default=AnketaVerifiedStatus.NOT_VERIFIED)
 
-class ExpertVerifiedProfile(ExpertProfile):
-    objects = ExpertVerifiedProfileManager()
-
-    class Meta:
-        proxy = True
+    user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertanketa')
 
 
 class Education(models.Model):
@@ -149,7 +125,8 @@ class Education(models.Model):
         ('primary', _('Primary')),
         ('additional', _('Additional')),
     )
-    expert_profile = models.ForeignKey(ExpertProfile, on_delete=models.CASCADE, related_name='educations')
+    #expert_profile = models.ForeignKey(ExpertProfile, on_delete=models.SET_NULL, null=True, related_name='educations')
+    #expert_anketa = models.ForeignKey(ExpertAnketa, on_delete=models.SET_NULL, null=True, related_name='anketa_educations')
     education_type = models.CharField(max_length=10, choices=EDUCATION_TYPE_CHOICES, default='primary',
                                       verbose_name=_('Education Type'))
     specialized_education = models.BooleanField(default=False)  # Профильное или нет образование
@@ -158,7 +135,7 @@ class Education(models.Model):
     diploma_number = models.IntegerField(null=True, blank=True,
                                          verbose_name=_('Educational Institution'))
     # degree_documents = models.ManyToManyField('Document', blank=True, related_name='degree_documents',
-                                              # verbose_name=_('Education documents'))
+    # verbose_name=_('Education documents'))
 
     # def save(self, *args, **kwargs):
     #     # Если экземпляр уже существует в базе данных (не новый)
@@ -179,8 +156,9 @@ class Document(models.Model):
     file = models.FileField(upload_to=UploadToPathAndRename('expert/documents'), verbose_name=_('File'))
     uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Date of upload'))
     # Добавьте ForeignKey для связи с ExpertProfile
-    expert_profile = models.ForeignKey(ExpertProfile, on_delete=models.CASCADE, related_name='documents', null=True,
-                                       blank=True)
+    #expert_profile = models.ForeignKey(ExpertProfile, on_delete=models.SET_NULL, related_name='documents', null=True, blank=True)
+    #expert_anketa =  models.ForeignKey(ExpertProfile, on_delete=models.SET_NULL, related_name='anketa_documents', null=True,  blank=True)
+
     # Добавляем ForeignKey для Education
     education = models.ForeignKey(Education, on_delete=models.CASCADE, related_name='degree_documents', null=True,
                                   blank=True)
@@ -191,12 +169,3 @@ class Document(models.Model):
 
     def get_absolute_url(self):
         return reverse('document_detail', kwargs={'pk': self.pk})
-
-
-# Создаем обработчик сигнала для добавления профиля при создании пользователя
-# @receiver(post_save, sender=CustomUser)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-    else:
-        instance.profile.save()

@@ -4,82 +4,107 @@
 
 {% block center_col %}
 
-<link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
 
-<div class="list-main-containers" style="padding:20px; margin-top:0px;">
+    <div class="list-main-containers" style="padding:20px; margin-top:0px;">
 
-    <div class="edit-prof-info-cont">
+        <div class="edit-prof-info-cont">
 
-        <a href="{% url 'manage_unverified_experts_list' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
-            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> {% trans 'BackButtonLabel' %}
-        </a>
+            <a href="{% url 'manage_unverified_experts_list' %}"
+               style="cursor: pointer; text-decoration: none; outline: none; color:grey">
+                <i class="bi bi-chevron-left"
+                   style="font-weight: bold; color:#777786;"></i> {% trans 'BackButtonLabel' %}
+            </a>
 
-        <span class= "verify-detail-title">{% trans 'VerifyUsersTitleLabel' %}</span>
+            <span class="verify-detail-title">{% trans 'VerifyUsersTitleLabel' %}</span>
 
+            <div><img src="{{ unverified_expertanketa.user.profile.avatar.url }}" /> </div>
+            <div id="expert_name">{{ unverified_expertanketa.user.last_name }} {{ unverified_expertanketa.user.first_name }}</div>
 
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-
+            <div>Данные для верификации</div>
 
             <div class="expert-edit-rows">
 
 
                 <div class="prof-edit-rows">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> {% trans 'AboutMeLabel' %} </div>
-                        <div> {{ anketa.about }} </div>
+                        <div class="label-verify-users"> {% trans 'AboutMeLabel' %} </div>
+                        <div> {{ unverified_expertanketa.about }} </div>
                     </div>
                 </div>
 
                 <div class="prof-edit-input-title">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> {% trans 'CategoryLabel' %} </div>
-                        <div> {{ anketa.category }}</div>
+                        <div class="label-verify-users"> {% trans 'CategoryLabel' %} </div>
+                        <div> {{ unverified_expertanketa.expert_categories.all | join:", " }}</div>
                     </div>
                 </div>
 
                 <div class="prof-edit-input-title">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> {% trans 'ExperienceLabel' %} </div>
-                        <div> {{ anketa.experience }}</div>
+                        <div class="label-verify-users"> {% trans 'ExperienceLabel' %} </div>
+                        <div> {{ unverified_expertanketa.experience }}</div>
                     </div>
                 </div>
 
                 <div class="prof-edit-input-title">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> {% trans 'HourRateLabel' %} </div>
-                        <div> {{ anketa.hour_cost }}</div>
+                        <div class="label-verify-users"> {% trans 'HourRateLabel' %} </div>
+                        <div> {{ unverified_expertanketa.hour_cost }}</div>
                     </div>
                 </div>
 
                 <div class="prof-edit-info-cont">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> {% trans 'EducationLabel' %}</div>
-                        <div>{{ anketa.education }}</div>
+                        <div class="label-verify-users"> {% trans 'EducationLabel' %}</div>
+                        {% for edu in unverified_expertanketa.education.all %}
+                            <div>{{ edu.educational_institution }}</div>
+                        {% endfor %}
+
                     </div>
                 </div>
 
                 <div class="prof-edit-info-cont">
                     <div class="anketa-abt-me">
-                        <div class = "label-verify-users"> {% trans 'AgeLabel' %} </div>
-                        <div>{{ anketa.age }}</div>
+                        <div class="label-verify-users"> {% trans 'AgeLabel' %} </div>
+                        <div>{{ unverified_expertanketa.age }}</div>
+                    </div>
+                </div>
+
+                <div class="prof-edit-info-cont">
+                    <div class="anketa-abt-me">
+                        <div class="label-verify-users"> {% trans 'hhLinkLabel' %} </div>
+                        <div>{{ unverified_expertanketa.hh_link }}</div>
+                    </div>
+                </div>
+
+                <div class="prof-edit-info-cont">
+                    <div class="anketa-abt-me">
+                        <div class="label-verify-users"> {% trans 'linkedInLinkLabel' %} </div>
+                        <div>{{ unverified_expertanketa.linkedin_link }}</div>
                     </div>
                 </div>
 
 
             </div>
 
-            <div class="verification-btns-cont">
-                <button type="submit" name="action" value="approve" class="btn btn-success">{% trans 'ApproveButtonLabel' %}</button>
-                <button type="submit" name="action" value="deny" class="btn btn-danger">{% trans 'DenyButtonLabel' %}</button>
-            </div>
-        
-        </form>
-    
-        
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+
+                <div class="verification-btns-cont">
+                    <button type="submit" name="action" value="approve"
+                            class="btn btn-success">{% trans 'ApproveButtonLabel' %}</button>
+                    <button type="submit" name="action" value="deny"
+                            class="btn btn-danger">{% trans 'DenyButtonLabel' %}</button>
+                </div>
+
+            </form>
+
+
+        </div>
 
     </div>
-
-</div>
 
 {% endblock %}

@@ -38,7 +38,9 @@
 
                 <div class="user-rating-cont">
 
-                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ rating }} &nbsp;</div>
+                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ expert.expertprofile.rating|default_if_none:0 }}</div>
+
+                    {% get_rate_chipher user.expertprofile.rating as filled_stars_chipher%}
 
                     <div class="user-rate-and-stars">
                         {% for ch in filled_stars_chipher %}

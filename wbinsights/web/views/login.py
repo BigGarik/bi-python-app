@@ -5,21 +5,17 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMultiAlternatives
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
-from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.views.generic import CreateView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
-from web.forms.users import CustomUserCreationForm, ExpertProfileForm, UserPasswordResetForm, UserSetNewPasswordForm, \
+from web.forms.users import CustomUserCreationForm, ExpertAnketaForm, UserPasswordResetForm, UserSetNewPasswordForm, \
     UserPasswordChangeForm
 from web.models import Profile
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
-
 User = get_user_model()
-
 
 def signup_success(request):
     context = {
@@ -86,71 +82,33 @@ def save_new_user_and_profile(request, user_form, user_type):
 @transaction.atomic
 def register_user(request):
 
-    user_form = CustomUserCreationForm()
-    expert_profile_form = ExpertProfileForm()
-
-    user_type = Profile.TypeUser.CLIENT
-
     if request.method == 'POST':
 
         user_form = CustomUserCreationForm(request.POST)
 
         if user_form.data['user_type'] == '1':
-            expert_profile_form = ExpertProfileForm(request.POST)
-            user_type = Profile.TypeUser.EXPERT
+            expert_profile_form = ExpertAnketaForm(request.POST)
 
-        if user_form.is_valid():
-
-            new_user = save_new_user_and_profile(request, user_form, user_type)
-
-            if user_type == Profile.TypeUser.EXPERT and expert_profile_form.is_valid():
+            if user_form.is_valid() and expert_profile_form.is_valid():
+                new_user = save_new_user_and_profile(request, user_form, Profile.TypeUser.EXPERT)
                 new_expert_profile = expert_profile_form.save(commit=False)
                 new_expert_profile.user = new_user
                 new_expert_profile.save()
+                return redirect('signup_success')
 
-            return redirect('signup_success')
+        if user_form.data['user_type'] == '0':
 
-    context = {
-        "user_form": user_form,
-        "expert_form": expert_profile_form
-    }
+            if user_form.is_valid():
+                save_new_user_and_profile(request, user_form, Profile.TypeUser.EXPERT)
+                return redirect('signup_success')
 
-    return render(request, "registration/signup.html", context=context)
+    if request.method == 'GET':
+        context = {
+            "user_form": CustomUserCreationForm(),
+            "expert_form": ExpertAnketaForm()
+        }
 
-
-class WBIRegisterUser(CreateView):
-    # create CustomUser
-
-    # if (user_type == 'Expert')
-
-    # we have to Create ExpertProfile
-    # send email
-
-    # else
-
-    # send activation link
-
-    # def form
-
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
-
-    # def form_valid(self, form: CustomUserCreationForm) -> HttpResponse:
-
-
-# def custom_login(request):
-#     if request.method == 'POST':
-#         email = request.POST.get('email')
-#         password = request.POST.get('password')
-#         user = authenticate(request, email=email, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect('home')
-#         else:
-#             error_message = "No account found with this email."
-#             return render(request, 'registration/login.html', {'error_message': error_message})
-#     return render(request, 'registration/login.html')
+        return render(request, "registration/signup.html", context=context)
 
 
 def activate_account(request, token):

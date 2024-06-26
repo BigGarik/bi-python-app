@@ -73,7 +73,7 @@
                 <div class="expert-edit-rows">
 
                     <div class="prof-edit-photo-cont">
-                        <img src="{{ request.user.profile.avatar.url }}" alt="Avatar"
+                        <img src="{{ user.profile.avatar.url }}" alt="Avatar"
                              style="border-radius: 50%;max-height: 100px;max-width: 100px;min-width: 100px;min-height: 100px;object-fit: cover;">
 
                         <div style="display:flex ; margin-left: 10px ; flex-direction:column">
@@ -126,33 +126,85 @@
                     </div>
 
                 </div>
+
+                <div class="expert-edit-rows">
+
+                    <div class="prof-edit-duel-rows">
+
+                        <div class="prof-edit-info-cont">
+                            <label for="{{ expert_profile_form.hh_link.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ expert_profile_form.hh_link.label }}</label>
+                            {{ expert_profile_form.hh_link }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="expert-edit-rows">
+
+                    <div class="prof-edit-duel-rows">
+
+                        <div class="prof-edit-info-cont">
+                            <label for="{{ expert_profile_form.linkedin_link.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ expert_profile_form.linkedin_link.label }}</label>
+                            {{ expert_profile_form.linkedin_link }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr/>
+
                 <!-- Добавляем формсет для образования -->
                 <div class="education-formset-container">
-                    <span class="prof-edit-page-title">Образование</span>
+                    <span class="prof-edit-page-title" style="padding-bottom: 10px">Образование12</span>
                     {{ education_expert_formset.management_form }}
                     {% for form in education_expert_formset %}
-                        <div class="education-form">
-                            {{ form.id }}
-                            {{ form.errors }}
-                            <div class="prof-edit-duel-rows">
-                                <div class="prof-edit-input-title">
-                                    <label for="{{ form.education_type.id_for_label }}" class="prof-edit-input-labels">{{ form.education_type.label }}</label>
-                                    {{ form.education_type }}
-                                </div>
-                                <div class="prof-edit-input-title">
-                                    <label for="{{ form.specialized_education.id_for_label }}" class="prof-edit-input-labels">{{ form.specialized_education.label }}</label>
-                                    {{ form.specialized_education }}
-                                </div>
-                                <div class="prof-edit-input-title">
-                                    <label for="{{ form.educational_institution.id_for_label }}" class="prof-edit-input-labels">{{ form.educational_institution.label }}</label>
-                                    {{ form.educational_institution }}
-                                </div>
-                                <div class="prof-edit-input-title">
-                                    <label for="{{ form.diploma_number.id_for_label }}" class="prof-edit-input-labels">{{ form.diploma_number.label }}</label>
-                                    {{ form.diploma_number }}
-                                </div>
-                                <!-- Добавьте остальные поля формы здесь -->
+                        <div class="row">
+                            <div class="col-1" style="display: flex; justify-content: center; align-items: center">
+
+                                <span style="font-size: 12px">#{{ forloop.counter }}</span>
+
                             </div>
+                            <div class="education-form col-11">
+
+                                {{ form.id }}
+                                {{ form.errors }}
+
+                                <div class="row">
+
+                                    <div class="prof-edit-input-title1 col-6">
+                                        <label for="{{ form.education_type.id_for_label }}"
+                                               class="prof-edit-input-labels">{{ form.education_type.label }}</label>
+                                        {{ form.education_type }}
+                                    </div>
+
+                                    <div class="prof-edit-input-title1 col-6">
+                                        <label for="{{ form.specialized_education.id_for_label }}"
+                                               class="prof-edit-input-labels">{{ form.specialized_education.label }}</label>
+                                        {{ form.specialized_education }}
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="prof-edit-input-title1 col-9">
+                                        <label for="{{ form.educational_institution.id_for_label }}"
+                                               class="prof-edit-input-labels">{{ form.educational_institution.label }}</label>
+                                        {{ form.educational_institution }}
+                                    </div>
+
+                                    <div class="prof-edit-input-title1 col-3">
+                                        <label for="{{ form.diploma_number.id_for_label }}"
+                                               class="prof-edit-input-labels">{{ form.diploma_number.label }}</label>
+                                        {{ form.diploma_number }}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     {% endfor %}
                     <!-- Кнопка для добавления нового образования (если требуется) -->
@@ -160,7 +212,7 @@
                 </div>
                 <script>
                     // Скрипт для добавления новой формы образования
-                    $('.add-education-btn').click(function() {
+                    $('.add-education-btn').click(function () {
                         // Клонируем последнюю форму в формсете
                         const newForm = $('.education-form:last').clone();
                         // Очищаем значения в клонированной форме
@@ -176,6 +228,8 @@
                         newForm.insertBefore($(this));
                     });
                 </script>
+
+                <hr/>
 
                 <div class="expert-edit-rows">
                     <span class="prof-edit-change-pass">Смена пароля</span>

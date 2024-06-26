@@ -54,7 +54,7 @@ msgstr ""
 
 #: .\templates\base.html:121
 msgid "VerifyAccountLabel"
-msgstr "Не верифицирован"
+msgstr "Ваши данные не верифицированы"
 
 #: .\templates\base.html:173 .\templates\base.html:264
 msgid "PersonalAccountLabel"
