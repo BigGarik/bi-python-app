@@ -36,7 +36,7 @@
                         <td style="background-color:inherit">{{ user.phone_number }}</td>
                         <td style="background-color:inherit">{{ user.email }}</td>
                         <td style="background-color:inherit">
-                        
+                            <a href="{% url 'manage_unverified_experts_profile' user.expertanketa.pk %}" style="color: black; text-decoration: none; font-size: 16px;">View Profile</a>
                         </td>
                     </tr>
                 {% endfor %}
