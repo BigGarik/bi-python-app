@@ -6,50 +6,98 @@
 {% endblock %}
 
 {% block center_col %}
-
 <link rel="stylesheet" href="//unpkg.com/grapesjs/dist/css/grapes.min.css">
 <script src="//unpkg.com/grapesjs"></script>
-<script src="//unpkg.com/grapesjs/dist/grapesjs-plugin-i18n.min.js"></script>
+<script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>
 <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
 
 <style>
     .clear-all:hover {
         cursor: pointer;
     }
-
     .gjs-selected {
         outline-offset: 0px !important;
     }
-
     .gjs-one-bg {
         background-color: #edf0f6 !important;
     }
-
     .gjs-category-title, .gjs-layer-title, .gjs-block-category .gjs-title, .gjs-sm-sector-title, .gjs-trait-category .gjs-title {
         color: black !important;
         background-color: #edf0f6 !important;
     }
-
     .gjs-sm-properties {
         color: black !important;
     }
-
     .gjs-field-colorp {
-         padding: 0px !important;
+        padding: 0px !important;
     }
-
     .gjs-four-color {
         color: #666666 !important;
     }
-
-
-
-
+    .language-switch {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+    }
+    .language-switch label {
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+    .language-switch label input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+    .lang-text {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        line-height: 34px;
+        font-size: 14px;
+        color: white;
+    }
+    .lang-en {
+        left: 8px;
+    }
+    .lang-ru {
+        right: 8px;
+    }
 </style>
 
 <form method="post" enctype="multipart/form-data" id="article-form">
     {% csrf_token %}
-
     <div class="row">
         <div class="col-9" style="gap: 10px">
             <div class="global-back-btn">
@@ -57,14 +105,12 @@
                     <i class="bi bi-chevron-left" style="scale:1"></i> &nbsp;Назад
                 </span>
             </div>
-
             {{ form.title.label }}
             {{ form.title }}
             <br>
             {{ form.description.label }}
             {{ form.description }}
             <br>
-
             {{ form.main_img.label }}
             <div id="imageContainer">
                 <img id="uploadedImage" src="{{ form.main_img.value.url }}" style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
@@ -75,17 +121,23 @@
             <div id="gjs" style="min-height: 300px;"></div>
             <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
         </div>
-
         <div class="col-3">
             <div class="article-add-right-btns">
                 <div class="article-settings">
                     <div>Настройки</div>
                     <div class="clear-all" onclick="clearEditorContent()"><i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё</div>
                 </div>
+{#                <div class="language-switch">#}
+{#                    <label class="switch">#}
+{#                        <input type="checkbox" id="language-toggle">#}
+{#                        <span class="slider"></span>#}
+{#                        <span class="lang-text lang-en">EN</span>#}
+{#                        <span class="lang-text lang-ru">RU</span>#}
+{#                    </label>#}
+{#                </div>#}
                 <span class="article-add-desc">
                     Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
                 </span>
-
                 <div id="blocks"></div>
                 <div id="style-manager-container" style="margin: 10px 2.5% 5px;"></div>
                 <hr class="solid"/>
@@ -108,6 +160,8 @@
 <script>
     function clearEditorContent() {
         editor.setComponents('');
+        document.getElementById('id_title').value = '';
+        document.getElementById('id_description').value = '';
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -177,15 +231,12 @@
         reader.readAsDataURL(file);
     }
 
-    // Обновляем значение поля content перед ее отправкой
     document.getElementById('article-form').addEventListener('submit', function (event) {
         document.getElementsByName('content')[0].value = editor.getHtml();
-        document.getElementsByName('styles')[0].value = editor.getCss(); //maybe?
+        document.getElementsByName('styles')[0].value = editor.getCss();
     });
 
-    //load existing content and styles
     editor.setComponents($('input[name=content]').val());
     editor.setStyle($('input[name=styles]').val());
 </script>
-
 {% endblock %}
