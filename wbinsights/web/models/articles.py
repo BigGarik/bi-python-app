@@ -42,6 +42,7 @@ class Article(models.Model):
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT, verbose_name="Статус")
     cat = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='article', blank=True, verbose_name="Категории", )
     allow_comments = models.BooleanField('allow comments', default=True)
+    styles = models.TextField(null=True, blank=True, verbose_name="Стили")
 
     objects = models.Manager()
     published = PublishedManager()
