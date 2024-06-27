@@ -147,7 +147,7 @@
 
         $(document).ready(function () {
 
-            const el_name_array = ["about", "experience", "hour_cost", "categories"]
+            const el_name_array = ["about", "experience", "hour_cost", "expert_categories"]
             let el_array = []
             el_name_array.map(function (el_name) {
                 el_array.push($('[name=' + el_name + ']'))
@@ -168,7 +168,7 @@
 
             $("input[name='user_type']:checked").click();
 
-            $("[name='categories']").select2();
+            $("[name='expert_categories']").select2();
 
             IMask(
                 document.getElementById('id_phone_number'),
