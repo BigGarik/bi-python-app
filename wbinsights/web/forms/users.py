@@ -83,10 +83,10 @@ class ExpertAnketaForm(forms.ModelForm):
     hour_cost = forms.DecimalField(label=_("Price"), widget=forms.NumberInput(
         attrs={'class': 'form-inputs-custom', 'disabled': 'disabled'}))
 
-    categories = forms.ModelMultipleChoiceField(
+    expert_categories = forms.ModelMultipleChoiceField(
         label=_("Categories of expertise"),
         queryset=Category.objects.all(),
-        widget=forms.SelectMultiple(attrs={'class': 'form-inputs-custom'})  
+        widget=forms.SelectMultiple(attrs={'class': 'form-inputs-custom'})
     )
 
     class Meta:
