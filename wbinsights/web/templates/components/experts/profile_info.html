@@ -86,8 +86,6 @@
                 <div class="user-rating-cont">
                     <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating|default_if_none:0 }} &nbsp;</div>
                     <div class="user-rate-and-stars">
-
-                    {{ filled_stars_chipher }}
                         {% for ch in filled_stars_chipher %}
                             {% if ch == 'f' %}
                                 <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
