@@ -5,6 +5,8 @@
 
 <div id="articles" class="expert-content">
 
+    <a href="{% url 'article_add' %}" class="btn btn-primary">Написать статью</a>
+
     {% for article in experts_articles %}
 
         <div class="expert-content-cont">
