@@ -111,7 +111,19 @@
         </div>
         <div class="prof-user-setting">
 
-            {% include buttons_template with user=expert %}
+
+            <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn" style="width: 100%;display: flex; justify-content: center;">
+                {% trans 'EditProfileLabel' %}
+            </a>
+
+            <form method="post" action="{% url 'logout' %}" style="width: 100%">
+                {% csrf_token %}
+                <button class="btn prof-btn prof-logout-btn" type="submit" style="display: flex; justify-content: center; width: 100%">
+                    {% trans 'LogoutButtonLabel' %}
+                </button>
+            </form>
+
+{#            {% include buttons_template with user=expert %}#}
 
         </div>
     </div>
