@@ -6,7 +6,9 @@
 {% block center_col %}
 {% load web_tags %}
 
-<link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
+{% endblock %}
 
 <div class="base-Content">
 

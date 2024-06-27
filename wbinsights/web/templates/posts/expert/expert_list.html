@@ -2,15 +2,22 @@
 {% load web_tags %}
 {% load static %}
 
+
+
 {% block title %}
-Experts
+    Experts
 {% endblock %}
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
+{% endblock %}
+
 
 {% block posts_content %}
 
 
 
-	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
+
 
 	<div class="list-main-containers">
 

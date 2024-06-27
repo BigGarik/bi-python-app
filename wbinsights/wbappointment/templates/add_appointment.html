@@ -3,13 +3,18 @@
 {% load i18n %}
 {% load web_tags %}
 
+{% block extra_static %}
+
+    <link rel="stylesheet" href="{% static 'css/add_appointment.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vanila-calendar/vanilla-calendar.min.css' %}"/>
+    <script src="{% static 'js/vanila-calendar/vanilla-calendar.min.js' %}"></script>
+
+{% endblock %}
 
 {% block center_col %}
 
-<link rel="stylesheet" href="{% static 'css/add_appointment.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
-<link rel="stylesheet" href="{% static 'css/vanila-calendar/vanilla-calendar.min.css' %}"/>
-<script src="{% static 'js/vanila-calendar/vanilla-calendar.min.js' %}"></script>
+
 
 <div class="container" style="background-color: #eeefef;padding: 20px;border-radius: 10px;">
 

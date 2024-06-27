@@ -20,7 +20,9 @@
 {#    }#}
 {#</style>#}
 
-<link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
+{%  block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
+{% endblock %}
 
 <ul class="nav nav-tabs" style="margin-bottom: 15px">
     <li class="nav-item">

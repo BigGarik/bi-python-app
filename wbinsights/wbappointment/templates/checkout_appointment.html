@@ -2,9 +2,13 @@
 {% load static %}
 {% load i18n %}
 
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'css/checkoutcss.css' %}">
+{% endblock %}
+
 {% block center_col %}
 
-    <link rel="stylesheet" href="{% static 'css/checkoutcss.css' %}">
+
 
     <div class="container">
 

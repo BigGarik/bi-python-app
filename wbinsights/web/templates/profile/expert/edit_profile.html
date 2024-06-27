@@ -1,6 +1,9 @@
 {% extends 'base120.html' %}
 {% load static %}
 
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+{% endblock %}
 
 {% block center_col %}
 
@@ -18,7 +21,7 @@
 
     </style>
 
-    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+    
 
     <div class="list-main-containers" style="padding:20px; margin-top:0px;">
 
