@@ -95,12 +95,23 @@ def register_user(request):
                 new_expert_profile.user = new_user
                 new_expert_profile.save()
                 return redirect('signup_success')
+            else:
+                context = {
+                    "user_form": user_form,
+                    "expert_form": expert_profile_form
+                }
+                return render(request, 'registration/signup.html', context=context)
 
         if user_form.data['user_type'] == '0':
 
             if user_form.is_valid():
                 save_new_user_and_profile(request, user_form, Profile.TypeUser.EXPERT)
                 return redirect('signup_success')
+            else:
+                context = {
+                    "user_form": user_form
+                }
+                return render(request, "registration/signup.html", context=context)
 
     if request.method == 'GET':
         context = {
