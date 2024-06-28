@@ -22,11 +22,11 @@ class Migration(migrations.Migration):
             },
             bases=('web.customuser',),
         ),
-        migrations.AddField(
-            model_name='expertprofile',
-            name='expert_categories',
-            field=models.ManyToManyField(related_name='categories', to='web.category'),
-        ),
+        # migrations.AddField(
+        #     model_name='expertprofile',
+        #     name='expert_categories',
+        #     field=models.ManyToManyField(related_name='categories', to='web.category'),
+        # ),
         migrations.AlterField(
             model_name='customuser',
             name='phone_number',

@@ -1,6 +1,5 @@
-from datetime import datetime, timedelta
-
 from django.contrib.auth.decorators import login_required
+
 from django.forms import modelformset_factory
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -8,8 +7,7 @@ from django.views.decorators.http import require_POST
 
 from wbappointment.forms import *
 from wbappointment.models import *
-from wbappointment.serializers import AppointmentSerializer, ExpertScheduleSpecialDaysSerializer, \
-    ExpertScheduleSerializer
+from wbappointment.serializers import AppointmentSerializer, ExpertScheduleSpecialDaysSerializer
 
 
 @require_POST
@@ -29,7 +27,10 @@ def add_expert_schedule_view(request):
         # json_data = serialize('json', saved_objects)
         # {'result': "success", 'data': json_data}, status=200)
 
-    # return redirect(request.POST['origin-path'])
+        redirect_url = request.POST['origin-path']
+        if request.POST['origin-query'] != "":
+            redirect_url += '?' + request.POST['origin-query']
+        return redirect(redirect_url)
 
     return JsonResponse({'result': "success"}, status=200)
 
@@ -54,8 +55,6 @@ def add_appointment_range_view(request, *args, **kwargs):
         expertScheduleSpecialDays.save()
 
         return JsonResponse({'result': 'success'})
-
-    # return redirect(request.POST['origin-path'])
 
     return JsonResponse({'result': 'error', 'errors': ''})
 
@@ -100,7 +99,18 @@ def get_experts_appointment(request, *args, **kwargs):
 
         extra_dates = ExpertScheduleSpecialDays.objects.filter(expert_id=selected_expert,
                                                                start__gte=get_start_of_week())
+
         expert_schedule = ExpertSchedule.objects.filter(expert_id=selected_expert)
+        schedule_dates = []
+        for schedule_day in expert_schedule:
+            if not schedule_day.is_work_day:
+                continue
+            schedule_date = start_date + timedelta(days=schedule_day.day_of_week - 1)
+
+            schedule_datetime_start = datetime.combine(schedule_date, schedule_day.start_time)
+            schedule_datetime_end = datetime.combine(schedule_date, schedule_day.end_time)
+
+            schedule_dates.append({'start':schedule_datetime_start.strftime("%Y-%m-%d %H:%M"), 'end':schedule_datetime_end.strftime("%Y-%m-%d %H:%M")})
 
         return JsonResponse(
             {'data':
@@ -109,7 +119,7 @@ def get_experts_appointment(request, *args, **kwargs):
                     'as_client':  AppointmentSerializer(appointments_as_client, many=True).data,
                 },
                     'extra_dates': ExpertScheduleSpecialDaysSerializer(extra_dates, many=True).data,
-                    'schedule': ExpertScheduleSerializer(expert_schedule, many=True).data
+                    'schedule': schedule_dates
                 }
             })
 

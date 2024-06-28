@@ -2,9 +2,13 @@
 {% load static %}
 {% load i18n %}
 
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'css/checkoutcss.css' %}">
+{% endblock %}
+
 {% block center_col %}
 
-    <link rel="stylesheet" href="{% static 'css/checkoutcss.css' %}">
+
 
     <div class="container">
 
@@ -39,7 +43,8 @@
         <form method="post">
             {% csrf_token %}
             <input type="hidden" value="{{ appointment.pk }}" name="appointment_id"/>
-            <button type="submit" class="btn btn-primary">Перейти к оплате</button>
+            <button type="submit" class="btn btn-primary">Оплатить на Yookassa</button>
+            <a href="{% url 'profile' %}" class="btn btn-primary">Оплатить позже</a>
         </form>
     </div>
 

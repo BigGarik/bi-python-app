@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-15 14:17+0300\n"
+"POT-Creation-Date: 2024-05-29 16:09+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,44 +28,48 @@ msgstr "Заголовок"
 msgid "Category"
 msgstr "Категория"
 
-#: .\expertprojects\models.py:47
+#: .\expertprojects\models.py:23
+msgid "Company"
+msgstr ""
+
+#: .\expertprojects\models.py:48
 msgid "Unsupported file extension."
 msgstr "Неподдерживаемый тип файла."
 
-#: .\templates\base.html:82 .\templates\base.html:313
+#: .\templates\base.html:85 .\templates\base.html:325
 msgid "MakeResearch"
 msgstr "Провести исследование"
 
-#: .\templates\base.html:85 .\templates\base.html:316
+#: .\templates\base.html:88 .\templates\base.html:328
 msgid "CreateArticleLabel"
 msgstr "Написать статью"
 
-#: .\templates\base.html:88 .\templates\base.html:319
+#: .\templates\base.html:91 .\templates\base.html:331
 msgid "AskQuestionLabel"
 msgstr "Задать вопрос"
 
-#: .\templates\base.html:104
+#: .\templates\base.html:107
 msgid "Анкета эксперта"
 msgstr ""
 
-#: .\templates\base.html:118
+#: .\templates\base.html:121
 msgid "VerifyAccountLabel"
-msgstr "Не верифицирован"
+msgstr "Ваши данные не верифицированы"
 
-#: .\templates\base.html:170 .\templates\base.html:260
+#: .\templates\base.html:173 .\templates\base.html:264
 msgid "PersonalAccountLabel"
 msgstr "Личный кабинет"
 
-#: .\templates\base.html:176 .\templates\base.html:266
+#: .\templates\base.html:179 .\templates\base.html:270
 #: .\web\templates\profile\expert\profile_buttons.html:11
 msgid "LogoutButtonLabel"
 msgstr "Выйти"
 
-#: .\templates\base.html:187 .\templates\base.html:277
+#: .\templates\base.html:195 .\templates\base.html:288
 msgid "LoginBtnLabel"
 msgstr "Войти"
 
-#: .\templates\base.html:190 .\templates\base.html:281
+#: .\templates\base.html:198 .\templates\base.html:292
 msgid "RegisterBtnLabel"
 msgstr "Зарегистрироваться"
 
@@ -73,7 +77,17 @@ msgstr "Зарегистрироваться"
 msgid "End time must be after start time."
 msgstr "Время окончания должно быть позже времени начала."
 
-#: .\wbappointment\templates\add_appointment.html:70
+#: .\wbappointment\templates\add_appointment.html:41
+#: .\web\templates\components\experts\profile_info.html:43
+#: .\web\templates\components\experts\profile_info.html:83
+msgid "RatingLabel"
+msgstr "Рейтинг"
+
+#: .\wbappointment\templates\add_appointment.html:95
+msgid "AppointmentAdditionalNotes"
+msgstr "Комментарии к встрече"
+
+#: .\wbappointment\templates\add_appointment.html:104
 msgid "SubmitButtonLabel"
 msgstr "Подтвердить"
 
@@ -199,7 +213,7 @@ msgstr "Тип образования"
 msgid "Specialized education"
 msgstr "Специализированное образование"
 
-#: .\web\forms\users.py:270 .\web\models\users.py:227 .\web\models\users.py:230
+#: .\web\forms\users.py:270
 msgid "Educational institution"
 msgstr "Образовательное учреждение"
 
@@ -215,7 +229,7 @@ msgstr "Номер диплома"
 msgid "Diploma number verified"
 msgstr "Номер диплома проверен"
 
-#: .\web\forms\users.py:275 .\web\models\users.py:233
+#: .\web\forms\users.py:275 .\web\models\users.py:166
 msgid "Education documents"
 msgstr "Документы об образовании"
 
@@ -258,43 +272,49 @@ msgstr "Категория пользователя"
 msgid "Link to HH"
 msgstr "Ссылка на HH"
 
-#: .\web\models\users.py:125
+#: .\web\models\users.py:126
 msgid "Unverified"
 msgstr "Неверифицирован"
 
-#: .\web\models\users.py:126
+#: .\web\models\users.py:127
 msgid "Verified"
 msgstr "Верифицирован"
 
-#: .\web\models\users.py:128
+#: .\web\models\users.py:129
 msgid "Expert verification status"
 msgstr "Статус верификации"
 
-#: .\web\models\users.py:219
+#: .\web\models\users.py:152
 msgid "Primary"
 msgstr "Основное"
 
-#: .\web\models\users.py:220
+#: .\web\models\users.py:153
 msgid "Additional"
 msgstr "Дополнительное"
 
-#: .\web\models\users.py:224
+#: .\web\models\users.py:157
 msgid "Education Type"
 msgstr "Тип образования"
 
-#: .\web\models\users.py:251
+#: .\web\models\users.py:160 .\web\models\users.py:163
+#, fuzzy
+#| msgid "Educational institution"
+msgid "Educational Institution"
+msgstr "Образовательное учреждение"
+
+#: .\web\models\users.py:185
 msgid "File"
 msgstr "Файл"
 
-#: .\web\models\users.py:252
+#: .\web\models\users.py:186
 msgid "Date of upload"
 msgstr "Дата загрузки"
 
-#: .\web\models\users.py:256
+#: .\web\models\users.py:190
 msgid "Document"
 msgstr "Документ"
 
-#: .\web\models\users.py:257
+#: .\web\models\users.py:191
 msgid "Documents"
 msgstr "Документы"
 
@@ -306,21 +326,17 @@ msgstr "Все эксперты"
 msgid "MoreExpertsLabel"
 msgstr "Показать больше"
 
-#: .\web\templates\components\experts\profile_info.html:24
-msgid "RatingLabel"
-msgstr "Рейтинг"
-
-#: .\web\templates\components\experts\profile_info.html:78
+#: .\web\templates\components\experts\profile_info.html:120
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:57
 msgid "EducationLabel"
 msgstr "Образование"
 
-#: .\web\templates\components\experts\profile_info.html:84
+#: .\web\templates\components\experts\profile_info.html:126
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:43
 msgid "ExperienceLabel"
 msgstr "Опыт"
 
-#: .\web\templates\components\experts\profile_info.html:96
+#: .\web\templates\components\experts\profile_info.html:138
 msgid "PricePerHourLabel"
 msgstr "Стоимость консультации"
 
@@ -379,6 +395,10 @@ msgstr "Согласовать"
 msgid "DenyButtonLabel"
 msgstr "Отклонить"
 
+#: .\web\templates\posts\article\article-profile-list.html:19
+msgid "ReadPostLabel"
+msgstr "Читать далее..."
+
 #: .\web\templates\profile\anketa.html:18
 msgid "FillAllFieldsLabel"
 msgstr "Анкета Эксперта"
@@ -399,29 +419,29 @@ msgstr "На главную"
 msgid "EditProfileLabel"
 msgstr "Настройки профиля"
 
-#: .\web\templates\profile\profile_content_items.html:19
+#: .\web\templates\profile\profile_content_items.html:27
 msgid "ArticlesTabLabel"
 msgstr "Статьи"
 
-#: .\web\templates\profile\profile_content_items.html:24
+#: .\web\templates\profile\profile_content_items.html:31
 msgid "ResearchesTabLabel"
 msgstr "Исследования"
 
-#: .\web\templates\profile\profile_content_items.html:29
+#: .\web\templates\profile\profile_content_items.html:35
 msgid "QuestionsTabLabel"
 msgstr "Вопросы"
 
-#: .\web\templates\profile\profile_content_items.html:34
+#: .\web\templates\profile\profile_content_items.html:39
 msgid "ConsultationsTabLabel"
 msgstr "Консультации"
 
-#: .\web\templates\profile\profile_content_items.html:39
+#: .\web\templates\profile\profile_content_items.html:43
 msgid "ReviewsTabLabel"
 msgstr "Отзывы"
 
-#: .\web\templates\profile\profile_content_items.html:63
-msgid "ReadPostLabel"
-msgstr "Читать далее..."
+#: .\web\templates\profile\profile_content_items.html:47
+msgid "ProjectsTabLabel"
+msgstr "Проекты"
 
 #: .\web\templates\registration\email\password_reset_email.html:2
 #, python-format
@@ -497,11 +517,11 @@ msgstr "Ссылка активации недействительна."
 msgid "Account activation error: user not found."
 msgstr "Ошибка активации аккаунта: пользователь не найден."
 
-#: .\web\views\profile.py:58
+#: .\web\views\profile.py:63
 msgid "Your profile has successfully been sent for verification"
 msgstr "Ваш профиль успешно отправлен на проверку"
 
-#: .\web\views\profile.py:177
+#: .\web\views\profile.py:204
 msgid "Your profile is updated successfully"
 msgstr "Ваш профиль успешно обновлен"
 

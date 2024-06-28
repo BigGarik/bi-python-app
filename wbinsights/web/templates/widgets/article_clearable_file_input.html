@@ -1,0 +1,9 @@
+{% if widget.is_initial %}
+{#    <p class="file-upload">#}
+{#        <span class="file-upload-text">#}
+{#            <a href="{{ widget.value.url }}">{{ widget.value }}</a>#}
+{#        </span>#}
+{#        <span class="clearable-file-input-clear" title="Clear"> &nbsp;&nbsp;</span>#}
+{#    </p>#}
+{% endif %}
+<input type="{{ widget.type }}" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>

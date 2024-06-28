@@ -3,9 +3,13 @@
 {% load static %}
 {% load i18n %}
 
-{% block center_col %}
-    
+{% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
+{% endblock %}
+
+{% block center_col %}
+
+
 
     <div class="list-main-containers" style="padding:20px; margin-top:0px;">
 
@@ -14,12 +18,12 @@
             &nbsp;{% trans 'ToMainPageLabel' %}
         </a>
 
-        {% include 'components/experts/profile_info.html' with user=request.user buttons_template='profile/expert/profile_buttons.html'%}
-        
-        {% include 'profile/profile_content_items.html' with user=request.user %}
-    
+        {% include 'components/experts/profile_info.html' with user=user profile=profile buttons_template='profile/expert/profile_buttons.html'%}
+
+        {% include 'profile/profile_content_items.html' with user=user %}
+
     </div>
-    
-   
+
+
 
 {% endblock %}

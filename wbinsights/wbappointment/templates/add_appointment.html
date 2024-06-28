@@ -1,77 +1,116 @@
 {% extends 'base123.html' %}
 {% load static %}
 {% load i18n %}
+{% load web_tags %}
 
+{% block extra_static %}
+
+    <link rel="stylesheet" href="{% static 'css/add_appointment.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vanila-calendar/vanilla-calendar.min.css' %}"/>
+    <script src="{% static 'js/vanila-calendar/vanilla-calendar.min.js' %}"></script>
+
+{% endblock %}
 
 {% block center_col %}
 
-<link rel="stylesheet" href="{% static 'css/add_appointment.css' %}">
 
-<link rel="stylesheet" href="{% static 'css/vanila-calendar/vanilla-calendar.min.css' %}"/>
-<script src="{% static 'js/vanila-calendar/vanilla-calendar.min.js' %}"></script>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-10" style="background-color: #eeefef;padding: 20px;border-radius: 10px;">
+<div class="container" style="background-color: #eeefef;padding: 20px;border-radius: 10px;">
 
-            <a href="javascript:history.go(-1);" class="checkout-back-link"> <i class="bi bi-chevron-left"></i>
-                &nbsp;Назад</a>
-            <div style="padding: 14px; display: flex; justify-content: center; font-size: 26px;">
-                Бронирование услуги "Онлайн консультация"
+    <a href="javascript:history.go(-1);" class="global-back-btn">
+        <i class="bi bi-chevron-left"></i>Назад
+    </a>
+
+    <div style="padding: 14px; display: flex; justify-content: center; font-size: 26px;">
+        Бронирование услуги "Онлайн консультация"
+    </div>
+
+    <div class="profile-info-cont content">
+
+        <div class="col-12 top-half-prof element-container">
+
+            <div class=" col-sm-3 prof-page-pic-cont" style="justify-content: center;display: flex;align-items: center;">
+                <img src="{{ expert.profile.avatar.url }}" alt="Avatar"
+                     style="border-radius: 50%;width: 130px;height: 130px;object-fit: cover;">
             </div>
 
-            <div class="appointment-exp-info">
-                <div class="appointment-foto-cont">
-                    <div class="flex-center">
-                        <img src="{{ expert.profile.avatar.url }}" alt="Avatar"
-                             style="border-radius: 50%; max-width: 70px; max-height: 70px;min-width: 70px;min-height: 70px;object-fit: cover;">
-                    </div>
-                    <div class="user-rating-appointment">Рейтинг: 4.5{{ expert.expertprofile.rating }} &nbsp;</div>
-                    <div class="user-rate-and-stars">
-                        <!-- stars -->
-                    </div>
+            <div class=" col-sm-9  profile-information-cont" style="margin-top: 25px; margin-bottom: 30px;">
+
+                <div class="user-display-name">
+                    {{ expert.first_name }} {{ expert.last_name }}
                 </div>
-                <div class="appointment-exp-data">
-                    <div class="appointment-spans"> <div style="font-size: 20px">Эксперт:</div> {{ expert.last_name }} {{ expert.first_name }}</div>
-                    <div><div style="font-size: 20px">стоимость:</div> {{ expert.expertprofile.hour_cost }} Р/час</div>
-                    <div class="category-cont-appointments">
-                        {% for exp_category in expert.expertprofile.expert_categories.all %}
+
+                <div class="user-rating-cont">
+
+                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ expert.expertprofile.rating|default_if_none:0 }}</div>
+
+                    {% get_rate_chipher user.expertprofile.rating as filled_stars_chipher%}
+
+                    <div class="user-rate-and-stars">
+                        {% for ch in filled_stars_chipher %}
+                            {% if ch == 'f' %}
+                                <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'h' %}
+                                <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% elif ch == 'e' %}
+                                <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="user-category-cont">
+
+                    <div class="user-category">Эксперт в области :</div>
+
+                    <div class="displayflex">
+                        {% for exp_category in user.expertprofile.expert_categories.all %}
                             <div class="user-catagory-highlight {{ exp_category.slug }}">
                                 {{ exp_category.name }}
                             </div>
                         {% endfor %}
                     </div>
+
                 </div>
 
             </div>
-
-            <div style="width:100%; display: flex; justify-content: flex-start; padding: 25px">
-                <div id="calendar" style="transform: scale(1.2); "></div>
-            </div>
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-group appointment-margins">
-                    <!--<label for="{{ form.appointment_date.id_for_label }}" class="appointment-labels">Дата</label>-->
-                    {{ form.appointment_date }}
-                </div>
-                <div class="form-group appointment-margins">
-                    <label for="{{ form.appointment_time.id_for_label }}" class="appointment-labels">Время</label>
-                    {{ form.appointment_time }}
-                </div>
-                <div class="form-group appointment-notes">
-                    <label for="notes" class="appointment-labels">Additional Notes</label>
-                    {{ form.notes }}
-                </div>
-
-                <input type="hidden" name="expert" value="{{ expert.pk }}">
-
-
-                <button type="submit"
-                        class="btn btn-primary btn-block appointment-btn">{% trans 'SubmitButtonLabel' %}
-                </button>
-            </form>
         </div>
     </div>
+
+
+    <div style="display:flex">
+
+        <div style="display: flex; justify-content: flex-start; padding: 25px">
+            <div id="calendar" style="transform: scale(1.2);"></div>
+        </div>
+
+        <div class="time-slots" style="padding-left: 25px;">
+            Не выбрана дата
+        </div>
+
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group appointment-margins">
+            {{ form.appointment_date }}
+        </div>
+
+        <div class="form-group appointment-notes">
+            <label for="notes" class="appointment-labels">{% trans 'AppointmentAdditionalNotes' %}</label>
+            {{ form.notes }}
+        </div>
+
+        <input type="hidden" name="expert" value="{{ expert.pk }}">
+        <input type="hidden" name="appointment_time" value="" required>
+
+
+        <button type="submit"
+                class="btn btn-primary btn-block appointment-btn">{% trans 'SubmitButtonLabel' %}
+        </button>
+    </form>
 </div>
 
 <script>
@@ -80,12 +119,26 @@
     const start_date = '{{ start_cal_date }}';
     const end_date = '{{ end_cal_date }}';
     const disable_dates = {{ not_working_dates }};
-    {% endautoescape   %}
+    {% endautoescape %}
+
+    function selectTimeSlot(value, e) {
+        const selectAppointmentTime = $('[name=appointment_time]');
+        selectAppointmentTime.val(value);
+
+        $('.time-slot-item').addClass("btn-outline-primary")
+        $('.time-slot-item').removeClass("btn-primary");
+
+        e.target.classList.remove("btn-outline-primary");
+        e.target.classList.add("btn-primary");
+    }
 
     $(document).ready(function () {
 
+        //document.getElementsByClassName("myButton").addEventListener("click", handleClick);
+
         const selectAppointmentDate = $('#id_appointment_date');
         const selectAppointmentTime = $('#id_appointment_time');
+        const timeSlotsDiv = $('.time-slots');
 
         let options = {
             settings: {
@@ -107,11 +160,8 @@
                     // Set the value of appointment date input
                     selectAppointmentDate.val(self.selectedDates.join(', '));
 
-                    //console.log(self.selectedDates)
-
                     // Enable/disable time selection based on whether a date is selected
                     if (self.selectedDates.length > 0) {
-
 
                         $.ajax({
                             url: '/appointment/available/timeslots/json',
@@ -123,11 +173,14 @@
                             success: function (response) {
 
                                 selectAppointmentTime.html('');
+                                timeSlotsDiv.html('')
                                 response.forEach(slot => {
-                                    selectAppointmentTime.append('<option value="' + slot + '">' + slot + '</option>');
+
+                                    selectAppointmentTime.append('<option value="' + slot + ':00' + '">' + slot + '</option>');
+                                    timeSlotsDiv.append(`<button type="button" class="time-slot-item btn btn-outline-primary" style="height: 35px;margin-left: 5px; margin-bottom: 5px" onclick="selectTimeSlot('${slot + ':00'}', event)">${slot}</button>`);
+                                    //timeSlotsDiv.append(`<div class="time-slot-item" onclick="selectTimeSlot('${slot + ':00'}')">${slot}</div>`);
                                 });
 
-                                // enable
                                 selectAppointmentTime.prop('disabled', false);
                                 console.log(response)
                             }

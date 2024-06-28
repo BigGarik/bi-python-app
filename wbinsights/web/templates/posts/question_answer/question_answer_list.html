@@ -3,13 +3,16 @@
 {% load static %}
 
 {% block title %}
-QandA
+    QandA
 {% endblock %}
 
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
+{% endblock %}
 
 {% block posts_content %}
 
-	<link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
+	
 
 	<style>
 
@@ -56,12 +59,12 @@ QandA
 
 		<div class="search-and-cat-cont d-none d-md-flex">
 
-			<div class="col-5">
+			<div class="col-6">
 				<input type="text" class="lists-search-cont" placeholder="Поиск">
 
 			</div>
 
-			<div class="col-7 " style="display:flex; justify-content:space-between; padding-left:10px">
+			<div class="col-6 " style="display:flex; justify-content:space-between; padding-left:10px">
 				<a href="#" onclick="alert('В разработке');">
 						<button type="button" class="btn ask-question-btn btn-sm" >Задать вопрос</button>
 					</a>

@@ -1,7 +1,11 @@
 import itertools
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from pytils.translit import slugify
+
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from web.forms.articles import ArticleForm
 from web.models import Article, Category
@@ -9,48 +13,28 @@ from django.http import JsonResponse
 
 from django.contrib.auth.decorators import login_required
 
-# from django.urls import reverse_lazy
+from django.db.models import Q
 
 import time
-
-
-# def get_articles(request):
-#     articles = Article.objects.all()
-#
-#     data = {
-#         'title': 'Статьи',
-#         'articles': articles,
-#     }
-#
-#     return render(request, 'articles.html', context=data)
-#
-#
-# def show_article(request, post_slug):
-#     article = get_object_or_404(Article, slug=post_slug)
-#
-#     data = {
-#         'title': article.title,
-#         'article': article,
-#         'cat_selected': 1,
-#     }
-#
-#     return render(request, 'articles.html', context=data)
 
 
 class ArticleListView(ListView):
     model = Article
     template_name = 'posts/article/article_list.html'
+    context_object_name = 'articles'
 
-    # Название переменной для списка статей вместо object_list
-    # context_object_name = articles
+    def get_queryset(self):
+        query = self.request.GET.get('search_q')
+        if query:
+            return Article.objects.filter(Q(content__icontains=query) | Q(title__icontains=query))
+        return Article.objects.all()
 
     # Добавляем параметры в контекст
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
         context['categories'] = Category.objects.all()
         context['selected_category'] = ''
+        context['search_q'] = self.request.GET.get('search_q', '')
         return context
 
 
@@ -80,49 +64,23 @@ class CategoryArticleListView(ArticleListView):
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'posts/article/article_detail.html'
+    form_class = ArticleForm
 
 
-@login_required
-def create_article(request):
-    if request.method == "POST":
-        data = request.POST
+class ArticleEditView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
+    model = Article
+    form_class = ArticleForm
+    context_object_name = 'article'
+    template_name = 'posts/article/article_add.html'
+    success_url = 'article_list'
 
-        article = Article()
-        article.title = data['title']
-        article.description = data['description']
-        article.content = data['content']
-        article.main_img = request.FILES.get('main_img')
-        article.author = request.user
-        max_length = Article._meta.get_field('slug').max_length
-        article.slug = slugify(article.title + '-' + str(time.time()))[:max_length]
+    def form_valid(self, form):
+        form.save()
+        return redirect(self.get_success_url())
 
-        # selectedCategorySlug = data['category']
-        # if not selectedCategorySlug:
-        selected_category = data['category']
-        if not selected_category:
-            print("Error")
-
-        try:
-            # categoryFromDB = Category.objects.get(slug=selectedCategorySlug)
-            category_from_db = Category.objects.get(name=selected_category)
-            article.cat = category_from_db
-            article.save()  # Save the article instance to the database
-        except Category.DoesNotExist:
-            print("Category not found")
-
-        resp = {
-            "toUrl": "articles/"
-        }
-
-        return JsonResponse(resp)
-
-    allCategories = Category.objects.all()
-    context = {
-        "categories": allCategories
-    }
-
-    return render(request, 'posts/article/article_add.html', context=context)
-
+    def test_func(self):
+        article = self.get_object()
+        return self.request.user == article.author
 
 
 def delete_article(request, slug):
@@ -133,14 +91,16 @@ def delete_article(request, slug):
     return redirect('profile', slug=slug)
 
 
-
-class ArticleAddView(CreateView):
+class ArticleAddView(CreateView, LoginRequiredMixin):
     model = Article
     form_class = ArticleForm
+    context_object_name = 'article'
     template_name = 'posts/article/article_add.html'
+    success_url = 'article_list'
 
     def form_valid(self, form):
         article = form.save(commit=False)  # Do not save the article yet
+        article.author = self.request.user
         max_length = Article._meta.get_field('slug').max_length
         article.slug = orig_slug = slugify(article.title)[:max_length]
 
@@ -151,4 +111,5 @@ class ArticleAddView(CreateView):
             article.slug = "%s-%d" % (orig_slug[:max_length - len(str(x)) - 1], x)
 
         article.save()
+        #return redirect(self.get_success_url())
         return super().form_valid(form)

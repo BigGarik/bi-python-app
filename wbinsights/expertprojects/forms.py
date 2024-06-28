@@ -15,8 +15,7 @@ class UserProjectForm(forms.ModelForm):
     )
 
     category = forms.ModelMultipleChoiceField(label="Категории проекта", queryset=Category.objects.all(), )
-    customer = forms.ModelChoiceField(queryset=UserProjectCustomer.objects.all())
-
+    # customer = forms.ModelChoiceField(queryset=UserProjectCustomer.objects.all())
     year = forms.IntegerField(initial=datetime.date.today().year,
                               min_value=1985,
                               max_value=datetime.date.today().year,
@@ -26,10 +25,11 @@ class UserProjectForm(forms.ModelForm):
     class Meta:
 
         model = UserProject
-        fields = ['name', 'category', 'customer', 'year', 'goals', 'key_results_text']
+        fields = ['name', 'category', 'company', 'year', 'goals', 'key_results_text']
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'company': forms.TextInput(attrs={'class': 'form-control'}),
             'goals': forms.Textarea(attrs={'class': 'form-control form-control-resize', 'rows': 4}),
         }
 

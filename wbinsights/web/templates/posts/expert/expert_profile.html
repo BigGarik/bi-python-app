@@ -4,9 +4,13 @@
 {% load static %}
 
 
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
+{% endblock %}
+
 {% block center_col %}
 
-    <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
+    
 
     <div class="list-main-containers" style="padding:20px; margin-top:0px;">
 
@@ -15,11 +19,9 @@
             &nbsp; к списку экспертов
         </a>
 
+        {% include 'components/experts/profile_info.html' with user=expert profile=expert.expertprofile buttons_template='posts/expert/profile_buttons.html' %}
 
-        {% include 'components/experts/profile_info.html' with user=expert buttons_template='posts/expert/profile_buttons.html' %}
-        
-        {% include 'profile/profile_content_items.html' with user=expert %}
-
+        {% include 'profile/profile_content_items.html' with user=expert projects_count=projects_count  %}
 
     </div>
 

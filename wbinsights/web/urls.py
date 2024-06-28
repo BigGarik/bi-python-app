@@ -1,14 +1,18 @@
+#import debug_toolbar
 from django.contrib.auth.views import LoginView
-from django.urls import path
+from django.urls import path, include
 
 from django.contrib import admin
 
+from .services.expert_rating_calculation import calculate_rating_for_all_expert
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
-from .views.articles import ArticleDetailView, ArticleListView, CategoryArticleListView, create_article, delete_article
+from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView,
+                             CategoryArticleListView, delete_article)
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
+from .views.rating import RatingListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
 from .views.profile import profile_view, edit_user_profile, anketa_view
@@ -23,7 +27,8 @@ urlpatterns = [
     path("articles/", ArticleListView.as_view(), name='article_list'),
     path("articles/category/<slug:category_slug>", CategoryArticleListView.as_view(), name='article_category_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
-    path("articles/add/", create_article, name='article_add'),
+    path("articles/add/", ArticleAddView.as_view(), name='article_add'),
+    path("articles/edit/<slug:slug>/", ArticleEditView.as_view(), name='article_edit'),
     path('articles/delete/<slug:slug>/', delete_article, name='delete_article'),
 
     path("researches/", ResearchesListView.as_view(), name='research_list'),
@@ -52,8 +57,10 @@ urlpatterns = [
 
     # users
     path("profile", profile_view, name='profile'),
+    # path('profile/tab/<str:tab>/', profile_view, name='profile_tab'),
     path("profile/edit", edit_user_profile, name='profile_edit'),
     # path('profile/anketa', profile_view, name='anketa'),
+    path('profile/ratings/', RatingListView.as_view(), name='rating-list'),
     path('profile/anketa/', anketa_view, name='anketa'),
 
     path("login/", LoginView.as_view(next_page='index'), name="login"),
@@ -71,6 +78,8 @@ urlpatterns = [
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
 
     path('admin/', admin.site.urls),
+    path('calculate_rating/', calculate_rating_for_all_expert, name='calculate_rating_for_all_expert'),
 
+    #path('__debug__/', include('debug_toolbar.urls')),   # Закомментировать перед пушем
 
 ]

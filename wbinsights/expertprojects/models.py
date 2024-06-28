@@ -20,6 +20,7 @@ class UserProject(models.Model):
     key_results = ArrayField(models.CharField(max_length=200), blank=True, verbose_name="Результаты")
     customer = models.ForeignKey('UserProjectCustomer', on_delete=models.SET_NULL, null=True,
                                  related_name="userproject", verbose_name="Заказчик")
+    company = models.CharField(max_length=255, verbose_name=_("Company"), default='ООО')
     year = models.IntegerField(verbose_name="Год")
     goals = models.TextField(blank=True, verbose_name="Текст проекта")
 

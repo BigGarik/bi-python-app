@@ -2,29 +2,16 @@
 
 {% block content %}
 
-<div class="row row-margin">
-
-    <div class="col-md-1"></div>
-
-
-    <div class="d-none d-md-block col-md-2 ">
-
+    <div class="d-none d-lg-block col-lg-3 " style="max-width: 300px; position: sticky">
         {% include "components/left_main_menu.html" %}
-
     </div>
 
-
-    <div class="col-md-8" style="margin-bottom: 20px;">
+    <div class="col-md-8 col-lg-8" style="margin-bottom: 20px;">
 
         <div class="content">
-            {% block center_col %} {%endblock%}           
+            {% block center_col %} {% endblock %}
         </div>
 
     </div>
-
-
-    <div class="col-md-1"></div>
-    
-</div>
 
 {% endblock %}

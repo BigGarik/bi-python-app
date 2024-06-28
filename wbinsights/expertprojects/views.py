@@ -213,7 +213,7 @@ class GetProjectsAPIView(ListAPIView):
 
     def get_queryset(self):
         # Определите белый список разрешенных полей
-        allowed_fields = {'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+        allowed_fields = {'author', 'members', 'category', 'key_results', 'company', 'year', 'goals'}
         query_params = self.request.query_params
 
         # Создаем объект Q для динамического построения запроса
@@ -244,7 +244,7 @@ class GetProjectsView(LoginRequiredMixin, ListView):
     model = UserProject
     context_object_name = 'projects'
     template_name = 'project_list.html'  # Укажите путь к вашему шаблону
-    paginate_by = 2  # Установите количество объектов на страницу
+    paginate_by = 5  # Установите количество объектов на страницу
 
     def get_paginate_by(self, queryset):
         # Получаем значение page_size из параметров запроса или используем значение по умолчанию
@@ -254,8 +254,8 @@ class GetProjectsView(LoginRequiredMixin, ListView):
         except (TypeError, ValueError):
             return self.paginate_by
 
-    def get_queryset(self):
-        allowed_fields = {'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals'}
+    def get_queryset(self, user=None):
+        allowed_fields = {'author', 'members', 'category', 'key_results', 'company', 'year', 'goals'}
         query_params = self.request.GET
 
         query = Q()
@@ -276,7 +276,9 @@ class GetProjectsView(LoginRequiredMixin, ListView):
                     query &= Q(**{param: value})
                 print(query)
 
-        return UserProject.objects.filter(query)
+        # Start with all the user's projects
+        projects = UserProject.objects.filter(author=user if user else self.request.user)
+        return projects.filter(query)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -293,4 +295,5 @@ class GetProjectsView(LoginRequiredMixin, ListView):
             projects = paginator.page(paginator.num_pages)
 
         context['projects'] = projects
+        print(context)
         return context

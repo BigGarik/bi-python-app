@@ -1,7 +1,8 @@
 from django.urls import path
 
 from wbappointment.views.appointments import add_appointment_view, checkout_appointment_view, \
-    get_expert_available_timeslots, add_appointment_success_view, appointment_payment_callback_view
+    get_expert_available_timeslots, add_appointment_success_view, \
+    AppointmentPaymentNotification, appointment_test
 
 from wbappointment.views.calendar import add_expert_schedule_view, add_appointment_range_view, get_experts_appointment, \
     get_clients_appointment, delete_appointment_range_view
@@ -13,7 +14,8 @@ urlpatterns = [
     path("checkout/<int:pk>/", checkout_appointment_view, name="appointment_checkout"),
     path("available/timeslots/json", get_expert_available_timeslots, name="get_expert_avalable_timeslots"),
     path("add/success/", add_appointment_success_view, name="appointment_add_success"),
-    path("payment/callback/", appointment_payment_callback_view, name="appointment_add_success_callback"),
+    path("payment/callback/", AppointmentPaymentNotification.as_view(), name="appointment_add_success_callback"),
+    #path("payment/test/", appointment_test, name="appointment_test"),
 
     path("calendar/add/schedule/", add_expert_schedule_view, name="add_calendar_schedule"),
     path("calendar/add/range/", add_appointment_range_view, name="add_calendar_range"),

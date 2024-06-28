@@ -2,25 +2,32 @@
 {% load web_tags %}
 {% load static %}
 
+
+
 {% block title %}
-Experts
+    Experts
 {% endblock %}
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
+{% endblock %}
+
 
 {% block posts_content %}
 
 
 
-	<link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
+
 
 	<div class="list-main-containers">
 
 		<div class="experts-list-search-and-cat-cont">
 		
 			<div class="small-layout col-sm col-md ">
-				<div class="col-sm-12 col-md-5 ">
+				<div class="col-sm-12 col-md-6 ">
 					<input type="search" class="lists-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
 				</div>
-				<div class="col-sm-12 col-md-7 testing-class">
+				<div class="col-sm-12 col-md-6 testing-class">
 					<div class="dropdown" style="display: flex; align-items: center;">
 						<button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
 							<span class="global-catagory-text"> Рейтинг: &nbsp;</span>
@@ -54,7 +61,7 @@ Experts
 						<div class="d-none d-md-block">
 							<span class="experts-list-rating-span">
 								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
-								&nbsp; Рейтинг: 4.5
+								&nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
 							</span>
 						</div>
 					</div>
@@ -71,13 +78,13 @@ Experts
 						<div class="d-none d-md-block">
 							<div class="col">
 								{{ expert.expertprofile.about }}
-								<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">Читать ещё</a>
+								<a href="{% url 'expert_profile' expert.id %}?tab=articles" style="text-decoration:none">Читать ещё</a>
 							</div>
 						</div>
 						<div class="d-md-none">
 							<span class="experts-list-rating-span">
 								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
-								&nbsp; Рейтинг: 4.5
+								&nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
 							</span>
 						</div>
 					</div>

@@ -1,18 +1,13 @@
-from typing import Any
-from django.urls import reverse
 from django.views.generic import ListView, DetailView, UpdateView
 
-from django.shortcuts import render, get_object_or_404
+from expertprojects.models import UserProject
 
-# from web.forms.users import ProfileForm, UserPasswordChangeForm, CustomUserForm
-from web.models import CustomUser, Expert
-from web.forms.articles import ArticleForm
-from web.models import Article, Category
+from web.models import Article, Category, Expert
 
 from django.db.models import Q, Count
-import math
 
-from web.models.users import ExpertProfile
+from expertprojects.views import GetProjectsView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class ExpertListView(ListView):
@@ -23,14 +18,12 @@ class ExpertListView(ListView):
     # 'fffhe'
 
     def get_queryset(self):
-
         experts = Expert.objects.all().annotate(expert_article_cnt=Count('article'))
         return experts
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
-
 
         return context
 
@@ -77,30 +70,6 @@ class SearchByNameExpertListView(ExpertListView):
 #         context['selected_category'] = self.cat       
 #         return context
 
-def get_rate_chipher(rating):
-    ratechipher = ''
-
-    if rating < 0:
-        rating = 0
-
-    if rating > 5:
-        rating = 5
-
-    frac, intnum = math.modf(rating)
-
-    for idx in range(int(intnum)):
-        ratechipher = ratechipher + 'f'
-
-    if frac > 0:
-        ratechipher = ratechipher + 'h'
-
-    e_starts_cnt = 5 - len(ratechipher)
-
-    for idx in range(e_starts_cnt):
-        ratechipher = ratechipher + 'e'
-
-    return ratechipher
-
 
 class ExpertDetailView(DetailView):
     model = Expert
@@ -110,9 +79,13 @@ class ExpertDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # expert_rating = self.object.rating
+        # Remove 'category' from the GET parameters
+        get_params = self.request.GET.copy()
+        if 'category' in get_params:
+            del get_params['category']
 
-        context['filled_stars_chipher'] = get_rate_chipher(4.5)
+        context['get_params'] = get_params
+
         user_articles_qs = Article.objects.filter(author__id=self.kwargs['pk'])
 
         context['experts_articles'] = user_articles_qs
@@ -121,5 +94,25 @@ class ExpertDetailView(DetailView):
 
         context['experts_researches_count'] = Article.objects.count()
         context['rating'] = 4.5
+
+        projects_count = UserProject.objects.filter(author__id=self.kwargs['pk']).count()
+
+        # Fetch the expert's projects
+        projects_view = GetProjectsView()
+        projects_view.request = self.request
+        queryset = projects_view.get_queryset(user=self.get_object())
+        page_size = projects_view.get_paginate_by(queryset)
+        paginator = Paginator(queryset, page_size)
+        page = self.request.GET.get('page', 1)
+
+        try:
+            projects = paginator.page(page)
+        except PageNotAnInteger:
+            projects = paginator.page(1)
+        except EmptyPage:
+            projects = paginator.page(paginator.num_pages)
+
+        context['projects'] = projects
+        context['projects_count'] = projects_count
 
         return context

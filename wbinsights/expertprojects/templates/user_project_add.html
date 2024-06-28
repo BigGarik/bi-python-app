@@ -1,9 +1,19 @@
 {% extends 'base123.html' %}
 
-
 {% load web_tags %}
 
+
+
 {% block center_col %}
+    <style>
+
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+            list-style: none;
+            display: flex !important;
+        }
+
+    </style>
+
     <h2>Добавление нового проекта</h2>
 
     <form method="post" enctype="multipart/form-data" id="project-form">
@@ -13,12 +23,12 @@
 
         <select name="members" id="id_members" multiple></select>
 
-        <input type="hidden" name="some-prop" value="11231234123"  >
+        <input type="hidden" name="some-prop" value="11231234123">
 
         <input type="file" id="fileInput" name="files" multiple style="display: none;">
 
 
-         <div style="display: flex; margin : 20px 0 20px 0; align-items: baseline;">
+        <div style="display: flex; margin : 20px 0 20px 0; align-items: baseline;">
             <span style="font-size: 20px;">Файлы проекта:</span>
             <button id="fileInputBtn" class="btn btn-primary btn-sm" style="margin-left: 10px">Добавить файлы</button>
         </div>
@@ -36,7 +46,7 @@
                     <li style="margin: 5px 0 5px 0;">
                         <div style="display: flex; align-items: center;">
                             <div style="min-width: 350px; font-size: 18px;">
-                                <a href="{{ file.file.url }}">{{ file.file.name}}</a>
+                                <a href="{{ file.file.url }}">{{ file.file.name }}</a>
                             </div>
                             <i class="bi bi-trash trash-icon" style="font-size:20px; cursor:pointer;"></i>
                         </div>
@@ -45,12 +55,9 @@
             </ul>
         </div>
 
-
-
-
         <input type="file" id="fileInput" name="files" multiple style="display: none;">
 
-        <input type="submit" value="Создать проект" >
+        <input type="submit" value="Создать проект">
     </form>
 
     <style>
@@ -114,26 +121,34 @@
 
             const formInputs = document.querySelectorAll('#project-form input, #project-form select');
             formInputs.forEach(input => {
-                formData.append(input.name, input.value);
+                if (input.type !== 'file') {
+                    formData.append(input.name, input.value);
+                }
             });
 
-            const fileInput = document.getElementById('fileInput');
-            for (let i = 0; i < fileInput.files.length; i++) {
-                formData.append('files', fileInput.files[i]);
-            }
+            fileList.forEach((file) => {
+                formData.append('files', file);
+            });
 
-            console.log("FormData entries:", [...formData.entries()]);
-
-
-            this.submit();
+            fetch('{% url 'project_add' %}', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Files uploaded successfully!');
+                        window.location.href = '{% url 'profile' %}';
+                    } else {
+                        console.error('Failed to upload files:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
 
 
         $('#id_category').select2({
-            width: '100%'
-        });
-
-        $('#id_customer').select2({
             width: '100%'
         });
 
@@ -192,10 +207,6 @@
             minimumInputLength: 3,
             width: '100%'
         });
-
-
-
-
 
 
     </script>

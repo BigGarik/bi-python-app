@@ -10,9 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='expertprofile',
-            name='expert_categories',
-            field=models.ManyToManyField(to='web.category'),
-        ),
+        # migrations.AlterField(
+        #     model_name='expertprofile',
+        #     name='expert_categories',
+        #     field=models.ManyToManyField(to='web.category'),
+        # ),
     ]

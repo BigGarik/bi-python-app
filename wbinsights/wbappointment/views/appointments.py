@@ -1,8 +1,22 @@
 from datetime import date, timedelta, datetime, time
+import json
+import logging
 
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+# from django.core import send_mail
+# from django.core import send_mail
+from django.db import transaction
+from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 
 from wbappointment.forms import AppointmentForm, SelectAppointmentDateForm
 from wbappointment.models import Appointment, AppointmentStatus, ExpertSchedule, AppointmentPayment, \
@@ -10,10 +24,17 @@ from wbappointment.models import Appointment, AppointmentStatus, ExpertSchedule,
 from wbappointment.views.yookassa import create_yookassa_payment
 from web.models import Expert
 
+from wbappointment.views.zoom_utils import create_zoom_meeting
+
+info_logger = logging.getLogger("django-info")
+
 
 @login_required
 def add_appointment_view(request, *args, **kwargs):
     expert = Expert.objects.get(pk=kwargs['pk'])
+
+    if request.user == expert:
+        return redirect("profile")
 
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
@@ -40,7 +61,7 @@ def add_appointment_view(request, *args, **kwargs):
             new_appointment.expert = expert
 
             # Получение текущего времени
-            #end_time = form.cleaned_data['appointment_time'] + timedelta(hours=1)
+            # end_time = form.cleaned_data['appointment_time'] + timedelta(hours=1)
 
             new_appointment.save()
             return redirect('appointment_checkout', pk=new_appointment.id)
@@ -139,13 +160,90 @@ def get_expert_available_timeslots(request):
             if busy_time in available_time_slots:
                 available_time_slots.remove(busy_time)
 
+        busyClientsSlots = Appointment.objects.filter(client=request.user, appointment_date=selected_date).values_list(
+            "appointment_time", flat=True)
+
+        for busy_time in busyClientsSlots:
+            if busy_time in available_time_slots:
+                available_time_slots.remove(busy_time)
+
         return JsonResponse([dt.strftime('%H:%M') for dt in available_time_slots], safe=False)
 
     return JsonResponse({'errors': dict(form.errors)}, status=400)
 
 
-def appointment_payment_callback_view(request, *args, **kwargs):
-    return render(request, "add_appointment_success.html", **kwargs)
+def appointment_test(request):
+    appointment = Appointment.objects.get(pk=1)
+    json_response = create_zoom_meeting(appointment)
+    return JsonResponse({"zoom": json_response})
+
+
+class AppointmentPaymentNotification(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        payment_id = request.data['object']['id']
+        print("payment_id = " + payment_id)
+
+        payment = AppointmentPayment.objects.get(uuid=payment_id)
+
+        if payment.status == AppointmentPayment.AppointmentPaymentStatus.COMPLETED:
+            print("payment_id = " + payment_id + " already paid")
+            return HttpResponse(status=200)
+
+        print("payment status is " + request.data['object']['status'])
+
+        if request.data['object']['status'] == 'canceled':
+            try:
+                with transaction.atomic():
+                    payment.status = AppointmentPayment.AppointmentPaymentStatus.CANCELED
+                    payment.save()
+                    payment.appointment.zoom_link = ''
+                    payment.appointment.status = AppointmentStatus.CANCEL
+                    payment.appointment.save()
+            except Exception as e:
+                # Если произошла ошибка, откатываем транзакцию
+                print(f"An error occurred: {e}")
+
+        if request.data['object']['status'] == 'succeeded':
+            try:
+                with transaction.atomic():
+
+                    zoom_link = create_zoom_meeting(payment.appointment)
+                    payment.status = AppointmentPayment.AppointmentPaymentStatus.COMPLETED
+                    payment.save()
+
+                    payment.appointment.status = AppointmentStatus.PAID
+                    payment.appointment.zoom_link = zoom_link
+                    payment.appointment.save()
+
+                    # Отправка уведомления Эксперту
+                    html_content = render_to_string('emails/appointment_created.html',
+                                                    {
+                                                        'client': payment.appointment.client,
+                                                        'appointment':payment.appointment,
+                                                        'site_url': 'https://24wbinside.ru/'
+                                                    })
+                    # Получаем текстовую версию письма из HTML
+                    text_content = strip_tags(html_content)
+
+                    # Создаем объект EmailMultiAlternatives
+                    email = EmailMultiAlternatives(
+                        'Новое бронирование',
+                        text_content,
+                        'info_dev@24wbinside.ru',
+                        [payment.appointment.expert.email]
+                    )
+                    # Добавляем HTML версию
+                    email.attach_alternative(html_content, "text/html")
+                    email.send()
+
+            except Exception as e:
+                # Если произошла ошибка, откатываем транзакцию
+                print(f"An error occurred: {e}")
+                return HttpResponse(status=500)
+
+        return HttpResponse(status=200)
 
 
 @login_required()
@@ -157,14 +255,21 @@ def add_appointment_success_view(request, *args, **kwargs):
 def checkout_appointment_view(request, *args, **kwargs):
     if request.method == 'POST':
         appointment_id = request.POST['appointment_id']
-        appointment = Appointment.objects.get(pk=appointment_id, client=request.user)
+        try:
+            appointment = Appointment.objects.get(pk=appointment_id, client=request.user)
+        except Appointment.DoesNotExist:
+            raise Http404("Entity does not exist")
 
         appointment_payment = AppointmentPayment()
         appointment_payment.appointment = appointment
         appointment_payment.summ = appointment.expert.expertprofile.hour_cost
+        # appointment_payment.status = AppointmentPayment.AppointmentPaymentStatus.PENDING
 
-        payment = create_yookassa_payment(appointment_payment.summ)
+        current_base_url = request.scheme + '://' + request.get_host()
+        payment = create_yookassa_payment(appointment_payment.summ, current_base_url)
 
+        # print("#### payment status = " + payment.status)
+        # Меняем статус платежа
         appointment_payment.uuid = payment.id
         appointment_payment.save()
 
