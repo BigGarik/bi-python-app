@@ -3,13 +3,16 @@
 {% load static %}
 
 {% block title %}
-QandA
+    QandA
 {% endblock %}
 
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
+{% endblock %}
 
 {% block posts_content %}
 
-	<link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
+	
 
 	<style>
 

@@ -21,7 +21,9 @@ Research
 </style>
 
 
-<link rel="stylesheet" href="{% static 'web/css/research_list.css' %}">
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/research_list.css' %}">
+{% endblock %}
 
 
 <div class="list-main-containers" style="margin-top: 20px;">

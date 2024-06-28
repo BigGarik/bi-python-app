@@ -20,7 +20,9 @@
     }
 </style>
 
-<link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+{% endblock %}
 
 <div class="list-main-containers" style="padding:20px; margin-top:0px;">
 

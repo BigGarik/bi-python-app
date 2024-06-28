@@ -4,8 +4,9 @@
 {% block center_col %}
 {% load static %}
 
-
-<link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
+{% endblock %}
 
 <style>
     .select2-container {

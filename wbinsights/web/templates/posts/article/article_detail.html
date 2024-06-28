@@ -6,17 +6,13 @@
 {% block center_col %}
 {% load web_tags %}
 
-<link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
+{% endblock %}
 
 <div class="base-Content">
 
     <div class="article-detail-page-content">
-
-        <!--        <div class="global-back-btn">-->
-        <!--            <a href="{% url 'article_list' %}" class="global-back-btn">-->
-        <!--                <i class="bi bi-chevron-left"></i> &nbsp;Ко всем статьям-->
-        <!--            </a>-->
-        <!--        </div>-->
 
         <div class="global-back-btn">
             <a href="javascript:history.back()" class="global-back-btn">
@@ -43,39 +39,29 @@
 
         </div>
 
-
         <div class="article-detail-title">{{ article.title }}</div>
 
-        <div class="article-detail-main-content">
+        <!-- article styles -->
+        <style>
+            {{ article.styles|safe }}
+        </style>
 
+        <div class="article-detail-main-content">
             {% autoescape off %}
             {{ article.content }}
             {% endautoescape %}
+        </div>
 
-            <div class="article-detail-page-last">
-                <div class="comments-andshare-cont">
-                    <div class="list-comments">
-                        {% get_comment_count for object as comment_count %}
-                        <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; {{ comment_count }}
-                    </div>
-                    <div class="list-share">
-                        <i class="bi bi-box-arrow-up-right" style="color:grey; scale:0.9"></i>
-                    </div>
+        <div class="article-detail-page-last">
+            <div class="comments-andshare-cont">
+                <div class="list-comments">
+                    {% get_comment_count for object as comment_count %}
+                    <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; {{ comment_count }}
+                </div>
+                <div class="list-share">
+                    <i class="bi bi-box-arrow-up-right" style="color:grey; scale:0.9"></i>
                 </div>
             </div>
-
-
-
-{#            {% if user.is_authenticated and user == article.author %}#}
-{#                <a href="{% url 'article_edit' slug=article.slug %}" type="button" class="btn btn-primary">#}
-{#                    Редактировать статью#}
-{#                </a>#}
-{#                <button type="button" class="btn btn-danger" data-bs-toggle="modal"#}
-{#                        data-bs-target="#confirmDeleteModal">#}
-{#                    Delete Article#}
-{#                </button>#}
-{#            {% endif %}#}
-
         </div>
 
         {% include "components/comments.html" %}
