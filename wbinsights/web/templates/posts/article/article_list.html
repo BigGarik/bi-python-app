@@ -2,37 +2,39 @@
 {% extends 'basePostList.html' %}
 
 {% block title %}
-Статьи
+    Статьи
 {% endblock %}
+
 {% load web_tags %}
 {% load static %}
 {% load comments %}
 {% load comments_xtd %}
+{% load social_share %}
 
 {% block posts_content %}
 
 <style>
 
-	.author-pic {
-		width: 30px;
-		height: 30px;
-		border-radius: 50%;
-		overflow: hidden;
-		border: 1px solid #ccc;
-	}
+    .author-pic {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid #ccc;
+    }
 
-	.author-pic img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
+    .author-pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-	@media (max-width: 768px ) {
-		.article-list-search-cont {
-			width: 100% !important;
-		}
+    @media (max-width: 768px ) {
+        .article-list-search-cont {
+            width: 100% !important;
+        }
 
-	}
+    }
 
 </style>
 
@@ -42,112 +44,138 @@
 
 <body>
 
-	<div class="list-main-containers" >
+<div class="list-main-containers">
 
-		<div class="search-and-cat-cont">
+    <div class="search-and-cat-cont">
 
-			<div class="col-6">
-				<input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск" value="{{ search_q }}">
-			</div>
-            
-			<div class="col-6 catagory-cont">
-				{% include "components/post_category_filter.html" %}
-			</div>
+        <div class="col-6">
+            <input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск"
+                   value="{{ search_q }}">
+        </div>
+
+        <div class="col-6 catagory-cont">
+            {% include "components/post_category_filter.html" %}
+        </div>
 
 
-		</div>
+    </div>
 
-		{% for article in articles %}
+    {% for article in articles %}
 
-		<div class="article-list-content">
-			<div class="list-publish-date">
-				<i class="bi bi-calendar2-week" style="color:grey; scale:1.3"></i>
-				&nbsp;  {{ article.time_update|custom_time_display }}
+    <div class="article-list-content">
+        <div class="list-publish-date">
+            <i class="bi bi-calendar2-week" style="color:grey; scale:1.3"></i>
+            &nbsp; {{ article.time_update|custom_time_display }}
 
-			</div>
+        </div>
 
-			<div class="article-list-title">{{article.title}}</div>
+        <div class="article-list-title">{{ article.title }}</div>
 
-			<div class="article-list-main-content">
-				{% autoescape off %}
+        <div class="article-list-main-content">
+            {% autoescape off %}
 
-				<div class="artile-list-description">
-					{{article.description}}
-				</div>
+            <div class="artile-list-description">
+                {{ article.description }}
+            </div>
 
-				<div class="artile-list-description">
-					{% if article.main_img %}
-						<img src="{{ article.main_img.url }}" alt="Article Image" style="max-width:100%">
-					{% endif %}
-				</div>
+            <div class="artile-list-description">
+                {% if article.main_img %}
+                    <img src="{{ article.main_img.url }}" alt="Article Image" style="max-width:100%">
+                {% endif %}
+            </div>
 
-				{% endautoescape %}
-				<span class="link-read-post">
+            {% endautoescape %}
+            <span class="link-read-post">
                     <a href="{{ article.get_absolute_url }}" class="link-read-post" style="color:black;border: 1px solid lightgray;
     padding: 5px 10px 5px 10px;">Читать пост</a>
 				</span>
-			
-				<div class="article-list-cat-cont ">
-					<div class="user-catagory-highlight {{article.cat.slug}}">
-						{{ article.cat.name }}
-					</div>
-				</div>
 
-				<div class="article-list-last">
+            <div class="article-list-cat-cont ">
+                <div class="user-catagory-highlight {{ article.cat.slug }}">
+                    {{ article.cat.name }}
+                </div>
+            </div>
 
-					<div class="article-list-author-cont">
-                       
-                        <div class="author-pic">
-                            <img src="{{ article.author.profile.avatar.url }}" />
-						</div>
+            <div class="article-list-last">
+
+                <div class="article-list-author-cont">
+
+                    <div class="author-pic">
+                        <img src="{{ article.author.profile.avatar.url }}"/>
+                    </div>
 
 
-						<a href="{% url 'expert_profile' article.author.pk %}" style="text-decoration:none">
-							<div class="article-list-author-name">{{ article.author.last_name }} {{ article.author.first_name }}</div>
-						</a>
-						
-					</div>
+                    <a href="{% url 'expert_profile' article.author.pk %}" style="text-decoration:none">
+                        <div class="article-list-author-name">{{ article.author.last_name }} {{ article.author.first_name }}</div>
+                    </a>
 
-					<div class="comments-andshare-cont">
+                </div>
 
-						<div class="list-comments">
-							<i class="bi bi-chat-left-text" style="color:grey;"></i>
-                            {% get_comment_count for article as comment_count %}
-							&nbsp;{{ comment_count }}
+                <div class="comments-andshare-cont">
+
+                    <div class="list-comments">
+                        <i class="bi bi-chat-left-text" style="color:grey;"></i>
+                        {% get_comment_count for article as comment_count %}
+                        &nbsp;{{ comment_count }}
+                    </div>
+
+
+
+                    <div class="list-share">
+
+                        <i class="bi bi-box-arrow-up-right global-cat-dropdown"
+                           id="socialShareDropdown"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                        </i>
+
+
+
+                        <div class="dropdown">
+                            <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px">
+                                <li>
+                                    {% post_to_facebook article "122" %}
+                                </li>
+                                <li>{% post_to_gplus article %}</li>
+                                <li>{% post_to_twitter article.title  %}</li>
+                                <li>{% post_to_linkedin article %}</li>
+                                <li>{% post_to_reddit article %}</li>
+                                <li>{% post_to_telegram article %}</li>
+                                <li>{% post_to_whatsapp article %}</li>
+                                <li>{% save_to_pinterest article %}</li>
+{#                                <li>{% copy_to_clipboard article %}</li>#}
+{#                                <li>{% add_copy_script %}</li>#}
+                            </ul>
                         </div>
 
-                        <div class="list-share">
-							<i class="bi bi-box-arrow-up-right" style="color:grey;scale:0.9 "></i>
-						</div>
+                    </div>
 
-					</div>
+                </div>
 
-				</div>
+            </div>
 
-				<hr class="solid">
-				
-			</div>
+            <hr class="solid">
 
-		</div>
-		{% endfor %}
-		
-
-
-        <div style="display:flex; justify-content:center">
-            <button type="button" class="btn btn-secondary btn-more" onclick="alert('В разработке');">
-                Загрузить ещё
-            </button>
         </div>
 
-	</div>
+    </div>
+    {% endfor %}
 
-    <script>
-        document.getElementById("search-article-query").addEventListener("keypress", function(event) {
-                if (event.key === "Enter") {
-                    window.location.href = {{ request.path }} + '?search_q=' + this.value
-                }
-        })
-    </script>
+
+    <div style="display:flex; justify-content:center">
+        <button type="button" class="btn btn-secondary btn-more" onclick="alert('В разработке');">
+            Загрузить ещё
+        </button>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById("search-article-query").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            window.location.href = {{ request.path }} + '?search_q=' + this.value
+        }
+    })
+</script>
 
 </body>
 
