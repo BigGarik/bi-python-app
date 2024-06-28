@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'wbappointment.apps.WbappointmentConfig',
     'django_recaptcha',
     'rest_framework',
+    'django_social_share',
 
     # 'debug_toolbar',  # Закомментировать перед пушем
 
@@ -240,8 +241,9 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
+            'formatter': 'verbose',  # Use a formatter that includes SQL queries
         },
         'file': {
             'level': 'ERROR',

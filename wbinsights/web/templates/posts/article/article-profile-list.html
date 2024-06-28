@@ -4,8 +4,9 @@
 {% load comments_xtd %}
 
 <div id="articles" class="expert-content">
-
-    <a href="{% url 'article_add' %}" class="btn btn-primary">Написать статью</a>
+    {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
+        <a href="{% url 'article_add' %}" class="btn btn-primary">Написать статью</a>
+    {% endif %}
 
     {% for article in experts_articles %}
 

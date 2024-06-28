@@ -14,7 +14,7 @@ def create_yookassa_payment(summ, base_url):
         },
         "confirmation": {
             "type": "redirect",
-            "return_url": base_url + "/appointment/add/success"
+            "return_url": base_url + "/profile?tab=consultations"
         },
         "capture": True,
         "description": "Оплата услуги консультации "
