@@ -27,7 +27,8 @@
 </style>
 
 
-{% get_rate_chipher user.expertprofile.rating as filled_stars_chipher%}
+{% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher%}
+
 
 <div class="profile-info-cont">
 
@@ -42,7 +43,7 @@
                     {{ user.first_name }} {{ user.last_name }}
                 </div>
                 <div class="user-rating-cont">
-                    <div class="user-rating">{% trans 'RatingLabel' %} : {{  user.expertprofile.rating|default_if_none:0 }} &nbsp;</div>
+                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating|default:0 }} &nbsp;</div>
 
                    
                     <div class="user-rate-and-stars">
@@ -84,7 +85,7 @@
                     {{ user.first_name }} {{ user.last_name }}
                 </div>
                 <div class="user-rating-cont">
-                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating|default_if_none:0 }} &nbsp;</div>
+                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating|default:0 }} &nbsp;</div>
                     <div class="user-rate-and-stars">
                         {% for ch in filled_stars_chipher %}
                             {% if ch == 'f' %}

@@ -15,7 +15,7 @@ register = template.Library()
 def get_rate_chipher(rating):
     ratechipher = ''
 
-    if rating is None or rating < 0:
+    if rating == '' or rating is None or rating < 0:
         rating = 0
 
     if rating > 5:

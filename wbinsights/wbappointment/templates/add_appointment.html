@@ -45,7 +45,7 @@
 
                     <div class="user-rating">{% trans 'RatingLabel' %} : {{ expert.expertprofile.rating|default_if_none:0 }}</div>
 
-                    {% get_rate_chipher user.expertprofile.rating as filled_stars_chipher%}
+                    {% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher%}
 
                     <div class="user-rate-and-stars">
                         {% for ch in filled_stars_chipher %}
