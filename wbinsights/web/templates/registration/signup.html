@@ -108,18 +108,11 @@
                             {{ f }}
                         </div>
                     {% endfor %}
-
-
-
-                    <div class="button-cont">
-                        <input class="btn btn-success register-btn" type="submit" value="Зарегистрироваться">
-                    </div>
-
+                
                     {% if user_form.captcha %}
                         {{ user_form.captcha }}
                     {% endif %}
-
-
+                
                     <div class="custom-control custom-checkbox"
                          style="display: flex; align-items: start; margin-top:10px">
                         <input type="checkbox" id="checkbox" required name="agree_personal_data_policy" value="checkbox"
@@ -129,6 +122,10 @@
                             <span>Я ознакомлен и согласен с <a href="{% url 'data_policies' %}"
                                                                style="text-decoration: none;">политикой обработки персональных данных</a></span>
                         </label>
+                    </div>
+                
+                    <div class="button-cont">
+                        <input class="btn btn-success register-btn" type="submit" value="Зарегистрироваться">
                     </div>
                 </form>
             </div>
