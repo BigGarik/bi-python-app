@@ -281,7 +281,7 @@
         });
     }
 
-    console.log(123)
+    //console.log(123)
 
     const modalBody = $('#appointmentTableBody');
 
@@ -448,47 +448,52 @@
         //display: "background"
         let dates = []
 
-        schedule.map((schedule_item, index) => {
-            const date_format = 'yyyy-MM-DD'
-            const moment_start = moment(schedule_item.start)
-            const start_date = moment_start.format(date_format)
-            const start_time = moment_start.format("HH:mm")
+        if (schedule) {
+            schedule.map((schedule_item, index) => {
+                const date_format = 'yyyy-MM-DD'
+                const moment_start = moment(schedule_item.start)
+                const start_date = moment_start.format(date_format)
+                const start_time = moment_start.format("HH:mm")
+    
+                const moment_end = moment(schedule_item.end)
+                const end_date = moment_end.format(date_format)
+                const end_time = moment_end.format("HH:mm")
+                dates.push(createEvent('',
+                    -1,
+                    start_date,
+                    start_time,
+                    end_date,
+                    end_time,
+                    index,
+                    "schedule"
+                ))
+            })
+        }    
+        
+        if (extradates) {
+            extradates.map((extradate) => {
+                title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования'
+                const date_format = 'yyyy-MM-DD'
+                const moment_start = moment(extradate.start)
+                const start_date = moment_start.format(date_format)
+                const start_time = moment_start.format("HH:mm")
 
-            const moment_end = moment(schedule_item.end)
-            const end_date = moment_end.format(date_format)
-            const end_time = moment_end.format("HH:mm")
-            dates.push(createEvent('',
-                -1,
-                start_date,
-                start_time,
-                end_date,
-                end_time,
-                index,
-                "schedule"
-            ))
-        })
-
-        extradates.map((extradate) => {
-            title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования'
-            const date_format = 'yyyy-MM-DD'
-            const moment_start = moment(extradate.start)
-            const start_date = moment_start.format(date_format)
-            const start_time = moment_start.format("HH:mm")
-
-            const moment_end = moment(extradate.end)
-            const end_date = moment_end.format(date_format)
-            const end_time = moment_end.format("HH:mm")
-            dates.push(createEvent(title,
-                extradate.type + 10,
-                start_date,
-                start_time,
-                end_date,
-                end_time,
-                extradate.id,
-                "extradate"
-            ))
-        })
-        if (true) {
+                const moment_end = moment(extradate.end)
+                const end_date = moment_end.format(date_format)
+                const end_time = moment_end.format("HH:mm")
+                dates.push(createEvent(title,
+                    extradate.type + 10,
+                    start_date,
+                    start_time,
+                    end_date,
+                    end_time,
+                    extradate.id,
+                    "extradate"
+                ))
+            })
+        }
+        
+        if (appointments_as_expert) {
             appointments_as_expert.map((appointment) => {
                 dates.push(
                     createEvent(appointment_title,
@@ -503,7 +508,8 @@
                 );
             })
         }
-        if (true) {
+        
+        if (appointments_as_client) {
             appointments_as_client.map((appointment) => {
                 dates.push(
                     createEvent(appointment_title,
@@ -518,6 +524,7 @@
                 );
             })
         }
+        
 
 
         return dates
