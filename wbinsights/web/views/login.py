@@ -105,7 +105,7 @@ def register_user(request):
         if user_form.data['user_type'] == '0':
 
             if user_form.is_valid():
-                save_new_user_and_profile(request, user_form, Profile.TypeUser.EXPERT)
+                save_new_user_and_profile(request, user_form, Profile.TypeUser.CLIENT)
                 return redirect('signup_success')
             else:
                 context = {
