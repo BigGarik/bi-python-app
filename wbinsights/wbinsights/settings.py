@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_comments_xtd',
     'django_comments',
+    'vote',
     'corsheaders',
     'web.apps.WebConfig',
     'expertprojects.apps.ExpertprojectsConfig',

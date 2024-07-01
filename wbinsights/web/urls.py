@@ -18,11 +18,15 @@ from django.contrib.auth import views as auth_views
 from .views.profile import profile_view, edit_user_profile, anketa_view
 from .views.error_404 import wb400handler
 from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form, ContactUsSuccessPageView
+from .views.vote import upvote, downvote
 
 handler404 = wb400handler
 
 urlpatterns = [
     path("", ResearchesListView.as_view(), name="index"),
+
+    path('upvote/<int:pk>/', upvote, name='upvote'),
+    path('downvote/<int:pk>/', downvote, name='downvote'),
 
     path("articles/", ArticleListView.as_view(), name='article_list'),
     path("articles/category/<slug:category_slug>", CategoryArticleListView.as_view(), name='article_category_list'),
