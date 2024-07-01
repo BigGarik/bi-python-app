@@ -80,9 +80,9 @@ class ExpertScheduleForm(forms.ModelForm):
                     range(6, 22)]  # Generate choices from 06:00 to 22:00
 
     id = forms.HiddenInput()
-    start_time = forms.ChoiceField(choices=HOUR_CHOICES, initial=6,
+    start_time = forms.ChoiceField(choices=HOUR_CHOICES,
                                    widget=forms.Select(attrs={'class': 'form-control form-control-sm'}))
-    end_time = forms.ChoiceField(choices=HOUR_CHOICES, initial=22, widget=forms.Select(
+    end_time = forms.ChoiceField(choices=HOUR_CHOICES,  widget=forms.Select(
         attrs={'class': 'form-control form-control-sm expert-schedule-form-control'}))
     is_work_day = forms.BooleanField(required=False)
 
