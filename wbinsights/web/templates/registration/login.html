@@ -122,23 +122,24 @@
                 <div class="role-choose">
                     <span class="span-register">ВХОД</span>
                 </div>
-
-                <div class="alert alert-danger">
-
-                    {% if messages %}
+            
+                {% if messages %}
+                    <div class="alert alert-danger">
                         {% for message in messages %}
                             {{ message }}
                         {% endfor %}
-                    {% else %}
-                        {% if form.errors %}
+                    </div>
+                {% else %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
                             {% for key, value in form.errors.items %}
                                 {{ value }}
                             {% endfor %}
-                        {% endif %}
-                    {% endif %}
-                
-                </div>
 
+                        </div>
+                    {% endif %}
+                {% endif %}
+            
                 <div class="form-group" id="email-form">
                     <label for="email">Электронная почта</label>
                     <input type="email" name="{{ form.username.name }}" class="custom-form-field"
