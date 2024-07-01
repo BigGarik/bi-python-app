@@ -19,9 +19,20 @@
 
         }
 
+        @media (max-width: 768px) {
+
+            .smaller-letters {
+                font-size: 12px !important;
+            }
+
+        }
+
+
     </style>
 
-    
+
+
+
 
     <div class="list-main-containers" style="padding:20px; margin-top:0px;">
 
@@ -81,13 +92,13 @@
 
                         <div style="display:flex ; margin-left: 10px ; flex-direction:column">
                             {% if profile_form.instance.avatar %}
-                                <p style="color:white ; user-select: none; margin: 0;">На данный момент: <a
+                                <p style="color:white ; user-select: none; margin: 0; font-size:8px">На данный момент: <a
                                         href="{{ profile_form.instance.avatar.url }}"
-                                        style="color: white;">{{ profile_form.instance.avatar.name }}</a></p>
+                                        style="color: white;font-size:8px" >{{ profile_form.instance.avatar.name }}</a></p>
                             {% endif %}
 
                             <label for="id_avatar">Изменить:</label>
-                            <input type="file" name="avatar" class="your-custom-class" accept="image/*" id="id_avatar">
+                            <input type="file" name="avatar" class="smaller-letters" accept="image/*" id="id_avatar">
                         </div>
                     </div>
 
