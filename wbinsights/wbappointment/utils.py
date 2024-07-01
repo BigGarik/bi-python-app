@@ -17,7 +17,7 @@ def get_expert_schedule_form_set(request):
     initial_values = [{'day_of_week': day_num, 'start_time': '09:00:00', 'end_time': '18:00:00'} for day_num in
                       range(1, 8)]
 
-    return expertScheduleFormSet(initial=initial_values)
+    return expertScheduleFormSet(initial=initial_values, queryset=ExpertSchedule.objects.none())
 
 
 def get_experts_min_max_hours(request):
