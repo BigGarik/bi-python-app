@@ -62,14 +62,14 @@
     
         </div>
     
-        {% include 'profile/profile_content_items.html' %}
+
     
     </div>
 
-    
-        
-
-{#    {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}#}
+    <hr/>
+    <div id="client-calendar" style="background-color: white; padding: 10px">
+        {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
+    </div>
 
 
 {% endblock %}
