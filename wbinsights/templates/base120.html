@@ -2,7 +2,7 @@
 
 {% block content %}
     
-    <div class="col-md-2">
+    <div class="col-md-2 d-none d-md-block">
         {% include "components/left_main_menu.html" %}
     </div>
     
@@ -20,5 +20,7 @@
         {% block right_col %} {% endblock %}
 
     </div>
+    
+    <!-- col-md-2 d-none d-md-block -->
     
 {% endblock %}

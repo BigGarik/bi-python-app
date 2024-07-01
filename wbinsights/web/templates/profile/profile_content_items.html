@@ -73,12 +73,14 @@
 </ul>
 
 <!-- Mobile version -->
+
+<!-- background color #0d79ae -->
 <div style="overflow-x: auto; margin-bottom: 10px;">
-<ul class="nav nav-pills d-md-none" style="margin-bottom: 15px; display: flex; flex-direction: row; flex-flow: nowrap;">
+<ul class="nav nav-pills d-md-none" style="margin-bottom: 15px; display: flex; flex-direction: row; flex-flow: nowrap; gap : 5px">
     <li class="nav-item"  >
-        <a href="?tab=articles" class="profile-menu-item nav-link {% if request.GET.tab == 'articles' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;">
+        <a href="?tab=articles" class="profile-menu-item nav-link {% if request.GET.tab == 'articles' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;min-width: 75px;height: 50px;">
             <div>
-                <i class="bi bi-newspaper" style="font-size:24px"></i>
+                <i class="bi bi-newspaper" style="font-size:22px"></i>
             </div>
             <div style="display:flex;align-items: center;">
                 <span style="font-size:8px">{% trans 'ArticlesTabLabel' %}&nbsp;</span>
@@ -88,9 +90,9 @@
     </li>
 
     <li class="nav-item" >
-        <a href="?tab=researches" class="profile-menu-item nav-link {% if request.GET.tab == 'researches' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;">
+        <a href="?tab=researches" class="profile-menu-item nav-link {% if request.GET.tab == 'researches' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;min-width: 75px;height: 50px;">
             <div>
-                <i class="bi bi-eyeglasses" style="font-size:24px"></i>
+                <i class="bi bi-eyeglasses" style="font-size:22px"></i>
             </div>
             <div style="display:flex;align-items: center;">
                 <span style="font-size:8px">Исследования&nbsp;</span>
@@ -100,9 +102,9 @@
     </li>
 
     <li class="nav-item" >
-        <a href="?tab=questions" class="profile-menu-item nav-link {% if request.GET.tab == 'questions' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;">
+        <a href="?tab=questions" class="profile-menu-item nav-link {% if request.GET.tab == 'questions' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;min-width: 75px;height: 50px;">
             <div>
-                <i class="bi bi-patch-question" style="font-size:24px"></i>
+                <i class="bi bi-patch-question" style="font-size:22px"></i>
             </div>
             <div style="display:flex;align-items: center;">
                 <span style="font-size:8px">Вопросы&nbsp;</span>
@@ -113,9 +115,9 @@
 
     {% if request.path == '/profile' %}
     <li class="nav-item" >
-        <a href="?tab=consultations" class="profile-menu-item nav-link {% if request.GET.tab == 'consultations' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;">
+        <a href="?tab=consultations" class="profile-menu-item nav-link {% if request.GET.tab == 'consultations' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;min-width: 75px;height: 50px;">
             <div>
-                <i class="bi bi-people-fill" style="font-size:24px"></i>
+                <i class="bi bi-people-fill" style="font-size:22px"></i>
             </div>
             <div style="display:flex;align-items: center;">
                 <span style="font-size:8px">Консультации&nbsp;</span>
@@ -126,9 +128,9 @@
     {% endif %}
 
     <li class="nav-item" >
-        <a href="?tab=reviews" class="profile-menu-item nav-link {% if request.GET.tab == 'reviews' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;">
+        <a href="?tab=reviews" class="profile-menu-item nav-link {% if request.GET.tab == 'reviews' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;min-width: 75px;height: 50px;">
             <div>
-                <i class="bi bi-pencil-square" style="font-size:24px"></i>
+                <i class="bi bi-pencil-square" style="font-size:22px"></i>
             </div>
             <div style="display:flex;align-items: center;">
                 <span style="font-size:8px">Отзывы&nbsp;</span>
@@ -138,9 +140,9 @@
     </li>
 
     <li class="nav-item" >
-        <a href="?tab=projects" class="profile-menu-item nav-link {% if request.GET.tab == 'projects' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;">
+        <a href="?tab=projects" class="profile-menu-item nav-link {% if request.GET.tab == 'projects' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;min-width: 75px;height: 50px;">
             <div>
-                <i class="bi bi-file-earmark-ppt" style="font-size:24px"></i>
+                <i class="bi bi-file-earmark-ppt" style="font-size:22px"></i>
             </div>
             <div style="display:flex;align-items: center;">
                 <span style="font-size:8px">Проекты&nbsp;</span>
