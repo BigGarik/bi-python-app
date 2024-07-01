@@ -113,7 +113,17 @@ class UnverifiedExpertDetailView(LoginRequiredMixin, UserPassesTestMixin, Detail
         expert_anketa: ExpertAnketa = self.get_object()
 
         if action == 'approve':
-            expert_profile: ExpertProfile = expert_anketa.user.expertprofile
+
+            try:
+                expert_profile: ExpertProfile = expert_anketa.user.expertprofile
+            except Exception as e:
+                #if expert_profile doesn't exist
+                expert_profile = ExpertProfile()
+                expert_profile.user = expert_anketa.user
+                expert_profile.save()
+
+
+
 
             expert_profile.experience = expert_anketa.experience
             expert_profile.age = expert_anketa.experience
