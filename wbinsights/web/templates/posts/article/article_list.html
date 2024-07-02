@@ -110,9 +110,8 @@
                     </a>
 
                 </div>
-
+                <span class="like-count">{{ article.votes.count }}</span>
                 <div class="comments-andshare-cont">
-
                     <div class="list-comments">
                         <i class="bi bi-chat-left-text" style="color:grey;"></i>
                         {% get_comment_count for article as comment_count %}
