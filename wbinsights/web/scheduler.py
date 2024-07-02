@@ -8,7 +8,7 @@ from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 
-from services.async_rating import calculate_rating_for_all_experts
+from web.services.async_rating import calculate_rating_for_all_experts
 from wbinsights import settings
 
 logger = logging.getLogger(__name__)

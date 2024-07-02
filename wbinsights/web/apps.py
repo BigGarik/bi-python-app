@@ -7,7 +7,8 @@ class WebConfig(AppConfig):
 
     def ready(self):
         import web.models.users
-        from .scheduler import start
+        from web.scheduler import start
+        #Данный метод будет выполнятся также при миграции, так что если таблицы для apschedule еще не сделаны, метод нужно отключить
         start()
 
 
