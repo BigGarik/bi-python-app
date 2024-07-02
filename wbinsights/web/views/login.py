@@ -5,10 +5,14 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMultiAlternatives
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
+from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
 from django.utils.html import strip_tags
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST
+
 from web.forms.users import CustomUserCreationForm, ExpertAnketaForm, UserPasswordResetForm, UserSetNewPasswordForm, \
     UserPasswordChangeForm
 from web.models import Profile
@@ -151,11 +155,40 @@ def activate_account(request, token):
     #     return render(request, 'registration/activation_invalid.html')
 
 
-class UserPasswordChangeView(PasswordChangeView):
+# class UserPasswordChangeView(PasswordChangeView):
+#     form_class = UserPasswordChangeForm
+#     success_url = reverse_lazy("password_change_done")
+#     template_name = "registration/password_change_form.html"
+#     title = "Password change"
+
+
+class UserPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
     form_class = UserPasswordChangeForm
-    success_url = reverse_lazy("password_change_done")
+    success_url = reverse_lazy("index")
     template_name = "registration/password_change_form.html"
     title = "Password change"
+    success_message = "Password changed successfully."
+
+    def get(self, request, *args, **kwargs):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            form = self.get_form()
+            context = self.get_context_data(form=form)
+            html = render_to_string(self.template_name, context, request=request)
+            return JsonResponse({'html': html})
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        # print("POST data:", request.POST) # Отладочное сообщение
+        form = self.get_form()
+        if form.is_valid():
+            form.save()
+            messages.success(request, self.success_message)
+            # return JsonResponse({'success': True, 'message': self.success_message, 'redirect_url': str(self.success_url)})
+            return redirect(self.get_success_url())
+        else:
+            context = self.get_context_data(form=form)
+            html = render_to_string(self.template_name, context, request=request)
+            return JsonResponse({'success': False, 'html': html})
 
 
 class UserPasswordResetView(SuccessMessageMixin, PasswordResetView):

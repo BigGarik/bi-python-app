@@ -1,7 +1,6 @@
-
 {% load i18n %}
 
-<a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn" >
+<a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn">
     {% trans 'EditProfileLabel' %}
 </a>
 
@@ -11,3 +10,78 @@
         {% trans 'LogoutButtonLabel' %}
     </button>
 </form>
+<form method="post" action="{% url 'password_change' %}">
+    {% csrf_token %}
+    <!-- Кнопка для открытия модального окна -->
+    <button type="button" class="btn prof-btn prof-change-password-btn" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
+        {% trans 'ChangePasswordLabel' %}
+    </button>
+
+    <!-- Модальное окно -->
+    <div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordChangeModalLabel">{% trans 'ChangePasswordTitle' %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Здесь будет загружена форма -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Всплывающее уведомление -->
+    <div id="notification" class="alert alert-success" role="alert" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 9999;">
+        {% trans 'PasswordChangedSuccessfully' %}
+    </div>
+</form>
+
+<!-- JavaScript для загрузки формы и обработки отправки -->
+<script>
+$(document).ready(function() {
+    var modal = $('#passwordChangeModal');
+    
+    modal.on('show.bs.modal', function (event) {
+        $.ajax({
+            url: "{% url 'password_change' %}",
+            type: 'GET',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function(response) {
+                modal.find('.modal-body').html(response.html);
+            },
+            error: function(xhr, status, error) {
+                modal.find('.modal-body').html("{% trans 'ErrorLoadingForm' %}");
+            }
+        });
+    });
+
+    // Изменим делегирование события
+    $(document).on('submit', '#passwordChangeModal form', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var formData = form.serialize();
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: formData,
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function(response) {
+                if (response.success) {
+                    modal.modal('hide');
+                    $('#notification').text(response.message).fadeIn().delay(500).fadeOut(function() {
+                        window.location.href = response.redirect_url;
+                    });
+                } else {
+                    modal.find('.modal-body').html(response.html);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("{% trans 'ErrorChangingPassword' %}");
+            }
+        });
+    });
+});
+</script>
