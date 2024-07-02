@@ -269,6 +269,11 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
+        '': {  # default logger
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
     },
     'formatters': {
         'verbose': {
