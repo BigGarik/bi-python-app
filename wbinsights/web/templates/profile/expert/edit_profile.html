@@ -246,49 +246,49 @@
                 <hr/>
 
                 <div class="expert-edit-rows">
-                    <span class="prof-edit-change-pass">Смена пароля</span>
-                    <br/>
-                    <span class="prof-edit-change-pass" style="font-size: 14px">для смены заполните поля, в противном случае оставьте пустыми</span>
+{#                    <span class="prof-edit-change-pass">Смена пароля</span>#}
+{#                    <br/>#}
+{#                    <span class="prof-edit-change-pass" style="font-size: 14px">для смены заполните поля, в противном случае оставьте пустыми</span>#}
+{##}
+{##}
+{#                    {% if user_change_password_form.errors %}#}
+{#                        <div class="alert alert-danger">#}
+{##}
+{#                            {% for key, value  in user_change_password_form.errors.items %}#}
+{#                                {{ value }}#}
+{#                            {% endfor %}#}
+{##}
+{#                        </div>#}
+{#                    {% endif %}#}
 
-
-                    {% if user_change_password_form.errors %}
-                        <div class="alert alert-danger">
-
-                            {% for key, value  in user_change_password_form.errors.items %}
-                                {{ value }}
-                            {% endfor %}
-
-                        </div>
-                    {% endif %}
-
-                    <div class="prof-edit-duel-rows">
-                        <div class="prof-edit-input-title">
-                            <label for="{{ user_change_password_form.old_password.id_for_label }}"
-                                   class="prof-edit-input-labels">
-                                {{ user_change_password_form.old_password.label }}</label>
-                            {{ user_change_password_form.old_password }}
-                        </div>
-                        <div class="prof-edit-input-title">
-                            <label for="{{ user_change_password_form.new_password1.id_for_label }}"
-                                   class="prof-edit-input-labels">
-                                {{ user_change_password_form.new_password1.label }}</label>
-                            {{ user_change_password_form.new_password1 }}
-                        </div>
-                        <div class="prof-edit-input-title">
-                            <label for="{{ user_change_password_form.new_password2.id_for_label }}"
-                                   class="prof-edit-input-labels">
-                                {{ user_change_password_form.new_password2.label }}</label>
-                            {{ user_change_password_form.new_password2 }}
-                        </div>
-                    </div>
-
-                    <script>
-                        $(document).ready(function () {
-                            $("[name=old_password]").val('')
-                            $("[name=new_password1]").val('')
-                            $("[name=new_password2]").val('')
-                        })
-                    </script>
+{#                    <div class="prof-edit-duel-rows">#}
+{#                        <div class="prof-edit-input-title">#}
+{#                            <label for="{{ user_change_password_form.old_password.id_for_label }}"#}
+{#                                   class="prof-edit-input-labels">#}
+{#                                {{ user_change_password_form.old_password.label }}</label>#}
+{#                            {{ user_change_password_form.old_password }}#}
+{#                        </div>#}
+{#                        <div class="prof-edit-input-title">#}
+{#                            <label for="{{ user_change_password_form.new_password1.id_for_label }}"#}
+{#                                   class="prof-edit-input-labels">#}
+{#                                {{ user_change_password_form.new_password1.label }}</label>#}
+{#                            {{ user_change_password_form.new_password1 }}#}
+{#                        </div>#}
+{#                        <div class="prof-edit-input-title">#}
+{#                            <label for="{{ user_change_password_form.new_password2.id_for_label }}"#}
+{#                                   class="prof-edit-input-labels">#}
+{#                                {{ user_change_password_form.new_password2.label }}</label>#}
+{#                            {{ user_change_password_form.new_password2 }}#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <script>#}
+{#                        $(document).ready(function () {#}
+{#                            $("[name=old_password]").val('')#}
+{#                            $("[name=new_password1]").val('')#}
+{#                            $("[name=new_password2]").val('')#}
+{#                        })#}
+{#                    </script>#}
 
                 </div>
 
