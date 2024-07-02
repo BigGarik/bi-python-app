@@ -54,10 +54,12 @@ INSTALLED_APPS = [
     'django_recaptcha',
     'rest_framework',
     'django_social_share',
+    'django_apscheduler',
 
     # 'debug_toolbar',  # Закомментировать перед пушем
 
     'zoomus',
+
 ]
 
 SITE_ID = 1

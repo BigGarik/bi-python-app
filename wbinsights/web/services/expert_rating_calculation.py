@@ -4,8 +4,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Prefetch
 from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
-from ..models import ExpertProfile, RatingRole, RatingCalculate, CustomUser, Expert
 
+from web.models import ExpertProfile, RatingRole, RatingCalculate, CustomUser, Expert
+
+#Для синхронного вызова, сейчас не используется
 
 @dataclass
 class ExpertProfileRow:

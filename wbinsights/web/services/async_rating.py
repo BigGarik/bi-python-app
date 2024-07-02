@@ -2,6 +2,7 @@ import asyncio
 import asyncpg
 from dataclasses import dataclass
 import environs
+import logging
 
 env = environs.Env()
 environs.Env.read_env()
@@ -11,6 +12,9 @@ db_password = env('PASSWORD_DB')
 db_host = env('URL_DB')
 db_port = env('PORT_DB')
 database = env('DATABASE')
+
+
+logger = logging.getLogger("django-info")
 
 
 @dataclass
@@ -177,6 +181,9 @@ async def calculate_rating_for_all_experts():
         calculator = ExpertRatingCalculation()
         tasks = [calculator.calculate_rating(pool, expert_id['user_id']) for expert_id in expert_ids]
         await asyncio.gather(*tasks)
+
+    logger.info('Rating calculation completed')
+
 
 
 if __name__ == "__main__":

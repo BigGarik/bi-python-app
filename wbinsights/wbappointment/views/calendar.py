@@ -114,10 +114,11 @@ def get_experts_appointment(request, *args, **kwargs):
 
         return JsonResponse(
             {'data':
-                {'appointments': {
-                    'as_expert':  AppointmentSerializer(appointments_as_expert, many=True).data,
-                    'as_client':  AppointmentSerializer(appointments_as_client, many=True).data,
-                },
+                {
+                    'appointments': {
+                        'as_expert':  AppointmentSerializer(appointments_as_expert, many=True).data,
+                        'as_client':  AppointmentSerializer(appointments_as_client, many=True).data,
+                    },
                     'extra_dates': ExpertScheduleSpecialDaysSerializer(extra_dates, many=True).data,
                     'schedule': schedule_dates
                 }
@@ -126,6 +127,13 @@ def get_experts_appointment(request, *args, **kwargs):
 
 @login_required
 def get_clients_appointment(request, *args, **kwargs):
-    selected_client = kwargs['client_id']
-    appointments = Appointment.objects.filter(client_id=selected_client)
-    return JsonResponse({'data': Appointment(appointments, many=True).data})
+    appointments_as_client = Appointment.objects.filter(client_id=request.user.id)
+
+    return JsonResponse(
+        {'data':
+            {
+                'appointments': {
+                    'as_client': AppointmentSerializer(appointments_as_client, many=True).data,
+                }
+            }
+        })
