@@ -153,7 +153,7 @@ def profile_view(request):
             "user": request.user,
             "profile": expert_profile,
             "ratings": ratings,
-            "roles": roles,
+            "roles": roles
         })
     else:
         # For non-expert users, render the client profile template
@@ -288,12 +288,16 @@ def edit_user_profile(request):
                 #методом save(commit=False)
                 updated_expert_anketa: ExpertAnketa = expert_anketa_form.save()
 
+                for form in education_expert_anketa_formset.forms:
+                    #EducationForm
+                    education = form.save()
+                    education.expert = request.user
+                    education.save()
+                    updated_expert_anketa.education.add(education)
+
                 updated_expert_anketa.is_verified = ExpertAnketa.AnketaVerifiedStatus.NOT_VERIFIED
                 updated_expert_anketa.save()
 
-                educations = education_expert_anketa_formset.save(commit=False)
-                for education in educations:
-                    education.save()
 
                 #Отправляем письмо модераторам, о необходимости проверки анкеты
                 moderators = CustomUser.objects.filter(is_staff=True)

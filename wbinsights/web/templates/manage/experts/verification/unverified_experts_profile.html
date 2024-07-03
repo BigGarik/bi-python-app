@@ -94,12 +94,14 @@
                     </div>
                 </div>
 
-                <div class="prof-edit-info-cont">
+                <div class="prof-edit-info-cont1">
                     <div class="anketa-abt-me">
                         <div class="label-verify-users"> {% trans 'EducationLabel' %}</div>
+                        <div style="display: flex; flex-direction: column">
                         {% for edu in unverified_expertanketa.education.all %}
                             <div>{{ edu.educational_institution }}</div>
                         {% endfor %}
+                        </div>
 
                     </div>
                 </div>
