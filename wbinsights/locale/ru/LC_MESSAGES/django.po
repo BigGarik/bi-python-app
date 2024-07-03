@@ -1060,7 +1060,7 @@ msgstr ""
 
 #: .\web\templates\profile\expert\profile_buttons.html:85
 msgid "ErrorChangingPassword"
-msgstr ""
+msgstr "Ошибка смены пароля"
 
 #: .\web\templates\profile\profile_content_items.html:32
 #: .\web\templates\profile\profile_content_items.html:96
