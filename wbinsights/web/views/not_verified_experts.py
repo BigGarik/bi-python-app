@@ -126,7 +126,7 @@ class UnverifiedExpertDetailView(LoginRequiredMixin, UserPassesTestMixin, Detail
 
 
             expert_profile.experience = expert_anketa.experience
-            expert_profile.age = expert_anketa.experience
+            expert_profile.age = expert_anketa.age
             expert_profile.expert_categories.set(expert_anketa.expert_categories.all())
             expert_profile.about = expert_anketa.about
             expert_profile.documents.set(expert_anketa.documents.all())
