@@ -150,7 +150,7 @@ class UnverifiedExpertDetailView(LoginRequiredMixin, UserPassesTestMixin, Detail
 
             # Создаем объект EmailMultiAlternatives
             email = EmailMultiAlternatives(
-                'Новая анкета эксперта на проверку',
+                'Верификация анкеты',
                 text_content,
                 SERVER_EMAIL,
                 recipient_list
