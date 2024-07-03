@@ -14,7 +14,7 @@
     </button>
 
     <!-- Модальное окно -->
-    <div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
+    <div class="modal fade " id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -34,12 +34,16 @@
     </div>
 </form>
 
-<form method="post" action="{% url 'logout' %}">
+<form method="post" action="{% url 'logout' %}" style="width: auto">
     {% csrf_token %}
-    <button class="btn prof-btn prof-logout-btn" type="submit">
+    <button class="btn prof-btn prof-logout-btn" type="submit" style="width:auto !important;">
         {% trans 'LogoutButtonLabel' %}
     </button>
 </form>
+
+
+
+
 
 <!-- JavaScript для загрузки формы и обработки отправки -->
 <script>

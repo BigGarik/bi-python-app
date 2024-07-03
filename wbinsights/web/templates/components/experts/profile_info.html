@@ -9,8 +9,8 @@
             display: flex;
             font-family: sans-serif;
             margin-top: 10px;
-            width: 100%;
-            justify-content: space-evenly;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .user-category {
@@ -19,6 +19,10 @@
 
         .user-catagory-highlight {
             margin-right: 0px !important;
+            margin-left: 0px !important;
+        }
+
+        .prof-settings-btn {
             margin-left: 0px !important;
         }
     }
@@ -114,22 +118,9 @@
         <div class="prof-user-setting">
 
 
-            <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn"
-               style="width: 100%;display: flex; justify-content: center;">
-                {% trans 'EditProfileLabel' %}
-            </a>
-
-            <form method="post" action="{% url 'logout' %}" style="width: 100%">
-                {% csrf_token %}
-                <button class="btn prof-btn prof-logout-btn" type="submit"
-                        style="display: flex; justify-content: center; width: 100%">
-                    {% trans 'LogoutButtonLabel' %}
-                </button>
-            </form>
-
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#passwordModal">
-                Change password
-            </button>
+            <div class="prof-user-setting">
+                    {% include buttons_template with user=expert %}
+                </div>
 
             <!-- Modal Structure -->
             <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel"

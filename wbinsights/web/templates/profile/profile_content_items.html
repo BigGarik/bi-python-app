@@ -72,12 +72,14 @@
     </li>
 
 
+    {% if request.path == '/profile' %}
     <li class="nav-item">
         <a href="?tab=ratings" class="profile-menu-item nav-link {% if request.GET.tab == 'ratings' %}active{% endif %}">
             <span>{% trans 'RatingsTabLabel' %}&nbsp;</span>
             <span class="expert-profile-title-content-number">0</span>
         </a>
     </li>
+    {% endif %}
 
 </ul>
 
@@ -161,6 +163,7 @@
         </a>
     </li>
 
+    {% if request.path == '/profile' %}
     <li class="nav-item" >
         <a href="?tab=ratings" class="profile-menu-item nav-link {% if request.GET.tab == 'ratings' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;min-width: 75px;height: 50px;">
             <div>
@@ -168,10 +171,11 @@
             </div>
             <div style="display:flex;align-items: center;">
                 <span style="font-size:8px">Проекты&nbsp;</span>
-                <span class="expert-profile-title-content-number" style="font-size:10px">{{ projects_count }}</span>
+                <span class="expert-profile-title-content-number" style="font-size:10px"></span>
             </div>
         </a>
     </li>
+    {% endif %}
 
 
 
