@@ -173,15 +173,10 @@
 
                 <!-- Добавляем формсет для образования -->
                 <div class="education-formset-container">
-                    <span class="prof-edit-page-title" style="padding-bottom: 10px">Образование12</span>
+                    <span class="prof-edit-page-title" style="padding-bottom: 10px">Образование</span>
                     {{ education_expert_formset.management_form }}
                     {% for form in education_expert_formset %}
-                        <div class="row">
-                            <div class="col-1" style="display: flex; justify-content: center; align-items: center">
 
-                                <span style="font-size: 12px">#{{ forloop.counter }}</span>
-
-                            </div>
                             <div class="education-form col-11">
 
                                 {{ form.id }}
@@ -219,10 +214,10 @@
                                 </div>
                             </div>
 
-                        </div>
                     {% endfor %}
+                    
                     <!-- Кнопка для добавления нового образования (если требуется) -->
-                    <button type="button" class="btn btn-secondary add-education-btn">Добавить образование</button>
+                    <button type="button" class="btn btn-secondary add-education-btn" style="margin-top: 20px">Добавить образование</button>
                 </div>
                 <script>
                     // Скрипт для добавления новой формы образования

@@ -144,8 +144,7 @@ class UnverifiedExpertDetailView(LoginRequiredMixin, UserPassesTestMixin, Detail
 
             #moderators = CustomUser.objects.filter(is_staff=True)
             recipient_list = [expert_anketa.user.email]
-            html_content = render_to_string('emails/anketa_approved.html',
-                                            {})
+            html_content = render_to_string('emails/anketa_approved.html',{})
             text_content = strip_tags(html_content)
 
             # Создаем объект EmailMultiAlternatives
