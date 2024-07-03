@@ -6,7 +6,8 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import strip_tags
 
-from web.models.users import Education, ExpertAnketa
+from web.models import RatingCalculate, RatingRole
+from web.models.users import Education, ExpertAnketa, ExpertProfile
 from wbappointment.models import Appointment
 from wbinsights.settings import SERVER_EMAIL
 from web.forms.users import UserProfilePasswordChangeForm, ExpertAnketaChangeForm, CustomUserChangeForm, \
@@ -131,11 +132,17 @@ def profile_view(request):
         except EmptyPage:
             projects = paginator.page(paginator.num_pages)
 
+
+        # Fetch ratings and roles
+        ratings = RatingCalculate.objects.select_related('role').filter(user=request.user)
+        roles = RatingRole.objects.all()
+        rating = ExpertProfile.objects.filter(user=request.user).first()
+
         # Update the context with expert-specific data
         context.update({
             "experts_articles": expert_articles,
             "experts_articles_count": expert_articles_count,
-            "rating": 4.5,
+            "rating": rating,
             "experts_researches_count": 0,
             "filled_stars_chipher": 'ffffh',
             "users_appointment_cnt": experts_appointment_cnt,
@@ -144,7 +151,9 @@ def profile_view(request):
             "projects": projects,
             "projects_count": projects_count,
             "user": request.user,
-            "profile": expert_profile
+            "profile": expert_profile,
+            "ratings": ratings,
+            "roles": roles,
         })
     else:
         # For non-expert users, render the client profile template

@@ -70,7 +70,17 @@
             <span class="expert-profile-title-content-number">{{ projects_count }}</span>
         </a>
     </li>
+
+
+    <li class="nav-item">
+        <a href="?tab=ratings" class="profile-menu-item nav-link {% if request.GET.tab == 'ratings' %}active{% endif %}">
+            <span>{% trans 'RatingsTabLabel' %}&nbsp;</span>
+            <span class="expert-profile-title-content-number">0</span>
+        </a>
+    </li>
+
 </ul>
+
 
 <!-- Mobile version -->
 
@@ -151,6 +161,20 @@
         </a>
     </li>
 
+    <li class="nav-item" >
+        <a href="?tab=ratings" class="profile-menu-item nav-link {% if request.GET.tab == 'ratings' or not request.GET.tab %}active{% endif %}" style="flex-direction: column;padding: 5px;min-width: 75px;height: 50px;">
+            <div>
+                <i class="bi bi-file-earmark-ppt" style="font-size:22px"></i>
+            </div>
+            <div style="display:flex;align-items: center;">
+                <span style="font-size:8px">Проекты&nbsp;</span>
+                <span class="expert-profile-title-content-number" style="font-size:10px">{{ projects_count }}</span>
+            </div>
+        </a>
+    </li>
+
+
+
 </ul>
 </div>
 
@@ -158,16 +182,19 @@
     {% if request.GET.tab == "articles" or not request.GET.tab %}
         {% include 'posts/article/article-profile-list.html' with user=user %}
     {% elif request.GET.tab == "researches" %}
-        {#     researches_template #}
+        {# researches_template #}
     {% elif request.GET.tab == "questions" %}
-        {#     questions_template  #}
+        {# questions_template #}
     {% elif request.GET.tab == "consultations" %}
         <div id="consultations" class="expert-content">
             {% include 'components/appointment/calendar.html' %}
         </div>
     {% elif request.GET.tab == "reviews" %}
-        {#       reviews_template#}
+        {# reviews_template #}
     {% elif request.GET.tab == "projects" %}
         {% include 'project_list.html' with user=user %}
+    {% elif request.GET.tab == "ratings" %}
+        {% include 'profile/expert/rating_list.html' %}
     {% endif %}
 </div>
+

@@ -4,16 +4,12 @@
     {% trans 'EditProfileLabel' %}
 </a>
 
-<form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button class="btn prof-btn prof-logout-btn" type="submit">
-        {% trans 'LogoutButtonLabel' %}
-    </button>
-</form>
+
+
 <form method="post" action="{% url 'password_change' %}">
     {% csrf_token %}
     <!-- Кнопка для открытия модального окна -->
-    <button type="button" class="btn prof-btn prof-change-password-btn" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
+    <button type="button" class="btn prof-btn prof-settings-btn" data-bs-toggle="modal" data-bs-target="#passwordChangeModal" style="margin-left: 10px">
         {% trans 'ChangePasswordLabel' %}
     </button>
 
@@ -36,6 +32,13 @@
     <div id="notification" class="alert alert-success" role="alert" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 9999;">
         {% trans 'PasswordChangedSuccessfully' %}
     </div>
+</form>
+
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button class="btn prof-btn prof-logout-btn" type="submit">
+        {% trans 'LogoutButtonLabel' %}
+    </button>
 </form>
 
 <!-- JavaScript для загрузки формы и обработки отправки -->

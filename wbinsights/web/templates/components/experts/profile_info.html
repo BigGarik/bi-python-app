@@ -27,7 +27,8 @@
 </style>
 
 
-{% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher%}
+
+
 
 
 <div class="profile-info-cont">
@@ -43,10 +44,11 @@
                     {{ user.first_name }} {{ user.last_name }}
                 </div>
                 <div class="user-rating-cont">
-                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating|default:0 }} &nbsp;</div>
+                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating }} &nbsp;</div>
 
                    
                     <div class="user-rate-and-stars">
+                        {% get_rate_chipher user.expertprofile.rating as filled_stars_chipher %}
                         {% for ch in filled_stars_chipher %}
                             {% if ch == 'f' %}
                                 <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
@@ -110,6 +112,7 @@
                 </div>
             </div>
         </div>
+
         <div class="prof-user-setting">
 
 
@@ -123,6 +126,39 @@
                     {% trans 'LogoutButtonLabel' %}
                 </button>
             </form>
+
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#passwordModal" >
+                Change password
+            </button>
+
+            <!-- Modal Structure -->
+            <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="passwordModalLabel">Change Password</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card mb-3 border-0 nth-shadow">
+                                <div class="card-body">
+                                    <div class="card-title nth-card-title">
+                                        <h4>Изменить пароль</h4>
+                                    </div>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        <button type="submit" class="btn btn-danger mt-3">Сменить пароль</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
 
 {#            {% include buttons_template with user=expert %}#}
 
