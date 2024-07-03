@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-03 10:42+0500\n"
+"POT-Creation-Date: 2024-07-03 17:19+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -341,6 +341,7 @@ msgstr "Пустой комментарий"
 #: .\templates\django_comments\comments\preview.html:18
 #: .\templates\django_comments_xtd\comments\preview.html:45
 #: .\templates\django_comments_xtd\reply.html:32
+#: .\web\templates\components\comments.html:11
 msgid "Post your comment"
 msgstr ""
 
@@ -468,7 +469,7 @@ msgstr ""
 #: .\templates\django_comments_xtd\comment_tree.html:49
 #: .\templates\django_comments_xtd\django_comments_xtd\comment_tree.html:49
 msgid "Reply"
-msgstr ""
+msgstr "Ответить"
 
 #: .\templates\django_comments_xtd\discarded.html:4
 msgid "Comment discarded"
@@ -676,8 +677,8 @@ msgid "End time must be after start time."
 msgstr "Время окончания должно быть позже времени начала."
 
 #: .\wbappointment\templates\add_appointment.html:46
-#: .\web\templates\components\experts\profile_info.html:47
-#: .\web\templates\components\experts\profile_info.html:90
+#: .\web\templates\components\experts\profile_info.html:43
+#: .\web\templates\components\experts\profile_info.html:86
 msgid "RatingLabel"
 msgstr "Рейтинг"
 
@@ -932,33 +933,33 @@ msgstr "Все эксперты"
 msgid "MoreExpertsLabel"
 msgstr "Показать больше"
 
-#: .\web\templates\components\experts\profile_info.html:120
+#: .\web\templates\components\experts\profile_info.html:119
 #: .\web\templates\profile\expert\profile_buttons.html:4
 msgid "EditProfileLabel"
 msgstr "Настройки профиля"
 
-#: .\web\templates\components\experts\profile_info.html:173
+#: .\web\templates\components\experts\profile_info.html:172
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:99
 msgid "EducationLabel"
 msgstr "Образование"
 
-#: .\web\templates\components\experts\profile_info.html:183
+#: .\web\templates\components\experts\profile_info.html:185
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:59
 msgid "ExperienceLabel"
 msgstr "Опыт"
 
-#: .\web\templates\components\experts\profile_info.html:195
+#: .\web\templates\components\experts\profile_info.html:197
 msgid "PricePerHourLabel"
 msgstr "Стоимость консультации"
 
-#: .\web\templates\components\experts\profile_info.html:202
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:109
+#: .\web\templates\components\experts\profile_info.html:204
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:111
 #, fuzzy
 #| msgid "LoginBtnLabel"
 msgid "hhLinkLabel"
 msgstr "Войти"
 
-#: .\web\templates\components\experts\profile_info.html:210
+#: .\web\templates\components\experts\profile_info.html:213
 #, fuzzy
 #| msgid "LoginBtnLabel"
 msgid "LinkedInLinkLabel"
@@ -1008,7 +1009,7 @@ msgstr "Категория"
 msgid "HourRateLabel"
 msgstr "Стоимость часа"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:122
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:124
 msgid "linkedInLinkLabel"
 msgstr ""
 
@@ -1041,22 +1042,20 @@ msgid "ToMainPageLabel"
 msgstr "На главную"
 
 #: .\web\templates\profile\expert\profile_buttons.html:13
-#, fuzzy
-#| msgid "CategoryLabel"
 msgid "ChangePasswordLabel"
-msgstr "Категория"
+msgstr "Изменить пароль"
 
 #: .\web\templates\profile\expert\profile_buttons.html:21
 msgid "ChangePasswordTitle"
-msgstr ""
+msgstr "Изменение пароля"
 
 #: .\web\templates\profile\expert\profile_buttons.html:33
 msgid "PasswordChangedSuccessfully"
-msgstr ""
+msgstr "Пароль изменен успешно"
 
 #: .\web\templates\profile\expert\profile_buttons.html:58
 msgid "ErrorLoadingForm"
-msgstr ""
+msgstr "Ошибка загрузки формы"
 
 #: .\web\templates\profile\expert\profile_buttons.html:85
 msgid "ErrorChangingPassword"
@@ -1167,11 +1166,11 @@ msgstr "Ссылка активации недействительна."
 msgid "Account activation error: user not found."
 msgstr "Ошибка активации аккаунта: пользователь не найден."
 
-#: .\web\views\profile.py:64
+#: .\web\views\profile.py:327
 msgid "Your profile has successfully been sent for verification"
 msgstr "Ваш профиль успешно отправлен на проверку"
 
-#: .\web\views\profile.py:326
+#: .\web\views\profile.py:350
 msgid "Your profile is updated successfully"
 msgstr "Ваш профиль успешно обновлен"
 
