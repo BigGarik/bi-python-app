@@ -44,7 +44,7 @@
 
 
                     <div class="user-rate-and-stars">
-                        {% get_rate_chipher user.expertprofile.rating as filled_stars_chipher %}
+                        {% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher %}
                         {% for ch in filled_stars_chipher %}
                             {% if ch == 'f' %}
                                 <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
