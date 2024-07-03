@@ -25,57 +25,57 @@ from expertprojects.models import UserProject
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
-@login_required
-def anketa_view(request):
-    if not request.user.profile.type == Profile.TypeUser.EXPERT:  # or request.user.expertprofile.is_verified:
-        # Если пользователь не эксперт или его анкета уже верифицирована, перенаправляем на главную страницу
-        return redirect('index')
-
-    if request.method == 'POST':
-        expert_profile_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertprofile)
-        if expert_profile_form.is_valid():
-            # Сохраняем форму и отправляем уведомление модераторам
-            expert_profile_form.save()
-            expert_id = request.user.pk
-            # Получаем список email-адресов всех модераторов
-            moderators = CustomUser.objects.filter(is_staff=True)
-            recipient_list = [moderator.email for moderator in moderators if moderator.email]
-            manage_unverified_experts_profile = request.build_absolute_uri(
-                reverse("manage_unverified_experts_profile",
-                        kwargs={"pk": expert_id}))
-            manage_unverified_experts_list = request.build_absolute_uri(reverse("manage_unverified_experts_list"))
-
-            html_content = render_to_string('emails/verification_email.html',
-                                            {'manage_unverified_experts_profile': manage_unverified_experts_profile,
-                                             'manage_unverified_experts_list': manage_unverified_experts_list})
-            text_content = strip_tags(html_content)
-
-            # Создаем объект EmailMultiAlternatives
-            email = EmailMultiAlternatives(
-                'Новая анкета эксперта на проверку',
-                text_content,
-                SERVER_EMAIL,
-                recipient_list
-            )
-            # Добавляем HTML версию
-            email.attach_alternative(html_content, "text/html")
-            email.send()
-            messages.success(request, _('Your profile has successfully been sent for verification'))
-            return redirect('index')
-    else:
-        expert_profile_form = ExpertAnketaChangeForm(instance=request.user.expertprofile)
-
-    context = {
-        "expert_profile_form": expert_profile_form,
-        "experts_articles": [],
-        "rating": 4.5,
-        "experts_articles_count": 0,
-        "experts_researches_count": 0,
-        "filled_stars_chipher": 'ffffh'
-    }
-
-    return render(request, 'profile/anketa.html', context)
+#
+# @login_required
+# def anketa_view(request):
+#     if not request.user.profile.type == Profile.TypeUser.EXPERT:  # or request.user.expertprofile.is_verified:
+#         # Если пользователь не эксперт или его анкета уже верифицирована, перенаправляем на главную страницу
+#         return redirect('index')
+#
+#     if request.method == 'POST':
+#         expert_profile_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertprofile)
+#         if expert_profile_form.is_valid():
+#             # Сохраняем форму и отправляем уведомление модераторам
+#             expert_profile_form.save()
+#             expert_id = request.user.pk
+#             # Получаем список email-адресов всех модераторов
+#             moderators = CustomUser.objects.filter(is_staff=True)
+#             recipient_list = [moderator.email for moderator in moderators if moderator.email]
+#             manage_unverified_experts_profile = request.build_absolute_uri(
+#                 reverse("manage_unverified_experts_profile",
+#                         kwargs={"pk": expert_id}))
+#             manage_unverified_experts_list = request.build_absolute_uri(reverse("manage_unverified_experts_list"))
+#
+#             html_content = render_to_string('emails/verification_email.html',
+#                                             {'manage_unverified_experts_profile': manage_unverified_experts_profile,
+#                                              'manage_unverified_experts_list': manage_unverified_experts_list})
+#             text_content = strip_tags(html_content)
+#
+#             # Создаем объект EmailMultiAlternatives
+#             email = EmailMultiAlternatives(
+#                 'Новая анкета эксперта на проверку',
+#                 text_content,
+#                 SERVER_EMAIL,
+#                 recipient_list
+#             )
+#             # Добавляем HTML версию
+#             email.attach_alternative(html_content, "text/html")
+#             email.send()
+#             messages.success(request, _('Your profile has successfully been sent for verification'))
+#             return redirect('index')
+#     else:
+#         expert_profile_form = ExpertAnketaChangeForm(instance=request.user.expertprofile)
+#
+#     context = {
+#         "expert_profile_form": expert_profile_form,
+#         "experts_articles": [],
+#         "rating": 4.5,
+#         "experts_articles_count": 0,
+#         "experts_researches_count": 0,
+#         "filled_stars_chipher": 'ffffh'
+#     }
+#
+#     return render(request, 'profile/anketa.html', context)
 
 
 # class ProfileView(DetailView):
@@ -169,59 +169,58 @@ def profile_view(request):
 
     return render(request, profile_template, context=context)
 
-class ClientProfileEditHandler:
-
-    def __init__(self, request):
-        self.user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        self.profile_form = ProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
-
-    def save_profile(self):
-        if self.user_form.is_valid() and self.profile_form.is_valid():
-            self.user_form.save()
-            self.profile_form.save()
-
-    def get_template(self):
-        return 'profile/client/edit_profile.html'
-
-
-class ExpertProfileEditHandler:
+# class ClientProfileEditHandler:
+#
+#     def __init__(self, request):
+#         self.user_form = CustomUserChangeForm(request.POST, instance=request.user)
+#         self.profile_form = ProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
+#
+#     def save_profile(self):
+#         if self.user_form.is_valid() and self.profile_form.is_valid():
+#             self.user_form.save()
+#             self.profile_form.save()
+#
+#     def get_template(self):
+#         return 'profile/client/edit_profile.html'
 
 
-    def save_anketa(self, request):
-
-        user_form = CustomUserChangeForm(request.POST, instance=request.user)
-        expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
-        educationFormSet_0 = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
-        education_expert_anketa_formset = educationFormSet_0(request.POST, queryset=request.user.expertanketa.education.all())
-
-        if user_form.is_valid() and expert_anketa_form.is_valid() and education_expert_anketa_formset.is_valid():
-
-            user_form.save()
-
-            updated_expert_anketa: ExpertAnketa = expert_anketa_form.save(commit=False)
-            updated_expert_anketa.is_verified = ExpertAnketa.AnketaVerifiedStatus.NOT_VERIFIED
-            updated_expert_anketa.save()
-
-            for cat in updated_expert_anketa.expert_categories.all():
-                print(cat.slug)
-
-            educations = education_expert_anketa_formset.save(commit=False)
-            for education in educations:
-                education.save()
-
-    def is_valid(self):
-        return (self.user_form.is_valid()
-                and self.expert_anketa_form.is_valid()
-                and self.education_expert_anketa_formset.is_valid())
-
-    def get_form_errors(self):
-        return {
-            'errors': {
-                'user_form': self.user_form.errors,
-                'expert_anketa_form': self.expert_anketa_form.errors,
-                'education_expert_formset': self.education_expert_anketa_formset.errors
-            }
-        }
+# class ExpertProfileEditHandler:
+#
+#     def save_anketa(self, request):
+#
+#         user_form = CustomUserChangeForm(request.POST, instance=request.user)
+#         expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
+#         educationFormSet_0 = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
+#         education_expert_anketa_formset = educationFormSet_0(request.POST, queryset=request.user.expertanketa.education.all())
+#
+#         if user_form.is_valid() and expert_anketa_form.is_valid() and education_expert_anketa_formset.is_valid():
+#
+#             user_form.save()
+#
+#             updated_expert_anketa: ExpertAnketa = expert_anketa_form.save(commit=False)
+#             updated_expert_anketa.is_verified = ExpertAnketa.AnketaVerifiedStatus.NOT_VERIFIED
+#             updated_expert_anketa.save()
+#
+#             for cat in updated_expert_anketa.expert_categories.all():
+#                 print(cat.slug)
+#
+#             educations = education_expert_anketa_formset.save(commit=False)
+#             for education in educations:
+#                 education.save()
+#
+#     def is_valid(self):
+#         return (self.user_form.is_valid()
+#                 and self.expert_anketa_form.is_valid()
+#                 and self.education_expert_anketa_formset.is_valid())
+#
+#     def get_form_errors(self):
+#         return {
+#             'errors': {
+#                 'user_form': self.user_form.errors,
+#                 'expert_anketa_form': self.expert_anketa_form.errors,
+#                 'education_expert_formset': self.education_expert_anketa_formset.errors
+#             }
+#         }
 
 
 @login_required
@@ -237,7 +236,7 @@ def edit_user_profile(request):
 
         user_form = CustomUserChangeForm(instance=request.user)
         profile_form = ProfileChangeForm(instance=request.user.profile)
-        user_change_password_form = UserProfilePasswordChangeForm(user=request.user)
+       # user_change_password_form = UserProfilePasswordChangeForm(user=request.user)
 
         if is_expert:
             """ Анкета """
@@ -251,12 +250,12 @@ def edit_user_profile(request):
                                                                         extra=0)
                 education_expert_formset = education_expert_formset_factory(queryset=user_education.all())
             else:
-                education_expert_formset = modelformset_factory(Education, form=EducationForm, extra=0)
+                education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, extra=1)
+                education_expert_formset = education_expert_formset_factory(queryset=Education.objects.none())
 
         context = {
             'user_form': user_form,
             'profile_form': profile_form,
-            'user_change_password_form': user_change_password_form
         }
 
         if is_expert:
@@ -267,18 +266,6 @@ def edit_user_profile(request):
 
         return render(request, profile_edit_template, context=context)
 
-    # TODO изменение пароля нужно перенести в другой view
-
-    # user_change_password_form = UserProfilePasswordChangeForm(user=request.user, data=request.POST)
-    # saveNewPassword = False
-    # if user_change_password_form.data['old_password'] and user_change_password_form.data['old_password'] != '':
-    #     saveNewPassword = True
-    #
-    # if saveNewPassword:
-    #     user_change_password_form.save()
-    #     # переавторизовываем пользователя с новым паролем
-    #     update_session_auth_hash(request, request.user)
-
     if request.method == 'POST':
 
         if is_expert:
@@ -288,8 +275,8 @@ def edit_user_profile(request):
 
             user_form = CustomUserChangeForm(request.POST, instance=request.user)
             expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
-            educationFormSet_0 = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
-            education_expert_anketa_formset = educationFormSet_0(request.POST,
+            educationFormSet = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
+            education_expert_anketa_formset = educationFormSet(request.POST,
                                                                  queryset=request.user.expertanketa.education.all())
 
             if user_form.is_valid() and expert_anketa_form.is_valid() and education_expert_anketa_formset.is_valid():
@@ -308,20 +295,61 @@ def edit_user_profile(request):
                 for education in educations:
                     education.save()
 
-                # expert_anketa = request.user.expertanketa
-                #
-                # expert_profile: ExpertProfile = request.user.expertprofile
-                #
-                # expert_profile.expert_categories.set(expert_anketa.expert_categories.all())
-                # expert_profile.experience = expert_anketa.experience
-                # expert_profile.save()
+                #Отправляем письмо модераторам, о необходимости проверки анкеты
+                moderators = CustomUser.objects.filter(is_staff=True)
+                recipient_list = [moderator.email for moderator in moderators if moderator.email]
+                manage_unverified_experts_profile = request.build_absolute_uri(
+                    reverse("manage_unverified_experts_profile",
+                            kwargs={"pk": request.user.id }))
+                manage_unverified_experts_list = request.build_absolute_uri(reverse("manage_unverified_experts_list"))
+
+                html_content = render_to_string('emails/verification_email.html',
+                                                {'manage_unverified_experts_profile': manage_unverified_experts_profile,
+                                                 'manage_unverified_experts_list': manage_unverified_experts_list})
+                text_content = strip_tags(html_content)
+
+                # Создаем объект EmailMultiAlternatives
+                email = EmailMultiAlternatives(
+                    'Новая анкета эксперта на проверку',
+                    text_content,
+                    SERVER_EMAIL,
+                    recipient_list
+                )
+                # Добавляем HTML версию
+                email.attach_alternative(html_content, "text/html")
+                email.send()
+                ############################
+
+                messages.success(request, _('Your profile has successfully been sent for verification'))
+                redirect('profile')
+
+            else:
+
+                context = {
+                    "user_form": user_form,
+                    "profile_form": expert_anketa_form,
+                    "expert_profile_form": educationFormSet,
+                    "education_expert_formset": education_expert_anketa_formset,
+                }
+                return render(request, profile_edit_template, context=context)
 
 
         else:
 
             # Клиент может сохранить свои данные сразу в профиль
-            profile_edit_handler = ClientProfileEditHandler(request)
-            profile_edit_handler.save_profile()
+            user_form = CustomUserChangeForm(request.POST, instance=request.user)
+            profile_form = ProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
 
-        messages.success(request, _('Your profile is updated successfully'))
+            if user_form.is_valid() and profile_form.is_valid():
+                user_form.save()
+                profile_form.save()
+                messages.success(request, _('Your profile is updated successfully'))
+                redirect('profile')
+            else:
+                context = {
+                    'user_form': user_form,
+                    'profile_form': profile_form,
+                }
+                return render(request, profile_edit_template, context=context)
+
         return redirect('profile')
