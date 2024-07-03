@@ -85,7 +85,7 @@
             </div>
 
             {% endautoescape %}
-            <span class="link-read-post">
+                <span class="link-read-post">
                     <a href="{{ article.get_absolute_url }}" class="link-read-post" style="color:black;border: 1px solid lightgray;
     padding: 5px 10px 5px 10px;">Читать пост</a>
 				</span>
@@ -113,11 +113,13 @@
 
                 <div class="comments-andshare-cont">
 
-                    <div class="list-comments">
+                    <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none; color: inherit;">
                         <i class="bi bi-chat-left-text" style="color:grey;"></i>
                         {% get_comment_count for article as comment_count %}
                         &nbsp;{{ comment_count }}
-                    </div>
+                    </a>
+
+
 
 
 
@@ -133,11 +135,11 @@
                         <div class="dropdown">
                             <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px">
                                 <li>
-                                    {% post_to_facebook article "122" %}
+                                    {% post_to_facebook article %}
                                 </li>
+                                <li>{% post_to_linkedin article %}</li>
                                 <li>{% post_to_gplus article %}</li>
                                 <li>{% post_to_twitter article.title  %}</li>
-                                <li>{% post_to_linkedin article %}</li>
                                 <li>{% post_to_reddit article %}</li>
                                 <li>{% post_to_telegram article %}</li>
                                 <li>{% post_to_whatsapp article %}</li>
