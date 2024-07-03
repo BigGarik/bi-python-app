@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-29 16:09+0500\n"
+"POT-Creation-Date: 2024-07-03 10:42+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,69 +25,667 @@ msgid "Heading"
 msgstr "Заголовок"
 
 #: .\expertprojects\models.py:19
+#: .\expertprojects\templates\project_list.html:50
 msgid "Category"
 msgstr "Категория"
 
 #: .\expertprojects\models.py:23
 msgid "Company"
-msgstr ""
+msgstr "Компания"
 
 #: .\expertprojects\models.py:48
 msgid "Unsupported file extension."
 msgstr "Неподдерживаемый тип файла."
 
-#: .\templates\base.html:85 .\templates\base.html:325
+#: .\expertprojects\templates\project_list.html:57
+msgid "Filter by category"
+msgstr "Фильтр по категориям"
+
+#: .\expertprojects\templates\project_list.html:57
+#: .\expertprojects\templates\project_list.html:61
+msgid "All"
+msgstr "Все"
+
+#: .\expertprojects\templates\project_list.html:61
+#, fuzzy
+#| msgid "Category"
+msgid "Categories"
+msgstr "Категория"
+
+#: .\expertprojects\templates\project_list.html:76
+#, fuzzy
+#| msgid "ProjectsTabLabel"
+msgid "Projects per page"
+msgstr "Проекты"
+
+#: .\expertprojects\templates\project_list.html:298
+#: .\expertprojects\templates\project_list.html:309
+#, fuzzy
+#| msgid "First name"
+msgid "First"
+msgstr "Имя"
+
+#: .\expertprojects\templates\project_list.html:304
+#: .\expertprojects\templates\project_list.html:312
+#: .\expertprojects\templates\project_list.html:350
+#: .\expertprojects\templates\project_list.html:355
+msgid "Previous"
+msgstr ""
+
+#: .\expertprojects\templates\project_list.html:317
+#: .\expertprojects\templates\project_list.html:363
+msgid "Page"
+msgstr "Страница"
+
+#: .\expertprojects\templates\project_list.html:324
+#: .\expertprojects\templates\project_list.html:335
+#: .\expertprojects\templates\project_list.html:372
+#: .\expertprojects\templates\project_list.html:377
+msgid "Next page"
+msgstr "Следующая страница"
+
+#: .\expertprojects\templates\project_list.html:330
+#: .\expertprojects\templates\project_list.html:338
+#, fuzzy
+#| msgid "Last name"
+msgid "Last page"
+msgstr "Фамилия"
+
+#: .\expertprojects\templates\project_list.html:363
+msgid "out of"
+msgstr ""
+
+#: .\expertprojects\templates\project_list.html:393
+#: .\expertprojects\templates\project_list.html:408
+msgid "Project Details"
+msgstr ""
+
+#: .\templates\base.html:85 .\templates\base.html:334
 msgid "MakeResearch"
 msgstr "Провести исследование"
 
-#: .\templates\base.html:88 .\templates\base.html:328
+#: .\templates\base.html:88 .\templates\base.html:337
 msgid "CreateArticleLabel"
 msgstr "Написать статью"
 
-#: .\templates\base.html:91 .\templates\base.html:331
+#: .\templates\base.html:91 .\templates\base.html:340
 msgid "AskQuestionLabel"
 msgstr "Задать вопрос"
 
 #: .\templates\base.html:107
-msgid "Анкета эксперта"
+msgid "Верификация экспертов"
 msgstr ""
 
 #: .\templates\base.html:121
 msgid "VerifyAccountLabel"
 msgstr "Ваши данные не верифицированы"
 
-#: .\templates\base.html:173 .\templates\base.html:264
+#: .\templates\base.html:173 .\templates\base.html:269
 msgid "PersonalAccountLabel"
 msgstr "Личный кабинет"
 
-#: .\templates\base.html:179 .\templates\base.html:270
-#: .\web\templates\profile\expert\profile_buttons.html:11
+#: .\templates\base.html:179 .\templates\base.html:275
+#: .\web\templates\components\experts\profile_info.html:126
+#: .\web\templates\profile\expert\profile_buttons.html:40
 msgid "LogoutButtonLabel"
 msgstr "Выйти"
 
-#: .\templates\base.html:195 .\templates\base.html:288
+#: .\templates\base.html:199 .\templates\base.html:294
 msgid "LoginBtnLabel"
 msgstr "Войти"
 
-#: .\templates\base.html:198 .\templates\base.html:292
+#: .\templates\base.html:203 .\templates\base.html:298
 msgid "RegisterBtnLabel"
 msgstr "Зарегистрироваться"
+
+#: .\templates\comments\comment_notification_email.txt:1
+#: .\templates\django_comments_xtd\comments\comment_notification_email.txt:1
+msgid "A new comment has been sent to the following URL:"
+msgstr ""
+
+#: .\templates\comments\comment_notification_email.txt:5
+#: .\templates\django_comments_xtd\comments\comment_notification_email.txt:5
+#: .\templates\django_comments_xtd\email_followup_comment.html:5
+#: .\templates\django_comments_xtd\email_followup_comment.txt:8
+msgid "Sent by"
+msgstr ""
+
+#: .\templates\comments\comment_notification_email.txt:6
+#: .\templates\django_comments_xtd\comments\comment_notification_email.txt:6
+#, fuzzy
+#| msgid "EmailLabel"
+msgid "Email address"
+msgstr "Email"
+
+#: .\templates\comments\comment_notification_email.txt:8
+#: .\templates\django_comments_xtd\comments\comment_notification_email.txt:8
+#: .\templates\django_comments_xtd\email_confirmation_request.txt:7
+#: .\templates\django_comments_xtd\email_followup_comment.txt:10
+#: .\templates\django_comments_xtd\removal_notification_email.txt:3
+#, fuzzy
+#| msgid "Document"
+msgid "Comment"
+msgstr "Комментарий"
+
+#: .\templates\comments\delete.html:5
+#: .\templates\django_comments_xtd\comments\delete.html:5
+msgid "Remove comment"
+msgstr "Удалить комментарий"
+
+#: .\templates\comments\delete.html:11
+#: .\templates\django_comments_xtd\comments\delete.html:11
+msgid "Remove this comment?"
+msgstr "Удалить комментарий?"
+
+#: .\templates\comments\delete.html:16
+#: .\templates\django_comments_xtd\comments\delete.html:16
+msgid ""
+"As a moderator you can delete comments. Deleting a comment does not remove "
+"it from the site, only prevents your website from showing the text. Click on "
+"the remove button to delete the following comment:"
+msgstr ""
+"Модератор может удалить комментарий. Удаление комментария не удаляет его с "
+"сайта, а только скрывает его от показа.Нажмите кнопку Удалить чтобы удалить "
+"комментарий"
+
+#: .\templates\comments\delete.html:41
+#: .\templates\django_comments\comments\delete.html:13
+#: .\templates\django_comments_xtd\comments\delete.html:41
+msgid "Remove"
+msgstr "Удалить"
+
+#: .\templates\comments\delete.html:42 .\templates\comments\flag.html:54
+#: .\templates\django_comments_xtd\comments\delete.html:42
+#: .\templates\django_comments_xtd\comments\flag.html:54
+#: .\templates\django_comments_xtd\dislike.html:69
+#: .\templates\django_comments_xtd\like.html:68
+msgid "cancel"
+msgstr "Отменить"
+
+#: .\templates\comments\deleted.html:5
+#: .\templates\django_comments_xtd\comments\deleted.html:5
+msgid "Comment removed"
+msgstr "Комментарий удален"
+
+#: .\templates\comments\deleted.html:12
+#: .\templates\django_comments_xtd\comments\deleted.html:12
+msgid "The comment has been removed."
+msgstr "Комментарий был удален"
+
+#: .\templates\comments\deleted.html:13 .\templates\comments\flagged.html:13
+#: .\templates\django_comments_xtd\comments\deleted.html:13
+#: .\templates\django_comments_xtd\comments\flagged.html:13
+msgid ""
+"Thank you for taking the time to improve the quality of discussion in our "
+"site."
+msgstr ""
+"Спасибо что потратили время, чтобы улучшить качество дискуссии на нашем сайте"
+
+#: .\templates\comments\flag.html:5
+#: .\templates\django_comments_xtd\comments\flag.html:5
+msgid "Flag comment"
+msgstr ""
+
+#: .\templates\comments\flag.html:15
+#: .\templates\django_comments_xtd\comments\flag.html:15
+msgid "Flag this comment?"
+msgstr ""
+
+#: .\templates\comments\flag.html:19
+#: .\templates\django_comments_xtd\comments\flag.html:19
+msgid ""
+"Click on the flag button to mark the following comment as inappropriate."
+msgstr "Нажмите на кнопку Отметить, чтобы отметить комментарий как неуместный"
+
+#: .\templates\comments\flag.html:41
+#: .\templates\django_comments_xtd\comment.html:12
+#: .\templates\django_comments_xtd\comments\flag.html:41
+#: .\templates\django_comments_xtd\dislike.html:47
+#: .\templates\django_comments_xtd\like.html:47
+msgid "Posted to "
+msgstr ""
+
+#: .\templates\comments\flag.html:53
+#: .\templates\django_comments\comments\flag.html:13
+#: .\templates\django_comments_xtd\comments\flag.html:53
+msgid "Flag"
+msgstr ""
+
+#: .\templates\comments\flagged.html:5
+#: .\templates\django_comments_xtd\comments\flagged.html:5
+msgid "Comment flagged"
+msgstr "Комментарий отмечен"
+
+#: .\templates\comments\flagged.html:12
+#: .\templates\django_comments_xtd\comments\flagged.html:12
+msgid "The comment has been flagged."
+msgstr "Комментарий был отмечен"
+
+#: .\templates\comments\form.html:59
+#: .\templates\django_comments_xtd\comments\form.html:59
+msgid "send"
+msgstr "Отправить"
+
+#: .\templates\comments\form.html:60
+#: .\templates\django_comments_xtd\comments\form.html:60
+msgid "preview"
+msgstr "Предпросмотр"
+
+#: .\templates\comments\list.html:15
+#: .\templates\django_comments_xtd\comment_tree.html:13
+#: .\templates\django_comments_xtd\comments\list.html:16
+#: .\templates\django_comments_xtd\django_comments_xtd\comment_tree.html:13
+msgid "moderator"
+msgstr "модератор"
+
+#: .\templates\comments\list.html:15
+#: .\templates\django_comments_xtd\comment_tree.html:13
+#: .\templates\django_comments_xtd\comments\list.html:16
+#: .\templates\django_comments_xtd\django_comments_xtd\comment_tree.html:13
+msgid "comment permalink"
+msgstr ""
+
+#: .\templates\comments\list.html:19
+#: .\templates\django_comments_xtd\comment_tree.html:31
+#: .\templates\django_comments_xtd\comments\list.html:20
+#: .\templates\django_comments_xtd\django_comments_xtd\comment_tree.html:31
+msgid "remove comment"
+msgstr "удалить комментарий"
+
+#: .\templates\comments\list.html:25
+#: .\templates\django_comments_xtd\comment.html:16
+#: .\templates\django_comments_xtd\comment_tree.html:38
+#: .\templates\django_comments_xtd\comments\list.html:26
+#: .\templates\django_comments_xtd\django_comments_xtd\comment_tree.html:38
+msgid "This comment has been removed."
+msgstr ""
+
+#: .\templates\comments\posted.html:8
+#: .\templates\django_comments_xtd\comments\posted.html:8
+#, fuzzy
+#| msgid "Documents confirming experience"
+msgid "Comment confirmation requested."
+msgstr "Документы подтверждающие стаж"
+
+#: .\templates\comments\posted.html:14
+#: .\templates\django_comments_xtd\comments\posted.html:14
+msgid ""
+"A confirmation message has been sent to your\n"
+"        email address. Please, click on the link in the message to confirm\n"
+"        your comment."
+msgstr ""
+
+#: .\templates\comments\posted.html:19
+#: .\templates\django_comments_xtd\comments\posted.html:19
+msgid "Go back to"
+msgstr ""
+
+#: .\templates\comments\preview.html:5
+#: .\templates\django_comments\comments\preview.html:4
+#: .\templates\django_comments\comments\preview.html:14
+#: .\templates\django_comments_xtd\comments\preview.html:5
+msgid "Preview your comment"
+msgstr "Предпросмотр вашего комментария"
+
+#: .\templates\comments\preview.html:12
+#: .\templates\django_comments_xtd\comments\preview.html:12
+msgid "Preview of your comment for:"
+msgstr ""
+
+#: .\templates\comments\preview.html:21
+#: .\templates\django_comments_xtd\comments\preview.html:21
+msgid "Empty comment."
+msgstr "Пустой комментарий"
+
+#: .\templates\comments\preview.html:44
+#: .\templates\django_comments\comments\preview.html:18
+#: .\templates\django_comments_xtd\comments\preview.html:45
+#: .\templates\django_comments_xtd\reply.html:32
+msgid "Post your comment"
+msgstr ""
+
+#: .\templates\django_comments\comments\approve.html:4
+msgid "Approve a comment"
+msgstr ""
+
+#: .\templates\django_comments\comments\approve.html:7
+msgid "Really make this comment public?"
+msgstr ""
+
+#: .\templates\django_comments\comments\approve.html:13
+msgid "Approve"
+msgstr ""
+
+#: .\templates\django_comments\comments\approved.html:4
+#, fuzzy
+#| msgid "Thanks for using our site!"
+msgid "Thanks for approving"
+msgstr "Спасибо за использование нашего сайта!"
+
+#: .\templates\django_comments\comments\approved.html:7
+#: .\templates\django_comments\comments\deleted.html:7
+#: .\templates\django_comments\comments\flagged.html:7
+msgid ""
+"Thanks for taking the time to improve the quality of discussion on our site"
+msgstr ""
+
+#: .\templates\django_comments\comments\delete.html:4
+msgid "Remove a comment"
+msgstr ""
+
+#: .\templates\django_comments\comments\delete.html:7
+msgid "Really remove this comment?"
+msgstr ""
+
+#: .\templates\django_comments\comments\deleted.html:4
+#, fuzzy
+#| msgid "Thanks for using our site!"
+msgid "Thanks for removing"
+msgstr "Спасибо за использование нашего сайта!"
+
+#: .\templates\django_comments\comments\flag.html:4
+msgid "Flag this comment"
+msgstr ""
+
+#: .\templates\django_comments\comments\flag.html:7
+msgid "Really flag this comment?"
+msgstr ""
+
+#: .\templates\django_comments\comments\flagged.html:4
+#, fuzzy
+#| msgid "Thanks for using our site!"
+msgid "Thanks for flagging"
+msgstr "Спасибо за использование нашего сайта!"
+
+#: .\templates\django_comments\comments\form.html:18
+#: .\templates\django_comments\comments\preview.html:36
+#: .\templates\django_comments_xtd\email_followup_comment.txt:6
+msgid "Post"
+msgstr ""
+
+#: .\templates\django_comments\comments\form.html:19
+#: .\templates\django_comments\comments\preview.html:37
+msgid "Preview"
+msgstr ""
+
+#: .\templates\django_comments\comments\posted.html:4
+msgid "Thanks for commenting"
+msgstr ""
+
+#: .\templates\django_comments\comments\posted.html:7
+msgid "Thank you for your comment"
+msgstr ""
+
+#: .\templates\django_comments\comments\preview.html:12
+msgid "Please correct the error below"
+msgid_plural "Please correct the errors below"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: .\templates\django_comments\comments\preview.html:17
+msgid "and"
+msgstr ""
+
+#. Translators: This string follows the 'Post your comment' submit button.
+#: .\templates\django_comments\comments\preview.html:20
+msgid "or make changes"
+msgstr ""
+
+#: .\templates\django_comments_xtd\comment_list.html:5
+msgid "Comment list"
+msgstr ""
+
+#: .\templates\django_comments_xtd\comment_list.html:13
+msgid "List of comments"
+msgstr ""
+
+#: .\templates\django_comments_xtd\comment_list.html:22
+msgid "No comments yet."
+msgstr ""
+
+#: .\templates\django_comments_xtd\comment_tree.html:19
+#: .\templates\django_comments_xtd\django_comments_xtd\comment_tree.html:19
+#, python-format
+msgid "A user has flagged this comment as inappropriate."
+msgid_plural "%(counter)s users have flagged this comment as inappropriate."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: .\templates\django_comments_xtd\comment_tree.html:23
+#: .\templates\django_comments_xtd\django_comments_xtd\comment_tree.html:23
+msgid "comment flagged"
+msgstr ""
+
+#: .\templates\django_comments_xtd\comment_tree.html:26
+#: .\templates\django_comments_xtd\django_comments_xtd\comment_tree.html:26
+msgid "flag comment"
+msgstr ""
+
+#: .\templates\django_comments_xtd\comment_tree.html:49
+#: .\templates\django_comments_xtd\django_comments_xtd\comment_tree.html:49
+msgid "Reply"
+msgstr ""
+
+#: .\templates\django_comments_xtd\discarded.html:4
+msgid "Comment discarded"
+msgstr ""
+
+#: .\templates\django_comments_xtd\discarded.html:7
+msgid "Comment automatically discarded"
+msgstr ""
+
+#: .\templates\django_comments_xtd\discarded.html:8
+msgid "Sorry, your comment has been automatically discarded"
+msgstr ""
+
+#: .\templates\django_comments_xtd\dislike.html:5
+#: .\templates\django_comments_xtd\like.html:5
+msgid "Confirm your opinion"
+msgstr ""
+
+#: .\templates\django_comments_xtd\dislike.html:17
+msgid "You didn't like this comment, do you want to change it?"
+msgstr ""
+
+#: .\templates\django_comments_xtd\dislike.html:19
+msgid "Do you dislike this comment?"
+msgstr ""
+
+#: .\templates\django_comments_xtd\dislike.html:25
+#: .\templates\django_comments_xtd\like.html:25
+msgid "Please, confirm your opinion about the comment."
+msgstr ""
+
+#: .\templates\django_comments_xtd\dislike.html:56
+msgid ""
+"Click on the \"withdraw\" button if you want to withdraw your negative "
+"opinion on this comment."
+msgstr ""
+
+#: .\templates\django_comments_xtd\dislike.html:65
+#: .\templates\django_comments_xtd\like.html:64
+msgid "Withdraw"
+msgstr ""
+
+#: .\templates\django_comments_xtd\dislike.html:67
+msgid "I dislike it"
+msgstr ""
+
+#: .\templates\django_comments_xtd\disliked.html:4
+msgid "You disliked the comment"
+msgstr ""
+
+#: .\templates\django_comments_xtd\disliked.html:7
+#: .\templates\django_comments_xtd\liked.html:7
+msgid "Thanks for taking the time to participate."
+msgstr ""
+
+#: .\templates\django_comments_xtd\email_confirmation_request.html:3
+#: .\templates\django_comments_xtd\email_confirmation_request.txt:3
+msgid ""
+"You or someone in behalf of you have requested to post a comment into this "
+"page:"
+msgstr ""
+
+#: .\templates\django_comments_xtd\email_confirmation_request.html:7
+#: .\templates\django_comments_xtd\email_followup_comment.html:8
+msgid "The comment"
+msgstr ""
+
+#: .\templates\django_comments_xtd\email_confirmation_request.html:11
+#: .\templates\django_comments_xtd\email_confirmation_request.txt:11
+#, python-format
+msgid ""
+"If you do not wish to post the comment, please ignore this message or report "
+"an incident to %(contact)s. Otherwise click on the link below to confirm the "
+"comment."
+msgstr ""
+
+#: .\templates\django_comments_xtd\email_confirmation_request.html:15
+#: .\templates\django_comments_xtd\email_confirmation_request.txt:15
+msgid ""
+"If clicking does not work, you can also copy and paste the address into your "
+"browser's address window."
+msgstr ""
+
+#: .\templates\django_comments_xtd\email_confirmation_request.html:17
+#: .\templates\django_comments_xtd\email_confirmation_request.txt:16
+#, fuzzy
+#| msgid "Thanks for using our site!"
+msgid "Thanks for your comment!"
+msgstr "Спасибо за комментарий!"
+
+#: .\templates\django_comments_xtd\email_confirmation_request.html:19
+#: .\templates\django_comments_xtd\email_confirmation_request.txt:19
+#: .\templates\django_comments_xtd\email_followup_comment.html:14
+#: .\templates\django_comments_xtd\email_followup_comment.txt:20
+msgid "Kind regards"
+msgstr ""
+
+#: .\templates\django_comments_xtd\email_followup_comment.html:3
+#: .\templates\django_comments_xtd\email_followup_comment.txt:4
+msgid "There is a new comment following up yours."
+msgstr ""
+
+#: .\templates\django_comments_xtd\email_followup_comment.html:12
+#, python-format
+msgid ""
+"Click <a href=\"http://%(site_domain)s%(mute_url)s\">http://%(site_domain)s"
+"%(mute_url_short)s...</a> to mute the comments thread. You will no longer "
+"receive follow-up notifications."
+msgstr ""
+
+#: .\templates\django_comments_xtd\email_followup_comment.txt:15
+msgid ""
+"Click on the following link to mute the comments thread. You will no longer "
+"receive follow-up notifications:"
+msgstr ""
+
+#: .\templates\django_comments_xtd\like.html:17
+msgid "You liked this comment, do you want to change it?"
+msgstr ""
+
+#: .\templates\django_comments_xtd\like.html:19
+msgid "Do you like this comment?"
+msgstr ""
+
+#: .\templates\django_comments_xtd\like.html:55
+msgid ""
+"Click on the \"withdraw\" button if you want to withdraw your positive "
+"opinion on this comment."
+msgstr ""
+
+#: .\templates\django_comments_xtd\like.html:66
+msgid "I like it"
+msgstr ""
+
+#: .\templates\django_comments_xtd\liked.html:4
+#, fuzzy
+#| msgid "Your account is already activated."
+msgid "Your opinion is appreciated"
+msgstr "Ваша учетная запись уже активирована."
+
+#: .\templates\django_comments_xtd\moderated.html:4
+msgid "Comment requires approval"
+msgstr "Комментарий требует утверждения"
+
+#: .\templates\django_comments_xtd\moderated.html:10
+msgid "Comment in moderation"
+msgstr "Комментарий на модерации"
+
+#: .\templates\django_comments_xtd\moderated.html:16
+msgid ""
+"\n"
+"          Your comment is in moderation.<br/>\n"
+"          It has to be reviewed before being published.<br/>\n"
+"          Thank you for your patience and understanding.\n"
+"        "
+msgstr ""
+
+#: .\templates\django_comments_xtd\moderated.html:24
+#, python-format
+msgid ""
+"\n"
+"          Go back to: <a href=\"%(content_object_url)s\">"
+"%(content_object_str)s</a>\n"
+"        "
+msgstr ""
+
+#: .\templates\django_comments_xtd\muted.html:4
+msgid "Comment thread muted"
+msgstr ""
+
+#: .\templates\django_comments_xtd\muted.html:7
+msgid "Comment thread has been muted"
+msgstr ""
+
+#: .\templates\django_comments_xtd\muted.html:9
+msgid "You will no longer receive email notifications for comments sent to"
+msgstr ""
+
+#: .\templates\django_comments_xtd\only_users_can_post.html:5
+msgid "Only registered users can post comments."
+msgstr ""
+
+#: .\templates\django_comments_xtd\removal_notification_email.txt:1
+msgid "A removal suggestion has been received for the following comment:"
+msgstr ""
+
+#: .\templates\django_comments_xtd\removal_notification_email.txt:7
+msgid "Posted to the following URL"
+msgstr ""
+
+#: .\templates\django_comments_xtd\removal_notification_email.txt:10
+msgid "Removal suggested by"
+msgstr ""
+
+#: .\templates\django_comments_xtd\reply.html:6
+msgid "Comment reply"
+msgstr ""
+
+#: .\templates\django_comments_xtd\reply.html:12
+msgid "Reply to comment"
+msgstr ""
 
 #: .\wbappointment\forms.py:96
 msgid "End time must be after start time."
 msgstr "Время окончания должно быть позже времени начала."
 
-#: .\wbappointment\templates\add_appointment.html:41
-#: .\web\templates\components\experts\profile_info.html:43
-#: .\web\templates\components\experts\profile_info.html:83
+#: .\wbappointment\templates\add_appointment.html:46
+#: .\web\templates\components\experts\profile_info.html:47
+#: .\web\templates\components\experts\profile_info.html:90
 msgid "RatingLabel"
 msgstr "Рейтинг"
 
-#: .\wbappointment\templates\add_appointment.html:95
+#: .\wbappointment\templates\add_appointment.html:102
 msgid "AppointmentAdditionalNotes"
 msgstr "Комментарии к встрече"
 
-#: .\wbappointment\templates\add_appointment.html:104
+#: .\wbappointment\templates\add_appointment.html:111
 msgid "SubmitButtonLabel"
 msgstr "Подтвердить"
 
@@ -97,51 +695,47 @@ msgstr ""
 "Пожалуйста, проверьте свою электронную почту, чтобы активировать свою "
 "учетную запись."
 
-#: .\web\forms\users.py:30
+#: .\web\forms\users.py:29
 msgid "First name"
 msgstr "Имя"
 
-#: .\web\forms\users.py:31
+#: .\web\forms\users.py:30
 msgid "Last name"
 msgstr "Фамилия"
 
-#: .\web\forms\users.py:32 .\web\models\users.py:34
+#: .\web\forms\users.py:31 .\web\models\users.py:34
 msgid "Phone number"
 msgstr "Телефонный номер"
 
-#: .\web\forms\users.py:34 .\web\forms\users.py:146 .\web\models\users.py:32
+#: .\web\forms\users.py:33 .\web\forms\users.py:147 .\web\models\users.py:32
 msgid "Email"
 msgstr "Email"
 
-#: .\web\forms\users.py:35
+#: .\web\forms\users.py:34
 msgid "Password"
 msgstr "Пароль"
 
-#: .\web\forms\users.py:36
+#: .\web\forms\users.py:35
 msgid "Confirm password"
 msgstr "Подтвердите пароль"
 
-#: .\web\forms\users.py:38
-msgid "Captcha"
-msgstr "Captcha"
-
-#: .\web\forms\users.py:50
+#: .\web\forms\users.py:49
 msgid "The user's first name cannot be equal to the last name."
 msgstr "Имя пользователя не может совпадать с фамилией."
 
-#: .\web\forms\users.py:61
+#: .\web\forms\users.py:60
 msgid "User with this phone number already exists and is active."
 msgstr "Пользователь с таким номером телефона уже существует и активен."
 
-#: .\web\forms\users.py:70
+#: .\web\forms\users.py:69
 msgid "Incorrect email format"
 msgstr "Неправильный формат электронной почты."
 
-#: .\web\forms\users.py:73
+#: .\web\forms\users.py:72
 msgid "User with this email already exists."
 msgstr "Пользователь с таким адресом электронной почты уже существует."
 
-#: .\web\forms\users.py:78 .\web\forms\users.py:242
+#: .\web\forms\users.py:77 .\web\forms\users.py:243
 msgid "About me"
 msgstr "О себе"
 
@@ -149,87 +743,79 @@ msgstr "О себе"
 msgid "Experience"
 msgstr "Опыт"
 
-#: .\web\forms\users.py:82
+#: .\web\forms\users.py:83
 msgid "Price"
 msgstr "Стоимость"
 
-#: .\web\forms\users.py:86 .\web\forms\users.py:247
+#: .\web\forms\users.py:87 .\web\forms\users.py:248
 msgid "Categories of expertise"
 msgstr "Категории экспертности"
 
-#: .\web\forms\users.py:117
+#: .\web\forms\users.py:118
 msgid "Old password"
 msgstr "Старый пароль"
 
-#: .\web\forms\users.py:129 .\web\forms\users.py:161
+#: .\web\forms\users.py:130 .\web\forms\users.py:162
 msgid "New password"
 msgstr "Новый пароль"
 
-#: .\web\forms\users.py:137 .\web\forms\users.py:171 .\web\forms\users.py:175
+#: .\web\forms\users.py:138 .\web\forms\users.py:172 .\web\forms\users.py:176
 msgid "Confirm new password"
 msgstr "Подтвердите новый пароль"
 
-#: .\web\forms\users.py:158
+#: .\web\forms\users.py:159
 msgid "Password mismatch"
 msgstr "Пароли не совпадают"
 
-#: .\web\forms\users.py:164
+#: .\web\forms\users.py:165
 msgid "Enter new password"
 msgstr "Введите новый пароль"
 
-#: .\web\forms\users.py:244
+#: .\web\forms\users.py:245
 msgid "Age"
 msgstr "Возраст"
 
-#: .\web\forms\users.py:245
+#: .\web\forms\users.py:246
 msgid "Hourly rate"
 msgstr "Стоимость часа"
 
-#: .\web\forms\users.py:251
+#: .\web\forms\users.py:252
 msgid "Experience (years)"
 msgstr "Опыт (лет)"
 
-#: .\web\forms\users.py:252
+#: .\web\forms\users.py:253
 msgid "Consulting experience (years)"
 msgstr "Опыт консультирования (лет)"
 
-#: .\web\forms\users.py:253
+#: .\web\forms\users.py:254
 msgid "Link to HeadHunter"
 msgstr "Ссылка на HeadHunter"
 
-#: .\web\forms\users.py:254 .\web\models\users.py:119
+#: .\web\forms\users.py:255 .\web\models\users.py:98
 msgid "Link to LinkedIn"
 msgstr "Ссылка на LinkedIn"
 
-#: .\web\forms\users.py:256 .\web\models\users.py:121
+#: .\web\forms\users.py:257
 msgid "Documents confirming experience"
 msgstr "Документы подтверждающие стаж"
 
-#: .\web\forms\users.py:268
+#: .\web\forms\users.py:269
 msgid "Type of education"
 msgstr "Тип образования"
 
-#: .\web\forms\users.py:269
+#: .\web\forms\users.py:270
 msgid "Specialized education"
 msgstr "Специализированное образование"
 
-#: .\web\forms\users.py:270
+#: .\web\forms\users.py:271
 msgid "Educational institution"
 msgstr "Образовательное учреждение"
 
-#: .\web\forms\users.py:271
-msgid "Institution verified"
-msgstr "Учреждение проверено"
-
-#: .\web\forms\users.py:272
+#: .\web\forms\users.py:273
 msgid "Diploma number"
 msgstr "Номер диплома"
 
-#: .\web\forms\users.py:273
-msgid "Diploma number verified"
-msgstr "Номер диплома проверен"
-
-#: .\web\forms\users.py:275 .\web\models\users.py:166
+#: .\web\forms\users.py:276
 msgid "Education documents"
 msgstr "Документы об образовании"
 
@@ -252,196 +838,260 @@ msgstr ""
 "Определяет, следует ли считать этого пользователя активным. Снимите этот "
 "флажок вместо удаления учетных записей."
 
-#: .\web\models\users.py:63
+#: .\web\models\users.py:62
 msgid "Client"
 msgstr "Пользователь"
 
-#: .\web\models\users.py:64
+#: .\web\models\users.py:63
 msgid "Expert"
 msgstr "Эксперт"
 
-#: .\web\models\users.py:66
+#: .\web\models\users.py:65
 msgid "Avatar"
 msgstr "Аватар"
 
-#: .\web\models\users.py:68
+#: .\web\models\users.py:67
 msgid "Category user"
 msgstr "Категория пользователя"
 
-#: .\web\models\users.py:118
+#: .\web\models\users.py:97
 msgid "Link to HH"
 msgstr "Ссылка на HH"
 
-#: .\web\models\users.py:126
+#: .\web\models\users.py:113
 msgid "Unverified"
 msgstr "Неверифицирован"
 
-#: .\web\models\users.py:127
+#: .\web\models\users.py:114
 msgid "Verified"
 msgstr "Верифицирован"
 
-#: .\web\models\users.py:129
+#: .\web\models\users.py:116
 msgid "Expert verification status"
 msgstr "Статус верификации"
 
-#: .\web\models\users.py:152
+#: .\web\models\users.py:125
 msgid "Primary"
 msgstr "Основное"
 
-#: .\web\models\users.py:153
+#: .\web\models\users.py:126
 msgid "Additional"
 msgstr "Дополнительное"
 
-#: .\web\models\users.py:157
+#: .\web\models\users.py:131
 msgid "Education Type"
 msgstr "Тип образования"
 
-#: .\web\models\users.py:160 .\web\models\users.py:163
+#: .\web\models\users.py:134 .\web\models\users.py:136
 #, fuzzy
 #| msgid "Educational institution"
 msgid "Educational Institution"
 msgstr "Образовательное учреждение"
 
-#: .\web\models\users.py:185
+#: .\web\models\users.py:156
 msgid "File"
 msgstr "Файл"
 
-#: .\web\models\users.py:186
+#: .\web\models\users.py:157
 msgid "Date of upload"
 msgstr "Дата загрузки"
 
-#: .\web\models\users.py:190
+#: .\web\models\users.py:167
 msgid "Document"
 msgstr "Документ"
 
-#: .\web\models\users.py:191
+#: .\web\models\users.py:168
 msgid "Documents"
 msgstr "Документы"
 
-#: .\web\templates\components\experts\main_page_list.html:25
+#: .\web\services\expert_rating_calculation.py:75
+msgid "Текст с условиями расчета основного образования"
+msgstr ""
+
+#: .\web\services\expert_rating_calculation.py:93
+msgid "Текст с условиями расчета дополнительного образования"
+msgstr ""
+
+#: .\web\services\expert_rating_calculation.py:112
+msgid "Текст с условиями расчета опыта консультаций"
+msgstr ""
+
+#: .\web\services\expert_rating_calculation.py:134
+msgid "Текст с условиями расчета опыта работы"
+msgstr ""
+
+#: .\web\services\expert_rating_calculation.py:160
+msgid "Ratings calculated for all experts."
+msgstr ""
+
+#: .\web\templates\components\experts\main_page_list.html:14
 msgid "AllExpertsLabel"
 msgstr "Все эксперты"
 
-#: .\web\templates\components\experts\main_page_list.html:75
+#: .\web\templates\components\experts\main_page_list.html:64
 msgid "MoreExpertsLabel"
 msgstr "Показать больше"
 
 #: .\web\templates\components\experts\profile_info.html:120
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:57
+#: .\web\templates\profile\expert\profile_buttons.html:4
+msgid "EditProfileLabel"
+msgstr "Настройки профиля"
+
+#: .\web\templates\components\experts\profile_info.html:173
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:99
 msgid "EducationLabel"
 msgstr "Образование"
 
-#: .\web\templates\components\experts\profile_info.html:126
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:43
+#: .\web\templates\components\experts\profile_info.html:183
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:59
 msgid "ExperienceLabel"
 msgstr "Опыт"
 
-#: .\web\templates\components\experts\profile_info.html:138
+#: .\web\templates\components\experts\profile_info.html:195
 msgid "PricePerHourLabel"
 msgstr "Стоимость консультации"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:24
+#: .\web\templates\components\experts\profile_info.html:202
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:109
+#, fuzzy
+#| msgid "LoginBtnLabel"
+msgid "hhLinkLabel"
+msgstr "Войти"
+
+#: .\web\templates\components\experts\profile_info.html:210
+#, fuzzy
+#| msgid "LoginBtnLabel"
+msgid "LinkedInLinkLabel"
+msgstr "Войти"
+
+#: .\web\templates\manage\experts\verification\unverified_experts.html:26
 msgid "LastNameLabel"
 msgstr "Фамилия"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:25
+#: .\web\templates\manage\experts\verification\unverified_experts.html:27
 msgid "FirstNameLabel"
 msgstr "Имя"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:26
+#: .\web\templates\manage\experts\verification\unverified_experts.html:28
 msgid "PhoneNumberLabel"
 msgstr "Телефонный номер"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:27
+#: .\web\templates\manage\experts\verification\unverified_experts.html:29
 msgid "EmailLabel"
 msgstr "Email"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:28
+#: .\web\templates\manage\experts\verification\unverified_experts.html:30
 #, fuzzy
 #| msgid "BackButtonLabel"
 msgid "ActionsLabel"
 msgstr "Действие"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:14
-#: .\web\templates\profile\anketa.html:15
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:18
+#: .\web\templates\profile\anketa.html:19
 msgid "BackButtonLabel"
 msgstr "Назад"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:17
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:21
 msgid "VerifyUsersTitleLabel"
-msgstr ""
+msgstr "Верификация анкеты пользователя"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:29
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:33
 msgid "AboutMeLabel"
 msgstr "О себе"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:36
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:46
 msgid "CategoryLabel"
 msgstr "Категория"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:50
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:73
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:86
 msgid "HourRateLabel"
 msgstr "Стоимость часа"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:64
-msgid "AgeLabel"
-msgstr "Возраст"
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:122
+msgid "linkedInLinkLabel"
+msgstr ""
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:73
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:144
 msgid "ApproveButtonLabel"
 msgstr "Согласовать"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:74
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:146
 msgid "DenyButtonLabel"
 msgstr "Отклонить"
 
-#: .\web\templates\posts\article\article-profile-list.html:19
+#: .\web\templates\posts\article\article-profile-list.html:25
 msgid "ReadPostLabel"
 msgstr "Читать далее..."
 
-#: .\web\templates\profile\anketa.html:18
+#: .\web\templates\profile\anketa.html:22
 msgid "FillAllFieldsLabel"
 msgstr "Анкета Эксперта"
 
-#: .\web\templates\profile\anketa.html:84
+#: .\web\templates\profile\anketa.html:88
 msgid "SendForVerifyLabel"
 msgstr "Отправить на верификацию"
 
-#: .\web\templates\profile\client\edit_profile.html:33
+#: .\web\templates\profile\client\edit_profile.html:35
 msgid "ProfileSettingsCaption"
 msgstr ""
 
-#: .\web\templates\profile\expert\profile.html:14
+#: .\web\templates\profile\expert\profile.html:18
 msgid "ToMainPageLabel"
 msgstr "На главную"
 
-#: .\web\templates\profile\expert\profile_buttons.html:5
-msgid "EditProfileLabel"
-msgstr "Настройки профиля"
+#: .\web\templates\profile\expert\profile_buttons.html:13
+#, fuzzy
+#| msgid "CategoryLabel"
+msgid "ChangePasswordLabel"
+msgstr "Категория"
 
-#: .\web\templates\profile\profile_content_items.html:27
+#: .\web\templates\profile\expert\profile_buttons.html:21
+msgid "ChangePasswordTitle"
+msgstr ""
+
+#: .\web\templates\profile\expert\profile_buttons.html:33
+msgid "PasswordChangedSuccessfully"
+msgstr ""
+
+#: .\web\templates\profile\expert\profile_buttons.html:58
+msgid "ErrorLoadingForm"
+msgstr ""
+
+#: .\web\templates\profile\expert\profile_buttons.html:85
+msgid "ErrorChangingPassword"
+msgstr "Ошибка смены пароля"
+
+#: .\web\templates\profile\profile_content_items.html:32
+#: .\web\templates\profile\profile_content_items.html:96
 msgid "ArticlesTabLabel"
 msgstr "Статьи"
 
-#: .\web\templates\profile\profile_content_items.html:31
+#: .\web\templates\profile\profile_content_items.html:39
 msgid "ResearchesTabLabel"
 msgstr "Исследования"
 
-#: .\web\templates\profile\profile_content_items.html:35
+#: .\web\templates\profile\profile_content_items.html:46
 msgid "QuestionsTabLabel"
 msgstr "Вопросы"
 
-#: .\web\templates\profile\profile_content_items.html:39
+#: .\web\templates\profile\profile_content_items.html:54
 msgid "ConsultationsTabLabel"
 msgstr "Консультации"
 
-#: .\web\templates\profile\profile_content_items.html:43
+#: .\web\templates\profile\profile_content_items.html:62
 msgid "ReviewsTabLabel"
 msgstr "Отзывы"
 
-#: .\web\templates\profile\profile_content_items.html:47
+#: .\web\templates\profile\profile_content_items.html:69
 msgid "ProjectsTabLabel"
 msgstr "Проекты"
+
+#: .\web\templates\profile\profile_content_items.html:77
+#, fuzzy
+#| msgid "RatingLabel"
+msgid "RatingsTabLabel"
+msgstr "Ваш Рейтинг"
 
 #: .\web\templates\registration\email\password_reset_email.html:2
 #, python-format
@@ -469,61 +1119,73 @@ msgstr "Спасибо за использование нашего сайта!"
 msgid "The %(site_name)s team"
 msgstr "Команда %(site_name)s"
 
-#: .\web\templatetags\web_tags.py:81
+#: .\web\templatetags\web_tags.py:107
 msgid "вчера в "
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:86
+#: .\web\templatetags\web_tags.py:112
 msgid "дня назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:88
+#: .\web\templatetags\web_tags.py:114
 msgid "дней назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:98
+#: .\web\templatetags\web_tags.py:124
 msgid "Только что"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:100
+#: .\web\templatetags\web_tags.py:126
 msgid "1 минута назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:102
+#: .\web\templatetags\web_tags.py:128
 msgid "минут назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:105
+#: .\web\templatetags\web_tags.py:131
 msgid "1 час назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:108
+#: .\web\templatetags\web_tags.py:134
 msgid "часа назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:111
+#: .\web\templatetags\web_tags.py:137
 msgid "часов назад"
 msgstr ""
 
-#: .\web\views\login.py:168
+#: .\web\views\login.py:141
 msgid "Your account is already activated."
 msgstr "Ваша учетная запись уже активирована."
 
-#: .\web\views\login.py:176
+#: .\web\views\login.py:149
 msgid "Activation link is invalid."
 msgstr "Ссылка активации недействительна."
 
-#: .\web\views\login.py:179
+#: .\web\views\login.py:152
 msgid "Account activation error: user not found."
 msgstr "Ошибка активации аккаунта: пользователь не найден."
 
-#: .\web\views\profile.py:63
+#: .\web\views\profile.py:64
 msgid "Your profile has successfully been sent for verification"
 msgstr "Ваш профиль успешно отправлен на проверку"
 
-#: .\web\views\profile.py:204
+#: .\web\views\profile.py:326
 msgid "Your profile is updated successfully"
 msgstr "Ваш профиль успешно обновлен"
+
+#~ msgid "Captcha"
+#~ msgstr "Captcha"
+
+#~ msgid "Institution verified"
+#~ msgstr "Учреждение проверено"
+
+#~ msgid "Diploma number verified"
+#~ msgstr "Номер диплома проверен"
+
+#~ msgid "AgeLabel"
+#~ msgstr "Возраст"
 
 #, python-brace-format
 #~ msgid "Document {self.id} uploaded by {self.expertprofile.user.username}"
