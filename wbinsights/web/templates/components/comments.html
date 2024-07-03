@@ -8,7 +8,7 @@
 {% if object.allow_comments %}
 <div class="card card-block mb-5">
   <div class="card-body">
-    <h4 class="card-title text-center pb-3">Post your comment</h4>
+    <h4 class="card-title text-center pb-3">{% trans 'Post your comment' %}</h4>
       {% render_comment_form for object %}
   </div>
 </div>

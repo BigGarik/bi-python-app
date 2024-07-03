@@ -53,15 +53,11 @@ msgid "Categories"
 msgstr "Категория"
 
 #: .\expertprojects\templates\project_list.html:76
-#, fuzzy
-#| msgid "ProjectsTabLabel"
 msgid "Projects per page"
-msgstr "Проекты"
+msgstr "Записей на странице"
 
 #: .\expertprojects\templates\project_list.html:298
 #: .\expertprojects\templates\project_list.html:309
-#, fuzzy
-#| msgid "First name"
 msgid "First"
 msgstr "Имя"
 
@@ -70,7 +66,7 @@ msgstr "Имя"
 #: .\expertprojects\templates\project_list.html:350
 #: .\expertprojects\templates\project_list.html:355
 msgid "Previous"
-msgstr ""
+msgstr "Предыдущая"
 
 #: .\expertprojects\templates\project_list.html:317
 #: .\expertprojects\templates\project_list.html:363
@@ -86,8 +82,6 @@ msgstr "Следующая страница"
 
 #: .\expertprojects\templates\project_list.html:330
 #: .\expertprojects\templates\project_list.html:338
-#, fuzzy
-#| msgid "Last name"
 msgid "Last page"
 msgstr "Фамилия"
 
@@ -152,8 +146,6 @@ msgstr ""
 
 #: .\templates\comments\comment_notification_email.txt:6
 #: .\templates\django_comments_xtd\comments\comment_notification_email.txt:6
-#, fuzzy
-#| msgid "EmailLabel"
 msgid "Email address"
 msgstr "Email"
 
@@ -162,8 +154,6 @@ msgstr "Email"
 #: .\templates\django_comments_xtd\email_confirmation_request.txt:7
 #: .\templates\django_comments_xtd\email_followup_comment.txt:10
 #: .\templates\django_comments_xtd\removal_notification_email.txt:3
-#, fuzzy
-#| msgid "Document"
 msgid "Comment"
 msgstr "Комментарий"
 
