@@ -666,11 +666,11 @@ msgstr ""
 
 #: .\templates\django_comments_xtd\reply.html:6
 msgid "Comment reply"
-msgstr ""
+msgstr "Комментировать ответ"
 
 #: .\templates\django_comments_xtd\reply.html:12
 msgid "Reply to comment"
-msgstr ""
+msgstr "Ответить на комментарий"
 
 #: .\wbappointment\forms.py:96
 msgid "End time must be after start time."
