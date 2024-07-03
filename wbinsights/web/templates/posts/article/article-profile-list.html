@@ -29,10 +29,11 @@
             <div class="comments-andshare-cont" style="justify-content: space-between">
 
                 <div style="display: flex; gap: 10px">
-                    <div class="list-comments">
+                    <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none; color: inherit;">
+                        <i class="bi bi-chat-left-text" style="color:grey;"></i>
                         {% get_comment_count for article as comment_count %}
-                        <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp;{{ comment_count }}
-                    </div>
+                        &nbsp;{{ comment_count }}
+                    </a>
 
                     <div class="list-share">
                         <i class="bi bi-calendar2-week"
