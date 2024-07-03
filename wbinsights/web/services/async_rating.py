@@ -158,7 +158,7 @@ class ExpertRatingCalculation:
         await self.write_to_database(conn, role_name, role_text, user_id, score)
         return score
 
-    async def calculate_rating(self, pool, user_id: int) -> int:
+    async def calculate_rating(self, pool, user_id: int):
         async with pool.acquire() as conn:
             async with conn.transaction():
                 expert_profile = await self._extract_expert_profile(conn, user_id)
@@ -167,7 +167,8 @@ class ExpertRatingCalculation:
                 rating2 = await self._calculate_experience_rating(conn, user_id, expert_profile)
                 rating3 = await self._calculate_consulting_experience_rating(conn, user_id, expert_profile)
                 rating4 = await self._calculate_additional_education_rating(conn, user_id, expert_educations)
-                return sum([rating1, rating2, rating3, rating4]) if rating1 else 0
+                rating = sum([rating1, rating2, rating3, rating4])
+                await conn.fetch("UPDATE web_expertprofile SET rating = $1 WHERE user_id = $2", rating, user_id)
 
 
 async def calculate_rating_for_all_experts():
