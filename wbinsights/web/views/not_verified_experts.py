@@ -1,11 +1,16 @@
 import io
 
+from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils.html import strip_tags
 from django.views.generic import ListView, DetailView
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+from wbinsights.settings import SERVER_EMAIL
 from web.models.users import ExpertProfile
 from web.models.users import ExpertAnketa
 
@@ -122,9 +127,6 @@ class UnverifiedExpertDetailView(LoginRequiredMixin, UserPassesTestMixin, Detail
                 expert_profile.user = expert_anketa.user
                 expert_profile.save()
 
-
-
-
             expert_profile.experience = expert_anketa.experience
             expert_profile.age = expert_anketa.age
             expert_profile.expert_categories.set(expert_anketa.expert_categories.all())
@@ -139,6 +141,23 @@ class UnverifiedExpertDetailView(LoginRequiredMixin, UserPassesTestMixin, Detail
 
             expert_anketa.is_verified = ExpertAnketa.AnketaVerifiedStatus.VERIFIED
             expert_anketa.save()
+
+            #moderators = CustomUser.objects.filter(is_staff=True)
+            recipient_list = [expert_anketa.user.email]
+            html_content = render_to_string('emails/anketa_approved.html',
+                                            {})
+            text_content = strip_tags(html_content)
+
+            # Создаем объект EmailMultiAlternatives
+            email = EmailMultiAlternatives(
+                'Новая анкета эксперта на проверку',
+                text_content,
+                SERVER_EMAIL,
+                recipient_list
+            )
+            # Добавляем HTML версию
+            email.attach_alternative(html_content, "text/html")
+            email.send()
 
             # Перенаправление после подтверждения
             return redirect('manage_unverified_experts_list')
