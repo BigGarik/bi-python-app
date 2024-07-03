@@ -15,7 +15,7 @@ from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailV
 from .views.rating import RatingListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
-from .views.profile import profile_view, edit_user_profile, anketa_view
+from .views.profile import profile_view, edit_user_profile
 from .views.error_404 import wb400handler
 from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form, ContactUsSuccessPageView
 
@@ -61,7 +61,7 @@ urlpatterns = [
     path("profile/edit", edit_user_profile, name='profile_edit'),
     # path('profile/anketa', profile_view, name='anketa'),
     path('profile/ratings/', RatingListView.as_view(), name='rating-list'),
-    path('profile/anketa/', anketa_view, name='anketa'),
+    #path('profile/anketa/', anketa_view, name='anketa'),
 
     path("login/", LoginView.as_view(next_page='index'), name="login"),
     path("signup/", register_user, name="signup"),

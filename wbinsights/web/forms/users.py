@@ -34,7 +34,7 @@ class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
     password2 = forms.CharField(label=_("Confirm password"),
                                 widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
-    captcha = ReCaptchaField(label=_("Captcha"))
+    #captcha = ReCaptchaField(label=_("Captcha"))
 
     class Meta:
         model = CustomUser
@@ -122,7 +122,7 @@ class UserProfilePasswordChangeForm(PasswordChangeForm):
             attrs={
                     'class': 'custom-form-css',
                     'autocomplete': 'off',
-                   }
+                    }
         ),
     )
 

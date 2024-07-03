@@ -7,9 +7,7 @@
 {% endblock %}
 
 {% block center_col %}
-
     
-
     <div class="list-main-containers" style="padding:20px; margin-top:0px;">
 
         <div class="edit-prof-info-cont">
@@ -33,28 +31,66 @@
                 <div class="prof-edit-rows">
                     <div class="anketa-abt-me">
                         <div class="label-verify-users"> {% trans 'AboutMeLabel' %} </div>
-                        <div> {{ unverified_expertanketa.about }} </div>
+                        <div>
+                            {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.about != unverified_expertanketa.user.expertprofile.about %}
+                                {{ unverified_expertanketa.user.expertprofile.about }} -> {{ unverified_expertanketa.about }}
+                            {% else %}
+                                {{ unverified_expertanketa.about }}
+                            {% endif %}                         
+                        </div>
                     </div>
                 </div>
 
-                <div class="prof-edit-input-title">
+                <div class="prof-edit-input-title1">
                     <div class="anketa-abt-me">
                         <div class="label-verify-users"> {% trans 'CategoryLabel' %} </div>
-                        <div> {{ unverified_expertanketa.expert_categories.all | join:", " }}</div>
+                        <div>
+                            {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.expert_categories.all != unverified_expertanketa.user.expertprofile.expert_categories.all %}
+                                {{ unverified_expertanketa.user.expertprofile.expert_categories.all | join:", " }} -> {{ unverified_expertanketa.expert_categories.all | join:", " }}
+                            {% else %}
+                                {{ unverified_expertanketa.expert_categories.all | join:", " }}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
 
-                <div class="prof-edit-input-title">
+                <div class="prof-edit-input-title1">
                     <div class="anketa-abt-me">
                         <div class="label-verify-users"> {% trans 'ExperienceLabel' %} </div>
-                        <div> {{ unverified_expertanketa.experience }}</div>
+                        <div>
+                            {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.experience != unverified_expertanketa.user.expertprofile.experience  %}
+                                {{ unverified_expertanketa.user.expertprofile.experience }} -> {{ unverified_expertanketa.experience }}
+                            {% else %}
+                                {{ unverified_expertanketa.experience }}
+                            {% endif %}
+
+                        </div>
                     </div>
                 </div>
 
-                <div class="prof-edit-input-title">
+                <div class="prof-edit-input-title1">
                     <div class="anketa-abt-me">
                         <div class="label-verify-users"> {% trans 'HourRateLabel' %} </div>
-                        <div> {{ unverified_expertanketa.hour_cost }}</div>
+                        <div> 
+                            {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.hour_cost != unverified_expertanketa.user.expertprofile.hour_cost %}
+                                {{ unverified_expertanketa.user.expertprofile.hour_cost }} -> {{ unverified_expertanketa.hour_cost }}
+                            {% else %}
+                                {{ unverified_expertanketa.hour_cost }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prof-edit-input-title1">
+                    <div class="anketa-abt-me">
+                        <div class="label-verify-users"> {% trans 'HourRateLabel' %} </div>
+                        <div> 
+                            {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.age != unverified_expertanketa.user.expertprofile.age %}
+                                {{ unverified_expertanketa.user.expertprofile.age }} -> {{ unverified_expertanketa.age }}
+                            {% else %}
+                                {{ unverified_expertanketa.age }}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
 
@@ -70,22 +106,28 @@
 
                 <div class="prof-edit-info-cont">
                     <div class="anketa-abt-me">
-                        <div class="label-verify-users"> {% trans 'AgeLabel' %} </div>
-                        <div>{{ unverified_expertanketa.age }}</div>
-                    </div>
-                </div>
-
-                <div class="prof-edit-info-cont">
-                    <div class="anketa-abt-me">
                         <div class="label-verify-users"> {% trans 'hhLinkLabel' %} </div>
-                        <div>{{ unverified_expertanketa.hh_link }}</div>
+                        <div>
+                            {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.hh_link != unverified_expertanketa.user.expertprofile.hh_link %}
+                                {{ unverified_expertanketa.user.expertprofile.hh_link }} -> {{ unverified_expertanketa.hh_link }}
+                            {% else %}
+                                {{ unverified_expertanketa.hh_link }}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
 
                 <div class="prof-edit-info-cont">
                     <div class="anketa-abt-me">
                         <div class="label-verify-users"> {% trans 'linkedInLinkLabel' %} </div>
-                        <div>{{ unverified_expertanketa.linkedin_link }}</div>
+                        <div>
+                            {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.linkedin_link != unverified_expertanketa.user.expertprofile.linkedin_link %}
+                                {{ unverified_expertanketa.user.expertprofile.linkedin_link }} -> {{ unverified_expertanketa.linkedin_link }}
+                            {% else %}
+                                {{ unverified_expertanketa.linkedin_link }}
+                            {% endif %}
+                            
+                        </div>
                     </div>
                 </div>
 

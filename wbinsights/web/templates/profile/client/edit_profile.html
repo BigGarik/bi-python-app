@@ -89,20 +89,20 @@
             </div>
             
 
-            <div class="expert-edit-rows">
-                <span class="prof-edit-change-pass">Смена пароля</span>
-                <br/>
-                <span class="prof-edit-change-pass" style="font-size: 14px">для смены заполните поля, в противном случае оставьте пустыми</span>
-
-                {% if user_change_password_form.errors %}
-                     <div class="alert alert-danger">
-                     
-                        {% for key, value  in user_change_password_form.errors.items  %}
-                            {{ value }}
-                        {% endfor %}
-    
-                    </div>
-                {% endif %}
+{#            <div class="expert-edit-rows">#}
+{#                <span class="prof-edit-change-pass">Смена пароля</span>#}
+{#                <br/>#}
+{#                <span class="prof-edit-change-pass" style="font-size: 14px">для смены заполните поля, в противном случае оставьте пустыми</span>#}
+{##}
+{#                {% if user_change_password_form.errors %}#}
+{#                     <div class="alert alert-danger">#}
+{#                     #}
+{#                        {% for key, value  in user_change_password_form.errors.items  %}#}
+{#                            {{ value }}#}
+{#                        {% endfor %}#}
+{#    #}
+{#                    </div>#}
+{#                {% endif %}#}
 
             <div class="prof-edit-bot-btns-cont">
                 <button type="submit" class="btn btn-secondary prof-edit-save-btn" >Сохранить изменения</button>
