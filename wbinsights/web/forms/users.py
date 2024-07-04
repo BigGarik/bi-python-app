@@ -97,7 +97,7 @@ class ExpertAnketaForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['avatar', 'type']
+        fields = ['avatar', 'type', 'timezone']
 
 
 class UserPasswordChangeForm(PasswordChangeForm):

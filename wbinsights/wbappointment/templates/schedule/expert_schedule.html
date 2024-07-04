@@ -17,6 +17,10 @@
         .modal-schedule-header {
             text-align: center;
         }
+        
+        #timezone-select {
+            margin-right: 10px;
+        }
 
     </style>
 
@@ -101,43 +105,74 @@
 
     </div>
 
+<script>
+    function showExpertScheduleForm() {
+        $('#expertCommonSchedule').modal("show");
+    }
 
-    <script>
+    function addExpertScheduleLink() {
+        // Запрашиваем список часовых поясов с сервера
+        $.get('/api/timezones/', function(data) {
+            const timezones = data.timezones;
+            let timezoneOptions = '';
+            for (const tz of timezones) {
+                timezoneOptions += `<option value="${tz}">${tz}</option>`;
+            }
 
-        $('#expert-schedule-form1').submit(function (event) {
+            // Добавляем выпадающий список с часовыми поясами и кнопку для настройки расписания
+            $('#consultations').prepend(`
+                <div id="expert-schedule" style="margin: 0px 10px 20px 0px; display: flex; align-items: center;">
+                    <select id="timezone-select" class="form-select form-select-sm" style="width: auto;">
+                        ${timezoneOptions}
+                    </select>
+                    <a class="btn btn-primary btn-sm" onclick="showExpertScheduleForm()">Настроить расписание</a>
+                </div>
+            `);
 
-            event.preventDefault();
-            const form = $(this);
-            //const formData = new FormData(form);
+            // Установить текущий часовой пояс пользователя
+            $('#timezone-select').val('{{ request.user.profile.timezone }}');
 
-            $.ajax({
-                url: '{% url 'add_calendar_schedule' %}',
-                type: 'POST',
-                data: form.serialize(),
-                success: function (response) {
+            // Обработчик изменения часового пояса
+            $('#timezone-select').change(function() {
+                const newTimezone = $(this).val();
+                $.ajax({
+                    url: '{% url "update_user_timezone" %}',  // Предполагаемый URL для обновления часового пояса
+                    type: 'POST',
+                    data: {
+                        timezone: newTimezone,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        console.log('Часовой пояс обновлен:', response);
+                        // Можно добавить уведомление пользователю об успешном обновлении
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Ошибка при обновлении часового пояса:', error);
+                        // Можно добавить уведомление пользователю об ошибке
+                    }
+                });
+            });
+        });
+    }
 
-                    console.log(response.result)
-                    console.log(response.data)
+    $('#expert-schedule-form').submit(function (event) {
+        event.preventDefault();
+        const form = $(this);
+        $.ajax({
+            url: '{% url "add_calendar_schedule" %}',
+            type: 'POST',
+            data: form.serialize(),
+            success: function (response) {
+                console.log(response.result);
+                console.log(response.data);
+            }
+        });
+    });
 
-                }
-            })
-        })
+    $(function () {
+        addExpertScheduleLink();
+    });
+</script>
 
-
-        function showExpertScheduleForm() {
-            $('#expertCommonSchedule').modal("show");
-        }
-
-        function addExpertScheduleLink() {
-            $('#consultations')
-                .prepend('<div id="expert-schedule" style="margin: 0px 10px 20px 0px;" onclick="showExpertScheduleForm()"><a class="btn btn-primary btn-sm">Настроить расписание</a></div>')
-        }
-
-        $(function () {
-            addExpertScheduleLink();
-        })
-
-
-    </script>
 
 {% endif %}

@@ -27,6 +27,8 @@ from web.models import Expert
 from wbappointment.views.zoom_utils import create_zoom_meeting
 
 info_logger = logging.getLogger("django-info")
+debug_logger = logging.getLogger("django-debug")
+
 
 
 @login_required
@@ -183,15 +185,15 @@ class AppointmentPaymentNotification(APIView):
 
     def post(self, request):
         payment_id = request.data['object']['id']
-        print("payment_id = " + payment_id)
+        debug_logger.debug("payment_id = " + payment_id)
 
         payment = AppointmentPayment.objects.get(uuid=payment_id)
 
         if payment.status == AppointmentPayment.AppointmentPaymentStatus.COMPLETED:
-            print("payment_id = " + payment_id + " already paid")
+            debug_logger.debug("payment_id = " + payment_id + " already paid")
             return HttpResponse(status=200)
 
-        print("payment status is " + request.data['object']['status'])
+        debug_logger.debug("payment status is " + request.data['object']['status'])
 
         if request.data['object']['status'] == 'canceled':
             try:
@@ -203,7 +205,7 @@ class AppointmentPaymentNotification(APIView):
                     payment.appointment.save()
             except Exception as e:
                 # Если произошла ошибка, откатываем транзакцию
-                print(f"An error occurred: {e}")
+                debug_logger.debug(f"An error occurred: {e}")
 
         if request.data['object']['status'] == 'succeeded':
             try:
@@ -240,7 +242,7 @@ class AppointmentPaymentNotification(APIView):
 
             except Exception as e:
                 # Если произошла ошибка, откатываем транзакцию
-                print(f"An error occurred: {e}")
+                debug_logger.debug(f"An error occurred: {e}")
                 return HttpResponse(status=500)
 
         return HttpResponse(status=200)
@@ -268,7 +270,7 @@ def checkout_appointment_view(request, *args, **kwargs):
         current_base_url = request.scheme + '://' + request.get_host()
         payment = create_yookassa_payment(appointment_payment.summ, current_base_url)
 
-        # print("#### payment status = " + payment.status)
+        # debug_logger.debug("#### payment status = " + payment.status)
         # Меняем статус платежа
         appointment_payment.uuid = payment.id
         appointment_payment.save()

@@ -285,6 +285,11 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
+        'django-debug': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
         '': {  # default logger
             'handlers': ['file'],
             'level': 'INFO',

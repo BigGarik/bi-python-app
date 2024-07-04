@@ -1,3 +1,4 @@
+import pytz
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
@@ -66,6 +67,14 @@ class Profile(models.Model):
                                default="avatars/profile_picture_icon.png")
     type = models.IntegerField(verbose_name=_('Category user'), choices=TypeUser.choices, default=TypeUser.CLIENT)
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='profile')
+
+    # Новое поле для часового пояса
+    timezone = models.CharField(
+        max_length=50,
+        choices=[(tz, tz) for tz in pytz.all_timezones],
+        default='Europe/Moscow',
+        verbose_name=_('Time Zone')
+    )
 
 
 class ExpertManager(models.Manager):

@@ -1,7 +1,15 @@
+import pytz
 from django.conf import settings
 from urllib.parse import urljoin
 
+from django.http import JsonResponse
+
 from web.models import Profile
+
+
+def get_timezones(request):
+    timezones = list(pytz.all_timezones)
+    return JsonResponse({'timezones': timezones})
 
 
 def get_avatar_url(comment):
