@@ -3,7 +3,6 @@
 {% load static %}
 
 <style>
-
     @media (max-width: 768px) {
         .prof-user-setting {
             display: flex;
@@ -25,190 +24,102 @@
         .prof-settings-btn {
             margin-left: 0px !important;
         }
-    }
 
+        .top-half-prof {
+            flex-direction: row;
+        }
+
+        .prof-page-pic-cont {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-information-cont {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
 
 </style>
 
-
 <div class="profile-info-cont">
-
-    <div class="d-none d-md-block col-12 top-half-prof">
-        <div style="display:flex; gap: 10px;">
-            <div class="col-sm-3 prof-page-pic-cont">
-                <img src="{{ user.profile.avatar.url }}" alt="Avatar"
-                     style="border-radius: 50%;width: 80px;height: 80px;object-fit: cover;">
+    <div class="col-12 top-half-prof" style="display: flex; flex-direction: column;">
+    <div style="display: flex; gap: 10px;">
+        <div class="col-sm-3 prof-page-pic-cont">
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; width: 80px; height: 80px; object-fit: cover;">
+        </div>
+        <div class="col-sm-9 profile-information-cont">
+            <div class="user-display-name">
+                {{ user.first_name }} {{ user.last_name }}
             </div>
-            <div class="col-sm-9 profile-information-cont">
-                <div class="user-display-name">
-                    {{ user.first_name }} {{ user.last_name }}
+            <div class="user-rating-cont">
+                <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating|default_if_none:0 }} &nbsp;</div>
+                <div class="user-rate-and-stars">
+                    {% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher %}
+                    {% for ch in filled_stars_chipher %}
+                        {% if ch == 'f' %}
+                            <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                        {% elif ch == 'h' %}
+                            <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                        {% elif ch == 'e' %}
+                            <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <div class="user-rating-cont">
-                    <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating }} &nbsp;</div>
-
-
-                    <div class="user-rate-and-stars">
-                        {% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher %}
-                        {% for ch in filled_stars_chipher %}
-                            {% if ch == 'f' %}
-                                <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                            {% elif ch == 'h' %}
-                                <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                            {% elif ch == 'e' %}
-                                <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="user-category-cont">
-                    <div class="user-category">Эксперт в области :</div>
-                    <div class="displayflex">
-                        {% for exp_category in profile.expert_categories.all %}
-                            <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="prof-user-setting">
-                    {% include buttons_template with user=expert %}
+            </div>
+            <div class="user-category-cont">
+                <div class="user-category">Эксперт в области :</div>
+                <div class="displayflex">
+                    {% for exp_category in profile.expert_categories.all %}
+                        <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Mobile View -->
-    <div class="d-block d-md-none col-12 top-half-prof" style="display: flex; flex-direction: column;">
-        <div style="display: flex;">
-            <div class="col-sm-3 prof-page-pic-cont">
-                <img src="{{ user.profile.avatar.url }}" alt="Avatar"
-                     style="border-radius: 50%;width: 80px;height: 80px;object-fit: cover;">
-            </div>
-            <div class="col-sm-9 profile-information-cont">
-                <div class="user-display-name">
-                    {{ user.first_name }} {{ user.last_name }}
-                </div>
-                <div class="user-rating-cont">
-                    <div class="user-rating">{% trans 'RatingLabel' %} :
-                        {{ user.expertprofile.rating|default_if_none:0 }} &nbsp;
-                    </div>
-                    <div class="user-rate-and-stars">
-                        {% for ch in filled_stars_chipher %}
-                            {% if ch == 'f' %}
-                                <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                            {% elif ch == 'h' %}
-                                <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                            {% elif ch == 'e' %}
-                                <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="user-category-cont">
-                    <div class="user-category">Эксперт в области :</div>
-                    <div class="displayflex">
-                        {% for exp_category in profile.expert_categories.all %}
-                            <div class="user-catagory-highlight {{ exp_category.slug }}">
-                                {{ exp_category.name }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="prof-user-setting">
-
-
-            <div class="prof-user-setting">
-                    {% include buttons_template with user=expert %}
-                </div>
-
-            <!-- Modal Structure -->
-            <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="passwordModalLabel">Change Password</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="card mb-3 border-0 nth-shadow">
-                                <div class="card-body">
-                                    <div class="card-title nth-card-title">
-{#                                        <h4>Изменить пароль</h4>#}
-                                    </div>
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        {{ form.as_p }}
-                                        <button type="submit" class="btn btn-danger mt-3">Сменить пароль</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            {#            {% include buttons_template with user=expert %}#}
-
-        </div>
+    <div class="prof-user-setting" style="margin-left: 25%;padding: 10px 0 0 30px; gap:5px;flex-wrap: wrap;">
+        {% include buttons_template with user=expert %}
     </div>
+</div>
 
     <div class="bottom-half">
-
         <div class="bottom-info">
-
             <div class="prof-bottom-cont">
                 <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp</span>
                 <div style="display: flex;flex-direction: column;">
                     {% for edu in profile.education.all %}
-
                         {% if edu.education_type == 'primary' %}
                             <span class="">{{ edu.educational_institution }}</span>
                         {% endif %}
                     {% endfor %}
                 </div>
             </div>
-
             <div class="prof-bottom-cont">
-
                 <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}:&nbsp;</span>
                 <span class="">{{ profile.experience }}
-                            {% get_write_phrase profile.experience 'год года лет' %}
-                        </span>
-
+                    {% get_write_phrase profile.experience 'год года лет' %}
+                </span>
             </div>
-
-            <div class="prof-bottom-cont">
-                {{ profile.about }}
-            </div>
-
+            <div class="prof-bottom-cont">{{ profile.about }}</div>
             <div class="prof-bottom-cont">
                 <span class="bottom-bold-text">{% trans 'PricePerHourLabel' %}:&nbsp;</span>
                 <span class=""> {{ profile.hour_cost }} ₽/час</span>
             </div>
-
-
             <div class="prof-bottom-cont" style="align-items: center; gap: 10px">
                 {% if profile.hh_link %}
-                    <!--                    <span class="bottom-bold-text">{% trans 'hhLinkLabel' %}:&nbsp;</span>-->
                     <a href="{{ profile.hh_link }}" target="_blank" class="">
                         <i class="fa fa-link"></i>
-                        <img src="{% static 'Icons/600px-HeadHunter_logo.png' %}" style="width: 24px; height: 24px;"
-                             alt="HH Link Icon">
+                        <img src="{% static 'Icons/600px-HeadHunter_logo.png' %}" style="width: 24px; height: 24px;" alt="HH Link Icon">
                     </a>
                 {% endif %}
-
                 {% if profile.linkedin_link %}
-                    <!--                    <span class="bottom-bold-text">{% trans 'LinkedInLinkLabel' %}:&nbsp;</span>-->
                     <a href="{{ profile.linkedin_link }}" target="_blank" class="">
                         <i class="bi bi-linkedin" style="font-size:24px"></i>
                     </a>
                 {% endif %}
             </div>
-
-
         </div>
     </div>
 </div>
