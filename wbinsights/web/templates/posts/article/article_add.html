@@ -226,6 +226,10 @@
         handleFileSelect(file);
     }
 
+    const gjsContainer = document.getElementById('gjs');
+    gjsContainer.addEventListener('dragover', allowDrop);
+    gjsContainer.addEventListener('drop', handleDrop);
+
     function handleFileSelect(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
