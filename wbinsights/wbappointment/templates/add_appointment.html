@@ -60,7 +60,7 @@
                         {{ expert.first_name }} {{ expert.last_name }}
                     </div>
 
-                    <div class="user-rating-cont">
+                    <div class="user-rating-cont" >
 
                         <div class="user-rating">{% trans 'RatingLabel' %} :
                             {{ expert.expertprofile.rating|default_if_none:0 }}</div>
@@ -81,9 +81,9 @@
 
                     </div>
 
-                    <div class="user-category-cont">
+                    <div class="user-category-cont" style="align-items: center">
 
-                        <div class="user-category">Эксперт в области :</div>
+                        <div class="user-category" style="padding-right: 0; padding-top: 0;">Эксперт в области :</div>
 
                         <div class="displayflex">
                             {% for exp_category in user.expertprofile.expert_categories.all %}
@@ -117,7 +117,7 @@
                         <div class="user-display-name">
                             {{ expert.first_name }} {{ expert.last_name }}
                         </div>
-                        <div class="user-rating-cont" style="flex-direction: column">
+                        <div class="user-rating-cont" style="flex-direction: column; align-items: flex-start">
 
                             <div class="user-rating">{% trans 'RatingLabel' %} :
                                 {{ expert.expertprofile.rating|default_if_none:0 }}

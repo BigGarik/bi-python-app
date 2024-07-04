@@ -161,4 +161,21 @@
     function switchLanguage(lang) {
         editor.I18n.setLocale(lang);
     }
+
+    // Ensure touch events are properly handled on iOS
+    function addNonPassiveEventListener(element, event, handler) {
+        element.addEventListener(event, handler, { passive: false });
+    }
+
+    addNonPassiveEventListener(document, 'touchstart', function(event) {
+        console.log('touchstart', event.target);
+    });
+
+    addNonPassiveEventListener(document, 'touchmove', function(event) {
+        console.log('touchmove', event.target);
+    });
+
+    addNonPassiveEventListener(document, 'touchend', function(event) {
+        console.log('touchend', event.target);
+    });
 </script>

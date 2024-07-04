@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_social_share',
     'django_apscheduler',
+    'django_mobile',
 
     # 'debug_toolbar',  # Закомментировать перед пушем
 
@@ -74,6 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',  # Закомментировать перед пушем
 
@@ -102,6 +104,19 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+TEMPLATE_LOADERS = [
+    'django_mobile.loader.Loader'
+]
+
+TEMPLATE_CONTEXT_PROCESSORS = [
+    'django_mobile.context_processors.flavour',
+]
+
+MIDDLEWARE_CLASSES = [
+    'django_mobile.middleware.MobileDetectionMiddleware',
+    'django_mobile.middleware.SetFlavourMiddleware'
 ]
 
 WSGI_APPLICATION = 'wbinsights.wsgi.application'

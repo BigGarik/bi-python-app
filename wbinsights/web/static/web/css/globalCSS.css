@@ -228,6 +228,8 @@
 
 .user-rating-cont {
     display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .prof-edit-rows {

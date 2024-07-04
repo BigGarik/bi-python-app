@@ -98,6 +98,14 @@ class ArticleAddView(CreateView, LoginRequiredMixin):
     template_name = 'posts/article/article_add.html'
     success_url = 'article_list'
 
+    def get_template_names(self):
+        # Custom method to choose template based on device type
+        if self.request.META.get('HTTP_USER_AGENT'):
+            user_agent = self.request.META['HTTP_USER_AGENT']
+            if 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent:
+                return ['posts/article/article_add_editor_mobile.html']
+        return [self.template_name]
+
     def form_valid(self, form):
         article = form.save(commit=False)  # Do not save the article yet
         article.author = self.request.user
