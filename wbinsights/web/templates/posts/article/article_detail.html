@@ -8,6 +8,30 @@
 
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
+    <style>
+        .like-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .like-btn svg {
+            transition: all 0.3s ease;
+        }
+
+        .like-btn.liked svg {
+            fill: #3498db;
+            stroke: #3498db;
+        }
+
+        .like-btn:not(.liked) svg {
+            fill: none;
+            stroke: #95a5a6;
+        }
+    </style>
 {% endblock %}
 
 <div class="base-Content">
@@ -52,6 +76,14 @@
             {% endautoescape %}
         </div>
 
+        <div class="voting">
+            <button class="like-btn" data-model="web.article" data-id="{{ object.id }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up">
+                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                </svg>
+                <span class="like-count">{{ object.votes.count }}</span>
+            </button>
+        </div>
         <div class="article-detail-page-last">
             <div class="comments-andshare-cont">
                 <div class="list-comments">
@@ -76,21 +108,66 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Подтвердите удаление</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete the article "{{ article.title }}"?
+                Вы уверены, что хотите удалить статью "{{ article.title }}"?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                 <form method="post" action="{% url 'delete_article' article.slug %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Confirm</button>
+                    <button type="submit" class="btn btn-danger">Подтвердить</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<script>
+document.querySelectorAll('.like-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const modelName = this.dataset.model;
+        const objectId = this.dataset.id;
+        const likeCount = this.querySelector('.like-count');
+        const isLiked = this.classList.contains('liked');
+
+        fetch(`/vote/${modelName}/${objectId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `action=up`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'ok') {
+                if (data.action === 'liked') {
+                    this.classList.add('liked');
+                } else {
+                    this.classList.remove('liked');
+                }
+                likeCount.textContent = data.count;
+            }
+        });
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 {% endblock %}
