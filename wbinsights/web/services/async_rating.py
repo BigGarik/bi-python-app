@@ -177,11 +177,19 @@ async def calculate_rating_for_all_experts():
         database=database, host=db_host
     )
     async with pool.acquire() as conn:
-        expert_ids = await conn.fetch("SELECT user_id FROM web_profile WHERE web_profile.type=1")
-        calculator = ExpertRatingCalculation()
-        tasks = [calculator.calculate_rating(pool, expert_id['user_id']) for expert_id in expert_ids]
-        await asyncio.gather(*tasks)
+        expert_ids = await conn.fetch("SELECT user_id FROM web_expertprofile")
 
+    calculator = ExpertRatingCalculation()
+    semaphore = asyncio.Semaphore(5)  # Ограничиваем количество одновременных задач до 5
+
+    async def calculate_with_semaphore(user_id):
+        async with semaphore:
+            await calculator.calculate_rating(pool, user_id)
+
+    tasks = [calculate_with_semaphore(expert_id['user_id']) for expert_id in expert_ids]
+    await asyncio.gather(*tasks)
+
+    await pool.close()  # Закрываем пул соединений после завершения всех задач
     logger.info('Rating calculation completed')
 
 
