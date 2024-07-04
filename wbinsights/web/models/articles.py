@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from vote.models import VoteModel
 
 from .models import Category
 from django_comments_xtd.moderation import moderator, SpamModerator
@@ -26,7 +27,7 @@ class PublishedManager(models.Manager):
 # >>> Post.objects.create(name="Third post", tags=["tutorial", "django"])
 
 
-class Article(models.Model):
+class Article(VoteModel, models.Model):
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
