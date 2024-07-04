@@ -5,6 +5,7 @@ from django.urls import path, include
 from django.contrib import admin
 
 from .services.expert_rating_calculation import calculate_rating_for_all_expert
+from .utils import get_timezones
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
@@ -15,7 +16,7 @@ from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailV
 from .views.rating import RatingListView
 from .views.researches import ResearchesListView, ResearchesDetailView
 from django.contrib.auth import views as auth_views
-from .views.profile import profile_view, edit_user_profile
+from .views.profile import profile_view, edit_user_profile, update_user_timezone
 from .views.error_404 import wb400handler
 from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form, ContactUsSuccessPageView
 from .views.vote import upvote, downvote, universal_vote
@@ -62,6 +63,8 @@ urlpatterns = [
 
     # users
     path("profile", profile_view, name='profile'),
+    path('update-timezone/', update_user_timezone, name='update_user_timezone'),
+    path('api/timezones/', get_timezones, name='get_timezones'),
     # path('profile/tab/<str:tab>/', profile_view, name='profile_tab'),
     path("profile/edit", edit_user_profile, name='profile_edit'),
     # path('profile/anketa', profile_view, name='anketa'),

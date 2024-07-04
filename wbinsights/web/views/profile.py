@@ -2,9 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
 from django.forms import modelformset_factory
+from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import strip_tags
+from django.views.decorators.http import require_POST
 
 from web.models import RatingCalculate, RatingRole
 from web.models.users import Education, ExpertAnketa, ExpertProfile
@@ -168,6 +170,18 @@ def profile_view(request):
         })
 
     return render(request, profile_template, context=context)
+
+
+@login_required
+@require_POST
+def update_user_timezone(request):
+    new_timezone = request.POST.get('timezone')
+    if new_timezone:
+        request.user.profile.timezone = new_timezone
+        request.user.profile.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
+
 
 # class ClientProfileEditHandler:
 #

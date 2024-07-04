@@ -274,7 +274,6 @@ class GetProjectsView(LoginRequiredMixin, ListView):
                     query &= Q(**{f'{param}__icontains': value})
                 elif param in allowed_fields:
                     query &= Q(**{param: value})
-                print(query)
 
         # Start with all the user's projects
         projects = UserProject.objects.filter(author=user if user else self.request.user)
@@ -295,5 +294,4 @@ class GetProjectsView(LoginRequiredMixin, ListView):
             projects = paginator.page(paginator.num_pages)
 
         context['projects'] = projects
-        print(context)
         return context
