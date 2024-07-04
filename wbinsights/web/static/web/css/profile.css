@@ -189,7 +189,8 @@
     color: #404054;
     align-items: center !important;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
+    height: 100%;
 }
 
 .profile-menu-item.selected {
