@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, LoginView
@@ -19,7 +21,10 @@ from web.models import Profile
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
+logger = logging.getLogger('django-debug')
+
 User = get_user_model()
+
 
 def signup_success(request):
     context = {
@@ -68,17 +73,22 @@ def resend_activation_email(request, email):
 
 def save_new_user_and_profile(request, user_form, user_type):
     new_username = gen_user_name_from_email(user_form.cleaned_data["email"])
+    try:
+        new_user = user_form.save(commit=False)
+        new_user.username = new_username
+        new_user.save()
 
-    new_user = user_form.save(commit=False)
-    new_user.username = new_username
-    new_user.save()
-
-    new_user_profile = Profile()
-    new_user_profile.user = new_user
-    new_user_profile.type = user_type
-    new_user_profile.save()
-
-    send_activation_email(new_user, request)
+        new_user_profile = Profile()
+        new_user_profile.user = new_user
+        new_user_profile.type = user_type
+        new_user_profile.save()
+    except Exception as e:
+        logger.error(f"Error creating new user: {e}")
+    try:
+        send_activation_email(new_user, request)
+    except Exception as e:
+        logger.error(f"Error sending activation email: {e}")
+    logger.debug(f"New user created:  {new_user}")
 
     return new_user
 
@@ -90,16 +100,25 @@ def register_user(request):
 
         user_form = CustomUserCreationForm(request.POST)
 
-        if user_form.data['user_type'] == '1':
+        if user_form.data['user_type'] == '1':  # Expert
             expert_profile_form = ExpertAnketaForm(request.POST)
 
             if user_form.is_valid() and expert_profile_form.is_valid():
-                new_user = save_new_user_and_profile(request, user_form, Profile.TypeUser.EXPERT)
-                new_expert_profile = expert_profile_form.save()
-                new_expert_profile.user = new_user
-                new_expert_profile.save()
-                return redirect('signup_success')
+                try:
+                    new_user = save_new_user_and_profile(request, user_form, Profile.TypeUser.EXPERT)
+                    new_expert_profile = expert_profile_form.save(commit=False)
+                    new_expert_profile.user = new_user
+                    new_expert_profile.save()
+                    expert_profile_form.save_m2m()
+
+                    return redirect('signup_success')
+                except Exception as e:
+                    logger.error(f"Error during expert registration: {str(e)}", exc_info=True)
+                    messages.error(request, _("An error occurred during registration. Please try again."))
             else:
+                logger.debug(
+                    f"Invalid form data: user_form errors: {user_form.errors}, expert_form errors: {expert_profile_form.errors}")
+
                 context = {
                     "user_form": user_form,
                     "expert_form": expert_profile_form

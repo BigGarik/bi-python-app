@@ -1,3 +1,5 @@
+import logging
+
 import pytz
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
@@ -11,6 +13,10 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 
 from web.models import Category
+
+
+logger = logging.getLogger('django-debug')
+
 
 phone_regex = RegexValidator(
     regex=r'^((8|\+374|\+994|\+995|\+375|\+7|\+380|\+38|\+996|\+998|\+993)[\- ]?)?\(?\d{3,5}\)?[\- ]?\d{1}[\- ]?\d{'
@@ -125,7 +131,11 @@ class ExpertAnketa(BaseExpertProfile):
     is_verified = models.IntegerField(_("Expert verification status"), choices=AnketaVerifiedStatus.choices,
                                       default=AnketaVerifiedStatus.NOT_VERIFIED)
 
-    user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertanketa')
+    user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, null=False, related_name='expertanketa')
+
+    def save(self, *args, **kwargs):
+        logger.debug(f"Saving ExpertAnketa for user: {self.user.id if self.user else 'None'}")
+        super().save(*args, **kwargs)
 
 
 class Education(models.Model):
