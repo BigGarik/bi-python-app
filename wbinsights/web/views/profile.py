@@ -318,7 +318,7 @@ def edit_user_profile(request):
                 recipient_list = [moderator.email for moderator in moderators if moderator.email]
                 manage_unverified_experts_profile = request.build_absolute_uri(
                     reverse("manage_unverified_experts_profile",
-                            kwargs={"pk": request.user.id }))
+                            kwargs={"pk": updated_expert_anketa.id }))
                 manage_unverified_experts_list = request.build_absolute_uri(reverse("manage_unverified_experts_list"))
 
                 html_content = render_to_string('emails/verification_email.html',
