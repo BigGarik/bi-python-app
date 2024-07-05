@@ -58,8 +58,8 @@ class ArticleDetailView(DetailView):
     template_name = 'posts/article/article_detail.html'
     form_class = ArticleForm
 
-
-class ArticleEditView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
+#LoginRequiredMixin, UserPassesTestMixin - должны быть на первом месте, иначе не срабатывает test_func
+class ArticleEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
     form_class = ArticleForm
     context_object_name = 'article'
