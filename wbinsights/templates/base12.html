@@ -1,17 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-    <div class="d-none d-lg-block col-lg-3 " style="max-width: 300px; position: sticky">
-        {% include "components/left_main_menu.html" %}
+    
+     <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}">
+    
+<div class="container-fluid">
+    <div class="row">
+        <aside class="col-md-0-5 d-none d-xl-block" style="position: sticky; top: 0; height: 100vh;"></aside>
+
+        <aside class="col-sm-3 col-lg-2-5  d-none d-xl-block" style="position: sticky; top: 0; height: 100vh;">
+            {% include "components/left_main_menu.html" %}
+        </aside>
+
+
+        <main class="col-sm-12 col-md-12 col-lg-8-5  ">
+            <div class="content">
+                {% block center_col %}{% endblock %}
+            </div>
+        </main>
+
+        <aside class="col-md-0-5 d-none d-xl-block" style="position: sticky; top: 0; height: 100vh;"></aside>
     </div>
+</div>
 
-    <div class="col-md-8 col-lg-8" style="margin-bottom: 20px;">
-
-        <div class="content">
-            {% block center_col %} {% endblock %}
-        </div>
-
-    </div>
 
 {% endblock %}
+
+
+
+
