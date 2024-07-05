@@ -13,6 +13,11 @@
 
 {% block posts_content %}
 
+
+
+    <link href="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.iife.js" defer init></script>
+
 <style>
 
     .author-pic {
@@ -136,7 +141,22 @@
 
 
                         <div class="dropdown">
-
+                            <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px">
+                                <div class="shareon"
+     data-url="https://24wbinside.ru/articles/{{ article.slug }} "
+     data-title="{{ article.title }}"
+     id="shareon-{{ article.pk }}">
+                                    <a class="facebook"></a>
+                                    <a class="twitter"></a>
+                                    <a class="linkedin"></a>
+                                    <a class="telegram"></a>
+                                    <a class="whatsapp"></a>
+                                    <a class="reddit"></a>
+                                    <a class="vkontakte"></a>
+                                    <a class="odnoklassniki"></a>
+                                    <a class="copy-url"></a>
+                                </div>
+                            </ul>
                         </div>
 
                     </div>
