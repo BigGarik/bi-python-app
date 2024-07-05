@@ -1,21 +1,13 @@
 import itertools
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
+
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from pytils.translit import slugify
 
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
 from web.forms.articles import ArticleForm
 from web.models import Article, Category
-from django.http import JsonResponse
-
-from django.contrib.auth.decorators import login_required
-
-from django.db.models import Q
-
-import time
 
 
 class ArticleListView(ListView):
