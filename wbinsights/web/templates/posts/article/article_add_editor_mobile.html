@@ -49,11 +49,14 @@
     }
 
     .gjs-block {
-        min-width: auto !important;
+        min-width: 90px !important;
+        min-height: 70px !important;
+        max-height: 70px !important;
+        margin: 5px !important;
     }
 
     #gjs {
-        height: 65% !important;
+        height: 55% !important;
         min-height: 1200px !important;
     }
 
@@ -61,29 +64,31 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 10px;
+        margin-top: 5px;
+        max-height: 30px ;
     }
     .grip-icon {
         font-size: 30px;
     }
 
+    .t-class-comps {
+        font-size: 26px !Important;
+    }
+
+    .mobile-article-add{
+        padding-right: 0px !important;
+    }
+
 </style>
 
 <div class="container-fluid"></div>
-    <div class="row" style="overflow-x: auto; position: sticky; top: 10px; z-index: 100;">
-        <div class="article-add-right-btns" style="overflow-x: auto; padding: 10px !important;">
-            <div id="blocks"></div>
-            <div class="grip-container">
-                <i class="bi bi-grip-horizontal grip-icon"></i>
-            </div>
-        </div>
-    </div>
+
 
     <form method="post" enctype="multipart/form-data" id="article-form">
         {% csrf_token %}
 
         <div class="row">
-            <div class="col-12" style="gap: 10px">
+            <div class="col-12" style="gap: 10px; padding-right: 0px">
                 <div class="global-back-btn">
                     <span class="global-back-btn" onclick="goBack()" style="cursor:pointer">
                         <i class="bi bi-chevron-left" style="scale:1"></i> &nbsp;Назад
@@ -102,6 +107,16 @@
                 {{ form.main_img }}
                 <br>
                 {{ form.content }}
+
+                <div class="row" id="sticky-container" style="overflow-x: auto; position: relative; z-index: 100;">
+                    <div class="article-add-right-btns" style="overflow-x: auto; padding: 10px !important;">
+                        <div id="blocks"></div>
+                        <div class="grip-container">
+                            <i class="bi bi-grip-horizontal grip-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="gjs" style="min-height: 300px;"></div>
                 <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
             </div>
@@ -156,6 +171,22 @@
                 clearButton.style.color = '';
             });
         }
+
+        const stickyContainer = document.getElementById('sticky-container');
+        const editorContainer = document.getElementById('gjs');
+        const editorStartPosition = editorContainer.offsetTop;
+
+        window.addEventListener('scroll', function () {
+            const scrollPosition = window.scrollY;
+
+            if (scrollPosition >= editorStartPosition) {
+                stickyContainer.style.position = 'sticky';
+                stickyContainer.style.top = '0';
+            } else {
+                stickyContainer.style.position = 'relative';
+                stickyContainer.style.top = '';
+            }
+        });
     });
 
     function goBack() {
@@ -216,9 +247,6 @@
 
     editor.setComponents($('input[name=content]').val());
     editor.setStyle($('input[name=styles]').val());
-
-
-
 
 </script>
 {% endblock %}

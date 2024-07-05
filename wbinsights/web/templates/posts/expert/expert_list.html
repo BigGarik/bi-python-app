@@ -105,7 +105,7 @@
 				<div class="d-md-none article-last">
 					<div style="display:flex;justify-content:flex-start">
 						<div class="col-sm user-stats">
-							{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
+							{{ expert.expert_article_cnt }} статей • 0 опросов • 0 отзыва
 						</div>
 					</div>
 					{% if request.user.id != expert.id %}
@@ -120,7 +120,7 @@
 				<!-- larger than md -->
 				<div class="d-none d-md-block article-last-2" style="display:flex ">
 					<div class="col-sm order-md-2 user-stats">
-						{{ expert.expert_article_cnt }} статей • 30 опросов • 24 отзыва
+						{{ expert.expert_article_cnt }} статей • 0 опросов • 0 отзыва
 					</div>
 					<div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
 						{% if request.user.id != expert.id %}

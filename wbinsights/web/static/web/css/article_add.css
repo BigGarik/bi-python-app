@@ -43,6 +43,8 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .article-add-desc{
