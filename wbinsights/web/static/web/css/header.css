@@ -218,7 +218,7 @@
     position: fixed;
     height: 100%;
     top: 0;
-    left: -850px;
+    left: -1500px;
     transition: left 0.8s ease;
     padding: 20px 10px 0 10px;
     z-index: 1000;
