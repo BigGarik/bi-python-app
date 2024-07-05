@@ -1,6 +1,7 @@
 import math
 
 from django import template
+from django.db.models import F
 
 from web.models import Expert, Category
 
@@ -39,7 +40,9 @@ def get_rate_chipher(rating):
 
 @register.simple_tag
 def get_top_experts():
-    return Expert.objects.all()[:10]
+    # return Expert.objects.all()[:10]
+    return Expert.objects.filter(expertprofile__isnull=False).order_by(F('expertprofile__rating').desc(nulls_last=True))[:10]
+
 
 
 @register.simple_tag
