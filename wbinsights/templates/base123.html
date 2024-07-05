@@ -5,23 +5,33 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}">
     
-<div class="container-fluid" style="justify-content: center;display: flex;">
-    <div class="row"    style="justify-content: center;">
-        <aside class="d-none d-lg-block col-lg-3 col-xl-2-5 col-xxl-2-5" style="position: sticky; top: 0; height: 100vh;">
-            {% include "components/left_main_menu.html" %}
-        </aside>
-        
-        <main class="col-12 col-md-8 col-lg-6 col-xxl-6">
-            <div class="content">
-                {% block center_col %}{% endblock %}
-            </div>
-        </main>
-        
-        <aside class="d-none d-md-block col-md-4 col-lg-3 col-xl-2-5 col-xxl-2-5" style="position: sticky; top: 0; height: 100vh;">
-            {% include "components/experts/main_page_list.html" %}
-        </aside>
+<div class="container-fluid">
+        <div class="row">
+
+            <!-- Sticky empty columns on larger screens -->
+            <aside class=" col-sm-0-5 col-md-1 d-none d-md-block" style="position: sticky; top: 0; height: 100vh;"></aside>
+
+            <!-- Left menu column hidden on screens smaller than lg -->
+            <aside class="col-sm-2 d-none d-xl-block col-lg-2-5" style="position: sticky; top: 0; height: 100vh;">
+                {% include "components/left_main_menu.html" %}
+            </aside>
+
+            <!-- Main content column -->
+            <main class="col-sm-7 col-md-7 col-xl-6">
+                <div class="content">
+                    {% block center_col %}{% endblock %}
+                </div>
+            </main>
+
+            <!-- Right experts column, becomes bigger on smaller screens -->
+            <aside class="col-sm-5 col-md-4 d-none d-sm-block col-lg-2-5" style="position: sticky; top: 0; height: 100vh;">
+                {% include "components/experts/main_page_list.html" %}
+            </aside>
+
+            <!-- Sticky empty columns on larger screens -->
+            <aside class="col-sm-0-5  d-none d-md-block" style="position: sticky; top: 0; height: 100vh;"></aside>
+        </div>
     </div>
-</div>
 
 
 {% endblock %}
