@@ -152,8 +152,12 @@
                 <div id="blocks"></div>
                 <div id="style-manager-container" style="margin: 10px 2.5% 5px;"></div>
                 <hr class="solid"/>
-                <div>Категория</div>
-                {{ form.cat }}
+                <div class="form-group">
+                    <label for="{{ form.cat.id_for_label }}">{{ form.cat.label }}</label>
+                    {{ form.cat }}
+                </div>
+{#                <div>Категория *</div>#}
+{#                {{ form.cat }}#}
                 <br>
                 <div>Статус публикации</div>
                 {{ form.is_published }}

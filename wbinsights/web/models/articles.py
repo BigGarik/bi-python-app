@@ -41,7 +41,7 @@ class Article(VoteModel, models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT, verbose_name="Статус")
-    cat = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='article', blank=True, verbose_name="Категории", )
+    cat = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='article', verbose_name="Категории", )
     allow_comments = models.BooleanField('allow comments', default=True)
     styles = models.TextField(null=True, blank=True, verbose_name="Стили")
 
