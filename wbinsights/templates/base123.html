@@ -1,24 +1,27 @@
 {% extends 'base.html' %}
 {% load web_tags %}
+{% load static %}
 
 {% block content %}
-
-    <div class="d-none d-lg-block col-lg-3 " style="max-width: 300px; position: sticky">
-        {% include "components/left_main_menu.html" %}
+    <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}">
+    
+<div class="container-fluid" style="justify-content: center;display: flex;">
+    <div class="row"    style="width:95%">
+        <aside class="d-none d-lg-block col-lg-3 col-xl-2-5 col-xxl-2-5" style="position: sticky; top: 0; height: 100vh;">
+            {% include "components/left_main_menu.html" %}
+        </aside>
+        
+        <main class="col-12 col-md-8 col-lg-6 col-xxl-6">
+            <div class="content">
+                {% block center_col %}{% endblock %}
+            </div>
+        </main>
+        
+        <aside class="d-none d-md-block col-md-4 col-lg-3 col-xl-2-5 col-xxl-2-5" style="position: sticky; top: 0; height: 100vh;">
+            {% include "components/experts/main_page_list.html" %}
+        </aside>
     </div>
+</div>
 
-    <div class="col-md-8 col-lg-6" style="margin-bottom: 20px;">
-
-        <div class="content">
-            {% block center_col %} {% endblock %}
-        </div>
-
-    </div>
-
-    <div class="d-none d-md-block col-md-4 col-lg-3" style="min-width: 300px; max-width: 300px; position: sticky">
-
-        {% include "components/experts/main_page_list.html" %}
-
-    </div>
 
 {% endblock %}
