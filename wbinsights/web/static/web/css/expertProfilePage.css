@@ -12,11 +12,6 @@
     height: auto; 
 }
 
-.user-category-cont {
-    display: flex;
-    flex-wrap: wrap;
-    height: 30px;
-}
 
 .consult-expert-profile-btn {
     margin-top: 0;

@@ -33,12 +33,6 @@
     height: auto; 
 }
 
-.user-category-cont {
-    display: flex;
-    flex-wrap: wrap;
-    /*height: 30px;*/
-}
-
 .user-category{
     display: flex;
     font-family: sans-serif;

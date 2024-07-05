@@ -250,3 +250,9 @@
     top: 20px
 }
 
+.user-category-cont {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 30px;
+}
+
