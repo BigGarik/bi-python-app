@@ -897,19 +897,19 @@ msgstr "Документы"
 
 #: .\web\services\expert_rating_calculation.py:75
 msgid "Текст с условиями расчета основного образования"
-msgstr ""
+msgstr "Основное образование"
 
 #: .\web\services\expert_rating_calculation.py:93
 msgid "Текст с условиями расчета дополнительного образования"
-msgstr ""
+msgstr "Дополнительное образование"
 
 #: .\web\services\expert_rating_calculation.py:112
 msgid "Текст с условиями расчета опыта консультаций"
-msgstr ""
+msgstr "Опыт консультаций"
 
 #: .\web\services\expert_rating_calculation.py:134
 msgid "Текст с условиями расчета опыта работы"
-msgstr ""
+msgstr "Опыт работы"
 
 #: .\web\services\expert_rating_calculation.py:160
 msgid "Ratings calculated for all experts."
