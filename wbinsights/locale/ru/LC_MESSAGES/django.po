@@ -1077,8 +1077,6 @@ msgid "ProjectsTabLabel"
 msgstr "Проекты"
 
 #: .\web\templates\profile\profile_content_items.html:77
-#, fuzzy
-#| msgid "RatingLabel"
 msgid "RatingsTabLabel"
 msgstr "Ваш Рейтинг"
 
