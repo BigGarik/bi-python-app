@@ -92,7 +92,7 @@ msgstr ""
 #: .\expertprojects\templates\project_list.html:393
 #: .\expertprojects\templates\project_list.html:408
 msgid "Project Details"
-msgstr ""
+msgstr "Детали проекта"
 
 #: .\templates\base.html:85 .\templates\base.html:334
 msgid "MakeResearch"

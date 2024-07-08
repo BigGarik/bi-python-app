@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'wbappointment.apps.WbappointmentConfig',
     'django_recaptcha',
     'rest_framework',
-    'django_social_share',
     'django_apscheduler',
     'django_mobile',
 
