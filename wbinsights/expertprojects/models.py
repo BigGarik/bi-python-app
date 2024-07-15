@@ -5,13 +5,14 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
+from vote.models import VoteModel
 
 from web.models import Category
 
 logger = logging.getLogger(__name__)
 
 
-class UserProject(models.Model):
+class UserProject(VoteModel, models.Model):
     author = models.ForeignKey('web.CustomUser', on_delete=models.CASCADE, related_name="userproject",
                                verbose_name="Автор")
     members = models.ManyToManyField('web.CustomUser', related_name='userprojects', verbose_name="Участники")

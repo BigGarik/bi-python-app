@@ -28,17 +28,29 @@
 					<input type="search" class="lists-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
 				</div>
 				<div class="col-sm-12 col-md-6 testing-class">
-					<div class="dropdown" style="display: flex; align-items: center;">
-						<button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-							<span class="global-catagory-text"> Рейтинг: &nbsp;</span>
-							<span class="global-catagory-choose"> 4 и выше  </span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-							<li><a class="dropdown-item" href="#">3 и выше</a></li>
-							<li><a class="dropdown-item" href="#">4 и выше</a></li>
-							<li><a class="dropdown-item" href="#">5</a></li>
-						</ul>
-					</div>
+                    <div class="dropdown" style="display: flex; align-items: center;">
+                        <button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="global-catagory-text"> Рейтинг: &nbsp;</span>
+                            <span class="global-catagory-choose" id="selectedRating">
+                                {% if request.GET.min_rating == '3' %}
+                                    3 и выше
+                                {% elif request.GET.min_rating == '4' %}
+                                    4 и выше
+                                {% elif request.GET.min_rating == '5' %}
+                                    5
+                                {% else %}
+                                    Все
+                                {% endif %}
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                            <li><a class="dropdown-item" href="?" data-rating="Все">Все</a></li>
+                            <li><a class="dropdown-item" href="?min_rating=3" data-rating="3 и выше">3 и выше</a></li>
+                            <li><a class="dropdown-item" href="?min_rating=4" data-rating="4 и выше">4 и выше</a></li>
+                            <li><a class="dropdown-item" href="?min_rating=5" data-rating="5">5</a></li>
+
+                        </ul>
+                    </div>
 					{% include "components/post_category_filter.html" %}
 				</div>
 			</div>
@@ -149,6 +161,20 @@
 		}
 
 		console.log("Avatar URL:", "{{ expert.profile.avatar.url }}");
+        
+                document.addEventListener('DOMContentLoaded', function() {
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            const selectedRating = document.getElementById('selectedRating');
+        
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const rating = this.getAttribute('data-rating');
+                    selectedRating.textContent = rating;
+                    window.location.href = this.getAttribute('href');
+                });
+            });
+        });
 	</script>
 
 {% endblock %}
