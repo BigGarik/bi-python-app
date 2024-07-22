@@ -42,6 +42,20 @@
         }
     }
 
+     @media (max-width: 1200px) {
+         .prof-user-setting{
+             margin-left: 0 !important;
+         }
+
+         .prof-user-setting {
+             padding: 10px 0 10px 0!important;
+         }
+
+     }
+
+
+
+
 </style>
 
 <div class="profile-info-cont">
@@ -87,7 +101,7 @@
     <div class="bottom-half">
         <div class="bottom-info">
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp</span>
+                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp;</span>
                 <div style="display: flex;flex-direction: column;">
                     {% for edu in profile.education.all %}
                         {% if edu.education_type == 'primary' %}

@@ -29,15 +29,15 @@
             <div class="comments-andshare-cont" style="justify-content: space-between">
 
                 <div style="display: flex; gap: 10px">
-                    <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none; color: inherit;">
-                        <i class="bi bi-chat-left-text" style="color:grey;"></i>
+                    <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none; color: #a5b1c8;">
+                        <i class="bi bi-chat-left-text" style="color:#a5b1c8;"></i>
                         {% get_comment_count for article as comment_count %}
                         &nbsp;{{ comment_count }}
                     </a>
 
                     <div class="list-share">
                         <i class="bi bi-calendar2-week"
-                           style="color:grey; "></i>&nbsp; {{ article.time_update|custom_time_display }}
+                           style="color:#a5b1c8; "></i>&nbsp; {{ article.time_update|custom_time_display }}
 
                     </div>
                 </div>

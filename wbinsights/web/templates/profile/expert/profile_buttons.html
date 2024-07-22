@@ -1,14 +1,82 @@
 {% load i18n %}
+<style>
+    /* styles.css */
+.prof-user-setting {
+    margin-left: 25%;
+    padding: 10px 0 0 30px;
+    gap: 5px;
+    flex-wrap: wrap;
+}
 
-<a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
+.profile-buttons-group1,
+.profile-buttons-group2 {
+    display: flex;
+}
 
-<form method="post" action="{% url 'password_change' %}">
-    {% csrf_token %}
-    <button type="button" class="btn prof-btn prof-settings-btn" data-bs-toggle="modal" data-bs-target="#passwordChangeModal" >
-        {% trans 'ChangePasswordLabel' %}
-    </button>
+@media (max-width: 767px) {
+    .prof-user-setting {
+        flex-direction: column;
+    }
 
-    <div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
+    .prof-settings-btn {
+        font-size: 14px !important;
+    }
+
+    .prof-logout-btn {
+        font-size: 14px !important;
+    }
+
+    .mobile-logout-display{
+        width: 100%
+    }
+
+    .prof-logout-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .profile-buttons-group1,
+    .profile-buttons-group2 {
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 5px;
+    }
+}
+
+@media (min-width: 768px) {
+    .prof-user-setting {
+        flex-direction: row;
+    }
+
+    .profile-buttons-group1,
+    .profile-buttons-group2 {
+        flex-direction: row;
+    }
+}
+
+</style>
+
+<div class="profile-buttons-group1">
+    <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
+
+    <form method="post" action="{% url 'password_change' %}">
+        {% csrf_token %}
+        <button type="button" class="btn prof-btn prof-settings-btn" data-bs-toggle="modal" data-bs-target="#passwordChangeModal" style="margin-left: 5px">
+            {% trans 'ChangePasswordLabel' %}
+        </button>
+    </form>
+</div>
+<div class="profile-buttons-group2">
+    <form method="post" action="{% url 'logout' %}" class="mobile-logout-display">
+        {% csrf_token %}
+        <button class="btn prof-btn prof-logout-btn" type="submit">
+            {% trans 'LogoutButtonLabel' %}
+        </button>
+    </form>
+</div>
+
+
+<div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -21,18 +89,6 @@
             </div>
         </div>
     </div>
-
-    <div id="notification" class="alert alert-success" role="alert" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 9999;">
-        {% trans 'PasswordChangedSuccessfully' %}
-    </div>
-</form>
-
-<form method="post" action="{% url 'logout' %}" style="width: auto">
-    {% csrf_token %}
-    <button class="btn prof-btn prof-logout-btn" type="submit" style="width:auto !important;">
-        {% trans 'LogoutButtonLabel' %}
-    </button>
-</form>
 
 <script>
 $(document).ready(function() {
