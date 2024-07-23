@@ -1,9 +1,9 @@
 {% extends 'base123.html' %}
 {% load web_tags %}
 {% load file_filters %}
-{% block center_col %}
-{% load static %}
 
+{% load static %}
+{% block center_col %}
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
 {% endblock %}
@@ -12,20 +12,25 @@
     .select2-container {
         width: 100% !important;
     }
-
+    .select2-container .select2-selection--multiple {
+        min-height: 38px;
+    }
+    .select2-container .select2-selection--single {
+        height: 38px;
+        padding: 6px 12px;
+    }
     .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
         list-style: none;
         display: flex !important;
     }
-
     .new-file {
-        display:flex;
+        display: flex;
         justify-content: space-between;
-
     }
-
+    .select2-selection.select2-selection--multiple {
+        display: flex !important;
+    }
 </style>
-
 
 <h2>Редактирование проекта: {{ userproject.name }}</h2>
 
@@ -35,24 +40,20 @@
 
     <select name="members" id="id_members" multiple>
         {% for member in members %}
-            <option selected value="{{ member.id }}">{{ member.email }}</option>
+            <option value="{{ member.id }}">{{ member.email }}</option>
         {% endfor %}
-
     </select>
-
 
     <div style="display: flex; margin : 20px 0 20px 0; align-items: baseline;">
         <span style="font-size: 20px;">Файлы проекта:</span>
         <button id="fileInputBtn" class="btn btn-primary btn-sm" style="margin-left: 10px">Добавить файлы</button>
     </div>
 
-
     <style>
         .trash-icon:hover {
             color: red !important;
             cursor: pointer;
         }
-
         .list-class {
             min-width: 50%;
             font-size: 18px;
@@ -79,10 +80,7 @@
     </div>
 
     <input type="hidden" id="delete_file_ids" name="delete_file_ids" multiple>
-
-
-    <button type="submit" class="btn btn-primary btn-sm"> Сохранить изменения</button>
-
+    <button type="submit" class="btn btn-primary btn-sm">Сохранить изменения</button>
 </form>
 
 <input type="file" id="fileInput" name="files" multiple style="display: none;">
@@ -97,11 +95,9 @@
     let deletedFileIds = [];
 
     function updateFileList() {
-
         const fileListDiv = document.getElementById('fileList');
         let ul = fileListDiv.querySelector('ul');
 
-        // Clear the list of newly added files to avoid duplicates
         ul.querySelectorAll('.new-file').forEach(el => el.remove());
 
         fileList.forEach(function (file, index) {
@@ -134,21 +130,11 @@
         const files = this.files;
 
         for (let i = 0; i < files.length; i++) {
-            //console.log("Add file to list:", files[i].name);
             fileList.push(files[i]);
         }
 
         updateFileList();
     });
-
-    /*
-    $(function () {
-        $('.trash-icon').click(function () {
-            $(this)
-        })
-    })
-    */
-
 
     document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.trash-icon');
@@ -175,7 +161,6 @@
     function updateDeletedFileIdsInput() {
         const deleteFilesInput = document.getElementById('delete_file_ids');
         deleteFilesInput.value = deletedFileIds;
-        //console.log('deleteFilesInput.value', deleteFilesInput.value);
     }
 
     document.getElementById('project-form').addEventListener('submit', function (event) {
@@ -186,82 +171,41 @@
         for (let i = 0; i < fileList.length; i++) {
             formData.append('files', fileList[i]);
         }
-/*
-        const deleteFilesInput = document.getElementById('delete_file_ids');
-        if (deleteFilesInput.value.trim() === '') {
-            deleteFilesInput.disabled = true;
-        }
-*/
-        //console.log("FormData entries:", [...formData.entries()]);
 
         fetch('{% url 'project_edit' userproject.slug %}', {
             method: 'POST',
             body: formData
         })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Files uploaded successfully!');
-                    window.location.href = '{% url 'profile' %}';
-                } else {
-                    console.error('Failed to upload files:', response.statusText);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '{% url 'profile' %}';
+            } else {
+                console.error('Failed to upload files:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     });
-
-</script>
-
-
-<script type="text/javascript">
 
     function formatResult(result) {
         if (!result.id) return result.text;
-        //return result.last_name + ' ' + result.first_name;
-        const res = `<div style="display: flex; align-items: center">
-                            <img width="70" height="70" style="padding: 5px; border-radius: 50%" src="${result.profile_photo}"/>
-                            ${result.last_name} ${result.first_name} (${result.email})
-            </div>`
-        return res;
+        return $('<div style="display: flex; align-items: center"><img width="70" height="70" style="padding: 5px; border-radius: 50%;object-fit: cover;" src="' + result.profile_photo + '"/>' + result.last_name + ' ' + result.first_name + ' (' + result.email + ')</div>');
     }
 
     function formatSelection(result) {
-        const res = `<div style="display: flex; align-items: center">
-                            ${result.last_name} ${result.first_name} (${result.email})
-            </div>`
-        return res;
+        return $('<div style="display: flex; align-items: center">' + (result.last_name || '') + ' ' + (result.first_name || '') + ' (' + (result.email || result.text) + ')</div>');
     }
 
-    console.log(2)
-    {% autoescape off %}
-
-    const raw_json_members = {{ members_json }}
-
-    const proceedmembers = $.map(raw_json_members, function (item) {
-        return {
-            id: item.id,
-            text: item.email,
-            email: item.email,
-            last_name: item.last_name,
-            first_name: item.first_name,
-            profile_photo: item.profile_photo,
-        };
-    })
-
-    {% endautoescape %}
-
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#id_category').select2();
         $('#id_customer').select2();
 
         $("#id_members").select2({
-            data: proceedmembers,
             ajax: {
                 url: "/expert/search-experts/",
                 dataType: 'json',
                 delay: 250,
-                tags: true,
                 data: function (params) {
                     return {
                         query: params.term,
@@ -284,18 +228,36 @@
                 },
                 cache: true
             },
-
-            escapeMarkup: function (markup) {
-                return markup;
-            },
             templateResult: formatResult,
             templateSelection: formatSelection,
             minimumInputLength: 3,
             width: '100%'
         });
 
+        var existingMembers = {{ members_json|safe }};
+        var $select = $('#id_members');
+        $.each(existingMembers, function(i, member) {
+            var option = new Option(
+                `${member.last_name} ${member.first_name} (${member.email})`,
+                member.id,
+                true,
+                true
+            );
+            $(option).data('email', member.email);
+            $(option).data('last_name', member.last_name);
+            $(option).data('first_name', member.first_name);
+            $(option).data('profile_photo', member.profile_photo);
+            $select.append(option);
+        });
+        $select.trigger('change');
+
+        var existingMembers = {{ members_json|safe }};
+        var $select = $('#id_members');
+        $.each(existingMembers, function(i, member) {
+            var option = new Option(member.email, member.id, true, true);
+            $select.append(option).trigger('change');
+        });
     });
 </script>
-
 
 {% endblock %}
