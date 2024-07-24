@@ -3,6 +3,7 @@ import itertools
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from pytils.translit import slugify
 
@@ -89,7 +90,7 @@ class ArticleAddView(CreateView, LoginRequiredMixin):
     form_class = ArticleForm
     context_object_name = 'article'
     template_name = 'posts/article/article_add.html'
-    success_url = 'article_list'
+    success_url = reverse_lazy('article_list')
 
     def get_template_names(self):
         # Custom method to choose template based on device type
