@@ -266,14 +266,16 @@
     min-height: 30px;
 }
 
-@media (max-width: 768px ) {
-
 .testing-class {
         display: flex;
         justify-content: flex-end !important;
         margin-top: 10px;
         gap:10px;
     }
+
+@media (max-width: 768px ) {
+
+
 
     .testing-class{
     display: flex;
