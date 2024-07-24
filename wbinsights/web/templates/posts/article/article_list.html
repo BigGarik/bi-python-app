@@ -125,14 +125,13 @@
         </div>
         {% endfor %}
 
-        {% if articles|length > 1 %}
+        {% if has_more_articles %}
         <div style="display:flex; justify-content:center">
             <button type="button" class="btn btn-secondary btn-more" onclick="alert('В разработке');">
                 Загрузить ещё
             </button>
         </div>
         {% else %}
-        <p>Нет дополнительных статей для отображения.</p>
         {% endif %}
     {% else %}
         <p>Нет статей для отображения.</p>

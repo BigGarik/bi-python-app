@@ -8,31 +8,28 @@
     flex-wrap: wrap;
 }
 
+    .justifyCenter {
+        justify-content: center;
+    }
+
 .profile-buttons-group1,
 .profile-buttons-group2 {
     display: flex;
+    gap: 5px;
 }
 
 @media (max-width: 767px) {
-    .prof-user-setting {
-        flex-direction: column;
-    }
-
-    .prof-settings-btn {
-        font-size: 14px !important;
-    }
-
-    .prof-logout-btn {
-        font-size: 14px !important;
-    }
 
     .mobile-logout-display{
         width: 100%
     }
 
+
+
     .prof-logout-btn {
         width: 100%;
         justify-content: center;
+
     }
 
     .profile-buttons-group1,
@@ -40,7 +37,18 @@
         flex-direction: row;
         justify-content: space-between;
         margin-top: 5px;
+        gap: 5px;
     }
+
+    .mobileCont{
+        flex-direction: column;
+    }
+    .mobileWidth {
+        width : 50%;
+        justify-content: center;
+    }
+
+
 }
 
 @media (min-width: 768px) {
@@ -51,30 +59,34 @@
     .profile-buttons-group1,
     .profile-buttons-group2 {
         flex-direction: row;
+
     }
 }
 
+
+
 </style>
 
-<div class="profile-buttons-group1">
-    <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
+<div class="mobileCont" style="width: 100%;display: flex;gap: 5px;">
+    <div class="profile-buttons-group1">
+        <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn mobileWidth" >{% trans 'EditProfileLabel' %} </a>
 
-    <form method="post" action="{% url 'password_change' %}">
-        {% csrf_token %}
-        <button type="button" class="btn prof-btn prof-settings-btn" data-bs-toggle="modal" data-bs-target="#passwordChangeModal" style="margin-left: 5px">
-            {% trans 'ChangePasswordLabel' %}
-        </button>
-    </form>
+        <form method="post" action="{% url 'password_change' %}" class="mobileWidth">
+            {% csrf_token %}
+            <button type="button" class="btn prof-btn prof-settings-btn justifyCenter" data-bs-toggle="modal" data-bs-target="#passwordChangeModal" style=" width: 100%">
+                {% trans 'ChangePasswordLabel' %}
+            </button>
+        </form>
+    </div>
+    <div class="profile-buttons-group2">
+        <form method="post" action="{% url 'logout' %}" class="mobile-logout-display">
+            {% csrf_token %}
+            <button class="btn prof-btn prof-logout-btn " type="submit" >
+                {% trans 'LogoutButtonLabel' %}
+            </button>
+        </form>
+    </div>
 </div>
-<div class="profile-buttons-group2">
-    <form method="post" action="{% url 'logout' %}" class="mobile-logout-display">
-        {% csrf_token %}
-        <button class="btn prof-btn prof-logout-btn" type="submit">
-            {% trans 'LogoutButtonLabel' %}
-        </button>
-    </form>
-</div>
-
 
 <div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
         <div class="modal-dialog">

@@ -8,6 +8,7 @@ from pytils.translit import slugify
 
 from web.forms.articles import ArticleForm
 from web.models import Article, Category
+from django.core.paginator import Paginator
 
 
 class ArticleListView(ListView):
