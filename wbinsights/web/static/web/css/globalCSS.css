@@ -45,6 +45,7 @@
     align-items: center;
     font-size: 13px;
     /* gap: 5px; */
+    cursor: pointer;
 }
 
 .list-comments a {
@@ -263,5 +264,21 @@
     display: flex;
     flex-wrap: wrap;
     min-height: 30px;
+}
+
+@media (max-width: 768px ) {
+
+.testing-class {
+        display: flex;
+        justify-content: flex-end !important;
+        margin-top: 10px;
+        gap:10px;
+    }
+
+    .testing-class{
+    display: flex;
+    justify-content: flex-end;
+}
+
 }
 

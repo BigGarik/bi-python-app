@@ -12,48 +12,6 @@
 
 {% block posts_content %}
 
-	
-
-	<style>
-
-		@media (max-width: 768px) {
-			.question-answer-last {
-				 flex-direction: column !important;
-				 gap:5px;
-			}
-
-			ask-question-btn {
-				display: flex;
-				text-wrap: nowrap !important;
-			}
-
-			.comments-andshare-cont {
-				justify-content: flex-end;
-				align-items:center;
-			}
-
-			.hours-ago {
-				margin: 0px 0px 5px 0px !important;
-			}
-
-			.author-name {
-				font-size:14px;
-			}
-
-			.list-comments{
-				font-size: 14px;
-			}
-
-			.research-search-cont {
-				width: 100% !important;
-				margin-right: 0px !important;
-			}
-
-			.article-content {
-				margin-top: 10px !important;
-			}
-		}
-    </style>
 
 	<div class="list-main-containers">
 
@@ -78,7 +36,7 @@
 			<div style="display:flex ; width: 100%;">
 				<input type="text" class="research-search-cont" placeholder="Поиск">    
 			</div>
-			<div style="margin-top: 10px; display:flex; justify-content:space-evenly;  height:30px" >
+			<div style="margin-top: 10px; display:flex; justify-content:space-between" >
 				<button type="button" class="btn ask-question-btn btn-sm" style="text-wrap: nowrap !important;" >Задать вопрос</button>
 				{% include "components/post_category_filter.html" %}
 			</div>

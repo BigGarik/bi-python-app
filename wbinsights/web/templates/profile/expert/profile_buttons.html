@@ -47,6 +47,9 @@
         width : 50%;
         justify-content: center;
     }
+    .maxHeight {
+        height: 100%;
+    }
 
 
 }
@@ -69,11 +72,11 @@
 
 <div class="mobileCont" style="width: 100%;display: flex;gap: 5px;">
     <div class="profile-buttons-group1">
-        <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn mobileWidth" >{% trans 'EditProfileLabel' %} </a>
+        <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn mobileWidth" style="height: 100%" >{% trans 'EditProfileLabel' %} </a>
 
         <form method="post" action="{% url 'password_change' %}" class="mobileWidth">
             {% csrf_token %}
-            <button type="button" class="btn prof-btn prof-settings-btn justifyCenter" data-bs-toggle="modal" data-bs-target="#passwordChangeModal" style=" width: 100%">
+            <button type="button" class="btn prof-btn prof-settings-btn justifyCenter" data-bs-toggle="modal" data-bs-target="#passwordChangeModal" style=" width: 100%; height: 100%">
                 {% trans 'ChangePasswordLabel' %}
             </button>
         </form>
@@ -81,7 +84,7 @@
     <div class="profile-buttons-group2">
         <form method="post" action="{% url 'logout' %}" class="mobile-logout-display">
             {% csrf_token %}
-            <button class="btn prof-btn prof-logout-btn " type="submit" >
+            <button class="btn prof-btn prof-logout-btn " type="submit" style="height: 100%">
                 {% trans 'LogoutButtonLabel' %}
             </button>
         </form>

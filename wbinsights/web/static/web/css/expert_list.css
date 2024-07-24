@@ -99,6 +99,7 @@
     margin-left: 10px;
     font-weight: 600;
     color :black ;
+    white-space: nowrap;
 }
 
 .article-last{
@@ -119,10 +120,7 @@
 /* ------------------------------------------------- Mobile Screens CSS -------------------------------------------------------- */
 
 
-.testing-class{
-    display: flex;
-    justify-content: flex-end;
-}
+
 
 @media (max-width: 768px ) {
 
@@ -153,12 +151,6 @@
     }
 
 
-    .testing-class {
-        display: flex;
-        justify-content: flex-end !important;
-        margin-top: 10px;
-        gap:10px;
-    }
 
     .catagory-cont {
         width: auto !important;
@@ -175,9 +167,6 @@
         flex-direction: column !important;
     }
 
-    .expert-list {
-        padding: 20px 10px 20px 10px !important;
-    }
 }
 
 @media (min-width: 769px ) {
