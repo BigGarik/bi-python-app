@@ -10,7 +10,7 @@
 
 {% block center_col %}
 
-    
+
 
     <div class="list-main-containers" style="padding:20px; margin-top:0px;">
 
@@ -21,22 +21,22 @@
 
         {% include 'components/experts/profile_info.html' with user=expert profile=expert.expertprofile buttons_template='posts/expert/profile_buttons.html' %}
 
-        {% include 'profile/profile_content_items.html' with user=expert projects_count=projects_count  %}
+        {% include 'profile/profile_content_items.html' with user=expert projects_count=projects_count %}
 
     </div>
 
 
-<script>
+    <script>
 
-    document.addEventListener("DOMContentLoaded" , function() {
+        document.addEventListener("DOMContentLoaded", function () {
 
-        var consultationMenuItem = document.querySelector('.profile-menu-item[data-content ="consultations"]');
-        if (consultationMenuItem) {
-            consultationMenuItem.remove();
-        }
+            var consultationMenuItem = document.querySelector('.profile-menu-item[data-content ="consultations"]');
+            if (consultationMenuItem) {
+                consultationMenuItem.remove();
+            }
 
-    });
+        });
 
-</script>
+    </script>
 
 {% endblock %}

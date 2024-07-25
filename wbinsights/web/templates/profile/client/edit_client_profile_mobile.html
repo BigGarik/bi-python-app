@@ -1,0 +1,151 @@
+{% extends 'base123.html' %}
+{% load static %}
+
+{% block extra_static %}
+<link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+{% endblock %}
+
+{% block center_col %}
+<style>
+
+    input[name="form-0-specialized_education"].custom-form-css {
+        width: auto !important;
+        margin-left: 5px;
+    }
+
+    .profile-category-choose {
+
+    }
+
+    @media (max-width: 768px) {
+        .smaller-letters {
+            font-size: 12px !important;
+        }
+        .prof-edit-input-labels, .prof-edit-input-title1, .prof-edit-photo-cont {
+            width: 100% !important;
+            text-align: start   ;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .prof-edit-info-cont {
+            width: 100% !important;
+            text-align: center;
+        }
+        .prof-edit-duel-rows {
+            display: block;
+                margin: 10px 0 10px 0;
+        }
+
+        .prof-edit-input-title {
+            width: 100%;
+
+        }
+
+    }
+</style>
+
+<div class="list-main-containers" style="padding:20px; margin-top:0px;">
+    <div class="edit-prof-info-cont">
+        <a href="{% url 'profile' %}" class="global-back-btn">
+            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;"></i> Назад
+        </a>
+        <div>
+            <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
+        </div>
+
+        {{ user_form.errors }}
+        {{ profile_form.errors }}
+        {{ expert_profile_form.errors }}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="prof-edit-rows">
+                <div class="prof-edit-duel-rows">
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ user_form.first_name.id_for_label }}"
+                               class="prof-edit-input-labels" >{{ user_form.first_name.label }}</label>
+                        {{ user_form.first_name }}
+                    </div>
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ user_form.last_name.id_for_label }}"
+                               class="prof-edit-input-labels"> {{ user_form.last_name.label }}</label>
+                        {{ user_form.last_name }}
+                    </div>
+                </div>
+
+                <div class="full-width">
+                    <label for="{{ expert_profile_form.about.id_for_label }}"
+                           class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
+                    {{ expert_profile_form.about }}
+                </div>
+            </div>
+            <style>
+                label[for="id_avatar"] {
+                    display: none;
+                }
+            </style>
+            <div class="expert-edit-rows">
+                <div class="prof-edit-photo-cont">
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                         style="border-radius: 50%; max-height: 100px; max-width: 100px; min-width: 100px; min-height: 100px; object-fit: cover;">
+                    <div style="display:flex; margin-left: 10px; flex-direction:column">
+                        {% if profile_form.instance.avatar %}
+                            <p style="color:white; user-select: none; margin: 0; font-size:8px">На данный момент: <a
+                                    href="{{ profile_form.instance.avatar.url }}"
+                                    style="color: white;font-size:8px">{{ profile_form.instance.avatar.name }}</a></p>
+                        {% endif %}
+                        <label for="id_avatar">Изменить:</label>
+                        <input type="file" name="avatar" class="smaller-letters" accept="image/*" id="id_avatar">
+                    </div>
+                </div>
+
+            <!-- Добавляем формсет для образования -->
+
+            <script>
+                // Скрипт для добавления новой формы образования
+                $('.add-education-btn').click(function () {
+                    // Клонируем последнюю форму в формсете
+                    const newForm = $('.education-form:last').clone();
+                    // Очищаем значения в клонированной форме
+                    newForm.find('input').val('');
+                    newForm.find('select').val('');
+                    // Изменяем индекс в именах и id полей
+                    const formRegex = RegExp('form-(\\d+)-', 'g');
+                    const formNum = parseInt($('#id_form-TOTAL_FORMS').val());
+                    newForm.html(newForm.html().replace(formRegex, 'form-' + formNum + '-'));
+                    // Увеличиваем общее количество форм в управляющей форме
+                    $('#id_form-TOTAL_FORMS').val(formNum + 1);
+                    // Добавляем новую форму в DOM
+                    newForm.insertBefore($(this));
+                });
+            </script>
+            <hr/>
+            <div class="prof-edit-bot-btns-cont">
+                <button type="submit" class="btn btn-secondary prof-edit-save-btn">Сохранить изменения</button>
+                <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"
+                        data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+                    Удалить профиль
+                </button>
+            </div>
+        </form>
+        <div class="modal fade" tabindex="-1" role="dialog" id="deleteProfileModal">
+            <div class="modal-dialog" role="document">
+                <form method="post">
+                    <div class="modal-content" style="width:400px !important">
+                        <div class="modal-header" style="border-bottom: none;">
+                            <h4 class="modal-title">Вы действительно хотите удалить профиль?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>После удаления вы не сможете восстановить данные</p>
+                        </div>
+                        <div class="modal-footer" style="border-top: none;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

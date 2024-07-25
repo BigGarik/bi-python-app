@@ -241,27 +241,27 @@ def update_user_timezone(request):
 def edit_user_profile(request):
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
 
-    profile_edit_template = 'profile/client/edit_profile.html'
-
-    if is_expert:
-        profile_edit_template = 'profile/expert/edit_profile.html'
+    user_agent = request.META.get('HTTP_USER_AGENT', '')
+    if 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent:
+        if is_expert:
+            profile_edit_template = 'profile/expert/edit_expert_profile_mobile.html'
+        else:
+            profile_edit_template = 'profile/client/edit_client_profile_mobile.html'
+    else:
+        if is_expert:
+            profile_edit_template = 'profile/expert/edit_profile.html'
+        else:
+            profile_edit_template = 'profile/client/edit_profile.html'
 
     if request.method == 'GET':
-
         user_form = CustomUserChangeForm(instance=request.user)
         profile_form = ProfileChangeForm(instance=request.user.profile)
-       # user_change_password_form = UserProfilePasswordChangeForm(user=request.user)
 
         if is_expert:
-            """ Анкета """
-
-            # user_form = CustomUserChangeForm(instance=request.user)
             expert_profile_form = ExpertAnketaChangeForm(instance=request.user.expertanketa)
-
             user_education = request.user.expertanketa.education
             if user_education.exists():
-                education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, exclude=[],
-                                                                        extra=0)
+                education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
                 education_expert_formset = education_expert_formset_factory(queryset=user_education.all())
             else:
                 education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, extra=1)
@@ -281,29 +281,16 @@ def edit_user_profile(request):
         return render(request, profile_edit_template, context=context)
 
     if request.method == 'POST':
-
         if is_expert:
-
-            # Эксперт может сохранить свои данные только в виде анкеты
-            # В профиль эти данные сохранит менеджер при аппруве анкеты
-
             user_form = CustomUserChangeForm(request.POST, instance=request.user)
             expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
             educationFormSet = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
-            education_expert_anketa_formset = educationFormSet(request.POST,
-                                                                 queryset=request.user.expertanketa.education.all())
+            education_expert_anketa_formset = educationFormSet(request.POST, queryset=request.user.expertanketa.education.all())
 
             if user_form.is_valid() and expert_anketa_form.is_valid() and education_expert_anketa_formset.is_valid():
-
                 user_form.save()
-
-                #Здесь мы не можем сделать save(commit=False) потому что сущности еще может не быть и мы
-                #по сути можем сделать ссылку на несуществующую сущность, поэтому django не сохраняет manyTomany
-                #методом save(commit=False)
-                updated_expert_anketa: ExpertAnketa = expert_anketa_form.save()
-
+                updated_expert_anketa = expert_anketa_form.save()
                 for form in education_expert_anketa_formset.forms:
-                    #EducationForm
                     education = form.save()
                     education.expert = request.user
                     education.save()
@@ -312,37 +299,30 @@ def edit_user_profile(request):
                 updated_expert_anketa.is_verified = ExpertAnketa.AnketaVerifiedStatus.NOT_VERIFIED
                 updated_expert_anketa.save()
 
-
-                #Отправляем письмо модераторам, о необходимости проверки анкеты
                 moderators = CustomUser.objects.filter(is_staff=True)
                 recipient_list = [moderator.email for moderator in moderators if moderator.email]
-                manage_unverified_experts_profile = request.build_absolute_uri(
-                    reverse("manage_unverified_experts_profile",
-                            kwargs={"pk": updated_expert_anketa.id }))
+                manage_unverified_experts_profile = request.build_absolute_uri(reverse("manage_unverified_experts_profile", kwargs={"pk": updated_expert_anketa.id}))
                 manage_unverified_experts_list = request.build_absolute_uri(reverse("manage_unverified_experts_list"))
 
-                html_content = render_to_string('emails/verification_email.html',
-                                                {'manage_unverified_experts_profile': manage_unverified_experts_profile,
-                                                 'manage_unverified_experts_list': manage_unverified_experts_list})
+                html_content = render_to_string('emails/verification_email.html', {
+                    'manage_unverified_experts_profile': manage_unverified_experts_profile,
+                    'manage_unverified_experts_list': manage_unverified_experts_list
+                })
                 text_content = strip_tags(html_content)
 
-                # Создаем объект EmailMultiAlternatives
                 email = EmailMultiAlternatives(
                     'Новая анкета эксперта на проверку',
                     text_content,
                     SERVER_EMAIL,
                     recipient_list
                 )
-                # Добавляем HTML версию
                 email.attach_alternative(html_content, "text/html")
                 email.send()
-                ############################
 
                 messages.success(request, _('Your profile has successfully been sent for verification'))
-                redirect('profile')
+                return redirect('profile')
 
             else:
-
                 context = {
                     "user_form": user_form,
                     "profile_form": expert_anketa_form,
@@ -351,10 +331,7 @@ def edit_user_profile(request):
                 }
                 return render(request, profile_edit_template, context=context)
 
-
         else:
-
-            # Клиент может сохранить свои данные сразу в профиль
             user_form = CustomUserChangeForm(request.POST, instance=request.user)
             profile_form = ProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
 
@@ -362,7 +339,7 @@ def edit_user_profile(request):
                 user_form.save()
                 profile_form.save()
                 messages.success(request, _('Your profile is updated successfully'))
-                redirect('profile')
+                return redirect('profile')
             else:
                 context = {
                     'user_form': user_form,
@@ -370,4 +347,4 @@ def edit_user_profile(request):
                 }
                 return render(request, profile_edit_template, context=context)
 
-        return redirect('profile')
+    return redirect('profile')
