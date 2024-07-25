@@ -30,6 +30,11 @@
     {% block extra_static %} {% endblock %}
 
     <style>
+        @media (max-width: 768px) {
+            body:not(.justwidget-iframe--content) #widget-root {
+                height: 0!important;
+            }
+        }
 
         body {
             height: 100%;
