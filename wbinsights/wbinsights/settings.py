@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'django_mobile',
 
     # 'debug_toolbar',  # Закомментировать перед пушем
-
+    'hitcount',
     'zoomus',
 
 ]

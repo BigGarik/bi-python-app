@@ -1,5 +1,6 @@
 import logging
 
+from hitcount.models import HitCount
 from rest_framework import serializers
 from web.models import CustomUser, Profile
 from .models import UserProject, Category, UserProjectCustomer
@@ -60,7 +61,12 @@ class UserProjectSerializer(DynamicFieldsModelSerializer):
     members = CustomUserSerializer(many=True, read_only=True)
     category = CategorySerializer(many=True, read_only=True)
     customer = UserProjectCustomerSerializer()
+    hit_count = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProject
-        fields = ('name', 'author', 'members', 'category', 'key_results', 'customer', 'year', 'goals', 'slug', 'files')
+        fields = '__all__'
+
+    def get_hit_count(self, obj):
+        hit_count = HitCount.objects.get_for_object(obj)
+        return hit_count.hits if hit_count else 0
