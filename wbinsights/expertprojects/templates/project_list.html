@@ -2,6 +2,8 @@
 {% load i18n %}
 {% load web_tags %}
 {% load vote %}
+{% load custom_filters %}
+{% load hitcount_tags %}
 
 <style>
     .card-css {
@@ -133,7 +135,8 @@
                 </h6>
                 <div class="project-icon-main-cont">
                     <div class="project-icon-cont">
-                        <i class="bi bi-eye" style="font-size: 20px" onclick="alert('in progress')"></i> 46
+                            <i class="bi bi-eye" style="font-size: 20px" onclick="alert('in progress')"></i>
+                                 <span class="view-count">{% get_hit_count for project %}</span>
                     </div>
                     <div class="project-icon-cont">
                         <button class="like-btn {% vote_exists project user as vote_status %}{% if vote_status %}liked{% endif %}" data-model="expertprojects.UserProject" data-id="{{ project.id }}">
@@ -450,12 +453,16 @@
         const projectDetails = document.getElementById(`details-desktop-${projectId}`).innerHTML;
         document.getElementById('projectDetailsModalBodyDesktop').innerHTML = projectDetails;
         $('#projectDetailsModalDesktop').modal('show');
+
+        updateHitCount(projectId);
     }
 
     function showProjectDetailsMobile(projectId) {
         const projectDetails = document.getElementById(`details-mobile-${projectId}`).innerHTML;
         document.getElementById('projectDetailsModalBodyMobile').innerHTML = projectDetails;
         $('#projectDetailsModalMobile').modal('show');
+
+        updateHitCount(projectId);
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -493,6 +500,30 @@
             });
         });
     });
+
+    function updateHitCount(projectId) {
+    // Отправляем AJAX-запрос для обновления счетчика просмотров
+    fetch(`/expert/projects/${projectId}/hit/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')  // Вам нужно реализовать функцию getCookie
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Обновляем отображение счетчика просмотров, если нужно
+        let hitCountElement = document.querySelector(`#details-desktop-${projectId} .view-count`);
+        if (hitCountElement) {
+            hitCountElement.textContent = data.hit_count;
+        }
+        hitCountElement = document.querySelector(`#details-mobile-${projectId} .view-count`);
+        if (hitCountElement) {
+            hitCountElement.textContent = data.hit_count;
+        }
+    })
+        .catch(error => console.error('Ошибка:', error));
+    }
 
     function getCookie(name) {
         let cookieValue = null;

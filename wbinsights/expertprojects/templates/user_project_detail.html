@@ -2,6 +2,7 @@
 
 
 {% load web_tags %}
+{% load hitcount_tags %}
 
 {% block center_col %}
 <h1>{{ userproject.name }}</h1>
@@ -9,13 +10,26 @@
   <p><strong>Заказчик:</strong> {{ userproject.company }}</p>
   <p><strong>Год:</strong> {{ userproject.year }}</p>
   <p><strong>Цели:</strong> {{ userproject.goals }}</p>
+<div class="project-views">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+    </svg>
+    <span>Views: {{ hit_count }}</span>
+</div>
+
+<!-- Debug information -->
+<div style="background-color: #f0f0f0; padding: 10px; margin-top: 20px;">
+    <h3>Debug Information:</h3>
+    <p>hit_count value: {{ hit_count }}</p>
+    <p>All context variables: {{ view.get_context_data }}</p>
+</div>
   <p><strong>Ключевые результаты:</strong></p>
   <ul>
     {% for result in userproject.key_results %}
       <li>{{ result }}</li>
     {% endfor %}
   </ul>
-
   <h2>Участники проекта</h2>
   <ul>
     {% for member in userproject.members.all %}

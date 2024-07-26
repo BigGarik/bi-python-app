@@ -1,8 +1,12 @@
 import os
 import itertools
 import logging
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.serializers import json
@@ -10,10 +14,14 @@ from django.db import transaction
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.urls import reverse_lazy, reverse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, ListView
+from hitcount.models import HitCount
+from hitcount.utils import get_hitcount_model
+from hitcount.views import HitCountMixin, HitCountDetailView
 from pytils.translit import slugify
-from django.db.models import Q
+from django.db.models import Q, Count
 from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
@@ -27,12 +35,28 @@ from .models import UserProject, UserProjectFile
 from .serializers import UserProjectSerializer, CustomUserSerializer
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django-info")
 
 
-class UserProjectDetailView(DetailView):
+class UserProjectDetailView(HitCountDetailView):
     model = UserProject
     template_name = 'user_project_detail.html'
+    count_hit = True  # Включаем подсчет просмотров
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        hit_count = get_object_or_404(HitCount, object_pk=self.object.pk, content_type__model='userproject')
+        context['hit_count'] = hit_count.hits
+        return context
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        hit_count = get_object_or_404(HitCount, object_pk=self.object.pk, content_type__model='userproject')
+        hit_count_response = self.hit_count(request, hit_count)
+        if hit_count_response.hit_counted:
+            hit_count.hits += 1
+            hit_count.save()
+        return response
 
 
 class UserProjectCreateView(LoginRequiredMixin, CreateView):
@@ -206,7 +230,7 @@ class StandardResultsSetPagination(PageNumberPagination):
         return request.query_params.get('page_size', self.page_size)
 
 
-class GetProjectsAPIView(ListAPIView):
+class GetProjectsAPIView(ListAPIView, HitCountMixin):
     serializer_class = UserProjectSerializer
     permission_classes = [IsAuthenticated]  # Требуется аутентификация
     pagination_class = StandardResultsSetPagination
@@ -227,7 +251,13 @@ class GetProjectsAPIView(ListAPIView):
                 query &= Q(**{param: value})
 
         # Фильтруем проекты с использованием созданного запроса
-        return UserProject.objects.filter(query)
+        queryset = UserProject.objects.filter(query)
+
+        for project in queryset:
+            hit_count = HitCount.objects.get_for_object(project)
+            hit_count_response = self.hit_count(request=self.request, hit_count_model=hit_count)
+            project.hit_count = hit_count_response.hits
+        return queryset
 
     def get_serializer(self, *args, **kwargs):
         # Получаем список полей, если он передан в параметрах запроса
@@ -238,6 +268,30 @@ class GetProjectsAPIView(ListAPIView):
         if fields is not None:
             kwargs['fields'] = fields
         return self.serializer_class(*args, **kwargs)
+
+
+@require_POST
+@csrf_exempt
+def update_hit_count(request, project_id):
+    try:
+        project = UserProject.objects.get(id=project_id)
+        content_type = ContentType.objects.get_for_model(UserProject)
+        hit_count, created = HitCount.objects.get_or_create(
+            content_type=content_type,
+            object_pk=str(project.pk)
+        )
+        hit_count_response = HitCountMixin.hit_count(request, hit_count)
+        hit_counted = hit_count_response.hit_counted
+        hit_count.refresh_from_db()
+        hit_count_value = hit_count.hits
+
+        return JsonResponse({
+            'success': hit_counted,
+            'hit_count': hit_count_value
+        })
+    except Exception as e:
+        logger.exception(f"Unexpected error in update_hit_count: {str(e)}")
+        return JsonResponse({'error': 'Internal server error'}, status=500)
 
 
 class GetProjectsView(LoginRequiredMixin, ListView):
@@ -281,17 +335,18 @@ class GetProjectsView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        projects = context['projects']
 
-        # Пагинация
-        page = self.request.GET.get('page', 1)
-        paginator = Paginator(self.get_queryset(), self.get_paginate_by(self.get_queryset()))
+        # Получаем информацию о просмотрах для каждого проекта
+        hit_counts = {}
+        for project in projects:
+            hit_count = HitCount.objects.get_for_object(project)
+            hit_counts[project.id] = hit_count.hits
 
-        try:
-            projects = paginator.page(page)
-        except PageNotAnInteger:
-            projects = paginator.page(1)
-        except EmptyPage:
-            projects = paginator.page(paginator.num_pages)
+        context['hit_counts'] = hit_counts
 
-        context['projects'] = projects
+        # Debug information
+        messages.info(self.request, f"Debug: hit_counts = {hit_counts}")
+        print(f"Debug: hit_counts = {hit_counts}")
+
         return context

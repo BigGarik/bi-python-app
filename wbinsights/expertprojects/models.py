@@ -1,10 +1,12 @@
 import logging
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.urls import reverse
+from hitcount.models import HitCountMixin, HitCount
 from vote.models import VoteModel
 
 from web.models import Category
@@ -12,7 +14,7 @@ from web.models import Category
 logger = logging.getLogger(__name__)
 
 
-class UserProject(VoteModel, models.Model):
+class UserProject(VoteModel, models.Model, HitCountMixin):
     author = models.ForeignKey('web.CustomUser', on_delete=models.CASCADE, related_name="userproject",
                                verbose_name="Автор")
     members = models.ManyToManyField('web.CustomUser', related_name='userprojects', verbose_name="Участники")
@@ -28,6 +30,8 @@ class UserProject(VoteModel, models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
+    hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
+                                        related_query_name='hit_count_generic_relation')
 
     # objects = models.Manager()
 
