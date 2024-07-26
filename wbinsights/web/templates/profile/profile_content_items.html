@@ -43,6 +43,11 @@
         font-size: 14px;
     }
 
+    .mobile-prof-cont {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
 </style>
 
@@ -97,7 +102,6 @@
         </a>
     </li>
 
-
     {% if request.path == '/profile' %}
     <li class="nav-item">
         <a href="?tab=ratings" class="profile-menu-item nav-link {% if request.GET.tab == 'ratings' %}active{% endif %}">
@@ -105,85 +109,73 @@
         </a>
     </li>
     {% endif %}
-
 </ul>
-
 
 <!-- Mobile version -->
-
-<!-- background color #0d79ae -->
-<div style="overflow-x: auto; margin-bottom:  11px;">
-<ul class="nav nav-pills d-lg-none nav-pills-scrollable" style="display: flex; flex-direction: row; flex-flow: nowrap; gap: 3px">
-    <li class="nav-item">
-        <a href="?tab=articles" class="nav-item-mobile profile-menu-item nav-link  {% if request.GET.tab == 'articles' or not request.GET.tab %}active{% endif %}"   >
-            <div style="display: flex; align-items: center;">
-                <span style="font-size:  11px">{% trans 'ArticlesTabLabel' %}&nbsp;</span>
-                <span class="expert-profile-title-content-number" style="font-size:  11px">{{ experts_articles_count }}</span>
-            </div>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a href="?tab=researches" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'researches' or not request.GET.tab %}active{% endif %}"   >
-            <div style="display: flex; align-items: center;">
-                <span style="font-size:  11px">Исследования&nbsp;</span>
-                <span class="expert-profile-title-content-number" style="font-size:  11px">0</span>
-            </div>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a href="?tab=questions" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'questions' or not request.GET.tab %}active{% endif %}"   >
-            <div style="display: flex; align-items: center;">
-                <span style="font-size:  11px">Вопросы&nbsp;</span>
-                <span class="expert-profile-title-content-number" style="font-size:  11px">0</span>
-            </div>
-        </a>
-    </li>
-
-    {% if request.path == '/profile' %}
-    <li class="nav-item">
-        <a href="?tab=consultations" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'consultations' or not request.GET.tab %}active{% endif %}"   >
-            <div style="display: flex; align-items: center;">
-                <span style="font-size:  11px">Консультации&nbsp;</span>
-                <span class="expert-profile-title-content-number" style="font-size:  11px">{{ users_appointment_cnt }}</span>
-            </div>
-        </a>
-    </li>
-    {% endif %}
-
-    <li class="nav-item">
-        <a href="?tab=reviews" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'reviews' or not request.GET.tab %}active{% endif %}"   >
-            <div style="display: flex; align-items: center;">
-                <span style="font-size:  11px">Отзывы&nbsp;</span>
-                <span class="expert-profile-title-content-number" style="font-size:  11px">0</span>
-            </div>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a href="?tab=projects" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'projects' or not request.GET.tab %}active{% endif %}"   >
-            <div style="display: flex; align-items: center;">
-                <span style="font-size:  11px">Проекты&nbsp;</span>
-                <span class="expert-profile-title-content-number" style="font-size:  11px">{{ projects_count }}</span>
-            </div>
-        </a>
-    </li>
-
-    {% if request.path == '/profile' %}
-    <li class="nav-item">
-        <a href="?tab=ratings" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'ratings' or not request.GET.tab %}active{% endif %}"   >
-            <div style="display: flex; align-items: center;">
-                <span style="font-size:  11px">{% trans 'RatingsTabLabel' %}</span>
-            </div>
-        </a>
-    </li>
-
-
-    {% endif %}
-</ul>
-
+<div style="overflow-x: auto; margin-bottom: 11px;">
+    <ul class="nav nav-pills d-lg-none nav-pills-scrollable" style="display: flex; flex-direction: row; flex-flow: nowrap; gap: 3px">
+        <li class="nav-item">
+            <a href="?tab=articles" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'articles' or not request.GET.tab %}active{% endif %}">
+                <div class="mobile-prof-cont">
+                    <span class="item-title">{% trans 'ArticlesTabLabel' %}&nbsp;</span>
+                    <span class="expert-profile-title-content-number" style="font-size: 16px">{{ experts_articles_count }}</span>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="?tab=researches" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'researches' %}active{% endif %}">
+                <div class="mobile-prof-cont">
+                    <span class="item-title">{% trans 'ResearchesTabLabel' %}&nbsp;</span>
+                    <span class="expert-profile-title-content-number" style="font-size: 16px">0</span>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="?tab=questions" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'questions' %}active{% endif %}">
+                <div class="mobile-prof-cont">
+                    <span class="item-title">{% trans 'QuestionsTabLabel' %}&nbsp;</span>
+                    <span class="expert-profile-title-content-number" style="font-size: 16px">0</span>
+                </div>
+            </a>
+        </li>
+        {% if request.path == '/profile' %}
+        <li class="nav-item">
+            <a href="?tab=consultations" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'consultations' %}active{% endif %}">
+                <div class="mobile-prof-cont">
+                    <span class="item-title">{% trans 'ConsultationsTabLabel' %}&nbsp;</span>
+                    <span class="expert-profile-title-content-number" style="font-size: 16px">{{ users_appointment_cnt }}</span>
+                </div>
+            </a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+            <a href="?tab=reviews" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'reviews' %}active{% endif %}">
+                <div class="mobile-prof-cont">
+                    <span class="item-title">{% trans 'ReviewsTabLabel' %}&nbsp;</span>
+                    <span class="expert-profile-title-content-number" style="font-size: 16px">0</span>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="?tab=projects" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'projects' %}active{% endif %}">
+                <div class="mobile-prof-cont">
+                    <span class="item-title">{% trans 'ProjectsTabLabel' %}&nbsp;</span>
+                    <span class="expert-profile-title-content-number" style="font-size: 16px">{{ projects_count }}</span>
+                </div>
+            </a>
+        </li>
+        {% if request.path == '/profile' %}
+        <li class="nav-item">
+            <a href="?tab=ratings" class="nav-item-mobile profile-menu-item nav-link {% if request.GET.tab == 'ratings' %}active{% endif %}">
+                <div class="mobile-prof-cont">
+                    <span class="item-title">{% trans 'RatingsTabLabel' %}</span>
+                </div>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
 </div>
+
 
 <div id="content-container">
     {% if request.GET.tab == "articles" or not request.GET.tab %}
@@ -204,4 +196,5 @@
         {% include 'profile/expert/rating_list.html' %}
     {% endif %}
 </div>
+
 

@@ -18,9 +18,7 @@
             text-align: center;
         }
         
-        #timezone-select {
-            margin-right: 10px;
-        }
+
 
     </style>
 
@@ -119,21 +117,29 @@
                 timezoneOptions += `<option value="${tz}">${tz}</option>`;
             }
 
-            // Добавляем выпадающий список с часовыми поясами и кнопку для настройки расписания
-            $('#consultations').prepend(`
-                <div id="expert-schedule" style="margin: 0px 10px 20px 0px; display: flex; align-items: center;">
-                    <select id="timezone-select" class="form-select form-select-sm" style="width: auto;">
+            const expertScheduleHTML = `
+                <div id="expert-schedule-mobile" class="d-flex d-lg-none flex-column align-items-center gap-2 mb-3">
+                    <select id="timezone-select" class="form-select form-select-sm w-100">
+                        ${timezoneOptions}
+                    </select>
+                    <a class="btn btn-primary btn-sm w-100" onclick="showExpertScheduleForm()">Настроить расписание</a>
+                </div>
+                <div id="expert-schedule-desktop" class="d-none d-lg-flex align-items-center gap-2 mb-3">
+                    <select id="timezone-select-desktop" class="form-select form-select-sm" style="width: auto" >
                         ${timezoneOptions}
                     </select>
                     <a class="btn btn-primary btn-sm" onclick="showExpertScheduleForm()">Настроить расписание</a>
                 </div>
-            `);
+            `;
+
+            $('#consultations').prepend(expertScheduleHTML);
 
             // Установить текущий часовой пояс пользователя
             $('#timezone-select').val('{{ request.user.profile.timezone }}');
+            $('#timezone-select-desktop').val('{{ request.user.profile.timezone }}');
 
             // Обработчик изменения часового пояса
-            $('#timezone-select').change(function() {
+            $('#timezone-select, #timezone-select-desktop').change(function() {
                 const newTimezone = $(this).val();
                 $.ajax({
                     url: '{% url "update_user_timezone" %}',  // Предполагаемый URL для обновления часового пояса
