@@ -896,15 +896,15 @@ msgid "Documents"
 msgstr "Документы"
 
 #: .\web\services\expert_rating_calculation.py:75
-msgid "Текст с условиями расчета основного образования"
+msgid "Расчет основного образования"
 msgstr "Основное образование"
 
 #: .\web\services\expert_rating_calculation.py:93
-msgid "Текст с условиями расчета дополнительного образования"
+msgid "Расчет дополнительного образования"
 msgstr "Дополнительное образование"
 
 #: .\web\services\expert_rating_calculation.py:112
-msgid "Текст с условиями расчета опыта консультаций"
+msgid "Расчет опыта консультаций"
 msgstr "Опыт консультаций"
 
 #: .\web\services\expert_rating_calculation.py:134
