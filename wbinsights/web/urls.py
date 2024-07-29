@@ -14,7 +14,7 @@ from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView,
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.rating import RatingListView
-from .views.researches import ResearchesListView, ResearchesDetailView
+from .views.researches import ResearchesListView, ResearchesDetailView, DeviceDetectionView
 from django.contrib.auth import views as auth_views
 from .views.profile import profile_view, edit_user_profile, update_user_timezone
 from .views.error_404 import wb400handler
@@ -24,7 +24,7 @@ from .views.vote import upvote, downvote, universal_vote
 handler404 = wb400handler
 
 urlpatterns = [
-    path("", ResearchesListView.as_view(), name="index"),
+    path("", DeviceDetectionView.as_view(), name="index"),
 
     path('upvote/<int:pk>/', upvote, name='upvote'),
     path('downvote/<int:pk>/', downvote, name='downvote'),

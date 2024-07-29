@@ -57,7 +57,7 @@
 
     <div class="list-main-containers" style="margin-top: 0px">
 
-       
+
         <div class="article-text-top">
             <span class="article-news">Новости</span>
             <span class="news-open-close" role="button" onclick="toggleCollapse()" aria-expanded="true">
@@ -72,7 +72,7 @@
 
                 <div class="col-md-3" style="max-height: 250px;">
                     <img src="{% static 'web/images/unsplashimg.png' %}" alt="image" class="img-fluid" style="max-height: inherit;">
-                    
+
                 </div>
 
                 <div class="col-md-9">
@@ -95,11 +95,11 @@
         </div>
 
     </div>
-    
+
     {% split request.path "/" 'first' as url_first_part %}
     <div class="post-menu">
-        <a href="{% url 'research_list' %}" class="post-menu-item {% if url_first_part  == 'researches' or  request.path == '/' %} selected {% endif %}">Исследования</a>
-        <a href="{% url 'experts_list' %}" class="post-menu-item {% if url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
+        <a href="{% url 'research_list' %}" class="post-menu-item {% if not is_mobile and url_first_part == 'researches' or not is_mobile and url_first_part == '' %} selected {% endif %}">Исследования</a>
+        <a href="{% url 'experts_list' %}" class="post-menu-item {% if is_mobile and url_first_part == '' or url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
         <a href="{% url 'article_list' %}" class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">Статьи</a>
         <a href="{% url 'question_answer_list' %}" class="post-menu-item {% if url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
     </div>
