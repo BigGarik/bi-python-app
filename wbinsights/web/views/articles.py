@@ -2,8 +2,10 @@ import itertools
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from pytils.translit import slugify
 
@@ -16,20 +18,31 @@ class ArticleListView(ListView):
     model = Article
     template_name = 'posts/article/article_list.html'
     context_object_name = 'articles'
+    paginate_by = 10  # Show 10 articles per page
 
     def get_queryset(self):
+        queryset = Article.objects.all().order_by('-time_update')
         query = self.request.GET.get('search_q')
         if query:
-            return Article.objects.filter(Q(content__icontains=query) | Q(title__icontains=query))
-        return Article.objects.all()
+            queryset = queryset.filter(Q(content__icontains=query) | Q(title__icontains=query))
+        return queryset
 
-    # Добавляем параметры в контекст
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['selected_category'] = ''
         context['search_q'] = self.request.GET.get('search_q', '')
+        context['has_more_articles'] = context['page_obj'].has_next()
         return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            html = render_to_string('posts/article/article_list_content.html', {'articles': context['articles']})
+            return JsonResponse({
+                'html': html,
+                'has_more': context['has_more_articles']
+            })
+        return super().render_to_response(context, **response_kwargs)
 
 
 # Класс-представление для фильтрации статей по категории

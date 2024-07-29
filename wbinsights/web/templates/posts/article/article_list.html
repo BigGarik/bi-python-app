@@ -7,13 +7,13 @@
 
 {% load web_tags %}
 {% load static %}
-{% load comments %}
-{% load comments_xtd %}
+
 
 {% block posts_content %}
 
 <link href="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.iife.js" defer init></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
     .author-pic {
@@ -49,108 +49,67 @@
 
 <div class="list-main-containers">
 
-    <div class="search-and-cat-cont columnArticle" >
-        <div class="col-sm-12 col-md-6 ">
+    <div class="search-and-cat-cont columnArticle">
+        <div class="col-sm-12 col-md-6">
             <input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск" value="{{ search_q }}">
         </div>
 
         <div class="col-sm-12 col-md-6 testing-class">
             {% include "components/post_category_filter.html" %}
-        </div >
+        </div>
 
     </div>
 
-    {% if articles %}
-        {% for article in articles %}
-        <div class="article-list-content">
-            <div class="list-publish-date">
-                <i class="bi bi-calendar2-week" style="color:#a5b1c8; scale:1.3"></i>
-                &nbsp; {{ article.time_update|custom_time_display }}
-            </div>
-            <div class="article-list-title">{{ article.title }}</div>
-            <div class="article-list-main-content">
-                {% autoescape off %}
-                <div class="artile-list-description">
-                    {{ article.description }}
-                </div>
-                <div class="artile-list-description">
-                    {% if article.main_img %}
-                        <img src="{{ article.main_img.url }}" alt="Article Image" style="max-width:100%">
-                    {% endif %}
-                </div>
-                {% endautoescape %}
-                <span class="link-read-post">
-                    <a href="{{ article.get_absolute_url }}" class="link-read-post" style="color:black; border: 1px solid lightgray; padding: 5px 10px;">Читать пост</a>
-                </span>
-                <div class="article-list-cat-cont">
-                    <div class="user-catagory-highlight {{ article.cat.slug }}">
-                        {{ article.cat.name }}
-                    </div>
-                </div>
-                <div class="article-list-last">
-                    <div class="article-list-author-cont">
-                        <div class="author-pic">
-                            <img src="{{ article.author.profile.avatar.url }}"/>
-                        </div>
-                        <a href="{% url 'expert_profile' article.author.pk %}" style="text-decoration:none">
-                            <div class="article-list-author-name">{{ article.author.last_name }} {{ article.author.first_name }}</div>
-                        </a>
-                    </div>
-                    <div class="comments-andshare-cont">
-                        <div class="list-comments">
-                            <i class="bi bi-hand-thumbs-up"></i>
-                            <span>{{ article.votes.count }}</span>
-                        </div>
-                        <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none; margin-top: 2px;">
-                            <i class="bi bi-chat-left-text" style="color:#a5b1c8;"></i>
-                            {% get_comment_count for article as comment_count %}
-                            <span>&nbsp;{{ comment_count }}</span>
-                        </a>
-                        <div class="list-comments">
-                            <i class="bi bi-box-arrow-up-right global-cat-dropdown" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color:#a5b1c8; margin-bottom: 2px"></i>
-                            <div class="dropdown">
-                                <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px;">
-                                    <div class="shareon" data-url="https://24wbinside.ru/articles/{{ article.slug }}" data-title="{{ article.title }}" id="shareon-{{ article.pk }}">
-                                        <a class="facebook"></a>
-                                        <a class="twitter"></a>
-                                        <a class="linkedin"></a>
-                                        <a class="telegram"></a>
-                                        <a class="whatsapp"></a>
-                                        <a class="reddit"></a>
-                                        <a class="vkontakte"></a>
-                                        <a class="odnoklassniki"></a>
-                                        <a class="copy-url"></a>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr class="solid">
-            </div>
-        </div>
-        {% endfor %}
+    <div id="articles-container">
+        {% include "posts/article/article_list_content.html" %}
+    </div>
 
-        {% if has_more_articles %}
-        <div style="display:flex; justify-content:center">
-            <button type="button" class="btn btn-secondary btn-more" onclick="alert('В разработке');">
-                Загрузить ещё
-            </button>
-        </div>
-        {% else %}
-        {% endif %}
-    {% else %}
-        <p style="margin-top: 20px">Нет статей для отображения.</p>
+    {% if has_more_articles %}
+    <div style="display:flex; justify-content:center" id="load-more-container">
+        <button type="button" class="btn btn-secondary btn-more" id="load-more-btn" data-page="1">
+            Загрузить ещё
+        </button>
+    </div>
     {% endif %}
 
 </div>
 
 <script>
-    document.getElementById("search-article-query").addEventListener("keypress", function (event) {
+$(document).ready(function() {
+    $("#search-article-query").keypress(function(event) {
         if (event.key === "Enter") {
-            window.location.href = "{{ request.path }}?search_q=" + this.value;
+            window.location.href = "{{ request.path }}?search_q=" + $(this).val();
         }
     });
+
+    $("#load-more-btn").click(function() {
+        var button = $(this);
+        var currentPage = parseInt(button.data('page'));
+        var nextPage = currentPage + 1;
+
+        $.ajax({
+            url: '{% url "article_list" %}',
+            data: {
+                'page': nextPage,
+                'search_q': '{{ search_q }}'
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(data) {
+                if (data.html) {
+                    $("#articles-container").append(data.html);
+                    button.data('page', nextPage);
+                }
+                if (!data.has_more) {
+                    $("#load-more-container").hide();
+                }
+            }
+        });
+    });
+
+
+});
 </script>
 
 </body>
