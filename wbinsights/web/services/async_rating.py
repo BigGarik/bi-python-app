@@ -1,4 +1,6 @@
 import asyncio
+import math
+
 import asyncpg
 from dataclasses import dataclass
 import environs
@@ -91,7 +93,7 @@ class ExpertRatingCalculation:
             )
 
     async def _calculate_primary_education_rating(self, conn, user_id: int,
-                                                  expert_educations: list[ExpertEducationsRow]) -> int:
+                                                  expert_educations: list[ExpertEducationsRow]):
         score = 0
         for education_row in expert_educations:
             if education_row.education_type == 'primary' and education_row.specialized_education:
@@ -103,10 +105,10 @@ class ExpertRatingCalculation:
         role_name = 'calculate_primary_education_rating'
         role_text = 'Текст с условиями расчета основного образования'
         await self.write_to_database(conn, role_name, role_text, user_id, score)
-        return score
+        return {'score': score, 'max_score': 2}
 
     async def _calculate_additional_education_rating(self, conn, user_id: int,
-                                                     expert_educations: list[ExpertEducationsRow]) -> int:
+                                                     expert_educations: list[ExpertEducationsRow]):
         score = 0
         for education_row in expert_educations:
             if education_row.education_type == 'additional' and education_row.specialized_education:
@@ -117,10 +119,10 @@ class ExpertRatingCalculation:
         role_name = 'calculate_additional_education_rating'
         role_text = 'Текст с условиями расчета дополнительного образования'
         await self.write_to_database(conn, role_name, role_text, user_id, score)
-        return score
+        return {'score': score, 'max_score': 2}
 
     async def _calculate_consulting_experience_rating(self, conn, user_id: int,
-                                                      expert_profile: ExpertProfileRow) -> int:
+                                                      expert_profile: ExpertProfileRow):
         has_links_or_documents = expert_profile.hh_link or expert_profile.linkedin_link
         if expert_profile.consulting_experience >= 5:
             score = 3
@@ -135,9 +137,9 @@ class ExpertRatingCalculation:
         role_name = 'calculate_consulting_experience_rating'
         role_text = 'Текст с условиями расчета опыта консультаций'
         await self.write_to_database(conn, role_name, role_text, user_id, score)
-        return score
+        return {'score': score, 'max_score': 3}
 
-    async def _calculate_experience_rating(self, conn, user_id: int, expert_profile: ExpertProfileRow) -> int:
+    async def _calculate_experience_rating(self, conn, user_id: int, expert_profile: ExpertProfileRow):
         has_links_or_documents = expert_profile.hh_link or expert_profile.linkedin_link
         if expert_profile.experience >= 10:
             score = 3
@@ -156,7 +158,7 @@ class ExpertRatingCalculation:
         role_name = 'calculate_experience_rating'
         role_text = 'Текст с условиями расчета опыта работы'
         await self.write_to_database(conn, role_name, role_text, user_id, score)
-        return score
+        return {'score': score, 'max_score': 3}
 
     async def calculate_rating(self, pool, user_id: int):
         async with pool.acquire() as conn:
@@ -167,7 +169,10 @@ class ExpertRatingCalculation:
                 rating2 = await self._calculate_experience_rating(conn, user_id, expert_profile)
                 rating3 = await self._calculate_consulting_experience_rating(conn, user_id, expert_profile)
                 rating4 = await self._calculate_additional_education_rating(conn, user_id, expert_educations)
-                rating = sum([rating1, rating2, rating3, rating4])
+                sum_max_score = sum(
+                    [rating1['max_score'], rating2['max_score'], rating3['max_score'], rating4['max_score']])
+                sum_score = sum([rating1['score'], rating2['score'], rating3['score'], rating4['score']])
+                rating = math.floor((sum_score / sum_max_score * 5) * 2) / 2
                 await conn.fetch("UPDATE web_expertprofile SET rating = $1 WHERE user_id = $2", rating, user_id)
 
 
