@@ -85,65 +85,60 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 @login_required
 def profile_view(request):
-    # Check if the user is an expert
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
 
-    # context = {'tab': tab}
-
-    # Remove 'category' from the GET parameters
     get_params = request.GET.copy()
     if 'category' in get_params:
         del get_params['category']
 
-    # Initialize the context with common data
     context = {'get_params': get_params}
     profile_template = "profile/expert/profile.html"
 
     if is_expert:
-
         try:
-
             expert_profile = request.user.expertanketa
-
         except Exception as e:
-
             expertAnketa = ExpertAnketa()
             expertAnketa.user = request.user
             expertAnketa.save()
-
             expert_profile = request.user.expertanketa
 
-        # Fetch the expert's articles if profile is verified
-        expert_articles = Article.objects.filter(author=request.user)
-        expert_articles_count = Article.objects.filter(author=request.user).count()
-        experts_appointment_cnt = Appointment.objects.filter(expert=request.user).count()
-        projects_count = UserProject.objects.filter(author=request.user).count()
+        # Fetch and paginate expert articles
+        expert_articles = Article.objects.filter(author=request.user).order_by('-time_update')
+        articles_paginator = Paginator(expert_articles, 10)  # Show 10 articles per page
+        articles_page = request.GET.get('articles_page', 1)
 
-        # Fetch the expert's projects
+        try:
+            expert_articles_page = articles_paginator.page(articles_page)
+        except PageNotAnInteger:
+            expert_articles_page = articles_paginator.page(1)
+        except EmptyPage:
+            expert_articles_page = articles_paginator.page(articles_paginator.num_pages)
+
+        # Fetch and paginate expert projects
         projects_view = GetProjectsView()
         projects_view.request = request
         queryset = projects_view.get_queryset()
         page_size = projects_view.get_paginate_by(queryset)
-        paginator = Paginator(queryset, page_size)
-        page = request.GET.get('page', 1)
+        paginator_projects = Paginator(queryset, page_size)
+        page_projects = request.GET.get('page', 1)
 
         try:
-            projects = paginator.page(page)
+            projects = paginator_projects.page(page_projects)
         except PageNotAnInteger:
-            projects = paginator.page(1)
+            projects = paginator_projects.page(1)
         except EmptyPage:
-            projects = paginator.page(paginator.num_pages)
+            projects = paginator_projects.page(paginator_projects.num_pages)
 
-
-        # Fetch ratings and roles
+        experts_appointment_cnt = Appointment.objects.filter(expert=request.user).count()
+        projects_count = UserProject.objects.filter(author=request.user).count()
         ratings = RatingCalculate.objects.select_related('role').filter(user=request.user)
         roles = RatingRole.objects.all()
         rating = ExpertProfile.objects.filter(user=request.user).first()
 
-        # Update the context with expert-specific data
         context.update({
-            "experts_articles": expert_articles,
-            "experts_articles_count": expert_articles_count,
+            "experts_articles": expert_articles_page,
+            "experts_articles_count": expert_articles.count(),
             "rating": rating,
             "experts_researches_count": 0,
             "filled_stars_chipher": 'ffffh',
@@ -155,10 +150,10 @@ def profile_view(request):
             "user": request.user,
             "profile": expert_profile,
             "ratings": ratings,
-            "roles": roles
+            "roles": roles,
+            "has_more_articles": expert_articles_page.has_next(),
         })
     else:
-        # For non-expert users, render the client profile template
         profile_template = "profile/client/profile.html"
         clients_appointment_cnt = Appointment.objects.filter(client=request.user).count()
         context.update({
@@ -169,8 +164,14 @@ def profile_view(request):
             "user_type": Profile.TypeUser.CLIENT
         })
 
-    return render(request, profile_template, context=context)
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.GET.get('tab') == 'articles':
+        html = render_to_string('posts/article/article_profile_list_content.html', {'experts_articles': context['experts_articles']})
+        return JsonResponse({
+            'html': html,
+            'has_more': context['has_more_articles']
+        })
 
+    return render(request, profile_template, context=context)
 
 @login_required
 @require_POST

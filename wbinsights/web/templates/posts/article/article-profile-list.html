@@ -8,46 +8,46 @@
         <a href="{% url 'article_add' %}" class="btn btn-primary">Написать статью</a>
     {% endif %}
 
-    {% for article in experts_articles %}
+    <div id="articles-container">
+        {% include "posts/article/article_profile_list_content.html" %}
+    </div>
 
-        <div class="expert-content-cont">
-
-        <span class="article-title-loop-exp">
-            <a href="{% url 'article_detail' article.slug %}"
-               style="text-decoration: none;color: #36364b;">{{ article.title }}</a>
-        </span>
-
-            <span class="article-content-loop-exp">{{ article.description }}</span>
-
-            <span class="link-read-post">
-            <a href="{{ article.get_absolute_url }}" style="color:black;border: 1px solid lightgray;
-    padding: 5px 10px 5px 10px;" class="link-read-post">
-                {% trans 'ReadPostLabel' %}
-            </a>
-        </span>
-
-            <div class="comments-andshare-cont" style="justify-content: space-between">
-
-                <div style="display: flex; gap: 10px">
-                    <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none; color: #a5b1c8;">
-                        <i class="bi bi-chat-left-text" style="color:#a5b1c8;"></i>
-                        {% get_comment_count for article as comment_count %}
-                        &nbsp;{{ comment_count }}
-                    </a>
-
-                    <div class="list-share">
-                        <i class="bi bi-calendar2-week"
-                           style="color:#a5b1c8; "></i>&nbsp; {{ article.time_update|custom_time_display }}
-
-                    </div>
-                </div>
-
-
-            </div>
-
-        </div>
-
-        <hr>
-
-    {% endfor %}
+    {% if has_more_articles %}
+    <div style="display:flex; justify-content:center" id="load-more-container">
+        <button type="button" class="btn btn-secondary btn-more" id="load-more-btn" data-page="1">
+            Загрузить ещё
+        </button>
+    </div>
+    {% endif %}
 </div>
+
+<script>
+$(document).ready(function() {
+    $("#load-more-btn").click(function() {
+        var button = $(this);
+        var currentPage = parseInt(button.data('page'));
+        var nextPage = currentPage + 1;
+
+        $.ajax({
+            url: '{% url "profile" %}',
+            data: {
+                'page': nextPage,
+                'tab': 'articles'
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(data) {
+                if (data.html) {
+                    $("#articles-container").append(data.html);
+                    button.data('page', nextPage);
+                }
+                if (!data.has_more) {
+                    $("#load-more-container").hide();
+                }
+            }
+        });
+    });
+});
+</script>
+
