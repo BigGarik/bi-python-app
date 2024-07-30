@@ -3,8 +3,9 @@
 {% load comments %}
 {% load comments_xtd %}
 {% load web_tags %}
-{% load vote %}  <!-- Add this line to load the vote tag library -->
+{% load vote %}
 {% block center_col %}
+{% load hitcount_tags %}
 
 {% block extra_static %}
 <link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
@@ -30,6 +31,11 @@
     .like-btn:not(.liked) svg {
         fill: none;
         stroke: #95a5a6;
+    }
+
+
+    .list-comments .bi {
+        font-size: 15px;
     }
 </style>
 {% endblock %}
@@ -65,7 +71,6 @@
 
         <div class="article-detail-title">{{ article.title }}</div>
 
-        <!-- article styles -->
         <style>
             {{ article.styles|safe }}
         </style>
@@ -78,7 +83,6 @@
 
         <div style="display: flex;justify-content: space-between;align-items: center;margin: 10px 0 10px 0;">
             <div class="voting">
-                <!-- Updated like button with voting functionality -->
                 <button class="like-btn {% vote_exists article user as vote_status %}{% if vote_status %}liked{% endif %}" data-model="web.article" data-id="{{ object.id }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up">
                         <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
@@ -89,11 +93,29 @@
             <div class="article-detail-page-last">
                 <div class="comments-andshare-cont">
                     <div class="list-comments">
-                        {% get_comment_count for object as comment_count %}
-                        <i class="bi bi-chat-left-text" style="color:grey;"></i>&nbsp; {{ comment_count }}
+                        <i class="bi bi-eye" style="font-size: 16px" onclick="alert('in progress')"></i>
+                        <span>{% get_hit_count for article %}</span>
                     </div>
-                    <div class="list-share">
-                        <i class="bi bi-box-arrow-up-right" style="color:grey; scale:0.9"></i>
+                    <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none;">
+                        <i class="bi bi-chat-left-text" style="color:#a5b1c8; font-size: 13px; margin-top: 2px;"></i>
+                        {% get_comment_count for article as comment_count %}
+                        <span>&nbsp;{{ comment_count }}</span>
+                    </a>
+                    <div class="list-comments dropdown">
+                        <i class="bi bi-box-arrow-up-right global-cat-dropdown" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color:#a5b1c8; font-size: 13px; margin-bottom: 2px"></i>
+                        <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px;">
+                            <div class="shareon" data-url="https://24wbinside.ru/articles/{{ article.slug }}" data-title="{{ article.title }}" id="shareon-{{ article.pk }}">
+                                <a class="facebook"></a>
+                                <a class="twitter"></a>
+                                <a class="linkedin"></a>
+                                <a class="telegram"></a>
+                                <a class="whatsapp"></a>
+                                <a class="reddit"></a>
+                                <a class="vkontakte"></a>
+                                <a class="odnoklassniki"></a>
+                                <a class="copy-url"></a>
+                            </div>
+                        </ul>
                     </div>
                 </div>
             </div>

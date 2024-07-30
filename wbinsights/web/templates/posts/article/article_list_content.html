@@ -5,6 +5,11 @@
 {% load comments_xtd %}
 {% for article in articles %}
 
+    <style>
+    .list-comments .bi {
+        font-size: 15px;
+    }
+    </style>
 
 <div class="article-list-content">
     <div class="list-publish-date">
@@ -40,34 +45,35 @@
                     <div class="article-list-author-name">{{ article.author.last_name }} {{ article.author.first_name }}</div>
                 </a>
             </div>
-            <span>{% get_hit_count for article %}</span>
             <div class="comments-andshare-cont">
+                <div class="list-comments">
+                    <i class="bi bi-eye" style="font-size: 16px" onclick="alert('in progress')"></i>
+                    <span>{% get_hit_count for article %}</span>
+                </div>
                 <div class="list-comments">
                     <i class="bi bi-hand-thumbs-up"></i>
                     <span>{{ article.votes.count }}</span>
                 </div>
-                <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none; margin-top: 2px;">
-                    <i class="bi bi-chat-left-text" style="color:#a5b1c8;"></i>
+                <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none;">
+                    <i class="bi bi-chat-left-text" style="color:#a5b1c8; font-size: 13px; margin-top: 2px;"></i>
                     {% get_comment_count for article as comment_count %}
                     <span>&nbsp;{{ comment_count }}</span>
                 </a>
-                <div class="list-comments">
-                    <i class="bi bi-box-arrow-up-right global-cat-dropdown" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color:#a5b1c8; margin-bottom: 2px"></i>
-                    <div class="dropdown">
-                        <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px;">
-                            <div class="shareon" data-url="https://24wbinside.ru/articles/{{ article.slug }}" data-title="{{ article.title }}" id="shareon-{{ article.pk }}">
-                                <a class="facebook"></a>
-                                <a class="twitter"></a>
-                                <a class="linkedin"></a>
-                                <a class="telegram"></a>
-                                <a class="whatsapp"></a>
-                                <a class="reddit"></a>
-                                <a class="vkontakte"></a>
-                                <a class="odnoklassniki"></a>
-                                <a class="copy-url"></a>
-                            </div>
-                        </ul>
-                    </div>
+                <div class="list-comments dropdown">
+                    <i class="bi bi-box-arrow-up-right global-cat-dropdown" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color:#a5b1c8; font-size: 13px; margin-bottom: 2px"></i>
+                    <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px;">
+                        <div class="shareon" data-url="https://24wbinside.ru/articles/{{ article.slug }}" data-title="{{ article.title }}" id="shareon-{{ article.pk }}">
+                            <a class="facebook"></a>
+                            <a class="twitter"></a>
+                            <a class="linkedin"></a>
+                            <a class="telegram"></a>
+                            <a class="whatsapp"></a>
+                            <a class="reddit"></a>
+                            <a class="vkontakte"></a>
+                            <a class="odnoklassniki"></a>
+                            <a class="copy-url"></a>
+                        </div>
+                    </ul>
                 </div>
             </div>
         </div>
