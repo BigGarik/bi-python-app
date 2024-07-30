@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from hitcount.views import HitCountDetailView
 from pytils.translit import slugify
 
 from web.forms.articles import ArticleForm
@@ -68,12 +69,14 @@ class CategoryArticleListView(ArticleListView):
         return context
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(HitCountDetailView):
     model = Article
+    count_hit = True
     template_name = 'posts/article/article_detail.html'
     form_class = ArticleForm
 
-#LoginRequiredMixin, UserPassesTestMixin - должны быть на первом месте, иначе не срабатывает test_func
+
+# LoginRequiredMixin, UserPassesTestMixin - должны быть на первом месте, иначе не срабатывает test_func
 class ArticleEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
     form_class = ArticleForm

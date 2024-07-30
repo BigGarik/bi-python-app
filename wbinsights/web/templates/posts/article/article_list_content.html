@@ -1,5 +1,6 @@
 
 {% load web_tags %}
+{% load hitcount_tags %}
 {% load comments %}
 {% load comments_xtd %}
 {% for article in articles %}
@@ -39,6 +40,7 @@
                     <div class="article-list-author-name">{{ article.author.last_name }} {{ article.author.first_name }}</div>
                 </a>
             </div>
+            <span>{% get_hit_count for article %}</span>
             <div class="comments-andshare-cont">
                 <div class="list-comments">
                     <i class="bi bi-hand-thumbs-up"></i>
