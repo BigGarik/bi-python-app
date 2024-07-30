@@ -11,6 +11,7 @@ from .views.login import register_user, signup_success, activate_account, UserPa
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
 from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView,
                              CategoryArticleListView, delete_article)
+from .views.news import NewsFeedView
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.rating import RatingListView
@@ -87,6 +88,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('calculate_rating/', calculate_rating_for_all_expert, name='calculate_rating_for_all_expert'),
+    path('api/news/', NewsFeedView.as_view(), name='news_feed'),
 
     #path('__debug__/', include('debug_toolbar.urls')),   # Закомментировать перед пушем
 
