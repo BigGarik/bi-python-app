@@ -101,11 +101,11 @@
     <div class="bottom-half">
         <div class="bottom-info">
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp; &nbsp;</span>
+                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: </span>
                 <div style="display: flex;flex-direction: column;">
                     {% for edu in profile.education.all %}
                         {% if edu.education_type == 'primary' %}
-                            <span class="">{{ edu.educational_institution }}</span>
+                            <span class="">&nbsp; {{ edu.educational_institution }}</span>
                         {% endif %}
                     {% endfor %}
                 </div>
