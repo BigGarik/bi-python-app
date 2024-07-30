@@ -1,5 +1,7 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.urls import reverse
+from hitcount.models import HitCountMixin, HitCount
 from vote.models import VoteModel
 
 from .models import Category
@@ -27,7 +29,7 @@ class PublishedManager(models.Manager):
 # >>> Post.objects.create(name="Third post", tags=["tutorial", "django"])
 
 
-class Article(VoteModel, models.Model):
+class Article(VoteModel, models.Model, HitCountMixin):
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
@@ -44,6 +46,8 @@ class Article(VoteModel, models.Model):
     cat = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='article', verbose_name="Категории", )
     allow_comments = models.BooleanField('allow comments', default=True)
     styles = models.TextField(null=True, blank=True, verbose_name="Стили")
+    hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
+                                        related_query_name='hit_count_generic_relation')
 
     objects = models.Manager()
     published = PublishedManager()
