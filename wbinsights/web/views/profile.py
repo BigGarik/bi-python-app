@@ -9,7 +9,7 @@ from django.utils.html import strip_tags
 from django.views.decorators.http import require_POST
 
 from web.models import RatingCalculate, RatingRole
-from web.models.users import Education, ExpertAnketa, ExpertProfile, Grade
+from web.models.users import Education, ExpertAnketa, ExpertProfile, Grade, BaseExpertProfile
 from wbappointment.models import Appointment
 from wbinsights.settings import SERVER_EMAIL
 from web.forms.users import UserProfilePasswordChangeForm, ExpertAnketaChangeForm, CustomUserChangeForm, \
@@ -240,12 +240,6 @@ def update_user_timezone(request):
 
 @login_required
 def edit_user_profile(request):
-    expert_anketa = get_object_or_404(ExpertAnketa, user=request.user)
-    points = expert_anketa.points
-    grade = None
-    if points is not None:
-        grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
-
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
 
     user_agent = request.META.get('HTTP_USER_AGENT', '')
@@ -266,6 +260,12 @@ def edit_user_profile(request):
 
         if is_expert:
             expert_profile_form = ExpertAnketaChangeForm(instance=request.user.expertanketa)
+            expert_profile = ExpertProfile.objects.filter(user=request.user).first()
+            if expert_profile:
+                points = expert_profile.points
+            else:
+                points = 0
+            grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
             user_education = request.user.expertanketa.education
             if user_education.exists():
                 education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
@@ -277,11 +277,11 @@ def edit_user_profile(request):
         context = {
             'user_form': user_form,
             'profile_form': profile_form,
-            'grade': grade,
         }
 
         if is_expert:
             context.update({
+                'grade': grade,
                 "expert_profile_form": expert_profile_form,
                 "education_expert_formset": education_expert_formset,
             })
@@ -290,6 +290,12 @@ def edit_user_profile(request):
 
     if request.method == 'POST':
         if is_expert:
+            expert_profile = ExpertProfile.objects.filter(user=request.user).first()
+            if expert_profile:
+                points = expert_profile.points
+            else:
+                points = 0
+            grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
             user_form = CustomUserChangeForm(request.POST, instance=request.user)
             expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
             educationFormSet = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)

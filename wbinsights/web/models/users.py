@@ -111,7 +111,7 @@ class BaseExpertProfile(models.Model):
     experience = models.IntegerField(default=0)
     hh_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to HH'))
     linkedin_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to LinkedIn'))
-    points = models.IntegerField(blank=True, null=True, verbose_name=_("points"))
+    points = models.IntegerField(default=0, blank=True, null=True, verbose_name=_("points"))
 
     class Meta:
         abstract = True

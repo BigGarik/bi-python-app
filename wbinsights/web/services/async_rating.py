@@ -173,7 +173,7 @@ class ExpertRatingCalculation:
                     [rating1['max_score'], rating2['max_score'], rating3['max_score'], rating4['max_score']])
                 sum_score = sum([rating1['score'], rating2['score'], rating3['score'], rating4['score']])
                 rating = math.floor((sum_score / sum_max_score * 5) * 2) / 2
-                await conn.fetch("UPDATE web_expertprofile SET rating = $1 WHERE user_id = $2", rating, user_id)
+                await conn.fetch("UPDATE web_expertprofile SET rating = $1, points = $2 WHERE user_id = $3", rating, sum_score, user_id)
 
 
 async def calculate_rating_for_all_experts():
