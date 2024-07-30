@@ -1,7 +1,7 @@
 from django.views import View
 from django.views.generic import ListView, DetailView
 
-from views.experts import ExpertListView
+from web.views.experts import ExpertListView
 from web.models import Research
 import re
 
