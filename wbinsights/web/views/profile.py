@@ -260,12 +260,15 @@ def edit_user_profile(request):
 
         if is_expert:
             expert_profile_form = ExpertAnketaChangeForm(instance=request.user.expertanketa)
-            # expert_profile = ExpertProfile.objects.filter(user=request.user).first()
-            # if expert_profile:
-            #     points = expert_profile.points
-            # else:
-            #     points = 0
-            # grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
+            expert_profile = ExpertProfile.objects.filter(user=request.user).first()
+            if expert_profile:
+                if expert_profile.points:
+                    points = expert_profile.points
+                else:
+                    points = 0
+            else:
+                points = 0
+            grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
             user_education = request.user.expertanketa.education
             if user_education.exists():
                 education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
@@ -281,7 +284,7 @@ def edit_user_profile(request):
 
         if is_expert:
             context.update({
-                # 'grade': grade,
+                'grade': grade,
                 "expert_profile_form": expert_profile_form,
                 "education_expert_formset": education_expert_formset,
             })
@@ -290,12 +293,15 @@ def edit_user_profile(request):
 
     if request.method == 'POST':
         if is_expert:
-            # expert_profile = ExpertProfile.objects.filter(user=request.user).first()
-            # if expert_profile:
-            #     points = expert_profile.points
-            # else:
-            #     points = 0
-            # grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
+            expert_profile = ExpertProfile.objects.filter(user=request.user).first()
+            if expert_profile:
+                if expert_profile.points:
+                    points = expert_profile.points
+                else:
+                    points = 0
+            else:
+                points = 0
+            grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
             user_form = CustomUserChangeForm(request.POST, instance=request.user)
             expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
             educationFormSet = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
@@ -342,7 +348,7 @@ def edit_user_profile(request):
                     "profile_form": expert_anketa_form,
                     "expert_profile_form": educationFormSet,
                     "education_expert_formset": education_expert_anketa_formset,
-                    # 'grade': grade,
+                    'grade': grade,
                 }
                 return render(request, profile_edit_template, context=context)
 
