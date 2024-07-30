@@ -8,7 +8,7 @@ from django.forms import modelformset_factory
 from django.utils.translation import gettext_lazy as _
 from django_recaptcha.fields import ReCaptchaField
 
-from web.models.users import Profile, CustomUser, ExpertProfile, Category, Document, Education, ExpertAnketa
+from web.models.users import Profile, CustomUser, ExpertProfile, Category, Document, Education, ExpertAnketa, Grade
 
 logger = logging.getLogger(__name__)
 
@@ -263,6 +263,20 @@ class ExpertAnketaChangeForm(forms.ModelForm):
     class Meta:
         model = ExpertAnketa
         fields = ['about', 'age', 'hour_cost', 'expert_categories', 'experience', 'consulting_experience', 'hh_link', 'linkedin_link', 'experience_documents']
+
+    def clean_hour_cost(self):
+        hour_cost = self.cleaned_data.get("hour_cost")
+        points = self.instance.points  # Assuming points are stored in the instance
+
+        if points is not None:
+            try:
+                grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
+                if not (grade.min_cost <= hour_cost <= grade.max_cost):
+                    self.add_error('hour_cost', f"Стоимость может быть между  {grade.min_cost} и {grade.max_cost}.")
+            except Grade.DoesNotExist:
+                self.add_error('hour_cost', "No valid grade found for the given points.")
+
+        return hour_cost
 
 
 class EducationForm(forms.ModelForm):

@@ -62,6 +62,12 @@
                         <label for="{{ expert_profile_form.about.id_for_label }}"
                                class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
                         {{ expert_profile_form.about }}
+                        {% if grade %}
+                            <p>Ваши points: {{ grade.grade }}</p>
+                            <p>Диапазон стоимости часа для ваших points: от {{ grade.min_cost }} до {{ grade.max_cost }}</p>
+                        {% else %}
+                            <p>Нет данных для ваших points.</p>
+                        {% endif %}
                     </div>
 
                 </div>

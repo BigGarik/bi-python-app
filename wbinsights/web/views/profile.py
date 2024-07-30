@@ -9,7 +9,7 @@ from django.utils.html import strip_tags
 from django.views.decorators.http import require_POST
 
 from web.models import RatingCalculate, RatingRole
-from web.models.users import Education, ExpertAnketa, ExpertProfile
+from web.models.users import Education, ExpertAnketa, ExpertProfile, Grade
 from wbappointment.models import Appointment
 from wbinsights.settings import SERVER_EMAIL
 from web.forms.users import UserProfilePasswordChangeForm, ExpertAnketaChangeForm, CustomUserChangeForm, \
@@ -17,7 +17,7 @@ from web.forms.users import UserProfilePasswordChangeForm, ExpertAnketaChangeFor
 from web.models import CustomUser, Profile
 from django.utils.translation import gettext_lazy as _
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
 from web.models import Article
@@ -240,6 +240,12 @@ def update_user_timezone(request):
 
 @login_required
 def edit_user_profile(request):
+    expert_anketa = get_object_or_404(ExpertAnketa, user=request.user)
+    points = expert_anketa.points
+    grade = None
+    if points is not None:
+        grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
+
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
 
     user_agent = request.META.get('HTTP_USER_AGENT', '')
@@ -271,6 +277,7 @@ def edit_user_profile(request):
         context = {
             'user_form': user_form,
             'profile_form': profile_form,
+            'grade': grade,
         }
 
         if is_expert:
@@ -329,6 +336,7 @@ def edit_user_profile(request):
                     "profile_form": expert_anketa_form,
                     "expert_profile_form": educationFormSet,
                     "education_expert_formset": education_expert_anketa_formset,
+                    'grade': grade,
                 }
                 return render(request, profile_edit_template, context=context)
 

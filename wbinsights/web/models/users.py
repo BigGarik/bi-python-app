@@ -111,6 +111,7 @@ class BaseExpertProfile(models.Model):
     experience = models.IntegerField(default=0)
     hh_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to HH'))
     linkedin_link = models.URLField(max_length=200, blank=True, verbose_name=_('Link to LinkedIn'))
+    points = models.IntegerField(blank=True, null=True, verbose_name=_("points"))
 
     class Meta:
         abstract = True
@@ -188,3 +189,12 @@ class Document(models.Model):
 
     def get_absolute_url(self):
         return reverse('document_detail', kwargs={'pk': self.pk})
+
+
+class Grade(models.Model):
+    min_points = models.IntegerField(verbose_name=_("min_points"))
+    max_points = models.IntegerField(verbose_name=_("max_points"))
+    grade = models.CharField(max_length=50, verbose_name=_("grade"))
+    min_cost = models.IntegerField(verbose_name=_("min_cost"))
+    max_cost = models.IntegerField(null=True, blank=True, verbose_name=_("max_cost"))
+    commission_size = models.IntegerField(verbose_name=_("commission_size"))

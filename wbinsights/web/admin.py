@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 
 from .forms.users import CustomUserCreationForm
 from .models import Article, Category, CustomUser, Research, QuestionAnswer
-from .models.users import ExpertProfile
+from .models.users import ExpertProfile, Grade
 from .views.profile import CustomUserChangeForm
 
 
@@ -63,3 +63,10 @@ class ExpertProfileAdmin(admin.ModelAdmin):
     # def make_verified(self, request, queryset):
     #     queryset.update(is_verified=ExpertProfile.ExpertVerifiedStatus.VERIFIED)
     # make_verified.short_description = "Mark selected experts as verified"
+
+
+@admin.register(Grade)
+class GradeAdmin(admin.ModelAdmin):
+    list_display = ('min_points', 'max_points', 'grade', 'min_cost', 'max_cost', 'commission_size')
+    list_filter = ('grade',)
+    search_fields = ('grade', 'min_points', 'max_points')
