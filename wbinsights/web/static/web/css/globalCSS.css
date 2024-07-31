@@ -270,7 +270,6 @@
 .testing-class {
         display: flex;
         justify-content: flex-end !important;
-        margin-top: 10px;
         gap:10px;
     }
 
