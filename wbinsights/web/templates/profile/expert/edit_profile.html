@@ -3,27 +3,50 @@
 
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+    <!-- Include Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 {% endblock %}
 
 {% block center_col %}
 
     <style>
         @media (max-width: 1400px ) {
-
             .prof-edit-input-title {
                 min-height: 100px !important;
                 justify-content: space-between !important;
             }
-
         }
-
         @media (max-width: 768px) {
-
             .smaller-letters {
                 font-size: 12px !important;
             }
-
         }
+
+        .select2-container--default .select2-selection--multiple {
+                background-color: white;
+                border: 1px solid #dadada !important;
+                border-radius: 4px;
+                cursor: text;
+                padding-bottom: 0px !important;
+                padding-right: 0px !important;
+                padding: 8px !important;
+                min-height: 42px !important;
+                position: relative;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            margin-top:0px !important;
+        }
+
+        .custom-width-auto {
+            width: auto;
+            display: inline-block;
+        }
+
+        .prof-edit-info-cont{
+            width: 100% !important;
+        }
+
     </style>
 
     <div class="list-main-containers" style="padding:20px; margin-top:0px;">
@@ -45,7 +68,7 @@
                 <div class="prof-edit-rows">
                     <div class="prof-edit-duel-rows">
 
-                        <div class="prof-edit-info-cont">
+                        <div class="prof-edit-info-cont" >
                             <label for="{{ user_form.first_name.id_for_label }}"
                                    class="prof-edit-input-labels">{{ user_form.first_name.label }}</label>
                             {{ user_form.first_name }}
@@ -63,7 +86,7 @@
                                class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
                         {{ expert_profile_form.about }}
                         {% if grade %}
-                            <p>Ваши points: {{ grade.grade }}</p>
+                            <p>Грейд: {{ grade.grade }}</p>
                             <p>Диапазон стоимости часа для ваших points: от {{ grade.min_cost }} до {{ grade.max_cost }}</p>
                         {% else %}
                             <p>Нет данных для ваших points.</p>
@@ -92,21 +115,28 @@
                     </div>
                     <div class="prof-edit-duel-rows">
 
-                        <div class="prof-edit-input-title">
+                        <div class="prof-edit-input-title" style="width: 50%;">
                             <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
                             {{ expert_profile_form.expert_categories }}
                         </div>
-                        <div class="prof-edit-input-title">
+                        <div class="prof-edit-input-title" style="width: 20%;">
                             <label for="{{ expert_profile_form.experience.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
                             {{ expert_profile_form.experience }}
                         </div>
-                        <div class="prof-edit-input-title">
+                         <div class="prof-edit-input-title" style="width: 20%;">
                             <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.hour_cost.label }}</label>
-                            {{ expert_profile_form.hour_cost }}
+                            {% if grade %}
+                                <input type="number" name="hour_cost" id="{{ expert_profile_form.hour_cost.id_for_label }}"
+                                       min="{{ grade.min_cost }}" max="{{ grade.max_cost }}" step="1"
+                                       value="{{ expert_profile_form.hour_cost.value }}" class="custom-form-css">
+                            {% else %}
+                                {{ expert_profile_form.hour_cost }}
+                            {% endif %}
                         </div>
+
                     </div>
                 </div>
                 <div class="expert-edit-rows">
@@ -143,26 +173,29 @@
                     <span class="prof-edit-page-title" style="padding-bottom: 10px">Образование</span>
                     {{ education_expert_formset.management_form }}
                     {% for form in education_expert_formset %}
-                            <div class="education-form col-11">
+                            <div class="education-form col-12">
 
                                 {{ form.id }}
                                 {{ form.errors }}
 
-                                <div class="row">
+                                <div class="row" style="padding: 10px 0 10px 0;">
                                     <div class="prof-edit-input-title1 col-6">
                                         <label for="{{ form.education_type.id_for_label }}"
                                                class="prof-edit-input-labels">{{ form.education_type.label }}</label>
                                         {{ form.education_type }}
                                     </div>
 
-                                    <div class="prof-edit-input-title1 col-6">
+                                    <div class="prof-edit-input-title1 col-6" style="display: flex;align-items: center;gap: 5px;">
                                         <label for="{{ form.specialized_education.id_for_label }}"
                                                class="prof-edit-input-labels">{{ form.specialized_education.label }}</label>
-                                        {{ form.specialized_education }}
+                                        <div class="custom-width-auto">
+                                            {{ form.specialized_education }}
+                                        </div>
+
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" style="padding: 10px 0 10px 0;">
 
                                     <div class="prof-edit-input-title1 col-9">
                                         <label for="{{ form.educational_institution.id_for_label }}"
@@ -178,7 +211,7 @@
                                 </div>
                             </div>
                     {% endfor %}
-                    
+
                     <!-- Кнопка для добавления нового образования (если требуется) -->
                     <button type="button" class="btn btn-secondary add-education-btn" style="margin-top: 20px">Добавить образование</button>
                 </div>
@@ -255,15 +288,16 @@
         </div>
 
     </div>
+
+    <!-- Include Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script>
-
         $(document).ready(function () {
-
-            $("#id_expert_categories").select2();
-
-        })
-
+            $("#{{ expert_profile_form.expert_categories.id_for_label }}").select2({
+                width: '100%'
+            });
+        });
     </script>
-
 
 {% endblock %}
