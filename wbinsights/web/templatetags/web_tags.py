@@ -3,7 +3,7 @@ import math
 from django import template
 from django.db.models import F
 
-from services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
+from web.services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
 from web.models import Expert, Category
 
 from django.utils.timezone import now
