@@ -3,11 +3,15 @@ import math
 from django import template
 from django.db.models import F
 
+from services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
 from web.models import Expert, Category
 
 from django.utils.timezone import now
 
 from django.utils.translation import gettext as _
+
+import requests
+import feedparser
 
 register = template.Library()
 
@@ -48,6 +52,26 @@ def get_top_experts():
 @register.simple_tag
 def get_all_categories():
     return Category.objects.all()
+
+def fetch_rss_feed(url):
+    response = requests.get(url)
+    return response.content
+
+def parse_rss_feed(rss_data):
+    feed = feedparser.parse(rss_data)
+    # Filter out politics and ensure 'tags' attribute exists
+    filtered_entries = [entry for entry in feed.entries if hasattr(entry, 'tags') and "Политика" not in [tag.term for tag in entry.tags]]
+    return filtered_entries
+
+@register.simple_tag
+def get_all_news():
+    rss_url = "https://rssexport.rbc.ru/rbcnews/news/30/full.rss"
+    rss_data = fetch_rss_feed(rss_url)
+    news_items = parse_rss_feed(rss_data)
+    return news_items
+
+
+
 
 
 @register.simple_tag
@@ -141,3 +165,6 @@ def custom_time_display(datetime_value):
 
 
 register.filter('custom_time_display', custom_time_display)
+
+
+

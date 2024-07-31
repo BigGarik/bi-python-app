@@ -1,126 +1,151 @@
 {% extends 'base123.html' %}
 {% load web_tags %}
-{%load static%}
+{% load static %}
 
 {% block center_col %}
 
-    <style>
-        @media (max-width: 768px) {
-            .post-menu {
-                font-size: 11px;
-            }
-
-
-            .smallscreenbtn {
-                width: 100%;
-            }
-
-
-            .post-menu-item {
-                font-size: 11px;
-            }
-
-            .base-info-split {
-                display: flex;
-                flex-direction: column;
-                margin-top: 15px;
-            }
-
-            .base-article-title {
-                padding: 10px 0px 10px 0px !important;
-            }
-
-            .base-article-content {
-                padding: 10px 0px 10px 0px !important;
-            }
-
-            .base-article-stats{
-                padding: 10px 0px 10px 0px !important;
-            }
-
-            .post-menu-item {
-                padding: 5px !important;
-            }
-
-            .basepost-media {
-                width:100% !important;
-            }
-
-            .base-news-title,.base-news-content,.base-news-stats {
-                padding: 5px 0px 10px 0px;
-            }
-
-
+<style>
+    @media (max-width: 768px) {
+        .post-menu {
+            font-size: 11px;
         }
-    </style>
 
+        .smallscreenbtn {
+            width: 100%;
+        }
 
-    <div class="list-main-containers" style="margin-top: 0px">
+        .post-menu-item {
+            font-size: 11px;
+        }
 
+        .base-info-split {
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+        }
 
-        <div class="article-text-top">
-            <span class="article-news">Новости</span>
-            <span class="news-open-close" role="button" onclick="toggleCollapse()" aria-expanded="true">
-                <i class="bi bi-chevron-up" ></i>
-                &nbsp; свернуть
-            </span>
-        </div>
+        .base-article-title {
+            padding: 10px 0px 10px 0px !important;
+        }
 
+        .base-article-content {
+            padding: 10px 0px 10px 0px !important;
+        }
 
-        <div class="collapse show" id="collapseNews">
-            <div class="base-info-split">
+        .base-article-stats {
+            padding: 10px 0px 10px 0px !important;
+        }
 
-                <div class="col-md-3" style="max-height: 250px;">
-                    <img src="{% static 'web/images/unsplashimg.png' %}" alt="image" class="img-fluid" style="max-height: inherit;">
+        .post-menu-item {
+            padding: 5px !important;
+        }
 
+        .basepost-media {
+            width: 100% !important;
+        }
+
+        .base-news-title,
+        .base-news-content,
+        .base-news-stats {
+            padding: 5px 0px 10px 0px;
+        }
+    }
+
+    .news-title {
+        cursor: pointer;
+    }
+
+    #newsTitlesList {
+        max-height: 250px; /* Set a fixed height for the scrollable container */
+        overflow-y: auto; /* Enable vertical scrolling */
+        scrollbar-width: thin;
+        padding: 5px;
+    }
+
+    .news-titles {
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+</style>
+
+<div class="list-main-containers" style="margin-top: 0px">
+    <div class="article-text-top">
+        <span class="article-news">Новости</span>
+        <span class="news-open-close" role="button" onclick="toggleCollapse()" aria-expanded="true">
+            <i class="bi bi-chevron-up"></i>
+            &nbsp; свернуть
+        </span>
+    </div>
+
+    <div class="collapse show" id="collapseNews">
+        <div class="base-info-split row" id="newsContainer">
+            <div class="col-md-4">
+                <div id="newsTitlesList">
+                    {% get_all_news as news_items %}
+                    {% for news in news_items %}
+                        <div class="news-title">
+                            <a href="{{ news.link }}" class="news-titles" target="_blank {% if forloop.first %}active{% endif %}">{{ news.title }}</a>
+                        </div>
+                        {% if not forloop.last %}
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
                 </div>
+            </div>
+            <div class="col-md-8" id="newsContentContainer">
 
-                <div class="col-md-9">
-                    <div class="base-news-title">Постоянный количественный рост ни к чему нас не обязывает</div>
-                    <div class="base-news-content">В целом, конечно, новая модель организационной деятельности создаёт предпосылки для приоритизации разума над эмоциями</div>
-                    <div class="base-news-stats">
-                        <div class="base-news-stats-comments">
-                            <i class="bi bi-chat-left-text" ></i> &nbsp; 104
-                        </div>
-                        <div class="base-news-stats-last">
-                            <i class="bi bi-calendar3" ></i> &nbsp; 2 дня назад
-                        </div>
+                <div class="col-md-12" style="display: flex">
+                    <div class="col-md-3" style="max-height: 250px;">
+                        <img src="{% static 'web/images/unsplashimg.png' %}" alt="image" class="img-fluid" style="max-height: inherit;">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="base-news-title">Постоянный количественный рост ни к чему нас не обязывает</div>
                     </div>
                 </div>
 
-            </div>
-
+                <div class="base-news-content">В целом, конечно, новая модель организационной деятельности создаёт предпосылки для приоритизации разума над эмоциями</div>
+                <div class="base-news-stats">
+                    <div class="base-news-stats-comments">
+                        <i class="bi bi-chat-left-text"></i> &nbsp; 104
+                    </div>
+                    <div class="base-news-stats-last">
+                        <i class="bi bi-calendar3"></i> &nbsp; 2 дня назад
+                    </div>
+                </div>
                 <button type="button" class="btn btn-secondary basepost-media" style="margin-top:10px" onclick="alert('В разработке')">Больше новостей</button>
-
+            </div>
         </div>
 
     </div>
+</div>
 
-    {% split request.path "/" 'first' as url_first_part %}
-    <div class="post-menu">
-        <a href="{% url 'research_list' %}" class="post-menu-item {% if not is_mobile and url_first_part == 'researches' or not is_mobile and url_first_part == '' %} selected {% endif %}">Исследования</a>
-        <a href="{% url 'experts_list' %}" class="post-menu-item {% if is_mobile and url_first_part == '' or url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
-        <a href="{% url 'article_list' %}" class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">Статьи</a>
-        <a href="{% url 'question_answer_list' %}" class="post-menu-item {% if url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
-    </div>
+{% split request.path "/" 'first' as url_first_part %}
+<div class="post-menu">
+    <a href="{% url 'research_list' %}" class="post-menu-item {% if not is_mobile and url_first_part == 'researches' or not is_mobile and url_first_part == '' %} selected {% endif %}">Исследования</a>
+    <a href="{% url 'experts_list' %}" class="post-menu-item {% if is_mobile and url_first_part == '' or url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
+    <a href="{% url 'article_list' %}" class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">Статьи</a>
+    <a href="{% url 'question_answer_list' %}" class="post-menu-item {% if url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
+</div>
 
-    <div id="article_list" class="content-block">
-        {% block posts_content %}{% endblock %}
-    </div>
+<div id="article_list" class="content-block">
+    {% block posts_content %}{% endblock %}
+</div>
 
-    <script>
-        function toggleCollapse() {
+<script>
+    function toggleCollapse() {
+        var collapseElement = document.getElementById('collapseNews');
 
-            var collapseElement = $('#collapseNews');
-
-            if (collapseElement.is(':visible')) {
-                collapseElement.slideUp(500, 'easeInOutExpo');
-                $('.news-open-close i').removeClass('bi-chevron-up').addClass('bi-chevron-down');
-            } else {
-                collapseElement.slideDown(500, 'easeInOutExpo');
-                $('.news-open-close i').removeClass('bi-chevron-down').addClass('bi-chevron-up');
-            }
+        if (collapseElement.classList.contains('show')) {
+            collapseElement.classList.remove('show');
+            $('.news-open-close i').removeClass('bi-chevron-up').addClass('bi-chevron-down');
+        } else {
+            collapseElement.classList.add('show');
+            $('.news-open-close i').removeClass('bi-chevron-down').addClass('bi-chevron-up');
         }
-    </script>
+    }
+</script>
 
 {% endblock %}
