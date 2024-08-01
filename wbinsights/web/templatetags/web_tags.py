@@ -1,4 +1,5 @@
 import math
+from datetime import datetime
 
 from django import template
 from django.db.models import F
@@ -59,13 +60,17 @@ def fetch_rss_feed(url):
 
 def parse_rss_feed(rss_data):
     feed = feedparser.parse(rss_data)
-    # Filter out politics and ensure 'tags' attribute exists
-    filtered_entries = [entry for entry in feed.entries if hasattr(entry, 'tags') and "Политика" not in [tag.term for tag in entry.tags]]
-    return filtered_entries
+    filtered_entries = [
+        entry for entry in feed.entries
+        if hasattr(entry, 'tags') and any(tag.term in ["Экономика","Спорт", "Бизнес", "Общество"] for tag in entry.tags)
+    ]
+    # Sort by published date and get the 10 newest entries
+    filtered_entries.sort(key=lambda x: datetime.strptime(x.published, '%a, %d %b %Y %H:%M:%S %z'), reverse=True)
+    return filtered_entries[:10]
 
 @register.simple_tag
 def get_all_news():
-    rss_url = "https://rssexport.rbc.ru/rbcnews/news/30/full.rss"
+    rss_url = "https://rssexport.rbc.ru/rbcnews/news/100/full.rss"
     rss_data = fetch_rss_feed(rss_url)
     news_items = parse_rss_feed(rss_data)
     return news_items
