@@ -62,7 +62,7 @@ def parse_rss_feed(rss_data):
     feed = feedparser.parse(rss_data)
     filtered_entries = [
         entry for entry in feed.entries
-        if hasattr(entry, 'tags') and any(tag.term in ["Экономика","Спорт", "Бизнес", "Общество"] for tag in entry.tags)
+        if hasattr(entry, 'tags') and any(tag.term in ["Бизнес"] for tag in entry.tags)
     ]
     # Sort by published date and get the 10 newest entries
     filtered_entries.sort(key=lambda x: datetime.strptime(x.published, '%a, %d %b %Y %H:%M:%S %z'), reverse=True)
