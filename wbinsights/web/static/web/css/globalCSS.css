@@ -268,18 +268,18 @@
 }
 
 .testing-class {
-        display: flex;
-        justify-content: flex-end !important;
-        gap:10px;
-    }
+    display: flex;
+    justify-content: flex-end !important;
+    gap:10px;
+}
 
 @media (max-width: 768px ) {
 
-
-
     .testing-class{
-    display: flex;
-    justify-content: flex-end;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+
 }
 
 }
