@@ -13,15 +13,18 @@ class Appointment(models.Model):
     expert = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="expert_appointments")
     client = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="client_appointments")
     created_time = models.DateTimeField(auto_now_add=True)
-    appointment_date = models.DateField()
-    appointment_time = models.TimeField()
+    appointment_datetime = models.DateTimeField(null=True)
+    #appointment_time = models.TimeField()
     status = models.IntegerField(default=AppointmentStatus.NEW, choices=AppointmentStatus.choices)
     zoom_link = models.CharField(null=True)
     notes = models.TextField(null=True, blank=True)
 
+    def get_appointment_datetime_local(self, locale):
+        return self.appointment_datetime.astimezone(locale)
+
     class Meta:
         db_table = "appointment"
-        constraints = [UniqueConstraint(fields=['expert', 'appointment_date', 'appointment_time', 'status'],
+        constraints = [UniqueConstraint(fields=['expert', 'appointment_datetime', 'status'],
                                         name='unique_experts_appointment')]
 
 
@@ -54,9 +57,9 @@ class ExpertSchedule(models.Model):
     ]
 
     day_of_week = models.IntegerField(choices=DAY_CHOICES)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    is_work_day = models.BooleanField(default=True, )
+    start_datetime = models.DateTimeField(null=True)
+    end_datetime = models.DateTimeField(null=True)
+    is_work_day = models.BooleanField(default=True)
 
     class Meta:
         constraints = [UniqueConstraint(fields=['expert', 'day_of_week'],

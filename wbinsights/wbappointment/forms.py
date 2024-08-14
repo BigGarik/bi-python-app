@@ -1,3 +1,4 @@
+import pytz
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
@@ -14,11 +15,15 @@ def validate_date(date):
 
 
 class AppointmentForm(forms.ModelForm):
-    hour_choices = [(f'{hour:02}:00:00', f'{hour:02}:00')  for hour in range(24)]  # hour choices
+    #hour_choices = [(f'{hour:02}:00:00', f'{hour:02}:00')  for hour in range(24)]  # hour choices
 
-    appointment_time = forms.ChoiceField(
-        choices=hour_choices,
-        widget=forms.Select(attrs={'class': 'appointment-form-control', 'disabled': 'disabled'})
+    appointment_date = forms.DateField(
+        widget=forms.HiddenInput()
+    )
+
+    appointment_time = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        label='Время встречи'
     )
 
     expert = forms.HiddenInput()
@@ -43,8 +48,7 @@ class AppointmentForm(forms.ModelForm):
 
         if Appointment.objects.filter(
                 expert=expert,
-                appointment_date=appointment_date,
-                appointment_time=appointment_time,
+                appointment_datetime=datetime.combine(appointment_date, appointment_time),
                 status=AppointmentStatus.NEW,
                 created_time__gte=ten_minutes_ago
         ).exists():
@@ -54,13 +58,8 @@ class AppointmentForm(forms.ModelForm):
 
     class Meta:
         model = Appointment
-        fields = ['expert', 'appointment_date', 'appointment_time', 'notes']
+        fields = ['expert', 'notes']
         widgets = {
-            'appointment_date': forms.HiddenInput(
-                attrs={
-                    'class': 'appointment-form-control1'
-                }
-            ),
             'notes': forms.Textarea(
                 attrs={
                     'class': 'appointment-form-control auto-resize',
@@ -76,30 +75,63 @@ class CalendarEventForm(forms.Form):
 
 
 class ExpertScheduleForm(forms.ModelForm):
-    HOUR_CHOICES = [(f'{hour:02}:00:00', f'{hour:02}:00') for hour in
-                    range(6, 22)]  # Generate choices from 06:00 to 22:00
+    HOUR_CHOICES = [(f'{hour:02}:00', f'{hour:02}:00') for hour in
+                    range(6, 24)]  # Generate choices from 06:00 to 22:00
 
     id = forms.HiddenInput()
-    start_time = forms.ChoiceField(choices=HOUR_CHOICES,
-                                   widget=forms.Select(attrs={'class': 'form-control form-control-sm'}))
-    end_time = forms.ChoiceField(choices=HOUR_CHOICES,  widget=forms.Select(
-        attrs={'class': 'form-control form-control-sm expert-schedule-form-control'}))
+
+    start_time = forms.TimeField(
+        widget=forms.Select(
+            choices=HOUR_CHOICES,
+            attrs={'class': 'form-control form-control-sm'}
+        ),
+        input_formats=['%H:%M']
+    )
+
+    end_time = forms.TimeField(
+        widget=forms.Select(
+            choices=HOUR_CHOICES,
+            attrs={'class': 'form-control form-control-sm'}
+        ),
+        input_formats=['%H:%M']
+    )
+
     is_work_day = forms.BooleanField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance.pk:
+            # Инициализируйте поля start_time и end_time из datetime_field
+
+            #Получаем timezone Пользователя
+            target_timezone = self.instance.expert.profile.timezone
+            local_tz = pytz.timezone(target_timezone)
+
+            start_time = self.instance.start_datetime.astimezone(local_tz).time().strftime('%H:%M')
+            end_time = self.instance.end_datetime.astimezone(local_tz).time().strftime('%H:%M')
+
+            self.fields['start_time'].initial = start_time
+            self.fields['end_time'].initial = end_time
+        else:
+            self.fields['start_time'].initial = '09:00'
+            self.fields['end_time'].initial = '18:00'
 
     def clean(self):
         cleaned_data = super().clean()
-        start_time = cleaned_data.get("start_time")
-        end_time = cleaned_data.get("end_time")
+
+        start_time = self.cleaned_data.get("start_time")
+        end_time = self.cleaned_data.get("end_time")
 
         if start_time and end_time:
             if start_time >= end_time:
-                raise ValidationError(_("End time must be after start time."))
+                raise ValidationError(_("Начальное время должно быть раньше конечного"))
 
         return cleaned_data
 
     class Meta:
         model = ExpertSchedule
-        fields = ['is_work_day', 'day_of_week', 'start_time', 'end_time', 'id']
+        fields = ['is_work_day', 'day_of_week', 'id', "start_time"]
         widgets = {
             'day_of_week': forms.HiddenInput(attrs={'class': 'form-control form-control-sm'}),
         }

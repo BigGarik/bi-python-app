@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/event-calendar/event-calendar.min.css' %}">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
+{#    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>#}
 {% endblock %}
 
 
@@ -289,7 +289,7 @@
 
     function loadExtraDate(extraDateId) {
         const deleteExtraDate = extra_dates.find(extra_date => extra_date.id == extraDateId)
-        $('#delete-extra-date-info').html('Удалить запись ' + deleteExtraDate.start + ' - ' + deleteExtraDate.end + '?');
+        $('#delete-extra-date-info').html('Удалить запись ' + deleteExtraDate.localized_start + ' - ' + deleteExtraDate.localized_end + '?');
         $('[name="range_id"]').val(deleteExtraDate.id)
         $('#deleteDateRangeModal').modal('show')
     }
@@ -449,10 +449,13 @@
     function createCalendarEvents(appointments_as_expert, appointments_as_client, extradates, schedule) {
         //display: "background"
         let dates = []
+        const date_format = 'yyyy-MM-DD'
+        
+        console.log(22)
 
         if (schedule) {
             schedule.map((schedule_item, index) => {
-                const date_format = 'yyyy-MM-DD'
+
                 const moment_start = moment(schedule_item.start)
                 const start_date = moment_start.format(date_format)
                 const start_time = moment_start.format("HH:mm")
@@ -476,11 +479,11 @@
             extradates.map((extradate) => {
                 title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования'
                 const date_format = 'yyyy-MM-DD'
-                const moment_start = moment(extradate.start)
+                const moment_start = moment(extradate.localized_start)
                 const start_date = moment_start.format(date_format)
                 const start_time = moment_start.format("HH:mm")
 
-                const moment_end = moment(extradate.end)
+                const moment_end = moment(extradate.localized_end)
                 const end_date = moment_end.format(date_format)
                 const end_time = moment_end.format("HH:mm")
                 dates.push(createEvent(title,
@@ -497,29 +500,37 @@
         
         if (appointments_as_expert) {
             appointments_as_expert.map((appointment) => {
+
+                let appointment_datetime = moment(appointment.localized_appointment_datetime);
+
                 dates.push(
                     createEvent(appointment_title,
                         appointment.status,
-                        appointment.appointment_date,
-                        moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
-                        appointment.appointment_date,
-                        moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
+                        appointment_datetime.format(date_format),
+                        appointment_datetime.format("HH:mm"),
+                        appointment_datetime.format(date_format),
+                        appointment_datetime.add(1, "hours").format("HH:mm"),
                         appointment.id,
                         'appointment_as_expert'
                     )
                 );
             })
         }
+
+        console.log(10)
         
         if (appointments_as_client) {
             appointments_as_client.map((appointment) => {
+
+                let appointment_datetime = moment(appointment.localized_appointment_datetime);
+
                 dates.push(
                     createEvent(appointment_title,
                         appointment.status,
-                        appointment.appointment_date,
-                        moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm"),
-                        appointment.appointment_date,
-                        moment(appointment.appointment_time, "HH:mm:ss").add(1, "hours").format("HH:mm"),
+                        appointment_datetime.format(date_format),
+                        appointment_datetime.format("HH:mm"),
+                        appointment_datetime.format(date_format),
+                        appointment_datetime.add(1, "hours").format("HH:mm"),
                         appointment.id,
                         'appointment_as_client'
                     )
