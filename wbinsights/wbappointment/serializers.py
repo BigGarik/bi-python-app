@@ -1,6 +1,5 @@
 import pytz
 
-import serializers
 from web.models import CustomUser
 from .models import Appointment, ExpertSchedule, ExpertScheduleSpecialDays
 from rest_framework import serializers as dfr_serializes
