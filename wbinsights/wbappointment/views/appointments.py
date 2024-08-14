@@ -1,15 +1,13 @@
 from datetime import date, timedelta, datetime, time
-import json
 import logging
 
+import pytz
 from django.contrib.auth.decorators import login_required
-# from django.core import send_mail
-# from django.core import send_mail
 from django.db import transaction
+from django.db.models.functions import TruncTime
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect, render
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
@@ -24,10 +22,21 @@ from wbappointment.models import Appointment, AppointmentStatus, ExpertSchedule,
 from wbappointment.views.yookassa import create_yookassa_payment
 from web.models import Expert
 
+from django.utils import timezone
+
 from wbappointment.views.zoom_utils import create_zoom_meeting
 
 info_logger = logging.getLogger("django-info")
 debug_logger = logging.getLogger("django-debug")
+
+
+def get_user_time_zone(request):
+    if request.user.profile.timezone:
+        target_timezone = request.user.profile.timezone
+    else:
+        target_timezone = 'Europe/Moscow'
+
+    return pytz.timezone(target_timezone)
 
 
 
@@ -45,11 +54,17 @@ def add_appointment_view(request, *args, **kwargs):
 
         if form.is_valid():
 
+            appointment_date = form.cleaned_data['appointment_date']
+            appointment_time = form.cleaned_data['appointment_time']
+
+            user_tz = get_user_time_zone(request)
+
+            new_appointment_datetime = user_tz.localize(datetime.combine(appointment_date, appointment_time))
+
             existAppointment = Appointment.objects.filter(
                 expert=expert,
                 client=request.user,
-                appointment_date=form.cleaned_data['appointment_date'],
-                appointment_time=form.cleaned_data['appointment_time'],
+                appointment_datetime=new_appointment_datetime,
                 status=AppointmentStatus.NEW
             )
 
@@ -58,7 +73,9 @@ def add_appointment_view(request, *args, **kwargs):
                 # No need to create new one
                 form = AppointmentForm(request.POST, instance=existAppointment[0])
 
+
             new_appointment = form.save(commit=False)
+            new_appointment.appointment_datetime = new_appointment_datetime
             new_appointment.client = request.user
             new_appointment.expert = expert
 
@@ -132,17 +149,29 @@ def get_expert_available_timeslots(request):
 
         expert_schedule = ExpertSchedule.objects.filter(expert_id=expert_id, is_work_day=True,
                                                         day_of_week=selected_date.weekday() + 1).all()
+
+        user_tz = get_user_time_zone(request)
+
         if len(expert_schedule) > 0:
-            start_time_hour = expert_schedule[0].start_time.hour
-            end_time_hour = expert_schedule[0].end_time.hour
-            for hour in range(start_time_hour, end_time_hour):
+
+            start_time = expert_schedule[0].start_datetime.astimezone(user_tz)
+            end_time   = expert_schedule[0].end_datetime.astimezone(user_tz)
+
+            current_date = datetime.now(user_tz)
+
+            for hour in range(start_time.hour, end_time.hour):
+                if current_date.date() == selected_date and hour <= current_date.hour:
+                    continue
                 available_time_slots.append(time(hour=hour, minute=0))
 
         expert_schedule_special_days = ExpertScheduleSpecialDays.objects.filter(start__date__gte=selected_date,
                                                                                 end__date__lte=selected_date).all()
+
+
+
         for special_day in expert_schedule_special_days:
-            current_date = special_day.start
-            while current_date <= special_day.end:
+            current_date = special_day.start.astimezone(user_tz)
+            while current_date <= special_day.end.astimezone(user_tz):
                 if current_date.date() == selected_date:
                     if special_day.type == 0:
                         if current_date.time() in available_time_slots:
@@ -155,17 +184,19 @@ def get_expert_available_timeslots(request):
                 current_date += timedelta(hours=1)
 
         # get busy expert's slot for certain date
-        busyExpertsSlots = Appointment.objects.filter(expert_id=expert_id, appointment_date=selected_date).values_list(
-            "appointment_time", flat=True)
+        busyExpertsSlots = Appointment.objects.filter(expert_id=expert_id, appointment_datetime__date=selected_date)
+                            #.annotate(appointment_time=TruncTime('appointment_datetime')).values_list("appointment_time", flat=True))
 
-        for busy_time in busyExpertsSlots:
+        for busy_datetime in busyExpertsSlots:
+            busy_time = busy_datetime.appointment_datetime.astimezone(user_tz).time()
             if busy_time in available_time_slots:
                 available_time_slots.remove(busy_time)
 
-        busyClientsSlots = Appointment.objects.filter(client=request.user, appointment_date=selected_date).values_list(
-            "appointment_time", flat=True)
+        busyClientsSlots = Appointment.objects.filter(client=request.user, appointment_datetime__date=selected_date)
+                            #.annotate(appointment_time=TruncTime('appointment_datetime')).values_list("appointment_time", flat=True))
 
-        for busy_time in busyClientsSlots:
+        for busy_datetime in busyClientsSlots:
+            busy_time = busy_datetime.appointment_datetime.astimezone(user_tz).time()
             if busy_time in available_time_slots:
                 available_time_slots.remove(busy_time)
 

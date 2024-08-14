@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from web.models.users import UploadToPathAndRename
+from web.models.users import UploadToPathAndRename, Expert
 
 from web.services import ExpertRatingCalculation, ExpertEducationsRow, ExpertProfileRow
 
@@ -42,6 +42,14 @@ class UploadToPathAndRenameTestCase(TestCase):
 
         # Проверяем, что путь сгенерирован корректно
         self.assertEqual(generated_path, expected_path)
+
+
+class ExpertProfileSerialization(TestCase):
+
+    def test_get_expert_from_db(self):
+        expert = Expert.objects.all()
+        print(1313)
+        self.assertEqual(0, 0)
 
 
 class ExpertRatingCalculationTests(TestCase):

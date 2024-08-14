@@ -48,7 +48,7 @@
       <div class="col-7">
         <div class="form-check">
           {{ form.followup }}
-          <label for="id_followup{% if cid %}_{{ cid }}{% endif %}" class="form-check-label">&nbsp;{{ form.followup.label }}</label>
+          <label for="id_followup{% if cid %}_{{ cid }}{% endif %}" class="form-check-label">&nbsp;{%  trans 'Notify me about follow-up comments' %}</label>
         </div>
       </div>
     </div>
