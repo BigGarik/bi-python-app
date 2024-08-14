@@ -28,9 +28,12 @@ def create_zoom_meeting(appointment):
     participants = [appointment.expert.email, appointment.client.email]
 
     # Создание встречи
-    response = client.meeting.create(user_id='me', topic=topic, start_time=start_time, duration=duration, type=2,
-                                     settings={'participants': participants, 'join_before_host': False,
-                                               "host_email": appointment.expert.email, 'approval_type': 2})
+    response = client.meeting.create(user_id='me',
+                                     topic=topic, start_time=start_time, duration=duration,
+                                     type=2, timezone="Europe/Moscow",
+                                     settings={'participants': participants, ''
+                                                                             'join_before_host': True,
+                                                'approval_type': 2})
 
     # Проверка успешности создания встречи
     if response.ok:
