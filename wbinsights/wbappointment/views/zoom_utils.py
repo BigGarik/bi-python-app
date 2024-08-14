@@ -19,7 +19,7 @@ def create_zoom_meeting(appointment):
     topic = "Онлайн консультация"
 
     # Формат времени: ГГГГ-ММ-ДДTЧЧ:ММ:ССZ
-    start_time = datetime.combine(appointment.appointment_date, appointment.appointment_time)
+    start_time = appointment.appointment_datetime
 
     # Продолжительность в минутах
     duration = 45
