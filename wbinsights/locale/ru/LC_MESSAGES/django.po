@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-14 14:24+0500\n"
+"POT-Creation-Date: 2024-08-14 14:56+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -664,6 +664,34 @@ msgstr "Ответить на комментарий"
 #: .\wbappointment\forms.py:128
 msgid "Начальное время должно быть раньше конечного"
 msgstr ""
+
+#: .\wbappointment\models.py:52
+msgid "Monday"
+msgstr "Понедельник"
+
+#: .\wbappointment\models.py:53
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: .\wbappointment\models.py:54
+msgid "Wednesday"
+msgstr "Среда"
+
+#: .\wbappointment\models.py:55
+msgid "Thursday"
+msgstr "Четверг"
+
+#: .\wbappointment\models.py:56
+msgid "Friday"
+msgstr "Пятница"
+
+#: .\wbappointment\models.py:57
+msgid "Saturday"
+msgstr "Суббота"
+
+#: .\wbappointment\models.py:58
+msgid "Sunday"
+msgstr "Воскресенье"
 
 #: .\wbappointment\templates\add_appointment.html:76
 #: .\wbappointment\templates\add_appointment.html:133

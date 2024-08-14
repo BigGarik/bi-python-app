@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models import UniqueConstraint
+from django.utils.translation import gettext_lazy as _
+
 
 class AppointmentStatus(models.IntegerChoices):
     NEW = 0, 'Новый'
@@ -47,13 +49,13 @@ class ExpertSchedule(models.Model):
     expert = models.ForeignKey("web.CustomUser", on_delete=models.CASCADE, related_name="expert")
 
     DAY_CHOICES = [
-        (1, 'Monday'),
-        (2, 'Tuesday'),
-        (3, 'Wednesday'),
-        (4, 'Thursday'),
-        (5, 'Friday'),
-        (6, 'Saturday'),
-        (7, 'Sunday'),
+        (1, _('Monday')),
+        (2, _('Tuesday')),
+        (3, _('Wednesday')),
+        (4, _('Thursday')),
+        (5, _('Friday')),
+        (6, _('Saturday')),
+        (7, _('Sunday')),
     ]
 
     day_of_week = models.IntegerField(choices=DAY_CHOICES)
