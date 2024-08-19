@@ -1,0 +1,85 @@
+{% load i18n %}
+{% load web_tags %}
+{% load static %}
+
+<style>
+    @media (max-width: 768px) {
+        .prof-user-setting {
+            display: flex;
+            font-family: sans-serif;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .user-category {
+            margin-bottom: 5px;
+        }
+
+        .user-catagory-highlight {
+            margin-right: 0px !important;
+            margin-left: 0px !important;
+        }
+
+        .prof-settings-btn {
+            margin-left: 0px !important;
+        }
+
+        .top-half-prof {
+            flex-direction: row;
+        }
+
+        .prof-page-pic-cont {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-information-cont {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
+     @media (max-width: 1200px) {
+         .prof-user-setting{
+             margin-left: 0 !important;
+         }
+
+         .prof-user-setting {
+             padding: 10px 0 10px 0!important;
+         }
+
+     }
+
+
+
+
+</style>
+
+<div class="profile-info-cont">
+    <div class="col-12 top-half-prof" style="display: flex; flex-direction: column;">
+    <div style="display: flex; gap: 10px;">
+        <div class="col-sm-3 prof-page-pic-cont">
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; width: 80px; height: 80px; object-fit: cover;">
+        </div>
+        <div class="col-sm-9 profile-information-cont" style="justify-content: center;" >
+            <div class="user-display-name">
+                {{ user.first_name }} {{ user.last_name }}
+            </div>
+            <div class="span-user-type">
+                {% if user.profile.type == 0 %}
+                    Клиент
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+    <div class="prof-user-setting" style="margin-left: 25%;padding: 10px 0 0 30px; gap:5px;flex-wrap: wrap;">
+        {% include buttons_template with user=client %}
+    </div>
+</div>
+
+
+</div>
