@@ -65,10 +65,9 @@
                     </div>
 
                     <div style="display:flex; flex-direction:column;gap:20px;width:60%">
-                        <div id="appointment-detail-date">${moment(appointment.appointment_date).format("DD.MM.YYYY")}
+                        <div id="appointment-detail-date">${moment(appointment.localized_appointment_datetime).format("DD.MM.YYYY")}
                         </div>
-                        <div id="appointment-detail-time">${moment(appointment.appointment_time,
-                            "HH:mm:ss").format("HH:mm")}
+                        <div id="appointment-detail-time">${moment(appointment.localized_appointment_datetime).format("HH:mm")}
                         </div>
                         <div id="appointment-detail-user">${appointment.client.last_name}
                             ${appointment.client.first_name}
@@ -343,7 +342,7 @@
     let countdownInterval = null;
 
     function countdown(appointment_create_datetime) {
-        const last_moment = moment(appointment_create_datetime).add(30, 'minutes');
+        const last_moment = moment(appointment_create_datetime).add(10, 'minutes');
         const currentTime = moment();
 
         const distance = last_moment - currentTime;
@@ -364,8 +363,8 @@
 
     function loadAppointment(appointment, type) {
 
-        $('#appointment-detail-date').html(`${moment(appointment.appointment_date).format("DD.MM.YYYY")}`);
-        $('#appointment-detail-time').html(`${moment(appointment.appointment_time, "HH:mm:ss").format("HH:mm")}`);
+        $('#appointment-detail-date').html(`${moment(appointment.localized_appointment_datetime).format("DD.MM.YYYY")}`);
+        $('#appointment-detail-time').html(`${moment(appointment.localized_appointment_datetime).format("HH:mm")}`);
 
         if (type == 'expert') {
             $('#appointment-detail-user-type').html("Клиент:")

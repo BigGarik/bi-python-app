@@ -3,10 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.utils.timezone import make_aware, make_naive
+from django.utils.timezone import make_naive
 from django.views.decorators.http import require_POST
-
-from django.utils import timezone
 
 from wbappointment.forms import *
 from wbappointment.models import *
@@ -159,7 +157,7 @@ def get_experts_appointment(request, *args, **kwargs):
 
 @login_required
 def get_clients_appointment(request, *args, **kwargs):
-    appointments_as_client = Appointment.objects.filter(client_id=request.user.id)
+    appointments_as_client = Appointment.objects.filter(client=request.user)
 
     return JsonResponse(
         {'data':
