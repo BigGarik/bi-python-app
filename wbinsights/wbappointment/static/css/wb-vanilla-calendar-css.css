@@ -1,0 +1,190 @@
+.wb-vanilla-calendar {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    min-width: 272px;
+    max-width: 100%;
+    flex-direction: column;
+    border-radius: .75rem;
+    padding: 1.5rem;
+    opacity: 1;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: .15s;
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    color: #0f172a;
+
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+.wb-vanilla-calendar-month {
+    cursor: pointer;
+    border-radius: .25rem;
+    border-width: 0px;
+    background-color: transparent;
+    padding: .25rem;
+    font-size: 1.4rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    color: #476ae6 !important;;
+}
+
+.wb-vanilla-calendar-year {
+    display: none;
+    cursor: pointer;
+    border-radius: .25rem;
+    border-width: 0px;
+    background-color: transparent;
+    padding: .25rem;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    color: #476ae6 !important;
+
+}
+
+.wb-vanilla-calendar-arrow {
+    pointer-events: auto;
+    position: relative;
+    display: block;
+    height: 2rem;
+    width: 2rem;
+    cursor: pointer;
+    border-width: 0px;
+    background-color: transparent;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+.wb-vanilla-calendar-days {
+    display: grid;
+    flex-grow: 1;
+    grid-template-columns: repeat(7, 1fr);
+    align-items: center;
+    justify-items: center;
+    row-gap: .25rem;
+    column-gap: .25rem;
+}
+
+.wb-vanilla-calendar-day__btn {
+    display: flex;
+     height: 60px !important;
+    min-height: 2.625rem;
+    width: 100%;
+    min-width: 2.5rem;
+    cursor: default;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5rem;
+    border-width: 0px;
+    padding: 0;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    font-weight: 400;
+}
+
+[data-calendar-theme=light] .wb-vanilla-calendar-day__btn_selected, [data-calendar-theme=light] .wb-vanilla-calendar-day__btn_selected:hover {
+    --tw-bg-opacity: 1;
+    background-color: #476ae6;
+    color: #fff;
+}
+
+.wb-vanilla-calendar-week__day {
+    display: flex;
+    width: 100%;
+    min-width: 1.875rem;
+    align-items: center;
+    justify-content: center;
+    font-size: .85rem;
+    line-height: 1rem ;
+    font-weight: 500;
+    color: #9c9c9c;
+}
+
+[data-calendar-theme=light] .wb-vanilla-calendar-week__day_weekend {
+    color: #9c9c9c;
+}
+
+.wb-vanilla-calendar-arrow {
+    pointer-events: auto;
+    position: relative;
+    display: block;
+    height: 2.5rem;
+    width: 2.5rem;
+    cursor: pointer;
+    border-width: 0px;
+    background-color: transparent;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+}
+
+[data-calendar-theme=light] .wb-vanilla-calendar-arrow:before {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCc+PHBhdGggZmlsbD0nI2YwZjBmMCcgZD0nTTEyIDE2Yy0uMyAwLS41LS4xLS43LS4zbC02LTZjLS40LS40LS40LTEgMC0xLjRzMS0uNCAxLjQgMGw1LjMgNS4zIDUuMy01LjNjLjQtLjQgMS0uNCAxLjQgMHMuNCAxIDAgMS40bC02IDZjLS4yLjItLjQuMy0uNy4zeicvPjwvc3ZnPg==);
+    background-size: contain;
+}
+
+
+.wb-vanilla-calendar-arrow.vanilla-calendar-arrow_next:before {
+    transform: rotate(-90deg);
+}
+
+.wb-vanilla-calendar-arrow.vanilla-calendar-arrow_prev:before {
+    transform: rotate(90deg);
+}
+.wb-vanilla-calendar-arrow:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: no-repeat;
+    width: 100%;
+    color: blue;
+    --tw-content: "";
+    content: var(--tw-content);
+}
+
+
+.wb-vanilla-calendar-header {
+    position: relative;
+    margin-bottom: 1rem !important;
+    display: flex;
+    align-items: center;
+}
+
+.confirm-appointment-text {
+    font-size: 18px;
+}
+
+.wb-vanilla-calendar-wrapper {
+    display: flex;
+    flex-grow: 1;
+    margin-top: 10px;
+}
+
+
+.wb-vanilla-calendar-header {
+    position: relative;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px ) {
+    .wb-vanilla-calendar-day__btn {
+        min-width: 2rem !important;
+    }
+
+    .wb-vanilla-calendar-day__btn {
+        height: 50px !important;
+        font-size: 1rem !important;
+    }
+
+    .wb-vanilla-calendar {
+        padding: 1rem !important;
+    }
+
+}

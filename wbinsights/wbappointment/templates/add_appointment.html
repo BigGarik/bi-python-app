@@ -6,6 +6,7 @@
 {% block extra_static %}
 
     <link rel="stylesheet" href="{% static 'css/add_appointment.css' %}">
+    <link rel="stylesheet" href="{% static 'css/wb-vanilla-calendar-css.css' %}">
     <link rel="stylesheet" href="{% static 'web/css/expertProfilePage.css' %}">
     <link rel="stylesheet" href="{% static 'css/vanila-calendar/vanilla-calendar.min.css' %}"/>
     <script src="{% static 'js/vanila-calendar/vanilla-calendar.min.js' %}"></script>
@@ -22,7 +23,7 @@
             }
 
             .user-category-cont {
-                height:auto !important;
+                height: auto !important;
                 gap: 10px;
             }
 
@@ -31,12 +32,11 @@
                 padding-top: 10px;
             }
 
-            .vanilla-calendar {
-                width: 100% !important;
-            }
+
+
+
 
         }
-
 
 
     </style>
@@ -47,65 +47,66 @@
 
     <div class="container" style="background-color: #eeefef;padding: 20px;border-radius: 10px;">
 
-        <a href="javascript:history.go(-1);" class="global-back-btn">
-            <i class="bi bi-chevron-left"></i>Назад
-        </a>
 
-        <div style="padding: 14px; display: flex; justify-content: center; font-size: 26px;">
-            Бронирование услуги "Онлайн консультация"
-        </div>
+
+
 
         <div class="profile-info-cont content d-none d-sm-block">
 
-            <div class="col-12 top-half-prof element-container">
+            <div class="col-12 top-half-prof element-container" style="flex-direction: column">
+                <a href="javascript:history.go(-1);" class="global-back-btn">
+                    <i class="bi bi-chevron-left"></i>Назад
+                </a>
+                <div style="display: flex">
 
-                <div class=" col-sm-3 prof-page-pic-cont"
-                     style="justify-content: center;display: flex;align-items: center;">
-                    <img src="{{ expert.profile.avatar.url }}" alt="Avatar"
-                         style="border-radius: 50%;width: 130px;height: 130px;object-fit: cover;">
-                </div>
-
-                <div class=" col-sm-9  profile-information-cont" style="margin-top: 25px; margin-bottom: 30px;">
-
-                    <div class="user-display-name">
-                        {{ expert.first_name }} {{ expert.last_name }}
+                    <div class=" col-sm-3 prof-page-pic-cont"
+                         style="justify-content: center;display: flex;align-items: center;">
+                        <img src="{{ expert.profile.avatar.url }}" alt="Avatar"
+                             style="border-radius: 50%;width: 170px;height: 170px;object-fit: cover;">
                     </div>
 
-                    <div class="user-rating-cont" >
+                    <div class=" col-sm-9  profile-information-cont-apt" >
 
-                        <div class="user-rating">{% trans 'RatingLabel' %} :
-                            {{ expert.expertprofile.rating|default_if_none:0 }}</div>
+                        <div class="user-display-name-apt">
+                            {{ expert.first_name }} {{ expert.last_name }}
+                        </div>
 
-                        {% get_rate_chipher expert.expertprofile.rating|default:0 as filled_stars_chipher %}
+                        <div class="user-rating-cont">
 
-                        <div class="user-rate-and-stars">
-                            {% for ch in filled_stars_chipher %}
-                                {% if ch == 'f' %}
-                                    <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                                {% elif ch == 'h' %}
-                                    <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                                {% elif ch == 'e' %}
-                                    <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
-                                {% endif %}
-                            {% endfor %}
+                            <div class="user-rating">{% trans 'RatingLabel' %} :
+                                {{ expert.expertprofile.rating|default_if_none:0 }}</div>
+
+                            {% get_rate_chipher expert.expertprofile.rating|default:0 as filled_stars_chipher %}
+
+                            <div class="user-rate-and-stars">
+                                {% for ch in filled_stars_chipher %}
+                                    {% if ch == 'f' %}
+                                        <i class="bi bi-star-fill" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                                    {% elif ch == 'h' %}
+                                        <i class="bi bi-star-half" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                                    {% elif ch == 'e' %}
+                                        <i class="bi bi-star" style="color: #e9be50; padding: 0 2px 0 2px"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                        </div>
+
+                        <div class="user-category-cont" style="align-items: center">
+
+                            <div class="user-category" style="padding-right: 0; padding-top: 0;">Эксперт в области :&nbsp; </div>
+
+                            <div class="displayflex">
+                                {% for exp_category in expert.expertprofile.expert_categories.all %}
+                                    <div class="user-catagory-highlight {{exp_category.slug}}">
+                                        {{ exp_category.name }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
                         </div>
 
                     </div>
-
-                    <div class="user-category-cont" style="align-items: center">
-
-                        <div class="user-category" style="padding-right: 0; padding-top: 0;">Эксперт в области :</div>
-
-                        <div class="displayflex">
-                            {% for exp_category in user.expertprofile.expert_categories.all %}
-                                <div class="user-catagory-highlight {{ exp_category.slug }}">
-                                    {{ exp_category.name }}
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -115,20 +116,25 @@
         <div class="profile-info-cont content d-block d-sm-none">
             <div class="col-12 top-half-prof element-container" style="display: flex; flex-direction: column ">
 
-                <div style="display:flex">
+                <div  style="display:flex; flex-direction: column">
 
+                    <a href="javascript:history.go(-1);" class="global-back-btn">
+                        <i class="bi bi-chevron-left"></i>Назад
+                    </a>
                     <div class="col-sm-3 prof-page-pic-cont"
+
                          style="justify-content: center;display: flex;align-items: center;">
+
                         <img src="{{ expert.profile.avatar.url }}" alt="Avatar"
-                             style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
+                             style="border-radius: 50%;width: 150px;height: 150px;object-fit: cover;">
                     </div>
 
-                    <div class="col-sm-9 profile-information-cont" style="margin-top: 25px; margin-bottom: 30px;">
+                    <div class="col-sm-9 profile-information-cont" style="margin-top: 15px; margin-bottom: 10px; width: 100%; align-items: center;">
 
                         <div class="user-display-name">
                             {{ expert.first_name }} {{ expert.last_name }}
                         </div>
-                        <div class="user-rating-cont" style="flex-direction: column; align-items: flex-start">
+                        <div class="user-rating-cont" style="flex-direction: column; align-items: center; display: flex; flex-direction: row;">
 
                             <div class="user-rating">{% trans 'RatingLabel' %} :
                                 {{ expert.expertprofile.rating|default_if_none:0 }}
@@ -149,64 +155,77 @@
                             </div>
 
                         </div>
-
-                    </div>
-                </div>
-
-
-                <div style="display:flex;flex-direction: column">
-
-
-                    <div class="user-category-cont">
-
                         <div class="user-category">Эксперт в области :</div>
+                        <div style="display:flex;flex-direction: column">
 
-                        <div style="flex-wrap: wrap;display: flex;">
-                            {% for exp_category in user.expertprofile.expert_categories.all %}
-                                <div class="user-catagory-highlight {{ exp_category.slug }}">
-                                    {{ exp_category.name }}
+                            <div class="user-category-cont">
+
+
+
+                                <div style="flex-wrap: wrap;display: flex;">
+                                    {% for exp_category in expert.expertprofile.expert_categories.all %}
+                                        <div class="user-catagory-highlight {{exp_category.slug}}">
+                                            {{ exp_category.name }}
+                                        </div>
+                                    {% endfor %}
                                 </div>
-                            {% endfor %}
+
+                            </div>
                         </div>
 
                     </div>
                 </div>
 
+
+
+
             </div>
         </div>
 
 
-        <div class="column-mobile-cons" style="display:flex;">
+        <div class="element-container">
+            <div class="column-mobile-cons" style="display:flex; flex-direction: column">
+                <div style="display: flex;flex-direction: column">
+                    <div class="display-justify-between">
+                        <span class="spanclass-calendar">Выберите дату и время консультации:</span>
+                        <span class="spanclass-calendar-timezone">{{ request.user.profile.timezone }}</span>
+                    </div>
+                    <div style="min-height: 330px">
+                        <div id="calendar" style="transform: scale(1);"></div>
+                    </div>
+                </div>
 
-            <div style="display: flex; justify-content: flex-start; padding: 30px">
-                <div id="calendar" style="transform: scale(1.2);"></div>
+                <div class="flex-dir-col">
+                    <span class="confirm-appointment-text">Выберите удобное время:</span>
+                    <div id="time-slots" class="time-slots">
+                        Не выбрана дата
+                    </div>
+                </div>
             </div>
 
-            <div class="time-slots" style="padding-left: 25px;">
-                Не выбрана дата
-            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group appointment-margins">
+                    {{ form.appointment_date }}
+                </div>
 
+                <div class="form-group appointment-notes">
+                    <label for="notes" class="confirm-appointment-text">{% trans 'AppointmentAdditionalNotes' %}</label>
+                    {{ form.notes }}
+                </div>
+
+                <input type="hidden" name="expert" value="{{ expert.pk }}">
+                <input type="hidden" name="appointment_time" value="" required>
+
+                <div class="confirm-appointment-cont">
+                    <span class="confirm-appointment-text">Вы записываетесь на консультацию на сумму {{ expert.expertprofile.hour_cost }} ₽</span>
+
+                    <div id="confirm-details" class="confirm-details-cont">Дата и время не выбраны</div>
+
+                    <button type="submit" class="btn btn-success confirm-apt-btn">Записаться</button>
+                </div>
+            </form>
         </div>
-
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group appointment-margins">
-                {{ form.appointment_date }}
-            </div>
-
-            <div class="form-group appointment-notes">
-                <label for="notes" class="appointment-labels">{% trans 'AppointmentAdditionalNotes' %}</label>
-                {{ form.notes }}
-            </div>
-
-            <input type="hidden" name="expert" value="{{ expert.pk }}">
-            <input type="hidden" name="appointment_time" value="" required>
-
-
-            <button type="submit"
-                    class="btn btn-primary btn-block appointment-btn">{% trans 'SubmitButtonLabel' %}
-            </button>
-        </form>
     </div>
 
     <script>
@@ -221,20 +240,33 @@
             const selectAppointmentTime = $('[name=appointment_time]');
             selectAppointmentTime.val(value);
 
-            $('.time-slot-item').addClass("btn-outline-primary")
-            $('.time-slot-item').removeClass("btn-primary");
+            $('.time-slot-item').removeClass("active btn-primary").addClass("btn-outline-primary");
 
-            e.target.classList.remove("btn-outline-primary");
-            e.target.classList.add("btn-primary");
+            $(e.target).removeClass("btn-outline-primary").addClass("active btn-primary");
+
+            updateConfirmDetails();
+        }
+
+
+        function updateConfirmDetails() {
+            const selectedDate = $('#id_appointment_date').val();
+            const selectedTime = $('[name=appointment_time]').val();
+
+            if (selectedDate && selectedTime) {
+                const date = new Date(selectedDate + 'T' + selectedTime);
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                const formattedDate = date.toLocaleDateString('ru-RU', options);
+
+                $('#confirm-details').text(formattedDate);
+            } else {
+                $('#confirm-details').text('Дата и время не выбраны');
+            }
         }
 
         $(document).ready(function () {
-
-            //document.getElementsByClassName("myButton").addEventListener("click", handleClick);
-
             const selectAppointmentDate = $('#id_appointment_date');
-            const selectAppointmentTime = $('#id_appointment_time');
-            const timeSlotsDiv = $('.time-slots');
+            const selectAppointmentTime = $('[name=appointment_time]');
+            const timeSlotsDiv = $('#time-slots');
 
             let options = {
                 settings: {
@@ -250,15 +282,10 @@
                     weekday: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 },
                 actions: {
-
                     clickDay(event, self) {
-
-                        // Set the value of appointment date input
                         selectAppointmentDate.val(self.selectedDates.join(', '));
 
-                        // Enable/disable time selection based on whether a date is selected
                         if (self.selectedDates.length > 0) {
-
                             $.ajax({
                                 url: '/appointment/available/timeslots/json',
                                 type: 'GET',
@@ -267,34 +294,112 @@
                                     selected_date: self.selectedDates[0]
                                 },
                                 success: function (response) {
-
-                                    selectAppointmentTime.html('');
-                                    timeSlotsDiv.html('')
+                                    selectAppointmentTime.val('');
+                                    timeSlotsDiv.empty();
                                     response.forEach(slot => {
-
-                                        selectAppointmentTime.append('<option value="' + slot + ':00' + '">' + slot + '</option>');
-                                        timeSlotsDiv.append(`<button type="button" class="time-slot-item btn btn-outline-primary" style="height: 35px;margin-left: 5px; margin-bottom: 5px" onclick="selectTimeSlot('${slot + ':00'}', event)">${slot}</button>`);
-                                        //timeSlotsDiv.append(`<div class="time-slot-item" onclick="selectTimeSlot('${slot + ':00'}')">${slot}</div>`);
+                                        timeSlotsDiv.append(`<button type="button" class="time-slot-item btn btn-outline-primary timeslot-buttons"  onclick="selectTimeSlot('${slot + ':00'}', event)">${slot}</button>`);
                                     });
-
                                     selectAppointmentTime.prop('disabled', false);
-                                    console.log(response)
+                                    updateConfirmDetails();
                                 }
-                            })
-
-
+                            });
                         } else {
-                            // if no date selected then disable
                             selectAppointmentTime.prop('disabled', true);
+                            timeSlotsDiv.html('Не выбрана дата');
+                            updateConfirmDetails();
                         }
                     },
                 },
+                CSSClasses: {
+                    calendar: 'wb-vanilla-calendar',
+                    calendarDefault: 'vanilla-calendar_default',
+                    calendarMultiple: 'vanilla-calendar_multiple',
+                    calendarMonth: 'vanilla-calendar-month',
+                    calendarYear: 'wb-vanilla-calendar-year',
+                    calendarHidden: 'vanilla-calendar_hidden',
+                    calendarToInput: 'vanilla-calendar_to-input',
+                    controls: 'vanilla-calendar-controls',
+                    grid: 'vanilla-calendar-grid',
+                    gridDisabled: 'vanilla-calendar-grid_disabled',
+                    column: 'vanilla-calendar-column',
+                    columnMonth: 'vanilla-calendar-column_month',
+                    columnYear: 'vanilla-calendar-column_year',
+                    header: 'wb-vanilla-calendar-header',
+                    headerContent: 'wb-vanilla-calendar-header__content',
+                    month: 'wb-vanilla-calendar-month',
+                    monthDisabled: 'vanilla-calendar-month_disabled',
+                    year: 'wb-vanilla-calendar-year',
+                    yearDisabled: 'vanilla-calendar-year_disabled',
+                    arrow: 'wb-vanilla-calendar-arrow',
+                    arrowPrev: 'vanilla-calendar-arrow_prev',
+                    arrowNext: 'vanilla-calendar-arrow_next',
+                    wrapper: 'wb-vanilla-calendar-wrapper',
+                    content: 'vanilla-calendar-content',
+                    week: 'vanilla-calendar-week',
+                    weekDay: 'wb-vanilla-calendar-week__day',
+                    weekDayWeekend: 'wb-vanilla-calendar-week__day_weekend',
+                    days: 'wb-vanilla-calendar-days',
+                    daysSelecting: 'vanilla-calendar-days_selecting',
+                    months: 'vanilla-calendar-months',
+                    monthsSelecting: 'vanilla-calendar-months_selecting',
+                    monthsMonth: 'vanilla-calendar-months__month',
+                    monthsMonthSelected: 'vanilla-calendar-months__month_selected',
+                    monthsMonthDisabled: 'vanilla-calendar-months__month_disabled',
+                    years: 'vanilla-calendar-years',
+                    yearsSelecting: 'vanilla-calendar-years_selecting',
+                    yearsYear: 'vanilla-calendar-years__year',
+                    yearsYearSelected: 'vanilla-calendar-years__year_selected',
+                    yearsYearDisabled: 'vanilla-calendar-years__year_disabled',
+                    time: 'vanilla-calendar-time',
+                    timeContent: 'vanilla-calendar-time__content',
+                    timeHours: 'vanilla-calendar-time__hours',
+                    timeMinutes: 'vanilla-calendar-time__minutes',
+                    timeKeeping: 'vanilla-calendar-time__keeping',
+                    timeRanges: 'vanilla-calendar-time__ranges',
+                    timeRange: 'vanilla-calendar-time__range',
+                    day: 'vanilla-calendar-day',
+                    daySelected: 'vanilla-calendar-day_selected',
+                    daySelectedFirst: 'vanilla-calendar-day_selected-first',
+                    daySelectedLast: 'vanilla-calendar-day_selected-last',
+                    daySelectedIntermediate: 'vanilla-calendar-day_selected-intermediate',
+                    dayPopup: 'vanilla-calendar-day__popup',
+                    dayBtn: 'wb-vanilla-calendar-day__btn',
+                    dayBtnPrev: 'vanilla-calendar-day__btn_prev',
+                    dayBtnNext: 'vanilla-calendar-day__btn_next',
+                    dayBtnToday: 'vanilla-calendar-day__btn_today',
+                    dayBtnSelected: 'wb-vanilla-calendar-day__btn_selected',
+                    dayBtnHover: 'vanilla-calendar-day__btn_hover',
+                    dayBtnDisabled: 'vanilla-calendar-day__btn_disabled',
+                    dayBtnIntermediate: 'vanilla-calendar-day__btn_intermediate',
+                    dayBtnWeekend: 'vanilla-calendar-day__btn_weekend',
+                    dayBtnHoliday: 'vanilla-calendar-day__btn_holiday',
+                    weekNumbers: 'vanilla-calendar-week-numbers',
+                    weekNumbersTitle: 'vanilla-calendar-week-numbers__title',
+                    weekNumbersContent: 'vanilla-calendar-week-numbers__content',
+                    weekNumber: 'vanilla-calendar-week-number',
+                    isFocus: 'vanilla-calendar-is-focus',
+                },
+
+
             };
 
             const calendar = new VanillaCalendar('#calendar', options);
             calendar.init();
 
+            document.querySelector('.wb-vanilla-calendar-month').addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+
+            document.querySelector('.wb-vanilla-calendar-year').addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+
+
         });
+
+
     </script>
 
 
