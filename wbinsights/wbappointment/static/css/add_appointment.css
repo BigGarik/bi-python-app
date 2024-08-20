@@ -121,13 +121,13 @@
 .confirm-details-cont {
     margin: 20px 0 20px 0;
     padding: 10px 20px 10px 20px;
-    font-size: 14px;
+    font-size: 16px;
     background-color: white;
     border-radius: 10px;
 }
 
 .confirm-appointment-text {
-    font-size: 20px;
+    font-size: 24px !important;
     font-weight: 600;
     font-family: sans-serif;
     margin: 20px 0 20px 0;
@@ -150,11 +150,46 @@
 }
 
 .timeslot-buttons {
-    height: 35px;
+    height: 40px;
     margin-right: 5px;
     margin-bottom: 5px;
     background-color: #f0f0f0;
     border: none;
     color: black;
+}
+
+.timeslot-buttons.active,
+.timeslot-buttons:active,
+.timeslot-buttons:focus {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.profile-information-cont-apt {
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    padding-left: 20px;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.user-display-name-apt {
+    display: flex;
+    font-size: 28px;
+    font-family: sans-serif;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px ) {
+    .confirm-appointment-text {
+        font-size: 20px !important;
+    }
+    .display-justify-between {
+        flex-direction: column;
+    }
 }
 

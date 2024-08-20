@@ -7,7 +7,7 @@
     max-width: 100%;
     flex-direction: column;
     border-radius: .75rem;
-    padding: 1rem;
+    padding: 1.5rem;
     opacity: 1;
     transition-property: opacity;
     transition-timing-function: cubic-bezier(.4,0,.2,1);
@@ -26,7 +26,7 @@
     border-width: 0px;
     background-color: transparent;
     padding: .25rem;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     line-height: 1.5rem;
     font-weight: 600;
     color: #476ae6 !important;;
@@ -72,7 +72,7 @@
 
 .wb-vanilla-calendar-day__btn {
     display: flex;
-    height: 100%;
+     height: 60px !important;
     min-height: 2.625rem;
     width: 100%;
     min-width: 2.5rem;
@@ -82,7 +82,7 @@
     border-radius: .5rem;
     border-width: 0px;
     padding: 0;
-    font-size: 1rem;
+    font-size: 1.2rem;
     line-height: 1rem;
     font-weight: 400;
 }
@@ -99,8 +99,8 @@
     min-width: 1.875rem;
     align-items: center;
     justify-content: center;
-    font-size: .75rem;
-    line-height: 1rem;
+    font-size: .85rem;
+    line-height: 1rem ;
     font-weight: 500;
     color: #9c9c9c;
 }
@@ -113,8 +113,8 @@
     pointer-events: auto;
     position: relative;
     display: block;
-    height: 2.3rem;
-    width: 2.3rem;
+    height: 2.5rem;
+    width: 2.5rem;
     cursor: pointer;
     border-width: 0px;
     background-color: transparent;
@@ -123,9 +123,10 @@
 }
 
 [data-calendar-theme=light] .wb-vanilla-calendar-arrow:before {
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCc+PHBhdGggZmlsbD0nIzBmMTcyYScgZD0nTTEyIDE2Yy0uMyAwLS41LS4xLS43LS4zbC02LTZjLS40LS40LS40LTEgMC0xLjRzMS0uNCAxLjQgMGw1LjMgNS4zIDUuMy01LjNjLjQtLjQgMS0uNCAxLjQgMHMuNCAxIDAgMS40bC02IDZjLS4yLjItLjQuMy0uNy4zeicvPjwvc3ZnPg==);
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCc+PHBhdGggZmlsbD0nI2YwZjBmMCcgZD0nTTEyIDE2Yy0uMyAwLS41LS4xLS43LS4zbC02LTZjLS40LS40LS40LTEgMC0xLjRzMS0uNCAxLjQgMGw1LjMgNS4zIDUuMy01LjNjLjQtLjQgMS0uNCAxLjQgMHMuNCAxIDAgMS40bC02IDZjLS4yLjItLjQuMy0uNy4zeicvPjwvc3ZnPg==);
     background-size: contain;
 }
+
 
 .wb-vanilla-calendar-arrow.vanilla-calendar-arrow_next:before {
     transform: rotate(-90deg);
@@ -156,5 +157,34 @@
 
 .confirm-appointment-text {
     font-size: 18px;
+}
+
+.wb-vanilla-calendar-wrapper {
+    display: flex;
+    flex-grow: 1;
+    margin-top: 10px;
+}
+
+
+.wb-vanilla-calendar-header {
+    position: relative;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px ) {
+    .wb-vanilla-calendar-day__btn {
+        min-width: 2rem !important;
+    }
+
+    .wb-vanilla-calendar-day__btn {
+        height: 50px !important;
+        font-size: 1rem !important;
+    }
+
+    .wb-vanilla-calendar {
+        padding: 1rem !important;
+    }
 
 }

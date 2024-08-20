@@ -62,12 +62,12 @@
                     <div class=" col-sm-3 prof-page-pic-cont"
                          style="justify-content: center;display: flex;align-items: center;">
                         <img src="{{ expert.profile.avatar.url }}" alt="Avatar"
-                             style="border-radius: 50%;width: 130px;height: 130px;object-fit: cover;">
+                             style="border-radius: 50%;width: 170px;height: 170px;object-fit: cover;">
                     </div>
 
-                    <div class=" col-sm-9  profile-information-cont" style="margin-top: 25px; margin-bottom: 30px;">
+                    <div class=" col-sm-9  profile-information-cont-apt" >
 
-                        <div class="user-display-name">
+                        <div class="user-display-name-apt">
                             {{ expert.first_name }} {{ expert.last_name }}
                         </div>
 
@@ -94,11 +94,11 @@
 
                         <div class="user-category-cont" style="align-items: center">
 
-                            <div class="user-category" style="padding-right: 0; padding-top: 0;">Эксперт в области :</div>
+                            <div class="user-category" style="padding-right: 0; padding-top: 0;">Эксперт в области :&nbsp; </div>
 
                             <div class="displayflex">
-                                {% for exp_category in user.expertprofile.expert_categories.all %}
-                                    <div class="user-catagory-highlight {{ exp_category.slug }}">
+                                {% for exp_category in expert.expertprofile.expert_categories.all %}
+                                    <div class="user-catagory-highlight {{exp_category.slug}}">
                                         {{ exp_category.name }}
                                     </div>
                                 {% endfor %}
@@ -116,20 +116,25 @@
         <div class="profile-info-cont content d-block d-sm-none">
             <div class="col-12 top-half-prof element-container" style="display: flex; flex-direction: column ">
 
-                <div style="display:flex">
+                <div  style="display:flex; flex-direction: column">
 
+                    <a href="javascript:history.go(-1);" class="global-back-btn">
+                        <i class="bi bi-chevron-left"></i>Назад
+                    </a>
                     <div class="col-sm-3 prof-page-pic-cont"
+
                          style="justify-content: center;display: flex;align-items: center;">
+
                         <img src="{{ expert.profile.avatar.url }}" alt="Avatar"
-                             style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
+                             style="border-radius: 50%;width: 150px;height: 150px;object-fit: cover;">
                     </div>
 
-                    <div class="col-sm-9 profile-information-cont" style="margin-top: 25px; margin-bottom: 30px;">
+                    <div class="col-sm-9 profile-information-cont" style="margin-top: 15px; margin-bottom: 10px; width: 100%; align-items: center;">
 
                         <div class="user-display-name">
                             {{ expert.first_name }} {{ expert.last_name }}
                         </div>
-                        <div class="user-rating-cont" style="flex-direction: column; align-items: flex-start">
+                        <div class="user-rating-cont" style="flex-direction: column; align-items: center; display: flex; flex-direction: row;">
 
                             <div class="user-rating">{% trans 'RatingLabel' %} :
                                 {{ expert.expertprofile.rating|default_if_none:0 }}
@@ -150,38 +155,40 @@
                             </div>
 
                         </div>
-
-                    </div>
-                </div>
-
-
-                <div style="display:flex;flex-direction: column">
-
-
-                    <div class="user-category-cont">
-
                         <div class="user-category">Эксперт в области :</div>
+                        <div style="display:flex;flex-direction: column">
 
-                        <div style="flex-wrap: wrap;display: flex;">
-                            {% for exp_category in user.expertprofile.expert_categories.all %}
-                                <div class="user-catagory-highlight {{ exp_category.slug }}">
-                                    {{ exp_category.name }}
+                            <div class="user-category-cont">
+
+
+
+                                <div style="flex-wrap: wrap;display: flex;">
+                                    {% for exp_category in expert.expertprofile.expert_categories.all %}
+                                        <div class="user-catagory-highlight {{exp_category.slug}}">
+                                            {{ exp_category.name }}
+                                        </div>
+                                    {% endfor %}
                                 </div>
-                            {% endfor %}
+
+                            </div>
                         </div>
 
                     </div>
                 </div>
 
+
+
+
             </div>
         </div>
+
 
         <div class="element-container">
             <div class="column-mobile-cons" style="display:flex; flex-direction: column">
                 <div style="display: flex;flex-direction: column">
                     <div class="display-justify-between">
                         <span class="spanclass-calendar">Выберите дату и время консультации:</span>
-                        <span class="spanclass-calendar-timezone">Москва, Санкт-Петербург, UTC+3</span>
+                        <span class="spanclass-calendar-timezone">{{ request.user.profile.timezone }}</span>
                     </div>
                     <div style="min-height: 330px">
                         <div id="calendar" style="transform: scale(1);"></div>
@@ -203,7 +210,7 @@
                 </div>
 
                 <div class="form-group appointment-notes">
-                    <label for="notes" class="appointment-labels">{% trans 'AppointmentAdditionalNotes' %}</label>
+                    <label for="notes" class="confirm-appointment-text">{% trans 'AppointmentAdditionalNotes' %}</label>
                     {{ form.notes }}
                 </div>
 
@@ -233,12 +240,13 @@
             const selectAppointmentTime = $('[name=appointment_time]');
             selectAppointmentTime.val(value);
 
-            $('.time-slot-item').addClass("btn-outline-primary").removeClass("btn-primary");
-            e.target.classList.remove("btn-outline-primary");
-            e.target.classList.add("btn-primary");
+            $('.time-slot-item').removeClass("active btn-primary").addClass("btn-outline-primary");
+
+            $(e.target).removeClass("btn-outline-primary").addClass("active btn-primary");
 
             updateConfirmDetails();
         }
+
 
         function updateConfirmDetails() {
             const selectedDate = $('#id_appointment_date').val();
@@ -317,7 +325,7 @@
                     columnMonth: 'vanilla-calendar-column_month',
                     columnYear: 'vanilla-calendar-column_year',
                     header: 'wb-vanilla-calendar-header',
-                    headerContent: 'vanilla-calendar-header__content',
+                    headerContent: 'wb-vanilla-calendar-header__content',
                     month: 'wb-vanilla-calendar-month',
                     monthDisabled: 'vanilla-calendar-month_disabled',
                     year: 'wb-vanilla-calendar-year',
@@ -325,7 +333,7 @@
                     arrow: 'wb-vanilla-calendar-arrow',
                     arrowPrev: 'vanilla-calendar-arrow_prev',
                     arrowNext: 'vanilla-calendar-arrow_next',
-                    wrapper: 'vanilla-calendar-wrapper',
+                    wrapper: 'wb-vanilla-calendar-wrapper',
                     content: 'vanilla-calendar-content',
                     week: 'vanilla-calendar-week',
                     weekDay: 'wb-vanilla-calendar-week__day',
@@ -371,12 +379,27 @@
                     weekNumber: 'vanilla-calendar-week-number',
                     isFocus: 'vanilla-calendar-is-focus',
                 },
+
+
             };
 
             const calendar = new VanillaCalendar('#calendar', options);
             calendar.init();
 
+            document.querySelector('.wb-vanilla-calendar-month').addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+
+            document.querySelector('.wb-vanilla-calendar-year').addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+
+
         });
+
+
     </script>
 
 
