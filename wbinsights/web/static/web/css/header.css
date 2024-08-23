@@ -48,6 +48,8 @@
     background-color: inherit !important;
     color: red !important;
     font-weight: 500 !important;
+    display: flex;
+    align-items: center;
 }
 
 .header-dropdown-btn {
