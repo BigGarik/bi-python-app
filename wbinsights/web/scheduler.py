@@ -31,7 +31,7 @@ def start():
 
     scheduler.add_job(
         await_rating_calc,
-        trigger=CronTrigger(hour='0', minute='0'),
+        trigger=CronTrigger(day=1, hour='0', minute='0'),  # выполнить 1 числа каждого месяца в 0 часов 0 минут
         id="calculate_rating",  # The same `id` defined in `apscheduler.jobstores`
         max_instances=1,
         replace_existing=True,
