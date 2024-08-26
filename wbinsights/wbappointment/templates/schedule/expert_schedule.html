@@ -6,20 +6,24 @@
 
         .modal-schedule-cell-checkbox {
             display: flex;
-            justify-content: center;
+            {#justify-content: center;#}
         }
 
         .modal-schedule-cell {
             display: flex;
-            align-items: center;
+            {#align-items: center;#}
         }
 
         .modal-schedule-header {
             text-align: center;
         }
-        
 
+        .form-control-sm{
+            padding: .5rem 1rem;
+            color: #c4c4c4;
+            border-radius: 10px;
 
+        }
     </style>
 
     <div class="modal fade" id="expertCommonSchedule" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -27,12 +31,12 @@
 
         <div class="modal-dialog">
 
-            <div class="modal-content" style="padding: 20px">
+            <div class="modal-content" style="padding: 15px">
 
                 <form method="post" action="{% url 'add_calendar_schedule' %}" id="expert-schedule-form">
 
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Расписание</h5>
+                    <div class="modal-header" style="padding: 0;margin-bottom: 15px;border: none;">
+                        <h5 class="modal-title" id="exampleModalLabel">Настроить раписание</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -41,44 +45,59 @@
 
                     {% get_expert_schedule_form_set_tag request as formset %}
 
-                    <div class="row">
-                        <div class="col modal-schedule-header">Доступен</div>
-                        <div class="col modal-schedule-header">День недели</div>
-                        <div class="col modal-schedule-header">Начало</div>
-                        <div class="col modal-schedule-header">Конец</div>
+                    <div class="mb-3">
+                        <label for="timezone-select-modal" class="form-label">Часовой пояс</label>
+                        <select id="timezone-select-modal" class="form-select form-select-sm w-100"
+                                style="border: none;padding-left: 0;color: #0d6efd;font-size: 15px;font-weight: 600;width: fit-content !important; ">
+                            <!-- content loaded through js -->
+                        </select>
+                    </div>
+
+                    <div class="row" style="width: auto;justify-content: space-between;padding: 10px; font-weight: 600;">
+
+                        <div class="modal-schedule-header" style="width: auto; padding-left: 0;">День недели</div>
+                        <div style="display: flex; width: auto; gap: 20px;">
+                            <div class=" modal-schedule-header" style="width: auto; ">Начало</div>
+                            <div class=" modal-schedule-header" style="width: auto">Конец</div>
+                        </div>
 
                     </div>
 
-                    <div style="padding: 10px;">
+                    <div >
 
                         {% csrf_token %}
                         {{ formset.management_form }}
                         {% for form in formset %}
 
-                            <div style="padding-bottom: 20px">
+                            <div style="padding-bottom: 10px">
 
                                 <div class="row">
 
-                                    <div class="col modal-schedule-cell-checkbox">
-                                        {{ form.is_work_day }}
+                                    <div style="width: 60%;display: flex;align-items: center;gap: 10px;">
+                                        <div class=" modal-schedule-cell-checkbox">
+                                            {{ form.is_work_day }}
+                                        </div>
+
+                                        <div class=" modal-schedule-cell" style="font-weight: 600">
+                                            <label for="{{ form.start_time.id_for_label }}" class=""></label>
+                                            {{ form.id }}
+                                            {{ form.day_of_week }}
+                                            {{ form.day_of_week.value | get_day_name }}
+                                        </div>
                                     </div>
 
-                                    <div class="col modal-schedule-cell">
-                                        <label for="{{ form.start_time.id_for_label }}" class=""></label>
-                                        {{ form.id }}
-                                        {{ form.day_of_week }}
-                                        {{ form.day_of_week.value | get_day_name }}
+                                    <div style="width : 40%;display: flex;justify-content: flex-end;gap: 10px;">
+                                        <div class=" modal-schedule-cell" >
+                                            <label for="{{ form.start_time.id_for_label }}" class=""></label>
+                                            {{ form.start_time }}
+                                        </div>
+
+                                        <div class=" modal-schedule-cell">
+                                            <label for="{{ form.start_time.id_for_label }}" class=""></label>
+                                            {{ form.end_time }}
+                                        </div>
                                     </div>
 
-                                    <div class="col modal-schedule-cell">
-                                        <label for="{{ form.start_time.id_for_label }}" class=""></label>
-                                        {{ form.start_time }}
-                                    </div>
-
-                                    <div class="col modal-schedule-cell">
-                                        <label for="{{ form.start_time.id_for_label }}" class=""></label>
-                                        {{ form.end_time }}
-                                    </div>
 
                                 </div>
 
@@ -88,11 +107,11 @@
 
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="submit" id="expert-schedule-form-submit-btn" class="btn btn-primary"
+                    <div class="modal-footer" style="justify-content: flex-start;padding-left: 0;    gap: 10px;">
+                        <button type="submit" id="expert-schedule-form-submit-btn" style=" font-size: 13px; margin:  0px;padding: 10px 15px 10px 15px;" class="btn btn-primary"
                                 data-bs-dismiss="modal">Сохранить
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-secondary" style="background-color: white;color: black; font-size: 13px; margin:  0px; padding: 10px 15px 10px 15px;" data-bs-dismiss="modal">Закрыть</button>
                     </div>
 
                 </form>
@@ -103,82 +122,71 @@
 
     </div>
 
-<script>
-    function showExpertScheduleForm() {
-        $('#expertCommonSchedule').modal("show");
-    }
+    <script>
+        function showExpertScheduleForm() {
+            $('#expertCommonSchedule').modal("show");
+        }
 
-    function addExpertScheduleLink() {
-        // Запрашиваем список часовых поясов с сервера
-        $.get('/api/timezones/', function(data) {
-            const timezones = data.timezones;
-            let timezoneOptions = '';
-            for (const tz of timezones) {
-                timezoneOptions += `<option value="${tz}">${tz}</option>`;
-            }
+        function addExpertScheduleLink() {
+            const expertScheduleButtonsHTML = `
+            <div id="expert-schedule-mobile" class="d-flex d-lg-none flex-column align-items-center gap-2 mb-3">
+                <a class="btn btn-primary btn-sm w-100" onclick="showExpertScheduleForm()">Настроить расписание</a>
+            </div>
+            <div id="expert-schedule-desktop" class="d-none d-lg-flex align-items-center gap-2 mb-3">
+                <a class="btn btn-primary btn-sm" onclick="showExpertScheduleForm()">Настроить расписание</a>
+            </div>
+        `;
 
-            const expertScheduleHTML = `
-                <div id="expert-schedule-mobile" class="d-flex d-lg-none flex-column align-items-center gap-2 mb-3">
-                    <select id="timezone-select" class="form-select form-select-sm w-100">
-                        ${timezoneOptions}
-                    </select>
-                    <a class="btn btn-primary btn-sm w-100" onclick="showExpertScheduleForm()">Настроить расписание</a>
-                </div>
-                <div id="expert-schedule-desktop" class="d-none d-lg-flex align-items-center gap-2 mb-3">
-                    <select id="timezone-select-desktop" class="form-select form-select-sm" style="width: auto" >
-                        ${timezoneOptions}
-                    </select>
-                    <a class="btn btn-primary btn-sm" onclick="showExpertScheduleForm()">Настроить расписание</a>
-                </div>
-            `;
+            $('#consultations').prepend(expertScheduleButtonsHTML);
 
-            $('#consultations').prepend(expertScheduleHTML);
+            $.get('/api/timezones/', function (data) {
+                const timezones = data.timezones;
+                let timezoneOptions = '';
+                for (const tz of timezones) {
+                    timezoneOptions += `<option value="${tz}">${tz}</option>`;
+                }
 
-            // Установить текущий часовой пояс пользователя
-            $('#timezone-select').val('{{ request.user.profile.timezone }}');
-            $('#timezone-select-desktop').val('{{ request.user.profile.timezone }}');
+                $('#timezone-select-modal').html(timezoneOptions);
 
-            // Обработчик изменения часового пояса
-            $('#timezone-select, #timezone-select-desktop').change(function() {
-                const newTimezone = $(this).val();
-                $.ajax({
-                    url: '{% url "update_user_timezone" %}',  // Предполагаемый URL для обновления часового пояса
-                    type: 'POST',
-                    data: {
-                        timezone: newTimezone,
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
-                    },
-                    success: function(response) {
-                        console.log('Часовой пояс обновлен:', response);
-                        // Можно добавить уведомление пользователю об успешном обновлении
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Ошибка при обновлении часового пояса:', error);
-                        // Можно добавить уведомление пользователю об ошибке
-                    }
-                });
+                $('#timezone-select-modal').val('{{ request.user.profile.timezone }}');
+            });
+        }
+
+        $('#timezone-select-modal').change(function () {
+            const newTimezone = $(this).val();
+            $.ajax({
+                url: '{% url "update_user_timezone" %}',
+                type: 'POST',
+                data: {
+                    timezone: newTimezone,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    console.log('Timezone updated:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error updating timezone:', error);
+                }
             });
         });
-    }
 
-    $('#expert-schedule-form').submit(function (event) {
-        event.preventDefault();
-        const form = $(this);
-        $.ajax({
-            url: '{% url "add_calendar_schedule" %}',
-            type: 'POST',
-            data: form.serialize(),
-            success: function (response) {
-                console.log(response.result);
-                console.log(response.data);
-            }
+        $('#expert-schedule-form').submit(function (event) {
+            event.preventDefault();
+            const form = $(this);
+            $.ajax({
+                url: '{% url "add_calendar_schedule" %}',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    console.log(response.result);
+                    console.log(response.data);
+                }
+            });
         });
-    });
 
-    $(function () {
-        addExpertScheduleLink();
-    });
-</script>
-
+        $(function () {
+            addExpertScheduleLink();
+        });
+    </script>
 
 {% endif %}
