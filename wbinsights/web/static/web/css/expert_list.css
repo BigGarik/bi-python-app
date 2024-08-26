@@ -26,8 +26,8 @@
 }
 
 .experts-list-avatar-container {
-    width: 130px; 
-    height: 130px; 
+    width: 120px;
+    height: 120px;
     border-radius: 50%; 
     overflow: hidden; 
     border: 1px solid #ccc; 
@@ -99,18 +99,20 @@
 
     .expert-list-consult-btn {
         display: flex;
-        width: 100%;
+        /*width: 100%;*/
         justify-content: center;
+        padding: 15px;
+        border-radius: 10px;
     }
 
     .article-last {
         align-items: flex-start !important;
     }
 
-    .experts-list-rating-span {
-        justify-content: flex-start !important;
-        margin-top: 5px !important;
-    }
+    /*.experts-list-rating-span {*/
+    /*    justify-content: flex-start !important;*/
+    /*    margin-top: 5px !important;*/
+    /*}*/
 
 
     .user-catagory-highlight {

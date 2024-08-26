@@ -68,7 +68,7 @@
         @media (max-width: 768px) {
             #mobile-nav {
                 position: sticky;
-                bottom: 0;  
+                bottom: -1px;  
                 width: 100%;
                 background-color: white;
                 display: flex;
@@ -294,7 +294,7 @@
 
     </header>
 
-    <div class="row row-margin">
+    <div class="row row-margin" >
         {% block content %} {% endblock %}
     </div>
 

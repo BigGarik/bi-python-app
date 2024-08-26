@@ -36,7 +36,7 @@
 
 .lists-search-cont {
     display: flex;
-    padding: 5px 10px 5px 10px;
+    padding: 10px 15px 10px 15px;
     border: 1px solid #dadada;
     font-family: sans-serif;
     width: 100%;
@@ -180,13 +180,13 @@
 .global-catagory-text {
     display: flex;
     font-family: sans-serif;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .global-catagory-choose {
     display: flex;
     font-family: sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
 }
 
@@ -319,8 +319,9 @@
         display: flex;
         justify-content: flex-start !important;
         margin-top: 10px;
+        gap: 20px;
 
-}
+    }
 
 }
 
