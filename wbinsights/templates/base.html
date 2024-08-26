@@ -13,11 +13,9 @@
     <link rel="stylesheet" href="{% static 'web/css/mainPage.css' %}">
     <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
 
-
     <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap-icons.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap.min.css' %}"/>
     <script src="{% static 'web/js/bootstrap/5.3.3/bootstrap.bundle.min.js' %}"></script>
-
 
     <script src="{% static 'web/js/jquery/jquery-3.6.0.min.js' %}"></script>
     <script src="{% static 'web/js/jquery/ui/1.13.1/jquery-ui.min.js' %}"></script>
@@ -28,7 +26,6 @@
     <link href="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.iife.js" defer init></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
     <title>{% block title %}{% endblock %}</title>
 
@@ -46,9 +43,6 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif !important;
-        }
-
-        body {
             background-color: #2980b9;
             font-family: monaco, Consolas, Lucida Console, monospace;
         }
@@ -58,20 +52,29 @@
             height: auto;
         }
 
+        /* Overlay styles */
+        #overlay {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 999; 
+            display: none; 
+        }
 
-    </style>
-
-    <style>
+        /* Mobile navigation styles */
         @media (max-width: 768px) {
             #mobile-nav {
                 position: sticky;
-                bottom: 0;
+                bottom: 0;  
                 width: 100%;
                 background-color: white;
                 display: flex;
                 justify-content: space-around;
                 padding: 15px 0;
-                border-top: 1px solid #f2f4f5;
+                border-top: 1px solid #cbcbcb;
                 z-index: 1000;
             }
 
@@ -79,7 +82,6 @@
                 color: white;
                 text-align: center;
                 font-size: 14px;
-                {#flex: 1;#}
             }   
 
             #mobile-nav .nav-item i {
@@ -93,11 +95,11 @@
             }
         }
     </style>
-
-
 </head>
 
 <body style="background-color: #f2f3f5;height: 1600px;">
+
+<div id="overlay"></div> <!-- Dimming overlay -->
 
 <div class="container-fluid">
 
@@ -108,11 +110,9 @@
             <!-- display for larger screens -->
             <div class="d-none d-xl-flex justify-content-end main-cont-css">
 
-
                 <div class="col-md-4 mb-2 mb-md-0 logo-container">
 
                     <div class="search-bar-cont">
-
                         <input class="search-bar" type="text" id="search" name="username" placeholder="Поиск">
 
                         {% if user.is_authenticated %}
@@ -124,13 +124,8 @@
                                         <i class="bi bi-plus" style="color:black; transform: scale(1.3);"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <!--                                    <a class="dropdown-item" href="#"-->
-                                        <!--                                       onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>-->
                                         <a class="dropdown-item"
                                            href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
-                                        <!-- Other dropdown items -->
-                                        <!--                                    <a class="dropdown-item" href="#"-->
-                                        <!--                                       onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>-->
                                     </div>
                                 </div>
                             {% endif %}
@@ -138,24 +133,15 @@
 
                         {% if user.is_staff %}
                             <div class="dropdown">
-
                                 <button class="btn btn-secondary fullscreen-dropdown" type="button"
                                         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
                                     <span style="color: black;">Администрирование</span>
                                 </button>
-
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                                    <!--                                    <a class="dropdown-item" href="#"-->
-                                    <!--                                       onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>-->
-
                                     <a class="dropdown-item"
                                        href="{% url 'manage_unverified_experts_list' %}">{% trans 'Верификация экспертов' %}</a>
-
-
                                 </div>
-
                             </div>
                         {% endif %}
 
@@ -164,13 +150,11 @@
                 </div>
 
                 <div class="col-md-2 text-md-end header-nav-container">
-
                     {% if request.user.is_authenticated %}
                         {% if not request.user.expertanketa.is_verified %}
                             <p class="verify-account-text">{% trans 'VerifyAccountLabel' %}</p>
                         {% endif %}
                     {% endif %}
-
                 </div>
 
                 <div class="col-md-4 text-md-end all-profile-cont"
@@ -196,19 +180,19 @@
                             <div class="header-prof-info">
                                 <span style="color:white">{{ user.first_name }} </span>
                                 <span style="color:grey">
-                                                {% if user.is_superuser %}
-                                                    Админ
-                                                {% elif user.profile.type == 1 %}
-                                                    Эксперт
-                                                {% elif user.profile.type == 0 %}
-                                                    Клиент
-                                                {% endif %}
-                                            </span>
+                                    {% if user.is_superuser %}
+                                        Админ
+                                    {% elif user.profile.type == 1 %}
+                                        Эксперт
+                                    {% elif user.profile.type == 0 %}
+                                        Клиент
+                                    {% endif %}
+                                </span>
                             </div>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                        style="background-color: inherit;border: none;margin: 0; ">
+                                        style="background-color: inherit;border: none;margin: 0;">
                                     <img src="{{ user.profile.avatar.url }}" alt="Avatar"
                                          style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
                                 </button>
@@ -256,71 +240,22 @@
                     {% endif %}
                 </div>
 
-
             </div>
 
             <!-- display on small screens -->
             <div class="d-xl-none">
 
-                <div style="display:flex">
+                <div style="display:flex; align-items: center">
 
                     <div id="sidebar-btn">
-                        <i class="bi bi-list" style="color: white; font-size: 24px;"></i>
+                        <i class="bi bi-list" style="color: white; font-size: 32px;"></i>
                     </div>
 
-                    <div style="display:flex;width: 100%; justify-content: flex-end;">
-
-
+                    <div style="display:flex;width: 100%; justify-content: flex-end;gap: 15px" >
+                        <i class="bi bi-search" style="font-size: 22px; color: white;padding-top: 4px; z-index: 2000" onclick="alert('in progress')"></i>
                         {% if user.is_authenticated %}
-
-                            
-
                             {% if user.profile.type == 1 %}
-                                <a class="dropdown-item"
-                                   href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
-                            {% endif %}
-                        {% else %}
-
-                            <div class="buttons-log-cont" style="width:100%; justify-content: flex-end;">
-                                <div class="header-icon-cont">
-                                    <a href="{% url 'index' %}">
-                                        <i class="bi bi-house" style="color:white; font-size: 1.3em;"></i>
-                                    </a>
-                                </div>
-
-                                <a href="{% url 'login' %}">
-                                    <button type="button" class="btn btn-dark logout-btn-style"
-                                            style="font-size: 16px !important"
-                                            style="font-size: 18px ; background-color: #4a4a5e !important;">{% trans 'LoginBtnLabel' %}</button>
-                                </a>
-                                <a href="{% url 'signup' %}">
-                                    <button type="button" class="btn btn-primary" style="font-size: 16px !important"
-                                            style="font-size: 18px;">{% trans 'RegisterBtnLabel' %}</button>
-                                </a>
-                            </div>
-
-                        {% endif %}
-
-                    </div>
-                </div>
-
-                <div id="sidebar">
-
-                    <div style="display:flex; flex-direction:row ;    justify-content: flex-end; height:50px">
-                        <div id="sidebar-close-btn" style="display: none;">
-                            <i class="bi bi-x" style="color: white; font-size:30px;"></i>
-                        </div>
-                    </div>
-
-                    <div>
-
-                        <div class="search-bar-cont-nav" style="margin-bottom: 20px; margin-top: 10px;">
-
-                            <input class="search-bar-nav" type="text" id="search" name="username" placeholder="Поиск">
-                            {% if user.is_authenticated %}
-
-                                <div class="dropdown">
-
+                                <div class="dropdown" style="z-index: 2000">
                                     <button class="btn btn-secondary nav-dropdown-styles" type="button"
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">
@@ -330,22 +265,27 @@
                                     <div class="dropdown-menu"
                                          style="padding: 0px;transform: translate(-110px, 10px) !important;"
                                          aria-labelledby="dropdownMenuButton">
-                                        <!--                                        <a class="dropdown-item" href="#"-->
-                                        <!--                                           onclick="alert('В разработке')">{% trans 'MakeResearch' %}</a>-->
-                                        
-                                        <!--                                        <a class="dropdown-item" href="#"-->
-                                        <!--                                           onclick="alert('В разработке')">{% trans 'AskQuestionLabel' %}</a>-->
+                                        {% if user.profile.type == 1 %}
+                                            <a class="dropdown-item"
+                                               href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endif %}
-                        </div>
+                        {% endif %}
+                    </div>
+                </div>
 
+                <div id="sidebar">
+                    <div style="display:flex; flex-direction:row ;    justify-content: flex-start; height:50px">
+                        <div id="sidebar-close-btn" style="display: none;">
+                            <i class="bi bi-x" style="color: white; font-size:34px;"></i>
+                        </div>
                     </div>
 
                     <div>
                         {% include "components/left_main_menu.html" %}
                     </div>
-
                 </div>
 
             </div>
@@ -358,7 +298,6 @@
         {% block content %} {% endblock %}
     </div>
 
-
     <div id="mobile-nav" class="d-xl-none">
         <a href="{% url 'index' %}" class="nav-item">
             <i class="bi bi-house-door-fill" style="color: grey; font-size: 26px;"></i>
@@ -367,11 +306,9 @@
             <a href="#" class="nav-item">
                 <i class="bi bi-chat-left-text-fill" style="color: grey; font-size: 26px;"></i>
             </a>
-            
             <a class="nav-item">
                 <i class="bi bi-bell-fill" style="color: grey; font-size: 26px;"></i>
             </a>
-            
             <div class="dropdown nav-item">
                 <button class="btn btn-secondary dropdown-toggle" type="button"
                         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -397,7 +334,6 @@
                     </div>
                 </div>
             </div>
-            
         {% else %}
             <a href="{% url 'login' %}">
                 <button type="button" class="btn btn-dark logout-btn-style"
@@ -405,29 +341,33 @@
                         style="font-size: 18px ; background-color: #4a4a5e !important;">{% trans 'LoginBtnLabel' %}</button>
             </a>
         {% endif %}
-
-
     </div>
-
 
 </div>
 
 <script>
-
     $(document).ready(function () {
         $('#sidebar-btn').on('click', function () {
             $('#sidebar').toggleClass('visible');
+            $('#overlay').show(); 
             $('#sidebar-btn').hide();
             $('#sidebar-close-btn').show();
         });
 
         $('#sidebar-close-btn').on('click', function () {
             $('#sidebar').toggleClass('visible');
+            $('#overlay').hide();  
+            $('#sidebar-close-btn').hide();
+            $('#sidebar-btn').show();
+        });
+
+        $('#overlay').on('click', function () {
+            $('#sidebar').removeClass('visible');
+            $(this).hide();
             $('#sidebar-close-btn').hide();
             $('#sidebar-btn').show();
         });
     });
-
 </script>
 
 <!-- Yandex.Metrika counter -->
@@ -463,4 +403,3 @@
 </body>
 
 </html>
-

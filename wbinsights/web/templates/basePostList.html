@@ -4,79 +4,8 @@
 
 {% block center_col %}
 
-<style>
-    @media (max-width: 768px) {
-        .columndirection {
-            flex-direction: column;
 
-        }
-        .post-menu {
-            font-size: 11px;
-        }
-        .smallscreenbtn {
-            width: 100%;
-        }
-        .post-menu-item {
-            font-size: 11px;
-        }
-        .base-info-split {
-            display: flex;
-            flex-direction: column;
-            margin-top: 15px;
-        }
-        .base-article-title {
-            padding: 10px 0px 10px 0px !important;
-        }
-        .base-article-content {
-            padding: 10px 0px 10px 0px !important;
-        }
-        .base-article-stats {
-            padding: 10px 0px 10px 0px !important;
-        }
-        .post-menu-item {
-            padding: 5px !important;
-        }
-        .basepost-media {
-            width: 100% !important;
-        }
-        .base-news-title,
-        .base-news-content,
-        .base-news-stats {
-            padding: 5px 0px 10px 0px;
-        }
-    }
-    .news-title {
-        cursor: pointer;
-    }
-    #newsTitlesList {
-        max-height: 300px;
-        overflow-y: hidden;
-        padding: 5px;
-    }
-    .news-titles {
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-        font-size: 14px;
-    }
-    .carousel-inner {
-        height: 300px;
-        display: flex;
-        flex-direction: column;
-    }
-    .carousel-item {
-        height: 100px;
-        display: none;
-    }
-    .carousel-item.active {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        border-bottom: 1px solid grey;
-    }
-</style>
-
-<div class="list-main-containers" style="margin-top: 0px">
+<div class="list-main-containers" >
     <div class="article-text-top">
         <span class="article-news">Новости</span>
         <span class="news-open-close" role="button" onclick="toggleCollapse()" aria-expanded="true">

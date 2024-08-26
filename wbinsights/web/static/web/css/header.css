@@ -215,7 +215,7 @@
 }
 
 #sidebar {
-    width: 100%;
+    width: 65%;
     background: #36364b;
     position: fixed;
     height: 100%;
@@ -252,10 +252,9 @@
     display: flex;
     vertical-align: middle;
     cursor: pointer;
-    margin: 10px;
-<!-- right: - 60 px;
---> top: 0px;
-    align-items: center  ;
+    margin: 5px;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
 #sidebar-close-btn span {
