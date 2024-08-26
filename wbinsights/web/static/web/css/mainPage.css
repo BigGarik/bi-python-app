@@ -120,7 +120,6 @@
             padding: 10px 0px 10px 0px !important;
         }
         .post-menu-item {
-            padding: 5px !important;
         }
         .basepost-media {
             width: 100% !important;
@@ -204,6 +203,19 @@
     text-decoration: none;
     color: #404054;
 }
+
+.post-menu-item-mobile {
+    padding: 7px;
+    cursor: pointer;
+    justify-content: center;
+    width: 100%;
+    display: flex;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #404054;
+}
+
+
 
 .post-menu-item.selected {
     background-color: #535478;
