@@ -1,26 +1,4 @@
-.base-Content{
-    background-color: #fff;
-    width: 100%;
-    display: flex;
-    padding: 15px 30px 15px 30px;
-    flex-direction: column;
-    border-radius: 15px;
-    margin-bottom: 20px;
-}
 
-.article-detail-page-content{
-    display: flex;
-    flex-direction: column;
-}
-
-
-.article-detail-page-publish-date{
-    display: flex;
-    color:  #a9b4ca;
-    align-items: center;
-    font-size: 13px;
-    margin-bottom: 15px;
-}
 
 .article-detail-title{
     display: flex;

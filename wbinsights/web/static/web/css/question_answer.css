@@ -1,17 +1,4 @@
-.hours-ago{
-    display: flex;
-    color: #a5b1c8;
-    font-size: 14px;
-    font-family: sans-serif;
-    margin-left: 10px;
-    align-items: center;
-}
 
-.qa-main-content-text{
-    font-size: 14px;
-    font-family: sans-serif;
-    flex-wrap: wrap;
-}
 
 .research-search-cont{
     display: flex;
@@ -22,18 +9,15 @@
     border-radius: 7px;
     outline: none !important;
     margin-right: 10px;
-    
 }
 
 .article-author-cont{
     display: flex;
     align-items: center;
+    gap: 5px;
 }
 
 
-.author-pic-research{
-    margin-right:5px;
-}
 
 .flex-cont {
     display:flex;
@@ -53,11 +37,6 @@
     justify-content: space-between;
 }
 
-.question-answer-title {
-    margin-bottom: 10px;
-    font-size: 23px;
-    font-weight: 600;
-}
 
 .ask-question-btn{
     cursor:pointer ;
@@ -94,9 +73,6 @@
         align-items:center;
     }
 
-    .hours-ago {
-        margin: 0px 0px 5px 0px !important;
-    }
 
     .author-name {
         font-size:14px;

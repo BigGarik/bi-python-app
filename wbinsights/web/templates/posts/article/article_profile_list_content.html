@@ -5,7 +5,7 @@
 
 
 {% for article in experts_articles %}
-    <div class="expert-content-cont">
+    <div class="basepost-content-cont"style="margin-top: 10px">
         <span class="article-title-loop-exp">
             <a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">
                 {{ article.title }}
