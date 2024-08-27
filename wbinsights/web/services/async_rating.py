@@ -92,6 +92,7 @@ class ExpertRatingCalculation:
                 # is_verified=row['is_verified']
             )
 
+    # Наличие профильного основного образования
     async def _calculate_primary_education_rating(self, conn, user_id: int,
                                                   expert_educations: list[ExpertEducationsRow]):
         score = 0
@@ -107,6 +108,7 @@ class ExpertRatingCalculation:
         await self.write_to_database(conn, role_name, role_text, user_id, score)
         return {'score': score, 'max_score': 2}
 
+    # Наличие профильного дополнительного образования
     async def _calculate_additional_education_rating(self, conn, user_id: int,
                                                      expert_educations: list[ExpertEducationsRow]):
         score = 0
@@ -121,6 +123,7 @@ class ExpertRatingCalculation:
         await self.write_to_database(conn, role_name, role_text, user_id, score)
         return {'score': score, 'max_score': 2}
 
+    # Стаж работы Консультантом в экспертной области
     async def _calculate_consulting_experience_rating(self, conn, user_id: int,
                                                       expert_profile: ExpertProfileRow):
         has_links_or_documents = expert_profile.hh_link or expert_profile.linkedin_link
@@ -139,6 +142,7 @@ class ExpertRatingCalculation:
         await self.write_to_database(conn, role_name, role_text, user_id, score)
         return {'score': score, 'max_score': 3}
 
+    # Стаж работы в экспертной области
     async def _calculate_experience_rating(self, conn, user_id: int, expert_profile: ExpertProfileRow):
         has_links_or_documents = expert_profile.hh_link or expert_profile.linkedin_link
         if expert_profile.experience >= 10:
@@ -160,6 +164,31 @@ class ExpertRatingCalculation:
         await self.write_to_database(conn, role_name, role_text, user_id, score)
         return {'score': score, 'max_score': 3}
 
+    # Наличие портфолио проектных работ в экспертной области
+    async def _calculate_project_work_rating(self, conn, user_id: int):
+        query = """
+        SELECT COUNT(DISTINCT up.id) as total_projects
+        FROM expertprojects_userproject up
+        LEFT JOIN expertprojects_userproject_members upm ON up.id = upm.userproject_id
+        WHERE up.author_id = $1 OR upm.customuser_id = $1
+        """
+
+        result = await conn.fetchval(query, user_id)
+        total_projects = result if result is not None else 0
+        score = 0
+        # Расчёт очков на основе количества проектов
+        if total_projects > 10:
+            score = 3
+        elif total_projects > 5:
+            score = 2
+        elif total_projects > 0:
+            score = 1
+
+        role_name = 'calculate_project_work_rating'
+        role_text = 'Текст с условиями расчета проектных работ'
+        await self.write_to_database(conn, role_name, role_text, user_id, score)
+        return {'score': score, 'max_score': 3}
+
     async def calculate_rating(self, pool, user_id: int):
         async with pool.acquire() as conn:
             async with conn.transaction():
@@ -169,9 +198,10 @@ class ExpertRatingCalculation:
                 rating2 = await self._calculate_experience_rating(conn, user_id, expert_profile)
                 rating3 = await self._calculate_consulting_experience_rating(conn, user_id, expert_profile)
                 rating4 = await self._calculate_additional_education_rating(conn, user_id, expert_educations)
+                rating5 = await self._calculate_project_work_rating(conn, user_id)
                 sum_max_score = sum(
-                    [rating1['max_score'], rating2['max_score'], rating3['max_score'], rating4['max_score']])
-                sum_score = sum([rating1['score'], rating2['score'], rating3['score'], rating4['score']])
+                    [rating1['max_score'], rating2['max_score'], rating3['max_score'], rating4['max_score'], rating5['max_score']])
+                sum_score = sum([rating1['score'], rating2['score'], rating3['score'], rating4['score'], rating5['score']])
                 rating = math.floor((sum_score / sum_max_score * 5) * 2) / 2
                 await conn.fetch("UPDATE web_expertprofile SET rating = $1, points = $2 WHERE user_id = $3", rating, sum_score, user_id)
 
