@@ -91,6 +91,8 @@
 }
 
 
+
+
 @media (max-width: 768px) {
         .columndirection {
             flex-direction: column;
@@ -121,13 +123,14 @@
         }
         .post-menu-item {
         }
-        .basepost-media {
-            width: 100% !important;
-        }
+
         .base-news-title,
-        .base-news-content,
-        .base-news-stats {
+        .base-news-content{
             padding: 5px 0px 10px 0px;
+        }
+
+        .base-news-stats {
+            padding: 15px 0px 15px 0px;
         }
     }
     .news-title {
@@ -164,6 +167,12 @@
 
 /* ---------------------------------------------------------------  ARTICLE LIST  ------------------------------------------------------------------------------- */
 
+
+@media (max-width: 768px) {
+    .row-margin {
+        margin-top: 0px !important;
+    }
+}
 .row-margin {
     margin-top: 20px !important;
     /* padding: 10px; */
