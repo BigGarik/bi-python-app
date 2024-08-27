@@ -1,10 +1,12 @@
 import pytz
+from datetime import datetime
 from django.conf import settings
 from urllib.parse import urljoin
 
 from django.http import JsonResponse
 
 from web.models import Profile
+# from web.services.timezone_translation import timezoneDictionary
 
 
 def get_timezones(request):
@@ -30,3 +32,7 @@ def get_avatar_url(comment):
     else:
         # Если у комментария нет связанного пользователя, возвращаем аватар по умолчанию.
         return urljoin(settings.MEDIA_URL, 'avatars/profile_picture_icon.png')
+
+
+if __name__ == '__main__':
+    print(get_timezones(None))

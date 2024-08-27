@@ -85,9 +85,25 @@ def add_appointment_view(request, *args, **kwargs):
             new_appointment.save()
             return redirect('appointment_checkout', pk=new_appointment.id)
     else:
+        user_timezone = request.user.profile.timezone
+        tz = pytz.timezone(user_timezone)
+
+        # Получаем текущее время в указанном часовом поясе
+        current_time = timezone.now().astimezone(tz)
+
+        # Получаем смещение в формате +03:00
+        offset_hours = current_time.strftime('%z')[:3]
+        offset_minutes = current_time.strftime('%z')[3:]
+        formatted_offset = f"{offset_hours}:{offset_minutes}"
+
+        # Форматируем строку
+        formatted_timezone = f"{user_timezone} {formatted_offset}"
+        # formatted_timezone = f"{region_city_mapping.get(user_timezone, user_timezone)} {formatted_offset}"
+
         form = AppointmentForm()
         not_avalable_dates = get_expert_working_dates(expert)
         context = {
+            "formatted_timezone": formatted_timezone,
             "expert": expert,
             'form': form,
             'start_cal_date': not_avalable_dates['data']['start'],

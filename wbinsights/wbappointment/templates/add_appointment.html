@@ -178,7 +178,7 @@
                 <div style="display: flex;flex-direction: column">
                     <div class="display-justify-between">
                         <span class="spanclass-calendar">Выберите дату и время консультации:</span>
-                        <span class="spanclass-calendar-timezone">{{ request.user.profile.timezone }}</span>
+                        <span class="spanclass-calendar-timezone">{{ formatted_timezone }}</span>
                     </div>
                     <div style="min-height: 330px">
                         <div id="calendar" style="transform: scale(1);"></div>
