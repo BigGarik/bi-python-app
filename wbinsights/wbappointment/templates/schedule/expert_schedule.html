@@ -122,83 +122,69 @@
 
     </div>
 
-<script>
-    function showExpertScheduleForm() {
-        $('#expertCommonSchedule').modal("show");
-    }
-
-    function addExpertScheduleLink() {
-        const expertScheduleButtonsHTML = `
-        <div id="expert-schedule-mobile" class="d-flex d-lg-none flex-column align-items-center gap-2 mb-3">
-            <a class="btn btn-primary btn-sm w-100" onclick="showExpertScheduleForm()">Настроить расписание</a>
-        </div>
-        <div id="expert-schedule-desktop" class="d-none d-lg-flex align-items-center gap-2 mb-3">
-            <a class="btn btn-primary btn-sm" onclick="showExpertScheduleForm()">Настроить расписание</a>
-        </div>
-        `;
-
-        $('#consultations').prepend(expertScheduleButtonsHTML);
-
-        $.get('/api/timezones/', function (data) {
-            const timezones = data.timezones;
-            let timezoneOptions = '';
-
-            // Преобразование временных зон в формат "Europe/Moscow +03:00"
-            for (const tz of timezones) {
-                const now = new Date();
-                // Получение смещения в минутах и преобразование в формат ±HH:MM
-                const offset = -now.getTimezoneOffset() / 60; // смещение в часах
-                const offsetSign = offset >= 0 ? '+' : '-';
-                const offsetHours = Math.floor(Math.abs(offset)).toString().padStart(2, '0');
-                const offsetMinutes = (Math.abs(offset) % 1 * 60).toString().padStart(2, '0');
-                const formattedOffset = `${offsetSign}${offsetHours}:${offsetMinutes}`;
-                // Форматирование строки
-                timezoneOptions += `<option value="${tz}">${tz.replace('_', ' ')} ${formattedOffset}</option>`;
-            }
-
-            $('#timezone-select-modal').html(timezoneOptions);
-            $('#timezone-select-modal').val('{{ request.user.profile.timezone }}');
+    <script>
+        function showExpertScheduleForm() {
+            $('#expertCommonSchedule').modal("show");
+        }
+        
+        function addExpertScheduleLink() {
+            const expertScheduleButtonsHTML = `
+                <div id="expert-schedule-mobile" class="d-flex d-lg-none flex-column align-items-center gap-2 mb-3">
+                    <a class="btn btn-primary btn-sm w-100" onclick="showExpertScheduleForm()">Настроить расписание</a>
+                </div>
+                <div id="expert-schedule-desktop" class="d-none d-lg-flex align-items-center gap-2 mb-3">
+                    <a class="btn btn-primary btn-sm" onclick="showExpertScheduleForm()">Настроить расписание</a>
+                </div>
+            `;
+            $('#consultations').prepend(expertScheduleButtonsHTML);
+        
+            $.get('/api/timezones/', function (data) {
+                const timezones = data.timezones;
+                const translatedTimezones = data.translated_timezones;
+                let timezoneOptions = '';
+                for (let i = 0; i < timezones.length; i++) {
+                    timezoneOptions += `<option value="${timezones[i]}">${translatedTimezones[i]}</option>`;
+                }
+                $('#timezone-select-modal').html(timezoneOptions);
+                $('#timezone-select-modal').val('{{ request.user.profile.timezone }}');
+            });
+        }
+        
+        $('#timezone-select-modal').change(function () {
+            const newTimezone = $(this).val();
+            $.ajax({
+                url: '{% url "update_user_timezone" %}',
+                type: 'POST',
+                data: {
+                    timezone: newTimezone,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    console.log('Timezone updated:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error updating timezone:', error);
+                }
+            });
         });
-    }
-
-    $('#timezone-select-modal').change(function () {
-        const newTimezone = $(this).val();
-        $.ajax({
-            url: '{% url "update_user_timezone" %}',
-            type: 'POST',
-            data: {
-                timezone: newTimezone,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function (response) {
-                console.log('Timezone updated:', response);
-            },
-            error: function (xhr, status, error) {
-                console.error('Error updating timezone:', error);
-            }
+        
+        $('#expert-schedule-form').submit(function (event) {
+            event.preventDefault();
+            const form = $(this);
+            $.ajax({
+                url: '{% url "add_calendar_schedule" %}',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    console.log(response.result);
+                    console.log(response.data);
+                }
+            });
         });
-    });
-
-    $('#expert-schedule-form').submit(function (event) {
-        event.preventDefault();
-        const form = $(this);
-        $.ajax({
-            url: '{% url "add_calendar_schedule" %}',
-            type: 'POST',
-            data: form.serialize(),
-            success: function (response) {
-                console.log(response.result);
-                console.log(response.data);
-            }
+        
+        $(function () {
+            addExpertScheduleLink();
         });
-    });
-
-    $(function () {
-        addExpertScheduleLink();
-    });
-</script>
-
-
-
+    </script>
 
 {% endif %}

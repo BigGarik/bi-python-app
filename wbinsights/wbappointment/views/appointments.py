@@ -25,6 +25,7 @@ from web.models import Expert
 from django.utils import timezone
 
 from wbappointment.views.zoom_utils import create_zoom_meeting
+from web.services.timezone_translation import timezoneDictionary
 
 info_logger = logging.getLogger("django-info")
 debug_logger = logging.getLogger("django-debug")
@@ -91,14 +92,13 @@ def add_appointment_view(request, *args, **kwargs):
         # Получаем текущее время в указанном часовом поясе
         current_time = timezone.now().astimezone(tz)
 
-        # Получаем смещение в формате +03:00
-        offset_hours = current_time.strftime('%z')[:3]
-        offset_minutes = current_time.strftime('%z')[3:]
-        formatted_offset = f"{offset_hours}:{offset_minutes}"
+        # Форматируем смещение
+        offset = current_time.strftime('%z')
+        offset_str = f"{offset[:3]}:{offset[3:]}"
 
         # Форматируем строку
-        formatted_timezone = f"{user_timezone} {formatted_offset}"
-        # formatted_timezone = f"{region_city_mapping.get(user_timezone, user_timezone)} {formatted_offset}"
+        # formatted_timezone = f"{user_timezone} {offset_str}"
+        formatted_timezone = f"{timezoneDictionary.get(str(tz), tz)} {offset_str}"
 
         form = AppointmentForm()
         not_avalable_dates = get_expert_working_dates(expert)
