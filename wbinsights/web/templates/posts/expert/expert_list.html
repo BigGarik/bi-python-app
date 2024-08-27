@@ -16,12 +16,9 @@
 {% block posts_content %}
 
 
-
-
-
 	<div class="list-main-containers expert-list">
 
-		<div class="experts-list-search-and-cat-cont">
+		<div class="search-and-cat-cont">
 		
 			<div class="small-layout col-sm col-md ">
 				<div class="col-sm-12 col-md-6 ">
@@ -77,9 +74,9 @@
 							</span>
 						</div>
 					</div>
-					<div class="expert-list-main-content">
-						<div class="expert-list-title">{{expert.first_name}} {{expert.last_name}}</div>
-						<div class="expert-list-cont">	                        
+					<div class="basepost-content-cont" style="padding: 10px">
+						<div class="basepost-title">{{expert.first_name}} {{expert.last_name}}</div>
+						<div class="category-container">
                             {% for exp_category in expert.expertprofile.expert_categories.all %}
 								<div class="user-catagory-highlight {{exp_category.slug}}">
 									{{ exp_category.name }}
@@ -88,7 +85,7 @@
 						</div>
 						<!--  large about me   -->
 						<div class="d-none d-md-block">
-							<div class="col">
+							<div class="basepost-description">
 								{{ expert.expertprofile.about }}
 								<a href="{% url 'expert_profile' expert.id %}?tab=articles" style="text-decoration:none">Читать ещё</a>
 							</div>

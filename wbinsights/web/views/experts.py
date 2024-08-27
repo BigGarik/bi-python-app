@@ -12,7 +12,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class ExpertListView(ListView):
     model = Expert
-    template_name = 'posts/expert/expert_list.html'
     context_object_name = "experts"
 
     def get_queryset(self):
@@ -35,6 +34,13 @@ class ExpertListView(ListView):
     # def get_queryset(self):
     #     experts = Expert.objects.all().annotate(expert_article_cnt=Count('article'))
     #     return experts
+
+    def get_template_names(self):
+        user_agent = self.request.META.get('HTTP_USER_AGENT','')
+        if 'Mobile' in user_agent or 'Andriod' in user_agent or 'Iphone' in user_agent:
+            return ['posts/expert/expert_list_mobile.html']
+        else:
+            return ['posts/expert/expert_list.html']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

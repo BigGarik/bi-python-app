@@ -5,78 +5,74 @@
 {% block center_col %}
 
 <style>
-    @media (max-width: 768px) {
-        .columndirection {
-            flex-direction: column;
-
+    /* Mobile-specific styles for the dropdown menu */
+    @media (max-width: 767.98px) {
+        .post-menu .dropdown {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 15px;
         }
         .post-menu {
-            font-size: 11px;
+            margin: 20px;
         }
-        .smallscreenbtn {
+
+        .post-menu .dropbtn {
+            background-color: #50577A;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
             width: 100%;
-        }
-        .post-menu-item {
-            font-size: 11px;
-        }
-        .base-info-split {
             display: flex;
-            flex-direction: column;
-            margin-top: 15px;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
         }
-        .base-article-title {
-            padding: 10px 0px 10px 0px !important;
+
+        .post-menu .arrow-down {
+            margin-left: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(45deg);
         }
-        .base-article-content {
-            padding: 10px 0px 10px 0px !important;
+
+        .post-menu .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 100%;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 10px;
+            top: 100%;
+            left: 0;
         }
-        .base-article-stats {
-            padding: 10px 0px 10px 0px !important;
+
+        .post-menu .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            justify-content: center;
+            text-decoration: none;
+            display: flex;
+            font-size: 15px;
         }
-        .post-menu-item {
-            padding: 5px !important;
+
+        .post-menu .dropdown-content a:hover {
+            background-color: #f1f1f1;
         }
-        .basepost-media {
-            width: 100% !important;
+
+        .post-menu .dropdown.open .dropdown-content {
+            display: block;
         }
-        .base-news-title,
-        .base-news-content,
-        .base-news-stats {
-            padding: 5px 0px 10px 0px;
-        }
-    }
-    .news-title {
-        cursor: pointer;
-    }
-    #newsTitlesList {
-        max-height: 300px;
-        overflow-y: hidden;
-        padding: 5px;
-    }
-    .news-titles {
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-        font-size: 14px;
-    }
-    .carousel-inner {
-        height: 300px;
-        display: flex;
-        flex-direction: column;
-    }
-    .carousel-item {
-        height: 100px;
-        display: none;
-    }
-    .carousel-item.active {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        border-bottom: 1px solid grey;
     }
 </style>
 
-<div class="list-main-containers" style="margin-top: 0px">
+<div class="list-main-containers">
     <div class="article-text-top">
         <span class="article-news">Новости</span>
         <span class="news-open-close" role="button" onclick="toggleCollapse()" aria-expanded="true">
@@ -127,9 +123,42 @@
 </div>
 
 {% split request.path "/" 'first' as url_first_part %}
-<div class="post-menu">
-    <a href="{% url 'research_list' %}" class="post-menu-item {% if not is_mobile and url_first_part == 'researches' or not is_mobile and url_first_part == '' %} selected {% endif %}">Исследования</a>
-    <a href="{% url 'experts_list' %}" class="post-menu-item {% if is_mobile and url_first_part == '' or url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
+
+<!-- Mobile version of the menu -->
+<div class="d-block d-md-none">
+    <div class="dropdown post-menu">
+        <button class="dropbtn" onclick="toggleDropdown(event)">
+            {% if url_first_part == 'researches' or url_first_part == '' %}
+                Исследования
+            {% elif url_first_part == 'experts' %}
+                Эксперты
+            {% elif url_first_part == 'articles' %}
+                Статьи
+            {% elif url_first_part == 'question_answer' %}
+                Вопрос-ответ
+            {% endif %}
+            <span class="arrow-down"></span>
+        </button>
+        <div class="dropdown-content">
+            {% if url_first_part != 'researches' and url_first_part != '' %}
+                <a href="{% url 'research_list' %}" class="post-menu-item-mobile">Исследования</a>
+            {% endif %}
+            {% if url_first_part != 'experts' %}
+                <a href="{% url 'experts_list' %}" class="post-menu-item-mobile">Эксперты</a>
+            {% endif %}
+            {% if url_first_part != 'articles' %}
+                <a href="{% url 'article_list' %}" class="post-menu-item-mobile">Статьи</a>
+            {% endif %}
+            {% if url_first_part != 'question_answer' %}
+                <a href="{% url 'question_answer_list' %}" class="post-menu-item-mobile">Вопрос-ответ</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="d-none d-md-flex post-menu">
+    <a href="{% url 'research_list' %}" class="post-menu-item {% if url_first_part == 'researches' or url_first_part == '' %} selected {% endif %}">Исследования</a>
+    <a href="{% url 'experts_list' %}" class="post-menu-item {% if url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
     <a href="{% url 'article_list' %}" class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">Статьи</a>
     <a href="{% url 'question_answer_list' %}" class="post-menu-item {% if url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
 </div>
@@ -152,48 +181,28 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var carousel = document.querySelector('#carouselExampleAutoplaying');
-        var items = document.querySelectorAll('.carousel-item');
-        var totalItems = items.length;
-
-        if (totalItems > 3) {
-            var newsGroups = [];
-
-            for (let i = 0; i < totalItems; i++) {
-                let group = [];
-                for (let j = 0; j < 3; j++) {
-                    let index = (i + j) % totalItems;
-                    group.push(items[index].cloneNode(true));
-                }
-                newsGroups.push(group);
-            }
-
-            var currentIndex = 0;
-
-            function renderNews() {
-                var newsCarousel = document.getElementById('newsCarousel');
-                newsCarousel.innerHTML = ''; // Clear then replace
-
-                let currentGroup = newsGroups[currentIndex];
-                currentGroup.forEach(newsItem => {
-                    newsItem.classList.add('active');
-                    newsCarousel.appendChild(newsItem);
-                });
-
-                currentIndex = (currentIndex + 1) % newsGroups.length;
-            }
-
-            // Initialize the carousel with the first 3 items
-            renderNews();
-            setInterval(renderNews, 5000);
+    function toggleDropdown(event) {
+        event.stopPropagation();  // Prevent click event from bubbling up
+        var dropdown = event.currentTarget.nextElementSibling;
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
         } else {
-            items.forEach(item => {
-                item.style.display = 'flex';
-                item.classList.add('active');
-            });
+            dropdown.style.display = "block";
         }
-    });
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === "block") {
+                    openDropdown.style.display = "none";
+                }
+            }
+        }
+    }
 </script>
 
 {% endblock %}

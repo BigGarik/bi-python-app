@@ -7,18 +7,6 @@ Research
 
 {% block posts_content %}
 
-<style>
-
-    @media (max-width: 768px ) {
-
-        .research-publish-date {
-
-            font-size:11px !important;
-            margin-right: 2px !important;
-        }
-
-    }
-</style>
 
 
 {% block extra_static %}
@@ -26,7 +14,7 @@ Research
 {% endblock %}
 
 
-<div class="list-main-containers" style="margin-top: 20px;">
+<div class="list-main-containers" >
 
     <div class="research-content">
 
@@ -42,13 +30,13 @@ Research
 
         </div>
 
-        <div class="research-main-content">
+        <div class="basepost-content-cont">
 
-            <div class="research-title">
+            <div class="basepost-title">
                 Выбранный нами инновационный путь так же органично вписывается в наши планы
             </div>
 
-            <div class="article-main-content-text">Описание публикации: Сложно сказать, почему активно развивающиеся
+            <div class="basepost-description">Описание публикации: Сложно сказать, почему активно развивающиеся
                 страны третьего мира представляют собой не что иное
             </div>
 
@@ -59,7 +47,7 @@ Research
 
             <div class="research-last">
 
-                <div class="article-author-cont">
+                <div style="display: flex">
 
                     {% for researchprofpic in '12345' %}
                     <div class="author-pic">
