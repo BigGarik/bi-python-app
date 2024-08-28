@@ -1,0 +1,64 @@
+
+
+
+.mondayIcon {
+  background-image: url(Icons/Zombie.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
+
+.tuesdayIcon {
+  background-image: url(Icons/HotBeverage.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
+.wednesdayIcon {
+  background-image: url(Icons/Camel.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
+
+.thursdayIcon {
+  background-image: url(Icons/Brain.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
+
+.fridayIcon {
+  background-image: url(Icons/CocktailGlass.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
+
+.saturdayIcon {
+  background-image: url(Icons/PartyPopper.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
+
+.sundayIcon {
+  background-image: url(Icons/WomanGettingMassage.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
