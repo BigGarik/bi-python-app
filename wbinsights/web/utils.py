@@ -6,12 +6,35 @@ from urllib.parse import urljoin
 from django.http import JsonResponse
 
 from web.models import Profile
-# from web.services.timezone_translation import timezoneDictionary
+from web.services.timezone_translation import timezoneDictionary
 
 
 def get_timezones(request):
     timezones = list(pytz.all_timezones)
-    return JsonResponse({'timezones': timezones})
+    translated_timezones = []
+    for tz in pytz.all_timezones:
+        try:
+            # Создаем объект часового пояса
+            timezone = pytz.timezone(tz)
+
+            # Получаем текущее время в этом часовом поясе
+            now = datetime.now(timezone)
+
+            # Форматируем смещение
+            offset = now.strftime('%z')
+            offset_str = f"{offset[:3]}:{offset[3:]}"
+
+            # Добавляем оригинальное название в timezones
+            timezones.append(tz)
+
+            # Переводим название часового пояса на русский, если есть в словаре
+            translated_name = timezoneDictionary.get(str(tz), tz)
+            translated_timezone = f"{translated_name} {offset_str}"
+            translated_timezones.append(translated_timezone)
+        except Exception as e:
+            # Пропускаем часовые пояса, которые вызывают ошибки
+            pass
+    return JsonResponse({'timezones': timezones, 'translated_timezones': translated_timezones})
 
 
 def get_avatar_url(comment):
