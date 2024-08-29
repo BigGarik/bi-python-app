@@ -17,6 +17,18 @@ import feedparser
 register = template.Library()
 
 
+# def is_mobile(context):
+#     request = context['request']
+#     user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
+#
+#     mobile_agents = ['iphone', 'android', 'blackberry', 'windows phone', 'opera mini', 'mobile']
+#     if any(mobile_agent in user_agent for mobile_agent in mobile_agents):
+#         return True
+#     return False
+
+
+
+
 @register.simple_tag
 def get_rate_chipher(rating):
     ratechipher = ''

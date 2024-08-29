@@ -82,6 +82,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # class ProfileView(DetailView):
 #     model = CustomUser
+def is_mobile(request):
+    user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
+    mobile_agents = ['iphone', 'android', 'blackberry', 'windows phone', 'opera mini', 'mobile']
+    return any(mobile_agent in user_agent for mobile_agent in mobile_agents)
 
 @login_required
 def profile_view(request):
@@ -91,7 +95,10 @@ def profile_view(request):
     if 'category' in get_params:
         del get_params['category']
 
-    context = {'get_params': get_params}
+    context = {
+        'get_params': get_params,
+        'is_mobile': is_mobile(request)
+    }
     profile_template = "profile/expert/profile.html"
 
     if is_expert:

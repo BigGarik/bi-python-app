@@ -19,6 +19,33 @@
 
 <style>
 
+    .ec-button-group {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .ec-button-group .ec-title-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        max-width: 100% !important;
+        flex-grow: 1 !important;
+        justify-content: center !important;
+    }
+
+    .ec-button-group .ec-title {
+        font-size: 13px !important;
+        padding: 10px !important;
+        max-width: 100% !important;
+        word-wrap: break-word !important;
+        text-align: center !important;
+    }
+
+    .ec-toolbar {
+        gap:5px !important;
+    }
+
+
     .ec-center .ec-active {
         background-color: #007bff;
         color: white;
@@ -49,16 +76,18 @@
     } */
 
     .ec-time-grid .ec-time, .ec-time-grid .ec-line {
-        height: 70px; /* override this value */
+        height: 70px;
     }
 
-    .ec-button-group .ec-button:not(:last-child) {
 
+
+    .ec-button-group .ec-button:not(:last-child) {
         pointer-events: auto;
         position: relative;
         display: block;
-        height: 2.5rem;
-        width: 2.5rem;
+        height: 2rem;
+        width: 2rem;
+        padding: 0;
         cursor: pointer;
         border-width: 0px;
         background-color: transparent;
@@ -67,17 +96,21 @@
     }
 
     .ec-button-group .ec-button:not(:first-child) {
-        pointer-events: auto;
+           pointer-events: auto;
         position: relative;
         display: block;
-        height: 2.5rem;
-        width: 2.5rem;
+        height: 2rem;
+        width: 2rem;
+        padding: 0;
         cursor: pointer;
         border-width: 0px;
         background-color: transparent;
         box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
         border-radius: 5px;
+    }
 
+    .ec-title {
+        font-size: 13px !important;
     }
 
 </style>
@@ -495,7 +528,7 @@
     let ec;
 
     function addToolbarButtonBootstrapClasses() {
-        $('div.ec-center > button').addClass("btn btn-outline-primary").removeClass("ec-button");
+        $('div.ec-center > button').addClass("btn btn-primary dropdown-toggle").removeClass("ec-button");
         $('div.ec-end > button').addClass("btn btn-primary").removeClass("ec-button");
 
         let date_title = $('.ec-title');
@@ -503,27 +536,42 @@
             date_title.wrap("<div style='display:flex; align-items: center'></div>");
         }
         date_title.attr("style", 'font-size:20px;padding:10px');
-
-
     }
 
-    $(document).ready(function () {
-        $('.ec-center,.ec-end').wrapAll('<div style= "display: flex">  </div>')
-        $('.ec-center').css({'display': 'flex', 'gap': '5px'});
-    })
+    function changeView(viewType, viewName) {
+        if (ec) {
+            ec.setOption('view', viewType);
+            updateDropdownButtonText(viewName);
+        } else {
+            console.error('Calendar instance is not initialized.');
+        }
+    }
 
-    function createEventCalendar(calendar_element_id) {
+    function updateDropdownButtonText(text) {
+        const dropdownButton = document.querySelector('.ec-button.ec-customViewDropdown');
+        if (dropdownButton) {
+            dropdownButton.textContent = text;
+        }
+    }
+
+    function createEventCalendar(calendar_element_id, initialView = 'timeGridWeek') {
         const options = {
-            view: 'timeGridWeek',
+            view: initialView,
             headerToolbar: {
                 start: 'prev,title,next',
-                center: 'today timeGridDay timeGridWeek dayGridMonth',
+                center: 'customViewDropdown',
                 end: 'scheduleSettings'
             },
-            eventSources: [{events: fetchAppointments}],
             customButtons: {
+                customViewDropdown: {
+                    text: getInitialViewText(initialView),
+                    click: function () {
+                        const dropdownMenu = document.getElementById('viewDropdownMenu');
+                        dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+                    }
+                },
                 scheduleSettings: {
-                    text: {html: 'Настроить<i class="bi bi-gear" style="margin-left: 5px"></i>'},
+                    text: {html: '<i class="bi bi-gear" ></i>'},
                     click: function () {
                         showExpertScheduleForm();
                         addToolbarButtonBootstrapClasses();
@@ -544,50 +592,48 @@
             },
             dayHeaderFormat: function (date) {
                 const day = date.getDay();
-                const dateOfMonth = date.getDate();
+                //const dateOfMonth = date.getDate();
                 let dayName;
-                let iconHTML;
+                //let iconHTML;
 
                 switch (day) {
                     case 0:
-                        dayName = 'Вс';
-                        iconHTML = '<span class="mondayIcon">  </span>'
+                        dayName = ' Вс';
+                        //iconHTML = '<span class="mondayIcon">  </span>';
                         break;
                     case 1:
                         dayName = 'Пн';
-                        iconHTML = '<span class="tuesdayIcon">  </span>'
+                        //iconHTML = '<span class="tuesdayIcon">  </span>';
                         break;
                     case 2:
                         dayName = 'Вт';
-                        iconHTML = '<span class="wednesdayIcon">  </span>'
+                        //iconHTML = '<span class="wednesdayIcon">  </span>';
                         break;
                     case 3:
                         dayName = 'Ср';
-                        iconHTML = '<span class="thursdayIcon">  </span>'
+                        //iconHTML = '<span class="thursdayIcon">  </span>';
                         break;
                     case 4:
                         dayName = 'Чт';
-                        iconHTML = '<span class="fridayIcon">  </span>'
+                        //iconHTML = '<span class="fridayIcon">  </span>';
                         break;
                     case 5:
                         dayName = 'Пт';
-                        iconHTML = '<span class="saturdayIcon">  </span>'
+                        //iconHTML = '<span class="saturdayIcon">  </span>';
                         break;
                     case 6:
                         dayName = 'Сб';
-                        iconHTML = '<span class="sundayIcon">  </span>'
+                        //iconHTML = '<span class="sundayIcon">  </span>';
                         break;
                     default:
                         dayName = 'Day';
-                        iconHTML = '';
+                        //iconHTML = '';
                 }
 
-                const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: center;"> ${iconHTML} <b>${dayName} ${dateOfMonth}</b> </div>`;
+                const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: center;"> <b>${dayName}</b> </div>`;
 
                 return {html: dayHtml};
             },
-
-
             allDaySlot: false,
             firstDay: 1,
             locale: 'ru',
@@ -623,9 +669,64 @@
             }
         };
 
-        $('#event-calendar').html('');
-        ec = new EventCalendar(document.getElementById(calendar_element_id), options);
+        $(document).ready(function () {
+            if ($('#' + calendar_element_id).length) {
+                const dropdownHtml = `
+                <div id="viewDropdownMenu" class="dropdown-menu " style="display: none; position: absolute; z-index: 1000;">
+                    <a class="dropdown-item" href="#" data-view="timeGridDay">день</a>
+                    <a class="dropdown-item" href="#" data-view="timeGridWeek">неделя</a>
+                    <a class="dropdown-item" href="#" data-view="dayGridMonth">месяц</a>
+                </div>
+            `;
+                $('#' + calendar_element_id).append(dropdownHtml);
+
+                ec = new EventCalendar(document.getElementById(calendar_element_id), options);
+
+                $('#viewDropdownMenu').on('click', '.dropdown-item', function (e) {
+                    e.preventDefault();
+                    const viewType = $(this).data('view');
+                    const viewName = $(this).text();
+                    changeView(viewType, viewName);
+                    $('#viewDropdownMenu').hide();
+                });
+
+                $(document).on('click', function (e) {
+                    if (!$(e.target).closest('.ec-customViewDropdown, #viewDropdownMenu').length) {
+                        $('#viewDropdownMenu').hide();
+                    }
+                });
+
+                setTimeout(() => {
+                    const button = document.querySelector('.ec-button.ec-customViewDropdown');
+                    const dropdownMenu = document.getElementById('viewDropdownMenu');
+                    if (button && dropdownMenu) {
+                        const rect = button.getBoundingClientRect();
+                        dropdownMenu.style.top = `${rect.bottom}px`;
+                        dropdownMenu.style.left = `${rect.left}px`;
+                    }
+                }, 0);
+
+                addToolbarButtonBootstrapClasses();
+            } else {
+                console.error('Calendar element not found.');
+            }
+        });
+
     }
+
+    function getInitialViewText(view) {
+        switch (view) {
+            case 'timeGridDay':
+                return 'День';
+            case 'timeGridWeek':
+                return 'Неделя';
+            case 'dayGridMonth':
+                return 'Месяц';
+            default:
+                return 'Неделя';
+        }
+    }
+
 
     function getUsersAppointments() {
         createEventCalendar('event-calendar');
@@ -678,5 +779,6 @@
         $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'));
         $('#selectDateRangeModal').modal('show');
     }
+
 
 </script>

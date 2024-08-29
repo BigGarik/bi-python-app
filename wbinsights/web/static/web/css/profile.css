@@ -166,13 +166,18 @@
     font-weight: 600;
     font-size: 14px;
     height: 100%;
+    border: none !important;
 }
 
+
+
 .profile-menu-item.selected {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid black !important;
 }
 
 .span-user-type {
     font-size: 16px;
     font-weight: 600;
 }
+
+
