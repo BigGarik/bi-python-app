@@ -65,16 +65,18 @@
 
         @media (max-width: 768px) {
             #mobile-nav {
-                position: sticky;
-                bottom: -1px;  
+                position: fixed;
+                bottom: 0;
+                left: 0;
                 width: 100%;
-                background-color: white;
+                background-color: #ffffff; 
+                z-index: 9999; 
                 display: flex;
                 justify-content: space-around;
-                padding: 15px 0;
-                border-top: 1px solid #cbcbcb;
-                z-index: 1000;
+                padding: 10px 0;
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
             }
+
 
             #mobile-nav .nav-item {
                 color: white;
