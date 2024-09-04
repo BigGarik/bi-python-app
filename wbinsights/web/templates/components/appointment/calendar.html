@@ -21,7 +21,7 @@
 
     #event-calendar,
     #event-calendar * {
-        pointer-events: auto;
+        pointer-events: auto !important;
             text-wrap: pretty;
     }
 
@@ -625,10 +625,12 @@
             type: 'POST',
             data: form.serialize(),
             success: function (response) {
-                getUsersAppointments();
+                if (response.result == 'success')
+                    getUsersAppointments();
             }
         });
     });
+
 
     $('#delete-range-form').submit(function (event) {
         event.preventDefault();
