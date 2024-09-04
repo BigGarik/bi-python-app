@@ -1,0 +1,8 @@
+<h1>Questions</h1>
+<ul>
+    {% for question in questions %}
+        <li><a href="{% url 'qa:question_detail' question.pk %}">{{ question.title }}</a> - {{ question.author.username }}</li>
+    {% empty %}
+        <li>No questions available.</li>
+    {% endfor %}
+</ul>
