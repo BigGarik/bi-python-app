@@ -19,6 +19,12 @@
 
 <style>
 
+    #event-calendar,
+    #event-calendar * {
+        pointer-events: auto;
+            text-wrap: pretty;
+    }
+
     .ec-center .ec-active {
         background-color: #007bff;
         color: white;
@@ -34,9 +40,13 @@
     }
 
     .ec-event {
-        height: 60px !important;
+        max-height: 60px !important;
+    }
+
+    .ec-event ec-draggable{
         min-height: 60px !important;
         max-height: 60px !important;
+        height: 60px !important;
     }
 
     .ec-header {
@@ -226,46 +236,7 @@
             </div>
         </div>
 
-        <script>
 
-            $('#schedule-range-form').submit(function (event) {
-
-                event.preventDefault();
-                const form = $(this);
-
-                $.ajax({
-                    url: '{% url 'add_calendar_range' %}',
-                    type: 'POST',
-                    data: form.serialize(),
-                    success: function (response) {
-                        getUsersAppointments()
-                    }
-                })
-            })
-
-            $('#delete-range-form').submit(function (event) {
-
-                event.preventDefault();
-                const form = $(this);
-
-                $.ajax({
-                    url: '{% url 'delete_calendar_range' %}',
-                    type: 'POST',
-                    data: form.serialize(),
-                    success: function (response) {
-                        if (response.result == 'success')
-                            getUsersAppointments()
-                    }
-                })
-            })
-
-            function loadCustomDateRange(info) {
-                $('.start-date').val(moment(info.start).format('DD.MM.yyyy HH:mm'))
-                $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'))
-                $('#selectDateRangeModal').modal('show');
-            }
-
-        </script>
 
     {% endif %}
 
