@@ -1,6 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import IntegrityError
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy, reverse
+from django.views.generic import UpdateView
+
 from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
 
@@ -72,3 +77,40 @@ def choose_best_answer(request, answer_id):
         answer.is_best = True
         answer.save()
     return redirect('qa:question_detail', pk=answer.question.pk)
+
+
+class EditQuestionView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Question
+    form_class = QuestionForm
+    template_name = 'edit_question.html'
+
+    def get_object(self, queryset=None):
+        # Используем get_object_or_404 для получения вопроса
+        return get_object_or_404(Question, pk=self.kwargs.get('pk'))
+
+    def test_func(self):
+        # Проверяем, является ли пользователь автором вопроса
+        question = self.get_object()
+        return self.request.user == question.author
+
+    def get_success_url(self):
+        # Перенаправляем на страницу деталей вопроса после успешного редактирования
+        return reverse('qa:question_detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['question'] = self.get_object()
+        return context
+
+
+class AnswerEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Answer
+    fields = ['content']
+    template_name = 'edit_answer.html'
+
+    def get_success_url(self):
+        return reverse_lazy('qa:question_detail', kwargs={'pk': self.object.question.pk})
+
+    def test_func(self):
+        answer = self.get_object()
+        return self.request.user == answer.author

@@ -21,11 +21,10 @@ class QuestionForm(forms.ModelForm):
     # Переопределим поле 'targeted_user' для отображения first_name и last_name
     targeted_user = forms.ModelChoiceField(
         queryset=CustomUser.objects.all(),
-        empty_label="Выберите пользователя",
+        empty_label="Выберите пользователя (необязательно)",
         label="Получатель",
-        widget=forms.Select(attrs={'class': 'form-control', 'required': 'required'}),
-        to_field_name='id',
-        required=False
+        required=False,  # Делаем поле необязательным
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
 
     def __init__(self, *args, **kwargs):
