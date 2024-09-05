@@ -1,0 +1,20 @@
+
+<div class="container mt-4">
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Описание</th>
+                <th>Баллы</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rating in ratings %}
+                <tr>
+                    <td>{{ rating.role.text }}</td>
+                    <td>{{ rating.score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+

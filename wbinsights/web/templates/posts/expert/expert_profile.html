@@ -1,0 +1,42 @@
+{% extends 'base123.html' %}
+{% load web_tags %}
+
+{% load static %}
+
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
+{% endblock %}
+
+{% block center_col %}
+
+
+
+    <div class="list-main-containers" >
+
+        <a href="{% url 'experts_list' %}" class="global-back-btn">
+            <i class="bi bi-chevron-left chevron-left-css"></i>
+            &nbsp; к списку экспертов
+        </a>
+
+        {% include 'components/experts/profile_info.html' with user=expert profile=expert.expertprofile buttons_template='posts/expert/profile_buttons.html' %}
+
+        {% include 'profile/profile_content_items.html' with user=expert projects_count=projects_count %}
+
+    </div>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            var consultationMenuItem = document.querySelector('.profile-menu-item[data-content ="consultations"]');
+            if (consultationMenuItem) {
+                consultationMenuItem.remove();
+            }
+
+        });
+
+    </script>
+
+{% endblock %}

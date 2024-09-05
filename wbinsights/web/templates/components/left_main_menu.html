@@ -1,0 +1,78 @@
+{% load web_tags %}
+
+<style>
+    .navcss00 {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 0;
+        margin-bottom: 15px;
+    }
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        text-decoration: none;
+        color: black;
+    }
+
+    .navbar-brand.selected {
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    .navbar-brand i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+
+    @media (max-width: 1200px) {
+        .navbar-brand {
+            color: white !important;
+        }
+
+        .navbar-brand.selected {
+            color: black !important;
+            background-color: white !important;
+        }
+
+        .navbar-brand:hover {
+            background-color: #ffffff !important;
+            border-radius: 10px;
+            color: black !important;
+        }
+    }
+</style>
+
+<div style="position: sticky; top: 20px">
+    <nav class="navbar" style="margin-bottom: 30px">
+        <div class="container-fluid-nav">
+            {% split request.path "/" "first" as first_path %}
+            {% split request.path "/" "last" as last_path %}
+
+            <a class="navbar-brand {% if last_path == 'popular' %} selected {% endif %}"
+               href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">
+                <i class="bi bi-fire" style="transform: scale(0.9);"></i>
+                <span class="nav-item-class">Популярное</span>
+            </a>
+
+            <a class="navbar-brand {% if last_path == 'new' %} selected {% endif %}"
+               href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">
+                <i class="bi bi-clock-fill" style="transform: scale(0.9);"></i>
+                <span class="nav-item-class">Новое</span>
+            </a>
+
+            {% get_all_categories as categories %}
+            {% for category in categories %}
+                <a class="navbar-brand {% if last_path == category.slug %} selected {% endif %}"
+                   href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
+                    <i class="bi bi-{{ category.icon }}" style="transform: scale(0.9);"></i>
+                    <span class="nav-item-class">{{ category.name }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </nav>
+
+    {% include "contact_and_help/contact_navbar.html" %}
+</div>

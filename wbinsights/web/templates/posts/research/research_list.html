@@ -1,0 +1,82 @@
+{% extends 'basePostList.html' %}
+{% load static %}
+
+{% block title %}
+Research
+{% endblock %}
+
+{% block posts_content %}
+
+
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/research_list.css' %}">
+{% endblock %}
+
+
+<div class="list-main-containers" >
+
+    <div class="research-content">
+
+        <div class="research-date-and-cat">
+
+            <div class="list-publish-date">
+                <i class="bi bi-calendar2-week" style="color:grey; scale:1.3"></i>
+                &nbsp; сегодня в 16:30
+
+            </div>
+            <div class="user-catagory-highlight finansy">Финансы</div>
+            <div class="user-catagory-highlight banki">Банки</div>
+
+        </div>
+
+        <div class="basepost-content-cont">
+
+            <div class="basepost-title">
+                Выбранный нами инновационный путь так же органично вписывается в наши планы
+            </div>
+
+            <div class="basepost-description">Описание публикации: Сложно сказать, почему активно развивающиеся
+                страны третьего мира представляют собой не что иное
+            </div>
+
+            <img src="https://unsplash.com/photos/XN6Z9g3DM4A/download?force=true&w=400"
+                 alt="A person standing in the sand near some rocks" class="img-fluid"
+                 style="height: 200px; width: 100%;">
+
+
+            <div class="research-last">
+
+                <div style="display: flex">
+
+                    {% for researchprofpic in '12345' %}
+                    <div class="author-pic">
+                        <i class="bi bi-person-circle" style="color:black; scale:1.2 ; display: flex;"></i>
+                    </div>
+
+                    {%endfor%}
+
+                </div>
+
+                <div class="comments-andshare-cont">
+
+                    <div class="list-comments">
+                        <i class="bi bi-chat-left-text" style="color:grey;"></i>
+                        &nbsp; 104
+                    </div>
+
+                    <div class="list-share">
+                        <i class="bi bi-box-arrow-up-right" style="color:grey; scale : 0.9"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

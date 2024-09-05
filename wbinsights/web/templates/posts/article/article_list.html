@@ -1,0 +1,114 @@
+<!-- article_list.html -->
+{% extends 'basePostList.html' %}
+
+{% block title %}
+    Статьи
+{% endblock %}
+
+{% load web_tags %}
+{% load static %}
+
+
+{% block posts_content %}
+
+
+<style>
+    .author-pic {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid #ccc;
+    }
+
+    .author-pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+        .article-list-search-cont {
+            width: 100% !important;
+        }
+
+        .columnArticle {
+            flex-direction: column;
+        }
+    }
+</style>
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/article_list.css' %}">
+{% endblock %}
+
+<body>
+
+<div class="list-main-containers">
+
+    <div class="search-and-cat-cont columnArticle">
+        <div class="col-sm-12 col-md-6">
+            <input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск" value="{{ search_q }}">
+        </div>
+
+        <div class="col-sm-12 col-md-6 testing-class">
+            {% include "components/post_category_filter.html" %}
+        </div>
+
+    </div>
+
+    <div id="articles-container">
+        {% include "posts/article/article_list_content.html" %}
+    </div>
+
+    {% if has_more_articles %}
+    <div style="display:flex; justify-content:center" id="load-more-container">
+        <button type="button" class="btn btn-secondary btn-more" id="load-more-btn" data-page="1">
+            Загрузить ещё
+        </button>
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+$(document).ready(function() {
+    $("#search-article-query").keypress(function(event) {
+        if (event.key === "Enter") {
+            window.location.href = "{{ request.path }}?search_q=" + $(this).val();
+        }
+    });
+
+    $("#load-more-btn").click(function() {
+        var button = $(this);
+        var currentPage = parseInt(button.data('page'));
+        var nextPage = currentPage + 1;
+
+        $.ajax({
+            url: '{% url "article_list" %}',
+            data: {
+                'page': nextPage,
+                'search_q': '{{ search_q }}'
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(data) {
+                if (data.html) {
+                    $("#articles-container").append(data.html);
+                    button.data('page', nextPage);
+                }
+                if (!data.has_more) {
+                    $("#load-more-container").hide();
+                }
+            }
+        });
+    });
+
+
+});
+</script>
+
+</body>
+
+{% endblock %}

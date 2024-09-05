@@ -1,0 +1,51 @@
+{% extends 'base020.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'css/checkoutcss.css' %}">
+{% endblock %}
+
+{% block center_col %}
+
+
+<div class="row">
+    <div class="container">
+
+        <a href="javascript:history.go(-1);" class="checkout-back-link"> <i class="bi bi-chevron-left"></i> &nbsp;Назад</a>
+        <h2 class="checkout-title">Детали заказа</h2>
+
+        <div class="appointment-details">
+
+            <div class="detail">
+                <strong>Эксперт:</strong>
+                {{ appointment.expert.last_name }} {{ appointment.expert.first_name }}
+            </div>
+            <div class="detail">
+                <strong>Дата:</strong>
+                {{ appointment.appointment_date }}
+            </div>
+            <div class="detail">
+                <strong>Время:</strong>
+                {{ appointment.appointment_time }}
+            </div>
+            <div class="detail">
+                <strong>Цена:</strong>
+                {{ appointment.expert.expertprofile.hour_cost }}
+            </div>
+            <div class="detail">
+                <strong>Заметка:</strong>
+                {{ appointment.notes }}
+            </div>
+
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ appointment.pk }}" name="appointment_id"/>
+            <button type="submit" class="btn btn-primary">Оплатить на Yookassa</button>
+            <a href="{% url 'profile' %}" class="btn btn-primary">Оплатить позже</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

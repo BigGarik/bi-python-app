@@ -1,0 +1,784 @@
+{% load static %}
+{% load i18n %}
+
+
+
+
+{% block extra_static %}
+
+    {#    <script src="{% static 'js/event-calendar/event-calendar.min.js' %}"></script>#}
+    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.4.0/event-calendar.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/event-calendar/event-calendar.min.css' %}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    {#    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>#}
+
+{% endblock %}
+
+<link rel="stylesheet" href="{% static 'web/css/CalendarCssAndImages/CalendarKurko.css' %}">
+
+<style>
+
+    .ec-button-group {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .ec-button-group .ec-title-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        max-width: 100% !important;
+        flex-grow: 1 !important;
+        justify-content: center !important;
+    }
+
+    .ec-button-group .ec-title {
+        font-size: 13px !important;
+        padding: 10px !important;
+        max-width: 100% !important;
+        word-wrap: break-word !important;
+        text-align: center !important;
+    }
+
+    .ec-toolbar {
+        gap:5px !important;
+    }
+
+
+    .ec-center .ec-active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .ec-center {
+        gap: 5px !important;
+    }
+
+    .ec-events {
+        margin: 5px !important;
+    }
+
+    .ec-event {
+        height: 60px !important;
+        min-height: 60px !important;
+        max-height: 60px !important;
+    }
+
+    .ec-header {
+        max-height: 30px !important;
+    }
+
+    /*
+    .ec-time, .ec-line {
+        height: 50px !important;
+    } */
+
+    .ec-time-grid .ec-time, .ec-time-grid .ec-line {
+        height: 70px;
+    }
+
+
+
+    .ec-button-group .ec-button:not(:last-child) {
+        pointer-events: auto;
+        position: relative;
+        display: block;
+        height: 2rem;
+        width: 2rem;
+        padding: 0;
+        cursor: pointer;
+        border-width: 0px;
+        background-color: transparent;
+        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+        border-radius: 5px;
+    }
+
+    .ec-button-group .ec-button:not(:first-child) {
+           pointer-events: auto;
+        position: relative;
+        display: block;
+        height: 2rem;
+        width: 2rem;
+        padding: 0;
+        cursor: pointer;
+        border-width: 0px;
+        background-color: transparent;
+        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+        border-radius: 5px;
+    }
+
+    .ec-title {
+        font-size: 13px !important;
+    }
+
+</style>
+
+
+<div id="event-calendar"></div>
+
+
+<div>
+
+    {#    <script>#}
+    {##}
+    {#        $(function () {#}
+    {#            const color_legend_div = $('#color_legend');#}
+    {#            status_colors.map((item) => {#}
+    {#                color_legend_div.append(#}
+    {#                    `<div style="display: flex; align-items: center;">#}
+    {#                        <div style="width: 30px; height: 20px; background-color: ${item.color}; margin-right: 5px;"></div>#}
+    {#                        <span>- ${item.name}</span>#}
+    {#                    </div>`)#}
+    {#            })#}
+    {#        })#}
+    {##}
+    {#    </script>#}
+
+    <div id="color_legend"
+         style="display: flex; flex-wrap:wrap; justify-content: space-between; flex-direction: column; margin-top: 10px;"></div>
+
+</div>
+
+<div class="modal fade" id="appointmentDetailModal" tabindex="-1" aria-labelledby="appointmentDetailModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Детали встечи</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div id="appointmentTableBody" class="modal-body">
+
+                <div style="display: flex">
+
+                    <div style="display:flex; flex-direction:column;width:40%;gap:20px">
+                        <div>Дата:</div>
+                        <div>Время:</div>
+                        <div id="appointment-detail-user-type">Имя:</div>
+                        <div>Zoom:</div>
+                        <div>Статус:</div>
+                        <div>Забронировано:</div>
+                        <div id="appointment-left-for-pay-label" style="display: none">Время брони слота: <br/> <span
+                                style="font-size: 12px;">(10 минут)</span></div>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column;gap:20px;width:60%">
+                        <div id="appointment-detail-date">
+                            ${moment(appointment.localized_appointment_datetime).format("DD.MM.YYYY")}
+                        </div>
+                        <div id="appointment-detail-time">
+                            ${moment(appointment.localized_appointment_datetime).format("HH:mm")}
+                        </div>
+                        <div id="appointment-detail-user">${appointment.client.last_name}
+                            ${appointment.client.first_name}
+                        </div>
+                        <div id="appointment-detail-zoom"></div>
+                        <div id="appointment-detail-status"></div>
+                        <div id="appointment-detail-create-time"></div>
+                        <div id="appointment-left-for-pay" style="display: none"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if request.path == '/profile' %}
+
+    {% if request.user.profile.type == 1 %}
+        <div class="modal fade" id="selectDateRangeModal" tabindex="-1" aria-labelledby="selectDateRangeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <form method="post" action="{% url 'add_calendar_range' %}" id="schedule-range-form">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="selectDateRangeModalLabel">Детали назначения</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div id="custom-event-date-range-content" class="modal-body">
+                            <label for="id-start-date">Начало</label>
+                            <input id='id-start-date' name="start" class="start-date form-control"/>
+
+                            <label for="id-end-date">Конец</label>
+                            <input id='id-end-date' name="end" class="end-date form-control"/>
+
+                            <label for="id-date-range-action">Действие</label>
+                            <select class="form-control" name="type">
+                                <option value="0">Сделать недоступным для бронирования</option>
+                                <option value="1">Сделать доступным для бронирования</option>
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteDateRangeModal" tabindex="-1" aria-labelledby="deleteDateRangeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <form method="post" action="{% url 'add_calendar_range' %}" id="delete-range-form">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="selectDateRangeModalLabel">Удаление записи</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <input type="hidden" name="range_id"/>
+                        <div id="custom-event-date-range-content" class="modal-body">
+                            <div id="delete-extra-date-info"></div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Удалить</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+            $('#schedule-range-form').submit(function (event) {
+
+                event.preventDefault();
+                const form = $(this);
+
+                $.ajax({
+                    url: '{% url 'add_calendar_range' %}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (response) {
+                        getUsersAppointments()
+                    }
+                })
+            })
+
+            $('#delete-range-form').submit(function (event) {
+
+                event.preventDefault();
+                const form = $(this);
+
+                $.ajax({
+                    url: '{% url 'delete_calendar_range' %}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.result == 'success')
+                            getUsersAppointments()
+                    }
+                })
+            })
+
+            function loadCustomDateRange(info) {
+                $('.start-date').val(moment(info.start).format('DD.MM.yyyy HH:mm'))
+                $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'))
+                $('#selectDateRangeModal').modal('show');
+            }
+
+        </script>
+
+    {% endif %}
+
+    <style>
+        .striped-div {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(to right, red 50%, blue 50%);
+        }
+    </style>
+
+{% endif %}
+
+{% include 'schedule/expert_schedule.html' %}
+
+<script>
+
+    const user_id = {{ request.user.id }};
+    const appointment_title = '{{ appointment_title }}';
+    const user_type = {{ user_type }};
+    const appointment_path = user_type == 1 ? 'expert' : 'client';
+    let appointments = [];
+    let appointments_as_client = [];
+    let extra_dates = [];
+    let schedule = [];
+
+    const status_colors = [
+        {status: -1, color: "#edc794", name: "Расписание"},
+        {status: 0, color: "#0dcaf0", name: "Новый"},
+        {status: 1, color: "#e3aa00", name: "Подтвержден"},
+        {status: 2, color: "red", name: "Отклонен"},
+        {status: 3, color: "brown", name: "Отменен"},
+        {status: 4, color: "green", name: "Оплачен"},
+        {status: 10, color: "lightgrey", name: "Недоступен для бронирования"},
+        {status: 11, color: "#a6db69", name: "Доступен для бронирования"}
+    ];
+
+    function createSchedule(dates) {
+        schedule = dates.map((day) => `${day.start} - ${day.end}`);
+    }
+
+    function fetchAppointments(fetchInfo, successCallback, failureCallback) {
+        $.ajax({
+            url: `/appointment/calendar/${appointment_path}/json`,
+            type: 'GET',
+            data: {
+                start: fetchInfo.startStr,
+                end: fetchInfo.endStr,
+            },
+            success: function (response) {
+                appointments = response.data.appointments.as_expert;
+                appointments_as_client = response.data.appointments.as_client;
+                extra_dates = response.data.extra_dates;
+                successCallback(createCalendarEvents(appointments, appointments_as_client, extra_dates, response.data.schedule));
+            }
+        });
+    }
+
+    const modalBody = $('#appointmentTableBody');
+
+    function loadExtraDate(extraDateId) {
+        const deleteExtraDate = extra_dates.find(extra_date => extra_date.id == extraDateId);
+        $('#delete-extra-date-info').html(`Удалить запись ${deleteExtraDate.localized_start} - ${deleteExtraDate.localized_end}?`);
+        $('[name="range_id"]').val(deleteExtraDate.id);
+        $('#deleteDateRangeModal').modal('show');
+    }
+
+    function getStatusColor(status) {
+        const foundStatus = status_colors.find(item => item.status == status);
+        return foundStatus ? foundStatus.color : "blue";
+    }
+
+    function getStatusText(status) {
+        const foundStatus = status_colors.find(item => item.status == status);
+        return foundStatus ? foundStatus.name : "";
+    }
+
+    function loadExpertAppointment(appointmentId) {
+        const appointment = appointments.find(appointment => appointment.id == appointmentId);
+        if (appointment) loadAppointment(appointment, 'expert');
+    }
+
+    function loadClientAppointment(appointmentId) {
+        const appointment = appointments_as_client.find(appointment => appointment.id == appointmentId);
+        if (appointment) loadAppointment(appointment, 'client');
+    }
+
+    let countdownInterval = null;
+
+    function countdown(appointment_create_datetime) {
+        const last_moment = moment(appointment_create_datetime).add(10, 'minutes');
+        const currentTime = moment();
+        const distance = last_moment - currentTime;
+
+        const appointmentLeftForPayLabel = document.getElementById("appointment-left-for-pay-label");
+        const appointmentLeftForPay = document.getElementById("appointment-left-for-pay");
+
+        appointmentLeftForPayLabel.style.display = "block";
+        appointmentLeftForPay.style.display = "block";
+
+        if (distance < 0) {
+            clearInterval(countdownInterval);
+            appointmentLeftForPay.innerHTML = "EXPIRED";
+        } else {
+            appointmentLeftForPay.innerHTML = moment.utc(distance).format("mm:ss");
+        }
+    }
+
+    const checkout_url = "{% url 'appointment_checkout' 0 %}";
+
+    function loadAppointment(appointment, type) {
+        $('#appointment-detail-date').html(moment(appointment.localized_appointment_datetime).format("DD.MM.YYYY"));
+        $('#appointment-detail-time').html(moment(appointment.localized_appointment_datetime).format("HH:mm"));
+
+        if (type == 'expert') {
+            $('#appointment-detail-user-type').html("Клиент:");
+            $('#appointment-detail-user').html(`${appointment.client.last_name} ${appointment.client.first_name}`);
+        } else if (type == 'client') {
+            $('#appointment-detail-user-type').html("Эксперт:");
+            $('#appointment-detail-user').html(`${appointment.expert.last_name} ${appointment.expert.first_name}`);
+        }
+
+        if (appointment.zoom_link && appointment.status == 4) {
+            $('#appointment-detail-zoom').html(`<a href="${appointment.zoom_link}">подключитcя по zoom</a>`);
+        } else {
+            $('#appointment-detail-zoom').html('<div style="height: 24px"></div>');
+        }
+
+        let statusHtml = `<div style="color: ${getStatusColor(appointment.status)};">${getStatusText(appointment.status)}`;
+        if (appointment.status == 0 && type == 'client') {
+            const checkout_url_parts = checkout_url.split("/");
+            statusHtml += ` <a href="/${checkout_url_parts[1]}/${checkout_url_parts[2]}/${appointment.id}/" style="margin-left: 10px">[Оплатить]</a>`;
+        }
+        statusHtml += '</div>';
+        $('#appointment-detail-status').html(statusHtml);
+
+        $('#appointment-detail-create-time').html(moment(appointment.created_time).format("DD.MM.YY HH:mm"));
+
+        if (appointment.status == 0 && type == 'client') {
+            countdown(appointment.created_time);
+            countdownInterval = setInterval(() => countdown(appointment.created_time), 1000);
+        }
+
+        $('#appointmentDetailModal').modal('show');
+    }
+
+    function createEvent(title, status, start_date, start_time, end_date, end_time, id, type) {
+        const titleHTML = `
+        <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 11px">
+            <span>${title}</span>
+        </div>
+    `;
+
+        let event = {
+            start: `${start_date} ${start_time}`,
+            end: `${end_date} ${end_time}`,
+            resourceId: 1,
+            title: {html: titleHTML},
+            color: getStatusColor(status),
+            id: id,
+            extendedProps: {type: type}
+        };
+
+        if (type == 'schedule') {
+            event.display = "background";
+        }
+
+        return event;
+    }
+
+    function createCalendarEvents(appointments_as_expert, appointments_as_client, extradates, schedule) {
+        let dates = [];
+        const date_format = 'YYYY-MM-DD';
+
+        if (schedule) {
+            dates = dates.concat(schedule.map((schedule_item, index) => {
+                const moment_start = moment(schedule_item.start);
+                const moment_end = moment(schedule_item.end);
+                return createEvent('', -1,
+                    moment_start.format(date_format), moment_start.format("HH:mm"),
+                    moment_end.format(date_format), moment_end.format("HH:mm"),
+                    index, "schedule"
+                );
+            }));
+        }
+
+        if (extradates) {
+            dates = dates.concat(extradates.map((extradate) => {
+                const title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования';
+                const moment_start = moment(extradate.localized_start);
+                const moment_end = moment(extradate.localized_end);
+                return createEvent(title, extradate.type + 10,
+                    moment_start.format(date_format), moment_start.format("HH:mm"),
+                    moment_end.format(date_format), moment_end.format("HH:mm"),
+                    extradate.id, "extradate"
+                );
+            }));
+        }
+
+        if (appointments_as_expert) {
+            dates = dates.concat(appointments_as_expert.map((appointment) => {
+                let appointment_datetime = moment(appointment.localized_appointment_datetime);
+                let end_datetime = moment(appointment_datetime).add(1, "hours");
+                return createEvent(appointment_title, appointment.status,
+                    appointment_datetime.format(date_format), appointment_datetime.format("HH:mm"),
+                    end_datetime.format(date_format), end_datetime.format("HH:mm"),
+                    appointment.id, 'appointment_as_expert'
+                );
+            }));
+        }
+
+        if (appointments_as_client) {
+            dates = dates.concat(appointments_as_client.map((appointment) => {
+                let appointment_datetime = moment(appointment.localized_appointment_datetime);
+                let end_datetime = moment(appointment_datetime).add(1, "hours");
+                return createEvent(appointment_title, appointment.status,
+                    appointment_datetime.format(date_format), appointment_datetime.format("HH:mm"),
+                    end_datetime.format(date_format), end_datetime.format("HH:mm"),
+                    appointment.id, 'appointment_as_client'
+                );
+            }));
+        }
+
+        return dates;
+    }
+
+    let ec;
+
+    function addToolbarButtonBootstrapClasses() {
+        $('div.ec-center > button').addClass("btn btn-primary dropdown-toggle").removeClass("ec-button");
+        $('div.ec-end > button').addClass("btn btn-primary").removeClass("ec-button");
+
+        let date_title = $('.ec-title');
+        if (!date_title.parent().is('div[style="display:flex; align-items: center"]')) {
+            date_title.wrap("<div style='display:flex; align-items: center'></div>");
+        }
+        date_title.attr("style", 'font-size:20px;padding:10px');
+    }
+
+    function changeView(viewType, viewName) {
+        if (ec) {
+            ec.setOption('view', viewType);
+            updateDropdownButtonText(viewName);
+        } else {
+            console.error('Calendar instance is not initialized.');
+        }
+    }
+
+    function updateDropdownButtonText(text) {
+        const dropdownButton = document.querySelector('.ec-button.ec-customViewDropdown');
+        if (dropdownButton) {
+            dropdownButton.textContent = text;
+        }
+    }
+
+    function createEventCalendar(calendar_element_id, initialView = 'timeGridWeek') {
+        const options = {
+            view: initialView,
+            headerToolbar: {
+                start: 'prev,title,next',
+                center: 'customViewDropdown',
+                end: 'scheduleSettings'
+            },
+            customButtons: {
+                customViewDropdown: {
+                    text: getInitialViewText(initialView),
+                    click: function () {
+                        const dropdownMenu = document.getElementById('viewDropdownMenu');
+                        dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+                    }
+                },
+                scheduleSettings: {
+                    text: {html: '<i class="bi bi-gear" ></i>'},
+                    click: function () {
+                        showExpertScheduleForm();
+                        addToolbarButtonBootstrapClasses();
+                    }
+                }
+            },
+            slotDuration: '01:00:00',
+            slotLabelInterval: '01:00',
+            slotMinTime: '05:00:00',
+            slotMaxTime: '22:00:00',
+            slotHeight: 70,
+            buttonText: {
+                timeGridDay: 'день',
+                timeGridWeek: 'неделя',
+                dayGridMonth: 'месяц',
+                today: 'сегодня',
+                listWeek: 'список'
+            },
+            dayHeaderFormat: function (date) {
+                const day = date.getDay();
+                //const dateOfMonth = date.getDate();
+                let dayName;
+                //let iconHTML;
+
+                switch (day) {
+                    case 0:
+                        dayName = ' Вс';
+                        //iconHTML = '<span class="mondayIcon">  </span>';
+                        break;
+                    case 1:
+                        dayName = 'Пн';
+                        //iconHTML = '<span class="tuesdayIcon">  </span>';
+                        break;
+                    case 2:
+                        dayName = 'Вт';
+                        //iconHTML = '<span class="wednesdayIcon">  </span>';
+                        break;
+                    case 3:
+                        dayName = 'Ср';
+                        //iconHTML = '<span class="thursdayIcon">  </span>';
+                        break;
+                    case 4:
+                        dayName = 'Чт';
+                        //iconHTML = '<span class="fridayIcon">  </span>';
+                        break;
+                    case 5:
+                        dayName = 'Пт';
+                        //iconHTML = '<span class="saturdayIcon">  </span>';
+                        break;
+                    case 6:
+                        dayName = 'Сб';
+                        //iconHTML = '<span class="sundayIcon">  </span>';
+                        break;
+                    default:
+                        dayName = 'Day';
+                        //iconHTML = '';
+                }
+
+                const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: center;"> <b>${dayName}</b> </div>`;
+
+                return {html: dayHtml};
+            },
+            allDaySlot: false,
+            firstDay: 1,
+            locale: 'ru',
+            nowIndicator: true,
+            highlightedDates: schedule,
+            eventDurationEditable: false,
+            selectable: user_type == 1,
+            {% if request.path == '/profile' and request.user.profile.type == 1 %}
+                select: function (info) {
+                    loadCustomDateRange(info);
+                },
+            {% endif %}
+            eventClick: function (c_event) {
+                if (c_event.event.extendedProps.type == 'appointment_as_expert')
+                    loadExpertAppointment(c_event.event.id);
+                else if (c_event.event.extendedProps.type == 'appointment_as_client')
+                    loadClientAppointment(c_event.event.id);
+                else if (c_event.event.extendedProps.type == 'extradate')
+                    loadExtraDate(c_event.event.id);
+
+                addToolbarButtonBootstrapClasses();
+            },
+            datesSet: function (dateInfo) {
+                addToolbarButtonBootstrapClasses();
+            },
+            viewDidMount: function (info) {
+                ec.getOption('theme').button = 'btn bnt-primary';
+                console.log(ec.getOption('theme').button);
+                addToolbarButtonBootstrapClasses();
+            },
+            buttonClick: function (button, e) {
+                setTimeout(addToolbarButtonBootstrapClasses, 0);
+            }
+        };
+
+        $(document).ready(function () {
+            if ($('#' + calendar_element_id).length) {
+                const dropdownHtml = `
+                <div id="viewDropdownMenu" class="dropdown-menu " style="display: none; position: absolute; z-index: 1000;">
+                    <a class="dropdown-item" href="#" data-view="timeGridDay">день</a>
+                    <a class="dropdown-item" href="#" data-view="timeGridWeek">неделя</a>
+                    <a class="dropdown-item" href="#" data-view="dayGridMonth">месяц</a>
+                </div>
+            `;
+                $('#' + calendar_element_id).append(dropdownHtml);
+
+                ec = new EventCalendar(document.getElementById(calendar_element_id), options);
+
+                $('#viewDropdownMenu').on('click', '.dropdown-item', function (e) {
+                    e.preventDefault();
+                    const viewType = $(this).data('view');
+                    const viewName = $(this).text();
+                    changeView(viewType, viewName);
+                    $('#viewDropdownMenu').hide();
+                });
+
+                $(document).on('click', function (e) {
+                    if (!$(e.target).closest('.ec-customViewDropdown, #viewDropdownMenu').length) {
+                        $('#viewDropdownMenu').hide();
+                    }
+                });
+
+                setTimeout(() => {
+                    const button = document.querySelector('.ec-button.ec-customViewDropdown');
+                    const dropdownMenu = document.getElementById('viewDropdownMenu');
+                    if (button && dropdownMenu) {
+                        const rect = button.getBoundingClientRect();
+                        dropdownMenu.style.top = `${rect.bottom}px`;
+                        dropdownMenu.style.left = `${rect.left}px`;
+                    }
+                }, 0);
+
+                addToolbarButtonBootstrapClasses();
+            } else {
+                console.error('Calendar element not found.');
+            }
+        });
+
+    }
+
+    function getInitialViewText(view) {
+        switch (view) {
+            case 'timeGridDay':
+                return 'День';
+            case 'timeGridWeek':
+                return 'Неделя';
+            case 'dayGridMonth':
+                return 'Месяц';
+            default:
+                return 'Неделя';
+        }
+    }
+
+
+    function getUsersAppointments() {
+        createEventCalendar('event-calendar');
+        setTimeout(addToolbarButtonBootstrapClasses, 0);
+    }
+
+    getUsersAppointments();
+
+    $(function () {
+        const color_legend_div = $('#color_legend');
+        status_colors.forEach((item) => {
+            color_legend_div.append(`
+            <div style="display: flex; align-items: center;">
+                <div style="width: 30px; height: 20px; background-color: ${item.color}; margin-right: 5px;"></div>
+                <span>- ${item.name}</span>
+            </div>`
+            );
+        });
+    });
+
+    $('#schedule-range-form').submit(function (event) {
+        event.preventDefault();
+        const form = $(this);
+        $.ajax({
+            url: '{% url 'add_calendar_range' %}',
+            type: 'POST',
+            data: form.serialize(),
+            success: function (response) {
+                getUsersAppointments();
+            }
+        });
+    });
+
+    $('#delete-range-form').submit(function (event) {
+        event.preventDefault();
+        const form = $(this);
+        $.ajax({
+            url: '{% url 'delete_calendar_range' %}',
+            type: 'POST',
+            data: form.serialize(),
+            success: function (response) {
+                if (response.result == 'success')
+                    getUsersAppointments();
+            }
+        });
+    });
+
+    function loadCustomDateRange(info) {
+        $('.start-date').val(moment(info.start).format('DD.MM.yyyy HH:mm'));
+        $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'));
+        $('#selectDateRangeModal').modal('show');
+    }
+
+
+</script>

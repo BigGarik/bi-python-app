@@ -1,0 +1,44 @@
+
+.btn-more {
+    width: 200px;
+    background-color: white;
+    color: #36364b;
+    font-weight: 700;
+    border: 1px solid #a5b1c8;
+}
+
+
+.artile-list-image{
+    display: flex;
+    margin: 5px 0 5px 0
+}
+
+.article-list-content{
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+
+
+.article-list-last{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.article-list-author-cont{
+    display: flex;
+    align-items: center;
+}
+
+.article-list-author-name{
+    display: flex;
+    margin-left: 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+}

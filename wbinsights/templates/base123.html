@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load web_tags %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}">
+    
+    <style>
+        @media (max-width: 768px) {
+            .mobile-screens-padds {
+                padding-right: 0px !important;
+                padding-left: 0px !important;
+            }
+        }
+    
+    
+    </style>
+
+<div class="container-fluid">
+    <div class="row" style="margin-right: 0; margin-left: 0">
+
+        <aside class=" col-sm-0-5 col-md-1 d-none d-md-block" style="position: sticky; top: 0; height: 100vh;"></aside>
+
+        <aside class="col-sm-2 d-none d-xl-block col-lg-2-5" style="position: sticky; top: 0; height: 100vh;">
+            {% include "components/left_main_menu.html" %}
+        </aside>
+
+        <main class="mobile-screens-padds col-sm-7 col-md-7 col-xl-6" >
+            <div class="content">
+                {% block center_col %}{% endblock %}
+            </div>
+        </main>
+
+        <aside class="col-sm-5 col-md-4 d-none d-sm-block col-lg-2-5" style="position: sticky; top: 0; height: 100vh;">
+            {% include "components/experts/main_page_list.html" %}
+        </aside>
+
+        <aside class="col-sm-0-5  d-none d-md-block" style="position: sticky; top: 0; height: 100vh;"></aside>
+    </div>
+</div>
+
+
+{% endblock %}

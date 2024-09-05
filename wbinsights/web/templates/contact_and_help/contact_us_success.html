@@ -1,0 +1,35 @@
+{% extends 'base120.html' %}
+{% load static %}
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/contact_page_all.css' %}">
+{% endblock %}
+
+{% block center_col %}
+
+    
+
+    <div class="contact-page-cont">
+
+        <div class="global-back-btn">
+            <a href="{% url 'index' %}" class="href-css"><i class="bi bi-chevron-left"></i> &nbsp;На главную</a>
+        </div>
+          
+
+        <div class="jumbotron">
+          <h3 class="display-6">Спасибо, мы ответим вам!</h3>
+{#          <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>#}
+{#          <hr class="my-4">#}
+{#          <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>#}
+{#          <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>#}
+        </div>
+
+
+        
+    </div>
+
+   
+{% endblock %}
+
+
+

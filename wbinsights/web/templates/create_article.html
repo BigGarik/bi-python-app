@@ -1,0 +1,12 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ article_form.as_p }}
+    <h2>Images</h2>
+    {{ image_formset.management_form }}
+    {% for form in image_formset %}
+    <div>
+        {{ form.as_p }}
+    </div>
+    {% endfor %}
+    <input type="submit" value="Create Article">
+</form>

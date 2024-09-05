@@ -1,0 +1,172 @@
+.expert-list-dropdown {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: black;
+    border: none;
+    margin-top: 0px;
+}
+
+.expert-prof-cont{
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 15px;
+    box-shadow: 0 0 5px hsla(0,0%,66%,.5);
+    flex-direction: column;
+}
+
+.expert-list-prof-pic{
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.experts-list-avatar-container {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%; 
+    overflow: hidden; 
+    border: 1px solid #ccc; 
+}
+
+.experts-list-avatar-container img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.experts-list-rating-span{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+
+
+.question-btn-and-money{
+    display: flex;
+    gap: 10px;
+}
+
+.expert-list-consult-btn{
+    background-color: #6dc36b;
+    border: none;
+    font-weight: 600;
+    color:white !important;
+}
+
+.expert-list-consult-btn:hover{
+    background-color: #21941f;
+}
+
+.money-rate{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    font-weight: 600;
+    color :black ;
+    white-space: nowrap;
+}
+
+.article-last{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px;
+}
+
+.article-last-2{
+    display: flex ;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px;
+}
+
+
+/* ------------------------------------------------- Mobile Screens CSS -------------------------------------------------------- */
+
+
+
+
+@media (max-width: 768px ) {
+
+    .expert-list-consult-btn {
+        display: flex;
+        /*width: 100%;*/
+        justify-content: center;
+        padding: 17px 30px 17px 30px;
+        border-radius: 10px;
+        font-weight: 500;
+        letter-spacing: 1.1px;
+    }
+
+    .money-rate {
+        font-weight: 500;
+    }
+
+    .experts-list-rating-span {
+        font-size: 16px;
+
+    }
+
+    .article-last {
+        align-items: flex-start !important;
+    }
+
+    /*.experts-list-rating-span {*/
+    /*    justify-content: flex-start !important;*/
+    /*    margin-top: 5px !important;*/
+    /*}*/
+
+
+    .user-catagory-highlight {
+        padding: 7px 12px 7px 12px !important;
+        font-size: 13px !important;
+        font-weight: 500;
+    }
+
+
+
+
+
+    .catagory-cont {
+        width: auto !important;
+    }
+
+    .small-layout {
+        display: flex;
+        flex-direction:column;
+        width: 100%;
+    }
+
+    .article-last {
+        gap:10px !important ;
+        flex-direction: column !important;
+    }
+
+}
+
+@media (min-width: 769px ) {
+    .small-layout {
+        display: flex;
+        flex-direction:row !important;
+        width: 100%;
+    }
+
+    .user-stats {
+        justify-content: flex-end !important;
+    }
+
+    .article-last-2 {
+        display: flex !important;
+    }
+
+
+}

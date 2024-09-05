@@ -1,0 +1,27 @@
+{% load web_tags %}
+{% load static %}
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/contact_navbar.css' %}">
+{% endblock %}
+
+<nav class="navbar contact" style="background-color: white; border-radius: 10px; padding: 0px">
+    <div class="container-fluid-nav-contact container-fluid-right">
+        <a class="navbar-brand-contact {% if request.path == '/contact/' %}selected{% endif %}"
+           href="{% url 'contact' %}">
+            <span>О ресурсе</span>
+        </a>
+        <a class="navbar-brand-contact {% if request.path == '#' %}selected{% endif %}"
+           href="#">
+            <span>Правила</span>
+        </a>
+        <a class="navbar-brand-contact {% if request.path == '/data_policies/' %}selected{% endif %}"
+           href="{% url 'data_policies' %}">
+            <span>Политика обработки данных</span>
+        </a>
+        <a class="navbar-brand-contact {% if request.path == '/contact_us/' %}selected{% endif %}"
+           href="{% url 'contact_us' %}">
+            <span>Написать нам</span>
+        </a>
+    </div>
+</nav>

@@ -1,0 +1,53 @@
+{% load i18n %}
+{% load web_tags %}
+{% load comments %}
+{% load comments_xtd %}
+
+<div id="articles" class="expert-content">
+    {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
+        <a href="{% url 'article_add' %}" class="btn btn-primary">Написать статью</a>
+    {% endif %}
+
+    <div id="articles-container">
+        {% include "posts/article/article_profile_list_content.html" %}
+    </div>
+
+    {% if has_more_articles %}
+    <div style="display:flex; justify-content:center" id="load-more-container">
+        <button type="button" class="btn btn-secondary btn-more" id="load-more-btn" data-page="1">
+            Загрузить ещё
+        </button>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+$(document).ready(function() {
+    $("#load-more-btn").click(function() {
+        var button = $(this);
+        var currentPage = parseInt(button.data('page'));
+        var nextPage = currentPage + 1;
+
+        $.ajax({
+            url: '{% url "profile" %}',
+            data: {
+                'page': nextPage,
+                'tab': 'articles'
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(data) {
+                if (data.html) {
+                    $("#articles-container").append(data.html);
+                    button.data('page', nextPage);
+                }
+                if (!data.has_more) {
+                    $("#load-more-container").hide();
+                }
+            }
+        });
+    });
+});
+</script>
+

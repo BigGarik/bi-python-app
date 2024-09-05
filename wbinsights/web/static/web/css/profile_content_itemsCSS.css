@@ -1,0 +1,158 @@
+.project-members{
+    display:flex;
+    justify-content: center;
+    flex-direction:column
+}
+
+.project-goals{
+    display: flex;
+    overflow-wrap: anywhere;
+
+}
+
+.project-goals-caption{
+    font-weight:600;
+}
+
+.jumbo-styles {
+    display: flex;
+    box-shadow: 0 0 5px hsla(0, 0%, 66%, .8);
+    /*background-color: #f4f4f4;*/
+    padding:10px;
+    height: 100%;
+}
+
+.selectedProj {
+    background-color: #dfdede !important;
+    color: white;
+}
+
+.card-css{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+}
+
+.item-project-year {
+    margin: 5px;
+    font-weight: 600;
+    font-size: 16px
+}
+
+.project-name {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    justify-content: center;
+    display: flex;
+    font-weight: 600;
+}
+
+.projects-flex {
+    display:flex
+}
+
+.member-img {
+    width: 40px;
+    border-radius: 50%;
+    height: 40px;
+    margin: 5px 10px 5px 10px;
+}
+
+.project-icon-cont{
+    display: flex;
+    gap: 5px;
+    text-decoration: none;
+    align-items: center;
+    color: black;
+    font-size: 16px
+}
+
+.project-icon-main-cont{
+    display:flex;
+    gap: 5px;
+    justify-content: space-evenly;
+}
+
+.edit-project-search-bar{
+    display: flex;
+    padding: 5px;
+    border: 2px solid grey;
+    justify-content: center;
+    align-items: center;
+}
+
+.project-search-bar{
+    display: flex;
+    padding: 5px;
+    border: 2px solid grey;
+    justify-content: center;
+    width: 50%;
+    text-align: center;
+    align-items: center;
+    height: fit-content;
+}
+
+.client-year-cont{
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    gap: 5px;
+}
+
+.project-members-caption {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+
+}
+
+<!-- profile content items  -->
+
+.nav-pills-scrollable {
+        overflow-x: auto;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .nav-pills-scrollable::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari, and Opera */
+    }
+
+    nav-item-mobile {
+        border: 1px solid grey;
+    }
+
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+        background-color: white;
+        border-bottom: 1px solid black;
+        color: black;
+    }
+
+    .nav-pills .nav-link {
+        border-top-left-radius: var(--bs-nav-pills-border-radius);
+        border-top-right-radius: var(--bs-nav-pills-border-radius);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .item-title{
+        font-size: 14px;
+    }
+
+    .mobile-prof-cont {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            border-bottom: 2px solid black !important;
+    }
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+        background-color: white;
+        border-bottom: 2px solid black !important;
+        color: black;
+    }

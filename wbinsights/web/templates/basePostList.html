@@ -1,0 +1,262 @@
+{% extends 'base123.html' %}
+{% load web_tags %}
+{% load static %}
+
+{% block center_col %}
+
+    <style>
+
+        .basepost-media-mobile{
+            padding: 15px 25px 15px 25px;
+            border-radius: 10px;
+            background-color: white;
+            color: black;
+            font-weight: 500;
+        }
+
+        /* mobile dropdown menu */
+        @media (max-width: 767.98px) {
+            .post-menu .dropdown {
+                position: relative;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            .post-menu {
+                margin: 20px;
+            }
+
+            .post-menu .dropbtn {
+                background-color: #50577A;
+                color: white;
+                padding: 10px 20px;
+                font-size: 16px;
+                border: none;
+                border-radius: 25px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+
+            }
+
+            .post-menu .arrow-down {
+                margin-left: 10px;
+                border: solid white;
+                border-width: 0 2px 2px 0;
+                display: inline-block;
+                padding: 3px;
+                transform: rotate(45deg);
+            }
+
+            .post-menu .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 100%;
+                box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+                border-radius: 10px;
+                top: 100%;
+                left: 0;
+            }
+
+            .post-menu .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                justify-content: center;
+                text-decoration: none;
+                display: flex;
+                font-size: 15px;
+            }
+
+            .post-menu .dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+            .post-menu .dropdown.open .dropdown-content {
+                display: block;
+            }
+        }
+    </style>
+
+    <div class="list-main-containers">
+        <div class="article-text-top">
+            <span class="article-news">Новости</span>
+            <span class="news-open-close" role="button" onclick="toggleCollapse()" aria-expanded="true">
+            <i class="bi bi-chevron-up"></i>
+            &nbsp; свернуть
+        </span>
+        </div>
+
+        <div class="collapse show" id="collapseNews">
+            <div class="base-info-split row" id="newsContainer">
+                <div class="col-md-4">
+                    <div id="carouselExampleAutoplaying" class="carousel slide vertical">
+                        <div class="carousel-inner" id="newsCarousel">
+                            <!-- Initial rendering of the first 3 news items -->
+                            {% get_all_news as news_items %}
+                            {% for news in news_items %}
+                                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                                    <div class="news-title">
+                                        <a href="{{ news.link }}" class="news-titles"
+                                           target="_blank">{{ news.title }}</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!-- For screens larger than 768px -->
+                <div class="col-md-8 d-none d-md-block" id="newsContentContainer">
+                    <div class="col-md-12 columndirection" style="display: flex">
+                        <div class="col-md-3" style="max-height: 250px;">
+                            <img src="{% static 'web/images/unsplashimg.png' %}" alt="image" class="img-fluid"
+                                 style="max-height: inherit;min-width: 100%">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="base-news-title">Постоянный количественный рост ни к чему нас не обязывает</div>
+                        </div>
+                    </div>
+                    <div class="base-news-content">В целом, конечно, новая модель организационной деятельности создаёт
+                        предпосылки для приоритизации разума над эмоциями
+                    </div>
+                    <div class="base-news-stats" >
+                        <div class="base-news-stats-comments">
+                            <i class="bi bi-chat-left-text"></i> &nbsp; 104
+                        </div>
+                        <div class="base-news-stats-last">
+                            <i class="bi bi-calendar3"></i> &nbsp; 2 дня назад
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary basepost-media" style="margin-top:10px"
+                            onclick="alert('В разработке')">Больше новостей
+                    </button>
+                </div>
+
+                <!-- For screens smaller than 768px -->
+                <div class="col-12 d-md-none" id="newsContentContainer">
+                    <div class="col-12 columndirection" style="display: flex; flex-direction: column;">
+                        <div class="col-12">
+                            <div class="base-news-title">Постоянный количественный рост ни к чему нас не обязывает</div>
+                        </div>
+                        <div class="base-news-content">В целом, конечно, новая модель организационной деятельности создаёт
+                            предпосылки для приоритизации разума над эмоциями
+                        </div>
+
+                        <div class="col-12" style="max-height: 250px;">
+                            <img src="{% static 'web/images/unsplashimg.png' %}" alt="image" class="img-fluid"
+                                 style="max-height: inherit; width: 100%;">
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="base-news-stats">
+                        <div class="base-news-stats-comments">
+                            <i class="bi bi-chat-left-text"></i> &nbsp; 104
+                        </div>
+                        <div class="base-news-stats-last">
+                            <i class="bi bi-calendar3"></i> &nbsp; 2 дня назад
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary basepost-media-mobile"
+                            onclick="alert('В разработке')">Больше новостей
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% split request.path "/" 'first' as url_first_part %}
+
+    <!-- Mobile version of the menu -->
+    <div class="d-block d-md-none">
+        <div class="dropdown post-menu">
+            <button class="dropbtn" onclick="toggleDropdown(event)">
+                {% if url_first_part == 'researches' or url_first_part == '' %}
+                    Исследования
+                {% elif url_first_part == 'experts' %}
+                    Эксперты
+                {% elif url_first_part == 'articles' %}
+                    Статьи
+                {% elif url_first_part == 'question_answer' %}
+                    Вопрос-ответ
+                {% endif %}
+                <span class="arrow-down"></span>
+            </button>
+            <div class="dropdown-content">
+                {% if url_first_part != 'researches' and url_first_part != '' %}
+                    <a href="{% url 'research_list' %}" class="post-menu-item-mobile">Исследования</a>
+                {% endif %}
+                {% if url_first_part != 'experts' %}
+                    <a href="{% url 'experts_list' %}" class="post-menu-item-mobile">Эксперты</a>
+                {% endif %}
+                {% if url_first_part != 'articles' %}
+                    <a href="{% url 'article_list' %}" class="post-menu-item-mobile">Статьи</a>
+                {% endif %}
+                {% if url_first_part != 'question_answer' %}
+                    <a href="{% url 'question_answer_list' %}" class="post-menu-item-mobile">Вопрос-ответ</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="d-none d-md-flex post-menu">
+        <a href="{% url 'research_list' %}"
+           class="post-menu-item {% if url_first_part == 'researches' or url_first_part == '' %} selected {% endif %}">Исследования</a>
+        <a href="{% url 'experts_list' %}"
+           class="post-menu-item {% if url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
+        <a href="{% url 'article_list' %}"
+           class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">Статьи</a>
+        <a href="{% url 'question_answer_list' %}"
+           class="post-menu-item {% if url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
+    </div>
+
+    <div id="article_list" class="content-block">
+        {% block posts_content %}{% endblock %}
+    </div>
+
+    <script>
+        function toggleCollapse() {
+            var collapseElement = document.getElementById('collapseNews');
+            if (collapseElement.classList.contains('show')) {
+                collapseElement.classList.remove('show');
+                document.querySelector('.news-open-close i').classList.remove('bi-chevron-up');
+                document.querySelector('.news-open-close i').classList.add('bi-chevron-down');
+            } else {
+                collapseElement.classList.add('show');
+                document.querySelector('.news-open-close i').classList.remove('bi-chevron-down');
+                document.querySelector('.news-open-close i').classList.add('bi-chevron-up');
+            }
+        }
+
+        function toggleDropdown(event) {
+            event.stopPropagation();  // Prevent click event from bubbling up
+            var dropdown = event.currentTarget.nextElementSibling;
+            if (dropdown.style.display === "block") {
+                dropdown.style.display = "none";
+            } else {
+                dropdown.style.display = "block";
+            }
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+{% endblock %}

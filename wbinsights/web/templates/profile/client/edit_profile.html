@@ -1,0 +1,154 @@
+{% extends 'base120.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block center_col %}
+
+<style>
+    .field-with-error {
+        border: 1px solid red; 
+        box-shadow: 0 0 5px red; 
+    }
+
+    .error-message {
+        color: red;
+        font-size: 12px;
+    }
+    
+    .has-error {
+        box-shadow: 0 0 5px red;
+    }
+</style>
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+{% endblock %}
+
+<div class="list-main-containers" >
+
+    <div class="edit-prof-info-cont">
+
+        <a href="{% url 'profile' %}" style="cursor: pointer; text-decoration: none; outline: none; color:grey">
+            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;" ></i> Назад
+        </a>
+
+        <span class= "prof-edit-page-title">{% trans 'ProfileSettingsCaption' %}</span>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="prof-edit-rows">
+
+                <div class="prof-edit-duel-rows">
+                    
+
+                    <div class="prof-edit-info-cont {% if user_form.first_name.errors %}has-error{% endif %}">
+                        <label for="{{ user_form.first_name.id_for_label }}" class="prof-edit-input-labels">{{ user_form.first_name.label }}</label>
+                        {{ user_form.first_name }}
+                        {% for error in user_form.first_name.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="prof-edit-info-cont {% if user_form.last_name.errors %}has-error{% endif %}">
+                        <label for="{{ user_form.last_name.id_for_label }}" class="prof-edit-input-labels">{{ user_form.last_name.label }}</label>
+                        {{ user_form.last_name }}
+                        {% for error in user_form.last_name.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <style>
+                label[for="id_avatar"] {
+                    display: none;
+                }
+            </style>
+        
+            <div class="expert-edit-rows">
+
+                <div class="prof-edit-photo-cont">
+                    <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%;width: 100px;height: 100px;object-fit: cover;">
+
+                    <div style="display:flex ; margin-left: 10px ; flex-direction:column">
+                    
+                        {% if profile_form.instance.avatar %}
+                            <p style= "color:white ; user-select: none; margin: 0;">
+                                На данный момент: <a href="{{ profile_form.instance.avatar.url }}" style="color: white;">{{ profile_form.instance.avatar.name }}</a>
+                            </p>
+                        {% endif %}
+
+                        <label for="id_avatar">Изменить:</label>
+                        <input type="file" name="avatar" class="your-custom-class" accept="image/*" id="id_avatar">
+                    </div>
+                </div>
+
+            </div>
+            
+
+{#            <div class="expert-edit-rows">#}
+{#                <span class="prof-edit-change-pass">Смена пароля</span>#}
+{#                <br/>#}
+{#                <span class="prof-edit-change-pass" style="font-size: 14px">для смены заполните поля, в противном случае оставьте пустыми</span>#}
+{##}
+{#                {% if user_change_password_form.errors %}#}
+{#                     <div class="alert alert-danger">#}
+{#                     #}
+{#                        {% for key, value  in user_change_password_form.errors.items  %}#}
+{#                            {{ value }}#}
+{#                        {% endfor %}#}
+{#    #}
+{#                    </div>#}
+{#                {% endif %}#}
+
+            <div class="prof-edit-bot-btns-cont">
+                <button type="submit" class="btn btn-secondary prof-edit-save-btn" >Сохранить изменения</button>
+                <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+                    Удалить профиль
+                </button>
+            </div>
+        
+        </form>
+    
+        <div class="modal fade" tabindex="-1" role="dialog" id="deleteProfileModal" >
+
+            <div class="modal-dialog" role="document">
+                <form method="post">
+                    
+                    <div class="modal-content" style="width:400px !important">
+                        
+                        <div class="modal-header" style="border-bottom: none;" >
+                            <h5 class="modal-title" style="border-bottom: none;font-weight: 400;font-size: 18px;">Удалить профиль</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="scale: 0.8;"></button>
+                        </div>
+                        
+                        <div class="modal-body" style= "padding-top:0;padding-bottom: 0;">
+                            <p style="font-weight: 600;">Для подтверждения введите пароль</p>
+                        </div>
+                        
+                        <div style="padding: var(--bs-modal-padding);padding-top: 0;">
+                            <input type="password" required placeholder="Ваш пароль" style="width:100%;padding: 10px ;border-radius: 7px;border: 1px lightgrey solid; outline:none"/>
+                        </div>
+                        
+                        <div class="modal-footer" style="border-top: none;display: flex;justify-content: flex-start;">
+                            <button type="submit" class="btn btn-danger" 
+                                    style="background-color: #f47070;border: none;">Удалить профиль</button>
+                            <button type="button" class="btn btn-secondary"  
+                                    style="background-color: white;border: 1px solid #a5b1c8;color: #36364b;" 
+                                    data-bs-dismiss="modal">Отмена</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    
+{% endblock %}

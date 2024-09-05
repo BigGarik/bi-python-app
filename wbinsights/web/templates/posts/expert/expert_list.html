@@ -1,0 +1,177 @@
+{% extends 'basePostList.html' %}
+{% load web_tags %}
+{% load static %}
+
+
+
+{% block title %}
+    Experts
+{% endblock %}
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
+{% endblock %}
+
+
+{% block posts_content %}
+
+
+	<div class="list-main-containers expert-list">
+
+		<div class="search-and-cat-cont">
+		
+			<div class="small-layout col-sm col-md ">
+				<div class="col-sm-12 col-md-6 ">
+					<input type="search" class="lists-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
+				</div>
+				<div class="col-sm-12 col-md-6 testing-class">
+                    <div class="dropdown" style="display: flex; align-items: center;">
+                        <button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="global-catagory-text"> Рейтинг: &nbsp;</span>
+                            <span class="global-catagory-choose" id="selectedRating">
+                                {% if request.GET.min_rating == '3' %}
+                                    3 и выше
+                                {% elif request.GET.min_rating == '4' %}
+                                    4 и выше
+                                {% elif request.GET.min_rating == '5' %}
+                                    5
+                                {% else %}
+                                    Все
+                                {% endif %}
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                            <li><a class="dropdown-item" href="?" data-rating="Все">Все</a></li>
+                            <li><a class="dropdown-item" href="?min_rating=3" data-rating="3 и выше">3 и выше</a></li>
+                            <li><a class="dropdown-item" href="?min_rating=4" data-rating="4 и выше">4 и выше</a></li>
+                            <li><a class="dropdown-item" href="?min_rating=5" data-rating="5">5</a></li>
+
+                        </ul>
+                    </div>
+					{% include "components/post_category_filter.html" %}
+				</div>
+			</div>
+		</div>
+		
+
+		{% for expert in experts %}
+
+		<div class="expert-prof-cont">
+		
+			<div class="small-layout3 col-sm">
+				<div style="display:flex">
+					<div class="expert-list-prof-pic">
+						<div class="experts-list-avatar-container">
+							<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
+						</div>
+
+
+
+						<div class="d-none d-md-block">
+							<span class="experts-list-rating-span">
+								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
+								&nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
+							</span>
+						</div>
+					</div>
+					<div class="basepost-content-cont" style="padding: 10px">
+						<div class="basepost-title">{{expert.first_name}} {{expert.last_name}}</div>
+						<div class="category-container">
+                            {% for exp_category in expert.expertprofile.expert_categories.all %}
+								<div class="user-catagory-highlight {{exp_category.slug}}">
+									{{ exp_category.name }}
+								</div>
+							{% endfor %}                                                            
+						</div>
+						<!--  large about me   -->
+						<div class="d-none d-md-block">
+							<div class="basepost-description">
+								{{ expert.expertprofile.about }}
+								<a href="{% url 'expert_profile' expert.id %}?tab=articles" style="text-decoration:none">Читать ещё</a>
+							</div>
+						</div>
+						<div class="d-md-none">
+							<span class="experts-list-rating-span">
+								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
+								&nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
+							</span>
+						</div>
+					</div>
+
+				</div>
+
+				<!--  small about me  -->
+				<div>
+					<div class="d-md-none">
+						<div class="col" style="padding: 10px 10px 0px 10px;">
+							{{ expert.expertprofile.about }}
+							<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">&nbsp;Читать ещё</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- smaller than md -->
+				<div class="d-md-none article-last">
+					<div style="display:flex;justify-content:flex-start">
+						<div class="col-sm user-stats">
+							{{ expert.expert_article_cnt }} статей • 0 опросов • 0 отзыва
+						</div>
+					</div>
+					{% if request.user.id != expert.id %}
+						{% if request.user.id != expert.id %}
+						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn btn-success  expert-list-consult-btn">Консультация <span class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</span></a>
+
+						{% endif %}
+					{%endif%}
+
+				</div>
+
+				<!-- larger than md -->
+				<div class="d-none d-md-block article-last-2" style="display:flex ">
+					<div class="col-sm order-md-2 user-stats">
+						{{ expert.expert_article_cnt }} статей • 0 опросов • 0 отзыва
+					</div>
+					<div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
+						{% if request.user.id != expert.id %}
+						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация</a>
+							<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
+						{% endif %}
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+			
+		{% endfor %}
+
+	</div>
+
+	<script>
+		function searchByName(e) {
+			if (e.key === "Enter") {
+				const searchValue = e.target.value.trim();
+				if (searchValue !== "") {
+					window.location.href = "/experts/search/?q=" + encodeURIComponent(searchValue);
+				}
+			}
+		}
+
+		console.log("Avatar URL:", "{{ expert.profile.avatar.url }}");
+        
+                document.addEventListener('DOMContentLoaded', function() {
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            const selectedRating = document.getElementById('selectedRating');
+        
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const rating = this.getAttribute('data-rating');
+                    selectedRating.textContent = rating;
+                    window.location.href = this.getAttribute('href');
+                });
+            });
+        });
+	</script>
+
+{% endblock %}

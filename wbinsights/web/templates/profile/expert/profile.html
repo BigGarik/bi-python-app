@@ -1,0 +1,29 @@
+{% extends 'base123.html' %}
+{% load web_tags %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
+{% endblock %}
+
+{% block center_col %}
+
+
+
+    <div class="list-main-containers" >
+
+        <a href="{% url 'index' %}" class="global-back-btn">
+            <i class="bi bi-chevron-left chevro-left-css"></i>
+            &nbsp;{% trans 'ToMainPageLabel' %}
+        </a>
+
+        {% include 'components/experts/profile_info.html' with user=user profile=profile buttons_template='profile/expert/profile_buttons.html'%}
+
+        {% include 'profile/profile_content_items.html' with user=user %}
+
+    </div>
+
+
+
+{% endblock %}

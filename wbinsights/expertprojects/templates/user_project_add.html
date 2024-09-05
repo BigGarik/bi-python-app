@@ -1,0 +1,213 @@
+{% extends 'base123.html' %}
+
+{% load web_tags %}
+
+
+
+{% block center_col %}
+    <style>
+
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+            list-style: none;
+            display: flex !important;
+        }
+
+    </style>
+
+    <h2>Добавление нового проекта</h2>
+
+    <form method="post" enctype="multipart/form-data" id="project-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+
+        <select name="members" id="id_members" multiple></select>
+
+        <input type="hidden" name="some-prop" value="11231234123">
+
+        <input type="file" id="fileInput" name="files" multiple style="display: none;">
+
+
+        <div style="display: flex; margin : 20px 0 20px 0; align-items: baseline;">
+            <span style="font-size: 20px;">Файлы проекта:</span>
+            <button id="fileInputBtn" class="btn btn-primary btn-sm" style="margin-left: 10px">Добавить файлы</button>
+        </div>
+
+        <style>
+            .trash-icon:hover {
+                color: red !important;
+                cursor: pointer;
+            }
+        </style>
+
+        <div id="fileList">
+            <ul>
+                {% for file in files.all %}
+                    <li style="margin: 5px 0 5px 0;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="min-width: 350px; font-size: 18px;">
+                                <a href="{{ file.file.url }}">{{ file.file.name }}</a>
+                            </div>
+                            <i class="bi bi-trash trash-icon" style="font-size:20px; cursor:pointer;"></i>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <input type="file" id="fileInput" name="files" multiple style="display: none;">
+
+        <input type="submit" value="Создать проект">
+    </form>
+
+    <style>
+
+    </style>
+
+    <script type="text/javascript">
+
+        document.getElementById('fileInputBtn').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('fileInput').click();
+        });
+
+        let fileList = [];
+
+        function updateFileList() {
+            console.log("Updating file list");
+            const fileListDiv = document.getElementById('fileList');
+            let ul = fileListDiv.querySelector('ul');
+            ul.innerHTML = '';
+
+            fileList.forEach(function (file, index) {
+                console.log("Appending file:", file.name);
+                const listItem = document.createElement('li');
+                const fileLink = document.createElement('a');
+                fileLink.href = file.url;
+                fileLink.textContent = file.name;
+
+                const deleteButton = document.createElement('i');
+                deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
+                deleteButton.style.fontSize = '20px';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.addEventListener('click', function () {
+                    console.log("Deleting file:", file.name);
+                    fileList.splice(index, 1);
+                    updateFileList();
+                });
+
+                listItem.appendChild(fileLink);
+                listItem.appendChild(deleteButton);
+                ul.appendChild(listItem);
+            });
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function () {
+            console.log("File input changed");
+            const files = this.files;
+
+            for (let i = 0; i < files.length; i++) {
+                console.log("Adding file to list:", files[i].name);
+                fileList.push(files[i]);
+            }
+
+            updateFileList();
+        });
+
+        document.getElementById('project-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+
+            const formInputs = document.querySelectorAll('#project-form input, #project-form select');
+            formInputs.forEach(input => {
+                if (input.type !== 'file') {
+                    formData.append(input.name, input.value);
+                }
+            });
+
+            fileList.forEach((file) => {
+                formData.append('files', file);
+            });
+
+            fetch('{% url 'project_add' %}', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Files uploaded successfully!');
+                        window.location.href = '{% url 'profile' %}';
+                    } else {
+                        console.error('Failed to upload files:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+
+        $('#id_category').select2({
+            width: '100%'
+        });
+
+        function formatResult(result) {
+            if (!result.id) return result.text;
+            //return result.last_name + ' ' + result.first_name;
+            const res = `<div style="display: flex; align-items: center">
+                            <img width="70" height="70" style="padding: 5px; border-radius: 50%" src="${result.profile_photo}"/>
+                            ${result.last_name} ${result.first_name} (${result.email})
+            </div>`
+            return res;
+        }
+
+        function formatSelection(result) {
+            const res = `<div style="display: flex; align-items: center">
+                            ${result.last_name} ${result.first_name} (${result.email})
+            </div>`
+            return res;
+        }
+
+
+        $("#id_members").select2({
+            ajax: {
+                url: "/expert/search-experts/",
+                dataType: 'json',
+                delay: 250,
+                tags: true,
+                data: function (params) {
+                    return {
+                        query: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: $.map(data.data, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.email,
+                                email: item.email,
+                                last_name: item.last_name,
+                                first_name: item.first_name,
+                                profile_photo: item.profile_photo,
+                            };
+                        })
+                    };
+                },
+                cache: true
+            },
+
+            escapeMarkup: function (markup) {
+                return markup;
+            }, // let our custom formatter work
+            templateResult: formatResult, // omitted for brevity, see the source of this page
+            templateSelection: formatSelection,
+            minimumInputLength: 3,
+            width: '100%'
+        });
+
+
+    </script>
+{% endblock %}

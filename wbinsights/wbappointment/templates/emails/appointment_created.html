@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Новая анкета эксперта на проверку</title>
+</head>
+<body>
+    <p>С вами забронирована новая встреча.</p>
+    <p>Клиент: {{ client.last_name }} {{ client.first_name }}</p>
+    <p>Дата и время: {{ appointment.appointment_date }} {{ appointment.appointment_time }}</p>
+    <p>Ссылка на подключение {{ appointment.zoom_link }}</p>
+    <br/>
+
+    <p>Просмотреть ваши встречи вы можете в своем профиле <a href="{{ site_url }}/profile">Профиль</a></p>
+</body>
+</html>

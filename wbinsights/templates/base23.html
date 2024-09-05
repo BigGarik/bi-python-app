@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+    <div class="col-md-8" style="margin-bottom: 20px;">
+
+        <div class="content">
+            {% block center_col %} {%endblock%}           
+        </div>
+
+    </div>
+
+    <div class="col-md-2">
+
+        {% include "components/experts/main_page_list.html" %}
+
+    </div>
+
+
+    
+</div>
+
+{% endblock %}

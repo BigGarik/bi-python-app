@@ -1,0 +1,11 @@
+{% extends 'base123.html' %}
+
+
+{% load web_tags %}
+
+{% block center_col %}
+    <div class="container mt-3">
+        <p>Ваш аккаунт еще не активирован.</p>
+        <p>Ссылка для активации была отправлена на адрес электронной почты: {{ email }}</p>
+    </div>
+{% endblock %}

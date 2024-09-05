@@ -1,0 +1,12 @@
+{% extends 'base123.html' %}
+
+
+{% load web_tags %}
+
+{% block center_col %}
+    <div class="container mt-3">
+        <h2>Что-то пошло не так</h2>
+        <a href="{% url 'activate_account' %}" class="btn btn-danger mt-3">Активировать повторно</a>
+        <a href="{% url 'index' %}" class="btn btn-danger mt-3">Вернуться на главную</a>
+    </div>
+{% endblock %}

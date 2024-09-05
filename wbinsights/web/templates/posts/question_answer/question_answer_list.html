@@ -1,0 +1,111 @@
+<!-- question_answer.html -->
+{% extends 'basePostList.html' %}
+{% load static %}
+
+{% block title %}
+    QandA
+{% endblock %}
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
+{% endblock %}
+
+{% block posts_content %}
+
+
+	<div class="list-main-containers">
+
+		<div class="search-and-cat-cont d-none d-md-flex">
+
+			<div class="col-6">
+				<input type="text" class="lists-search-cont" placeholder="Поиск">
+
+			</div>
+
+			<div class="col-6 " style="display:flex; justify-content:space-between; padding-left:10px">
+				<a href="#" onclick="alert('В разработке');">
+						<button type="button" class="btn ask-question-btn btn-sm" >Задать вопрос</button>
+					</a>
+				{% include "components/post_category_filter.html" %}
+			</div>
+
+		</div>
+	
+		<!-- Small Screens -->
+		<div class="search-and-cat-cont d-md-none" style="display: flex; flex-direction: column;">
+			<div style="display:flex ; width: 100%;">
+				<input type="text" class="research-search-cont" placeholder="Поиск">    
+			</div>
+			<div style="margin-top: 10px; display:flex; justify-content:space-between" >
+				<button type="button" class="btn ask-question-btn btn-sm" style="text-wrap: nowrap !important;" >Задать вопрос</button>
+				{% include "components/post_category_filter.html" %}
+			</div>
+		</div>
+
+		{% for questionsandanswers in '123' %}
+		<div class="basepost-content-cont">
+			<div class="category-container" style="margin-top: 10px">
+				<span class="user-catagory-highlight finansy"> Финансы </span>
+			</div>
+			<div class="basepost-title">Вот вам яркий пример современных тенденций - сложившаяся структура организации</div>
+			<div class="">
+				<span class="basepost-description" style="display: block">
+					Повседневная практика показывает, что 
+					высококачественный прототип будущего проекта однозначно определяет каждого участника как способного принимать 
+					собственные решения касаемо соответствующих условий активизации. &nbsp;<a href="#" class="link-read-post">Читать пост</a>
+				</span>
+
+				<div class="question-answer-last2 d-none d-md-flex" >
+					<div class="article-author-cont">
+						<div class="author-pic-research">
+							<i class="bi bi-person-circle" style="color:black; scale:3"></i>
+						</div>
+						<div class="author-name">Александр Александров</div>
+						<span class="list-publish-date" style="margin-left: 10px">18 часов назад</span>
+					</div>
+					<div class="comments-andshare-cont">
+						<div class="list-comments">
+							<i class="bi bi-chat-left-text" style="color:grey; "></i>
+							&nbsp; 104
+						</div>
+						<div class="list-share">
+							<i class="bi bi-box-arrow-up-right" style="color:grey; scale: 0.9 "></i>
+						</div>
+					</div>
+				</div>
+
+				<!-- small screen -->
+				<div class="question-answer-last d-md-none">
+					<div>
+						<span class="hours-ago">18 часов назад</span>
+						<div class="flex-cont">
+							<div class="article-author-cont">
+								<div class="author-pic-research">
+									<i class="bi bi-person-circle" style="color:black; scale:3"></i>
+								</div>
+								<div class="author-name">Александр Александров</div>
+
+							</div>
+							<div class="comments-andshare-cont">
+								<div class="list-comments">
+									<i class="bi bi-chat-left-text" style="color:grey; "></i>
+									&nbsp; 104
+								</div>
+								<div class="list-share">
+									<i class="bi bi-box-arrow-up-right" style="color:grey; scale: 0.9"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr class="solid" style="margin-top: 20px;">
+			</div>
+		</div>
+		{%endfor%}
+
+	</div>
+
+</html>
+
+
+{% endblock %}

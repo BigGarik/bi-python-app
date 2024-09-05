@@ -1,0 +1,245 @@
+/* ------------------------------ BasePostList --------------------*/
+
+.article-text-top{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.base-info-split{
+    display: flex;
+    margin-top: 10px !important;
+}
+
+.btn-dark{
+    display: flex;
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #36364b;
+}
+
+.verify-account-text{
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.displayflex{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+}
+
+.flex-center {
+    display:flex;
+    justify-content: center;
+}
+
+.base-news-title{
+    display: flex;
+    font-size: 20px;
+    font-family: sans-serif;
+    font-weight: 600;
+    padding: 0px 10px 10px 10px;
+}
+
+.base-news-content{
+    display: flex;
+    font-size: 14px;
+    font-family: sans-serif;
+    font-weight: 500;
+    padding: 10px 0 10px 0;
+}
+
+.base-news-stats{
+    display: flex;
+    padding: 10px 0 10px 0;
+}
+
+.base-news-stats-comments{
+    display: flex;
+    align-items: center;
+    color: lightgray;
+    font-size: 14px;
+}
+
+.base-news-stats-last{
+    display: flex;
+    padding-left: 20px;
+    align-items: center;
+    color: lightgray;
+    font-size: 14px;
+}
+
+.article-news{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 18px;
+    color: #9c9c9c;
+}
+
+.news-open-close{
+    display: flex;
+    font-family: sans-serif;
+    font-size: 13px;
+    color: #9c9c9c;
+    align-items: center;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+
+
+
+@media (max-width: 768px) {
+        .columndirection {
+            flex-direction: column;
+
+        }
+        .post-menu {
+            font-size: 11px;
+        }
+        .smallscreenbtn {
+            width: 100%;
+        }
+        .post-menu-item {
+            font-size: 11px;
+        }
+        .base-info-split {
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+        }
+        .base-article-title {
+            padding: 10px 0px 10px 0px !important;
+        }
+        .base-article-content {
+            padding: 10px 0px 10px 0px !important;
+        }
+        .base-article-stats {
+            padding: 10px 0px 10px 0px !important;
+        }
+        .post-menu-item {
+        }
+
+        .base-news-title,
+        .base-news-content{
+            padding: 5px 0px 10px 0px;
+        }
+
+        .base-news-stats {
+            padding: 15px 0px 15px 0px;
+        }
+    }
+    .news-title {
+        cursor: pointer;
+    }
+    #newsTitlesList {
+        max-height: 300px;
+        overflow-y: hidden;
+        padding: 5px;
+    }
+    .news-titles {
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .carousel-inner {
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+    }
+    .carousel-item {
+        height: 100px;
+        display: none;
+    }
+    .carousel-item.active {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-bottom: 1px solid grey;
+    }
+
+
+
+/* ---------------------------------------------------------------  ARTICLE LIST  ------------------------------------------------------------------------------- */
+
+
+@media (max-width: 768px) {
+    .row-margin {
+        margin-top: 0px !important;
+    }
+}
+.row-margin {
+    margin-top: 20px !important;
+    /* padding: 10px; */
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+.article-content{
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+
+
+/*------------------------------------------------------------  Experts Coloumn  -------------------------------------------------------------------------*/
+
+
+.post-menu {
+    font-size: 14px;
+    display: flex;
+    justify-content: space-around;
+    font-family: sans-serif;
+    align-items: center;
+    color: #404054;
+    margin: 20px 0 20px 0;
+    font-weight: 600;
+}
+
+.post-menu-item {
+    padding: 7px;
+    cursor: pointer;
+    width: 25%;
+    display: flex;
+    border-radius: 20px;
+    justify-content: center;
+    text-decoration: none;
+    color: #404054;
+}
+
+.post-menu-item-mobile {
+    padding: 7px;
+    cursor: pointer;
+    justify-content: center;
+    width: 100%;
+    display: flex;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #404054;
+}
+
+
+
+.post-menu-item.selected {
+    background-color: #535478;
+    color: #fff;
+}
+
+.error-title{
+    display: flex;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+
+
+
+
+

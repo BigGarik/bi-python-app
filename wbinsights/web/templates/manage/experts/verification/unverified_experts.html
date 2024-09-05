@@ -1,0 +1,51 @@
+{% extends 'base123.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+{% endblock %}
+
+<!--<style>
+    .table > :not(caption) > * > * {
+        background-color: inherit;
+    }
+</style>
+-->
+
+
+
+
+{% block center_col %}
+    <h2 style="margin-bottom: 20px">Список неверифицированных экспертов (Temperary Design)</h2>
+
+    {% if experts_anketas %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="background-color:inherit">{% trans 'LastNameLabel' %}</th>
+                    <th style="background-color:inherit">{% trans 'FirstNameLabel' %}</th>
+                    <th style="background-color:inherit">{% trans 'PhoneNumberLabel' %}</th>
+                    <th style="background-color:inherit">{% trans 'EmailLabel' %}</th>
+                    <th style="background-color:inherit">{% trans 'ActionsLabel' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for anketa in experts_anketas %}
+                    <tr class="mb-3"> 
+                        <td style="background-color:inherit">{{ anketa.user.last_name }}</td>
+                        <td style="background-color:inherit">{{ anketa.user.first_name }}</td>
+                        <td style="background-color:inherit">{{ anketa.user.phone_number }}</td>
+                        <td style="background-color:inherit">{{ anketa.user.email }}</td>
+                        <td style="background-color:inherit">
+                            <a href="{% url 'manage_unverified_experts_profile' anketa.pk %}" style="color: black; text-decoration: none; font-size: 16px;">View Profile</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Неверифицированных экспертов нет.</p>
+    {% endif %}
+
+{% endblock %}

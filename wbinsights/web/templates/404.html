@@ -1,0 +1,54 @@
+
+
+{%extends 'base.html'%}
+
+
+{% block content%} 
+
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1 text-md-end"></div>
+    
+            <div class="col-md-2 mb-2 mb-md-0 logo-container"></div>
+    
+            <div class="col-md-6 text-md-end header-nav-container">
+                <div class="articles-main-cont" style="margin-top: 20px; display:flex ; flex-direction:column">
+                    
+                    <span style="display: flex;font-size: 26px;font-weight: 700;margin-bottom: 20px;font-family: sans-serif;"> 
+                        Ошибка 404 
+                    </span>
+
+                    <span style="display:flex;font-size: 18px;font-weight: 500;margin-bottom: 20px;"> Страница, на которую вы пытаетесь перейти, не существует. Возможно, она была удалена </span>
+
+                    <div style="display:flex; gap: 15px">
+                        <button type="button" class="btn btn-danger" style="background-color: #6dc36b; border-radius: 10px; border: none; padding: 10px 20px 10px 20px; font-size: 17px; font-weight: 500;" onclick="goBack()">Вернуться назад</button>
+                        <a href="{% url 'index' %}" class="btn btn-secondary" style="background-color: white; border: 1px solid #a5b1c8; color: #36364b; margin: 0; border-radius: 10px; font-size: 17px; font-weight: 500; text-decoration: none; display: inline-block; padding: 10px 20px;">
+                            Перейти на главную
+                        </a>
+                    
+                    </div>
+
+
+                </div>
+            </div>
+    
+            <div class="col-md-2 text-md-end all-profile-cont" style="display: flex; justify-content: flex-end; align-items:center">
+            </div>
+    
+            <div class="col-md-1 text-md-end"></div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    
+    
+</body>
+
+</html>
+{% endblock %}

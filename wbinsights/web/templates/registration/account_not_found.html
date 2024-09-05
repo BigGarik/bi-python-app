@@ -1,0 +1,11 @@
+{% extends 'base123.html' %}
+
+
+{% load web_tags %}
+
+{% block center_col %}
+    <div class="container mt-3">
+        <p>Аккаунт с адресом email <strong>{{ email }}</strong> не найден.</p>
+        <p><a href="{% url 'signup' %}">Зарегистрируйтесь</a>, если у вас еще нет аккаунта.</p>
+    </div>
+{% endblock %}

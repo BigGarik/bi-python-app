@@ -1,0 +1,13 @@
+{% if user == request.user %}
+    <a href="#" aria-disabled="True" type="button"
+       class="btn btn-secondary"
+       style="background-color: #6dc36b;border: none;opacity: 0.5">
+        Консультация
+    </a>
+{% else %}
+    <a href="{% url 'appointment_add' user.id %}" aria-disabled="True" type="button"
+       class="btn btn-secondary"
+       style="background-color: #6dc36b;border: none;">
+        Консультация
+    </a>
+{% endif %}

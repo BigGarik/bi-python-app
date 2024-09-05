@@ -1,0 +1,409 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'web/images/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'web/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/mainPage.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}">
+
+    <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap-icons.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap.min.css' %}"/>
+    <script src="{% static 'web/js/bootstrap/5.3.3/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'web/js/jquery/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'web/js/jquery/ui/1.13.1/jquery-ui.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'web/css/select2/4.0.13/select2.min.css' %}"/>
+    <script src="{% static 'web/js/select2/4.0.13/select2.min.js' %}"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.iife.js" defer init></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block extra_static %} {% endblock %}
+
+    <style>
+        @media (max-width: 768px) {
+            body:not(.justwidget-iframe--content) #widget-root {
+                height: 0 !important;
+            }
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif !important;  <!-- system-ui? -->
+            background-color: #2980b9;
+            font-family: monaco, Consolas, Lucida Console, monospace;
+        }
+
+        .for-pic img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #overlay {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 999; 
+            display: none; 
+        }
+
+        @media (max-width: 768px) {
+            #mobile-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: #ffffff; 
+                z-index: 100;
+                display: flex;
+                justify-content: space-around;
+                padding: 10px 0;
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
+            }
+
+
+            #mobile-nav .nav-item {
+                color: white;
+                text-align: center;
+                font-size: 14px;
+            }   
+
+            #mobile-nav .nav-item i {
+                display: block;
+                font-size: 1.5em;
+            }
+
+            #mobile-nav .nav-item span {
+                display: block;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: #f2f3f5;height: 1600px;">
+
+<div id="overlay"></div> <!-- Dimming overlay -->
+
+<div class="container-fluid">
+
+
+    <header class="py-3 sm-4 border-bottom header-container" style="width: 100%">
+
+        <div class="container-fluid">
+
+            <!-- display for larger screens -->
+            <div class="d-none d-xl-flex justify-content-end main-cont-css">
+            
+                <aside class="col-sm-0-5  d-none d-md-block" ></aside>
+            
+                <div class="col-md-4 mb-2 mb-md-0 logo-container">
+
+                    <div class="search-bar-cont">
+                        <input class="search-bar" type="text" id="search" name="username" placeholder="Поиск">
+
+                        {% if user.is_authenticated %}
+                            {% if user.profile.type == 1 %}
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary fullscreen-dropdown" type="button"
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        <i class="bi bi-plus" style="color:black; transform: scale(1.3);"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item"
+                                           href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if user.is_staff %}
+                            <div class="dropdown">
+                                <button class="btn btn-secondary fullscreen-dropdown" type="button"
+                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    <span style="color: black;">Администрирование</span>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item"
+                                       href="{% url 'manage_unverified_experts_list' %}">{% trans 'Верификация экспертов' %}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2 text-md-end header-nav-container">
+                    {% if request.user.is_authenticated %}
+                        {% if not request.user.expertanketa.is_verified %}
+                            <p class="verify-account-text">{% trans 'VerifyAccountLabel' %}</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                <div class="col-md-3 text-md-end all-profile-cont"
+                     style="display: flex; justify-content: flex-end; align-items:center;">
+                    {% if user.is_authenticated %}
+                        <div class="header-icon-cont">
+                            <a href="{% url 'index' %}">
+                                <i class="bi bi-house" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
+
+                        <div class="header-icon-cont">
+                            <a href="#" onclick="alert('В разработке');">
+                                <i class="bi bi-chat-left-text" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
+                        <div class="header-icon-cont">
+                            <a href="#" onclick="alert('В разработке');">
+                                <i class="bi bi-bell-fill" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
+                        <div class="header-user-prof">
+                            <div class="header-prof-info">
+                                <span style="color:white">{{ user.first_name }} </span>
+                                <span style="color:grey">
+                                    {% if user.is_superuser %}
+                                        Админ
+                                    {% elif user.profile.type == 1 %}
+                                        Эксперт
+                                    {% elif user.profile.type == 0 %}
+                                        Клиент
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                        style="background-color: inherit;border: none;margin: 0;">
+                                    <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                                         style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;">
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                                     style="padding: 0px; transform: translate(-100px, 64px) !important;">
+                                    <div class="header-profile-cont">
+                                        <a href="{% url 'profile' %}?tab=articles"
+                                           class="profile-page-btn prof-page-btn-styles">
+                                            <i class="bi bi-person-fill" style="margin-right:10px; scale:1.2"></i>
+                                            &nbsp;
+                                            {% trans 'PersonalAccountLabel' %}
+                                        </a>
+                                        <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                            {% csrf_token %}
+                                            <button class="logout-btn logout-btn" type="submit">
+                                                <i class="bi bi-box-arrow-right" style=" scale: 1.1"></i> &nbsp;
+                                                {% trans 'LogoutButtonLabel' %}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+
+                        <div class="header-icon-cont">
+                            <a href="{% url 'index' %}">
+                                <i class="bi bi-house" style="color:white; font-size: 1.3em;"></i>
+                            </a>
+                        </div>
+
+                        <div class="buttons-log-cont">
+                            <a href="{% url 'login' %}">
+                                <button type="button"
+                                        class="btn btn-dark logout-btn-style"
+                                        style="font-size: 16px">{% trans 'LoginBtnLabel' %}</button>
+                            </a>
+                            <a href="{% url 'signup' %}">
+                                <button type="button" class="btn btn-primary"
+                                        style="font-size: 16px ">{% trans 'RegisterBtnLabel' %}</button>
+                            </a>
+                        </div>
+
+                    {% endif %}
+                </div>
+                <aside class="col-sm-0-5  d-none d-md-block" ></aside>
+
+            </div>
+
+            <!-- display on small screens -->
+            <div class="d-xl-none">
+
+                <div style="display:flex; align-items: center">
+
+                    <div id="sidebar-btn">
+                        <i class="bi bi-list" style="color: white; font-size: 32px;"></i>
+                    </div>
+
+                    <div style="display:flex;width: 100%; justify-content: flex-end;gap: 15px" >
+                        <i class="bi bi-search" style="font-size: 22px; color: white;padding-top: 4px; z-index: 2000" onclick="alert('in progress')"></i>
+                        {% if user.is_authenticated %}
+                            {% if user.profile.type == 1 %}
+                                <div class="dropdown" style="z-index: 2000">
+                                    <button class="btn btn-secondary nav-dropdown-styles" type="button"
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        <i class="bi bi-plus" style="color:black; transform: scale(1.3);"></i>
+                                    </button>
+
+                                    <div class="dropdown-menu"
+                                         style="padding: 0px;transform: translate(-110px, 10px) !important;"
+                                         aria-labelledby="dropdownMenuButton">
+                                        {% if user.profile.type == 1 %}
+                                            <a class="dropdown-item"
+                                               href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div id="sidebar">
+                    <div style="display:flex; flex-direction:row ;    justify-content: flex-start; height:50px">
+                        <div id="sidebar-close-btn" style="display: none;">
+                            <i class="bi bi-x" style="color: white; font-size:34px;"></i>
+                        </div>
+                    </div>
+
+                    <div>
+                        {% include "components/left_main_menu.html" %}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <div class="row row-margin" >
+        {% block content %} {% endblock %}
+    </div>
+
+    <div id="mobile-nav" class="d-xl-none">
+        <a href="{% url 'index' %}" class="nav-item">
+            <i class="bi bi-house-door-fill" style="color: grey; font-size: 26px;"></i>
+        </a>
+        {% if user.is_authenticated %}
+            <a href="#" class="nav-item">
+                <i class="bi bi-chat-left-text-fill" style="color: grey; font-size: 26px;"></i>
+            </a>
+            <a class="nav-item">
+                <i class="bi bi-bell-fill" style="color: grey; font-size: 26px;"></i>
+            </a>
+            <div class="dropdown nav-item">
+                <button class="btn btn-secondary dropdown-toggle" type="button"
+                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"
+                        style="background-color: inherit; border: none; margin: 0; padding: 0;">
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                         style="height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                     style="padding: 0; transform: translate(-130px, 10px);">
+                    <div class="header-profile-cont">
+                        <a href="{% url 'profile' %}?tab=articles" class="profile-page-btn prof-page-btn-styles">
+                            <i class="bi bi-person-fill" style="margin-right: 10px; scale: 1.2;"></i>&nbsp;
+                            {% trans 'PersonalAccountLabel' %}
+                        </a>
+                        <form method="post" action="{% url 'logout' %}" class="logout-form">
+                            {% csrf_token %}
+                            <button class="logout-btn logout-btn" type="submit">
+                                <i class="bi bi-box-arrow-right" style="scale: 1.1;"></i>&nbsp;
+                                {% trans 'LogoutButtonLabel' %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}">
+                <button type="button" class="btn btn-dark logout-btn-style"
+                        style="font-size: 16px !important"
+                        style="font-size: 18px ; background-color: #4a4a5e !important;">{% trans 'LoginBtnLabel' %}</button>
+            </a>
+        {% endif %}
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#sidebar-btn').on('click', function () {
+            $('#sidebar').toggleClass('visible');
+            $('#overlay').show(); 
+            $('#sidebar-btn').hide();
+            $('#sidebar-close-btn').show();
+        });
+
+        $('#sidebar-close-btn').on('click', function () {
+            $('#sidebar').toggleClass('visible');
+            $('#overlay').hide();  
+            $('#sidebar-close-btn').hide();
+            $('#sidebar-btn').show();
+        });
+
+        $('#overlay').on('click', function () {
+            $('#sidebar').removeClass('visible');
+            $(this).hide();
+            $('#sidebar-close-btn').hide();
+            $('#sidebar-btn').show();
+        });
+    });
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () {
+            (m[i].a = m[i].a || []).push(arguments)
+        };
+        m[i].l = 1 * new Date();
+        for (var j = 0; j < document.scripts.length; j++) {
+            if (document.scripts[j].src === r) {
+                return;
+            }
+        }
+        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(97084911, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true
+    });
+</script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/97084911" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
+<!-- /Yandex.Metrika counter -->
+
+<script src="https://bot.jaicp.com/chatwidget/uWpfQZHU:454c92c06f0c61d1c8fb0f39df8e426da9dd0dde/justwidget.js?force=true"
+        async></script>
+
+</body>
+
+</html>
