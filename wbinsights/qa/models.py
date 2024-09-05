@@ -23,5 +23,10 @@ class Answer(VoteModel, models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_best = models.BooleanField(default=False)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['author', 'question'], name='unique_answer_per_user')
+        ]
+
     def __str__(self):
         return f"Answer by {self.author.username} to {self.question.title}"
