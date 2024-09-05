@@ -23,7 +23,7 @@
         
             {% if question.author == user and not answer.is_best %}
                 | <a href="{% url 'qa:choose_best_answer' answer.id %}">Mark as Best</a>            
-            {% else %}
+            {% elif answer.is_best %}
                 <strong>Best Answer</strong>
             {% endif %}
         
