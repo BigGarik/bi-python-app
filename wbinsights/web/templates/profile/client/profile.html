@@ -23,8 +23,12 @@
 
     </div>
 
-    <div id="client-calendar" class="list-main-containers" >
-        {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
+    <div id="client-calendar" class="list-main-containers">
+        {% if is_mobile %}
+            {% include 'components/appointment/calendar_mobile.html' with calendar_event_id='event-calendar' %}
+        {% else %}
+            {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
+        {% endif %}
     </div>
 
 
