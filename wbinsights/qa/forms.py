@@ -25,7 +25,7 @@ class QuestionForm(forms.ModelForm):
         label="Получатель",
         widget=forms.Select(attrs={'class': 'form-control', 'required': 'required'}),
         to_field_name='id',
-        required=True
+        required=False
     )
 
     def __init__(self, *args, **kwargs):

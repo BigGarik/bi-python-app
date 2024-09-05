@@ -2,7 +2,8 @@
 
 <h1>{{ question.title }}</h1>
 <p>{{ question.content }}</p>
-<p>Asked by {{ question.author.username }} on {{ question.created_at }}</p>
+<p>{{ question.cat }}</p>
+<p>Asked by {{ question.author.first_name}} {{ question.author.last_name }} on {{ question.created_at }}</p>
 
 <h2>Answers</h2>
 
@@ -10,7 +11,7 @@
     <div>
         <p><strong>Best Answer:</strong></p>
         <p>{{ best_answer.content }}</p>
-        <p>{{ best_answer.author.username }} on {{ best_answer.created_at }}</p>
+        <p>{{ best_answer.author.first_name}} {{ best_answer.author.last_name}} on {{ best_answer.created_at }}</p>
     </div>
     <hr>
 {% endif %}
@@ -19,7 +20,7 @@
     {% for answer in other_answers %}
         <li>            
             <p>{{ answer.content }}</p>
-            <p>{{ answer.author.username }} on {{ answer.created_at }}</p>
+            <p>{{ answer.author.first_name}} {{ best_answer.author.last_name}} on {{ answer.created_at }}</p>
         
             {% if question.author == user and not answer.is_best %}
                 | <a href="{% url 'qa:choose_best_answer' answer.id %}">Mark as Best</a>            
