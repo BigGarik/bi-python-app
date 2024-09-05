@@ -74,8 +74,8 @@
 							</span>
 						</div>
 					</div>
-					<div class="basepost-content-cont" style="padding: 10px">
-						<div class="basepost-title">{{expert.first_name}} {{expert.last_name}}</div>
+					<div class="basepost-content-cont" style="padding: 10px; gap: 15px !important;     padding: 10px 10px 10px 20px; !important;">
+						<div class="basepost-title" style="font-size: 28px !important; margin-bottom: 0px !important; margin-top: 0px !important;">{{expert.first_name}} {{expert.last_name}}</div>
 						<div class="category-container">
                             {% for exp_category in expert.expertprofile.expert_categories.all %}
 								<div class="user-catagory-highlight {{exp_category.slug}}">
@@ -85,11 +85,25 @@
 						</div>
 						<!--  large about me   -->
 						<div class="d-none d-md-block">
-							<div class="basepost-description">
-								{{ expert.expertprofile.about }}
-								<a href="{% url 'expert_profile' expert.id %}?tab=articles" style="text-decoration:none">Читать ещё</a>
+							<div class="basepost-description" style="margin-bottom: 0px !important;">
+                                <span>
+                                    {{ expert.expertprofile.about|slice:":130" }}{% if expert.expertprofile.about|length > 130 %}...{% endif %} &nbsp;
+                                    <a href="{% url 'expert_profile' expert.id %}?tab=articles" style="text-decoration:none">Читать ещё</a>
+                                </span>
 							</div>
 						</div>
+
+                    <div class="d-none d-md-block article-last-2" style="display:flex ">
+                        <div class="col-sm order-md-2 user-stats" style="font-size: 16px !important;">
+                            {{ expert.expert_article_cnt }} статей  &nbsp;• &nbsp; 0 опросов &nbsp;  • &nbsp; 0 отзыва
+                        </div>
+                        <div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
+                            {% if request.user.id != expert.id %}
+                            <a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация</a>
+                                <span class="money-rate"> от {{expert.expertprofile.hour_cost}} Р/час</span>
+                            {% endif %}
+                        </div>
+                    </div>
 						<div class="d-md-none">
 							<span class="experts-list-rating-span">
 								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
@@ -100,44 +114,8 @@
 
 				</div>
 
-				<!--  small about me  -->
-				<div>
-					<div class="d-md-none">
-						<div class="col" style="padding: 10px 10px 0px 10px;">
-							{{ expert.expertprofile.about }}
-							<a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">&nbsp;Читать ещё</a>
-						</div>
-					</div>
-				</div>
 
-				<!-- smaller than md -->
-				<div class="d-md-none article-last">
-					<div style="display:flex;justify-content:flex-start">
-						<div class="col-sm user-stats">
-							{{ expert.expert_article_cnt }} статей • 0 опросов • 0 отзыва
-						</div>
-					</div>
-					{% if request.user.id != expert.id %}
-						{% if request.user.id != expert.id %}
-						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn btn-success  expert-list-consult-btn">Консультация <span class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</span></a>
 
-						{% endif %}
-					{%endif%}
-
-				</div>
-
-				<!-- larger than md -->
-				<div class="d-none d-md-block article-last-2" style="display:flex ">
-					<div class="col-sm order-md-2 user-stats">
-						{{ expert.expert_article_cnt }} статей • 0 опросов • 0 отзыва
-					</div>
-					<div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
-						{% if request.user.id != expert.id %}
-						<a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация</a>
-							<div class="money-rate">{{expert.expertprofile.hour_cost}} Р/час</div>
-						{% endif %}
-					</div>
-				</div>
 
 			</div>
 		</div>
