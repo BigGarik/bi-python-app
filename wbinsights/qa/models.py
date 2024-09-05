@@ -1,7 +1,7 @@
 from django.db import models
 from vote.models import VoteModel
 
-from web.models import CustomUser
+from web.models import CustomUser, Category
 
 
 class Question(models.Model):
@@ -9,8 +9,8 @@ class Question(models.Model):
     content = models.TextField()
     author = models.ForeignKey(CustomUser, related_name='questions', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    targeted_user = models.ForeignKey(CustomUser, related_name='targeted_questions', on_delete=models.SET_NULL, null=True,
-                                      blank=True)
+    targeted_user = models.ForeignKey(CustomUser, related_name='targeted_questions', on_delete=models.SET_NULL, null=True, blank=True)
+    cat = models.ForeignKey(Category, related_name='questions', on_delete=models.PROTECT, verbose_name="Категории")
 
     def __str__(self):
         return self.title
