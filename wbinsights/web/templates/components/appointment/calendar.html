@@ -269,8 +269,8 @@
         {status: 2, color: "red", name: "Отклонен"},
         {status: 3, color: "brown", name: "Отменен"},
         {status: 4, color: "green", name: "Оплачен"},
-        {status: 10, color: "lightgrey", name: "Недоступен для бронирования"},
-        {status: 11, color: "#a6db69", name: "Доступен для бронирования"}
+        {#{status: 10, color: "lightgrey", name: "Недоступен для бронирования"},#}
+        {#{status: 11, color: "#a6db69", name: "Доступен для бронирования"}#}
     ];
 
     function createSchedule(dates) {
@@ -423,16 +423,34 @@
         }
 
         if (extradates) {
-            dates = dates.concat(extradates.map((extradate) => {
+
+            dates = dates.concat(extradates.filter((extradate) => extradate.type == 1).map((extradate) => {
                 const title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования';
                 const moment_start = moment(extradate.localized_start);
                 const moment_end = moment(extradate.localized_end);
-                return createEvent(title, extradate.type + 10,
+                return createEvent(title, -1,
                     moment_start.format(date_format), moment_start.format("HH:mm"),
                     moment_end.format(date_format), moment_end.format("HH:mm"),
-                    extradate.id, "extradate"
+                    extradate.id, "schedule"
                 );
             }));
+
+
+            dates = dates.concat(extradates.filter((extradate) => extradate.type == 0).map((extradate) => {
+                const title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования';
+                const moment_start = moment(extradate.localized_start);
+                const moment_end = moment(extradate.localized_end);
+                return createEvent(title, -10,
+                    moment_start.format(date_format), moment_start.format("HH:mm"),
+                    moment_end.format(date_format), moment_end.format("HH:mm"),
+                    extradate.id, "schedule"
+                );
+            }));
+
+
+
+
+
         }
 
         if (appointments_as_expert) {
