@@ -17,7 +17,7 @@ from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailV
 from .views.rating import RatingListView
 from .views.researches import ResearchesListView, ResearchesDetailView, DeviceDetectionView
 from django.contrib.auth import views as auth_views
-from .views.profile import profile_view, edit_user_profile, update_user_timezone
+from .views.profile import profile_view, edit_user_profile, update_user_timezone, delete_education
 from .views.error_404 import wb400handler
 from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form, ContactUsSuccessPageView
 from .views.vote import upvote, downvote, universal_vote
@@ -68,6 +68,7 @@ urlpatterns = [
     path('api/timezones/', get_timezones, name='get_timezones'),
     # path('profile/tab/<str:tab>/', profile_view, name='profile_tab'),
     path("profile/edit", edit_user_profile, name='profile_edit'),
+    path('education/<int:education_id>/delete/', delete_education, name='delete_education'),
     # path('profile/anketa', profile_view, name='anketa'),
     path('profile/ratings/', RatingListView.as_view(), name='rating-list'),
     #path('profile/anketa/', anketa_view, name='anketa'),

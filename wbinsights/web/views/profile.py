@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
 from django.forms import modelformset_factory
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.html import strip_tags
 from django.views.decorators.http import require_POST
+from django.views.generic import DeleteView
 
 from web.models import RatingCalculate, RatingRole
 from web.models.users import Education, ExpertAnketa, ExpertProfile, Grade, BaseExpertProfile
@@ -376,3 +378,15 @@ def edit_user_profile(request):
                 return render(request, profile_edit_template, context=context)
 
     return redirect('profile')
+
+
+@login_required
+def delete_education(request, education_id):
+    education = get_object_or_404(Education, id=education_id)
+    # Проверка, принадлежит ли образование пользователю
+    if not request.user.expertanketa.education.filter(id=education.id).exists():
+        return HttpResponseForbidden("You are not allowed to delete this education record.")
+    # Удаляем образование из профиля пользователя
+    request.user.expertanketa.education.remove(education)
+    education.delete()
+    return redirect('profile_edit') # Перенаправляем на страницу редактирования профиля
