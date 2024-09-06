@@ -27,6 +27,12 @@ register = template.Library()
 #     return False
 
 
+@register.filter
+def truncatechars(value, arg):
+    if len(value) <= arg:
+        return value
+    return value[:arg] + '...'
+
 
 
 @register.simple_tag

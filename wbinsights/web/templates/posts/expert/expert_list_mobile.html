@@ -32,7 +32,7 @@
             }
 
             .basepost-title {
-                font-size: 26px;
+                font-size: 23px;
                 line-height: 35px;
                 font-weight: 600;
                 margin-top: 0;
@@ -51,7 +51,7 @@
             }
 
             .user-stats {
-                font-size: 16px;
+                font-size: 15px;
                 padding: 0px;
             }
 
@@ -60,15 +60,15 @@
             }
 
             .experts-list-avatar-container {
-                width: 115px !important;
-                height: 115px !important;;
+                width: 105px !important;
+                height: 105px !important;;
             }
         }
 
 
     </style>
 
-    <div class="list-main-containers expert-list">
+    <div class="list-main-containers-mobile expert-list">
 
         <div class="search-and-cat-cont">
 
@@ -134,19 +134,19 @@
                             &nbsp; Рейтинг: {{ expert.expertprofile.rating|default_if_none:0}}
                         </span>
                             </div>
-                            <div>
-                                <div class="col">
-                                    {% if expert.expertprofile.about|length > 100 %}
-                                        {{ expert.expertprofile.about|slice:":100" }}...
+                            <div class="basepost-description">
+                                <span>
+                                    {% if expert.expertprofile.about|length > 105 %}
+                                        {{ expert.expertprofile.about|slice:":105" }}...
                                     {% else %}
                                         {{ expert.expertprofile.about }}
                                     {% endif %}
                                     <a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">&nbsp;Читать
                                         ещё</a>
-                                </div>
-
+                                </span>
                             </div>
-                            <div class="col-sm user-stats">
+
+                            <div class="col-sm user-stats" style="align-self: flex-start !important;">
                                 {{ expert.expert_article_cnt }} статей &nbsp; • &nbsp; 0 опросов &nbsp; • &nbsp; 0
                                 отзыва
                             </div>
