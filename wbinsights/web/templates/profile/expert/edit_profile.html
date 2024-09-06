@@ -209,6 +209,16 @@
                                         {{ form.diploma_number }}
                                     </div>
                                 </div>
+                                        <!-- Кнопка удаления -->
+                                {% if form.instance.id %}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <a href="{% url 'delete_education' form.instance.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this education record?');">
+                                                Удалить образование
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
                     {% endfor %}
 
