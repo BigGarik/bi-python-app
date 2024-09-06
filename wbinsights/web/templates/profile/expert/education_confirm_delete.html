@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>Удалить запись об образовании?</h2>
+    <p><strong>{{ object.educational_institution }}</strong></p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Да, удалить</button>
+      <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+  </div>
+{% endblock %}
