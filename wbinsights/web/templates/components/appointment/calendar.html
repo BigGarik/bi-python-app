@@ -359,7 +359,7 @@
         }
 
         if (appointment.zoom_link && appointment.status == 4) {
-            $('#appointment-detail-zoom').html(`<a href="${appointment.zoom_link}">подключитcя по zoom</a>`);
+            $('#appointment-detail-zoom').html(`<a href="${appointment.zoom_link}" target="_blank">подключитcя по zoom</a>`);
         } else {
             $('#appointment-detail-zoom').html('<div style="height: 24px"></div>');
         }
