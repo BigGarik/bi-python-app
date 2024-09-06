@@ -81,8 +81,8 @@
 
                     <div class="row d-none d-md-flex"
                          style="width: auto;justify-content: space-between;padding: 10px; font-weight: 600;">
-                        <div class="modal-schedule-header" style="width: 60%; padding-left: 0;">День недели</div>
-                        <div style="display: flex; width: 40%; gap: 20px;">
+                        <div class="modal-schedule-header" style="width: 60%; padding-left: 0; display: flex; justify-content: flex-start">День недели</div>
+                        <div style="display: flex; width: 33%; gap: 20px;">
                             <div class="modal-schedule-header" style="width: auto;">Начало</div>
                             <div class="modal-schedule-header" style="width: auto">Конец</div>
                         </div>
@@ -204,12 +204,30 @@
             event.preventDefault();
             const form = $(this);
             $.ajax({
-                url: '{% url "add_calendar_schedule" %}',
+                url: '/appointment/calendar/add/schedule/',
                 type: 'POST',
                 data: form.serialize(),
                 success: function (response) {
-                    console.log(response.result);
-                    console.log(response.data);
+                    console.log('Response received');
+                    console.log('response.data',response.data)
+                    console.log('response.result',response.result)
+
+                    //refresh cal using refetchEvents
+                    if (typeof ec !== 'undefined' && ec.refetchEvents) {
+                        console.log('refreshing cal events');
+                        getUsersAppointments()
+                    } else {
+                        console.warn('not available, refreshing pag');
+                        location.reload();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', status, error);
+                    console.log('Response Text:', xhr.responseText);
+                    alert('An error occurred while saving the schedule. Please try again.');
+                },
+                complete: function() {
+                    console.log('AJAX request completed');
                 }
             });
         });

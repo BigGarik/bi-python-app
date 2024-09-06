@@ -11,7 +11,7 @@
 
 
 
-    <div class="list-main-containers" >
+    <div class="list-main-containers" style="margin-bottom: 15px" >
 
         <a href="{% url 'index' %}" class="global-back-btn">
             <i class="bi bi-chevron-left chevro-left-css"></i>
@@ -23,8 +23,12 @@
 
     </div>
 
-    <div id="client-calendar" style="background-color: white; padding: 10px">
-        {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
+    <div id="client-calendar" class="list-main-containers">
+        {% if is_mobile %}
+            {% include 'components/appointment/calendar_mobile.html' with calendar_event_id='event-calendar' %}
+        {% else %}
+            {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
+        {% endif %}
     </div>
 
 

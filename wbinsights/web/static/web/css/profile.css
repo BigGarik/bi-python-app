@@ -5,6 +5,15 @@
         min-width: 100px !important;
     }
 
+    .list-main-containers {
+        display: flex;
+        flex-direction: column;
+        /* padding: 20px; */
+        padding: 20px 15px 20px 15px;
+        background-color: white;
+        border-radius: 15px;
+    }
+
 }
 
 @media (min-width: 769px ) {
@@ -13,6 +22,8 @@
         min-height: 130px !important;
         min-width: 130px !important;
     }
+
+
 
 }
 

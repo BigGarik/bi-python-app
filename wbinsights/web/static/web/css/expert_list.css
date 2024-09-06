@@ -10,10 +10,9 @@
 
 .expert-prof-cont{
     display: flex;
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;
-    margin-top: 15px;
-    box-shadow: 0 0 5px hsla(0,0%,66%,.5);
+    box-shadow: 0 0 5px hsla(0,0%,80%,.5);
     flex-direction: column;
 }
 
@@ -21,13 +20,17 @@
     display: flex;
     padding: 10px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
 }
 
+.expert-list {
+    gap: 20px;
+}
+
 .experts-list-avatar-container {
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%; 
     overflow: hidden; 
     border: 1px solid #ccc; 
@@ -45,7 +48,7 @@
     align-items: center;
     margin-top: 10px;
     font-family: sans-serif;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 
@@ -86,7 +89,7 @@
     display: flex ;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 10px;
+    /*padding: 10px;*/
 }
 
 
@@ -99,16 +102,26 @@
 
     .expert-list-consult-btn {
         display: flex;
-        /*width: 100%;*/
+        /* width: 100%; */
         justify-content: center;
-        padding: 17px 30px 17px 30px;
+        padding: 15px 20px 15px 20px;
         border-radius: 10px;
+        font-size: 15px;
         font-weight: 500;
-        letter-spacing: 1.1px;
+        letter-spacing: 1px;
+    }
+
+    .basepost-description{
+        font-size: 14px;
+        font-family: sans-serif;
+        font-weight: 500;
+        display: flex;
+        flex-direction: row;
     }
 
     .money-rate {
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 14px;
     }
 
     .experts-list-rating-span {

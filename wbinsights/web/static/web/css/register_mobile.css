@@ -1,0 +1,195 @@
+.custom-form-field {
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.form-inputs-custom {
+    width: 100% !important;
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    outline: none;
+}
+
+.form-choose-user-type {
+    display: inline-flex;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+.form-group {
+    margin-top: 0.5rem !important;
+    font-weight: 600;
+    font-family: sans-serif;
+    font-size: 20px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.user-fill-info-cont {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 40px 20px 40px 20px !important;
+    background-color: #ffffff;
+    border-radius: 0 !important;
+    border: none;
+}
+
+.role-choose {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px !important;
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+    gap: 20px;
+}
+
+.span-register {
+    display: flex;
+    font-size: 26px !important;
+    font-weight: 700;
+    font-family: sans-serif;
+    justify-content: center;
+    padding-bottom: 5px;
+    padding-top: 10px;
+    letter-spacing: 1px;
+}
+
+.register-btn {
+    display: flex;
+    background-color: #6dc36c !important;
+    border-radius: 15px !important;
+    margin-top: 30px !important;
+    padding: 15px 0 15px 0 !important;
+    font-size: 20px !important;
+    border: none !important;
+    width: 100%;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+}
+
+.custom-checkbox {
+    display: flex;
+    align-items: start;
+    margin-top: 10px;
+}
+
+.custom-checkbox input {
+    display: flex;
+    margin-top: 3px;
+}
+
+.custom-control-label-checkbox {
+    margin-bottom: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+    padding-bottom: 0 !important;
+}
+
+.custom-control-label-checkbox span {
+    display: inline;
+}
+
+.policy-link {
+    text-decoration: none;
+    font-size: 19px;
+    line-height: normal;
+    font-weight: 500;
+}
+
+.grey-telephone {
+    color: grey;
+}
+
+.displayRow {
+    flex-direction: row !important;
+    gap: 15px !important;
+}
+
+.login-page-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 5% 40%;
+}
+
+.global-back-btn {
+    margin-bottom: 0 !important;
+}
+
+.back-icon {
+    font-weight: bold;
+    color: black;
+    display: flex;
+    font-size: 24px;
+}
+
+.login-cont {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding-top: 10px;
+    align-items: center;
+}
+
+.have-acc-txt {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #777786;
+}
+
+.login-txt {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: #777786;
+}
+
+.login-link {
+    text-decoration: none;
+}
+
+.select2-container {
+    width: 100% !important;
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    outline: none;
+}
+
+.select2-container .select2-selection--multiple {
+    border: none !important;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-radius: 50%;
+}
+
+.custom-checkbox .custom-control-label::before {
+    border-radius: 50%;
+}
+
+.errorlist {
+    margin-bottom: 0;
+}

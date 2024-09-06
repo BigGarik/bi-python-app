@@ -8,7 +8,7 @@ from .services.expert_rating_calculation import calculate_rating_for_all_expert
 from .utils import get_timezones
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
-    UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email
+    UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email, CustomLoginView
 from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView,
                              CategoryArticleListView, delete_article)
 from .views.news import NewsFeedView
@@ -73,7 +73,7 @@ urlpatterns = [
     path('profile/ratings/', RatingListView.as_view(), name='rating-list'),
     #path('profile/anketa/', anketa_view, name='anketa'),
 
-    path("login/", LoginView.as_view(next_page='index'), name="login"),
+    path("login/", CustomLoginView.as_view(next_page='index'), name="login"),
     path("signup/", register_user, name="signup"),
     path("signup/success", signup_success, name="signup_success"),
     path('activate/<token>/', activate_account, name='activate_account'),
