@@ -380,13 +380,27 @@ def edit_user_profile(request):
     return redirect('profile')
 
 
-@login_required
-def delete_education(request, education_id):
-    education = get_object_or_404(Education, id=education_id)
-    # Проверка, принадлежит ли образование пользователю
-    if not request.user.expertanketa.education.filter(id=education.id).exists():
+class DeleteEducationView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Education
+    template_name = 'profile/expert/education_confirm_delete.html'
+    success_url = reverse_lazy('profile_edit')
+
+    def get_object(self, queryset=None):
+        education_id = self.kwargs.get('education_id')
+        return get_object_or_404(Education, id=education_id)
+
+    def test_func(self):
+        education = self.get_object()
+        expert_anketa = ExpertAnketa.objects.get(user=self.request.user)
+        return expert_anketa.education.filter(id=education.id).exists()
+
+    def handle_no_permission(self):
         return HttpResponseForbidden("You are not allowed to delete this education record.")
-    # Удаляем образование из профиля пользователя
-    request.user.expertanketa.education.remove(education)
-    education.delete()
-    return redirect('profile_edit') # Перенаправляем на страницу редактирования профиля
+
+    def delete(self, request, *args, **kwargs):
+        education = self.get_object()
+        expert_anketa = ExpertAnketa.objects.get(user=self.request.user)
+        expert_anketa.education.remove(education)
+        education.delete()  # Удаляем сам объект
+        messages.success(self.request, "Education record successfully deleted.")
+        return redirect(self.success_url)

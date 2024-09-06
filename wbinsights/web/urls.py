@@ -10,14 +10,14 @@ from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertL
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email, CustomLoginView
 from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView,
-                             CategoryArticleListView, delete_article)
+                             CategoryArticleListView, delete_article, DeleteArticleView)
 from .views.news import NewsFeedView
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.rating import RatingListView
 from .views.researches import ResearchesListView, ResearchesDetailView, DeviceDetectionView
 from django.contrib.auth import views as auth_views
-from .views.profile import profile_view, edit_user_profile, update_user_timezone, delete_education
+from .views.profile import profile_view, edit_user_profile, update_user_timezone, DeleteEducationView
 from .views.error_404 import wb400handler
 from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form, ContactUsSuccessPageView
 from .views.vote import upvote, downvote, universal_vote
@@ -36,7 +36,7 @@ urlpatterns = [
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
     path("articles/add/", ArticleAddView.as_view(), name='article_add'),
     path("articles/edit/<slug:slug>/", ArticleEditView.as_view(), name='article_edit'),
-    path('articles/delete/<slug:slug>/', delete_article, name='delete_article'),
+    path('articles/delete/<slug:slug>/', DeleteArticleView.as_view(), name='delete_article'),
 
     path("researches/", ResearchesListView.as_view(), name='research_list'),
     path("researches/category/<slug:category_slug>", ResearchesListView.as_view(), name='research_category_list'),
@@ -68,7 +68,7 @@ urlpatterns = [
     path('api/timezones/', get_timezones, name='get_timezones'),
     # path('profile/tab/<str:tab>/', profile_view, name='profile_tab'),
     path("profile/edit", edit_user_profile, name='profile_edit'),
-    path('education/<int:education_id>/delete/', delete_education, name='delete_education'),
+    path('education/<int:education_id>/delete/', DeleteEducationView.as_view(), name='delete_education'),
     # path('profile/anketa', profile_view, name='anketa'),
     path('profile/ratings/', RatingListView.as_view(), name='rating-list'),
     #path('profile/anketa/', anketa_view, name='anketa'),

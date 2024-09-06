@@ -2,11 +2,11 @@ import itertools
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
 from pytils.translit import slugify
 
@@ -99,6 +99,26 @@ def delete_article(request, slug):
         article.delete()
         return redirect('profile')
     return redirect('profile', slug=slug)
+
+
+class DeleteArticleView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Article
+    template_name = 'posts/article/article_confirm_delete.html'
+    success_url = reverse_lazy('profile')
+
+    def get_object(self, queryset=None):
+        # Получаем статью по slug
+        slug = self.kwargs.get('slug')
+        return get_object_or_404(Article, slug=slug)
+
+    # Проверка, является ли пользователь автором статьи
+    def test_func(self):
+        article = self.get_object()
+        return self.request.user == article.author
+
+    # Обработка случая, когда пользователь не прошёл проверку
+    def handle_no_permission(self):
+        return HttpResponseForbidden("You are not allowed to delete this article.")
 
 
 class ArticleAddView(CreateView, LoginRequiredMixin):
