@@ -4,7 +4,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, ListView
 
 from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
@@ -63,10 +63,14 @@ def question_detail(request, pk):
     return render(request, 'question_detail.html', context)
 
 
-@login_required
-def question_list(request):
-    questions = Question.objects.all()
-    return render(request, 'question_list.html', {'questions': questions})
+class QuestionListView(LoginRequiredMixin, ListView):
+    model = Question
+    template_name = 'question_list.html'
+    context_object_name = 'questions'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Question.objects.all().order_by('-created_at')
 
 
 @login_required
