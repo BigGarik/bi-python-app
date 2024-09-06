@@ -1,11 +1,7 @@
-{% extends 'base.html' %}
+<h5 >Вы уверены, что хотите удалить статью <br>"<b>{{ article.title }}</b>"?</h5>
 
-{% block content %}
-  <h2>Вы уверены, что хотите удалить статью "{{ object.title }}"?</h2>
-  
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Удалить</button>
-    <a href="{% url 'article_detail' object.slug %}" class="btn btn-secondary">Отмена</a>
-  </form>
-{% endblock %}
+<form method="post" action="{% url 'delete_article' article.slug %}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Удалить</button>
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+</form>

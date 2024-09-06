@@ -1,8 +1,8 @@
 @media (max-width: 768px ) {
 
     .prof-page-pic-cont img {
-        min-height: 100px !important;
-        min-width: 100px !important;
+        min-height: 130px !important;
+        min-width: 130px !important;
     }
 
     .list-main-containers {
@@ -16,16 +16,16 @@
 
 }
 
-@media (min-width: 769px ) {
+/*@media (min-width: 769px ) {*/
 
-    .prof-page-pic-cont img {
-        min-height: 130px !important;
-        min-width: 130px !important;
-    }
+/*    .prof-page-pic-cont img {*/
+/*        min-height: 130px !important;*/
+/*        min-width: 130px !important;*/
+/*    }*/
 
 
 
-}
+/*}*/
 
 .bottom-half{
     display: flex;
@@ -97,7 +97,7 @@
 .prof-btn {
     margin-top: 0;
     border-radius: 7px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     font-family: sans-serif;
     display: flex;

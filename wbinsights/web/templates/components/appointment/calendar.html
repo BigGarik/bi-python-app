@@ -32,6 +32,10 @@
     }
 
 
+    .fontSizes {
+        font-size: calc(4px + 0.5vw) !important;
+
+    }
 
     .ec-event {
         max-height: 60px !important;
@@ -56,32 +60,33 @@
         height: 70px; /* override this value */
     }
 
-    .ec-button-group .ec-button:not(:last-child) {
+    .ec-button-group .ec-button:not(:last-child),
+.ec-button-group .ec-button:not(:first-child) {
+    pointer-events: auto;
+    position: relative;
+    display: block;
+    height: 2.5rem;
+    width: 2.5rem;
+    cursor: pointer;
+    border-width: 0px;
+    background-color: transparent;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
 
-        pointer-events: auto;
-        position: relative;
-        display: block;
-        height: 2.5rem;
-        width: 2.5rem;
-        cursor: pointer;
-        border-width: 0px;
-        background-color: transparent;
-        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-        border-radius: 5px;
-    }
+    /* Screens under 1400px */
+    @media (max-width: 1399px) {
+        .ec-button-group .ec-button:not(:last-child),
+        .ec-button-group .ec-button:not(:first-child) {
+            transform: scale(0.8);
 
-    .ec-button-group .ec-button:not(:first-child) {
-        pointer-events: auto;
-        position: relative;
-        display: block;
-        height: 2.5rem;
-        width: 2.5rem;
-        cursor: pointer;
-        border-width: 0px;
-        background-color: transparent;
-        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-        border-radius: 5px;
+        }
 
+        .fontSizes{
+              padding: 5px !important;
+        }
     }
 
 </style>
@@ -459,15 +464,16 @@
 
     let ec;
 
+
     function addToolbarButtonBootstrapClasses() {
-        $('div.ec-center > button').addClass("btn btn-outline-primary").removeClass("ec-button");
-        $('div.ec-end > button').addClass("btn btn-primary").removeClass("ec-button");
+        $('div.ec-center > button').addClass("btn btn-outline-primary fontSizes").removeClass("ec-button");
+        $('div.ec-end > button').addClass("btn btn-primary fontSizes").removeClass("ec-button");
 
         let date_title = $('.ec-title');
         if (!date_title.parent().is('div[style="display:flex; align-items: center"]')) {
             date_title.wrap("<div style='display:flex; align-items: center'></div>");
         }
-        date_title.attr("style", 'font-size:20px;padding:10px');
+        date_title.attr("style", 'font-size: calc(5px + 0.7vw) !important;padding:10px');
 
 
     }
@@ -547,7 +553,7 @@
                         iconHTML = '';
                 }
 
-                const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: center;"> ${iconHTML} <b>${dayName} ${dateOfMonth}</b> </div>`;
+                const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: flex-start;"> ${iconHTML} <b>${dayName} ${dateOfMonth}</b> </div>`;
 
                 return {html: dayHtml};
             },

@@ -2,8 +2,6 @@
 {% load web_tags %}
 {% load static %}
 
-
-
 {% block title %}
     Experts
 {% endblock %}
@@ -12,19 +10,53 @@
     <link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
 {% endblock %}
 
+<style>
+    @media (max-width: 1399px) {
+        .basepost-content-cont {
+            gap: 10px !important;
+        }
+    }
+
+    .expert-content-container {
+        padding: 0px 10px 0 10px !important;
+        gap: 15px;
+    }
+
+    .expert-name {
+        font-size: calc(16px + 0.5vw);
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    .expert-description {
+        margin-bottom: 0 !important;
+    }
+
+    .expert-description-text {
+        font-size: 14px;
+    }
+
+    .expert-stats {
+        font-size: 13px !important;
+    }
+
+    .expert-action-container {
+        display: flex;
+    }
+
+    .star-icon {
+        color: #e9be50;
+    }
+</style>
 
 {% block posts_content %}
-
-
-	<div class="list-main-containers expert-list">
-
-		<div class="search-and-cat-cont">
-		
-			<div class="small-layout col-sm col-md ">
-				<div class="col-sm-12 col-md-6 ">
-					<input type="search" class="lists-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
-				</div>
-				<div class="col-sm-12 col-md-6 testing-class">
+    <div class="list-main-containers expert-list">
+        <div class="search-and-cat-cont">
+            <div class="small-layout col-sm col-md ">
+                <div class="col-sm-12 col-md-6 ">
+                    <input type="search" class="lists-search-cont" placeholder="Поиск по имени" onkeypress="searchByName(event)" value="{{ search_q }}" />
+                </div>
+                <div class="col-sm-12 col-md-6 testing-class">
                     <div class="dropdown" style="display: flex; align-items: center;">
                         <button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="global-catagory-text"> Рейтинг: &nbsp;</span>
@@ -45,85 +77,69 @@
                             <li><a class="dropdown-item" href="?min_rating=3" data-rating="3 и выше">3 и выше</a></li>
                             <li><a class="dropdown-item" href="?min_rating=4" data-rating="4 и выше">4 и выше</a></li>
                             <li><a class="dropdown-item" href="?min_rating=5" data-rating="5">5</a></li>
-
                         </ul>
                     </div>
-					{% include "components/post_category_filter.html" %}
-				</div>
-			</div>
-		</div>
-		
+                    {% include "components/post_category_filter.html" %}
+                </div>
+            </div>
+        </div>
 
-		{% for expert in experts %}
-
-		<div class="expert-prof-cont">
-		
-			<div class="small-layout3 col-sm">
-				<div style="display:flex">
-					<div class="expert-list-prof-pic">
-						<div class="experts-list-avatar-container">
-							<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
-						</div>
-
-
-
-						<div class="d-none d-md-block">
-							<span class="experts-list-rating-span">
-								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
-								&nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
-							</span>
-						</div>
-					</div>
-					<div class="basepost-content-cont" style="padding: 10px; gap: 15px !important;     padding: 10px 10px 10px 20px; !important;">
-						<div class="basepost-title" style="font-size: 28px !important; margin-bottom: 0px !important; margin-top: 0px !important;">{{expert.first_name}} {{expert.last_name}}</div>
-						<div class="category-container">
+        {% for expert in experts %}
+        <div class="expert-prof-cont">
+            <div class="small-layout3 col-sm">
+                <div style="display:flex">
+                    <div class="expert-list-prof-pic">
+                        <div class="experts-list-avatar-container">
+                            <img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
+                        </div>
+                        <div class="d-none d-md-block">
+                            <span class="experts-list-rating-span">
+                                <i class="bi bi-star-fill star-icon" style="color: #e9be50 "></i>
+                                &nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="basepost-content-cont expert-content-container" style="margin-left: 30px">
+                        <div class="basepost-expert-name">{{expert.first_name}} {{expert.last_name}}</div>
+                        <div class="category-container">
                             {% for exp_category in expert.expertprofile.expert_categories.all %}
-								<div class="user-catagory-highlight {{exp_category.slug}}">
-									{{ exp_category.name }}
-								</div>
-							{% endfor %}                                                            
-						</div>
-						<!--  large about me   -->
-						<div class="d-none d-md-block">
-							<div class="basepost-description" style="margin-bottom: 0px !important;">
-                                <span>
+                                <div class="user-catagory-highlight {{exp_category.slug}}">
+                                    {{ exp_category.name }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="d-none d-md-block">
+                            <div class="expert-description-text">
+                                <span class="expert-description-text">
                                     {{ expert.expertprofile.about|slice:":130" }}{% if expert.expertprofile.about|length > 130 %}...{% endif %} &nbsp;
                                     <a href="{% url 'expert_profile' expert.id %}?tab=articles" style="text-decoration:none">Читать ещё</a>
                                 </span>
-							</div>
-						</div>
-
-                    <div class="d-none d-md-block article-last-2" style="display:flex ">
-                        <div class="col-sm order-md-2 user-stats" style="font-size: 16px !important;">
-                            {{ expert.expert_article_cnt }} статей  &nbsp;• &nbsp; 0 опросов &nbsp;  • &nbsp; 0 отзыва
+                            </div>
                         </div>
-                        <div class="col-sm order-md-1 question-btn-and-money" style="display:flex;">
-                            {% if request.user.id != expert.id %}
-                            <a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация</a>
-                                <span class="money-rate"> от {{expert.expertprofile.hour_cost}} Р/час</span>
-                            {% endif %}
+
+                        <div class="d-none d-md-block article-last-2 expert-action-container">
+                            <div class="col-sm order-md-2 user-stats expert-stats">
+                                {{ expert.expert_article_cnt }} статей  &nbsp;• &nbsp; 0 опросов &nbsp;  • &nbsp; 0 отзыва
+                            </div>
+                            <div class="col-sm order-md-1 question-btn-and-money expert-action-container">
+                                {% if request.user.id != expert.id %}
+                                <a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация</a>
+                                    <span class="money-rate"> от {{expert.expertprofile.hour_cost}} Р/час</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="d-md-none">
+                            <span class="experts-list-rating-span">
+                                <i class="bi bi-star-fill star-icon"></i>
+                                &nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
+                            </span>
                         </div>
                     </div>
-						<div class="d-md-none">
-							<span class="experts-list-rating-span">
-								<i class="bi bi-star-fill" style="color: #e9be50;"></i>
-								&nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
-							</span>
-						</div>
-					</div>
-
-				</div>
-
-
-
-
-			</div>
-		</div>
-		
-			
-		{% endfor %}
-
-	</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
 	<script>
 		function searchByName(e) {

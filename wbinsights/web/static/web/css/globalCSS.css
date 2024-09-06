@@ -130,7 +130,7 @@
     display: flex;
     font-family: sans-serif;
     color: #aaa9a9;
-    font-size: 12px;
+    font-size: 14px;
     /*padding-top: 5px;*/
     /*padding-bottom: 10px;*/
     align-self: center;
@@ -243,6 +243,11 @@
 .coaching {
     background-color: #c4f9b5;
     color: #5eb700;
+}
+
+.legal{
+    background-color: #b6faef;
+    color: #23a47e;
 }
 
 .catagory-cont {

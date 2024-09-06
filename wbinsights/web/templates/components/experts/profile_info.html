@@ -10,6 +10,8 @@
             margin-top: 10px;
             flex-wrap: wrap;
             gap: 10px;
+            margin-left: 0px !important;
+            padding: 0px !important;
         }
 
         .user-category {
@@ -42,16 +44,6 @@
         }
     }
 
-     @media (max-width: 1200px) {
-         .prof-user-setting{
-             margin-left: 0 !important;
-         }
-
-         .prof-user-setting {
-             padding: 10px 0 10px 0!important;
-         }
-
-     }
 
 
 
@@ -62,7 +54,7 @@
     <div class="col-12 top-half-prof" style="display: flex; flex-direction: column;">
     <div style="display: flex; gap: 10px;">
         <div class="col-sm-3 prof-page-pic-cont">
-            <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; width: 80px; height: 80px; object-fit: cover;">
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; width: 130px; height: 130px; object-fit: cover;">
         </div>
         <div class="col-sm-9 profile-information-cont">
             <div class="user-display-name">
@@ -84,8 +76,9 @@
                 </div>
             </div>
             <div class="user-category-cont">
-                <div class="user-category">Эксперт в области :</div>
+
                 <div class="displayflex">
+                    <div class="user-category">Эксперт в области :</div>
                     {% for exp_category in profile.expert_categories.all %}
                         <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
                     {% endfor %}

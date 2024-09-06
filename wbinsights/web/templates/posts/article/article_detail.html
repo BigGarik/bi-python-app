@@ -60,7 +60,7 @@
                     <a href="{% url 'article_edit' slug=article.slug %}" style="transform: scale(1.2)">
                         <i class="bi bi-pencil"></i>
                     </a>
-                    <a href="{% url 'article_edit' slug=article.slug %}" style="transform: scale(1.2)">
+                    <a href="#" style="transform: scale(1.2)" data-bs-toggle="modal" data-bs-target="#deleteArticleModal">
                         <i class="bi bi-trash"></i>
                     </a>
                 </div>
@@ -126,26 +126,18 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Подтвердите удаление</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Вы уверены, что хотите удалить статью "{{ article.title }}"?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <form method="post" action="{% url 'delete_article' article.slug %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Подтвердить</button>
-                </form>
-            </div>
-        </div>
+<div class="modal fade" id="deleteArticleModal" tabindex="-1" aria-labelledby="deleteArticleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteArticleModalLabel">Подтверждение удаления</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% include "posts/article/article_confirm_delete.html" with article=article %}
+      </div>
     </div>
+  </div>
 </div>
 
 <script>

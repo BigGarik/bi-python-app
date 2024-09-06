@@ -109,6 +109,31 @@
 
 }
 
+    .scrollable-tabs-container {
+        overflow-x: auto;
+        margin-bottom: 11px;
+        scrollbar-width: none;
+        cursor: grab;
+    }
+    .scrollable-tabs-container::-webkit-scrollbar {
+        display: none;
+    }
+    .nav-tabs-desktop {
+        display: flex;
+        flex-wrap: nowrap;
+        border-bottom: none;
+        white-space: nowrap;
+    }
+    .nav-pills-mobile {
+        display: flex;
+        flex-direction: row;
+        flex-flow: nowrap;
+        gap: 5px;
+    }
+    .mobile-prof-cont {
+        font-size: 16px;
+    }
+
 <!-- profile content items  -->
 
 .nav-pills-scrollable {

@@ -42,7 +42,7 @@
     }
 
     .ec-toolbar {
-        gap:5px !important;
+        gap: 5px !important;
     }
 
 
@@ -51,7 +51,6 @@
         color: white;
         border-color: #007bff;
     }
-
 
 
     .ec-event {
@@ -74,7 +73,6 @@
     }
 
 
-
     .ec-button-group .ec-button:not(:last-child) {
         pointer-events: auto;
         position: relative;
@@ -90,7 +88,7 @@
     }
 
     .ec-button-group .ec-button:not(:first-child) {
-           pointer-events: auto;
+        pointer-events: auto;
         position: relative;
         display: block;
         height: 2rem;
@@ -106,6 +104,26 @@
     .ec-title {
         font-size: 13px !important;
     }
+
+    .ec-time-grid {
+        width: 100%;
+        overflow: hidden; /* Hide any overflow from the main container */
+    }
+
+    .ec-scrollable-wrapper::-webkit-scrollbar {
+        height: 8px; /* Adjust the height of the scrollbar */
+    }
+
+    .ec-scrollable-wrapper::-webkit-scrollbar-thumb {
+        background-color: #888; /* Color of the scroll thumb */
+        border-radius: 4px; /* Rounded corners on the scroll thumb */
+    }
+
+    .ec-scrollable-wrapper::-webkit-scrollbar-track {
+        background-color: #f1f1f1; /* Color of the tracking area */
+    }
+
+
 
 </style>
 
@@ -530,6 +548,7 @@
             date_title.wrap("<div style='display:flex; align-items: center'></div>");
         }
         date_title.attr("style", 'font-size:20px;padding:10px');
+
     }
 
     function changeView(viewType, viewName) {
@@ -622,7 +641,7 @@
                         break;
                     default:
                         dayName = 'Day';
-                        //iconHTML = '';
+                    //iconHTML = '';
                 }
 
                 const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: center;"> <b>${dayName}</b> </div>`;
@@ -774,6 +793,24 @@
         $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'));
         $('#selectDateRangeModal').modal('show');
     }
+
+
+    $(document).ready(function () {
+        var $calendarContainer = $('.ec-time-grid');
+
+        var $wrapper = $('<div>', {
+            class: 'ec-scrollable-wrapper',
+            css: {
+                'max-width': '100%',
+                'overflow-x': 'auto',
+                'overflow-y': 'hidden'
+            }
+        });
+
+        $calendarContainer.children(':not(.ec-toolbar)').wrapAll($wrapper);
+
+        $('.ec-header, .ec-body').css('min-width', '800px');
+    });
 
 
 </script>
