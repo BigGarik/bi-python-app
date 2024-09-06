@@ -1,3 +1,5 @@
+from datetime import time
+
 from django.contrib.auth.decorators import login_required
 
 from django.forms import modelformset_factory
@@ -39,7 +41,6 @@ def add_expert_schedule_view(request):
 
         timezone.deactivate()
 
-
         redirect_url = request.POST['origin-path']
         if request.POST['origin-query'] != "":
             redirect_url += '?' + request.POST['origin-query']
@@ -69,7 +70,7 @@ def add_appointment_range_view(request, *args, **kwargs):
 
         expertScheduleSpecialDays = expertScheduleSpecialDaysForm.save(commit=False)
         expertScheduleSpecialDays.start = start_datetime
-        expertScheduleSpecialDays.end =  end_datetime
+        expertScheduleSpecialDays.end = end_datetime
         expertScheduleSpecialDays.expert = request.user
         expertScheduleSpecialDays.save()
 
@@ -120,6 +121,20 @@ def get_experts_appointment(request, *args, **kwargs):
         extra_dates = ExpertScheduleSpecialDays.objects.filter(expert_id=selected_expert,
                                                                start__gte=get_start_of_week())
 
+        #Разбиваем все диапазоны экстрадат на диапазоны с часовым интервалом
+        #Например 2024-09-03 12:00 - 2024-09-03 14:00 олжен превратится в два диапазона [2024-09-03 12:00 - 2024-09-03 13:00, 2024-09-03 13:00 - 2024-09-03 14:00]
+        processed_extra_dates = []
+        for e_date in extra_dates:
+            current = e_date.start
+            end_datetime = e_date.end
+            while current < end_datetime:
+                next_interval = current
+                processed_extra_date = ExpertScheduleSpecialDays()
+                processed_extra_date.start = next_interval
+                processed_extra_date.type = e_date.type
+                processed_extra_dates.append(processed_extra_date)
+                current = next_interval + timedelta(hours=1)
+
         expert_schedule = ExpertSchedule.objects.filter(expert_id=selected_expert, is_work_day=True)
 
         target_timezone = request.user.profile.timezone
@@ -130,26 +145,75 @@ def get_experts_appointment(request, *args, **kwargs):
 
             schedule_date = start_date + timedelta(days=schedule_day.day_of_week - 1)
 
-            schedule_datetime_start = datetime.combine(schedule_date, schedule_day.start_datetime.time(),
-                                                       tzinfo=pytz.utc).astimezone(local_tz)
-            schedule_datetime_end = datetime.combine(schedule_date, schedule_day.end_datetime.time(),
-                                                     tzinfo=pytz.utc).astimezone(local_tz)
+            filtered_processed_extra_dates = [extra_date for extra_date in processed_extra_dates if
+                                              extra_date.start.date() == schedule_date.date()]
 
-            schedule_dates.append(
-                {
-                    'start': schedule_datetime_start.strftime("%Y-%m-%d %H:%M"),
-                    'end': schedule_datetime_end.strftime("%Y-%m-%d %H:%M")
-                }
-            )
+            # Разбиваем все диапазон конкретного дня расписания на диапазоны с часовым интервалом
+            for i in range(schedule_day.start_datetime.time().hour, schedule_day.end_datetime.time().hour):
+                start_time = i
+                end_time = start_time + 1
+
+                schedule_datetime_start = datetime.combine(schedule_date, time(start_time, 0),
+                                                           tzinfo=pytz.utc).astimezone(local_tz)
+
+                #временной интервал, который может быть доступным и недоступным для брони и совпадает с расписанием
+                extra_slot = None
+
+                #Проверяем текущий часовой диапозан среди диапазонов экстрадат, и не добавляем если такой имеется
+                #экстрадатах с типом = 0 (Недоступно для бронирования)
+                for e_date in filtered_processed_extra_dates:
+                    if e_date.start.astimezone(local_tz) == schedule_datetime_start:
+                        extra_slot = e_date
+                        break
+
+                # Мехазм пропуска добавления диапазона в расписание
+                if extra_slot is not None:
+                    #Также удаляем этот слот из массива экстрадат, чтобы не проверять его в последующих операциях
+                    processed_extra_dates.remove(extra_slot)
+                    filtered_processed_extra_dates.remove(extra_slot)
+
+                    if extra_slot.type == 0:
+                        #не добавляем слот если он с типом "не доступен для бронирования" в итоговой список
+                        continue
+
+                schedule_datetime_end = datetime.combine(schedule_date, time(end_time, 0),
+                                                         tzinfo=pytz.utc).astimezone(local_tz)
+
+                schedule_dates.append(
+                    {
+                        'start': schedule_datetime_start.strftime("%Y-%m-%d %H:%M"),
+                        'end': schedule_datetime_end.strftime("%Y-%m-%d %H:%M")
+                    }
+                )
+
+            # Все даты, которые остались, которые не пересекаются с текущим расписанием
+            # либо с типом 0 (недоступно для бронирования), их не добавляем в итоговый список
+            # либо с типом 1 (доступны для бронирования), добавляем в итоговоый список
+            for extra_date in filtered_processed_extra_dates:
+                if extra_date.type == 0:
+                    continue
+
+                schedule_datetime_start = extra_date.start.astimezone(local_tz)
+                schedule_datetime_end = schedule_datetime_start + timedelta(hours=1)
+
+                schedule_dates.append(
+                    {
+                        'start': schedule_datetime_start.strftime("%Y-%m-%d %H:%M"),
+                        'end': schedule_datetime_end.strftime("%Y-%m-%d %H:%M")
+                    }
+                )
 
         return JsonResponse(
             {'data':
                 {
                     'appointments': {
-                        'as_expert': AppointmentSerializer(appointments_as_expert, many=True,  context={'request': request}).data,
-                        'as_client': AppointmentSerializer(appointments_as_client, many=True,  context={'request': request}).data,
+                        'as_expert': AppointmentSerializer(appointments_as_expert, many=True,
+                                                           context={'request': request}).data,
+                        'as_client': AppointmentSerializer(appointments_as_client, many=True,
+                                                           context={'request': request}).data,
                     },
-                    'extra_dates': ExpertScheduleSpecialDaysSerializer(extra_dates, many=True, context={'request': request}).data,
+                    'extra_dates': ExpertScheduleSpecialDaysSerializer([], many=True,
+                                                                       context={'request': request}).data,
                     'schedule': schedule_dates
                 }
             })
@@ -163,7 +227,8 @@ def get_clients_appointment(request, *args, **kwargs):
         {'data':
             {
                 'appointments': {
-                    'as_client': AppointmentSerializer(appointments_as_client, many=True, context={'request': request}).data,
+                    'as_client': AppointmentSerializer(appointments_as_client, many=True,
+                                                       context={'request': request}).data,
                 }
             }
         })
