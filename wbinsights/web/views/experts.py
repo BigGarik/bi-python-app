@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, UpdateView
 
 from expertprojects.models import UserProject
@@ -45,8 +46,20 @@ class ExpertListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['selected_category'] = ''
         context['is_mobile'] = True
 
+        return context
+
+
+class CategoryExpertListView(ExpertListView):
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, slug=self.kwargs['category_slug'])
+        return Expert.objects.filter(expertprofile__expert_categories=self.category)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['selected_category'] = self.category
         return context
 
 
@@ -62,6 +75,7 @@ class ExpertListView(ListView):
 #     def get_queryset(self):    
 #         return Expert.objects.filter( Q(first_name__contains=self.kwargs['search_str']) | Q(last_name__contains=self.kwargs['search_str']) )
 
+
 class SearchByNameExpertListView(ExpertListView):
     # Override the queryset to filter experts by search string
 
@@ -76,21 +90,6 @@ class SearchByNameExpertListView(ExpertListView):
         context['search_q'] = self.request.GET.get('q')
         context['some_data'] = self.names1
         return context
-
-
-# Класс-представление для фильтрации статей по категории
-# class CategoryExpertListView(ArticleListView):
-#     #Переопределяем метод получения списка сущностей
-#     def get_queryset(self):
-#         #Получаем объект, по которому будем делать фильтрацию
-#         self.cat = get_object_or_404(Expert, slug=self.kwargs['category_slug'])
-#         return Article.objects.filter(cat=self.cat)
-
-#      #Добавляем параметры в контекст
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['selected_category'] = self.cat       
-#         return context
 
 
 class ExpertDetailView(DetailView):

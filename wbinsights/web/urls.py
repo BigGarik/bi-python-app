@@ -6,7 +6,7 @@ from django.contrib import admin
 
 from .services.expert_rating_calculation import calculate_rating_for_all_expert
 from .utils import get_timezones
-from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
+from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView, CategoryExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email, CustomLoginView
 from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView,
@@ -48,7 +48,7 @@ urlpatterns = [
     path("question_answer/<slug:slug>", QuestionAnswerDetailView.as_view(), name='question_answer_detail'),
 
     path("experts/", ExpertListView.as_view(), name='experts_list'),
-    path("experts/category/<slug:category_slug>", ExpertListView.as_view(), name='experts_category_list'),
+    path("experts/category/<slug:category_slug>", CategoryExpertListView.as_view(), name='experts_category_list'),
     path('experts/search/', SearchByNameExpertListView.as_view(), name='experts_search_list'),
     # path("experts/search/<str:search_str>", SearchByNameExpertListView.as_view(), name='experts_search_list'),
     path("experts/<int:pk>", ExpertDetailView.as_view(), name='expert_profile'),
