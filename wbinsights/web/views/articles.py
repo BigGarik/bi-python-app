@@ -1,20 +1,16 @@
 import itertools
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import Q
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import  HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
-from django.template.loader import render_to_string
-from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
 from pytils.translit import slugify
 
 from web.views.contents import CommonContentFilterListView
 from web.forms.articles import ArticleForm
-from web.models import Article, Category
-from django.core.paginator import Paginator
-
+from web.models import Article
 
 class ArticleListView(CommonContentFilterListView):
     model = Article
