@@ -226,30 +226,11 @@
                         <div style="display: flex;justify-content: flex-end;">
 
                             {% if form.instance.id %}
-                                <a href="#" class="btn btn-danger" data-bs-toggle="modal"
-                                   data-bs-target="#deleteEducationModal-{{ form.instance.id }}">
+                                <button type="button" class="btn btn-danger delete-education-btn"
+                                        data-education-id="{{ form.instance.id }}"
+                                        data-education-name="{{ form.instance.educational_institution }}">
                                     Удалить образование
-                                </a>
-
-                                <div class="modal fade" id="deleteEducationModal-{{ form.instance.id }}" tabindex="-1"
-                                     aria-labelledby="deleteEducationModalLabel-{{ form.instance.id }}"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title"
-                                                    id="deleteEducationModalLabel-{{ form.instance.id }}">Подтверждение
-                                                    удаления</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                {% include "profile/expert/education_confirm_delete.html" with form=form %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                </button>
                             {% endif %}
 
                         </div>
@@ -263,7 +244,6 @@
 
 
                 <!-- Modal -->
-
 
 
                 <script>
@@ -295,6 +275,24 @@
                 </div>
 
             </form>
+
+            <div class="modal fade" id="deleteEducationModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Подтверждение удаления</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Вы уверены, что хотите удалить образование "<span id="educationNameToDelete"></span>"?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                            <button type="button" class="btn btn-danger" id="confirmDeleteEducation">Удалить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="modal fade" tabindex="-1" role="dialog" id="deleteProfileModal">
 
@@ -339,6 +337,40 @@
         </div>
 
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.delete-education-btn').click(function () {
+                var educationId = $(this).data('education-id');
+                var educationName = $(this).data('education-name');
+                $('#deleteEducationModal').data('education-id', educationId);
+                $('#educationNameToDelete').text(educationName);
+                $('#deleteEducationModal').modal('show');
+            });
+
+            $('#confirmDeleteEducation').click(function () {
+                var educationId = $('#deleteEducationModal').data('education-id');
+                $.ajax({
+                    url: '/education/' + educationId + '/delete/',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#deleteEducationModal').modal('hide');
+                            window.location.href = "{% url 'profile_edit' %}";
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('Error: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error occurred'));
+                    }
+                });
+            });
+        });
+    </script>
 
     <!-- Include Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

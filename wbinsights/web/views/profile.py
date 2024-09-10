@@ -382,7 +382,6 @@ def edit_user_profile(request):
 
 class DeleteEducationView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Education
-    template_name = 'profile/expert/education_confirm_delete.html'
     success_url = reverse_lazy('profile_edit')
 
     def get_object(self, queryset=None):
@@ -395,12 +394,27 @@ class DeleteEducationView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return expert_anketa.education.filter(id=education.id).exists()
 
     def handle_no_permission(self):
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'message': "You are not allowed to delete this education record."
+            }, status=403)
         return HttpResponseForbidden("You are not allowed to delete this education record.")
 
     def delete(self, request, *args, **kwargs):
         education = self.get_object()
         expert_anketa = ExpertAnketa.objects.get(user=self.request.user)
         expert_anketa.education.remove(education)
-        education.delete()  # Удаляем сам объект
+        education.delete()
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': True,
+                'message': "Education record successfully deleted."
+            })
+
         messages.success(self.request, "Education record successfully deleted.")
         return redirect(self.success_url)
+
+    def post(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
