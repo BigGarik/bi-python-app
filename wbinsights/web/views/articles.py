@@ -15,7 +15,7 @@ from web.models import Article
 class ArticleListView(CommonContentFilterListView):
     model = Article
     template_name = 'posts/article/article_list.html'
-    paginate_by = 2 # Show 10 articles per page
+    paginate_by = 10 # Show 10 articles per page
     load_more_template = 'posts/article/article_list_content.html'
 
     def get_queryset(self):
