@@ -45,6 +45,7 @@
     border: none ;
     color: white;
     height:100%;
+    margin-left: 5px;
 }
 
 .ask-question-btn:hover {

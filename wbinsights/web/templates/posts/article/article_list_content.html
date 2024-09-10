@@ -1,19 +1,51 @@
-
 {% load web_tags %}
 {% load hitcount_tags %}
 {% load comments %}
 {% load comments_xtd %}
-{% for article in object_list %}
 
-    <style>
+<style>
     .list-comments .bi {
         font-size: 15px;
     }
-    </style>
+    .calendar-icon {
+        color: #a5b1c8;
+        transform: scale(1.3);
+    }
+    .read-post-link {
+        color: black;
+        border: 1px solid lightgray;
+        padding: 5px 10px;
+        text-decoration: none;
+    }
+    .author-link {
+        text-decoration: none;
+    }
+    .article-image {
+        max-width: 100%;
+    }
+    .comment-icon {
+        color: #a5b1c8;
+        font-size: 13px;
+        margin-top: 2px;
+    }
+    .share-icon {
+        color: #a5b1c8;
+        font-size: 13px;
+        margin-bottom: 2px;
+    }
+    .view-icon {
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .social-share-menu {
+        padding: 10px;
+    }
+</style>
 
+{% for article in articles %}
 <div class="article-list-content">
     <div class="list-publish-date">
-        <i class="bi bi-calendar2-week" style="color:#a5b1c8; scale:1.3"></i>
+        <i class="bi bi-calendar2-week calendar-icon"></i>
         &nbsp; {{ article.time_create|custom_time_display }}
     </div>
     <div class="basepost-title">{{ article.title }}</div>
@@ -24,12 +56,12 @@
         </div>
         <div class="basepost-description">
             {% if article.main_img %}
-                <img src="{{ article.main_img.url }}" alt="Article Image" style="max-width:100%">
+                <img src="{{ article.main_img.url }}" alt="Article Image" class="article-image">
             {% endif %}
         </div>
         {% endautoescape %}
         <span class="link-read-post">
-            <a href="{{ article.get_absolute_url }}" class="link-read-post" style="color:black; border: 1px solid lightgray; padding: 5px 10px;">Читать пост</a>
+            <a href="{{ article.get_absolute_url }}" class="read-post-link">Читать пост</a>
         </span>
         <div class="article-list-cat-cont">
             <div class="user-catagory-highlight {{ article.cat.slug }}">
@@ -41,27 +73,27 @@
                 <div class="author-pic">
                     <img src="{{ article.author.profile.avatar.url }}"/>
                 </div>
-                <a href="{% url 'expert_profile' article.author.pk %}" style="text-decoration:none">
+                <a href="{% url 'expert_profile' article.author.pk %}" class="author-link">
                     <div class="article-list-author-name">{{ article.author.last_name }} {{ article.author.first_name }}</div>
                 </a>
             </div>
             <div class="comments-andshare-cont">
                 <div class="list-comments">
-                    <i class="bi bi-eye" style="font-size: 16px" onclick="alert('in progress')"></i>
+                    <i class="bi bi-eye view-icon" onclick="alert('in progress')"></i>
                     <span>{% get_hit_count for article %}</span>
                 </div>
                 <div class="list-comments">
                     <i class="bi bi-hand-thumbs-up"></i>
                     <span>{{ article.votes.count }}</span>
                 </div>
-                <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none;">
-                    <i class="bi bi-chat-left-text" style="color:#a5b1c8; font-size: 13px; margin-top: 2px;"></i>
+                <a href="{{ article.get_absolute_url }}#comments" class="list-comments author-link">
+                    <i class="bi bi-chat-left-text comment-icon"></i>
                     {% get_comment_count for article as comment_count %}
                     <span>&nbsp;{{ comment_count }}</span>
                 </a>
                 <div class="list-comments dropdown">
-                    <i class="bi bi-box-arrow-up-right global-cat-dropdown" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color:#a5b1c8; font-size: 13px; margin-bottom: 2px"></i>
-                    <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px;">
+                    <i class="bi bi-box-arrow-up-right global-cat-dropdown share-icon" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu social-share-menu" aria-labelledby="socialShareDropdown">
                         <div class="shareon" data-url="https://24wbinside.ru/articles/{{ article.slug }}" data-title="{{ article.title }}" id="shareon-{{ article.pk }}">
                             <a class="facebook"></a>
                             <a class="twitter"></a>

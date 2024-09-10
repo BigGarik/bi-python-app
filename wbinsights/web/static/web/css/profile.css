@@ -85,7 +85,6 @@
 .bottom-info{
     display:  flex;
     flex-direction: column;
-    margin-bottom: 20px;
 }
 
 .chevro-left-css{

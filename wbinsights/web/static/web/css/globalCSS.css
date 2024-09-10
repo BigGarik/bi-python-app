@@ -64,6 +64,7 @@
     padding-right: 5px;
     font-weight: 600;
     margin-right:5px;
+    gap: 5px;
 }
 
 .search-and-cat-cont {
@@ -352,5 +353,8 @@
 
     }
 
+    .user-category-cont {
+        justify-content: center !important;
+    }
 }
 

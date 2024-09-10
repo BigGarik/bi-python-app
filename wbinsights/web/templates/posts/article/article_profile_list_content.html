@@ -3,29 +3,58 @@
 {% load comments %}
 {% load comments_xtd %}
 
+<style>
+    .basepost-content-cont {
+        margin-top: 10px;
+    }
+    .article-title-link {
+        text-decoration: none;
+        color: #36364b;
+    }
+    .read-post-link {
+        color: black;
+        border: 1px solid lightgray;
+        padding: 5px 10px;
+        text-decoration: none;
+    }
+    .comments-andshare-cont {
+        justify-content: space-between;
+    }
+    .comments-date-container {
+        display: flex;
+        gap: 10px;
+    }
+    .comment-link {
+        text-decoration: none;
+        color: #a5b1c8;
+    }
+    .icon-color {
+        color: #a5b1c8;
+    }
+</style>
 
 {% for article in experts_articles %}
-    <div class="basepost-content-cont"style="margin-top: 10px">
+    <div class="basepost-content-cont">
         <span class="article-title-loop-exp">
-            <a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">
+            <a href="{% url 'article_detail' article.slug %}" class="article-title-link">
                 {{ article.title }}
             </a>
         </span>
         <span class="article-content-loop-exp">{{ article.description }}</span>
         <span class="link-read-post">
-            <a href="{{ article.get_absolute_url }}" style="color:black;border: 1px solid lightgray; padding: 5px 10px 5px 10px;" class="link-read-post">
+            <a href="{{ article.get_absolute_url }}" class="read-post-link">
                 {% trans 'ReadPostLabel' %}
             </a>
         </span>
-        <div class="comments-andshare-cont" style="justify-content: space-between">
-            <div style="display: flex; gap: 10px">
-                <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none; color: #a5b1c8;">
-                    <i class="bi bi-chat-left-text" style="color:#a5b1c8;"></i>
+        <div class="comments-andshare-cont">
+            <div class="comments-date-container">
+                <a href="{{ article.get_absolute_url }}#comments" class="list-comments comment-link">
+                    <i class="bi bi-chat-left-text icon-color"></i>
                     {% get_comment_count for article as comment_count %}
                     &nbsp;{{ comment_count }}
                 </a>
                 <div class="list-share">
-                    <i class="bi bi-calendar2-week" style="color:#a5b1c8;"></i>&nbsp; {{ article.time_create|custom_time_display }}
+                    <i class="bi bi-calendar2-week icon-color"></i>&nbsp; {{ article.time_create|custom_time_display }}
                 </div>
             </div>
         </div>

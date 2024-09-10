@@ -14,6 +14,11 @@
             padding: 0 !important;
         }
 
+        .user-display-name ,.user-rating-cont{
+            justify-content: center !important;
+                    font-size: 30px;
+        }
+
         .user-category {
             margin-bottom: 5px;
         }
@@ -108,11 +113,17 @@
         width: 24px;
         height: 24px;
     }
+
+    .mobile-image-size {
+        height: 150px;
+        width: 150px;
+    }
 </style>
 
 <div class="profile-info-cont">
+
     <div class="col-12 top-half-prof">
-        <div class="profile-header">
+        <div class="profile-header d-none d-md-flex">
             <div class="col-sm-3 prof-page-pic-cont">
                 <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-avatar">
             </div>
@@ -145,6 +156,51 @@
                 </div>
             </div>
         </div>
+
+        <!-- Mobile version (< 768px) -->
+        <div class="profile-header d-md-none" style="flex-direction: column;">
+            <div class="header-top" >
+                <div class="avatar-cont" style="display: flex;justify-content: center;">
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-avatar mobile-image-size">
+                </div>
+                <div class="user-info">
+                    <div class="user-display-name">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </div>
+                    <div class="user-rating-cont">
+                        <div class="user-rating">{% trans 'RatingLabel' %} : {{ user.expertprofile.rating|default_if_none:0 }}</div>
+                        <div class="user-rate-and-stars">
+                            {% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher %}
+                            {% for ch in filled_stars_chipher %}
+                                {% if ch == 'f' %}
+                                    <i class="bi bi-star-fill star-icon"></i>
+                                {% elif ch == 'h' %}
+                                    <i class="bi bi-star-half star-icon"></i>
+                                {% elif ch == 'e' %}
+                                    <i class="bi bi-star star-icon"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-category-cont">
+                <div class="displayflex" style="flex-direction: column;">
+                    <div class="user-category" style="justify-content: center">Эксперт в области :</div>
+                    <div class="user-category">
+                    {% for exp_category in profile.expert_categories.all %}
+                        <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
+            </div>
+        </div>
+
+
+
         <div class="prof-user-setting">
             {% include buttons_template with user=expert %}
         </div>
@@ -153,7 +209,7 @@
     <div class="bottom-half">
         <div class="bottom-info">
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: </span>
+                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp; </span>
                 <div class="education-list">
                     {% for edu in profile.education.all %}
                         {% if edu.education_type == 'primary' %}
@@ -163,14 +219,14 @@
                 </div>
             </div>
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}:</span>
+                <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}: &nbsp;</span>
                 <span>{{ profile.experience }}
                     {% get_write_phrase profile.experience 'год года лет' %}
                 </span>
             </div>
-            <div class="prof-bottom-cont">{{ profile.about }}</div>
+            <div class="prof-bottom-cont">{{ profile.about }} </div>
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'PricePerHourLabel' %}:</span>
+                <span class="bottom-bold-text">{% trans 'PricePerHourLabel' %}: &nbsp;</span>
                 <span>{{ profile.hour_cost }} ₽/час</span>
             </div>
             <div class="prof-bottom-cont social-links">
