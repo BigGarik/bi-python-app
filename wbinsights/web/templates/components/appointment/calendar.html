@@ -502,119 +502,133 @@
     })
 
     function createEventCalendar(calendar_element_id) {
-        const options = {
-            view: 'timeGridWeek',
-            headerToolbar: {
-                start: 'prev,title,next',
-                center: 'today timeGridDay timeGridWeek dayGridMonth',
-                end: 'scheduleSettings'
-            },
-            eventSources: [{events: fetchAppointments}],
-            customButtons: {
-                scheduleSettings: {
-                    text: {html: 'Настроить<i class="bi bi-gear" style="margin-left: 5px"></i>'},
-                    click: function () {
-                        showExpertScheduleForm();
-                        addToolbarButtonBootstrapClasses();
-                    }
+    const options = {
+        view: 'timeGridWeek',
+        headerToolbar: {
+            start: 'prev,title,next',
+            center: 'today timeGridDay timeGridWeek dayGridMonth',
+            end: 'scheduleSettings'
+        },
+        eventSources: [{events: fetchAppointments}],
+        customButtons: {
+            scheduleSettings: {
+                text: {html: 'Настроить<i class="bi bi-gear" style="margin-left: 5px"></i>'},
+                click: function () {
+                    showExpertScheduleForm();
+                    addToolbarButtonBootstrapClasses();
                 }
-            },
-            slotDuration: '01:00:00',
-            slotLabelInterval: '01:00',
-            slotMinTime: '00:00:00',
-            slotMaxTime: '24:00:00',
-            slotHeight: 70,
-            buttonText: {
-                timeGridDay: 'день',
-                timeGridWeek: 'неделя',
-                dayGridMonth: 'месяц',
-                today: 'сегодня',
-                listWeek: 'список'
-            },
-            dayHeaderFormat: function (date) {
-                const day = date.getDay();
-                const dateOfMonth = date.getDate();
-                let dayName;
-                let iconHTML;
-
-                switch (day) {
-                    case 0:
-                        dayName = 'Вс';
-                        iconHTML = '<span class="mondayIcon">  </span>'
-                        break;
-                    case 1:
-                        dayName = 'Пн';
-                        iconHTML = '<span class="tuesdayIcon">  </span>'
-                        break;
-                    case 2:
-                        dayName = 'Вт';
-                        iconHTML = '<span class="wednesdayIcon">  </span>'
-                        break;
-                    case 3:
-                        dayName = 'Ср';
-                        iconHTML = '<span class="thursdayIcon">  </span>'
-                        break;
-                    case 4:
-                        dayName = 'Чт';
-                        iconHTML = '<span class="fridayIcon">  </span>'
-                        break;
-                    case 5:
-                        dayName = 'Пт';
-                        iconHTML = '<span class="saturdayIcon">  </span>'
-                        break;
-                    case 6:
-                        dayName = 'Сб';
-                        iconHTML = '<span class="sundayIcon">  </span>'
-                        break;
-                    default:
-                        dayName = 'Day';
-                        iconHTML = '';
-                }
-
-                const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: flex-start;"> ${iconHTML} <b>${dayName} ${dateOfMonth}</b> </div>`;
-
-                return {html: dayHtml};
-            },
-
-
-            allDaySlot: false,
-            firstDay: 1,
-            locale: 'ru',
-            nowIndicator: true,
-            highlightedDates: schedule,
-            eventDurationEditable: false,
-            selectable: user_type == 1,
-            {% if request.path == '/profile' and request.user.profile.type == 1 %}
-                select: function (info) {
-                    loadCustomDateRange(info);
-                },
-            {% endif %}
-            eventClick: function (c_event) {
-                if (c_event.event.extendedProps.type == 'appointment_as_expert')
-                    loadExpertAppointment(c_event.event.id);
-                else if (c_event.event.extendedProps.type == 'appointment_as_client')
-                    loadClientAppointment(c_event.event.id);
-                else if (c_event.event.extendedProps.type == 'extradate')
-                    loadExtraDate(c_event.event.id);
-
-                addToolbarButtonBootstrapClasses();
-            },
-            datesSet: function (dateInfo) {
-                addToolbarButtonBootstrapClasses();
-            },
-            viewDidMount: function (info) {
-                ec.getOption('theme').button = 'btn bnt-primary';
-                console.log(ec.getOption('theme').button);
-                addToolbarButtonBootstrapClasses();
-            },
-            buttonClick: function (button, e) {
-                setTimeout(addToolbarButtonBootstrapClasses, 0);
             }
-        };
+        },
+        slotDuration: '01:00:00',
+        slotLabelInterval: '01:00',
+        slotMinTime: '00:00:00',
+        slotMaxTime: '24:00:00',
+        slotHeight: 70,
+        buttonText: {
+            timeGridDay: 'день',
+            timeGridWeek: 'неделя',
+            dayGridMonth: 'месяц',
+            today: 'сегодня',
+            listWeek: 'список'
+        },
+        dayHeaderFormat: function (arg) {
+            const date = arg instanceof Date ? arg : (arg.date instanceof Date ? arg.date : new Date());
+            const day = date.getDay();
+            const dateOfMonth = date.getDate();
+            let dayName;
+            let iconHTML;
 
-        $('#event-calendar').html('');
-        ec = new EventCalendar(document.getElementById(calendar_element_id), options);
+            switch (day) {
+                case 0:
+                    dayName = 'Вс';
+                    iconHTML = '<span class="sundayIcon">  </span>'
+                    break;
+                case 1:
+                    dayName = 'Пн';
+                    iconHTML = '<span class="mondayIcon">  </span>'
+                    break;
+                case 2:
+                    dayName = 'Вт';
+                    iconHTML = '<span class="tuesdayIcon">  </span>'
+                    break;
+                case 3:
+                    dayName = 'Ср';
+                    iconHTML = '<span class="wednesdayIcon">  </span>'
+                    break;
+                case 4:
+                    dayName = 'Чт';
+                    iconHTML = '<span class="thursdayIcon">  </span>'
+                    break;
+                case 5:
+                    dayName = 'Пт';
+                    iconHTML = '<span class="fridayIcon">  </span>'
+                    break;
+                case 6:
+                    dayName = 'Сб';
+                    iconHTML = '<span class="saturdayIcon">  </span>'
+                    break;
+                default:
+                    dayName = 'Day';
+                    iconHTML = '';
+            }
+
+            const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: center;"> ${iconHTML} <b>${dayName} <span class="date-of-month">${dateOfMonth}</span></b> </div>`;
+
+            return {html: dayHtml};
+        },
+        allDaySlot: false,
+        firstDay: 1,
+        locale: 'ru',
+        nowIndicator: true,
+        highlightedDates: schedule,
+        eventDurationEditable: false,
+        selectable: user_type == 1,
+        {% if request.path == '/profile' and request.user.profile.type == 1 %}
+            select: function (info) {
+                loadCustomDateRange(info);
+            },
+        {% endif %}
+        eventClick: function (c_event) {
+            if (c_event.event.extendedProps.type == 'appointment_as_expert')
+                loadExpertAppointment(c_event.event.id);
+            else if (c_event.event.extendedProps.type == 'appointment_as_client')
+                loadClientAppointment(c_event.event.id);
+            else if (c_event.event.extendedProps.type == 'extradate')
+                loadExtraDate(c_event.event.id);
+
+            addToolbarButtonBootstrapClasses();
+        },
+        datesSet: function (dateInfo) {
+            addToolbarButtonBootstrapClasses();
+
+            // add/remove based on view
+            const calendarElement = document.getElementById(calendar_element_id);
+            if (dateInfo.view.type === 'dayGridMonth') {
+                calendarElement.classList.add('month-view');
+            } else {
+                calendarElement.classList.remove('month-view');
+            }
+        },
+        viewDidMount: function (info) {
+            addToolbarButtonBootstrapClasses();
+        },
+        buttonClick: function (button, e) {
+            setTimeout(addToolbarButtonBootstrapClasses, 0);
+        }
+    };
+
+    $('#event-calendar').html('');
+    ec = new EventCalendar(document.getElementById(calendar_element_id), options);
+}
+
+// Add this CSS to your stylesheet or in a <style> tag in your HTML
+const style = document.createElement('style');
+style.textContent = `
+    .month-view .date-of-month {
+        display: none;
     }
+`;
+document.head.appendChild(style);
 
     function getUsersAppointments() {
         createEventCalendar('event-calendar');
