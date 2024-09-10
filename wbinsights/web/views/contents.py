@@ -9,7 +9,6 @@ from web.models import Category
 
 
 class CommonContentFilterListView(ListView):
-
     load_more_template = ''
 
     def get_queryset(self):
@@ -43,8 +42,7 @@ class CommonContentFilterListView(ListView):
         context['search_q'] = self.query
         context['has_more_objects'] = context['page_obj'].has_next()
         return context
-    
-    
+
     def render_to_response(self, context, **response_kwargs):
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             html = render_to_string(self.load_more_template, {'object_list': context['object_list']})
@@ -53,7 +51,3 @@ class CommonContentFilterListView(ListView):
                 'has_more': context['has_more_objects']
             })
         return super().render_to_response(context, **response_kwargs)
-
-
-
-
