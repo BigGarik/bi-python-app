@@ -8,6 +8,12 @@
     border-radius: 15px;
 }
 
+@media (max-width: 768px) {
+    .element-container {
+        padding: 15px 20px 75px 20px;
+    }
+}
+
 .basepost-description{
     font-size: 18px;
     font-family: sans-serif;
@@ -116,6 +122,13 @@
     background-color: white;
     border-radius: 15px;
 }
+
+@media (max-width: 768px) {
+    .list-main-containers {
+        padding: 20px 30px 80px 30px;
+    }
+}
+
 
 .list-main-containers-mobile {
     display: flex;

@@ -1,14 +1,16 @@
-{% extends 'base.html' %}
 
-{% block content %}
-  <div class="container">
-    <h2>Удалить запись об образовании?</h2>
-    <p><strong>{{ object.educational_institution }}</strong></p>
 
-    <form method="post">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-danger">Да, удалить</button>
-      <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Отмена</a>
-    </form>
-  </div>
-{% endblock %}
+
+
+<div class="container">
+  <h5>Удалить запись об образовании?</h5>
+  <p><strong>"{{ form.instance.educational_institution }}"</strong></p>
+  <form method="post" action="{% url 'delete_education' form.instance.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Да, удалить</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+  </form>
+</div>
+
+
+
