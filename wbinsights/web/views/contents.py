@@ -11,6 +11,9 @@ from web.models import Category
 class CommonContentFilterListView(ListView):
     load_more_template = ''
 
+    def get_search_query(self):
+        return Q(content__icontains=self.query) | Q(title__icontains=self.query)
+
     def get_queryset(self):
 
         objects = super().get_queryset()
@@ -18,7 +21,7 @@ class CommonContentFilterListView(ListView):
         self.query = self.request.GET.get('search_q')
 
         if self.query:
-            objects = objects.filter(Q(content__icontains=self.query) | Q(title__icontains=self.query))
+            objects = objects.filter(self.get_search_query(self))
 
         self.cat = ''
 
@@ -39,7 +42,7 @@ class CommonContentFilterListView(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['selected_category'] = self.cat
-        context['search_q'] = self.query
+        context['search_q'] = self.query if self.query is not None else ''
         context['has_more_objects'] = context['page_obj'].has_next()
         return context
 

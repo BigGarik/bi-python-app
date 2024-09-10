@@ -31,6 +31,8 @@ class ArticleListView(CommonContentFilterListView):
 
 
 
+
+
 class ArticleDetailView(HitCountDetailView):
     model = Article
     count_hit = True
