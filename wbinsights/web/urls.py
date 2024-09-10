@@ -9,8 +9,7 @@ from .utils import get_timezones
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView, CategoryExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
     UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email, CustomLoginView
-from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView,
-                             CategoryArticleListView, delete_article, DeleteArticleView)
+from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView, DeleteArticleView)
 from .views.news import NewsFeedView
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
@@ -32,7 +31,7 @@ urlpatterns = [
     path('vote/<str:model_name>/<int:pk>/', universal_vote, name='universal_vote'),
 
     path("articles/", ArticleListView.as_view(), name='article_list'),
-    path("articles/category/<slug:category_slug>", CategoryArticleListView.as_view(), name='article_category_list'),
+    path("articles/category/<slug:category_slug>", ArticleListView.as_view(), name='article_category_list'),
     path('articles/<slug:slug>', ArticleDetailView.as_view(), name='article_detail'),
     path("articles/add/", ArticleAddView.as_view(), name='article_add'),
     path("articles/edit/<slug:slug>/", ArticleEditView.as_view(), name='article_edit'),
