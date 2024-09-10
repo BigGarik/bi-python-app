@@ -153,7 +153,7 @@
     <div class="bottom-half">
         <div class="bottom-info">
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: </span>
+                <span class="user-profile-field-caption">{% trans 'EducationLabel' %}: </span>
                 <div class="education-list">
                     {% for edu in profile.education.all %}
                         {% if edu.education_type == 'primary' %}
@@ -163,14 +163,14 @@
                 </div>
             </div>
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}:</span>
+                <span class="user-profile-field-caption">{% trans 'ExperienceLabel' %}:</span>
                 <span>{{ profile.experience }}
                     {% get_write_phrase profile.experience 'год года лет' %}
                 </span>
             </div>
             <div class="prof-bottom-cont">{{ profile.about }}</div>
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'PricePerHourLabel' %}:</span>
+                <span class="user-profile-field-caption">{% trans 'PricePerHourLabel' %}:</span>
                 <span>{{ profile.hour_cost }} ₽/час</span>
             </div>
             <div class="prof-bottom-cont social-links">
