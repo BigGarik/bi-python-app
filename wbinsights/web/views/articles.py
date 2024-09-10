@@ -10,7 +10,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from hitcount.views import HitCountDetailView
 from pytils.translit import slugify
 
-from views.contents import CommonContentFilterListView
+from web.views.contents import CommonContentFilterListView
 from web.forms.articles import ArticleForm
 from web.models import Article, Category
 from django.core.paginator import Paginator
