@@ -10,29 +10,26 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from hitcount.views import HitCountDetailView
 from pytils.translit import slugify
 
+from views.contents import CategoryListView, process_query_set_chain, process_query_context, SearchListView, \
+    CommonContentFilterListView
 from web.forms.articles import ArticleForm
 from web.models import Article, Category
 from django.core.paginator import Paginator
 
 
-class ArticleListView(ListView):
+class ArticleListView(CommonContentFilterListView):
     model = Article
     template_name = 'posts/article/article_list.html'
     context_object_name = 'articles'
-    paginate_by = 10  # Show 10 articles per page
+    paginate_by = 10 # Show 10 articles per page
 
     def get_queryset(self):
-        queryset = Article.objects.all().order_by('-time_update')
-        query = self.request.GET.get('search_q')
-        if query:
-            queryset = queryset.filter(Q(content__icontains=query) | Q(title__icontains=query))
+        queryset = super().get_queryset()
+        queryset = queryset.order_by('-time_update')
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        context['selected_category'] = ''
-        context['search_q'] = self.request.GET.get('search_q', '')
         context['has_more_articles'] = context['page_obj'].has_next()
         return context
 
@@ -44,29 +41,6 @@ class ArticleListView(ListView):
                 'has_more': context['has_more_articles']
             })
         return super().render_to_response(context, **response_kwargs)
-
-
-# Класс-представление для фильтрации статей по категории
-class CategoryArticleListView(ArticleListView):
-    # Переопределяем метод получения списка сущностей
-    def get_queryset(self):
-
-        self.cat = ''
-        if self.kwargs['category_slug'] == 'new':
-            return Article.objects.all().order_by("time_create")
-
-        if self.kwargs['category_slug'] == 'popular':
-            return Article.objects.all().order_by("time_create")
-
-        # Получаем объект, по которому будем делать фильтрацию (категория)
-        self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
-        return Article.objects.filter(cat=self.cat)
-
-    # Добавляем параметры в контекст
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['selected_category'] = self.cat
-        return context
 
 
 class ArticleDetailView(HitCountDetailView):
