@@ -85,7 +85,7 @@ $(document).ready(function() {
         var nextPage = currentPage + 1;
 
         $.ajax({
-            url: '{% url "article_list" %}',
+            url: '{{ request.path }}',
             data: {
                 'page': nextPage,
                 'search_q': '{{ search_q }}'
