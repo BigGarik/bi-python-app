@@ -10,8 +10,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from hitcount.views import HitCountDetailView
 from pytils.translit import slugify
 
-from views.contents import CategoryListView, process_query_set_chain, process_query_context, SearchListView, \
-    CommonContentFilterListView
+from views.contents import CommonContentFilterListView
 from web.forms.articles import ArticleForm
 from web.models import Article, Category
 from django.core.paginator import Paginator
@@ -20,8 +19,8 @@ from django.core.paginator import Paginator
 class ArticleListView(CommonContentFilterListView):
     model = Article
     template_name = 'posts/article/article_list.html'
-    context_object_name = 'articles'
-    paginate_by = 10 # Show 10 articles per page
+    paginate_by = 2 # Show 10 articles per page
+    load_more_template = 'posts/article/article_list_content.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -30,17 +29,10 @@ class ArticleListView(CommonContentFilterListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['has_more_articles'] = context['page_obj'].has_next()
         return context
 
-    def render_to_response(self, context, **response_kwargs):
-        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            html = render_to_string('posts/article/article_list_content.html', {'articles': context['articles']})
-            return JsonResponse({
-                'html': html,
-                'has_more': context['has_more_articles']
-            })
-        return super().render_to_response(context, **response_kwargs)
+
+
 
 
 class ArticleDetailView(HitCountDetailView):

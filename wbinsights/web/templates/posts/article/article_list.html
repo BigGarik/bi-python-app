@@ -61,7 +61,7 @@
         {% include "posts/article/article_list_content.html" %}
     </div>
 
-    {% if has_more_articles %}
+    {% if has_more_objects %}
     <div style="display:flex; justify-content:center" id="load-more-container">
         <button type="button" class="btn btn-secondary btn-more" id="load-more-btn" data-page="1">
             Загрузить ещё
@@ -75,7 +75,10 @@
 $(document).ready(function() {
     $("#search-article-query").keypress(function(event) {
         if (event.key === "Enter") {
-            window.location.href = "{{ request.path }}?search_q=" + $(this).val();
+            var search_value = $(this).val()
+            if (search_value == '' || search_value == 'None')
+                return;
+            window.location.href = "{{ request.path }}?search_q=" +  search_value;
         }
     });
 
@@ -83,13 +86,20 @@ $(document).ready(function() {
         var button = $(this);
         var currentPage = parseInt(button.data('page'));
         var nextPage = currentPage + 1;
+        
+        var post_data = {
+            'page': nextPage,
+        }
+        
+        var search_q = '{{ search_q }}'
+        
+        if (search_q != '' && search_q != 'None') {
+            post_data['search_q'] = search_q
+        }
 
         $.ajax({
             url: '{{ request.path }}',
-            data: {
-                'page': nextPage,
-                'search_q': '{{ search_q }}'
-            },
+            data: post_data,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             },
