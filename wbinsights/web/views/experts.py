@@ -27,7 +27,6 @@ class ExpertListView(ListView):
 
         # Сортировка по рейтингу (по убыванию)
         experts = experts.order_by('-expert_rating', '-expert_article_cnt')
-
         return experts
 
     # 'fffhe'
@@ -54,13 +53,7 @@ class ExpertListView(ListView):
 
 class CategoryExpertListView(ExpertListView):
     def get_queryset(self):
-        self.category = get_object_or_404(Category, slug=self.kwargs['category_slug'])
-        return Expert.objects.filter(expertprofile__expert_categories=self.category)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['selected_category'] = self.category
-        return context
+        return super().get_queryset()
 
 
 # def get_expert_not_verified():
