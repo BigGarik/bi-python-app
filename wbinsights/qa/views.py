@@ -1,13 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import IntegrityError
-from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
-from django.views.generic import UpdateView, ListView
+from django.views.generic import UpdateView
 
-from .models import Question, Answer
+from web.views.contents import CommonContentFilterListView
 from .forms import QuestionForm, AnswerForm
+from .models import Question, Answer
 
 
 @login_required
@@ -63,14 +63,24 @@ def question_detail(request, pk):
     return render(request, 'question_detail.html', context)
 
 
-class QuestionListView(LoginRequiredMixin, ListView):
+class QuestionListView(CommonContentFilterListView):
     model = Question
     template_name = 'question_list.html'
     context_object_name = 'questions'
     paginate_by = 10
+    ordering_param_new = 'created_at'
+    ordering_param_popular = '-created_at'
 
     def get_queryset(self):
-        return Question.objects.all().order_by('-created_at')
+        queryset = super().get_queryset()
+        if not bool(queryset.query.order_by):
+            queryset = queryset.order_by('-updated_at')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 
 @login_required

@@ -21,7 +21,8 @@ class ArticleListView(CommonContentFilterListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.order_by('-time_update')
+        if not bool(queryset.query.order_by):
+            queryset = queryset.order_by('-time_update')
         return queryset
 
     def get_context_data(self, **kwargs):

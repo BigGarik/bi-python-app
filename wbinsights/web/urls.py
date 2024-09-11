@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
+from qa.views import QuestionListView
 from .services.expert_rating_calculation import calculate_rating_for_all_expert
 from .utils import get_timezones
 from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView, DeleteArticleView)
@@ -15,7 +16,6 @@ from .views.login import register_user, signup_success, activate_account, UserPa
 from .views.news import NewsFeedView
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.profile import profile_view, edit_user_profile, update_user_timezone, DeleteEducationView
-from .views.question_answer import QuestionAnswerListView, QuestionAnswerDetailView, CategoryQuestionAnswerListView
 from .views.rating import RatingListView
 from .views.researches import ResearchesListView, ResearchesDetailView, DeviceDetectionView
 from .views.vote import upvote, downvote, universal_vote
@@ -40,10 +40,9 @@ urlpatterns = [
     path("researches/category/<slug:category_slug>", ResearchesListView.as_view(), name='research_category_list'),
     path("researches/<slug:slug>", ResearchesDetailView.as_view(), name='research_detail'),
 
-    path("question_answer/", QuestionAnswerListView.as_view(), name='question_answer_list'),
-    path("question_answer/category/<slug:category_slug>", CategoryQuestionAnswerListView.as_view(),
-         name='question_answer_category_list'),
-    path("question_answer/<slug:slug>", QuestionAnswerDetailView.as_view(), name='question_answer_detail'),
+    path("question_answer/", QuestionListView.as_view(), name='question_list'),
+    path("question_answer/category/<slug:category_slug>", QuestionListView.as_view(), name='question_category_list'),
+    # path("question_answer/<slug:slug>", QuestionAnswerDetailView.as_view(), name='question_answer_detail'),
 
     path("experts/", ExpertListView.as_view(), name='experts_list'),
     path("experts/category/<slug:category_slug>", ExpertListView.as_view(), name='experts_category_list'),
