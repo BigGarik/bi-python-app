@@ -48,7 +48,7 @@
 
    <ul>
    {% for question in questions %}
-       <li><a href="{% url 'qa:question_detail' question.pk %}">{{ question.title }}</a></li>
+       <li><a href="{% url 'wbqa:question_detail' question.pk %}">{{ question.title }}</a></li>
    {% empty %}
        <li>No questions available.</li>
    {% endfor %}
@@ -68,7 +68,7 @@
            {% endif %}
        </div>
    {% endif %}
-   <a href="{% url 'qa:create_question' %}">Add Question</a>
+   <a href="{% url 'wbqa:create_question' %}">Add Question</a>
 
 </div>
 

@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import AnswerEditView, EditQuestionView, QuestionListView
 
-app_name = 'qa'
+app_name = 'wbqa'
 
 urlpatterns = [
     path('', QuestionListView.as_view(), name='question_list'),

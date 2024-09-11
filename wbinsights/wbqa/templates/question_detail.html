@@ -1,6 +1,6 @@
 {% load vote %}
 
-<a href="{% url 'qa:question_list' %}">List Question</a>
+<a href="{% url 'wbqa:question_list' %}">List Question</a>
 
 <h1>{{ question.title }}</h1>
 <p>{{ question.content }}</p>
@@ -8,7 +8,7 @@
 <p>Asked by {{ question.author.first_name}} {{ question.author.last_name }} on {{ question.created_at }}</p>
 
 {% if question.author == user %}
-    <a href="{% url 'qa:edit_question' question.pk %}">Edit Question</a>
+    <a href="{% url 'wbqa:edit_question' question.pk %}">Edit Question</a>
 {% endif %}
 
 <h2>Answers</h2>
@@ -20,7 +20,7 @@
         <p>{{ best_answer.author.first_name}} {{ best_answer.author.last_name}} on {{ best_answer.created_at }}</p>
     
         {% if best_answer.author == user %}
-            <a href="{% url 'qa:edit_answer' best_answer.pk %}">Edit Answer</a>
+            <a href="{% url 'wbqa:edit_answer' best_answer.pk %}">Edit Answer</a>
         {% endif %}
     </div>
     <hr>
@@ -32,11 +32,11 @@
             <p>{{ answer.content }}</p>
             <p>{{ answer.author.first_name}} {{ best_answer.author.last_name}} on {{ answer.created_at }}</p>
             {% if answer.author == user %}
-                <a href="{% url 'qa:edit_answer' answer.pk %}">Edit Answer</a>
+                <a href="{% url 'wbqa:edit_answer' answer.pk %}">Edit Answer</a>
             {% endif %}
         
             {% if question.author == user and not answer.is_best %}
-                | <a href="{% url 'qa:choose_best_answer' answer.id %}">Mark as Best</a>            
+                | <a href="{% url 'wbqa:choose_best_answer' answer.id %}">Mark as Best</a>
             {% elif answer.is_best %}
                 <strong>Best Answer</strong>
             {% endif %}
