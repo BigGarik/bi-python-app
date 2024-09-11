@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from qa.views import QuestionListView
+from wbqa.views import QuestionListView
 from .services.expert_rating_calculation import calculate_rating_for_all_expert
 from .utils import get_timezones
 from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView, DeleteArticleView)
