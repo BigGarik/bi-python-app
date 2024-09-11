@@ -1,0 +1,115 @@
+{% load vote %}
+
+<a href="{% url 'qa:question_list' %}">List Question</a>
+
+<h1>{{ question.title }}</h1>
+<p>{{ question.content }}</p>
+<p>{{ question.cat }}</p>
+<p>Asked by {{ question.author.first_name}} {{ question.author.last_name }} on {{ question.created_at }}</p>
+
+{% if question.author == user %}
+    <a href="{% url 'qa:edit_question' question.pk %}">Edit Question</a>
+{% endif %}
+
+<h2>Answers</h2>
+
+{% if best_answer %}
+    <div>
+        <p><strong>Best Answer:</strong></p>
+        <p>{{ best_answer.content }}</p>
+        <p>{{ best_answer.author.first_name}} {{ best_answer.author.last_name}} on {{ best_answer.created_at }}</p>
+    
+        {% if best_answer.author == user %}
+            <a href="{% url 'qa:edit_answer' best_answer.pk %}">Edit Answer</a>
+        {% endif %}
+    </div>
+    <hr>
+{% endif %}
+
+<ul>
+    {% for answer in other_answers %}
+        <li>            
+            <p>{{ answer.content }}</p>
+            <p>{{ answer.author.first_name}} {{ best_answer.author.last_name}} on {{ answer.created_at }}</p>
+            {% if answer.author == user %}
+                <a href="{% url 'qa:edit_answer' answer.pk %}">Edit Answer</a>
+            {% endif %}
+        
+            {% if question.author == user and not answer.is_best %}
+                | <a href="{% url 'qa:choose_best_answer' answer.id %}">Mark as Best</a>            
+            {% elif answer.is_best %}
+                <strong>Best Answer</strong>
+            {% endif %}
+        
+            <div class="voting">
+                <button class="like-btn {% vote_exists answer user as vote_status %}{% if vote_status %}liked{% endif %}" data-model="qa.Answer" data-id="{{ answer.id }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up">
+                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                    </svg>
+                    <span class="like-count">{% vote_count answer %}</span>
+                </button>
+            </div>
+        </li>
+
+    {% empty %}
+        <li>No answers yet.</li>
+    {% endfor %}
+</ul>
+
+{% if not user_has_answered %}
+<h2>Your Answer</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+{% else %}
+    <p>You have already answered this question.</p>
+{% endif %}
+
+
+<script>
+document.querySelectorAll('.like-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const modelName = this.dataset.model;
+        const objectId = this.dataset.id;
+        const likeCount = this.querySelector('.like-count');
+        const isLiked = this.classList.contains('liked');
+
+        fetch(`/vote/${modelName}/${objectId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `action=up`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'ok') {
+                if (data.action === 'liked') {
+                    this.classList.add('liked');
+                } else {
+                    this.classList.remove('liked');
+                }
+                likeCount.textContent = data.count;
+            }
+        });
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>

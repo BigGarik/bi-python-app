@@ -1,4 +1,10 @@
 from django.apps import AppConfig
+from django.db.models.signals import post_migrate
+
+
+def start_scheduler(sender, **kwargs):
+    from web.scheduler import start
+    start()
 
 
 class WebConfig(AppConfig):
@@ -7,8 +13,6 @@ class WebConfig(AppConfig):
 
     def ready(self):
         import web.models.users
-        from web.scheduler import start
-        #Данный метод будет выполнятся также при миграции, так что если таблицы для apschedule еще не сделаны, метод нужно отключить
-        start()
+        post_migrate.connect(start_scheduler, sender=self)
 
 

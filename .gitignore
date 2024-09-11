@@ -60,3 +60,4 @@ media/
 /wbinsights/web/migrations/
 /wbinsights/qa/migrations/
 /wbinsights/expertprojects/migrations/
+/wbinsights/wbappointment/migrations/
