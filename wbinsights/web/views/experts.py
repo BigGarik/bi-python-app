@@ -1,39 +1,37 @@
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView, UpdateView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q, Count, F
+from django.views.generic import DetailView
 
 from expertprojects.models import UserProject
-
-from web.models import Article, Category, Expert
-
-from django.db.models import Q, Count, F
-
 from expertprojects.views import GetProjectsView
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from web.models import Article, Category, Expert
+from web.views.contents import CommonContentFilterListView
 
 
-class ExpertListView(ListView):
+class ExpertListView(CommonContentFilterListView):
     model = Expert
     context_object_name = "experts"
+    paginate_by = 10
+    category_filter_param = 'expertprofile__expert_categories'
 
     def get_queryset(self):
-        experts = Expert.objects.all().annotate(
+        queryset = super().get_queryset()
+
+        # Добавление аннотаций для подсчёта количества статей и рейтинга
+        queryset = queryset.annotate(
             expert_article_cnt=Count('article'),
             expert_rating=F('expertprofile__rating')
         )
 
+        # Фильтрация по рейтингу
         min_rating = self.request.GET.get('min_rating')
         if min_rating:
-            experts = experts.filter(expertprofile__rating__gte=float(min_rating))
+            queryset = queryset.filter(expertprofile__rating__gte=float(min_rating))
 
-        # Сортировка по рейтингу (по убыванию)
-        experts = experts.order_by('-expert_rating', '-expert_article_cnt')
-        return experts
+        # Сортировка по рейтингу и количеству статей
+        queryset = queryset.order_by('-expert_rating', '-expert_article_cnt')
 
-    # 'fffhe'
-
-    # def get_queryset(self):
-    #     experts = Expert.objects.all().annotate(expert_article_cnt=Count('article'))
-    #     return experts
+        return queryset
 
     def get_template_names(self):
         user_agent = self.request.META.get('HTTP_USER_AGENT','')
