@@ -13,6 +13,8 @@ class ExpertListView(CommonContentFilterListView):
     context_object_name = "experts"
     paginate_by = 10
     category_filter_param = 'expertprofile__expert_categories'
+    ordering_param_new = '-date_joined'
+    ordering_param_popular = '-expertprofile__rating'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -28,8 +30,9 @@ class ExpertListView(CommonContentFilterListView):
         if min_rating:
             queryset = queryset.filter(expertprofile__rating__gte=float(min_rating))
 
-        # Сортировка по рейтингу и количеству статей
-        queryset = queryset.order_by('-expert_rating', '-expert_article_cnt')
+        # Если нет сортировки, то сортировка по рейтингу и количеству статей
+        if not bool(queryset.query.order_by):
+            queryset = queryset.order_by('-expert_rating', '-expert_article_cnt')
 
         return queryset
 
