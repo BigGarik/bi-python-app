@@ -48,6 +48,8 @@ def add_appointment_view(request, *args, **kwargs):
     if request.user == expert:
         return redirect("profile")
 
+
+
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
         # check for existing appointment for this date and time with this expert
@@ -85,31 +87,32 @@ def add_appointment_view(request, *args, **kwargs):
 
             new_appointment.save()
             return redirect('appointment_checkout', pk=new_appointment.id)
-    else:
-        user_timezone = request.user.profile.timezone
-        tz = pytz.timezone(user_timezone)
 
-        # Получаем текущее время в указанном часовом поясе
-        current_time = timezone.now().astimezone(tz)
 
-        # Форматируем смещение
-        offset = current_time.strftime('%z')
-        offset_str = f"{offset[:3]}:{offset[3:]}"
+    user_timezone = request.user.profile.timezone
+    tz = pytz.timezone(user_timezone)
 
-        # Форматируем строку
-        # formatted_timezone = f"{user_timezone} {offset_str}"
-        formatted_timezone = f"{timezoneDictionary.get(str(tz), tz)} {offset_str}"
+    # Получаем текущее время в указанном часовом поясе
+    current_time = timezone.now().astimezone(tz)
 
-        form = AppointmentForm()
-        not_avalable_dates = get_expert_working_dates(expert)
-        context = {
-            "formatted_timezone": formatted_timezone,
-            "expert": expert,
-            'form': form,
-            'start_cal_date': not_avalable_dates['data']['start'],
-            'end_cal_date': not_avalable_dates['data']['end'],
-            'not_working_dates': not_avalable_dates['data']['not_working_dates']
-        }
+    # Форматируем смещение
+    offset = current_time.strftime('%z')
+    offset_str = f"{offset[:3]}:{offset[3:]}"
+
+    # Форматируем строку
+    # formatted_timezone = f"{user_timezone} {offset_str}"
+    formatted_timezone = f"{timezoneDictionary.get(str(tz), tz)} {offset_str}"
+
+    form = AppointmentForm()
+    not_avalable_dates = get_expert_working_dates(expert)
+    context = {
+        "formatted_timezone": formatted_timezone,
+        "expert": expert,
+        'form': form,
+        'start_cal_date': not_avalable_dates['data']['start'],
+        'end_cal_date': not_avalable_dates['data']['end'],
+        'not_working_dates': not_avalable_dates['data']['not_working_dates']
+    }
 
     return render(request, 'add_appointment.html', context=context)
 

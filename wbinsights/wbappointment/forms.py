@@ -15,15 +15,16 @@ def validate_date(date):
 
 
 class AppointmentForm(forms.ModelForm):
-    #hour_choices = [(f'{hour:02}:00:00', f'{hour:02}:00')  for hour in range(24)]  # hour choices
 
     appointment_date = forms.DateField(
-        widget=forms.HiddenInput()
+        widget=forms.HiddenInput(),
+        required = True
     )
 
     appointment_time = forms.TimeField(
         widget=forms.TimeInput(attrs={'type': 'time'}),
-        label='Время встречи'
+        label='Время встречи',
+        required=True
     )
 
     expert = forms.HiddenInput()
@@ -32,12 +33,19 @@ class AppointmentForm(forms.ModelForm):
         super(AppointmentForm, self).__init__(*args, **kwargs)
         self.fields['appointment_date'].validators.append(validate_date)
 
+
     def clean(self):
         cleaned_data = super().clean()
 
         expert = cleaned_data.get('expert')
         appointment_date = cleaned_data.get('appointment_date')
         appointment_time = cleaned_data.get('appointment_time')
+
+        if appointment_date is None:
+            raise forms.ValidationError("appointment_date must not be empty")
+
+        if appointment_time is None:
+            raise forms.ValidationError("appointment_time must not be empty")
 
         # Validation to check there is no booked appointment with
         # this expert on this time in status new older than 10 min

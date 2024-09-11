@@ -10,8 +10,6 @@ from web.models import Category
 class CommonContentFilterListView(ListView):
     load_more_template = ''
     category_filter_param = 'cat'
-    ordering_param_new = 'time_create'
-    ordering_param_popular = '-time_create'
 
     def get_search_query(self):
         return Q(content__icontains=self.query) | Q(title__icontains=self.query)
@@ -30,9 +28,9 @@ class CommonContentFilterListView(ListView):
         if 'category_slug' in self.kwargs:
 
             if self.kwargs['category_slug'] == 'new':
-                objects = objects.order_by(self.ordering_param_new)
+                objects = objects.order_by("time_create")
             elif self.kwargs['category_slug'] == 'popular':
-                objects = objects.order_by(self.ordering_param_popular)
+                objects = objects.order_by("time_create")
             else:
                 # Получаем объект, по которому будем делать фильтрацию (категория)
                 self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
