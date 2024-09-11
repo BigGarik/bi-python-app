@@ -6,8 +6,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView
 
 from web.views.contents import CommonContentFilterListView
-from .forms import QuestionForm, AnswerForm
-from .models import Question, Answer
+from wbqa.forms import QuestionForm, AnswerForm
+from wbqa.models import Question, Answer
 
 
 @login_required

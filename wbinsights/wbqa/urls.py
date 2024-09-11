@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import AnswerEditView, EditQuestionView, QuestionListView
+from wbqa.views import AnswerEditView, EditQuestionView, QuestionListView
 
 app_name = 'wbqa'
 

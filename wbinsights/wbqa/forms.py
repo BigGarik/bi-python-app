@@ -1,7 +1,7 @@
 from django import forms
 
 from web.models import Category, CustomUser
-from .models import Question, Answer
+from wbqa.models import Question, Answer
 
 
 class QuestionForm(forms.ModelForm):
