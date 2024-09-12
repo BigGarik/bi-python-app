@@ -1,4 +1,9 @@
+{% extends 'basePostList.html' %}
+
 {% load vote %}
+{% load static %}
+
+{% block posts_content %}
 
 <a href="{% url 'wbqa:question_list' %}">List Question</a>
 
@@ -11,11 +16,11 @@
     <a href="{% url 'wbqa:edit_question' question.pk %}">Edit Question</a>
 {% endif %}
 
-<h2>Answers</h2>
+<h2>Ответы</h2>
 
 {% if best_answer %}
     <div>
-        <p><strong>Best Answer:</strong></p>
+        <p><strong>Лучший ответ</strong></p>
         <p>{{ best_answer.content }}</p>
         <p>{{ best_answer.author.first_name}} {{ best_answer.author.last_name}} on {{ best_answer.created_at }}</p>
     
@@ -38,7 +43,7 @@
             {% if question.author == user and not answer.is_best %}
                 | <a href="{% url 'wbqa:choose_best_answer' answer.id %}">Mark as Best</a>
             {% elif answer.is_best %}
-                <strong>Best Answer</strong>
+                <strong>Лучший ответ</strong>
             {% endif %}
         
             <div class="voting">
@@ -56,15 +61,17 @@
     {% endfor %}
 </ul>
 
-{% if not user_has_answered %}
-<h2>Your Answer</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-{% else %}
-    <p>You have already answered this question.</p>
+{% if form %}
+    <h2>Ваш ответ</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+{% endif %}
+
+{% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
 {% endif %}
 
 
@@ -113,3 +120,5 @@ function getCookie(name) {
     return cookieValue;
 }
 </script>
+
+{% endblock %}

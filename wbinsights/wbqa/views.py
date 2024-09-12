@@ -3,64 +3,80 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import IntegrityError
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, CreateView, DetailView
 
 from web.views.contents import CommonContentFilterListView
 from wbqa.forms import QuestionForm, AnswerForm
 from wbqa.models import Question, Answer
 
 
-@login_required
-def create_question(request):
-    if request.method == 'POST':
-        form = QuestionForm(request.POST)
-        if form.is_valid():
-            question = form.save(commit=False)
-            question.author = request.user
-            question.save()
-            return redirect('qa:question_detail', pk=question.pk)
-    else:
-        form = QuestionForm()
-    return render(request, 'create_question.html', {'form': form})
+class CreateQuestionView(LoginRequiredMixin, CreateView):
+    model = Question
+    form_class = QuestionForm
+    template_name = 'create_question.html'
+    success_url = reverse_lazy('wbqa:question_list')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
-@login_required
-def question_detail(request, pk):
-    question = get_object_or_404(Question, pk=pk)
+class QuestionDetailView(LoginRequiredMixin, DetailView):
+    model = Question
+    template_name = 'question_detail.html'
+    context_object_name = 'question'
 
-    # Получаем лучший ответ и остальные ответы
-    best_answer = question.answers.filter(is_best=True).first()
-    other_answers = question.answers.filter(is_best=False).order_by('created_at')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        question = self.object
+        user = self.request.user
 
-    # Проверяем, оставил ли пользователь уже ответ на этот вопрос
-    user_has_answered = Answer.objects.filter(question=question, author=request.user).exists()
+        # Получаем лучший ответ и остальные ответы
+        context['best_answer'] = question.answers.filter(is_best=True).first()
+        context['other_answers'] = question.answers.filter(is_best=False).order_by('created_at')
 
-    error_message = None
+        # Получаем ответы
+        user_has_answered = Answer.objects.filter(question=question, author=user).exists()
+        context['user_has_answered'] = user_has_answered
 
-    if request.method == 'POST' and not user_has_answered:
-        form = AnswerForm(request.POST)
-        if form.is_valid():
-            answer = form.save(commit=False)
-            answer.question = question
-            answer.author = request.user
-            try:
-                answer.save()
-                return redirect('qa:question_detail', pk=pk)
-            except IntegrityError:
-                error_message = "You have already answered this question."
-    else:
-        form = AnswerForm() if not user_has_answered else None
+        # Условия для отображения формы для ответа:
+        # 1. Пользователь не оставил ответ.
+        # 2. Вопрос адресован ему или targeted_user пуст.
+        # 3. Пользователь не является автором вопроса.
+        if (not user_has_answered
+                and (question.targeted_user is None or question.targeted_user == user)
+                and question.author != user):
+            context['form'] = AnswerForm()
+        else:
+            context['form'] = None
 
-    context = {
-        'question': question,
-        'form': form,
-        'best_answer': best_answer,
-        'other_answers': other_answers,
-        'user_has_answered': user_has_answered,
-        'error_message': error_message
-    }
+        return context
 
-    return render(request, 'question_detail.html', context)
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        question = self.object
+        user = request.user
+
+        user_has_answered = Answer.objects.filter(question=question, author=user).exists()
+
+        # Условия для добавления ответа:
+        # 1. Пользователь не оставил ответ.
+        # 2. Вопрос адресован пользователю или targeted_user пуст.
+        # 3. Пользователь не является автором вопроса.
+        if ((not user_has_answered
+                and (self.object.targeted_user is None or self.object.targeted_user == request.user))
+                and self.object.author != request.user):
+            form = AnswerForm(request.POST)
+            if form.is_valid():
+                answer = form.save(commit=False)
+                answer.question = self.object
+                answer.author = request.user
+                try:
+                    answer.save()
+                    return redirect('wbqa:question_detail', pk=self.object.pk)
+                except IntegrityError:
+                    self.render_to_response(self.get_context_data(error_message="You have already answered this question."))
+            return self.render_to_response(self.get_context_data())
 
 
 class QuestionListView(CommonContentFilterListView):
@@ -68,7 +84,7 @@ class QuestionListView(CommonContentFilterListView):
     template_name = 'question_list.html'
     context_object_name = 'questions'
     paginate_by = 10
-    ordering_param_new = 'created_at'
+    ordering_param_new = '-created_at'
     ordering_param_popular = '-created_at'
 
     def get_queryset(self):
@@ -80,7 +96,6 @@ class QuestionListView(CommonContentFilterListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
 
 
 @login_required
