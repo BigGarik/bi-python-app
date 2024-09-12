@@ -36,9 +36,7 @@ def create_zoom_meeting(appointment):
                                      settings={'participants': participants,
                                                'waiting_room': False,
                                                'join_before_host': True,
-                                               'approval_type': 0,
-                                               'screen_sharing': 'all',
-                                               'share_screen': True
+                                               'approval_type': 0
                                                }
                                      )
 
