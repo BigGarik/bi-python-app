@@ -216,7 +216,7 @@
                 <a href="{% url 'article_list' %}" class="post-menu-item-mobile">Статьи</a>
             {% endif %}
             {% if url_first_part != 'question_answer' %}
-                <a href="{% url 'question_answer_list' %}" class="post-menu-item-mobile">Вопрос-ответ</a>
+                <a href="{% url 'question_list' %}" class="post-menu-item-mobile">Вопрос-ответ</a>
             {% endif %}
         </div>
     </div>
@@ -226,7 +226,7 @@
     <a href="{% url 'research_list' %}" class="post-menu-item {% if url_first_part == 'researches' or url_first_part == '' %} selected {% endif %}">Исследования</a>
     <a href="{% url 'experts_list' %}" class="post-menu-item {% if url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
     <a href="{% url 'article_list' %}" class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">Статьи</a>
-    <a href="{% url 'question_answer_list' %}" class="post-menu-item {% if url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
+    <a href="{% url 'question_list' %}" class="post-menu-item {% if url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
 </div>
 
 <div id="article_list" class="content-block">

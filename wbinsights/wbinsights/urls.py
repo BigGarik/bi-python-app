@@ -21,6 +21,7 @@ from wbinsights import settings
 
 urlpatterns = [
     path('', include('web.urls')),
+    path('wbqa/', include('wbqa.urls')),
     path('expert/',include('expertprojects.urls')),
     path('appointment/', include('wbappointment.urls')),
     path(r'jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),

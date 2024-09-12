@@ -135,10 +135,11 @@
 }
 
 
-.bottom-bold-text{
+.user-profile-field-caption{
     display: flex;
     font-weight: bold;
     font-family: sans-serif;
+    margin-right: 5px;
 }
 
 

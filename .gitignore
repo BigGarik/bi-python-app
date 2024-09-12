@@ -58,5 +58,6 @@ db.sqlite3
 .vscode/
 media/
 /wbinsights/web/migrations/
-/wbinsights/qa/migrations/
+/wbinsights/wbqa/migrations/
 /wbinsights/expertprojects/migrations/
+/wbinsights/wbappointment/migrations/

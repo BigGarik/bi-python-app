@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_comments',
     'vote',
     'corsheaders',
+    'wbqa.apps.QaConfig',
     'web.apps.WebConfig',
     'expertprojects.apps.ExpertprojectsConfig',
     'django.contrib.admin',

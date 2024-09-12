@@ -1,36 +1,33 @@
 import itertools
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import  HttpResponseForbidden
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
 from pytils.translit import slugify
 
-from web.views.contents import CommonContentFilterListView
 from web.forms.articles import ArticleForm
 from web.models import Article
+from web.views.contents import CommonContentFilterListView
+
 
 class ArticleListView(CommonContentFilterListView):
     model = Article
     template_name = 'posts/article/article_list.html'
-    paginate_by = 10 # Show 10 articles per page
+    paginate_by = 10  # Show 10 articles per page
     load_more_template = 'posts/article/article_list_content.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.order_by('-time_update')
+        if not bool(queryset.query.order_by):
+            queryset = queryset.order_by('-time_update')
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-
-
-
-
 
 
 class ArticleDetailView(HitCountDetailView):

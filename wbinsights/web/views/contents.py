@@ -2,7 +2,6 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
-
 from django.views.generic import ListView
 
 from web.models import Category
@@ -10,6 +9,9 @@ from web.models import Category
 
 class CommonContentFilterListView(ListView):
     load_more_template = ''
+    category_filter_param = 'cat'
+    ordering_param_new = '-time_create'
+    ordering_param_popular = '-time_create'
 
     def get_search_query(self):
         return Q(content__icontains=self.query) | Q(title__icontains=self.query)
@@ -28,13 +30,13 @@ class CommonContentFilterListView(ListView):
         if 'category_slug' in self.kwargs:
 
             if self.kwargs['category_slug'] == 'new':
-                objects = objects.order_by("time_create")
+                objects = objects.order_by(self.ordering_param_new)
             elif self.kwargs['category_slug'] == 'popular':
-                objects = objects.order_by("time_create")
+                objects = objects.order_by(self.ordering_param_popular)
             else:
                 # Получаем объект, по которому будем делать фильтрацию (категория)
                 self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
-                objects = objects.filter(cat=self.cat)
+                objects = objects.filter(**{self.category_filter_param: self.cat})
 
         return objects
 
