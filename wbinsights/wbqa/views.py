@@ -1,13 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import IntegrityError
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, CreateView, DetailView
 
-from web.views.contents import CommonContentFilterListView
 from wbqa.forms import QuestionForm, AnswerForm
 from wbqa.models import Question, Answer
+from web.views.contents import CommonContentFilterListView
 
 
 class CreateQuestionView(LoginRequiredMixin, CreateView):
@@ -105,7 +105,7 @@ def choose_best_answer(request, answer_id):
         answer.question.answers.update(is_best=False)  # сбрасываем предыдущий лучший ответ
         answer.is_best = True
         answer.save()
-    return redirect('qa:question_detail', pk=answer.question.pk)
+    return redirect('wbqa:question_detail', pk=answer.question.pk)
 
 
 class EditQuestionView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -124,7 +124,7 @@ class EditQuestionView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         # Перенаправляем на страницу деталей вопроса после успешного редактирования
-        return reverse('qa:question_detail', kwargs={'pk': self.object.pk})
+        return reverse('wbqa:question_detail', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -138,7 +138,7 @@ class AnswerEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'edit_answer.html'
 
     def get_success_url(self):
-        return reverse_lazy('qa:question_detail', kwargs={'pk': self.object.question.pk})
+        return reverse_lazy('wbqa:question_detail', kwargs={'pk': self.object.question.pk})
 
     def test_func(self):
         answer = self.get_object()
