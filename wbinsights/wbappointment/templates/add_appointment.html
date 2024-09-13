@@ -326,9 +326,13 @@
                             success: function (response) {
                                 selectAppointmentTime.val('');
                                 timeSlotsDiv.empty();
-                                response.forEach(slot => {
-                                    timeSlotsDiv.append(`<button type="button" class="time-slot-item btn btn-outline-primary timeslot-buttons"  onclick="selectTimeSlot('${slot + ':00'}', event)">${slot}</button>`);
-                                });
+                                if (response.length == 0) {
+                                    timeSlotsDiv.append(`<div>Нет свободных слотов</div>`);
+                                } else {
+                                    response.forEach(slot => {
+                                        timeSlotsDiv.append(`<button type="button" class="time-slot-item btn btn-outline-primary timeslot-buttons"  onclick="selectTimeSlot('${slot + ':00'}', event)">${slot}</button>`);
+                                    });
+                                }
                                 selectAppointmentTime.prop('disabled', false);
                                 updateConfirmDetails();
                             }
