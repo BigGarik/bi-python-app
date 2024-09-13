@@ -153,10 +153,7 @@
         }
     });
 
-    document.getElementById('language-toggle').addEventListener('change', function() {
-        const lang = this.checked ? 'ru' : 'en';
-        editor.I18n.setLocale(lang);
-    });
+
 
     function switchLanguage(lang) {
         editor.I18n.setLocale(lang);
