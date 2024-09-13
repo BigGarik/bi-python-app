@@ -3,7 +3,7 @@
 }
 
 .element-container {
-    padding: 15px 20px 15px 20px;
+    padding: 20px 30px 20px 30px;
     background-color: white;
     border-radius: 15px;
 }
@@ -31,23 +31,77 @@
     margin-top: 15px;
     line-height: normal;
     margin-bottom: 10px;
+     color: black;
 }
+
+.basepost-author-pic {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid #ccc;
+    }
 
 .basepost-content-cont{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     width: 100%;
+}
+
+.basepost-author-text{
+    display: flex;
+    margin-left: 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+}
+
+.basepost-author-cont{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.flex-cont {
+    display:flex;
+    justify-content: space-between;
+}
+
+.main-list-gap {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.displayflex {
+        display: flex;
+    }
+
+.basepost-prof-socials-cont {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
 }
 
 .lists-search-cont {
     display: flex;
-    padding: 10px 15px 10px 15px;
+    padding: 5px 10px 5px 10px;
     border: 1px solid #dadada;
     font-family: sans-serif;
     width: 100%;
     border-radius: 7px;
     outline: none !important;
+}
+
+.read-post-link {
+    color: black;
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+    text-decoration: none;
 }
 
 .category-container{
@@ -131,7 +185,7 @@
 }
 
 
-.list-main-containers-mobile {
+.element-container-mobile {
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -153,7 +207,6 @@
 .top-half-prof {
     display: flex;
     margin-bottom: 15px;
-    min-height: 185px;
 }
 
 .profile-information-cont {
@@ -318,6 +371,13 @@
     flex-direction: column;
 }
 
+.answer-profile-avatar {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
 .custom-form-css {
     padding: 8px;
     border-radius: 5px;
@@ -337,6 +397,12 @@
     min-height: 30px;
 }
 
+.prof-page-pic-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .testing-class {
     display: flex;
     justify-content: flex-end !important;
@@ -353,8 +419,6 @@
 
     }
 
-    .user-category-cont {
-        justify-content: center !important;
-    }
+
 }
 

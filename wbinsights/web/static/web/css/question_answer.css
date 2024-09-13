@@ -60,14 +60,6 @@
          gap:5px;
     }
 
-    .ask-question-btn{
-        width: 50%;
-    }
-
-    ask-question-btn {
-        display: flex;
-        text-wrap: nowrap !important;
-    }
 
     .comments-andshare-cont {
         justify-content: flex-end;

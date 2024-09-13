@@ -1,124 +1,212 @@
-{% extends 'basePostList.html' %}
-
-{% load vote %}
+{% extends 'base123.html' %}
 {% load static %}
+{% load comments %}
+{% load comments_xtd %}
+{% load web_tags %}
+{% load hitcount_tags %}
 
-{% block posts_content %}
+{% block center_col %}
 
-<a href="{% url 'wbqa:question_list' %}">List Question</a>
+{% block extra_static %}
+<link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
+<style>
+    .list-comments .bi {
+        font-size: 15px;
+    }
 
-<h1>{{ question.title }}</h1>
-<p>{{ question.content }}</p>
-<p>{{ question.cat }}</p>
-<p>Asked by {{ question.author.first_name}} {{ question.author.last_name }} on {{ question.created_at }}</p>
+    .best-answer {
+        border: 2px solid #28a745;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
 
-{% if question.author == user %}
-    <a href="{% url 'wbqa:edit_question' question.pk %}">Edit Question</a>
-{% endif %}
+    .best-answer-label {
+        background-color: #28a745;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+        font-size: 0.8em;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
 
-<h2>Ответы</h2>
+    .answer {
+        border-bottom: 1px solid #e0e0e0;
+    }
 
-{% if best_answer %}
-    <div>
-        <p><strong>Лучший ответ</strong></p>
-        <p>{{ best_answer.content }}</p>
-        <p>{{ best_answer.author.first_name}} {{ best_answer.author.last_name}} on {{ best_answer.created_at }}</p>
-    
-        {% if best_answer.author == user %}
-            <a href="{% url 'wbqa:edit_answer' best_answer.pk %}">Edit Answer</a>
+</style>
+{% endblock %}
+
+<div class="element-container">
+    <div class="global-back-btn">
+        <a href="{% url 'wbqa:question_list' %}" class="global-back-btn">
+            <i class="bi bi-chevron-left"></i> &nbsp;Назад
+        </a>
+    </div>
+
+    <div class="basepost-prof-socials-cont">
+        <div class="displayflex" style="align-items: center;">
+            <div class="user-category-cont">
+                <div class="user-catagory-highlight {{ question.cat.slug }}">
+                    {{ question.cat }}
+                </div>
+            </div>
+            <span class="list-publish-date publish-date d-inline d-md-none" >
+                {{ question.created_at|custom_time_display }}
+            </span>
+        </div>
+
+
+        {% if user.is_authenticated and user == question.author %}
+            <div class="manage-buttons" style="display: flex; gap: 15px ">
+                <a href="{% url 'wbqa:edit_question' question.pk %}" style="transform: scale(1.2)">
+                    <i class="bi bi-pencil"></i>
+                </a>
+            </div>
         {% endif %}
     </div>
-    <hr>
-{% endif %}
 
-<ul>
-    {% for answer in other_answers %}
-        <li>            
-            <p>{{ answer.content }}</p>
-            <p>{{ answer.author.first_name}} {{ best_answer.author.last_name}} on {{ answer.created_at }}</p>
-            {% if answer.author == user %}
-                <a href="{% url 'wbqa:edit_answer' answer.pk %}">Edit Answer</a>
-            {% endif %}
-        
-            {% if question.author == user and not answer.is_best %}
-                | <a href="{% url 'wbqa:choose_best_answer' answer.id %}">Mark as Best</a>
-            {% elif answer.is_best %}
-                <strong>Лучший ответ</strong>
-            {% endif %}
-        
-            <div class="voting">
-                <button class="like-btn {% vote_exists answer user as vote_status %}{% if vote_status %}liked{% endif %}" data-model="qa.Answer" data-id="{{ answer.id }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up">
-                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                    </svg>
-                    <span class="like-count">{% vote_count answer %}</span>
-                </button>
+    <div class="basepost-title">{{ question.title }}</div>
+
+    <div class="article-detail-main-content">
+        <p>{{ question.content }}</p>
+
+        <div class="basepost-prof-socials-cont">
+            <div class="basepost-author-cont">
+                <div class="author-pic-research">
+                    {% if question.author.profile_picture %}
+                        <div class="basepost-author-pic"><img src="{{ question.author.profile_picture.url }}" alt="{{ question.author.username }}"></div>
+                    {% else %}
+                        <i class="bi bi-person-circle author-icon"></i>
+                    {% endif %}
+                </div>
+                <div class="basepost-author-text" style="margin-left: 0px !important;">{{ question.author.first_name }} {{ question.author.last_name }}</div>
+
+                <span class="list-publish-date publish-date d-none d-md-inline">
+                    {{ question.created_at|custom_time_display }}
+                </span>
             </div>
-        </li>
+        <div style="display: flex;justify-content: space-between;align-items: center;margin: 10px 0 10px 0;">
+            <div class="basepost-prof-socials-cont">
+                <div class="comments-andshare-cont">
 
+                    <a href="#answers" class="list-comments" style="text-decoration: none;">
+                        <i class="bi bi-chat-left-text" style="color:#a5b1c8; font-size: 13px; margin-top: 2px;"></i>
+                        <span>&nbsp;{{ other_answers.count }}</span>
+                    </a>
+                    <div class="list-comments dropdown">
+                        <i class="bi bi-box-arrow-up-right global-cat-dropdown" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color:#a5b1c8; font-size: 13px; margin-bottom: 2px"></i>
+                        <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px;">
+                            <div class="shareon" data-url="{{ request.build_absolute_uri }}" data-title="{{ question.title }}" id="shareon-{{ question.pk }}">
+                                <a class="facebook"></a>
+                                <a class="twitter"></a>
+                                <a class="linkedin"></a>
+                                <a class="telegram"></a>
+                                <a class="whatsapp"></a>
+                                <a class="reddit"></a>
+                                <a class="vkontakte"></a>
+                                <a class="odnoklassniki"></a>
+                                <a class="copy-url"></a>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <hr>
+
+
+
+    <h4 id="answers">Ответы</h4>
+
+    {% if best_answer %}
+    <div class="best-answer article-detail-main-content">
+        <span class="best-answer-label">Лучший ответ</span>
+        <p>{{ best_answer.content }}</p>
+        <div class="basepost-prof-socials-cont" style="margin-top: 0px !important;">
+            <div class="basepost-author-cont">
+                <div class="author-pic-research">
+                    {% if best_answer.author.profile_picture %}
+                        <div class="basepost-author-pic"><img src="{{ best_answer.author.profile_picture.url }}" alt="{{ best_answer.author.username }}" class="profile-avatar-answers"></div>
+                    {% else %}
+                        <i class="bi bi-person-circle author-icon"></i>
+                    {% endif %}
+                </div>
+                <div class="basepost-author-text" style="margin-left: 0px !important;">{{ best_answer.author.first_name }} {{ best_answer.author.last_name }}</div>
+                <span class="list-publish-date publish-date">
+                    {{ best_answer.created_at|custom_time_display }}
+                </span>
+            </div>
+            {% if best_answer.author == user %}
+                <a href="{% url 'wbqa:edit_answer' best_answer.pk %}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-pencil"></i> Edit Answer
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% for answer in other_answers %}
+    <div class="answer article-detail-main-content" style="flex-direction: column">
+
+        <div class="basepost-prof-socials-cont" style="margin: 10px 0 10px 0; !important;">
+            <div class="basepost-author-cont">
+                <div class="author-pic-research">
+                    {% if answer.author.profile_picture %}
+                        <div class="basepost-author-pic"><img src="{{ answer.author.profile_picture.url }}" alt="{{ answer.author.username }}"></div>
+                    {% else %}
+                        <i class="bi bi-person-circle" style="font-size: 34px;"></i>
+                    {% endif %}
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <div class="basepost-author-text" style="margin-left: 0px !important;">{{ answer.author.first_name }} {{ answer.author.last_name }}</div>
+                    <span class="list-publish-date publish-date">
+                        {{ answer.created_at|custom_time_display }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="comments-andshare-cont">
+                {% if answer.author == user %}
+                    <a href="{% url 'wbqa:edit_answer' answer.pk %}" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-pencil"></i> Edit Answer
+                    </a>
+                {% endif %}
+                {% if question.author == user and not answer.is_best %}
+                    <a href="{% url 'wbqa:choose_best_answer' answer.id %}" class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-star"></i> Mark as Best
+                    </a>
+                {% elif answer.is_best %}
+                    <span class="badge bg-success">Лучший ответ</span>
+                {% endif %}
+            </div>
+        </div>
+        <div>{{ answer.content }}</div>
+
+    </div>
     {% empty %}
-        <li>No answers yet.</li>
+    <p>No answers yet.</p>
     {% endfor %}
-</ul>
 
-{% if form %}
-    <h2>Ваш ответ</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Отправить</button>
-    </form>
-{% endif %}
+    {% if form %}
+    <div class="article-detail-main-content">
+        <h2>Ваш ответ</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+    {% endif %}
 
-{% if error_message %}
+    {% if error_message %}
     <p style="color: red;">{{ error_message }}</p>
-{% endif %}
-
-
-<script>
-document.querySelectorAll('.like-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        const modelName = this.dataset.model;
-        const objectId = this.dataset.id;
-        const likeCount = this.querySelector('.like-count');
-        const isLiked = this.classList.contains('liked');
-
-        fetch(`/vote/${modelName}/${objectId}/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `action=up`
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'ok') {
-                if (data.action === 'liked') {
-                    this.classList.add('liked');
-                } else {
-                    this.classList.remove('liked');
-                }
-                likeCount.textContent = data.count;
-            }
-        });
-    });
-});
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-</script>
+    {% endif %}
+</div>
 
 {% endblock %}

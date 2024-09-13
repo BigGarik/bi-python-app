@@ -13,20 +13,23 @@ class UserProjectForm(forms.ModelForm):
         help_text='Пожалуйста, введите каждый ключевой результат на новой строке.',
         required=False
     )
-
-    category = forms.ModelMultipleChoiceField(label="Категории проекта", queryset=Category.objects.all(), )
-    # customer = forms.ModelChoiceField(queryset=UserProjectCustomer.objects.all())
-    year = forms.IntegerField(initial=datetime.date.today().year,
-                              min_value=1985,
-                              max_value=datetime.date.today().year,
-                              label="Год проекта",
-                              widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    category = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        label="Категории проекта",
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
+        required=True
+    )
+    year = forms.IntegerField(
+        initial=datetime.date.today().year,
+        min_value=1985,
+        max_value=datetime.date.today().year,
+        label="Год проекта",
+        widget=forms.NumberInput(attrs={'class': 'form-control'})
+    )
 
     class Meta:
-
         model = UserProject
         fields = ['name', 'category', 'company', 'year', 'goals', 'key_results_text']
-
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'company': forms.TextInput(attrs={'class': 'form-control'}),
@@ -34,9 +37,19 @@ class UserProjectForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(UserProjectForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if 'class' not in field.widget.attrs:
+                field.widget.attrs['class'] = 'form-control'
+            else:
+                field.widget.attrs['class'] += ' form-control'
+
         if self.instance.pk:
             self.fields['key_results_text'].initial = '\n'.join(self.instance.key_results)
+
+        # Optionally, you can add placeholders here
+        self.fields['name'].widget.attrs['placeholder'] = 'Введите название проекта'
+        self.fields['company'].widget.attrs['placeholder'] = 'Введите название компании'
 
     def clean_key_results_text(self):
         text = self.cleaned_data.get('key_results_text', '')
@@ -49,7 +62,6 @@ class UserProjectForm(forms.ModelForm):
             instance.save()
             self.save_m2m()
         return instance
-
 
 class UserProjectFileForm(forms.ModelForm):
     file = forms.FileField(

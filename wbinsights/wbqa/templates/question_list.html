@@ -1,125 +1,252 @@
 {% extends 'basePostList.html' %}
+{% load static %}
+{% load web_tags %}
+
 
 {% block title %}
     Вопрос - Ответ
 {% endblock %}
 
-{% load web_tags %}
-{% load static %}
-
-
-{% block posts_content %}
-
-
-<style>
-    .author-pic {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 1px solid #ccc;
-    }
-
-    .author-pic img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    @media (max-width: 768px) {
-        .article-list-search-cont {
-            width: 100% !important;
-        }
-
-        .columnArticle {
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/article_list.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
+    <style>
+        .search-and-cat-cont-mobile {
+            display: flex;
             flex-direction: column;
         }
-    }
-</style>
 
-{% block extra_static %}
-    <link rel="stylesheet" href="{% static 'web/css/article_list.css' %}">
+        .search-input-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .button-filter-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .ask-question-btn-mobile {
+            text-wrap: nowrap !important;
+        }
+
+        .category-container {
+            margin-top: 10px;
+        }
+
+        .basepost-description-container {
+            display: block;
+        }
+
+        .question-answer-last2 {
+            display: none;
+        }
+
+
+
+        .comment-icon, .share-icon {
+            color: grey;
+        }
+
+        .share-icon {
+            transform: scale(0.9);
+        }
+
+        .question-answer-last-mobile {
+            display: none;
+        }
+
+        .hours-ago-container {
+            margin-bottom: 5px;
+        }
+
+        .flex-cont {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .solid-hr {
+            margin-top: 20px;
+        }
+
+
+        @media (max-width: 767px) {
+            .question-answer-last-mobile {
+                display: block;
+            }
+
+            .article-list-search-cont {
+                width: 100% !important;
+            }
+
+            .columnArticle {
+                flex-direction: column;
+            }
+        }
+    </style>
 {% endblock %}
 
+{% block posts_content %}
+    <div class="element-container main-list-gap">
+        <div class="search-and-cat-cont d-none d-md-flex" >
+            <div class="col-6">
+                <input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск">
+            </div>
+            <div class="col-6 d-flex justify-content-between pl-2">
+                <a href="{% url 'wbqa:create_question' %}">
+                    <button type="button" class="btn ask-question-btn btn-sm">Задать вопрос</button>
+                </a>
+                {% include "components/post_category_filter.html" %}
+            </div>
+        </div>
 
-<body>
+        <!-- Small Screens -->
+        <div class="search-and-cat-cont d-md-none search-and-cat-cont-mobile">
+            <div class="search-input-container">
+                <input type="text" id="search-article-query" class="research-search-cont" placeholder="Поиск">
+            </div>
+            <div class="button-filter-container">
+                <a href="{% url 'wbqa:create_question' %}">
+                    <button type="button" class="btn ask-question-btn btn-sm ask-question-btn-mobile" style="margin-left: 0px !important;">Задать вопрос
+                    </button>
+                </a>
+                {% include "components/post_category_filter.html" %}
+            </div>
+        </div>
 
-<div class="list-main-containers">
+        <div id="articles-container">
+            {% for question in questions %}
+                <div class="basepost-content-cont">
+                    <div class="user-category-cont">
+                        <div class="user-catagory-highlight {{ question.cat.slug }}">
+                            {{ question.cat }}
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'wbqa:question_detail' question.pk %}" class="basepost-title" style="width: fit-content;text-decoration: none"
+                           style="text-decoration: none">{{ question.title }}</a>
+                    </div>
+                    <div>
+                    <span class="basepost-description basepost-description-container">
+                        {{ question.content|truncatewords:30 }} &nbsp;<a
+                            href="{% url 'wbqa:question_detail' question.pk %}" class="link-read-post">Читать пост</a>
+                    </span>
+                        <div class=" d-none d-md-inline">
+                            <div class="basepost-prof-socials-cont">
+                                <div class="basepost-author-cont">
+                                    <div class="author-pic-research">
+                                        {% if question.author.profile_picture %}
+                                            <div class="author-pic"><img src="{{ question.author.profile_picture.url }}"
+                                                                         alt="{{ question.author.username }}"></div>
+                                        {% else %}
+                                            <i class="bi bi-person-circle author-icon"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="basepost-author-text">{{ question.author.first_name }} {{ question.author.last_name }}</div>
+                                    <span class="list-publish-date ">{{ question.created_at|custom_time_display }}</span>
+                                </div>
+                                <div class="comments-andshare-cont">
+                                    <div class="list-comments">
+                                        <i class="bi bi-chat-left-text comment-icon"></i>
+                                        &nbsp; {{ question.answer_set.count }}
+                                    </div>
+                                    <div class="list-share">
+                                        <i class="bi bi-box-arrow-up-right share-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mobile version -->
+                        <div class="question-answer-last question-answer-last-mobile d-inline d-md-none">
+                            <div style>
+                                <div class="hours-ago-container">
+                                    <span class="list-publish-date ">{{ question.created_at|custom_time_display }}</span>
+                                </div>
+                                <div class="flex-cont">
+                                    <div class="article-author-cont">
+                                        <div class="basepost-author-cont">
+                                            {% if question.author.profile_picture %}
+                                                <div class="basepost-author-pic"><img
+                                                        src="{{ question.author.profile_picture.url }}"
+                                                        alt="{{ question.author.username }}"></div>
+                                            {% else %}
+                                                <i class="bi bi-person-circle "></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="author-name">{{ question.author.first_name }} {{ question.author.last_name }}</div>
+                                    </div>
+                                    <div class="comments-andshare-cont">
+                                        <div class="list-comments">
+                                            <i class="bi bi-chat-left-text comment-icon"></i>
+                                            &nbsp; {{ question.answer_set.count }}
+                                        </div>
+                                        <div class="list-share">
+                                            <i class="bi bi-box-arrow-up-right share-icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="solid solid-hr">
+                    </div>
+                </div>
+                {% empty %}
+                <p>No questions available.</p>
+            {% endfor %}
+        </div>
 
-   <ul>
-   {% for question in questions %}
-       <li><a href="{% url 'wbqa:question_detail' question.pk %}">{{ question.title }}</a></li>
-   {% empty %}
-       <li>No questions available.</li>
-   {% endfor %}
-   </ul>
-   {% if is_paginated %}
-       <div class="pagination">
-           {% if page_obj.has_previous %}
-               <a href="?page=1">&laquo; first</a>
-               <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-           {% endif %}
-           <span class="current">
-               Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-           </span>
-           {% if page_obj.has_next %}
-               <a href="?page={{ page_obj.next_page_number }}">next</a>
-               <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-           {% endif %}
-       </div>
-   {% endif %}
-   <a href="{% url 'wbqa:create_question' %}">Add Question</a>
+        {% if is_paginated %}
+            <div id="load-more-container" class="text-center mt-4">
+                <button id="load-more-btn" class="btn btn-primary" data-page="{{ page_obj.number }}">Load More</button>
+            </div>
+        {% endif %}
+    </div>
 
-</div>
-
-<script>
-$(document).ready(function() {
-    $("#search-article-query").keypress(function(event) {
-        if (event.key === "Enter") {
-            var search_value = $(this).val()
-            if (search_value == '' || search_value == 'None')
-                return;
-            window.location.href = "{{ request.path }}?search_q=" +  search_value;
-        }
-    });
-
-    $("#load-more-btn").click(function() {
-        var button = $(this);
-        var currentPage = parseInt(button.data('page'));
-        var nextPage = currentPage + 1;
-        
-        var post_data = {
-            'page': nextPage,
-        }
-        
-        var search_q = '{{ search_q }}'
-        
-        if (search_q != '' && search_q != 'None') {
-            post_data['search_q'] = search_q
-        }
-
-        $.ajax({
-            url: '{{ request.path }}',
-            data: post_data,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            success: function(data) {
-                if (data.html) {
-                    $("#articles-container").append(data.html);
-                    button.data('page', nextPage);
+    <script>
+        $(document).ready(function () {
+            $("#search-article-query").keypress(function (event) {
+                if (event.key === "Enter") {
+                    var search_value = $(this).val()
+                    if (search_value == '' || search_value == 'None')
+                        return;
+                    window.location.href = "{{ request.path }}?search_q=" + search_value;
                 }
-                if (!data.has_more) {
-                    $("#load-more-container").hide();
+            });
+
+            $("#load-more-btn").click(function () {
+                var button = $(this);
+                var currentPage = parseInt(button.data('page'));
+                var nextPage = currentPage + 1;
+
+                var post_data = {
+                    'page': nextPage,
                 }
-            }
+
+                var search_q = '{{ search_q }}'
+
+                if (search_q != '' && search_q != 'None') {
+                    post_data['search_q'] = search_q
+                }
+                $.ajax({
+                    url: '{{ request.path }}',
+                    data: post_data,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function (data) {
+                        if (data.html) {
+                            $("#articles-container").append(data.html);
+                            button.data('page', nextPage);
+                        }
+                        if (!data.has_more) {
+                            $("#load-more-container").hide();
+                        }
+                    }
+                });
+            });
         });
-    });
-
-
-});
-</script>
-
-</body>
-
+    </script>
 {% endblock %}

@@ -11,12 +11,7 @@
         color: #a5b1c8;
         transform: scale(1.3);
     }
-    .read-post-link {
-        color: black;
-        border: 1px solid lightgray;
-        padding: 5px 10px;
-        text-decoration: none;
-    }
+
     .author-link {
         text-decoration: none;
     }
@@ -63,18 +58,18 @@
         <span class="link-read-post">
             <a href="{{ article.get_absolute_url }}" class="read-post-link">Читать пост</a>
         </span>
-        <div class="article-list-cat-cont">
+        <div class="user-category-cont">
             <div class="user-catagory-highlight {{ article.cat.slug }}">
                 {{ article.cat.name }}
             </div>
         </div>
-        <div class="article-list-last">
-            <div class="article-list-author-cont">
-                <div class="author-pic">
+        <div class="basepost-prof-socials-cont">
+            <div class="basepost-author-cont">
+                <div class="basepost-author-pic">
                     <img src="{{ article.author.profile.avatar.url }}"/>
                 </div>
                 <a href="{% url 'expert_profile' article.author.pk %}" class="author-link">
-                    <div class="article-list-author-name">{{ article.author.last_name }} {{ article.author.first_name }}</div>
+                    <div class="basepost-author-text">{{ article.author.last_name }} {{ article.author.first_name }}</div>
                 </a>
             </div>
             <div class="comments-andshare-cont">

@@ -56,27 +56,11 @@
 </style>
 
 <div class="profile-info-cont">
-    <div class="col-12 top-half-prof" style="display: flex; flex-direction: column;">
-    <div style="display: flex; gap: 10px;">
-        <div class="col-sm-3 prof-page-pic-cont">
-            <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="border-radius: 50%; width: 80px; height: 80px; object-fit: cover;">
-        </div>
-        <div class="col-sm-9 profile-information-cont" style="justify-content: center;" >
-            <div class="user-display-name">
-                {{ user.first_name }} {{ user.last_name }}
-            </div>
-            <div class="span-user-type">
-                {% if user.profile.type == 0 %}
-                    Клиент
-                {% endif %}
-            </div>
 
-        </div>
-    </div>
+    {% include 'components/global_profile_information.html' %}
+
     <div class="prof-user-setting" style="margin-left: 25%;padding: 10px 0 0 30px; gap:5px;flex-wrap: wrap;">
         {% include buttons_template with user=client %}
     </div>
-</div>
-
 
 </div>

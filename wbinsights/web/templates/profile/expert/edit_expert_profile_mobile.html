@@ -2,334 +2,315 @@
 {% load static %}
 
 {% block extra_static %}
-    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
 {% endblock %}
 
 {% block center_col %}
-    <style>
+<style>
 
-        input[name="form-0-specialized_education"].custom-form-css {
-            width: auto !important;
-            margin-left: 5px;
+    input[name="form-0-specialized_education"].custom-form-css {
+        width: auto !important;
+        margin-left: 5px;
+    }
+
+    .profile-category-choose {
+
+    }
+
+    @media (max-width: 768px) {
+        .smaller-letters {
+            font-size: 12px !important;
         }
-
-        .profile-category-choose {
-
+        .prof-edit-input-labels, .prof-edit-input-title1, .prof-edit-photo-cont {
+            width: 100% !important;
+            text-align: start   ;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
-
-        @media (max-width: 768px) {
-            .smaller-letters {
-                font-size: 12px !important;
-            }
-
-            .prof-edit-input-labels, .prof-edit-input-title1, .prof-edit-photo-cont {
-                width: 100% !important;
-                text-align: start;
-                margin-top: 5px;
-                margin-bottom: 5px;
-            }
-
-            .prof-edit-info-cont {
-                width: 100% !important;
-                text-align: center;
-            }
-
-            .prof-edit-duel-rows {
-                display: block;
+        .prof-edit-info-cont {
+            width: 100% !important;
+            text-align: center;
+        }
+        .prof-edit-duel-rows {
+            display: block;
                 margin: 10px 0 10px 0;
-            }
+        }
 
-            .prof-edit-input-title {
-                width: 100%;
-
-            }
+        .prof-edit-input-title {
+            width: 100%;
 
         }
-    </style>
 
-    <div class="list-main-containers">
-        <div class="edit-prof-info-cont">
-            <a href="{% url 'profile' %}" class="global-back-btn">
-                <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;"></i> Назад
-            </a>
-            <div>
-                <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
+    }
+</style>
+
+<div class="element-container">
+    <div class="edit-prof-info-cont">
+        <a href="{% url 'profile' %}" class="global-back-btn">
+            <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;"></i> Назад
+        </a>
+        <div>
+            <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
+        </div>
+
+        {{ user_form.errors }}
+        {{ profile_form.errors }}
+        {{ expert_profile_form.errors }}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="prof-edit-rows">
+                <div class="prof-edit-duel-rows">
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ user_form.first_name.id_for_label }}"
+                               class="prof-edit-input-labels" >{{ user_form.first_name.label }}</label>
+                        {{ user_form.first_name }}
+                    </div>
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ user_form.last_name.id_for_label }}"
+                               class="prof-edit-input-labels"> {{ user_form.last_name.label }}</label>
+                        {{ user_form.last_name }}
+                    </div>
+                </div>
+
+                <div class="full-width">
+                    <label for="{{ expert_profile_form.about.id_for_label }}"
+                           class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
+                    {{ expert_profile_form.about }}
+
+                    {% if grade %}
+                        <p>Грейд: {{ grade.grade }}</p>
+                        <p>Диапазон стоимости часа для ваших points: от {{ grade.min_cost }} до {{ grade.max_cost }}</p>
+                    {% else %}
+                        <p>Нет данных для ваших points.</p>
+                    {% endif %}
+                </div>
             </div>
-
-            {{ user_form.errors }}
-            {{ profile_form.errors }}
-            {{ expert_profile_form.errors }}
-
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="prof-edit-rows">
-                    <div class="prof-edit-duel-rows">
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ user_form.first_name.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ user_form.first_name.label }}</label>
-                            {{ user_form.first_name }}
-                        </div>
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ user_form.last_name.id_for_label }}"
-                                   class="prof-edit-input-labels"> {{ user_form.last_name.label }}</label>
-                            {{ user_form.last_name }}
+            <style>
+                label[for="id_avatar"] {
+                    display: none;
+                }
+            </style>
+            <div class="expert-edit-rows">
+                <div class="prof-edit-photo-cont">
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                         style="border-radius: 50%; max-height: 100px; max-width: 100px; min-width: 100px; min-height: 100px; object-fit: cover;">
+                    <div style="display:flex; margin-left: 10px; flex-direction:column">
+                        {% if profile_form.instance.avatar %}
+                            <p style="color:white; user-select: none; margin: 0; font-size:8px">На данный момент: <a
+                                    href="{{ profile_form.instance.avatar.url }}"
+                                    style="color: white;font-size:8px">{{ profile_form.instance.avatar.name }}</a></p>
+                        {% endif %}
+                        <label for="id_avatar">Изменить:</label>
+                        <input type="file" name="avatar" class="smaller-letters" accept="image/*" id="id_avatar">
+                    </div>
+                </div>
+                <div class="prof-edit-duel-rows">
+                    <div class="prof-edit-input-title">
+                        <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
+                               class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
+                        <div class="profile-category-choose">
+                             {{ expert_profile_form.expert_categories }}
                         </div>
                     </div>
-
-                    <div class="full-width">
-                        <label for="{{ expert_profile_form.about.id_for_label }}"
-                               class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
-                        {{ expert_profile_form.about }}
-
+                    <div class="prof-edit-input-title">
+                        <label for="{{ expert_profile_form.experience.id_for_label }}"
+                               class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
+                        <div class="profile-category-choose">
+                            {{ expert_profile_form.experience }}
+                        </div>
+                    </div>
+                    <div class="prof-edit-input-title">
+                        <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
+                               class="prof-edit-input-labels">{{ expert_profile_form.hour_cost.label }}</label>
                         {% if grade %}
-                            <p>Грейд: {{ grade.grade }}</p>
-                            <p>Диапазон стоимости часа для ваших points: от {{ grade.min_cost }}
-                                до {{ grade.max_cost }}</p>
+                            <input type="number" name="hour_cost" id="{{ expert_profile_form.hour_cost.id_for_label }}"
+                                   min="{{ grade.min_cost }}" max="{{ grade.max_cost }}" step="1"
+                                   value="{{ expert_profile_form.hour_cost.value }}" class="custom-form-css">
                         {% else %}
-                            <p>Нет данных для ваших points.</p>
+                            {{ expert_profile_form.hour_cost }}
                         {% endif %}
                     </div>
                 </div>
-                <style>
-                    label[for="id_avatar"] {
-                        display: none;
-                    }
-                </style>
-                <div class="expert-edit-rows">
-                    <div class="prof-edit-photo-cont">
-                        <img src="{{ user.profile.avatar.url }}" alt="Avatar"
-                             style="border-radius: 50%; max-height: 100px; max-width: 100px; min-width: 100px; min-height: 100px; object-fit: cover;">
-                        <div style="display:flex; margin-left: 10px; flex-direction:column">
-                            {% if profile_form.instance.avatar %}
-                                <p style="color:white; user-select: none; margin: 0; font-size:8px">На данный момент: <a
-                                        href="{{ profile_form.instance.avatar.url }}"
-                                        style="color: white;font-size:8px">{{ profile_form.instance.avatar.name }}</a>
-                                </p>
-                            {% endif %}
-                            <label for="id_avatar">Изменить:</label>
-                            <input type="file" name="avatar" class="smaller-letters" accept="image/*" id="id_avatar">
-                        </div>
-                    </div>
-                    <div class="prof-edit-duel-rows">
-                        <div class="prof-edit-input-title">
-                            <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
-                            <div class="profile-category-choose">
-                                {{ expert_profile_form.expert_categories }}
-                            </div>
-                        </div>
-                        <div class="prof-edit-input-title">
-                            <label for="{{ expert_profile_form.experience.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
-                            <div class="profile-category-choose">
-                                {{ expert_profile_form.experience }}
-                            </div>
-                        </div>
-                        <div class="prof-edit-input-title">
-                            <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.hour_cost.label }}</label>
-                            {% if grade %}
-                                <input type="number" name="hour_cost"
-                                       id="{{ expert_profile_form.hour_cost.id_for_label }}"
-                                       min="{{ grade.min_cost }}" max="{{ grade.max_cost }}" step="1"
-                                       value="{{ expert_profile_form.hour_cost.value }}" class="custom-form-css">
-                            {% else %}
-                                {{ expert_profile_form.hour_cost }}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <div class="expert-edit-rows">
-                    <div class="prof-edit-duel-rows">
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ expert_profile_form.age.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
-                            {{ expert_profile_form.age }}
-                        </div>
-                    </div>
-                </div>
-                <div class="expert-edit-rows">
-                    <div class="prof-edit-duel-rows">
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ expert_profile_form.hh_link.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.hh_link.label }}</label>
-                            {{ expert_profile_form.hh_link }}
-                        </div>
-                    </div>
-                </div>
-                <div class="expert-edit-rows">
-                    <div class="prof-edit-duel-rows">
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ expert_profile_form.linkedin_link.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.linkedin_link.label }}</label>
-                            {{ expert_profile_form.linkedin_link }}
-                        </div>
-                    </div>
-                </div>
-                <hr/>
-                <!-- Добавляем формсет для образования -->
-                <div class="education-formset-container">
-                    <span class="prof-edit-page-title" style="padding-bottom: 10px">Образование</span>
-                    {{ education_expert_formset.management_form }}
-                    {% for form in education_expert_formset %}
-                        <div class="education-form col-12">
-                            {{ form.id }}
-                            {{ form.errors }}
-                            <div class="row">
-                                <div class="prof-edit-input-title1 col-6">
-                                    <label for="{{ form.education_type.id_for_label }}"
-                                           class="prof-edit-input-labels">{{ form.education_type.label }}</label>
-                                    {{ form.education_type }}
-                                </div>
-                                <div class="prof-edit-input-title1 col-6" style="display: flex">
-                                    <label for="{{ form.specialized_education.id_for_label }}"
-                                           class="prof-edit-input-labels"
-                                           style="width: fit-content !important;">{{ form.specialized_education.label }}</label>
-                                    {{ form.specialized_education }}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="prof-edit-input-title1 col-9">
-                                    <label for="{{ form.educational_institution.id_for_label }}"
-                                           class="prof-edit-input-labels">{{ form.educational_institution.label }}</label>
-                                    {{ form.educational_institution }}
-                                </div>
-                                <div class="prof-edit-input-title1 col-3">
-                                    <label for="{{ form.diploma_number.id_for_label }}"
-                                           class="prof-edit-input-labels">{{ form.diploma_number.label }}</label>
-                                    {{ form.diploma_number }}
-                                </div>
-                            </div>
-                            {% if form.instance.id %}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <button type="button" class="btn btn-danger delete-education-btn"
-                                                data-education-id="{{ form.instance.id }}"
-                                                data-education-name="{{ form.instance.educational_institution }}">
-                                            Удалить образование
-                                        </button>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                    <!-- Button to add new education -->
-                    <button type="button" class="btn btn-secondary add-education-btn" style="margin-top: 20px">Добавить
-                        образование
-                    </button>
-                </div>
-                <script>
-                    // Скрипт для добавления новой формы образования
-                    $('.add-education-btn').click(function () {
-                        // Клонируем последнюю форму в формсете
-                        const newForm = $('.education-form:last').clone();
-                        // Очищаем значения в клонированной форме
-                        newForm.find('input').val('');
-                        newForm.find('select').val('');
-                        // Изменяем индекс в именах и id полей
-                        const formRegex = RegExp('form-(\\d+)-', 'g');
-                        const formNum = parseInt($('#id_form-TOTAL_FORMS').val());
-                        newForm.html(newForm.html().replace(formRegex, 'form-' + formNum + '-'));
-                        // Увеличиваем общее количество форм в управляющей форме
-                        $('#id_form-TOTAL_FORMS').val(formNum + 1);
-                        // Добавляем новую форму в DOM
-                        newForm.insertBefore($(this));
-                    });
-                </script>
-                <hr/>
-                <div class="prof-edit-bot-btns-cont">
-                    <button type="submit" class="btn btn-secondary prof-edit-save-btn">Сохранить изменения</button>
-                    <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"
-                            data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
-                        Удалить профиль
-                    </button>
-                </div>
-            </form>
-
-
-            <div class="modal fade" id="deleteEducationModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Подтверждение удаления</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Вы уверены, что хотите удалить образование "<span id="educationNameToDelete"></span>"?
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                            <button type="button" class="btn btn-danger" id="confirmDeleteEducation">Удалить</button>
-                        </div>
+            </div>
+            <div class="expert-edit-rows">
+                <div class="prof-edit-duel-rows">
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ expert_profile_form.age.id_for_label }}"
+                               class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
+                        {{ expert_profile_form.age }}
                     </div>
                 </div>
             </div>
-
-            <div class="modal fade" tabindex="-1" role="dialog" id="deleteProfileModal">
-                <div class="modal-dialog" role="document">
-                    <form method="post">
-                        <div class="modal-content" style="width:400px !important">
-                            <div class="modal-header" style="border-bottom: none;">
-                                <h4 class="modal-title">Вы действительно хотите удалить профиль?</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>После удаления вы не сможете восстановить данные</p>
-                            </div>
-                            <div class="modal-footer" style="border-top: none;">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                                <button type="submit" class="btn btn-danger">Удалить</button>
-                            </div>
+            <div class="expert-edit-rows">
+                <div class="prof-edit-duel-rows">
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ expert_profile_form.hh_link.id_for_label }}"
+                               class="prof-edit-input-labels">{{ expert_profile_form.hh_link.label }}</label>
+                        {{ expert_profile_form.hh_link }}
+                    </div>
+                </div>
+            </div>
+            <div class="expert-edit-rows">
+                <div class="prof-edit-duel-rows">
+                    <div class="prof-edit-info-cont">
+                        <label for="{{ expert_profile_form.linkedin_link.id_for_label }}"
+                               class="prof-edit-input-labels">{{ expert_profile_form.linkedin_link.label }}</label>
+                        {{ expert_profile_form.linkedin_link }}
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <!-- Добавляем формсет для образования -->
+            <div class="education-formset-container">
+                <span class="prof-edit-page-title" style="padding-bottom: 10px">Образование</span>
+                {{ education_expert_formset.management_form }}
+                {% for form in education_expert_formset %}
+                <div class="education-form col-12">
+                    {{ form.id }}
+                    {{ form.errors }}
+                    <div class="row">
+                        <div class="prof-edit-input-title1 col-6">
+                            <label for="{{ form.education_type.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ form.education_type.label }}</label>
+                            {{ form.education_type }}
                         </div>
-                    </form>
+                        <div class="prof-edit-input-title1 col-6" style="display: flex">
+                            <label for="{{ form.specialized_education.id_for_label }}"
+                                   class="prof-edit-input-labels" style="width: fit-content !important;">{{ form.specialized_education.label }}</label>
+                            {{ form.specialized_education }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="prof-edit-input-title1 col-9">
+                            <label for="{{ form.educational_institution.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ form.educational_institution.label }}</label>
+                            {{ form.educational_institution }}
+                        </div>
+                        <div class="prof-edit-input-title1 col-3">
+                            <label for="{{ form.diploma_number.id_for_label }}"
+                                   class="prof-edit-input-labels">{{ form.diploma_number.label }}</label>
+                            {{ form.diploma_number }}
+                        </div>
+                    </div>
+                    {% if form.instance.id %}
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-danger delete-education-btn"
+                                    data-education-id="{{ form.instance.id }}"
+                                    data-education-name="{{ form.instance.educational_institution }}">
+                                Удалить образование
+                            </button>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <!-- Button to add new education -->
+                <button type="button" class="btn btn-secondary add-education-btn" style="margin-top: 20px">Добавить образование</button>
+            </div>
+            <script>
+                // Скрипт для добавления новой формы образования
+                $('.add-education-btn').click(function () {
+                    // Клонируем последнюю форму в формсете
+                    const newForm = $('.education-form:last').clone();
+                    // Очищаем значения в клонированной форме
+                    newForm.find('input').val('');
+                    newForm.find('select').val('');
+                    // Изменяем индекс в именах и id полей
+                    const formRegex = RegExp('form-(\\d+)-', 'g');
+                    const formNum = parseInt($('#id_form-TOTAL_FORMS').val());
+                    newForm.html(newForm.html().replace(formRegex, 'form-' + formNum + '-'));
+                    // Увеличиваем общее количество форм в управляющей форме
+                    $('#id_form-TOTAL_FORMS').val(formNum + 1);
+                    // Добавляем новую форму в DOM
+                    newForm.insertBefore($(this));
+                });
+            </script>
+            <hr/>
+            <div class="prof-edit-bot-btns-cont">
+                <button type="submit" class="btn btn-secondary prof-edit-save-btn">Сохранить изменения</button>
+                <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"
+                        data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+                    Удалить профиль
+                </button>
+            </div>
+        </form>
+
+
+        <div class="modal fade" id="deleteEducationModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Подтверждение удаления</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Вы уверены, что хотите удалить образование "<span id="educationNameToDelete"></span>"?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteEducation">Удалить</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+        <div class="modal fade" tabindex="-1" role="dialog" id="deleteProfileModal">
+            <div class="modal-dialog" role="document">
+                <form method="post">
+                    <div class="modal-content" style="width:400px !important">
+                        <div class="modal-header" style="border-bottom: none;">
+                            <h4 class="modal-title">Вы действительно хотите удалить профиль?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>После удаления вы не сможете восстановить данные</p>
+                        </div>
+                        <div class="modal-footer" style="border-top: none;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
-        $(document).ready(function () {
-            // Your existing add education script
+    $(document).ready(function () {
+        // Your existing add education script
 
-            // Education deletion logic
-            $('.delete-education-btn').click(function () {
-                var educationId = $(this).data('education-id');
-                var educationName = $(this).data('education-name');
-                $('#deleteEducationModal').data('education-id', educationId);
-                $('#educationNameToDelete').text(educationName);
-                $('#deleteEducationModal').modal('show');
-            });
-
-            $('#confirmDeleteEducation').click(function () {
-                var educationId = $('#deleteEducationModal').data('education-id');
-                $.ajax({
-                    url: '/education/' + educationId + '/delete/',
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            $('#deleteEducationModal').modal('hide');
-                            window.location.href = "{% url 'profile_edit' %}";
-                        } else {
-                            alert('Error: ' + response.message);
-                        }
-                    },
-                    error: function (xhr) {
-                        alert('Error: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error occurred'));
-                    }
-                });
-            });
-
-            const quill = new Quill('#id_about', {
-                theme: 'snow'
-            });
-
+        // Education deletion logic
+        $('.delete-education-btn').click(function () {
+            var educationId = $(this).data('education-id');
+            var educationName = $(this).data('education-name');
+            $('#deleteEducationModal').data('education-id', educationId);
+            $('#educationNameToDelete').text(educationName);
+            $('#deleteEducationModal').modal('show');
         });
-    </script>
-    
+
+        $('#confirmDeleteEducation').click(function () {
+            var educationId = $('#deleteEducationModal').data('education-id');
+            $.ajax({
+                url: '/education/' + educationId + '/delete/',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#deleteEducationModal').modal('hide');
+                        window.location.href = "{% url 'profile_edit' %}";
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function (xhr) {
+                    alert('Error: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'Unknown error occurred'));
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

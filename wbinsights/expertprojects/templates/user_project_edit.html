@@ -1,11 +1,13 @@
 {% extends 'base123.html' %}
 {% load web_tags %}
 {% load file_filters %}
-
 {% load static %}
+
 {% block center_col %}
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {% endblock %}
 
 <style>
@@ -23,47 +25,36 @@
         list-style: none;
         display: flex !important;
     }
-    .new-file {
-        display: flex;
-        justify-content: space-between;
-    }
     .select2-selection.select2-selection--multiple {
         display: flex !important;
     }
 </style>
 
+<a href="{% url 'profile' %}" class="global-back-btn"><i class="bi bi-chevron-left"></i> &nbsp;Назад</a>
 <h2>Редактирование проекта: {{ userproject.name }}</h2>
 
 <form enctype="multipart/form-data" id="project-form" method="post">
     {% csrf_token %}
     {{ form.as_p }}
 
-    <select name="members" id="id_members" multiple>
-        {% for member in members %}
-            <option value="{{ member.id }}">{{ member.email }}</option>
-        {% endfor %}
-    </select>
+    <div class="form-group" style="margin: 20px 0;">
+        <label for="id_members">Участники проекта:</label>
+        <select name="members" id="id_members" multiple class="form-control">
+            {% for member in members %}
+                <option value="{{ member.id }}">{{ member.email }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-    <div style="display: flex; margin : 20px 0 20px 0; align-items: baseline;">
+    <div style="display: flex; margin: 20px 0; align-items: baseline;">
         <span style="font-size: 20px;">Файлы проекта:</span>
         <button id="fileInputBtn" class="btn btn-primary btn-sm" style="margin-left: 10px">Добавить файлы</button>
     </div>
 
-    <style>
-        .trash-icon:hover {
-            color: red !important;
-            cursor: pointer;
-        }
-        .list-class {
-            min-width: 50%;
-            font-size: 18px;
-        }
-    </style>
-
     <div id="fileList">
         <ul>
             {% for file in files.all %}
-                <li style="margin: 5px 0 5px 0;" data-file-id="{{ file.id }}" class="loaded-from-server">
+                <li style="margin: 5px 0;" data-file-id="{{ file.id }}" class="loaded-from-server">
                     <div style="display: flex; align-items: center; justify-content: space-between">
                         <div style="min-width: 350px; font-size: 18px;">
                             {% if file.file %}
@@ -84,7 +75,6 @@
 </form>
 
 <input type="file" id="fileInput" name="files" multiple style="display: none;">
-
 <script>
     document.getElementById('fileInputBtn').addEventListener('click', function (event) {
         event.preventDefault();
@@ -188,18 +178,13 @@
         });
     });
 
-    function formatResult(result) {
-        if (!result.id) return result.text;
-        return $('<div style="display: flex; align-items: center"><img width="70" height="70" style="padding: 5px; border-radius: 50%;object-fit: cover;" src="' + result.profile_photo + '"/>' + result.last_name + ' ' + result.first_name + ' (' + result.email + ')</div>');
-    }
 
-    function formatSelection(result) {
-        return $('<div style="display: flex; align-items: center">' + (result.last_name || '') + ' ' + (result.first_name || '') + ' (' + (result.email || result.text) + ')</div>');
-    }
 
     $(document).ready(function() {
-        $('#id_category').select2();
-        $('#id_customer').select2();
+        $('#id_category').select2({
+            placeholder: "Выберите категории проекта",
+            allowClear: true
+        });
 
         $("#id_members").select2({
             ajax: {
@@ -231,9 +216,11 @@
             templateResult: formatResult,
             templateSelection: formatSelection,
             minimumInputLength: 3,
-            width: '100%'
+            placeholder: "Выберите участников проекта",
+            allowClear: true
         });
 
+        // Initialize existing members
         var existingMembers = {{ members_json|safe }};
         var $select = $('#id_members');
         $.each(existingMembers, function(i, member) {
@@ -258,6 +245,15 @@
             $select.append(option).trigger('change');
         });
     });
+
+    function formatResult(result) {
+        if (!result.id) return result.text;
+        return $('<div style="display: flex; align-items: center"><img width="70" height="70" style="padding: 5px; border-radius: 50%;object-fit: cover;" src="' + result.profile_photo + '"/>' + result.last_name + ' ' + result.first_name + ' (' + result.email + ')</div>');
+    }
+
+    function formatSelection(result) {
+        return $('<div style="display: flex; align-items: center">' + (result.last_name || '') + ' ' + (result.first_name || '') + ' (' + (result.email || result.text) + ')</div>');
+    }
 </script>
 
 {% endblock %}

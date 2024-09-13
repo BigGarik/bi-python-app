@@ -134,7 +134,7 @@ class EditQuestionView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class AnswerEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Answer
-    fields = ['content']
+    form_class = AnswerForm
     template_name = 'edit_answer.html'
 
     def get_success_url(self):
@@ -143,3 +143,4 @@ class AnswerEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         answer = self.get_object()
         return self.request.user == answer.author
+

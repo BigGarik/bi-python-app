@@ -115,7 +115,7 @@
     }
 </style>
 
-<div class="list-main-containers">
+<div class="element-container">
     <div class="article-text-top">
         <span class="article-news">Новости</span>
         <span class="news-open-close" role="button" onclick="toggleCollapse()" aria-expanded="true">
@@ -200,7 +200,7 @@
                 Эксперты
             {% elif url_first_part == 'articles' %}
                 Статьи
-            {% elif url_first_part == 'question_answer' %}
+            {% elif url_first_part != 'wbqa' or url_first_part != 'question_answer' %}
                 Вопрос-ответ
             {% endif %}
             <span class="arrow-down"></span>
@@ -215,7 +215,7 @@
             {% if url_first_part != 'articles' %}
                 <a href="{% url 'article_list' %}" class="post-menu-item-mobile">Статьи</a>
             {% endif %}
-            {% if url_first_part != 'question_answer' %}
+            {% if url_first_part != 'wbqa' or url_first_part != 'question_answer' %}
                 <a href="{% url 'question_list' %}" class="post-menu-item-mobile">Вопрос-ответ</a>
             {% endif %}
         </div>
@@ -226,7 +226,7 @@
     <a href="{% url 'research_list' %}" class="post-menu-item {% if url_first_part == 'researches' or url_first_part == '' %} selected {% endif %}">Исследования</a>
     <a href="{% url 'experts_list' %}" class="post-menu-item {% if url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
     <a href="{% url 'article_list' %}" class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">Статьи</a>
-    <a href="{% url 'question_list' %}" class="post-menu-item {% if url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
+    <a href="{% url 'question_list' %}" class="post-menu-item {% if url_first_part == 'wbqa' or url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
 </div>
 
 <div id="article_list" class="content-block">

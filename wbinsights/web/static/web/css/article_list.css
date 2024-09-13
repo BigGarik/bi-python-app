@@ -21,24 +21,5 @@
 
 
 
-.article-list-last{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-}
 
-.article-list-author-cont{
-    display: flex;
-    align-items: center;
-}
 
-.article-list-author-name{
-    display: flex;
-    margin-left: 10px;
-    font-family: sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    color: black;
-}
