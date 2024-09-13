@@ -286,7 +286,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Вы уверены, что хотите удалить образование "<span id="educationNameToDelete"></span>"?</p>
+                            <p>Вы уверены, что хотите удалить образование "<span id="educationNameToDelete"></span>"?
+                            </p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
@@ -377,11 +378,18 @@
     <!-- Include Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
     <script>
         $(document).ready(function () {
             $("#{{ expert_profile_form.expert_categories.id_for_label }}").select2({
                 width: '100%'
             });
+        });
+
+        const quill = new Quill('#id_about', {
+            theme: 'snow'
         });
     </script>
 

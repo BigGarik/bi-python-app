@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Создание статьи
+    Создание статьи
 {% endblock %}
 
 {% block extra_static %}
@@ -16,237 +16,273 @@
 {% block center_col %}
 
 
-<style>
-    .clear-all:hover {
-        cursor: pointer;
-    }
-    .gjs-selected {
-        outline-offset: 0px !important;
-    }
-    .gjs-one-bg {
-        background-color: #edf0f6 !important;
-    }
-    .gjs-category-title, .gjs-layer-title, .gjs-block-category .gjs-title, .gjs-sm-sector-title, .gjs-trait-category .gjs-title {
-        color: black !important;
-        background-color: #edf0f6 !important;
-    }
-    .gjs-sm-properties {
-        color: black !important;
-    }
-    .gjs-field-colorp {
-        padding: 0px !important;
-    }
-    .gjs-four-color {
-        color: #666666 !important;
-    }
+    <style>
+        .clear-all:hover {
+            cursor: pointer;
+        }
 
-    .gjs-mdl-dialog {
-        color:black !important
-    }
+        .gjs-selected {
+            outline-offset: 0px !important;
+        }
 
-    .gjs-blocks-c {
-        flex-wrap: nowrap;
-    }
+        .gjs-one-bg {
+            background-color: #edf0f6 !important;
+        }
 
-    .gjs-block {
-        min-width: 90px !important;
-        min-height: 70px !important;
-        max-height: 70px !important;
-        margin: 5px !important;
-    }
+        .gjs-category-title, .gjs-layer-title, .gjs-block-category .gjs-title, .gjs-sm-sector-title, .gjs-trait-category .gjs-title {
+            color: black !important;
+            background-color: #edf0f6 !important;
+        }
 
-    #gjs {
-        height: 55% !important;
-        min-height: 1200px !important;
-    }
+        .gjs-sm-properties {
+            color: black !important;
+        }
 
-    .grip-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 5px;
-        max-height: 30px ;
-    }
-    .grip-icon {
-        font-size: 30px;
-    }
+        .gjs-field-colorp {
+            padding: 0px !important;
+        }
 
-    .t-class-comps {
-        font-size: 26px !Important;
-    }
+        .gjs-four-color {
+            color: #666666 !important;
+        }
 
-    .mobile-article-add{
-        padding-right: 0px !important;
-    }
+        .gjs-mdl-dialog {
+            color: black !important
+        }
 
-</style>
+        .gjs-blocks-c {
+            flex-wrap: nowrap;
+        }
 
-<div class="container-fluid"></div>
+        .gjs-block {
+            min-width: 90px !important;
+            min-height: 70px !important;
+            max-height: 70px !important;
+            margin: 5px !important;
+        }
+
+        #gjs {
+            height: 55% !important;
+            min-height: 1200px !important;
+        }
+
+        .grip-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5px;
+            max-height: 30px;
+        }
+
+        .grip-icon {
+            font-size: 30px;
+        }
+
+        .t-class-comps {
+            font-size: 26px !Important;
+        }
+
+        .mobile-article-add {
+            padding-right: 0px !important;
+        }
+
+        .wb-ui-element-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+    <div class="element-container">
 
 
-    <form method="post" enctype="multipart/form-data" id="article-form">
-        {% csrf_token %}
+        <form method="post" enctype="multipart/form-data" id="article-form">
+            {% csrf_token %}
 
-        <div class="row">
-            <div class="col-12" style="gap: 10px; padding-right: 0px">
-                <div class="global-back-btn">
+            <div class="row">
+                <div class="col-12" style="gap: 10px; padding-right: 0px">
+                    <div class="global-back-btn">
                     <span class="global-back-btn" onclick="goBack()" style="cursor:pointer">
                         <i class="bi bi-chevron-left" style="scale:1"></i> &nbsp;Назад
                     </span>
-                </div>
-                {{ form.title.label }}
-                {{ form.title }}
-                <br>
-                {{ form.description.label }}
-                {{ form.description }}
-                <br>
-                {{ form.main_img.label }}
-                <div id="imageContainer">
-                    <img id="uploadedImage" src="{{ form.main_img.value.url }}" style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
-                </div>
-                {{ form.main_img }}
-                <br>
-                {{ form.content }}
+                    </div>
+                    {{ form.title.label }}
+                    {{ form.title }}
+                    <br>
+                    {{ form.description.label }}
+                    {{ form.description }}
+                    <br>
+                    {{ form.main_img.label }}
+                    <div id="imageContainer">
+                        <img id="uploadedImage" src="{{ form.main_img.value.url }}"
+                             style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
+                    </div>
+                    {{ form.main_img }}
+                    <br>
+                    {{ form.content }}
 
-                <div class="row" id="sticky-container" style="overflow-x: auto; position: relative; z-index: 100;">
-                    <div class="article-add-right-btns" style="overflow-x: auto; padding: 10px !important;">
-                        <div id="blocks"></div>
-                        <div class="grip-container">
-                            <i class="bi bi-grip-horizontal grip-icon"></i>
+                    {#                    <div class="row" id="sticky-container" style="overflow-x: auto; position: relative; z-index: 100;">#}
+                    {#                        <div class="article-add-right-btns" style="overflow-x: auto; padding: 10px !important;">#}
+                    {#                            <div id="blocks"></div>#}
+                    {#                            <div class="grip-container">#}
+                    {#                                <i class="bi bi-grip-horizontal grip-icon"></i>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+
+                    <div id="gjs" style="min-height: 300px;"></div>
+                    <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="article-add-right-btns" style="margin-top: 30px">
+                    <div class="article-settings">
+                        <div>Настройки</div>
+                        <div class="clear-all" onclick="clearEditorContent()"><i class="bi bi-trash"
+                                                                                 style="cursor:pointer"></i> Очистить
+                            всё
                         </div>
                     </div>
-                </div>
 
-                <div id="gjs" style="min-height: 300px;"></div>
-                <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="article-add-right-btns" style="margin-top: 30px">
-                <div class="article-settings">
-                    <div>Настройки</div>
-                    <div class="clear-all" onclick="clearEditorContent()"><i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё</div>
-                </div>
-
-                <div>Категория</div>
-                {{ form.cat }}
-                <br>
-                <div>Статус публикации</div>
-                {{ form.is_published }}
-                <br>
-                <div class="d-grid gap-2 d-block">
-                    <input type="submit" value="Опубликовать" class="btn btn-success"/>
+                    <div>Категория</div>
+                    {{ form.cat }}
+                    <br>
+                    <div>Статус публикации</div>
+                    {{ form.is_published }}
+                    <br>
+                    <div class="d-grid gap-2 d-block">
+                        <input type="submit" value="Опубликовать" class="btn btn-success"/>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 
-{% include 'posts/article/article_js_editor.html' %}
 
-<script>
-    function clearEditorContent() {
-        editor.setComponents('');
-        document.getElementById('id_title').value = '';
-        document.getElementById('id_description').value = '';
-    }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const clearButton = document.querySelector('.bi-trash');
-        if (clearButton) {
-            clearButton.addEventListener('click', function () {
-                const isConfirmed = confirm('ARE YOU SURE??');
-                if (isConfirmed) {
-                    clearEditorContent();
+
+    <script>
+        function clearEditorContent() {
+            editor.setComponents('');
+            document.getElementById('id_title').value = '';
+            document.getElementById('id_description').value = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const clearButton = document.querySelector('.bi-trash');
+            if (clearButton) {
+                clearButton.addEventListener('click', function () {
+                    const isConfirmed = confirm('ARE YOU SURE??');
+                    if (isConfirmed) {
+                        clearEditorContent();
+                    }
+                });
+
+                clearButton.addEventListener('mouseover', function () {
+                    clearButton.style.color = 'red';
+                });
+
+                clearButton.addEventListener('mouseout', function () {
+                    clearButton.style.color = '';
+                });
+            }
+
+            const stickyContainer = document.getElementById('sticky-container');
+            const editorContainer = document.getElementById('gjs');
+            const editorStartPosition = editorContainer.offsetTop;
+
+        });
+
+        function goBack() {
+            window.history.back();
+        }
+
+        $('#tagSelect').on('select2:select', function (e) {
+            const selectedTag = e.params.data.text;
+            displaySelectedTag(selectedTag);
+        });
+
+        function displaySelectedTag(tag) {
+            const tagContainer = document.getElementById('selectedTags');
+            const tagElement = document.createElement('span');
+            tagElement.innerHTML = `<span>${tag} <button type="button" onclick="removeTag('${tag}')" class="btn btn-sm btn-danger">X</button></span>`;
+            tagContainer.appendChild(tagElement);
+        }
+
+        function removeTag(tag) {
+            const tagContainer = document.getElementById('selectedTags');
+            tagContainer.querySelectorAll('span').forEach(tagElement => {
+                if (tagElement.innerText.includes(tag)) {
+                    tagElement.remove();
                 }
-            });
-
-            clearButton.addEventListener('mouseover', function () {
-                clearButton.style.color = 'red';
-            });
-
-            clearButton.addEventListener('mouseout', function () {
-                clearButton.style.color = '';
             });
         }
 
-        const stickyContainer = document.getElementById('sticky-container');
-        const editorContainer = document.getElementById('gjs');
-        const editorStartPosition = editorContainer.offsetTop;
+        document.getElementById('id_main_img').addEventListener('change', handleFileSelect);
 
-        window.addEventListener('scroll', function () {
-            const scrollPosition = window.scrollY;
+        function allowDrop(event) {
+            event.preventDefault();
+        }
 
-            if (scrollPosition >= editorStartPosition) {
-                stickyContainer.style.position = 'sticky';
-                stickyContainer.style.top = '0';
-            } else {
-                stickyContainer.style.position = 'relative';
-                stickyContainer.style.top = '';
-            }
+        function handleDrop(event) {
+            event.preventDefault();
+            const file = event.dataTransfer.files[0];
+            handleFileSelect(file);
+        }
+
+        const gjsContainer = document.getElementById('gjs');
+        gjsContainer.addEventListener('dragover', allowDrop);
+        gjsContainer.addEventListener('drop', handleDrop);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('uploadedImage').src = e.target.result;
+                document.getElementById('uploadedImage').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.getElementById('article-form').addEventListener('submit', function (event) {
+            document.getElementsByName('content')[0].value = editor.getHtml();
+            document.getElementsByName('styles')[0].value = editor.getCss();
         });
-    });
 
-    function goBack() {
-        window.history.back();
-    }
 
-    $('#tagSelect').on('select2:select', function (e) {
-        const selectedTag = e.params.data.text;
-        displaySelectedTag(selectedTag);
-    });
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            ['link', 'image'],
 
-    function displaySelectedTag(tag) {
-        const tagContainer = document.getElementById('selectedTags');
-        const tagElement = document.createElement('span');
-        tagElement.innerHTML = `<span>${tag} <button type="button" onclick="removeTag('${tag}')" class="btn btn-sm btn-danger">X</button></span>`;
-        tagContainer.appendChild(tagElement);
-    }
+            [{'list': 'ordered'}, {'list': 'bullet'}, {'list': 'check'}],
 
-    function removeTag(tag) {
-        const tagContainer = document.getElementById('selectedTags');
-        tagContainer.querySelectorAll('span').forEach(tagElement => {
-            if (tagElement.innerText.includes(tag)) {
-                tagElement.remove();
-            }
+            [{'header': [1, 2, 3, 4, 5, 6, false]}],
+            [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+            [{'font': []}],
+
+
+            [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+            
+            [{'align': []}],
+
+            ['clean']                                         // remove formatting button
+        ];
+
+        const quill = new Quill('#gjs', {
+
+            modules: {
+                toolbar: toolbarOptions
+            },
+            theme: 'snow'
         });
-    }
 
-    document.getElementById('id_main_img').addEventListener('change', handleFileSelect);
 
-    function allowDrop(event) {
-        event.preventDefault();
-    }
-
-    function handleDrop(event) {
-        event.preventDefault();
-        const file = event.dataTransfer.files[0];
-        handleFileSelect(file);
-    }
-
-    const gjsContainer = document.getElementById('gjs');
-    gjsContainer.addEventListener('dragover', allowDrop);
-    gjsContainer.addEventListener('drop', handleDrop);
-
-    function handleFileSelect(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById('uploadedImage').src = e.target.result;
-            document.getElementById('uploadedImage').style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    document.getElementById('article-form').addEventListener('submit', function (event) {
-        document.getElementsByName('content')[0].value = editor.getHtml();
-        document.getElementsByName('styles')[0].value = editor.getCss();
-    });
-
-    editor.setComponents($('input[name=content]').val());
-    editor.setStyle($('input[name=styles]').val());
-
-</script>
+    </script>
 {% endblock %}

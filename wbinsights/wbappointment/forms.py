@@ -22,8 +22,7 @@ class AppointmentForm(forms.ModelForm):
     )
 
     appointment_time = forms.TimeField(
-        widget=forms.TimeInput(attrs={'type': 'time'}),
-        label='Время встречи',
+        widget=forms.HiddenInput(),
         required=True
     )
 
