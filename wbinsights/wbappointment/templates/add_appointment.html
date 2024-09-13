@@ -170,19 +170,23 @@
 
 
 <div class="element-container">
+
     <div class="column-mobile-cons" style="display:flex; flex-direction: column">
-        <div style="display: flex;flex-direction: column">
+
+        <div class="flex-dir-col">
             <div class="display-justify-between">
                 <span class="spanclass-calendar">Выберите дату и время консультации:</span>
                 <span class="spanclass-calendar-timezone">{{ formatted_timezone }}</span>
             </div>
+            <div id="appointment-date-error-msg-container" style="color:red"></div>
             <div style="min-height: 330px">
-                <div id="calendar" style="transform: scale(1);"></div>
+                <div id="calendar"></div>
             </div>
         </div>
 
         <div class="flex-dir-col">
             <span class="confirm-appointment-text">Выберите удобное время:</span>
+            <div id="appointment-time-error-msg-container" style="color:red"></div>
             <div id="time-slots" class="time-slots">
                 Не выбрана дата
             </div>
@@ -191,26 +195,26 @@
 
     <form method="post">
         {% csrf_token %}
-        <div class="form-group appointment-margins">
-            {{ form.appointment_date }}
-        </div>
+
+        {{ form.appointment_date }}
 
         <div class="form-group appointment-notes">
             <label for="notes" class="confirm-appointment-text">{% trans 'AppointmentAdditionalNotes' %}</label>
             {{ form.notes }}
         </div>
 
-        <input type="hidden" name="expert" value="{{ expert.pk }}">
-        <input type="hidden" name="appointment_time" value="" required>
+        <input type="hidden" name="expert" id="id_expert" value="{{ expert.pk }}">
+        <input type="hidden" name="appointment_time" id="id_appointment_time" value="" required>
 
         <div class="confirm-appointment-cont">
             <span class="confirm-appointment-text">Вы записываетесь на консультацию на сумму {{ expert.expertprofile.hour_cost }} ₽</span>
 
             <div id="confirm-details" class="confirm-details-cont">Дата и время не выбраны</div>
 
-            <button type="submit" class="btn btn-success confirm-apt-btn">Записаться</button>
+            <button type="submit" class="btn btn-success confirm-apt-btn" id="make_appointment_btn">Записаться</button>
         </div>
     </form>
+
 </div>
 
 <script>
@@ -220,6 +224,37 @@
     const end_date = '{{ end_cal_date }}';
     const disable_dates = {{ not_working_dates }};
     {% endautoescape %}
+
+    function scrollToElement(elemetSelector) {
+        var targetToScrollTo = $(elemetSelector).prev();
+
+        // Прокручиваем страницу к элементу с указанным id
+        $('html, body').animate({
+            scrollTop: targetToScrollTo.offset().top
+        }, 500); // 1000 миллисекунд для анимации
+    }
+
+    $("#make_appointment_btn").click(function (event) {
+
+        let appointmentDateErrorMsgContainer = $("#appointment-date-error-msg-container");
+        let appointmentTimeErrorMsgContainer = $("#appointment-time-error-msg-container");
+        appointmentDateErrorMsgContainer.empty();
+        appointmentTimeErrorMsgContainer.empty();
+
+        if ($("#id_appointment_date").val().trim() == '') {
+            event.preventDefault();
+            appointmentDateErrorMsgContainer.html('Для записи необходимо выбрать дату');
+            scrollToElement("#appointment-date-error-msg-container")
+        } else {
+            if ($("#id_appointment_time").val().trim() == '') {
+                event.preventDefault();
+                appointmentTimeErrorMsgContainer.html('Для записи необходимо выбрать время');
+                scrollToElement("#appointment-time-error-msg-container")
+            }
+
+        }
+
+    })
 
     function selectTimeSlot(value, e) {
         const selectAppointmentTime = $('[name=appointment_time]');
@@ -399,5 +434,3 @@
 
 
 {% endblock %}
-</body>
-</html>
