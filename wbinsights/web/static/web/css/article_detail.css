@@ -38,12 +38,37 @@
     font-size: 13px;
 }
 
-.article-detail-main-content img {
-    max-width: 100%;
-    height: auto;
-}
+
 
 .artile-list-image{
     display: flex;
     margin: 5px 0 5px 0
 }
+
+.like-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .like-btn svg {
+        transition: all 0.3s ease;
+    }
+
+    .like-btn.liked svg {
+        fill: #3498db;
+        stroke: #3498db;
+    }
+
+    .like-btn:not(.liked) svg {
+        fill: none;
+        stroke: #95a5a6;
+    }
+
+
+    .list-comments .bi {
+        font-size: 15px;
+    }

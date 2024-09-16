@@ -14,47 +14,21 @@ contact-span {
     font-size: 30px !important;
 }
 
-.about-resources-title {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 25px;
-}
-
-.about-resources-content {
-    font-size: 14px;
-}
-
-.resource-subtitle {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
 
 .href-css {
     text-decoration: none;
     color: #36364b;
 }
 
-/* - --------------------------------------------------------------------------------------------- - */
 
-.contact-us-title {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
+
 
 .contact-form-cont {
     display: flex;
     flex-direction: column;
 }
 
-.contact-us-label {
-    display: flex;
-    font-size: 16px;
-    font-weight: 600;
-    color: #36364b;
-    margin-bottom: 5px;
-}
+
 
 .form-textarea-contact {
     display: flex;

@@ -37,7 +37,7 @@
     {% csrf_token %}
     {{ form.as_p }}
 
-    <div class="form-group" style="margin: 20px 0;">
+    <div class="form-group form-group-margin">
         <label for="id_members">Участники проекта:</label>
         <select name="members" id="id_members" multiple class="form-control">
             {% for member in members %}
@@ -46,24 +46,24 @@
         </select>
     </div>
 
-    <div style="display: flex; margin: 20px 0; align-items: baseline;">
-        <span style="font-size: 20px;">Файлы проекта:</span>
-        <button id="fileInputBtn" class="btn btn-primary btn-sm" style="margin-left: 10px">Добавить файлы</button>
+    <div class="file-upload-container">
+        <span class="file-upload-title">Файлы проекта:</span>
+        <button id="fileInputBtn" class="btn btn-primary btn-sm file-upload-btn">Добавить файлы</button>
     </div>
 
     <div id="fileList">
         <ul>
             {% for file in files.all %}
-                <li style="margin: 5px 0;" data-file-id="{{ file.id }}" class="loaded-from-server">
-                    <div style="display: flex; align-items: center; justify-content: space-between">
-                        <div style="min-width: 350px; font-size: 18px;">
+                <li class="file-list-item loaded-from-server" data-file-id="{{ file.id }}">
+                    <div class="file-list-details">
+                        <div class="file-name">
                             {% if file.file %}
                                 <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
                             {% else %}
                                 Файл отсутствует.
                             {% endif %}
                         </div>
-                        <i class="bi bi-trash trash-icon" style="font-size:20px"></i>
+                        <i class="bi bi-trash trash-icon"></i>
                     </div>
                 </li>
             {% endfor %}

@@ -1,0 +1,77 @@
+input[name="form-0-specialized_education"].custom-form-css {
+    width: auto !important;
+    margin-left: 5px;
+}
+
+.prof-edit-info-cont {
+    width: 100%;
+    text-align: center;
+}
+
+.prof-edit-duel-rows {
+    display: flex;
+    margin: 10px 0;
+}
+
+.prof-edit-input-title {
+    width: 100%;
+}
+
+.avatar-img {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
+
+.avatar-info {
+    display: flex;
+    margin-left: 10px;
+    flex-direction: column;
+}
+
+.avatar-current-file,
+.avatar-current-link {
+    color: white;
+    user-select: none;
+    margin: 0;
+    font-size: 8px;
+}
+
+.modal-custom {
+    width: 400px !important;
+}
+
+.modal-header-custom,
+.modal-footer-custom {
+    border: none;
+}
+
+.back-icon {
+    font-weight: bold;
+    color: #777786;
+}
+
+label[for="id_avatar"] {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .smaller-letters {
+        font-size: 12px !important;
+    }
+    .prof-edit-input-labels,
+    .prof-edit-input-title1,
+    .prof-edit-photo-cont {
+        width: 100% !important;
+        text-align: start;
+        margin: 5px 0;
+    }
+    .prof-edit-duel-rows {
+        display: block;
+    }
+
+    .modal-custom {
+        width: 100% !important;
+    }
+}

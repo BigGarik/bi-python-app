@@ -10,33 +10,8 @@
 {% block extra_static %}
 <link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
-<style>
-    .list-comments .bi {
-        font-size: 15px;
-    }
+<link rel="stylesheet" href="{% static 'qa/css/question_detail_CSS.css' %}">
 
-    .best-answer {
-        border: 2px solid #28a745;
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-    }
-
-    .best-answer-label {
-        background-color: #28a745;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 3px;
-        font-size: 0.8em;
-        margin-bottom: 10px;
-        display: inline-block;
-    }
-
-    .answer {
-        border-bottom: 1px solid #e0e0e0;
-    }
-
-</style>
 {% endblock %}
 
 <div class="element-container">
@@ -47,21 +22,20 @@
     </div>
 
     <div class="basepost-prof-socials-cont">
-        <div class="displayflex" style="align-items: center;">
+        <div class="displayflex align-center">
             <div class="user-category-cont">
                 <div class="user-catagory-highlight {{ question.cat.slug }}">
                     {{ question.cat }}
                 </div>
             </div>
-            <span class="list-publish-date publish-date d-inline d-md-none" >
+            <span class="list-publish-date publish-date mobile-visible">
                 {{ question.created_at|custom_time_display }}
             </span>
         </div>
 
-
         {% if user.is_authenticated and user == question.author %}
-            <div class="manage-buttons" style="display: flex; gap: 15px ">
-                <a href="{% url 'wbqa:edit_question' question.pk %}" style="transform: scale(1.2)">
+            <div class="manage-buttons">
+                <a href="{% url 'wbqa:edit_question' question.pk %}" class="scale-1-2">
                     <i class="bi bi-pencil"></i>
                 </a>
             </div>
@@ -76,29 +50,29 @@
         <div class="basepost-prof-socials-cont">
             <div class="basepost-author-cont">
                 <div class="author-pic-research">
-                    {% if question.author.profile_picture %}
-                        <div class="basepost-author-pic"><img src="{{ question.author.profile_picture.url }}" alt="{{ question.author.username }}"></div>
+
+                    {% if question.author.profile.avatar.url %}
+                        <div class="basepost-author-pic"><img src="{{ question.author.profile.avatar.url }}" alt="{{ question.author.username }}" class="basepost-author-pic"></div>
                     {% else %}
                         <i class="bi bi-person-circle author-icon"></i>
                     {% endif %}
                 </div>
-                <div class="basepost-author-text" style="margin-left: 0px !important;">{{ question.author.first_name }} {{ question.author.last_name }}</div>
+                <div class="basepost-author-text no-left-margin">{{ question.author.first_name }} {{ question.author.last_name }}</div>
 
-                <span class="list-publish-date publish-date d-none d-md-inline">
+                <span class="list-publish-date publish-date desktop-visible">
                     {{ question.created_at|custom_time_display }}
                 </span>
             </div>
-        <div style="display: flex;justify-content: space-between;align-items: center;margin: 10px 0 10px 0;">
+        <div class="flex-space-between margin-y-10">
             <div class="basepost-prof-socials-cont">
                 <div class="comments-andshare-cont">
-
-                    <a href="#answers" class="list-comments" style="text-decoration: none;">
-                        <i class="bi bi-chat-left-text" style="color:#a5b1c8; font-size: 13px; margin-top: 2px;"></i>
-                        <span>&nbsp;{{ other_answers.count }}</span>
+                    <a href="#answers" class="list-comments no-text-decoration">
+                        <i class="bi bi-chat-left-text comment-icon"></i>
+                        <span>&nbsp;{{ question.answers.count }}</span>
                     </a>
                     <div class="list-comments dropdown">
-                        <i class="bi bi-box-arrow-up-right global-cat-dropdown" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color:#a5b1c8; font-size: 13px; margin-bottom: 2px"></i>
-                        <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px;">
+                        <i class="bi bi-box-arrow-up-right global-cat-dropdown share-icon" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                        <ul class="dropdown-menu padding-10" aria-labelledby="socialShareDropdown">
                             <div class="shareon" data-url="{{ request.build_absolute_uri }}" data-title="{{ question.title }}" id="shareon-{{ question.pk }}">
                                 <a class="facebook"></a>
                                 <a class="twitter"></a>
@@ -115,12 +89,8 @@
                 </div>
             </div>
         </div>
-
-
     </div>
     <hr>
-
-
 
     <h4 id="answers">Ответы</h4>
 
@@ -128,16 +98,20 @@
     <div class="best-answer article-detail-main-content">
         <span class="best-answer-label">Лучший ответ</span>
         <p>{{ best_answer.content }}</p>
-        <div class="basepost-prof-socials-cont" style="margin-top: 0px !important;">
+        <div class="basepost-prof-socials-cont no-top-margin">
             <div class="basepost-author-cont">
+
                 <div class="author-pic-research">
-                    {% if best_answer.author.profile_picture %}
-                        <div class="basepost-author-pic"><img src="{{ best_answer.author.profile_picture.url }}" alt="{{ best_answer.author.username }}" class="profile-avatar-answers"></div>
+                    {% if best_answer.author.profile.avatar.url %}
+                        <div class="basepost-author-pic"><img src="{{ best_answer.author.profile.avatar.url }}" alt="{{ best_answer.author.username }}" class="basepost-author-pic"></div>
                     {% else %}
                         <i class="bi bi-person-circle author-icon"></i>
                     {% endif %}
                 </div>
-                <div class="basepost-author-text" style="margin-left: 0px !important;">{{ best_answer.author.first_name }} {{ best_answer.author.last_name }}</div>
+
+
+
+                <div class="basepost-author-text no-left-margin">{{ best_answer.author.first_name }} {{ best_answer.author.last_name }}</div>
                 <span class="list-publish-date publish-date">
                     {{ best_answer.created_at|custom_time_display }}
                 </span>
@@ -152,19 +126,19 @@
     {% endif %}
 
     {% for answer in other_answers %}
-    <div class="answer article-detail-main-content" style="flex-direction: column">
-
-        <div class="basepost-prof-socials-cont" style="margin: 10px 0 10px 0; !important;">
+    <div class="answer article-detail-main-content flex-column">
+        <div class="basepost-prof-socials-cont margin-y-10">
             <div class="basepost-author-cont">
                 <div class="author-pic-research">
-                    {% if answer.author.profile_picture %}
-                        <div class="basepost-author-pic"><img src="{{ answer.author.profile_picture.url }}" alt="{{ answer.author.username }}"></div>
+                    {% if answer.author.profile.avatar.url %}
+
+                        <div class="basepost-author-pic"><img src="{{ answer.author.profile.avatar.url }}" alt="{{ answer.author.username }}" class="basepost-author-pic"></div>
                     {% else %}
-                        <i class="bi bi-person-circle" style="font-size: 34px;"></i>
+                        <i class="bi bi-person-circle author-icon-large"></i>
                     {% endif %}
                 </div>
-                <div style="display: flex; flex-direction: column;">
-                    <div class="basepost-author-text" style="margin-left: 0px !important;">{{ answer.author.first_name }} {{ answer.author.last_name }}</div>
+                <div class="flex-column">
+                    <div class="basepost-author-text no-left-margin">{{ answer.author.first_name }} {{ answer.author.last_name }}</div>
                     <span class="list-publish-date publish-date">
                         {{ answer.created_at|custom_time_display }}
                     </span>
@@ -187,10 +161,11 @@
             </div>
         </div>
         <div>{{ answer.content }}</div>
-
     </div>
     {% empty %}
-    <p>No answers yet.</p>
+        {% if not best_answer %}
+        <p>No answers yet.</p>
+        {% endif %}
     {% endfor %}
 
     {% if form %}
@@ -205,8 +180,7 @@
     {% endif %}
 
     {% if error_message %}
-    <p style="color: red;">{{ error_message }}</p>
+    <p class="text-danger">{{ error_message }}</p>
     {% endif %}
 </div>
-
 {% endblock %}

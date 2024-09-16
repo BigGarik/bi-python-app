@@ -155,3 +155,91 @@
     margin-bottom: 15px;
 }
 
+
+    .error-message {
+        color: red;
+        font-size: 12px;
+    }
+
+    .avatar-img {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .avatar-info {
+        display: flex;
+        margin-left: 10px;
+        flex-direction: column;
+    }
+
+    .avatar-current-file {
+        color: white;
+        user-select: none;
+        margin: 0;
+    }
+
+    .avatar-current-link {
+        color: white;
+    }
+
+    .modal-custom {
+        width: 400px !important;
+    }
+
+    .modal-header-custom {
+        border-bottom: none;
+    }
+
+    .modal-title-custom {
+        border-bottom: none;
+        font-weight: 400;
+        font-size: 18px;
+    }
+
+    .modal-close-btn {
+        scale: 0.8;
+    }
+
+    .modal-body-custom {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .modal-password-prompt {
+        font-weight: 600;
+    }
+
+    .modal-password-input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 7px;
+        border: 1px lightgrey solid;
+        outline: none;
+    }
+
+    .modal-footer-custom {
+        border-top: none;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .delete-btn {
+        background-color: #f47070;
+        border: none;
+    }
+
+    .cancel-btn {
+        background-color: white;
+        border: 1px solid #a5b1c8;
+        color: #36364b;
+    }
+
+    label[for="id_avatar"] {
+        display: none;
+    }
+
+    .modal-password-container {
+        padding: 16px;
+    }

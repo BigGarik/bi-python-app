@@ -1,7 +1,37 @@
-.testClass {
-    height:300px
+.form-group-margin {
+    margin: 20px 0;
 }
 
-.form-control-resize {
-        resize: none;
+.file-upload-container {
+    display: flex;
+    margin: 20px 0;
+    align-items: baseline;
+}
+
+.file-upload-title {
+    font-size: 20px;
+}
+
+.file-upload-btn {
+    margin-left: 10px;
+}
+
+.file-list-item {
+    margin: 5px 0;
+}
+
+.file-list-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.file-name {
+    min-width: 350px;
+    font-size: 18px;
+}
+
+.trash-icon {
+    font-size: 20px;
+    cursor: pointer;
 }

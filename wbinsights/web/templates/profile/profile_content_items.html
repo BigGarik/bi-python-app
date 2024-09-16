@@ -200,26 +200,36 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    // Function to scroll to active tab
+   document.addEventListener('DOMContentLoaded', function() {
     function scrollToActiveTab() {
-        // desktop
-        //const activeDesktopTab = document.querySelector('.d-none.d-lg-flex .nav-link.active');
-        //if (activeDesktopTab) {
-        //    activeDesktopTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-        //}
+        console.log("Attempting to scroll to active tab");
 
-        // For mobile version
-        const activeMobileTab = document.querySelector('.nav-pills-scrollable .nav-link.active');
+        {#const activeDesktopTab = document.querySelector('.nav-tabs-desktop .nav-link.active');#}
+        {#if (activeDesktopTab) {#}
+        {#    console.log("Found active desktop tab:", activeDesktopTab);#}
+        {#    activeDesktopTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });#}
+        {#} else {#}
+        {#    console.log("No active desktop tab found");#}
+        {#}#}
+
+        const activeMobileTab = document.querySelector('.nav-pills-mobile .nav-link.active');
         if (activeMobileTab) {
+            console.log("Found active mobile tab:", activeMobileTab);
             activeMobileTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+            console.log("No active mobile tab found");
         }
     }
 
-    scrollToActiveTab();
+    setTimeout(scrollToActiveTab, 100);
 
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(scrollToActiveTab, 100);
+    });
 
-    window.addEventListener('resize', scrollToActiveTab);
+    setTimeout(scrollToActiveTab, 500);
 });
 </script>
 

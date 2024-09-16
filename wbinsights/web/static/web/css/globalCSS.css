@@ -103,6 +103,7 @@
     border: 1px solid lightgray;
     padding: 5px 10px;
     text-decoration: none;
+    font-size: 14px;
 }
 
 .category-container{
@@ -150,6 +151,7 @@
     font-size: 13px;
     /* gap: 5px; */
     cursor: pointer;
+    text-decoration: none;
 }
 
 .list-comments a {
@@ -160,7 +162,6 @@
     color: inherit;
 }
 
-
 .list-share {
     display: flex;
     cursor: pointer;
@@ -170,20 +171,6 @@
     font-size: 13px;
 }
 
-.list-main-containers {
-    display: flex;
-    flex-direction: column;
-    /*padding: 20px;*/
-    padding: 20px 30px 20px 30px;
-    background-color: white;
-    border-radius: 15px;
-}
-
-@media (max-width: 768px) {
-    .list-main-containers {
-        padding: 20px 30px 80px 30px;
-    }
-}
 
 
 .element-container-mobile {
@@ -227,6 +214,7 @@
     align-items: center;
     text-decoration: none;
     font-weight: 500;
+    cursor:pointer
 }
 
 .back-btn-cont {
@@ -245,7 +233,7 @@
     color: blue;
     font-family: sans-serif;
     align-items: center;
-    font-size: 12px;
+    font-size: 18px;
 }
 
 .prof-user-setting {
