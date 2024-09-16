@@ -90,7 +90,7 @@
                 Эксперты
             {% elif url_first_part == 'articles' %}
                 Статьи
-            {% elif url_first_part != 'wbqa' or url_first_part != 'question_answer' %}
+            {% elif url_first_part == 'wbqa' or url_first_part == 'question_answer' %}
                 Вопрос-ответ
             {% endif %}
             <span class="arrow-down"></span>
@@ -105,7 +105,7 @@
             {% if url_first_part != 'articles' %}
                 <a href="{% url 'article_list' %}" class="post-menu-item-mobile">Статьи</a>
             {% endif %}
-            {% if url_first_part != 'wbqa' or url_first_part != 'question_answer' %}
+            {% if url_first_part != 'wbqa' and url_first_part != 'question_answer' %}
                 <a href="{% url 'question_list' %}" class="post-menu-item-mobile">Вопрос-ответ</a>
             {% endif %}
         </div>
