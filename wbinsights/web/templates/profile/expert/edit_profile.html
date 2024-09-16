@@ -91,6 +91,7 @@
                         <label for="{{ expert_profile_form.about.id_for_label }}"
                                class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
                         {{ expert_profile_form.about }}
+                        <div id="id_about_editor"></div>
                         {% if grade %}
                             <p>Грейд: {{ grade.grade }}</p>
                             <p>Диапазон стоимости часа для ваших points: от {{ grade.min_cost }}
@@ -388,9 +389,12 @@
             });
         });
 
-        const quill = new Quill('#id_about', {
+        const quill = new Quill('#id_about_editor', {
             theme: 'snow'
         });
+        
+        let aboutText = $('#id_about').val()
+        quill.setText(aboutText);
     </script>
 
 
