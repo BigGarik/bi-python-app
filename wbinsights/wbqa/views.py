@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, CreateView, DetailView
@@ -88,7 +89,14 @@ class QuestionListView(CommonContentFilterListView):
     ordering_param_popular = '-created_at'
 
     def get_queryset(self):
+        user = self.request.user
         queryset = super().get_queryset()
+
+        # Фильтрация по:
+        # 1. Вопросам, адресованным текущему пользователю (targeted_user = user)
+        # 2. Вопросам, где targeted_user не указан (targeted_user IS NULL)
+        # 3. Вопросам, созданным текущим пользователем (author = user)
+        queryset = queryset.filter(Q(targeted_user=user) | Q(targeted_user__isnull=True) | Q(author=user))
         if not bool(queryset.query.order_by):
             queryset = queryset.order_by('-updated_at')
         return queryset
