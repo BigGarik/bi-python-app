@@ -4,6 +4,7 @@ from django.views.generic import DetailView
 
 from expertprojects.models import UserProject
 from expertprojects.views import GetProjectsView
+from wbqa.models import Question
 from web.models import Article, Category, Expert
 from web.views.contents import CommonContentFilterListView
 
@@ -98,15 +99,12 @@ class ExpertDetailView(DetailView):
         get_params = self.request.GET.copy()
         if 'category' in get_params:
             del get_params['category']
-
         context['get_params'] = get_params
 
         user_articles_qs = Article.objects.filter(author__id=self.kwargs['pk'])
-
         context['experts_articles'] = user_articles_qs
         context['experts_articles_count'] = user_articles_qs.count()
         context['experts_researches'] = Article.objects.all()[:2]
-
         context['experts_researches_count'] = Article.objects.count()
         context['rating'] = 4.5
 
@@ -119,15 +117,18 @@ class ExpertDetailView(DetailView):
         page_size = projects_view.get_paginate_by(queryset)
         paginator = Paginator(queryset, page_size)
         page = self.request.GET.get('page', 1)
-
         try:
             projects = paginator.page(page)
         except PageNotAnInteger:
             projects = paginator.page(1)
         except EmptyPage:
             projects = paginator.page(paginator.num_pages)
-
         context['projects'] = projects
         context['projects_count'] = projects_count
+
+        # Fetch questions targeted to this expert
+        expert_questions = Question.objects.filter(targeted_user=self.object).order_by('-created_at')
+        context['expert_questions'] = expert_questions
+        context['expert_questions_count'] = expert_questions.count()
 
         return context
