@@ -10,6 +10,7 @@ from django.utils.html import strip_tags
 from django.views.decorators.http import require_POST
 from django.views.generic import DeleteView
 
+from wbqa.models import Question
 from web.models import RatingCalculate, RatingRole
 from web.models.users import Education, ExpertAnketa, ExpertProfile, Grade, BaseExpertProfile
 from wbappointment.models import Appointment
@@ -92,11 +93,9 @@ def is_mobile(request):
 @login_required
 def profile_view(request):
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
-
     get_params = request.GET.copy()
     if 'category' in get_params:
         del get_params['category']
-
     context = {
         'get_params': get_params,
         'is_mobile': is_mobile(request)
@@ -116,13 +115,23 @@ def profile_view(request):
         expert_articles = Article.objects.filter(author=request.user).order_by('-time_update')
         articles_paginator = Paginator(expert_articles, 10)  # Show 10 articles per page
         articles_page = request.GET.get('articles_page', 1)
-
         try:
             expert_articles_page = articles_paginator.page(articles_page)
         except PageNotAnInteger:
             expert_articles_page = articles_paginator.page(1)
         except EmptyPage:
             expert_articles_page = articles_paginator.page(articles_paginator.num_pages)
+
+
+        expert_questions = Question.objects.filter(targeted_user=request.user).order_by('-created_at')
+        questions_paginator = Paginator(expert_questions, 10)  # Show 10 questions per page
+        questions_page = request.GET.get('questions_page', 1)
+        try:
+            expert_questions_page = questions_paginator.page(questions_page)
+        except PageNotAnInteger:
+            expert_questions_page = questions_paginator.page(1)
+        except EmptyPage:
+            expert_questions_page = questions_paginator.page(questions_paginator.num_pages)
 
         # Fetch and paginate expert projects
         projects_view = GetProjectsView()
@@ -131,7 +140,6 @@ def profile_view(request):
         page_size = projects_view.get_paginate_by(queryset)
         paginator_projects = Paginator(queryset, page_size)
         page_projects = request.GET.get('page', 1)
-
         try:
             projects = paginator_projects.page(page_projects)
         except PageNotAnInteger:
@@ -148,6 +156,8 @@ def profile_view(request):
         context.update({
             "experts_articles": expert_articles_page,
             "experts_articles_count": expert_articles.count(),
+            "expert_questions": expert_questions_page,
+            "expert_questions_count": expert_questions.count(),
             "rating": rating,
             "experts_researches_count": 0,
             "filled_stars_chipher": 'ffffh',
@@ -161,6 +171,7 @@ def profile_view(request):
             "ratings": ratings,
             "roles": roles,
             "has_more_articles": expert_articles_page.has_next(),
+            "has_more_questions": expert_questions_page.has_next(),
         })
     else:
         profile_template = "profile/client/profile.html"
@@ -173,15 +184,21 @@ def profile_view(request):
             "user_type": Profile.TypeUser.CLIENT
         })
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.GET.get('tab') == 'articles':
-        html = render_to_string('posts/article/article_profile_list_content.html', {'experts_articles': context['experts_articles']})
-        return JsonResponse({
-            'html': html,
-            'has_more': context['has_more_articles']
-        })
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.GET.get('tab') == 'articles':
+            html = render_to_string('posts/article/article_profile_list_content.html', {'experts_articles': context['experts_articles']})
+            return JsonResponse({
+                'html': html,
+                'has_more': context['has_more_articles']
+            })
+        elif request.GET.get('tab') == 'questions':
+            html = render_to_string('profile_question_list_content.html', {'expert_questions': context['expert_questions']})
+            return JsonResponse({
+                'html': html,
+                'has_more': context['has_more_questions']
+            })
 
     return render(request, profile_template, context=context)
-
 @login_required
 @require_POST
 def update_user_timezone(request):

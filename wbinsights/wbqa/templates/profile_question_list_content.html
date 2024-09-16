@@ -1,0 +1,118 @@
+{% load static %}
+{% load web_tags %}
+
+{% for question in expert_questions %}
+    <div class="basepost-content-cont">
+        <div class="user-category-cont" style="justify-content: flex-start !important;">
+            <div class="user-catagory-highlight {{ question.cat.slug }}">
+                {{ question.cat }}
+            </div>
+        </div>
+        <div>
+            <a href="{% url 'wbqa:question_detail' question.pk %}" class="basepost-title"
+               style="width: fit-content;text-decoration: none">{{ question.title }}</a>
+        </div>
+        <div>
+            <div class="">
+                <span class="basepost-description"
+                      style="display: inline !important;">{{ question.content|truncatewords:30 }} &nbsp;&nbsp;</span>
+                <a href="{% url 'wbqa:question_detail' question.pk %}" class="link-read-post">
+                    <span class="link-read-post" style="font-size: 18px">Читать пост</span>
+                </a>
+            </div>
+            <div class="d-none d-md-inline">
+                <div class="basepost-prof-socials-cont">
+                    <div class="basepost-author-cont">
+                        <div class="author-pic-research">
+                            {% if question.author.profile.avatar.url %}
+                                <div><img src="{{ question.author.profile.avatar.url }}"
+                                          alt="{{ question.author.username }}" class="basepost-author-pic"></div>
+                            {% else %}
+                                <i class="bi bi-person-circle author-icon"></i>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'expert_profile' question.author.pk %}" class="basepost-author-text"
+                           style="margin-left: 0px">
+                            <div class="basepost-author-text"
+                                 style="text-decoration: none">{{ question.author.last_name }} {{ question.author.first_name }}</div>
+                        </a>
+                        <span class="list-publish-date">&nbsp;{{ question.created_at|custom_time_display }}</span>
+                    </div>
+                    <div class="comments-andshare-cont">
+                        <a href="#" class="list-comments author-link">
+                            <i class="bi bi-chat-left-text comment-icon"></i>
+                        </a>
+                        <div class="list-comments dropdown">
+                            <i class="bi bi-box-arrow-up-right share-icon" id="socialShareDropdown-{{ question.pk }}"
+                               data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu social-share-menu"
+                                aria-labelledby="socialShareDropdown-{{ question.pk }}">
+                                <div class="shareon" data-url="{% url 'wbqa:question_detail' question.pk %}"
+                                     data-title="{{ question.title }}" id="shareon-{{ question.pk }}">
+                                    <a class="facebook"></a>
+                                    <a class="twitter"></a>
+                                    <a class="linkedin"></a>
+                                    <a class="telegram"></a>
+                                    <a class="whatsapp"></a>
+                                    <a class="reddit"></a>
+                                    <a class="vkontakte"></a>
+                                    <a class="odnoklassniki"></a>
+                                    <a class="copy-url"></a>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile version -->
+            <div class="question-answer-last question-answer-last-mobile d-inline d-md-none">
+                <div>
+                    <div class="hours-ago-container">
+                        <span class="list-publish-date" style="margin: 10px 0 10px 0;">{{ question.created_at|custom_time_display }}</span>
+                    </div>
+                    <div class="flex-cont">
+                        <div class="article-author-cont">
+                            <div class="author-pic-research">
+                                {% if question.author.profile.avatar.url %}
+                                    <div><img src="{{ question.author.profile.avatar.url }}"
+                                              alt="{{ question.author.username }}" class="basepost-author-pic"></div>
+                                {% else %}
+                                    <i class="bi bi-person-circle author-icon"></i>
+                                {% endif %}
+                            </div>
+                            <div class="basepost-author-text">{{ question.author.first_name }} {{ question.author.last_name }}</div>
+                        </div>
+                        <div class="comments-andshare-cont">
+                            <a href="#" class="list-comments author-link">
+                                <i class="bi bi-chat-left-text comment-icon"></i>
+                            </a>
+                            <div class="list-comments dropdown">
+                                <i class="bi bi-box-arrow-up-right share-icon"
+                                   id="socialShareDropdown-{{ question.pk }}" data-bs-toggle="dropdown"
+                                   aria-expanded="false"></i>
+                                <ul class="dropdown-menu social-share-menu"
+                                    aria-labelledby="socialShareDropdown-{{ question.pk }}">
+                                    <div class="shareon" data-url="{% url 'wbqa:question_detail' question.pk %}"
+                                         data-title="{{ question.title }}" id="shareon-{{ question.pk }}">
+                                        <a class="facebook"></a>
+                                        <a class="twitter"></a>
+                                        <a class="linkedin"></a>
+                                        <a class="telegram"></a>
+                                        <a class="whatsapp"></a>
+                                        <a class="reddit"></a>
+                                        <a class="vkontakte"></a>
+                                        <a class="odnoklassniki"></a>
+                                        <a class="copy-url"></a>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="solid solid-hr">
+        </div>
+    </div>
+{% empty %}
+    <p>No questions available.</p>
+{% endfor %}
