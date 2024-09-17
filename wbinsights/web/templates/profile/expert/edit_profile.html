@@ -53,6 +53,12 @@
             width: 100% !important;
         }
 
+
+        .ql-editor {
+            font-size: 16px; /* Измените значение по вашему усмотрению */
+        }
+
+
     </style>
 
     <div class="element-container">
@@ -93,9 +99,12 @@
                                class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
                         {{ expert_profile_form.about }}
                         <div id="id_about_editor" style="height: 200px"></div>
+                        <br/>
                         {% if grade %}
-                            <p>Грейд: {{ grade.grade }}</p>
-                            <p>Диапазон стоимости часа для ваших points: от {{ grade.min_cost }}
+                            <p>
+                                <b>Грейд:</b> {{ grade.grade }}
+                            </p>
+                            <p><b>Диапазон стоимости часа для вашего Грейда:</b> от {{ grade.min_cost }}
                                 до {{ grade.max_cost }}</p>
                         {% else %}
                             <p>Нет данных для ваших points.</p>
@@ -270,7 +279,9 @@
                 <hr/>
 
                 <div class="prof-edit-bot-btns-cont">
-                    <button type="submit" class="btn btn-secondary prof-edit-save-btn" id="id-save-changes-btn">Сохранить изменения</button>
+                    <button type="submit" class="btn btn-secondary prof-edit-save-btn" id="id-save-changes-btn">
+                        Сохранить изменения
+                    </button>
                     <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"
                             data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
                         Удалить профиль
@@ -396,7 +407,7 @@
         });
 
         quill.root.innerHTML = $('#id_about').val();
-        quill.on('text-change', function(delta, oldDelta, source) {
+        quill.on('text-change', function (delta, oldDelta, source) {
             $('#id_about').val(quill.root.innerHTML)
         });
 
