@@ -97,7 +97,7 @@
                             <div class="col-sm order-md-1 question-btn-and-money ">
                                 {% if request.user.id != expert.id %}
                                 <a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация</a>
-                                    <span class="money-rate"> от {{expert.expertprofile.hour_cost}} Р/час</span>
+                                    <span class="money-rate"> {{expert.expertprofile.hour_cost}} Р/час</span>
                                 {% endif %}
                             </div>
                         </div>
