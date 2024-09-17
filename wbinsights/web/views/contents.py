@@ -13,7 +13,7 @@ class CommonContentFilterListView(ListView):
     ordering_param_new = '-time_create'
     ordering_param_popular = '-time_create'
 
-    def get_search_query(self):
+    def get_search_query(self, query):
         return Q(content__icontains=self.query) | Q(title__icontains=self.query)
 
     def get_queryset(self):
