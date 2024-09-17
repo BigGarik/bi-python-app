@@ -32,12 +32,12 @@
 {% endblock %}
 
 
-        {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
-            <a href="{% url 'wbqa:create_question' %}">
-                <button type="button" class="btn ask-question-btn btn-sm ask-question-btn-mobile" style="margin-left: 0px !important;margin-bottom: 15px;">Задать вопрос
-                </button>
-            </a>
-        {% endif %}
+{#        {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}#}
+{#            <a href="{% url 'wbqa:create_question' %}">#}
+{#                <button type="button" class="btn ask-question-btn btn-sm ask-question-btn-mobile" style="margin-left: 0px !important;margin-bottom: 15px;">Задать вопрос#}
+{#                </button>#}
+{#            </a>#}
+{#        {% endif %}#}
 
 
         <div id="articles-container">

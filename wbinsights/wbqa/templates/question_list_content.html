@@ -37,10 +37,15 @@
 
 {% for question in questions %}
     <div class="basepost-content-cont">
-        <div class="user-category-cont">
-            <div class="user-catagory-highlight {{ question.cat.slug }}">
-                {{ question.cat }}
+        <div style="display: flex">
+            <div class="user-category-cont">
+                <div class="user-catagory-highlight {{ question.cat.slug }}">
+                    {{ question.cat }}
+                </div>
             </div>
+            <span class="list-publish-date publish-date-margin d-inline d-md-none">
+                {{ question.created_at|custom_time_display }}
+            </span>
         </div>
         <div>
             <a href="{% url 'wbqa:question_detail' question.pk %}" class="basepost-title basepost-title-link">{{ question.title }}</a>
@@ -99,9 +104,11 @@
             <div class="question-answer-last question-answer-last-mobile d-inline d-md-none">
                 <div>
                     <div class="hours-ago-container">
-                        <span class="list-publish-date publish-date-margin">{{ question.created_at|custom_time_display }}</span>
+                        <span class="list-publish-date publish-date-margin d-none d-md-inline">
+                            {{ question.created_at|custom_time_display }}
+                        </span>
                     </div>
-                    <div class="flex-cont">
+                    <div class="basepost-prof-socials-cont">
                         <div class="article-author-cont">
                             <div class="author-pic-research">
                                 {% if question.author.profile.avatar.url %}
