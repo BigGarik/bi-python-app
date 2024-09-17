@@ -208,6 +208,10 @@
     margin-right: 5px;
 }
 
+.social-links{
+    align-items: center;
+    gap: 10px;
+}
 
 .expert-profile-title-content-number {
     display: flex;
