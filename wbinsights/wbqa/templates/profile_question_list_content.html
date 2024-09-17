@@ -3,6 +3,7 @@
 
 {% for question in expert_questions %}
     <div class="basepost-content-cont">
+        <hr class="solid solid-hr">
         <div class="user-category-cont" style="justify-content: flex-start !important;">
             <div class="user-catagory-highlight {{ question.cat.slug }}">
                 {{ question.cat }}
@@ -17,7 +18,7 @@
                 <span class="basepost-description"
                       style="display: inline !important;">{{ question.content|truncatewords:30 }} &nbsp;&nbsp;</span>
                 <a href="{% url 'wbqa:question_detail' question.pk %}" class="link-read-post">
-                    <span class="link-read-post" style="font-size: 18px">Читать пост</span>
+                    <span class="link-read-post" >Читать пост</span>
                 </a>
             </div>
             <div class="d-none d-md-inline">
@@ -110,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <hr class="solid solid-hr">
+
         </div>
     </div>
 {% empty %}

@@ -2,130 +2,9 @@
 {% load web_tags %}
 {% load static %}
 
-<style>
-    @media (max-width: 768px) {
-        .prof-user-setting {
-            display: flex;
-            font-family: sans-serif;
-            margin-top: 10px;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-left: 0 !important;
-            padding: 0 !important;
-        }
+<link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
 
-        .user-display-name, .user-rating-cont {
-            justify-content: center !important;
-            font-size: 30px;
-        }
-
-        .user-category {
-            margin-bottom: 5px;
-        }
-
-        .user-catagory-highlight {
-            margin-right: 0 !important;
-            margin-left: 0 !important;
-        }
-
-        .prof-settings-btn {
-            margin-left: 0 !important;
-        }
-
-        .top-half-prof {
-            flex-direction: row;
-        }
-
-        .prof-page-pic-cont {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .profile-information-cont {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-    }
-
-
-    .top-half-prof {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .profile-header {
-        display: flex;
-        gap: 10px;
-    }
-
-
-    .profile-avatar {
-        border-radius: 50%;
-        width: 130px;
-        height: 130px;
-        object-fit: cover;
-    }
-
-    @media (max-width: 768px ) {
-
-
-        .user-category-cont {
-            justify-content: center !important;
-        }
-    }
-
-
-    .user-rating-cont {
-        display: flex;
-    }
-
-    .user-rating {
-        margin-right: 5px;
-    }
-
-
-    .star-icon {
-        color: #e9be50;
-        padding: 0 2px;
-    }
-
-
-    .prof-user-setting {
-        margin-left: 25%;
-        padding: 10px 0 0 30px;
-        gap: 5px;
-        flex-wrap: wrap;
-    }
-
-    .bottom-bold-text {
-        font-weight: bold;
-    }
-
-    .education-list {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .social-links {
-        align-items: center;
-        gap: 10px;
-    }
-
-    .social-icon {
-        width: 24px;
-        height: 24px;
-    }
-
-    .mobile-image-size {
-        height: 150px;
-        width: 150px;
-    }
-</style>
-
-
-<div class="col-12 top-half-prof">
+<div class="col-12 flex-column">
     <div class="profile-header d-none d-md-flex">
         <div class="col-sm-3 prof-page-pic-cont">
             <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-avatar">
@@ -136,9 +15,7 @@
             </div>
 
             {% if user.profile.type == 1 %}
-
                 <div class="user-rating-cont">
-
                     <div class="user-rating">{% trans 'RatingLabel' %} :
                         {{ user.expertprofile.rating|default_if_none:0 }}</div>
                     <div class="user-rate-and-stars">
@@ -154,7 +31,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="user-category-cont" style="flex-wrap: wrap">
+                <div class="user-category-cont">
                     <div class="displayflex">
                         <div class="user-category">Эксперт в области :</div>
                         {% for exp_category in profile.expert_categories.all %}
@@ -164,17 +41,14 @@
                 </div>
             {% else %}
                 Клиент
-
             {% endif %}
-
-
         </div>
     </div>
 
     <!-- Mobile version (< 768px) -->
-    <div class="profile-header d-md-none" style="flex-direction: column;">
+    <div class="profile-header d-md-none flex-column">
         <div class="header-top">
-            <div class="avatar-cont" style="display: flex;justify-content: center;">
+            <div class="avatar-cont">
                 <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-avatar mobile-image-size">
             </div>
             <div class="user-info">
@@ -198,26 +72,20 @@
                             {% endfor %}
                         </div>
                     </div>
-                    </div>
-                    </div>
-                    <div class="user-category-cont" style="flex-wrap: wrap">
-                    <div class="displayflex" style="flex-direction: column;">
-                    <div class="user-category" style="justify-content: center">Эксперт в области :</div>
-                    <div class="user-category" style="flex-wrap: wrap;justify-content: center;">
+                </div>
+            </div>
+            <div class="user-category-cont">
+                <div class="displayflex flex-column">
+                    <div class="user-category user-category-center">Эксперт в области :</div>
+                    <div class="user-category user-category-center">
                     {% for exp_category in profile.expert_categories.all %}
                         <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
                     {% endfor %}
-
-                {% else %}
-                    Клиент
-                {% endif %}
+                    </div>
                 </div>
-                </div>
-
-
-
-                </div>
+            </div>
+            {% else %}
+                <span>Клиент </span>
+            {% endif %}
     </div>
-
-
 </div>

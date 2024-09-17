@@ -4,37 +4,9 @@
 {% load comments_xtd %}
 
 <style>
-    .list-comments .bi {
-        font-size: 15px;
-    }
-    .calendar-icon {
-        color: #a5b1c8;
-        transform: scale(1.3);
-    }
 
-    .author-link {
-        text-decoration: none;
-    }
-    .article-image {
-        max-width: 100%;
-    }
-    .comment-icon {
-        color: #a5b1c8;
-        font-size: 13px;
-        margin-top: 2px;
-    }
-    .share-icon {
-        color: #a5b1c8;
-        font-size: 13px;
-        margin-bottom: 2px;
-    }
-    .view-icon {
-        font-size: 16px;
-        cursor: pointer;
-    }
-    .social-share-menu {
-        padding: 10px;
-    }
+
+
 </style>
 
 {% for article in object_list %}
@@ -49,6 +21,11 @@
         <div class="basepost-description">
             {{ article.description }}
         </div>
+        <div class="user-category-cont">
+            <div class="user-catagory-highlight {{ article.cat.slug }}">
+                {{ article.cat.name }}
+            </div>
+        </div>
         <div class="basepost-description">
             {% if article.main_img %}
                 <img src="{{ article.main_img.url }}" alt="Article Image" class="article-image">
@@ -58,18 +35,14 @@
         <span class="link-read-post">
             <a href="{{ article.get_absolute_url }}" class="read-post-link">Читать пост</a>
         </span>
-        <div class="user-category-cont">
-            <div class="user-catagory-highlight {{ article.cat.slug }}">
-                {{ article.cat.name }}
-            </div>
-        </div>
+
         <div class="basepost-prof-socials-cont">
             <div class="basepost-author-cont">
                 <div class="basepost-author-pic">
-                    <img src="{{ article.author.profile.avatar.url }}"/>
+                    <img src="{{ article.author.profile.avatar.url }}" class="basepost-author-pic author-avatar"/>
                 </div>
-                <a href="{% url 'expert_profile' article.author.pk %}" class="author-link">
-                    <div class="basepost-author-text">{{ article.author.last_name }} {{ article.author.first_name }}</div>
+                <a href="{% url 'expert_profile' article.author.pk %}" class="basepost-author-text">
+                    <div >{{ article.author.last_name }} {{ article.author.first_name }}</div>
                 </a>
             </div>
             <div class="comments-andshare-cont">
@@ -82,12 +55,12 @@
                     <span>{{ article.votes.count }}</span>
                 </div>
                 <a href="{{ article.get_absolute_url }}#comments" class="list-comments author-link">
-                    <i class="bi bi-chat-left-text comment-icon"></i>
+                    <i class="bi bi-chat-left-text"></i>
                     {% get_comment_count for article as comment_count %}
                     <span>&nbsp;{{ comment_count }}</span>
                 </a>
                 <div class="list-comments dropdown">
-                    <i class="bi bi-box-arrow-up-right global-cat-dropdown share-icon" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <i class="bi bi-box-arrow-up-right list-comments share-icon" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
                     <ul class="dropdown-menu social-share-menu" aria-labelledby="socialShareDropdown">
                         <div class="shareon" data-url="https://24wbinside.ru/articles/{{ article.slug }}" data-title="{{ article.title }}" id="shareon-{{ article.pk }}">
                             <a class="facebook"></a>

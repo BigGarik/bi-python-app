@@ -1,6 +1,40 @@
 {% load static %}
 {% load web_tags %}
 
+<style>
+    .basepost-title-link {
+        width: fit-content;
+        text-decoration: none;
+    }
+
+    .basepost-description-inline {
+        display: inline !important;
+    }
+
+    .link-read-post{
+        font-size: 18px !important;
+    }
+
+
+    .author-link-no-margin {
+        margin-left: 0px;
+    }
+
+    .publish-date-margin {
+        margin: 10px 0 10px 0;
+    }
+
+    .author-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+
+{% load static %}
+{% load web_tags %}
+
 {% for question in questions %}
     <div class="basepost-content-cont">
         <div class="user-category-cont">
@@ -9,16 +43,13 @@
             </div>
         </div>
         <div>
-            <a href="{% url 'wbqa:question_detail' question.pk %}" class="basepost-title"
-               style="width: fit-content;text-decoration: none">{{ question.title }}</a>
+            <a href="{% url 'wbqa:question_detail' question.pk %}" class="basepost-title basepost-title-link">{{ question.title }}</a>
         </div>
         <div>
-
             <div class="">
-                <span class="basepost-description"
-                      style="display: inline !important;">{{ question.content|truncatewords:30 }} &nbsp;</span>
+                <span class="basepost-description basepost-description-inline">{{ question.content|truncatewords:30 }} &nbsp;</span>
                 <a href="{% url 'wbqa:question_detail' question.pk %}" class="link-read-post">
-                    <span class="link-read-post" style="font-size: 18px">Читать пост</span>
+                    <span class="link-read-post ">Читать пост</span>
                 </a>
             </div>
             <div class="d-none d-md-inline">
@@ -27,21 +58,20 @@
                         <div class="author-pic-research">
                             {% if question.author.profile.avatar.url %}
                                 <div><img src="{{ question.author.profile.avatar.url }}"
-                                          alt="{{ question.author.username }}" class="basepost-author-pic"></div>
+                                          alt="{{ question.author.username }}" class="basepost-author-pic author-avatar"></div>
                             {% else %}
                                 <i class="bi bi-person-circle author-icon"></i>
                             {% endif %}
                         </div>
-                        <a href="{% url 'expert_profile' question.author.pk %}" class="basepost-author-text"
-                           style="margin-left: 0px">
-                            <div class="basepost-author-text"
-                                 >{{ question.author.last_name }} {{ question.author.first_name }}</div>
+                        <a href="{% url 'expert_profile' question.author.pk %}" class="basepost-author-text author-link-no-margin">
+                            <div class="basepost-author-text">{{ question.author.last_name }} {{ question.author.first_name }}</div>
                         </a>
                         <span class="list-publish-date">&nbsp;{{ question.created_at|custom_time_display }}</span>
                     </div>
                     <div class="comments-andshare-cont">
-                        <a href="#" class="list-comments author-link">
+                        <a href="#" class="list-comments ">
                             <i class="bi bi-chat-left-text comment-icon"></i>
+                             <span class="answer-count">{{ question.answers.count }}</span>
                         </a>
                         <div class="list-comments dropdown">
                             <i class="bi bi-box-arrow-up-right share-icon" id="socialShareDropdown-{{ question.pk }}"
@@ -69,14 +99,14 @@
             <div class="question-answer-last question-answer-last-mobile d-inline d-md-none">
                 <div>
                     <div class="hours-ago-container">
-                        <span class="list-publish-date" style="    margin: 10px 0 10px 0;">{{ question.created_at|custom_time_display }}</span>
+                        <span class="list-publish-date publish-date-margin">{{ question.created_at|custom_time_display }}</span>
                     </div>
                     <div class="flex-cont">
                         <div class="article-author-cont">
                             <div class="author-pic-research">
                                 {% if question.author.profile.avatar.url %}
                                     <div><img src="{{ question.author.profile.avatar.url }}"
-                                              alt="{{ question.author.username }}" class="basepost-author-pic"></div>
+                                              alt="{{ question.author.username }}" class="basepost-author-pic author-avatar"></div>
                                 {% else %}
                                     <i class="bi bi-person-circle author-icon"></i>
                                 {% endif %}
@@ -86,6 +116,7 @@
                         <div class="comments-andshare-cont">
                             <a href="#" class="list-comments author-link">
                                 <i class="bi bi-chat-left-text comment-icon"></i>
+                                 <span class="answer-count">{{ question.answers.count }}</span>
                             </a>
                             <div class="list-comments dropdown">
                                 <i class="bi bi-box-arrow-up-right share-icon"

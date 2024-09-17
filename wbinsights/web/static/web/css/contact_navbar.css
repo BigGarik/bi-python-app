@@ -3,6 +3,7 @@
     flex-direction: column;
     background-color: white;
     border-radius: 10px;
+    padding: 0px !important;
 }
 
 .contact-span {
@@ -50,4 +51,60 @@
 .container-fluid-nav-contact .navbar-brand-contact:last-child:hover {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+.navcss00 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.navbar-brand.selected {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.navbar-brand i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 1200px) {
+    .navbar-brand {
+        color: white !important;
+    }
+
+    .navbar-brand.selected {
+        color: black !important;
+        background-color: white !important;
+    }
+
+    .navbar-brand:hover {
+        background-color: #ffffff !important;
+        border-radius: 10px;
+        color: black !important;
+    }
+}
+
+.sticky-container {
+    position: sticky;
+    top: 20px;
+}
+
+.navbar {
+    margin-bottom: 30px;
+}
+
+.icon-scale {
+    transform: scale(0.9);
 }

@@ -50,76 +50,6 @@
             color: black !important
         }
 
-        .language-switch {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .language-switch label {
-            cursor: pointer;
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-
-        .language-switch label input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .lang-text {
-            position: absolute;
-            width: 100%;
-            text-align: center;
-            line-height: 34px;
-            font-size: 14px;
-            color: white;
-        }
-
-        .lang-en {
-            left: 8px;
-        }
-
-        .lang-ru {
-            right: 8px;
-        }
-
 
     </style>
 
@@ -128,10 +58,10 @@
     <form method="post" enctype="multipart/form-data" id="article-form">
         {% csrf_token %}
         <div class="row">
-            <div class="col-9" style="gap: 10px">
+            <div class="col-9" >
                 <div class="global-back-btn">
-                <span class="global-back-btn" onclick="goBack()" style="cursor:pointer">
-                    <i class="bi bi-chevron-left" style="scale:1"></i> &nbsp;Назад
+                <span class="global-back-btn" onclick="goBack()" >
+                    <i class="bi bi-chevron-left" ></i> &nbsp;Назад
                 </span>
                 </div>
                 {{ form.title.label }}

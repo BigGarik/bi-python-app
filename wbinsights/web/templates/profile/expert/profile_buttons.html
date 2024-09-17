@@ -1,89 +1,76 @@
 {% load i18n %}
+
 <style>
+    .buttons-container {
+        width: 100%;
+        display: flex;
+        gap: 5px;
+    }
+
+    .profile-buttons-group {
+        display: flex;
+        gap: 5px;
+    }
+
+    .prof-btn {
+        height: 100%;
+    }
+
+    .prof-settings-btn,
+    .prof-logout-btn {
+        width: 100%;
+    }
 
     .justifyCenter {
         justify-content: center;
     }
 
-.profile-buttons-group1,
-.profile-buttons-group2 {
-    display: flex;
-    gap: 5px;
-}
+    @media (max-width: 767px) {
+        .buttons-container {
+            flex-direction: column;
+        }
 
-@media (max-width: 767px) {
+        .profile-buttons-group {
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
 
-    .mobile-logout-display{
-        width: 100%
+        .button-wrapper {
+            width: 100%;
+        }
+
+        .prof-logout-btn {
+            justify-content: center;
+        }
     }
 
-
-
-    .prof-logout-btn {
-        width: 100%;
-        justify-content: center;
-
+    @media (min-width: 768px) {
+        .prof-settings-btn,
+        .prof-logout-btn {
+            font-size: calc(5px + 0.45vw) !important;
+        }
     }
-
-    .profile-buttons-group1,
-    .profile-buttons-group2 {
-        flex-direction: row;
-        justify-content: space-between;
-        margin-top: 5px;
-        gap: 5px;
-    }
-
-    .mobileCont{
-        flex-direction: column;
-    }
-    .mobileWidth {
-        width : 50%;
-        justify-content: center;
-    }
-    .maxHeight {
-        height: 100%;
-    }
-
-
-}
-
-@media (min-width: 768px) {
-    .prof-user-setting {
-        flex-direction: row;
-    }
-
-    .profile-buttons-group1,
-    .profile-buttons-group2 {
-        flex-direction: row;
-
-    }
-
-    .prof-settings-btn,
-    .prof-logout-btn{
-           font-size: calc(5px + 0.45vw) !important;
-    }
-}
-
-
-
-
 </style>
 
-<div class="mobileCont" style="width: 100%;display: flex;gap: 5px;">
-    <div class="profile-buttons-group1">
-        <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn mobileWidth" style="height: 100%" >{% trans 'EditProfileLabel' %} </a>
-
-        <form method="post" action="{% url 'password_change' %}" class="mobileWidth">
-            {% csrf_token %}
-            <button type="button" class="btn prof-btn prof-settings-btn justifyCenter" data-bs-toggle="modal" data-bs-target="#passwordChangeModal" style=" width: 100%; height: 100%">
-                {% trans 'ChangePasswordLabel' %}
-            </button>
-        </form>
+<div class="buttons-container">
+    <div class="profile-buttons-group">
+        <div class="button-wrapper">
+            <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
+        </div>
+        <div class="button-wrapper">
+            <form method="post" action="{% url 'password_change' %}">
+                {% csrf_token %}
+                <button type="button" class="btn prof-btn prof-settings-btn justifyCenter" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
+                    {% trans 'ChangePasswordLabel' %}
+                </button>
+            </form>
+        </div>
     </div>
-    <div class="profile-buttons-group2">
-        <form method="post" action="{% url 'logout' %}" class="mobile-logout-display">
+    <div class="profile-buttons-group">
+        <form method="post" action="{% url 'logout' %}" class="button-wrapper">
             {% csrf_token %}
-            <button class="btn prof-btn prof-logout-btn " type="submit" style="height: 100%">
+            <button class="btn prof-btn prof-logout-btn" type="submit">
                 {% trans 'LogoutButtonLabel' %}
             </button>
         </form>
@@ -91,18 +78,18 @@
 </div>
 
 <div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="passwordChangeModalLabel">{% trans 'ChangePasswordTitle' %}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Здесь будет загружена форма -->
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordChangeModalLabel">{% trans 'ChangePasswordTitle' %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form will be loaded here -->
             </div>
         </div>
     </div>
+</div>
 
 <script>
 $(document).ready(function() {
