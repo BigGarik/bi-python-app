@@ -397,7 +397,7 @@
         let aboutText = $('#id_about').val()
         quill.setText(aboutText);
         quill.on('text-change', function(delta, oldDelta, source) {
-            $('#id_about').val(quill.getText())
+            $('#id_about').val(quill.root.innerHTML)
         });
 
     </script>

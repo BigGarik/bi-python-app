@@ -77,7 +77,7 @@
                         <div class="d-none d-md-block">
                             <div class="">
                                 <span class="">
-                                    {{ expert.expertprofile.about|slice:":130" }}{% if expert.expertprofile.about|length > 130 %}...{% endif %} &nbsp;
+                                    {% autoescape off %}{{ expert.expertprofile.about|slice:":130" }}{% endautoescape %}{% if expert.expertprofile.about|length > 130 %}...{% endif %} &nbsp;
                                     <a href="{% url 'expert_profile' expert.id %}?tab=articles" style="text-decoration:none">Читать ещё</a>
                                 </span>
                             </div>
