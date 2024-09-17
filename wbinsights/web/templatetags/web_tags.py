@@ -34,7 +34,6 @@ def truncatechars(value, arg):
     return value[:arg] + '...'
 
 
-
 @register.simple_tag
 def get_rate_chipher(rating):
     ratechipher = ''
@@ -61,29 +60,49 @@ def get_rate_chipher(rating):
     return ratechipher
 
 
-@register.simple_tag
-def get_top_experts():
+@register.simple_tag(takes_context=True)
+def get_top_experts(context):
     # return Expert.objects.all()[:10]
-    return Expert.objects.filter(expertprofile__isnull=False).order_by(F('expertprofile__rating').desc(nulls_last=True))[:10]
 
+    request = context['request']
+
+    experts = Expert.objects.filter(expertprofile__isnull=False)
+
+    if 'category' in request.path:
+        paths = request.path.split('/')
+        previous = ''
+        for path in paths:
+            if previous == 'category':
+                cat = Category.objects.filter(slug=path)
+                if cat.exists():
+                    experts = experts.filter(expertprofile__expert_categories=cat[0])
+                break
+            else:
+                previous = path
+
+    return experts.order_by(F('expertprofile__rating').desc(nulls_last=True))[:10]
 
 
 @register.simple_tag
 def get_all_categories():
     return Category.objects.all()
 
+
 def fetch_rss_feed(url):
     response = requests.get(url)
     return response.content
+
 
 def parse_rss_feed(rss_data):
     feed = feedparser.parse(rss_data)
     filtered_entries = [
         entry for entry in feed.entries
-        if hasattr(entry, 'tags') and any(tag.term in ["Бизнес"] for tag in entry.tags) #Экономика","Спорт", "Бизнес","Политика
+        if hasattr(entry, 'tags') and any(tag.term in ["Бизнес"] for tag in entry.tags)
+        #Экономика","Спорт", "Бизнес","Политика
     ]
     filtered_entries.sort(key=lambda x: datetime.strptime(x.published, '%a, %d %b %Y %H:%M:%S %z'), reverse=True)
     return filtered_entries[:10]
+
 
 @register.simple_tag
 def get_all_news():
@@ -91,9 +110,6 @@ def get_all_news():
     rss_data = fetch_rss_feed(rss_url)
     news_items = parse_rss_feed(rss_data)
     return news_items
-
-
-
 
 
 @register.simple_tag
@@ -187,6 +203,3 @@ def custom_time_display(datetime_value):
 
 
 register.filter('custom_time_display', custom_time_display)
-
-
-
