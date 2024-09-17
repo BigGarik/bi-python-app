@@ -56,11 +56,12 @@
     </style>
 
     <div class="element-container">
+        <a href="{% url 'profile' %}" class="global-back-btn">
+            <i class="bi bi-chevron-left chevron-left-css"></i>&nbsp;Назад
+        </a>
         <div class="edit-prof-info-cont">
 
-            <a href="{% url 'profile' %}" class="global-back-btn">
-                <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786;"></i> Назад
-            </a>
+
             <div>
                 <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
             </div>
@@ -393,9 +394,8 @@
         const quill = new Quill('#id_about_editor', {
             theme: 'snow'
         });
-        
-        let aboutText = $('#id_about').val()
-        quill.setText(aboutText);
+
+        quill.root.innerHTML = $('#id_about').val();
         quill.on('text-change', function(delta, oldDelta, source) {
             $('#id_about').val(quill.root.innerHTML)
         });
