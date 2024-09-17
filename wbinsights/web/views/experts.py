@@ -77,8 +77,31 @@ class SearchByNameExpertListView(ExpertListView):
     names1 = "Simple data"
 
     def get_queryset(self):
-        return Expert.objects.filter(
-            Q(first_name__contains=self.request.GET.get('q')) | Q(last_name__contains=self.request.GET.get('q')))
+        # Получаем базовый queryset с аннотациями и фильтрациями из ExpertListView
+        queryset = super().get_queryset()
+
+        # Применяем фильтрацию по имени и фамилии, если передан поисковый запрос
+        search_query = self.request.GET.get('q')
+        if search_query:
+            # Разбиваем строку запроса на слова (имя и фамилия)
+            search_terms = search_query.split()
+
+            # Если в запросе два слова, проверяем оба варианта
+            if len(search_terms) == 2:
+                first_term, second_term = search_terms
+                queryset = queryset.filter(
+                    # Первый вариант: первое слово — имя, второе — фамилия
+                    (Q(first_name__icontains=first_term) & Q(last_name__icontains=second_term)) |
+                    # Второй вариант: первое слово — фамилия, второе — имя
+                    (Q(first_name__icontains=second_term) & Q(last_name__icontains=first_term))
+                )
+            # Если одно слово в запросе, ищем по имени или фамилии
+            else:
+                queryset = queryset.filter(
+                    Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query)
+                )
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

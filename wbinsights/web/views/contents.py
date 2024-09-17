@@ -23,7 +23,7 @@ class CommonContentFilterListView(ListView):
         self.query = self.request.GET.get('search_q')
 
         if self.query:
-            objects = objects.filter(self.get_search_query(self))
+            objects = objects.filter(self.get_search_query(self.query))
 
         self.cat = ''
 
