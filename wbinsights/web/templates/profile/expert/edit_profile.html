@@ -91,7 +91,7 @@
                         <label for="{{ expert_profile_form.about.id_for_label }}"
                                class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
                         {{ expert_profile_form.about }}
-                        <div id="id_about_editor"></div>
+                        <div id="id_about_editor" style="height: 200px"></div>
                         {% if grade %}
                             <p>Грейд: {{ grade.grade }}</p>
                             <p>Диапазон стоимости часа для ваших points: от {{ grade.min_cost }}
@@ -114,9 +114,8 @@
                         <div style="display:flex ; margin-left: 10px ; flex-direction:column">
                             {% if profile_form.instance.avatar %}
                                 <p style="color:white ; user-select: none; margin: 0; font-size:8px">На данный момент:
-                                    <a
-                                            href="{{ profile_form.instance.avatar.url }}"
-                                            style="color: white;font-size:8px">{{ profile_form.instance.avatar.name }}</a>
+                                    <a href="{{ profile_form.instance.avatar.url }}"
+                                       style="color: white;font-size:8px">{{ profile_form.instance.avatar.name }}</a>
                                 </p>
                             {% endif %}
                             <label for="id_avatar">Изменить:</label>
@@ -270,7 +269,7 @@
                 <hr/>
 
                 <div class="prof-edit-bot-btns-cont">
-                    <button type="submit" class="btn btn-secondary prof-edit-save-btn">Сохранить изменения</button>
+                    <button type="submit" class="btn btn-secondary prof-edit-save-btn" id="id-save-changes-btn">Сохранить изменения</button>
                     <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"
                             data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
                         Удалить профиль
@@ -352,6 +351,8 @@
                 $('#deleteEducationModal').modal('show');
             });
 
+            $('#id-save-changes-btn').click
+
             $('#confirmDeleteEducation').click(function () {
                 var educationId = $('#deleteEducationModal').data('education-id');
                 $.ajax({
@@ -395,6 +396,10 @@
         
         let aboutText = $('#id_about').val()
         quill.setText(aboutText);
+        quill.on('text-change', function(delta, oldDelta, source) {
+            $('#id_about').val(quill.getText())
+        });
+
     </script>
 
 
