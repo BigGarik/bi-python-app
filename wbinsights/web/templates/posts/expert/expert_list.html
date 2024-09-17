@@ -11,42 +11,7 @@
 {% endblock %}
 
 <style>
-    @media (max-width: 1399px) {
-        .basepost-content-cont {
-            gap: 10px !important;
-        }
-    }
 
-    .expert-content-container {
-        padding: 0px 10px 0 10px !important;
-        gap: 15px;
-    }
-
-    .expert-name {
-        font-size: calc(16px + 0.5vw);
-        margin-bottom: 0 !important;
-        margin-top: 0 !important;
-    }
-
-    .expert-description {
-        margin-bottom: 0 !important;
-    }
-
-    .expert-description-text {
-        font-size: 14px;
-    }
-
-    .expert-stats {
-        font-size: 13px !important;
-    }
-
-    .expert-action-container {
-        display: flex;
-    }
-
-    .star-icon {
-        color: #e9be50;
-    }
 </style>
 
 {% block posts_content %}
@@ -99,8 +64,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="basepost-content-cont expert-content-container" style="margin-left: 30px; justify-content: space-between">
-                    <div class="basepost-content-cont" style="margin-left: 0px !important;">
+                    <div class="basepost-content-cont " style="margin-left: 30px; justify-content: space-between">
+                    <div class="basepost-content-cont" >
                         <div class="basepost-expert-name">{{expert.first_name}} {{expert.last_name}}</div>
                         <div class="category-container">
                             {% for exp_category in expert.expertprofile.expert_categories.all %}
@@ -110,8 +75,8 @@
                             {% endfor %}
                         </div>
                         <div class="d-none d-md-block">
-                            <div class="expert-description-text">
-                                <span class="expert-description-text">
+                            <div class="">
+                                <span class="">
                                     {{ expert.expertprofile.about|slice:":130" }}{% if expert.expertprofile.about|length > 130 %}...{% endif %} &nbsp;
                                     <a href="{% url 'expert_profile' expert.id %}?tab=articles" style="text-decoration:none">Читать ещё</a>
                                 </span>
@@ -125,11 +90,11 @@
                             </span>
                         </div>
                     </div>
-                        <div class="d-none d-md-block article-last-2 expert-action-container">
-                            <div class="col-sm order-md-2 user-stats expert-stats">
+                        <div class="d-none d-md-block article-last-2 ">
+                            <div class="col-sm order-md-2 user-stats ">
                                 {{ expert.expert_article_cnt }} статей  &nbsp;• &nbsp; 0 опросов &nbsp;  • &nbsp; 0 отзыва
                             </div>
-                            <div class="col-sm order-md-1 question-btn-and-money expert-action-container">
+                            <div class="col-sm order-md-1 question-btn-and-money ">
                                 {% if request.user.id != expert.id %}
                                 <a href="{% url 'appointment_add' expert.id %}" type="button" class="btn expert-list-consult-btn">Консультация</a>
                                     <span class="money-rate"> от {{expert.expertprofile.hour_cost}} Р/час</span>

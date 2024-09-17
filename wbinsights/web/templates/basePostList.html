@@ -3,117 +3,7 @@
 {% load static %}
 
 {% block center_col %}
-
-<style>
-    .basepost-media-mobile {
-        padding: 15px 25px;
-        border-radius: 10px;
-        background-color: white;
-        color: black;
-        font-weight: 500;
-    }
-
-    .news-carousel-container {
-        max-height: 250px;
-    }
-
-    .news-image {
-        max-height: inherit;
-        min-width: 100%;
-    }
-
-    .news-content-container {
-        display: flex;
-    }
-
-    .news-image-container {
-        max-height: 250px;
-    }
-
-    .base-news-stats {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .more-news-button {
-        margin-top: 10px;
-    }
-
-    .mobile-news-container {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .mobile-news-image {
-        max-height: inherit;
-        width: 100%;
-    }
-
-    @media (max-width: 767.98px) {
-        .post-menu .dropdown {
-            position: relative;
-            width: 100%;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .post-menu {
-            margin: 20px;
-        }
-
-        .post-menu .dropbtn {
-            background-color: #50577A;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 25px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .post-menu .arrow-down {
-            margin-left: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            display: inline-block;
-            padding: 3px;
-            transform: rotate(45deg);
-        }
-
-        .post-menu .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 100%;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border-radius: 10px;
-            top: 100%;
-            left: 0;
-        }
-
-        .post-menu .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            justify-content: center;
-            text-decoration: none;
-            display: flex;
-            font-size: 15px;
-        }
-
-        .post-menu .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .post-menu .dropdown.open .dropdown-content {
-            display: block;
-        }
-    }
-</style>
+   <link rel="stylesheet" href="{% static 'web/css/basepost_list_css.css' %}">
 
 <div class="element-container">
     <div class="article-text-top">
@@ -200,7 +90,7 @@
                 Эксперты
             {% elif url_first_part == 'articles' %}
                 Статьи
-            {% elif url_first_part != 'wbqa' or url_first_part != 'question_answer' %}
+            {% elif url_first_part == 'wbqa' or url_first_part == 'question_answer' %}
                 Вопрос-ответ
             {% endif %}
             <span class="arrow-down"></span>
@@ -215,7 +105,7 @@
             {% if url_first_part != 'articles' %}
                 <a href="{% url 'article_list' %}" class="post-menu-item-mobile">Статьи</a>
             {% endif %}
-            {% if url_first_part != 'wbqa' or url_first_part != 'question_answer' %}
+            {% if url_first_part != 'wbqa' and url_first_part != 'question_answer' %}
                 <a href="{% url 'question_list' %}" class="post-menu-item-mobile">Вопрос-ответ</a>
             {% endif %}
         </div>

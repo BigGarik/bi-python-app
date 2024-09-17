@@ -7,72 +7,7 @@
 
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
-    <style>
-        .search-and-cat-cont-mobile {
-            display: flex;
-            flex-direction: column;
-        }
-        .search-input-container {
-            display: flex;
-            width: 100%;
-        }
-        .button-filter-container {
-            margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .ask-question-btn-mobile {
-            text-wrap: nowrap !important;
-        }
-        .category-container {
-            margin-top: 10px;
-        }
-        .basepost-description-container {
-            display: block;
-        }
-        .question-answer-last2 {
-            display: none;
-        }
-        .author-icon {
-            color: black;
-            transform: scale(3);
-        }
-        .publish-date {
-            margin-left: 10px;
-        }
-        .comment-icon, .share-icon {
-            color: grey;
-        }
-        .share-icon {
-            transform: scale(0.9);
-        }
-        .question-answer-last-mobile {
-            display: none;
-        }
-        .hours-ago-container {
-            margin-bottom: 5px;
-        }
-        .flex-cont {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .solid-hr {
-            margin-top: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .question-answer-last2 {
-                display: flex;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .question-answer-last-mobile {
-                display: block;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'web/css/question_answer_custom.css' %}">
 {% endblock %}
 
 {% block posts_content %}
@@ -90,7 +25,7 @@
         </div>
 
         <!-- Small Screens -->
-        <div class="search-and-cat-cont d-md-none search-and-cat-cont-mobile">
+        <div class="search-and-cat-cont d-md-none ">
             <div class="search-input-container">
                 <input type="text" class="research-search-cont" placeholder="Поиск">
             </div>
@@ -107,7 +42,7 @@
             </div>
             <div class="basepost-title">Вот вам яркий пример современных тенденций - сложившаяся структура организации</div>
             <div>
-                <span class="basepost-description basepost-description-container">
+                <span class="basepost-description ">
                     Повседневная практика показывает, что
                     высококачественный прототип будущего проекта однозначно определяет каждого участника как способного принимать
                     собственные решения касаемо соответствующих условий активизации. &nbsp;<a href="#" class="link-read-post">Читать пост</a>

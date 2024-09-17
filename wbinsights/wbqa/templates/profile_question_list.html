@@ -1,11 +1,7 @@
-{% extends 'basePostList.html' %}
 {% load static %}
 {% load web_tags %}
 
 
-{% block title %}
-    Вопрос - Ответ
-{% endblock %}
 
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
@@ -35,36 +31,17 @@
     </style>
 {% endblock %}
 
-{% block posts_content %}
-    <div class="element-container main-list-gap">
-        <div class="search-and-cat-cont d-none d-md-flex" >
-            <div class="col-6">
-                <input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск">
-            </div>
-            <div class="col-6 d-flex justify-content-between pl-2">
-                <a href="{% url 'wbqa:create_question' %}">
-                    <button type="button" class="btn ask-question-btn btn-sm">Задать вопрос</button>
-                </a>
-                {% include "components/post_category_filter.html" %}
-            </div>
-        </div>
 
-        <!-- Small Screens -->
-        <div class="search-and-cat-cont d-md-none search-and-cat-cont-mobile">
-            <div class="search-input-container">
-                <input type="text" id="search-article-query" class="research-search-cont" placeholder="Поиск">
-            </div>
-            <div class="button-filter-container">
-                <a href="{% url 'wbqa:create_question' %}">
-                    <button type="button" class="btn ask-question-btn btn-sm ask-question-btn-mobile" style="margin-left: 0px !important;">Задать вопрос
-                    </button>
-                </a>
-                {% include "components/post_category_filter.html" %}
-            </div>
-        </div>
+        {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
+            <a href="{% url 'wbqa:create_question' %}">
+                <button type="button" class="btn ask-question-btn btn-sm ask-question-btn-mobile" style="margin-left: 0px !important;margin-bottom: 15px;">Задать вопрос
+                </button>
+            </a>
+        {% endif %}
+
 
         <div id="articles-container">
-            {% include 'question_list_content.html' %}
+            {% include 'profile_question_list_content.html' %}
         </div>
 
         {% if is_paginated %}
@@ -72,7 +49,8 @@
                 <button id="load-more-btn" class="btn btn-primary" data-page="{{ page_obj.number }}">Load More</button>
             </div>
         {% endif %}
-    </div>
+
+
 
     <script>
         $(document).ready(function () {
@@ -118,4 +96,3 @@
             });
         });
     </script>
-{% endblock %}

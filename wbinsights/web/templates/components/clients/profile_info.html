@@ -44,8 +44,8 @@
 
      @media (max-width: 1200px) {
          .prof-user-setting{
-             margin-left: 0 !important;
-                  padding: 10px 0 10px 0!important;
+            margin-left: 0 !important;
+            padding: 10px 0 10px 0!important;
          }
 
      }
@@ -59,8 +59,9 @@
 
     {% include 'components/global_profile_information.html' %}
 
-    <div class="prof-user-setting" style="margin-left: 25%;padding: 10px 0 0 30px; gap:5px;flex-wrap: wrap;">
-        {% include buttons_template with user=client %}
-    </div>
 
+
+</div>
+<div class="prof-user-setting" style="margin-left: 25%;padding: 10px 0 0 30px; gap:5px;flex-wrap: wrap;">
+    {% include buttons_template with user=client %}
 </div>
