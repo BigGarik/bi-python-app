@@ -12,36 +12,7 @@
             gap: 10px;
         }
 
-        .user-category {
-            margin-bottom: 5px;
-        }
-
-        .user-catagory-highlight {
-            margin-right: 0px !important;
-            margin-left: 0px !important;
-        }
-
-        .prof-settings-btn {
-            margin-left: 0px !important;
-        }
-
-        .top-half-prof {
-            flex-direction: row;
-        }
-
-        .prof-page-pic-cont {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .profile-information-cont {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
     }
-
      @media (max-width: 1200px) {
          .prof-user-setting{
             margin-left: 0 !important;
@@ -49,10 +20,6 @@
          }
 
      }
-
-
-
-
 </style>
 
 <div class="profile-info-cont">
@@ -60,8 +27,7 @@
     {% include 'components/global_profile_information.html' %}
 
 
-
 </div>
-<div class="prof-user-setting" style="margin-left: 25%;padding: 10px 0 0 30px; gap:5px;flex-wrap: wrap;">
+<div class="prof-user-setting" >
     {% include buttons_template with user=client %}
 </div>

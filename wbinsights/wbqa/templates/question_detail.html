@@ -61,29 +61,17 @@
                     {{ question.created_at|custom_time_display }}
                 </span>
             </div>
-        <div class="flex-space-between margin-y-10">
+        <div class="flex-space-between ">
             <div class="basepost-prof-socials-cont">
                 <div class="comments-andshare-cont">
-                    <a href="#answers" class="list-comments ">
-                        <i class="bi bi-chat-left-text"></i>
+                    <div class="list-comments ">
+                        {% include "components/comment_icon.html" %}
                         <span>&nbsp;{{ question.answers.count }}</span>
-                    </a>
-                    <div class="list-comments dropdown">
-                        <i class="bi bi-box-arrow-up-right global-cat-dropdown share-icon" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                        <ul class="dropdown-menu " aria-labelledby="socialShareDropdown">
-                            <div class="shareon" data-url="{{ request.build_absolute_uri }}" data-title="{{ question.title }}" id="shareon-{{ question.pk }}">
-                                <a class="facebook"></a>
-                                <a class="twitter"></a>
-                                <a class="linkedin"></a>
-                                <a class="telegram"></a>
-                                <a class="whatsapp"></a>
-                                <a class="reddit"></a>
-                                <a class="vkontakte"></a>
-                                <a class="odnoklassniki"></a>
-                                <a class="copy-url"></a>
-                            </div>
-                        </ul>
                     </div>
+                    {% with question_url="https://24wbinside.ru/wbqa/question/"|add:question.pk %}
+                    {% social_share_buttons question_url question.title question.pk %}
+                    {% endwith %}
+
                 </div>
             </div>
         </div>
@@ -125,7 +113,7 @@
 
     {% for answer in other_answers %}
     <div class="answer basepost-content-cont flex-column">
-        <div class="basepost-prof-socials-cont margin-y-10">
+        <div class="basepost-prof-socials-cont ">
             <div class="basepost-author-cont">
                 <div class="author-pic-research">
                     {% if answer.author.profile.avatar.url %}

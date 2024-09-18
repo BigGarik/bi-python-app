@@ -9,7 +9,7 @@
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/expert_list.css' %}">
 {% endblock %}
-
+flex-flow: column-reverse
 {% block posts_content %}
 <div class="element-container main-list-gap">
 
@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    <div class="expert-list">
+    <div class="expert-list-container">
 
         {% for expert in experts %}
 
@@ -63,7 +63,6 @@
                 <div class="experts-list-avatar-container">
                     <img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid"/>
                 </div>
-
                 <div class="d-none d-md-block">
                         <span class="experts-list-rating-span">
                             <i class="bi bi-star-fill star-icon" style="color: #e9be50 "></i>
@@ -96,16 +95,11 @@
                 </div>
 
 
-                <div class="d-md-none">
-                <span class="experts-list-rating-span">
-                    <i class="bi bi-star-fill star-icon"></i>
-                    &nbsp; Рейтинг: {{ expert.expertprofile.rating|default_if_none:0}}
-                </span>
-                </div>
 
-                <div style="display:flex; justify-content: space-between; flex-flow: column-reverse">
+
+                <div class="basepost-prof-socials-cont" >
                     <!-- cons btn -->
-                    <div class="col-sm order-md-1 question-btn-and-money ">
+                    <div class="col-sm order-md-1 displayflex ">
                         {% if request.user.id != expert.id %}
                             <a href="{% url 'appointment_add' expert.id %}" type="button"
                                class="btn expert-list-consult-btn">Консультация</a>

@@ -38,13 +38,13 @@
 
 </style>
 
-        <div class="element-container" style="margin-bottom: 20px">
-                {% trans "BackButtonLabel" as back_text %}
-                {% back_button "experts_list" back_text %}
-            {% with user=expert profile=expert.expertprofile %}
-                {% include 'components/global_profile_information.html' %}
-            {% endwith %}
-        </div>
+<div class="element-container" style="margin-bottom: 20px">
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "experts_list" back_text %}
+    {% with user=expert profile=expert.expertprofile %}
+        {% include 'components/global_profile_information.html' %}
+    {% endwith %}
+</div>
 
 
 <div class="element-container">

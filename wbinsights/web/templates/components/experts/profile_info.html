@@ -35,7 +35,7 @@
     <div class="bottom-half">
         <div class="bottom-info">
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'EducationLabel' %}: &nbsp; </span>
+                <b>{% trans 'EducationLabel' %}: &nbsp; </b>
                 <div class="education-list">
                     {% for edu in profile.education.all %}
                         {% if edu.education_type == 'primary' %}
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'ExperienceLabel' %}: &nbsp;</span>
+                <b>{% trans 'ExperienceLabel' %}: &nbsp;</b>
                 <span>{{ profile.experience }}
                     {% get_write_phrase profile.experience 'год года лет' %}
                 </span>
@@ -56,7 +56,7 @@
                 {% endautoescape %}
             </div>
             <div class="prof-bottom-cont">
-                <span class="bottom-bold-text">{% trans 'PricePerHourLabel' %}: &nbsp;</span>
+                <b >{% trans 'PricePerHourLabel' %}: &nbsp;</b>
                 <span>{{ profile.hour_cost }} ₽/час</span>
             </div>
             <div class="prof-bottom-cont social-links">

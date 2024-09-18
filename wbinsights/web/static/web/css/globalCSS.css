@@ -86,6 +86,7 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 15px;
+    gap: 5px;
 }
 
 .lists-search-cont {
@@ -144,15 +145,22 @@
 }
 
 .list-comments {
-    display: inline-block;
+    display: flex;
     vertical-align: middle;
     color: #a5b1c8;
     margin-right: 5px;
     align-items: center;
     font-size: 13px;
-    /* gap: 5px; */
+    gap: 3px;
     cursor: pointer;
     text-decoration: none;
+}
+
+
+.icon-wrapper {
+    display: inline-block;
+    margin-top: 2px;
+    margin-right: 2px;
 }
 
 .list-comments a {
@@ -162,16 +170,6 @@
     text-decoration: none;
     color: inherit;
 }
-
-.list-share {
-    display: flex;
-    cursor: pointer;
-    color: #a5b1c8;
-    margin-right: 5px;
-    align-items: center;
-    font-size: 13px;
-}
-
 
 
 .element-container-mobile {
@@ -190,7 +188,6 @@
     font-size: 14px;
     /*padding-top: 5px;*/
     /*padding-bottom: 10px;*/
-    align-self: center;
 }
 
 .top-half-prof {
@@ -240,6 +237,10 @@
 .prof-user-setting {
     display: flex;
     font-family: sans-serif;
+    margin-left: 25%;
+    padding: 10px 0 0 30px;
+    gap:5px;
+    flex-wrap: wrap;
 }
 
 .global-catagory-text {

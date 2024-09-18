@@ -54,27 +54,14 @@
                     <i class="bi bi-hand-thumbs-up"></i>
                     <span>{{ article.votes.count }}</span>
                 </div>
-                <a href="{{ article.get_absolute_url }}#comments" class="list-comments author-link">
-                    <i class="bi bi-chat-left-text"></i>
+                <a href="{{ article.get_absolute_url }}#comments" class="list-comments ">
+                    {% include "components/comment_icon.html" %}
                     {% get_comment_count for article as comment_count %}
                     <span>&nbsp;{{ comment_count }}</span>
                 </a>
-                <div class="list-comments dropdown">
-                    <i class="bi bi-box-arrow-up-right list-comments share-icon" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                    <ul class="dropdown-menu social-share-menu" aria-labelledby="socialShareDropdown">
-                        <div class="shareon" data-url="https://24wbinside.ru/articles/{{ article.slug }}" data-title="{{ article.title }}" id="shareon-{{ article.pk }}">
-                            <a class="facebook"></a>
-                            <a class="twitter"></a>
-                            <a class="linkedin"></a>
-                            <a class="telegram"></a>
-                            <a class="whatsapp"></a>
-                            <a class="reddit"></a>
-                            <a class="vkontakte"></a>
-                            <a class="odnoklassniki"></a>
-                            <a class="copy-url"></a>
-                        </div>
-                    </ul>
-                </div>
+                {% with article_url="https://24wbinside.ru/articles/"|add:article.slug %}
+                {% social_share_buttons article_url article.title article.pk %}
+                {% endwith %}
             </div>
         </div>
         <hr class="solid">

@@ -19,10 +19,9 @@
     {% get_all_categories as categories %}
     <form method="get" id="filter-form" class="mb-4 py-2">
         <div class="form-group">
-            <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name"
-                   value="{{ request.GET.name }} ">
+            <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name" value="{{ request.GET.name }} ">
         </div>
-        <div class="smallBtnProf py-2" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <div class="smallBtnProf py-2">
             <div class="form-group">
                 <div class="dropdown mb-3">
                     <button type="button" class="btn btn-secondary dropdown-toggle smallBtnProf" data-bs-toggle="dropdown">
@@ -78,9 +77,9 @@
         {% endfor %}
     </form>
 
-    <div class="project-list d-none d-md-flex" style="display:flex; gap: 10px; flex-wrap: wrap">
+    <div class="project-list d-none d-md-flex" >
         {% for project in projects %}
-            <div class="card card-body border-dark1 text-dark card-css mb-3" style="width:19%; max-width:19%; cursor: pointer;" onclick="showProjectDetails('{{ project.id }}')">
+            <div class="card card-body border-dark1 text-dark card-css mb-3"  onclick="showProjectDetails('{{ project.id }}')">
                 <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
                 <h6 class="card-title">{{ project.year }} г.</h6>
                 <h6 class="card-title">

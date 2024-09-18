@@ -44,10 +44,12 @@
                 </div>
                 <div class="base-news-stats">
                     <div class="base-news-stats-comments">
-                        <i class="bi bi-chat-left-text"></i> &nbsp; 104
+                        {% include "components/comment_icon.html" %}
+                         <span class="list-comments">&nbsp; 104 </span>
                     </div>
                     <div class="base-news-stats-last">
-                        <i class="bi bi-calendar3"></i> &nbsp; 2 дня назад
+                        <i class="bi bi-calendar3"></i>
+                        <span class=" list-comments">&nbsp; 2 дня назад </span>
                     </div>
                 </div>
                 <button type="button" class="btn btn-secondary basepost-media more-news-button" onclick="alert('В разработке')">Больше новостей</button>
@@ -67,7 +69,8 @@
                 </div>
                 <div class="base-news-stats">
                     <div class="base-news-stats-comments">
-                        <i class="bi bi-chat-left-text"></i> &nbsp; 104
+                        {% include "components/comment_icon.html" %}
+                        <span class="list-comments">&nbsp; 104 </span>
                     </div>
                     <div class="base-news-stats-last">
                         <i class="bi bi-calendar3"></i> &nbsp; 2 дня назад

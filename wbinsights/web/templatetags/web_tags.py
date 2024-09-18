@@ -31,6 +31,32 @@ register = template.Library()
 
 
 @register.simple_tag
+def social_share_buttons(url, title, question_pk):
+    html = f'''
+    <div class="list-comments dropdown">
+        <i class="bi bi-box-arrow-up-right share-icon"
+           id="socialShareDropdown-{question_pk}" data-bs-toggle="dropdown"
+           aria-expanded="false"></i>
+        <ul class="dropdown-menu social-share-menu"
+            aria-labelledby="socialShareDropdown-{question_pk}">
+            <div class="shareon" data-url="{escape(url)}"
+                 data-title="{escape(title)}" id="shareon-{question_pk}">
+                <a class="facebook"></a>
+                <a class="twitter"></a>
+                <a class="linkedin"></a>
+                <a class="telegram"></a>
+                <a class="whatsapp"></a>
+                <a class="reddit"></a>
+                <a class="vkontakte"></a>
+                <a class="odnoklassniki"></a>
+                <a class="copy-url"></a>
+            </div>
+        </ul>
+    </div>
+    '''
+    return mark_safe(html)
+
+@register.simple_tag
 def back_button(url_name, text):
     url = reverse(url_name)
     escaped_text = escape(text)

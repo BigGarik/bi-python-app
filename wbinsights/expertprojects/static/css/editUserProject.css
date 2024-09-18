@@ -65,12 +65,17 @@
     color: white;
 }
 
-.card-css{
+
+.card-css {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 200px;
+    min-height: 250px;
+    width:21%;
+    max-width:21%;
+    cursor: pointer;
 }
+
 
 .item-project-year {
     margin: 5px;
@@ -147,11 +152,9 @@
 
 }
 
-.card-css {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 200px;
+
+.project-list{
+    display:flex; gap: 10px; flex-wrap: wrap; justify-content: flex-start;
 }
 
 .no-arrow {
@@ -170,6 +173,15 @@
         font-size: 12px !important;
         justify-content: center !important;
     }
+}
+
+.smallBtnProf{
+    display: flex; justify-content: flex-end; gap: 10px;
+}
+
+
+.project-files-cont {
+    display: flex; margin : 20px 0 20px 0; align-items: baseline;
 }
 
 .like-btn {
