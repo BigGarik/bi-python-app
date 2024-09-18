@@ -1,6 +1,7 @@
 {% extends 'base123.html' %}
 {% load static %}
-
+{% load i18n %}
+{% load web_tags %}
 {% block extra_static %}
 <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/edit_expert_profile_mobile_css.css' %}">
@@ -12,9 +13,10 @@
 
 <div class="element-container">
     <div class="edit-prof-info-cont">
-        <a href="{% url 'profile' %}" class="global-back-btn">
-            <i class="bi bi-chevron-left back-icon"></i> Назад
-        </a>
+
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "profile" back_text %}
+
         <div>
             <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
         </div>

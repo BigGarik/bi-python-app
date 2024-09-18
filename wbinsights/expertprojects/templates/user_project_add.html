@@ -1,6 +1,7 @@
 {% extends 'base123.html' %}
 {% load web_tags %}
 {% load static %}
+{% load i18n %}
 
 {% block center_col %}
 {% block extra_static %}
@@ -32,7 +33,8 @@
         cursor: pointer;
     }
 </style>
-<a href="{% url 'profile' %}" class="global-back-btn"><i class="bi bi-chevron-left"></i> &nbsp;Назад</a>
+{% trans "BackButtonLabel" as back_text %}
+{% back_button "profile" back_text %}
 <h2>Добавление нового проекта</h2>
 
 <form method="post" enctype="multipart/form-data" id="project-form">

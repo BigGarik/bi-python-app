@@ -9,9 +9,8 @@
     
     <div class="element-container">
 
-        <div class="global-back-btn">
-            <a href="{% url 'index' %}" class="href-css"><i class="bi bi-chevron-left"></i> &nbsp;На главную</a>
-        </div>
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "index" back_text %}
           
 
         <span class="basepost-title">

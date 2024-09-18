@@ -1,6 +1,7 @@
 {% extends 'base12.html' %}
 {% load static %}
-
+{% load i18n %}
+{% load web_tags %}
 {% block title %}
     Создание статьи
 {% endblock %}
@@ -58,12 +59,9 @@
     <form method="post" enctype="multipart/form-data" id="article-form">
         {% csrf_token %}
         <div class="row">
-            <div class="col-9" >
-                <div class="global-back-btn">
-                <span class="global-back-btn" onclick="goBack()" >
-                    <i class="bi bi-chevron-left" ></i> &nbsp;Назад
-                </span>
-                </div>
+            <div class="col-9">
+                {% trans "BackButtonLabel" as back_text %}
+                {% back_button "index" back_text %}
                 {{ form.title.label }}
                 {{ form.title }}
                 <br>
@@ -150,10 +148,6 @@
                 });
             }
         });
-
-        function goBack() {
-            window.history.back();
-        }
 
         $('#tagSelect').on('select2:select', function (e) {
             const selectedTag = e.params.data.text;

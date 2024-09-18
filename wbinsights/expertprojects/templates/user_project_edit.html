@@ -2,6 +2,7 @@
 {% load web_tags %}
 {% load file_filters %}
 {% load static %}
+{% load i18n %}
 
 {% block center_col %}
 {% block extra_static %}
@@ -30,7 +31,9 @@
     }
 </style>
 
-<a href="{% url 'profile' %}" class="global-back-btn"><i class="bi bi-chevron-left"></i> &nbsp;Назад</a>
+{% trans "BackButtonLabel" as back_text %}
+{% back_button "profile" back_text %}
+
 <h2>Редактирование проекта: {{ userproject.name }}</h2>
 
 <form enctype="multipart/form-data" id="project-form" method="post">

@@ -1,5 +1,7 @@
 {% extends 'base123.html' %}
 {% load static %}
+{% load i18n %}
+{% load web_tags %}
 
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/contact_page_all.css' %}">
@@ -11,9 +13,8 @@
 
     <div class="element-container">
 
-        <div class="global-back-btn">
-            <a href="{% url 'index' %}" class="href-css"><i class="bi bi-chevron-left"></i> &nbsp;На главную</a>
-          </div>
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "index" back_text %}
           
 
         <div class="resources-cont">

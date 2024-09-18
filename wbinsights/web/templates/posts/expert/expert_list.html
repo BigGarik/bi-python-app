@@ -50,43 +50,45 @@
     </div>
 
         {% for expert in experts %}
-        <div class="expert-prof-cont">
-            <div class="small-layout3 col-sm">
-                <div style="display:flex">
-                    <div class="expert-list-prof-pic">
-                        <div class="experts-list-avatar-container">
-                            <img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
-                        </div>
-                        <div class="d-none d-md-block">
+            <div class="expert-prof-cont">
+                <div class="small-layout3 col-sm">
+                    <div style="display:flex">
+                        <div class="expert-list-prof-pic">
+                            <div class="experts-list-avatar-container">
+                                <img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid"/>
+                            </div>
+                            <div class="d-none d-md-block">
                             <span class="experts-list-rating-span">
                                 <i class="bi bi-star-fill star-icon" style="color: #e9be50 "></i>
-                                &nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
+                                &nbsp; Рейтинг: {{ expert.expertprofile.rating|default_if_none:0}}
                             </span>
-                        </div>
-                    </div>
-                    <div class="basepost-content-cont " style="margin-left: 30px; justify-content: space-between">
-                    <div class="basepost-content-cont" >
-                        <div class="basepost-expert-name">{{expert.first_name}} {{expert.last_name}}</div>
-                        <div class="category-container">
-                            {% for exp_category in expert.expertprofile.expert_categories.all %}
-                                <div class="user-catagory-highlight {{exp_category.slug}}">
-                                    {{ exp_category.name }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="d-none d-md-block">
-                            <div class="">
-                                <span class="">
-                                    {% autoescape off %}{{ expert.expertprofile.about|slice:":130" }}{% endautoescape %}{% if expert.expertprofile.about|length > 130 %}...{% endif %} &nbsp;
-                                    <a href="{% url 'expert_profile' expert.id %}?tab=articles" style="text-decoration:none">Читать ещё</a>
-                                </span>
                             </div>
                         </div>
+                        <div class="basepost-content-cont " style="margin-left: 30px; justify-content: space-between">
+                            <div class="basepost-content-cont">
+                                <div class="basepost-expert-name">{{ expert.first_name }} {{ expert.last_name }}</div>
+                                <div class="category-container">
+                                    {% for exp_category in expert.expertprofile.expert_categories.all %}
+                                        <div class="user-catagory-highlight {{ exp_category.slug }}">
+                                            {{ exp_category.name }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="d-none d-md-block">
+                                    <div class="">
+                                <span class="">
+                                    {% autoescape off %}{{ expert.expertprofile.about|slice:":130" }}{% endautoescape %}
+                                            {% if expert.expertprofile.about|length > 130 %}...{% endif %} &nbsp;
+                                    <a href="{% url 'expert_profile' expert.id %}?tab=articles"
+                                       style="text-decoration:none">Читать ещё</a>
+                                </span>
+                                    </div>
+                                </div>
 
-                        <div class="d-md-none">
+                                <div class="d-md-none">
                             <span class="experts-list-rating-span">
                                 <i class="bi bi-star-fill star-icon"></i>
-                                &nbsp; Рейтинг: {{expert.expertprofile.rating|default_if_none:0}}
+                                &nbsp; Рейтинг: {{ expert.expertprofile.rating|default_if_none:0}}
                             </span>
                         </div>
                     </div>

@@ -2,6 +2,7 @@
 {% load web_tags %}
 {% load file_filters %}
 {% load static %}
+{% load i18n %}
 
 {% block center_col %}
 {% block extra_static %}
@@ -28,8 +29,10 @@
     }
 </style>
 
- <a href="{% url 'wbqa:question_list' %}" class="global-back-btn"> <i class="bi bi-chevron-left"></i> &nbsp;Назад</a>
-</a>
+
+{% trans "BackButtonLabel" as back_text %}
+{% back_button "wbqa:question_list" back_text %}
+
 
 <h2>Редактирование ответа</h2>
 

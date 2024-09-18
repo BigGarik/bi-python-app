@@ -6,6 +6,7 @@
 {% load vote %}
 {% block center_col %}
 {% load hitcount_tags %}
+{% load i18n %}
 
 {% block extra_static %}
 <link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
@@ -16,11 +17,9 @@
 
 <div class="element-container">
 
-        <div class="global-back-btn">
-            <a href="{% url 'article_list' %}" class="global-back-btn">
-                <i class="bi bi-chevron-left"></i> &nbsp;Назад
-            </a>
-        </div>
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "article_list" back_text %}
+
 
         <div style="display: flex; justify-content: space-between">
             <div class="list-publish-date">
