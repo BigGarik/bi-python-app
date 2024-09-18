@@ -24,11 +24,6 @@
     /*margin-bottom: 20px;*/
 }
 
-.registertype-btn{
-    display: flex;
-    padding: 10px 30px 10px 30px;
-    background-color: lightskyblue;
-}
 
 .role-choose{
     display: flex;
@@ -92,13 +87,6 @@
 }
 
 
-.label-second{
-    display: flex;
-    color: #a8a8a8;
-}
-
-
-
 .agreement-text{
     display: flex;
     color: #0041c0;
@@ -125,7 +113,6 @@
 }
 
 
-
 .custom-control {
     display: flex;
     white-space: nowrap;
@@ -133,20 +120,6 @@
     font-weight: 500;
     font-family: sans-serif;
     padding-left: 5px !important; 
-}
-
-.custom-input-class{
-    padding: 5px;
-    outline: none;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 5px;
-}
-
-.input-div{
-    display: flex;
-    width: 100%;
-    flex-direction: column;
 }
 
 .register-btn {

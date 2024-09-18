@@ -14,7 +14,7 @@
         <span class="basepost-title">
             {{ article.title }}
         </span>
-        <span class="article-content-loop-exp">{{ article.description }}</span>
+        <span class="basepost-description">{{ article.description }}</span>
         <span class="link-read-post">
             <a href="{{ article.get_absolute_url }}" class="read-post-link">
                 {% trans 'ReadPostLabel' %}

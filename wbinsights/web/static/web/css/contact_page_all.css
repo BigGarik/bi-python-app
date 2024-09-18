@@ -6,28 +6,15 @@
     padding: 20px;
 }
 
-.resources-cont {
-    margin: 10px 0 20px 0;
-}
 
 contact-span {
     font-size: 30px !important;
 }
 
-
-.href-css {
-    text-decoration: none;
-    color: #36364b;
-}
-
-
-
-
 .contact-form-cont {
     display: flex;
     flex-direction: column;
 }
-
 
 
 .form-textarea-contact {

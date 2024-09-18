@@ -12,7 +12,7 @@
     overflow: visible !important; /* Set overflow to visible for the canvas */
 }
 
-.gjs-blocks-c{
+.gjs-blocks-c {
     background-color: white;
 }
 
@@ -20,7 +20,7 @@
     overflow: visible !important; /* Set overflow to visible for the canvas */
 }
 
-.row{
+.row {
     margin-right: 0px;
 }
 
@@ -39,7 +39,7 @@
     overflow: visible !important;
 }
 
-.article-settings{
+.article-settings {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
@@ -47,39 +47,17 @@
     gap: 5px;
 }
 
-.article-add-desc{
+.article-add-desc {
     display: flex;
     margin-bottom: 10px;
     font-size: 18px;
     font-weight: 500;
     outline: none;
-    
-}
 
-.article-add-desc-cont {
-    padding: 5px;
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    height: 150px;
-    width: 100%;
-}
-
-.article-word-limit{
-    display: flex;
-    justify-content: center;
-    font-size: 12px;
-    color: grey;
-    margin-top:  10px;
-}
-
-.article-list-fonts{
-    margin: 5px 0 5px 0;
-    font-family: sans-serif;
 }
 
 
-.select2-selection__rendered{
+.select2-selection__rendered {
     padding: 5px !important;
 }
 
@@ -87,8 +65,8 @@
     background-color: #f0f0f0 !important;
     border: 1px solid #ddd !important;
     border-radius: 5px !important;
-    padding: 2px 5px 2px 5px  !important;
-    margin-right: 5px !important; 
+    padding: 2px 5px 2px 5px !important;
+    margin-right: 5px !important;
     margin-top: 0px !important;
 }
 
@@ -99,27 +77,19 @@
 }
 
 .select2-container .select2-selection__choice:nth-child(1) {
-    background-color: #ffcccb !important; 
+    background-color: #ffcccb !important;
 }
 
 .select2-container .select2-selection__choice:nth-child(2) {
-    background-color: #ffebcd !important; 
+    background-color: #ffebcd !important;
 }
 
 .select2-container .select2-selection__choice:nth-child(3) {
     background-color: #98fb98 !important;
 }
 
-.article-add-main-content{
-    display:flex; 
-    flex-direction: column;
-    margin-bottom: 20px;
-    background-color:white;
-    padding: 20px;
-    border-radius: 15px
-}
 
-.article-add-right-btns{
+.article-add-right-btns {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
@@ -130,78 +100,43 @@
     top: 20px;
 }
 
-.span-article-add-catagory{
-    font-weight: 500;
-    font-size: 15px;
-}
 
-.article-add-dropdown{
-    background-color: white; 
-    color: grey; 
-    width: 100%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between;
-}
-
-.article-add-category-drop {
-    position: absolute; 
-    inset: 0px auto auto 0px; 
-    width: 100%; 
-    margin: 0px; 
-    transform: translate(0px, 40px);
-}
-
-.article-add-choose-tags{
-    font-weight: 500;
-    font-size: 15px;
-}
-
-.image-upload-container {
-    border: 2px dashed #ccc;
-    padding: 30px;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-  
-  .image-container {
-    position: relative;
-  }
-  
-  .image-placeholder {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    color: #999;
-    font-size: 14px;
-  }
-  
-  #uploadedImage {
-    max-width: 100%;
-    max-height: 200px;
-  }
-  
-  .browse-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 1;
-  }
-
-  .category-item:hover {
-    background-color: #ccc;
-  }
-
-  .t-class-comps{
+.t-class-comps {
     color: #a5b1c8;
     font-size: 30px;
     margin-bottom: 5px !important;
     font-family: math;
-  }
+}
 
-  .col-add-article{
-    padding:20px; 
-    display:flex; 
-    flex-direction:column
-  }
+.clear-all:hover {
+    cursor: pointer;
+}
+
+.gjs-selected {
+    outline-offset: 0px !important;
+}
+
+.gjs-one-bg {
+    background-color: #edf0f6 !important;
+}
+
+.gjs-category-title, .gjs-layer-title, .gjs-block-category .gjs-title, .gjs-sm-sector-title, .gjs-trait-category .gjs-title {
+    color: black !important;
+    background-color: #edf0f6 !important;
+}
+
+.gjs-sm-properties {
+    color: black !important;
+}
+
+.gjs-field-colorp {
+    padding: 0px !important;
+}
+
+.gjs-four-color {
+    color: #666666 !important;
+}
+
+.gjs-mdl-dialog {
+    color: black !important
+}

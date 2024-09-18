@@ -60,7 +60,7 @@
             <div class="d-none d-md-inline">
                 <div class="basepost-prof-socials-cont">
                     <div class="basepost-author-cont">
-                        <div class="author-pic-research">
+                        <div class="basepost-author-pic">
                             {% if question.author.profile.avatar.url %}
                                 <div><img src="{{ question.author.profile.avatar.url }}"
                                           alt="{{ question.author.username }}" class="basepost-author-pic author-avatar"></div>
@@ -109,11 +109,11 @@
                         </span>
                     </div>
                     <div class="basepost-prof-socials-cont">
-                        <div class="article-author-cont">
-                            <div class="author-pic-research">
+                        <div class="basepost-author-cont">
+                            <div class="basepost-author-cont">
                                 {% if question.author.profile.avatar.url %}
-                                    <div><img src="{{ question.author.profile.avatar.url }}"
-                                              alt="{{ question.author.username }}" class="basepost-author-pic author-avatar"></div>
+                                    <img src="{{ question.author.profile.avatar.url }}"
+                                              alt="{{ question.author.username }}" class="basepost-author-pic author-avatar">
                                 {% else %}
                                     <i class="bi bi-person-circle author-icon"></i>
                                 {% endif %}

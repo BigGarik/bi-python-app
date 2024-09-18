@@ -42,7 +42,7 @@
 
     <div class="basepost-title">{{ question.title }}</div>
 
-    <div class="article-detail-main-content">
+    <div class="basepost-content-cont">
         <p>{{ question.content }}</p>
 
         <div class="basepost-prof-socials-cont">
@@ -64,13 +64,13 @@
         <div class="flex-space-between margin-y-10">
             <div class="basepost-prof-socials-cont">
                 <div class="comments-andshare-cont">
-                    <a href="#answers" class="list-comments no-text-decoration">
-                        <i class="bi bi-chat-left-text comment-icon"></i>
+                    <a href="#answers" class="list-comments ">
+                        <i class="bi bi-chat-left-text"></i>
                         <span>&nbsp;{{ question.answers.count }}</span>
                     </a>
                     <div class="list-comments dropdown">
                         <i class="bi bi-box-arrow-up-right global-cat-dropdown share-icon" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                        <ul class="dropdown-menu padding-10" aria-labelledby="socialShareDropdown">
+                        <ul class="dropdown-menu " aria-labelledby="socialShareDropdown">
                             <div class="shareon" data-url="{{ request.build_absolute_uri }}" data-title="{{ question.title }}" id="shareon-{{ question.pk }}">
                                 <a class="facebook"></a>
                                 <a class="twitter"></a>
@@ -93,7 +93,7 @@
     <h4 id="answers">Ответы</h4>
 
     {% if best_answer %}
-    <div class="best-answer article-detail-main-content">
+    <div class="best-answer basepost-content-cont">
         <span class="best-answer-label">Лучший ответ</span>
         <p>{{ best_answer.content }}</p>
         <div class="basepost-prof-socials-cont no-top-margin">
@@ -124,7 +124,7 @@
     {% endif %}
 
     {% for answer in other_answers %}
-    <div class="answer article-detail-main-content flex-column">
+    <div class="answer basepost-content-cont flex-column">
         <div class="basepost-prof-socials-cont margin-y-10">
             <div class="basepost-author-cont">
                 <div class="author-pic-research">
@@ -167,7 +167,7 @@
     {% endfor %}
 
     {% if form %}
-    <div class="article-detail-main-content">
+    <div class="basepost-content-cont">
         <h2>Ваш ответ</h2>
         <form method="post">
             {% csrf_token %}

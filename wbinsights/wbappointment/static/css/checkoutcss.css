@@ -14,17 +14,6 @@
     margin: 20px 0px 30px 0px;
 }
 
-.back-link {
-    display: inline-block;
-    margin-bottom: 10px;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.back-link:hover {
-    text-decoration: underline;
-}
-
 .detail {
     margin-bottom: 10px;
 }
@@ -57,11 +46,3 @@
     background-color: #0056b3;
 }
 
-.checkout-back-link {
-    text-decoration: none;
-    color: black;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: flex-start;
-}

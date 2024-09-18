@@ -24,8 +24,6 @@
     flex-direction: column;
 }
 
-
-
 .experts-list-avatar-container {
     width: 125px;
     height: 125px;
@@ -59,11 +57,6 @@
     margin-bottom: 10px;
 }
 
-
-
-.question-btn-and-money{
-    display: flex;
-}
 
 .expert-list-consult-btn{
     background-color: #6dc36b;
@@ -104,7 +97,6 @@
 
 
 /* ------------------------------------------------- Mobile Screens CSS -------------------------------------------------------- */
-
 
 
 
@@ -165,6 +157,47 @@
         flex-direction: column !important;
     }
 
+     .expert-prof-cont {
+        display: flex;
+        padding: 0px;
+        border-radius: 10px;
+        margin-top: 15px;
+        box-shadow: none;
+        flex-direction: column;
+    }
+
+    .expert-list-prof-pic {
+        justify-content: flex-start;
+        flex-direction: row;
+        padding: 0;
+        gap: 25px;
+    }
+
+    .experts-list-rating-span {
+        margin-top: 0;
+        margin-left: 10px;
+    }
+
+    .basepost-content-cont {
+        padding: 0px !Important;
+        margin-top: 15px;
+        gap: 15px !important;
+    }
+
+    .user-stats {
+        font-size: 15px;
+        padding: 0px;
+    }
+
+    .small-layout {
+        margin-bottom: 15px;
+    }
+
+    .experts-list-avatar-container {
+        width: 105px !important;
+        height: 105px !important;;
+    }
+
 }
 
 @media (min-width: 769px ) {
@@ -193,46 +226,3 @@
     }
 
 }
-
-@media (max-width: 768px) {
-            .expert-prof-cont {
-                display: flex;
-                padding: 0px;
-                border-radius: 10px;
-                margin-top: 15px;
-                box-shadow: none;
-                flex-direction: column;
-            }
-
-            .expert-list-prof-pic {
-                justify-content: flex-start;
-                flex-direction: row;
-                padding: 0;
-                gap: 25px;
-            }
-
-            .experts-list-rating-span {
-                margin-top: 0;
-                margin-left: 10px;
-            }
-
-            .basepost-content-cont {
-                padding: 0px !Important;
-                margin-top: 15px;
-                gap: 15px !important;
-            }
-
-            .user-stats {
-                font-size: 15px;
-                padding: 0px;
-            }
-
-            .small-layout {
-                margin-bottom: 15px;
-            }
-
-            .experts-list-avatar-container {
-                width: 105px !important;
-                height: 105px !important;;
-            }
-        }

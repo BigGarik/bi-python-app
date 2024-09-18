@@ -111,7 +111,6 @@
     height: auto; 
 }
 
-
 .profile-settings-btn{
     display: flex;
     text-decoration: none;
@@ -122,7 +121,6 @@
     margin-right: 15px;
     font-weight: 600;
 }
-
 
 .profile-logout-btn{
     display: flex;
@@ -151,12 +149,6 @@
 .bottom-info{
     display:  flex;
     flex-direction: column;
-}
-
-.chevro-left-css{
-    font-weight: bold;
-    color: #777786;
-    padding: 0 2px 0 2px
 }
 
 .prof-btn {
@@ -192,7 +184,6 @@
     color: #dd3838;
 }
 
-
 .prof-bottom-cont{
     display: flex;
     padding-top: 10px;
@@ -200,13 +191,6 @@
     font-size: 14px;
 }
 
-
-.user-profile-field-caption{
-    display: flex;
-    font-weight: bold;
-    font-family: sans-serif;
-    margin-right: 5px;
-}
 
 .social-links{
     align-items: center;
@@ -221,20 +205,6 @@
     color: #a8b4ca;
 }
 
-.article-title-loop-exp{
-    font-size: 28px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    color: #5b5b6c;
-    display: flex;
-}
-
-.article-content-loop-exp {
-    font-size: 14px !important;
-    font-size: 400;
-    margin-bottom: 10px;
-    color: #5b5b6c;
-}
 
 .profile-menu-item {
     padding: 7px 12px 7px 12px;
@@ -251,14 +221,8 @@
 }
 
 
-
 .profile-menu-item.selected {
     border-bottom: 2px solid black !important;
-}
-
-.span-user-type {
-    font-size: 16px;
-    font-weight: 600;
 }
 
 

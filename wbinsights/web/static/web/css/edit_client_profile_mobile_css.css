@@ -47,11 +47,6 @@ input[name="form-0-specialized_education"].custom-form-css {
     border: none;
 }
 
-.back-icon {
-    font-weight: bold;
-    color: #777786;
-}
-
 label[for="id_avatar"] {
     display: none;
 }

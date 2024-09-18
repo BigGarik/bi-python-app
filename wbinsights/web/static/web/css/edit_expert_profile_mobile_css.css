@@ -3,10 +3,6 @@ input[name="form-0-specialized_education"].custom-form-css {
     margin-left: 5px;
 }
 
-.back-icon {
-    font-weight: bold;
-    color: #777786;
-}
 
 .avatar-img {
     border-radius: 50%;
@@ -35,9 +31,6 @@ input[name="form-0-specialized_education"].custom-form-css {
     font-size: 8px;
 }
 
-.education-title {
-    padding-bottom: 10px;
-}
 
 .modal-custom {
     width: 400px !important;
