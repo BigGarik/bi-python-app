@@ -43,9 +43,9 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
                             <li><a class="dropdown-item" href="?" data-rating="Все">Все</a></li>
-                            <li><a class="dropdown-item" href="?min_rating=3" data-rating="3 и выше">3 и выше</a></li>
-                            <li><a class="dropdown-item" href="?min_rating=4" data-rating="4 и выше">4 и выше</a></li>
-                            <li><a class="dropdown-item" href="?min_rating=5" data-rating="5">5</a></li>
+                            <li><a class="dropdown-item" href="?min_rating=3">3 и выше</a></li>
+                            <li><a class="dropdown-item" href="?min_rating=4">4 и выше</a></li>
+                            <li><a class="dropdown-item" href="?min_rating=5">5</a></li>
                         </ul>
                     </div>
 
@@ -81,15 +81,19 @@
                         </span>
                             </div>
                             <div class="basepost-description">
+
                                 <span>
+                                    {% autoescape off %}
                                     {% if expert.expertprofile.about|length > 105 %}
                                         {{ expert.expertprofile.about|slice:":105" }}...
                                     {% else %}
                                         {{ expert.expertprofile.about }}
                                     {% endif %}
+                                    {% endautoescape %}
                                     <a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">&nbsp;Читать
                                         ещё</a>
                                 </span>
+
                             </div>
 
                             <div class="col-sm user-stats" style="align-self: flex-start !important;">
@@ -129,20 +133,6 @@
                 }
             }
         }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const dropdownItems = document.querySelectorAll('.dropdown-item');
-            const selectedRating = document.getElementById('selectedRating');
-
-            dropdownItems.forEach(item => {
-                item.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const rating = this.getAttribute('data-rating');
-                    selectedRating.textContent = rating;
-                    window.location.href = this.getAttribute('href');
-                });
-            });
-        });
     </script>
 
 {% endblock %}
