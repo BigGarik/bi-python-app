@@ -25,12 +25,13 @@
                 <div class="expert-list-info">
                     <div class="expert-name"><a href="{% url 'expert_profile' expert.pk %}?tab=articles" style="color:black">{{ expert.first_name }} {{ expert.last_name }}</a></div>
                     <div class="expert-job">
-                        {% for expert_category in expert.expertprofile.expert_categories.all %}
-                            {{ expert_category.name }}
-                            {% if not forloop.last %}
-                            ,
-                            {% endif %}
-                        {% endfor %}
+                        <div class="expert-categories">
+                            {% for expert_category in expert.expertprofile.expert_categories.all %}
+                                <span class="expert-category">
+                                    {{ expert_category.name }}{% if not forloop.last %},{% endif %}
+                                </span>
+                            {% endfor %}
+                        </div>
 
                     </div>
                     <div class="user-rating-right-list ">

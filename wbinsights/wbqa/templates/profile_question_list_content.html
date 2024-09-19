@@ -37,8 +37,8 @@
                         {% include "components/comment_icon.html" %}
                         <span class="list-comments">{{ question.answers.count }}</span>
                     </div>
-                    {% with question_url="https://24wbinside.ru/wbqa/question/"|add:question.pk|stringformat:"s" %}
-                        {% social_share_buttons question_url question.title question.pk %}
+                    {% with question_url="https://24wbinside.ru/wbqa/question/"|add:question.pk %}
+                    {% social_share_buttons question_url question.title question.pk %}
                     {% endwith %}
                 </div>
             </div>
@@ -64,8 +64,8 @@
                             {% include "components/comment_icon.html" %}
                             <span class="list-comments">{{ question.answers.count }}</span>
                         </div>
-                        {% with question_url="https://24wbinside.ru/wbqa/question/"|add:question.pk|stringformat:"s" %}
-                            {% social_share_buttons question_url question.title question.pk %}
+                        {% with question_url="https://24wbinside.ru/wbqa/question/"|add:question.pk %}
+                        {% social_share_buttons question_url question.title question.pk %}
                         {% endwith %}
                     </div>
                 </div>

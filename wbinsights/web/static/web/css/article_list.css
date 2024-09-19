@@ -7,5 +7,22 @@
     border: 1px solid #a5b1c8;
 }
 
+.dropdown-menu {
+    --bs-dropdown-min-width: 8rem;
+    min-width: 8rem;
+}
 
+.dropdown-menu {
+    --bs-dropdown-min-width: 8rem;
+    min-width: 8rem;
+}
 
+@media (max-width: 768px) {
+    .article-list-search-cont {
+        width: 100% !important;
+    }
+
+    .columnArticle {
+        flex-direction: column;
+    }
+}

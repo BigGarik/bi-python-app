@@ -59,15 +59,22 @@
             <div class="expert-prof-cont">
 
                 <div class="small-layout3 col-sm">
-                    <div style="display:flex; flex-direction: column;">
+                    <div class="prof-edit-rows">
                         <div class="expert-list-prof-pic">
                             <div class="experts-list-avatar-container">
                                 <img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid"/>
                             </div>
-                            <div class="basepost-title">{{ expert.first_name }} <br> {{ expert.last_name }}</div>
+                            <div class="prof-edit-rows">
+                                <div class="basepost-title">{{ expert.first_name }} <br> {{ expert.last_name }}</div>
+                                <span class="experts-list-rating-span" >
+                                    <i class="bi bi-star-fill" style="color: #e9be50;"></i>
+                                    &nbsp; Рейтинг: {{ expert.expertprofile.rating|default_if_none:0}}
+                                </span>
+                            </div>
 
                         </div>
                         <div class="basepost-content-cont" style="padding: 10px">
+
 
                             <div class="category-container">
                                 {% for exp_category in expert.expertprofile.expert_categories.all %}
@@ -75,10 +82,7 @@
                                         {{ exp_category.name }}
                                     </div>
                                 {% endfor %}
-                                <span class="experts-list-rating-span">
-                            <i class="bi bi-star-fill" style="color: #e9be50;"></i>
-                            &nbsp; Рейтинг: {{ expert.expertprofile.rating|default_if_none:0}}
-                        </span>
+
                             </div>
                             <div class="basepost-description">
 

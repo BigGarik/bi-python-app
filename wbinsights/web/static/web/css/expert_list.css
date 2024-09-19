@@ -125,6 +125,12 @@
         flex-direction: row;
     }
 
+    .basepost-title {
+        margin-top: 0px;
+        font-size: 24px !important;
+        letter-spacing: 1px;
+    }
+
     .money-rate {
         font-weight: 600;
         font-size: 14px;
@@ -132,6 +138,7 @@
 
     .experts-list-rating-span {
         font-size: 16px;
+        margin-left: 0px !important;
 
     }
 

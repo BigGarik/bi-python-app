@@ -26,3 +26,13 @@
 .list-comments .bi {
     font-size: 15px;
 }
+
+.dropdown-menu {
+    --bs-dropdown-min-width: 8rem;
+    min-width: 8rem;
+}
+
+.dropdown-menu {
+    --bs-dropdown-min-width: 8rem;
+    min-width: 8rem;
+}

@@ -79,3 +79,13 @@
     font-weight: 600;
 }
 
+.expert-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+.expert-category {
+    white-space: nowrap;
+}
+

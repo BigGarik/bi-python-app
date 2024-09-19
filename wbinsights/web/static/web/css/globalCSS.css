@@ -1,3 +1,4 @@
+
 .global-border-radius {
     border-radius: 7px;
 }
@@ -358,6 +359,8 @@
     display: flex;
     flex-direction: column;
 }
+
+
 
 .answer-profile-avatar {
     border-radius: 50%;

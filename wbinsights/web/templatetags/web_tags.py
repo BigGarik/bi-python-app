@@ -33,6 +33,7 @@ register = template.Library()
 @register.simple_tag
 def social_share_buttons(url, title, question_pk):
     html = f'''
+    
     <div class="list-comments dropdown">
         <i class="bi bi-box-arrow-up-right share-icon"
            id="socialShareDropdown-{question_pk}" data-bs-toggle="dropdown"
