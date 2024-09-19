@@ -88,6 +88,10 @@ class QuestionListView(CommonContentFilterListView):
     ordering_param_new = '-created_at'
     ordering_param_popular = '-created_at'
 
+    @property
+    def load_more_template(self):
+        return 'question_list_content.html'
+
     def get_queryset(self):
         user = self.request.user
         queryset = super().get_queryset()
@@ -104,6 +108,8 @@ class QuestionListView(CommonContentFilterListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
 
 
 @login_required

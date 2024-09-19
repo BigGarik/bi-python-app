@@ -9,9 +9,12 @@ from web.models import Article, Category, Expert
 from web.views.contents import CommonContentFilterListView
 
 
+from django.db.models import Count, F
+
 class ExpertListView(CommonContentFilterListView):
     model = Expert
     context_object_name = "experts"
+    template_name = 'posts/expert/expert_list.html'
     paginate_by = 10
     category_filter_param = 'expertprofile__expert_categories'
     ordering_param_new = '-date_joined'
@@ -19,39 +22,35 @@ class ExpertListView(CommonContentFilterListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-
-        # Добавление аннотаций для подсчёта количества статей и рейтинга
         queryset = queryset.annotate(
             expert_article_cnt=Count('article'),
             expert_rating=F('expertprofile__rating')
         )
-
-        # Фильтрация по рейтингу
         min_rating = self.request.GET.get('min_rating')
         if min_rating:
             queryset = queryset.filter(expertprofile__rating__gte=float(min_rating))
-
-        # Если нет сортировки, то сортировка по рейтингу и количеству статей
         if not bool(queryset.query.order_by):
             queryset = queryset.order_by('-expert_rating', '-expert_article_cnt')
-
         return queryset
-
-    def get_template_names(self):
-        user_agent = self.request.META.get('HTTP_USER_AGENT','')
-        if 'Mobile' in user_agent or 'Andriod' in user_agent or 'Iphone' in user_agent:
-            return ['posts/expert/expert_list_mobile.html']
-        else:
-            return ['posts/expert/expert_list.html']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['selected_category'] = ''
-        context['is_mobile'] = True
-
+        context['is_mobile'] = self.is_mobile()
+        context['min_rating'] = self.request.GET.get('min_rating', '')
         return context
 
+    def is_mobile(self):
+        user_agent = self.request.META.get('HTTP_USER_AGENT', '')
+        return 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent
+
+    @property
+    def load_more_template(self):
+        if self.is_mobile():
+            return 'posts/expert/expert_list_mobile.html'
+        else:
+            return 'posts/expert/expert_list_content.html'
 
 class CategoryExpertListView(ExpertListView):
     def get_queryset(self):

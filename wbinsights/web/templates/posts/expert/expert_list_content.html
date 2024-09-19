@@ -1,0 +1,51 @@
+{% load web_tags %}
+{% load static %}
+
+{% for expert in object_list %}
+<div class="expert-prof-cont">
+    <div class="expert-list-prof-pic">
+        <div class="experts-list-avatar-container">
+            <img src="{{ expert.profile.avatar.url }}" alt="Expert Avatar" class="img-fluid"/>
+        </div>
+        <div class="d-none d-md-block">
+            <span class="experts-list-rating-span">
+                <i class="bi bi-star-fill star-icon" style="color: #e9be50 "></i>
+                &nbsp; Рейтинг: {{ expert.expert_rating|default_if_none:0}}
+            </span>
+        </div>
+    </div>
+
+    <div class="basepost-content-cont" style="margin-left: 30px; justify-content: space-between">
+        <div class="basepost-expert-name">{{ expert.first_name }} {{ expert.last_name }}</div>
+
+        <div class="category-container">
+            {% for exp_category in expert.expertprofile.expert_categories.all %}
+                <div class="user-catagory-highlight {{ exp_category.slug }}">
+                    {{ exp_category.name }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="d-none d-md-block">
+            {% autoescape off %}{{ expert.expertprofile.about|slice:":130" }}{% endautoescape %}
+            {% if expert.expertprofile.about|length > 130 %}...{% endif %} &nbsp;
+            <a href="{% url 'expert_profile' expert.id %}?tab=articles"
+               style="text-decoration:none">Читать ещё</a>
+        </div>
+
+        <div class="basepost-prof-socials-cont">
+            <div class="col-sm order-md-1 displayflex ">
+                {% if request.user.id != expert.id %}
+                    <a href="{% url 'appointment_add' expert.id %}" type="button"
+                       class="btn expert-list-consult-btn">Консультация</a>
+                    <span class="money-rate"> {{ expert.expertprofile.hour_cost }} Р/час</span>
+                {% endif %}
+            </div>
+
+            <div class="col-sm order-md-2 user-stats">
+                {{ expert.expert_article_cnt }} статей &nbsp;• &nbsp; 0 опросов &nbsp; • &nbsp; 0 отзыва
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

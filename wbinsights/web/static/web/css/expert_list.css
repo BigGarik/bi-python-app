@@ -100,6 +100,12 @@
     flex-direction: column;
 }
 
+.experts-container {
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
 /* ------------------------------------------------- Mobile Screens CSS -------------------------------------------------------- */
 
 
