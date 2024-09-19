@@ -139,6 +139,7 @@
     .experts-list-rating-span {
         font-size: 16px;
         margin-left: 0px !important;
+        justify-content: flex-start;
 
     }
 
