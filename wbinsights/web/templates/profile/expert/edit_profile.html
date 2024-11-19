@@ -55,6 +55,11 @@
             width: 100% !important;
         }
 
+        .bi-trash:hover {
+            color: red;
+            cursor: pointer;
+        }
+
 
         .ql-editor {
             font-size: 16px; /* Измените значение по вашему усмотрению */
@@ -211,13 +216,24 @@
                                     {{ form.education_type }}
                                 </div>
 
-                                <div class="prof-edit-input-title1 col-6"
+                                <div class="prof-edit-input-title1 col-5"
                                      style="display: flex;align-items: center;gap: 5px;">
                                     <label for="{{ form.specialized_education.id_for_label }}"
                                            class="prof-edit-input-labels">{{ form.specialized_education.label }}</label>
                                     <div class="custom-width-auto">
                                         {{ form.specialized_education }}
                                     </div>
+
+                                </div>
+                                <div class="col-1" style="display: flex;justify-content: flex-end;height: fit-content;">
+
+                                    {% if form.instance.id %}
+                                        <div class="bi bi-trash delete-education-btn" type="button"
+                                             style="font-size: 20px"
+                                             data-education-id="{{ form.instance.id }}"
+                                             data-education-name="{{ form.instance.educational_institution }}">
+                                        </div>
+                                    {% endif %}
 
                                 </div>
                             </div>
@@ -238,17 +254,7 @@
                             </div>
 
                         </div>
-                        <div style="display: flex;justify-content: flex-end;">
 
-                            {% if form.instance.id %}
-                                <button type="button" class="btn btn-danger delete-education-btn"
-                                        data-education-id="{{ form.instance.id }}"
-                                        data-education-name="{{ form.instance.educational_institution }}">
-                                    Удалить образование
-                                </button>
-                            {% endif %}
-
-                        </div>
                     {% endfor %}
 
                     <!-- Кнопка для добавления нового образования (если требуется) -->
