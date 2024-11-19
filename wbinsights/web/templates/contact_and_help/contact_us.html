@@ -8,12 +8,12 @@
 {% endblock %}
 
 {% block center_col %}
-    
+
     <div class="element-container">
 
         {% trans "BackButtonLabel" as back_text %}
         {% back_button "index" back_text %}
-          
+
 
         <span class="basepost-title">
             Написать нам
@@ -21,27 +21,29 @@
 
         <form class="contact-form-cont" method="post" action="{% url 'contact_us_send' %}">
             {% csrf_token %}
-            <span class="basepost-description" >
+            <span class="basepost-description">
                 Напишите, чем мы можем вам помочь
             </span>
             <span class="contact-email-span">Мы ответим вам на почту </span>
             {% if user.is_authenticated %}
-                {{ user.email }}
+                <div class="email-input-container" style="display: inline-block;">
+                    <input type="email" name="email" value="{{ user.email }}" required class="form-control" style="width: 400px; margin: 5px 0px 10px 0px;"/>
+                </div>
             {% else %}
-                <input type="email" name="email" required style="width: 400px; margin-bottom: 5px; border-radius: 5px; border-color: #dadada" />
+                <input type="email" name="email" required  class="form-control" style="width: 400px;  margin: 5px 0px 10px 0px;" />
             {% endif %}
             <textarea class="form-textarea-contact" name="content" required> </textarea>
 
             <div class="contact-us-btn-cont">
                 <button type="submit" class="btn btn-success send-btn-css">Отправить</button>
-{#                <span class="contact-email-span">Мы ответим вам c почты &nbsp; <a href="#" class="contact-email-link">info@24wbinside.ru</a> </span>#}
+                {#                <span class="contact-email-span">Мы ответим вам c почты &nbsp; <a href="#" class="contact-email-link">info@24wbinside.ru</a> </span>#}
             </div>
 
         </form>
-        
+
     </div>
 
-   
+
 {% endblock %}
 
 
