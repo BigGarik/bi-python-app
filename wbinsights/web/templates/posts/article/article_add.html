@@ -22,6 +22,11 @@
             padding: 10px;
         }
 
+        #uploadedImage {
+            max-width: -webkit-fill-available;
+
+        }
+
     </style>
 
 
@@ -84,7 +89,12 @@
                     {{ form.is_published }}
                     <br>
                     <div class="d-grid gap-2 d-block">
-                        <input type="submit" value="Опубликовать" class="btn btn-success"/>
+                        <button type="submit" class="btn btn-success" id="submit-button">
+                            <span class="normal-text">Опубликовать</span>
+                            <span class="loading-text" style="display: none;">
+                                <i class="bi bi-arrow-repeat bi-spin"></i> Публикация...
+                            </span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -94,6 +104,25 @@
     {% include 'posts/article/article_js_editor.html' %}
 
     <script>
+
+
+        $('form').on('submit', function () {
+            const submitButtons = $('button[type="submit"]');
+            submitButtons.each(function () {
+                const btn = $(this);
+                btn.prop('disabled', true);
+                btn.find('.normal-text').hide();
+                btn.find('.loading-text').show();
+
+                // Optional: Re-enable after timeout
+                setTimeout(() => {
+                    btn.prop('disabled', false);
+                    btn.find('.loading-text').hide();
+                    btn.find('.normal-text').show();
+                }, 2000);
+            });
+        });
+
         function clearEditorContent() {
             editor.setComponents('');
             document.getElementById('id_title').value = '';
@@ -162,7 +191,8 @@
             const reader = new FileReader();
             reader.onload = function (e) {
                 document.getElementById('uploadedImage').src = e.target.result;
-                document.getElementById('uploadedImage').style.display = 'block';
+                document.getElementById('uploadedImage').style.display = 'block';    //max-width: -webkit-fill-available;
+                document.getElementById('uploadedImage').style.maxWidth = '-webkit-fill-available';
             };
             reader.readAsDataURL(file);
         }

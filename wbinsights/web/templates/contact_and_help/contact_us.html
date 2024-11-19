@@ -27,10 +27,10 @@
             <span class="contact-email-span">Мы ответим вам на почту </span>
             {% if user.is_authenticated %}
                 <div class="email-input-container" style="display: inline-block;">
-                    <input type="email" name="email" value="{{ user.email }}" required style="width: 400px; margin: 5px 0px 10px 0px; border-radius: 5px; border-color: #dadada"/>
+                    <input type="email" name="email" value="{{ user.email }}" required class="form-control" style="width: 400px; margin: 5px 0px 10px 0px;"/>
                 </div>
             {% else %}
-                <input type="email" name="email" required style="width: 400px; margin: 5px 0px 10px 0px; border-radius: 5px; border-color: #dadada"/>
+                <input type="email" name="email" required  class="form-control" style="width: 400px;  margin: 5px 0px 10px 0px;" />
             {% endif %}
             <textarea class="form-textarea-contact" name="content" required> </textarea>
 
