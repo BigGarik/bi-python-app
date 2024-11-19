@@ -216,12 +216,10 @@
 
                 <!-- Добавляем формсет для образования -->
                 <div class="education-formset-container">
-                    <span class="prof-edit-page-title" >Образование
-
-                        <div type="button" class="bi bi-plus-square add-education-btn-trigger"
-                             style="padding-left: 10px">
+                    <span class="prof-edit-page-title">Образование
+                        <div type="button" class="bi bi-plus add-education-btn-trigger"
+                             style="background-color: #4CAF50; color: white; padding:0px 5px 0px 5px; border-radius: 4px; cursor: pointer;">
                         </div>
-
                     </span>
                     {{ education_expert_formset.management_form }}
 
@@ -324,8 +322,9 @@
                 <div class="prof-edit-bot-btns-cont">
                     <button type="submit" class="btn btn-secondary prof-edit-save-btn" id="id-save-changes-btn">
                         <span class="normal-text">Сохранить изменения</span>
-                        <span class="loading-text" style="display: none;">
-                            <i class="bi bi-arrow-repeat bi-spin"></i> Сохранение...
+                            <span class="loading-text" style="display: none;">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Сохранение...
                         </span>
                     </button>
 

@@ -11,19 +11,19 @@
             <a class="navbar-brand {% if last_path == 'popular' %} selected {% endif %}"
                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">
                 <i class="bi bi-fire icon-scale"></i>
-                <span class="nav-item-class">Популярное</span>
+                <span class="nav-item-class font-size-16">Популярное</span>
             </a>
             <a class="navbar-brand {% if last_path == 'new' %} selected {% endif %}"
                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">
                 <i class="bi bi-clock-fill icon-scale"></i>
-                <span class="nav-item-class">Новое</span>
+                <span class="nav-item-class font-size-16">Новое</span>
             </a>
             {% get_all_categories as categories %}
             {% for category in categories %}
                 <a class="navbar-brand {% if last_path == category.slug %} selected {% endif %}"
                    href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
                     <i class="bi bi-{{ category.icon }} icon-scale"></i>
-                    <span class="nav-item-class">{{ category.name }}</span>
+                    <span class="nav-item-class font-size-16">{{ category.name }}</span>
                 </a>
             {% endfor %}
         </div>

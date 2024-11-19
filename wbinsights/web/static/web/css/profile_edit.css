@@ -8,6 +8,7 @@
     font-size: 22px;
     font-weight: 600;
     margin-top: 15px;
+    gap: 5px;
 }
 
 
@@ -52,6 +53,13 @@
     display:flex ; 
     align-items: center;
     gap:10px;
+}
+
+@media (max-width: 768px) {
+    .prof-edit-bot-btns-cont{
+        justify-content: space-between;
+        gap:0px;
+    }
 }
 
 .prof-edit-save-btn{
