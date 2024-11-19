@@ -118,6 +118,7 @@ class ExpertProfile(BaseExpertProfile):
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='expertprofile')
 
     rating = models.FloatField(null=True)
+    grade = models.ForeignKey('Grade', on_delete=models.SET_NULL, null=True, blank=True, related_name='grades')
 
 
 class ExpertAnketa(BaseExpertProfile):
