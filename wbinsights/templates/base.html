@@ -43,8 +43,8 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif !important;  <!-- system-ui? -->
-            background-color: #2980b9;
+            font-family: Arial, sans-serif !important;
+        <!-- system-ui ? --> background-color: #2980b9;
             font-family: monaco, Consolas, Lucida Console, monospace;
         }
 
@@ -61,6 +61,18 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
             display: none;
+        }
+
+        .verify-text {
+            margin: 0 !important;
+        }
+
+        .verify-account-cont {
+            {#background-color: #ffc107;#}
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            padding: 5px;
         }
 
         @media (max-width: 768px) {
@@ -82,7 +94,7 @@
                 color: white;
                 text-align: center;
                 font-size: 14px;
-            }   
+            }
 
             #mobile-nav .nav-item i {
                 display: block;
@@ -111,7 +123,7 @@
             <!-- display for larger screens -->
             <div class="d-none d-xl-flex justify-content-end main-cont-css">
 
-                <aside class="col-sm-0-5  d-none d-md-block" ></aside>
+                <aside class="col-sm-0-5  d-none d-md-block"></aside>
 
                 <div class="col-md-4 mb-2 mb-md-0 logo-container">
 
@@ -153,11 +165,7 @@
                 </div>
 
                 <div class="col-md-2 text-md-end header-nav-container">
-                    {% if request.user.is_authenticated %}
-                        {% if not request.user.expertanketa.is_verified %}
-                            <p class="verify-account-text">{% trans 'VerifyAccountLabel' %}</p>
-                        {% endif %}
-                    {% endif %}
+
                 </div>
 
                 <div class="col-md-3 text-md-end all-profile-cont"
@@ -242,7 +250,7 @@
 
                     {% endif %}
                 </div>
-                <aside class="col-sm-0-5  d-none d-md-block" ></aside>
+                <aside class="col-sm-0-5  d-none d-md-block"></aside>
 
             </div>
 
@@ -255,8 +263,10 @@
                         <i class="bi bi-list" style="color: white; font-size: 32px;"></i>
                     </div>
 
-                    <div style="display:flex;width: 100%; justify-content: flex-end;gap: 15px" >
-                        <i class="bi bi-search" style="font-size: 22px; color: white;padding-top: 4px; z-index: 2000" onclick="alert('in progress')"></i>
+                    <div style="display:flex;width: 100%; justify-content: flex-end;gap: 15px">
+                        <i class="bi bi-search"
+                           style="font-size: 22px; color: white;padding-top: 4px; z-index: 2000;margin: 0px 10px 0 10px;"
+                           onclick="alert('in progress')"></i>
                         {% if user.is_authenticated %}
                             {% if user.profile.type == 1 %}
                                 <div class="dropdown" style="z-index: 2000">
@@ -296,9 +306,17 @@
 
         </div>
 
-    </header>
 
-    <div class="row row-margin" >
+    </header>
+    {% if request.user.is_authenticated %}
+        {% if not request.user.expertanketa.is_verified %}
+            <div class="container-fluid verify-account-cont bg-warning">
+                <p class="verify-account-text" style="margin: 0px !important;">{% trans 'VerifyAccountLabel' %}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="row row-margin">
         {% block content %} {% endblock %}
     </div>
 
@@ -390,14 +408,14 @@
     })
     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-    ym(97084911, "init", {
+    ym(98346427, "init", {
         clickmap: true,
         trackLinks: true,
         accurateTrackBounce: true
     });
 </script>
 <noscript>
-    <div><img src="https://mc.yandex.ru/watch/97084911" style="position:absolute; left:-9999px;" alt=""/></div>
+    <div><img src="https://mc.yandex.ru/watch/98346427" style="position:absolute; left:-9999px;" alt=""/></div>
 </noscript>
 <!-- /Yandex.Metrika counter -->
 
