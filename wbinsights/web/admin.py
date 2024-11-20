@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .forms.users import CustomUserCreationForm
-from .models import Article, Category, CustomUser, Research, QuestionAnswer
-from .models.users import ExpertProfile, Grade
-from .views.profile import CustomUserChangeForm
+from web.forms.users import CustomUserCreationForm
+from web.models import Article, Category, CustomUser, Research, QuestionAnswer
+from web.models.users import ExpertProfile, Grade
+from web.views.profile import CustomUserChangeForm
 
 
 class CustomUserAdmin(UserAdmin):
