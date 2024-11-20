@@ -12,6 +12,12 @@
     <script src="//unpkg.com/grapesjs-touch"></script>
     <script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>
     <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
+    <!-- Load configurations first -->
+    <script src="{% static 'web/js/editor-config.js' %}"></script>
+    <!-- Load plugin next -->
+    <script src="{% static 'web/js/pixabay-plugin.js' %}"></script>
+    <!-- Load initialization last -->
+    <script src="{% static 'web/js/editor-init.js' %}"></script>
 {% endblock %}
 
 {% block center_col %}
@@ -102,7 +108,7 @@
         </div>
     </form>
 
-    {% include 'posts/article/article_js_editor.html' %}
+
 
     <script>
 
