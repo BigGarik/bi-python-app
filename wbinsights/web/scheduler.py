@@ -25,6 +25,7 @@ def delete_old_job_executions(max_age=604_800):
 def await_rating_calc():
     asyncio.run(calculate_rating_for_all_experts())
 
+
 def start():
     scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
     scheduler.add_jobstore(DjangoJobStore(), "default")

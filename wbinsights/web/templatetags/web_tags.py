@@ -3,6 +3,8 @@ from datetime import datetime
 
 from django import template
 from django.db.models import F
+from django.urls import reverse
+from django.template.defaultfilters import escape
 
 from web.services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
 from web.models import Expert, Category
@@ -13,6 +15,7 @@ from django.utils.translation import gettext as _
 
 import requests
 import feedparser
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -27,6 +30,45 @@ register = template.Library()
 #     return False
 
 
+@register.simple_tag
+def social_share_buttons(url, title, question_pk):
+    html = f'''
+    
+    <div class="list-comments dropdown">
+        <i class="bi bi-box-arrow-up-right share-icon"
+           id="socialShareDropdown-{question_pk}" data-bs-toggle="dropdown"
+           aria-expanded="false"></i>
+        <ul class="dropdown-menu social-share-menu"
+            aria-labelledby="socialShareDropdown-{question_pk}">
+            <div class="shareon" data-url="{escape(url)}"
+                 data-title="{escape(title)}" id="shareon-{question_pk}">
+                <a class="facebook"></a>
+                <a class="twitter"></a>
+                <a class="linkedin"></a>
+                <a class="telegram"></a>
+                <a class="whatsapp"></a>
+                <a class="reddit"></a>
+                <a class="vkontakte"></a>
+                <a class="odnoklassniki"></a>
+                <a class="copy-url"></a>
+            </div>
+        </ul>
+    </div>
+    '''
+    return mark_safe(html)
+
+@register.simple_tag
+def back_button(url_name, text):
+    url = reverse(url_name)
+    escaped_text = escape(text)
+    return mark_safe(f'<a href="{url}" class="global-back-btn"><i class="bi bi-chevron-left"></i> &nbsp;{escaped_text}</a>')
+
+
+@register.filter
+def truncatechars(value, arg):
+    if len(value) <= arg:
+        return value
+    return value[:arg] + '...'
 
 
 @register.simple_tag
@@ -55,29 +97,49 @@ def get_rate_chipher(rating):
     return ratechipher
 
 
-@register.simple_tag
-def get_top_experts():
+@register.simple_tag(takes_context=True)
+def get_top_experts(context):
     # return Expert.objects.all()[:10]
-    return Expert.objects.filter(expertprofile__isnull=False).order_by(F('expertprofile__rating').desc(nulls_last=True))[:10]
 
+    request = context['request']
+
+    experts = Expert.objects.filter(expertprofile__isnull=False)
+
+    if 'category' in request.path:
+        paths = request.path.split('/')
+        previous = ''
+        for path in paths:
+            if previous == 'category':
+                cat = Category.objects.filter(slug=path)
+                if cat.exists():
+                    experts = experts.filter(expertprofile__expert_categories=cat[0])
+                break
+            else:
+                previous = path
+
+    return experts.order_by(F('expertprofile__rating').desc(nulls_last=True))[:10]
 
 
 @register.simple_tag
 def get_all_categories():
     return Category.objects.all()
 
+
 def fetch_rss_feed(url):
     response = requests.get(url)
     return response.content
+
 
 def parse_rss_feed(rss_data):
     feed = feedparser.parse(rss_data)
     filtered_entries = [
         entry for entry in feed.entries
-        if hasattr(entry, 'tags') and any(tag.term in ["Бизнес"] for tag in entry.tags) #Экономика","Спорт", "Бизнес","Политика
+        if hasattr(entry, 'tags') and any(tag.term in ["Бизнес"] for tag in entry.tags)
+        #Экономика","Спорт", "Бизнес","Политика
     ]
     filtered_entries.sort(key=lambda x: datetime.strptime(x.published, '%a, %d %b %Y %H:%M:%S %z'), reverse=True)
     return filtered_entries[:10]
+
 
 @register.simple_tag
 def get_all_news():
@@ -85,9 +147,6 @@ def get_all_news():
     rss_data = fetch_rss_feed(rss_url)
     news_items = parse_rss_feed(rss_data)
     return news_items
-
-
-
 
 
 @register.simple_tag
@@ -181,6 +240,3 @@ def custom_time_display(datetime_value):
 
 
 register.filter('custom_time_display', custom_time_display)
-
-
-

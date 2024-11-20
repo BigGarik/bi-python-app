@@ -42,7 +42,7 @@
     }
 
     .ec-toolbar {
-        gap:5px !important;
+        gap: 5px !important;
     }
 
 
@@ -52,13 +52,6 @@
         border-color: #007bff;
     }
 
-    .ec-center {
-        gap: 5px !important;
-    }
-
-    .ec-events {
-        margin: 5px !important;
-    }
 
     .ec-event {
         height: 60px !important;
@@ -80,7 +73,6 @@
     }
 
 
-
     .ec-button-group .ec-button:not(:last-child) {
         pointer-events: auto;
         position: relative;
@@ -96,7 +88,7 @@
     }
 
     .ec-button-group .ec-button:not(:first-child) {
-           pointer-events: auto;
+        pointer-events: auto;
         position: relative;
         display: block;
         height: 2rem;
@@ -112,6 +104,27 @@
     .ec-title {
         font-size: 13px !important;
     }
+
+    .ec-time-grid {
+        width: 100%;
+        overflow: hidden; /* Hide any overflow from the main container */
+    }
+
+    .ec-scrollable-wrapper::-webkit-scrollbar {
+        height: 8px; /* Adjust the height of the scrollbar */
+    }
+
+    .ec-scrollable-wrapper::-webkit-scrollbar-thumb {
+        background-color: #888; /* Color of the scroll thumb */
+        border-radius: 4px; /* Rounded corners on the scroll thumb */
+    }
+
+    .ec-scrollable-wrapper::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+    }
+
+
+
 
 </style>
 
@@ -536,6 +549,7 @@
             date_title.wrap("<div style='display:flex; align-items: center'></div>");
         }
         date_title.attr("style", 'font-size:20px;padding:10px');
+
     }
 
     function changeView(viewType, viewName) {
@@ -562,6 +576,7 @@
                 center: 'customViewDropdown',
                 end: 'scheduleSettings'
             },
+            eventSources: [{events: fetchAppointments}],
             customButtons: {
                 customViewDropdown: {
                     text: getInitialViewText(initialView),
@@ -580,8 +595,8 @@
             },
             slotDuration: '01:00:00',
             slotLabelInterval: '01:00',
-            slotMinTime: '05:00:00',
-            slotMaxTime: '22:00:00',
+            slotMinTime: '00:00:00',
+            slotMaxTime: '24:00:00',
             slotHeight: 70,
             buttonText: {
                 timeGridDay: 'день',
@@ -627,7 +642,7 @@
                         break;
                     default:
                         dayName = 'Day';
-                        //iconHTML = '';
+                    //iconHTML = '';
                 }
 
                 const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: center;"> <b>${dayName}</b> </div>`;
@@ -672,7 +687,7 @@
         $(document).ready(function () {
             if ($('#' + calendar_element_id).length) {
                 const dropdownHtml = `
-                <div id="viewDropdownMenu" class="dropdown-menu " style="display: none; position: absolute; z-index: 1000;">
+                <div id="viewDropdownMenu" class="dropdown-menu " style="display: none; position: absolute; z-index: 1000;bottom: -10px;right: 10px;">
                     <a class="dropdown-item" href="#" data-view="timeGridDay">день</a>
                     <a class="dropdown-item" href="#" data-view="timeGridWeek">неделя</a>
                     <a class="dropdown-item" href="#" data-view="dayGridMonth">месяц</a>
@@ -779,6 +794,24 @@
         $('.end-date').val(moment(info.end).format('DD.MM.yyyy HH:mm'));
         $('#selectDateRangeModal').modal('show');
     }
+
+
+    $(document).ready(function () {
+        var $calendarContainer = $('.ec-time-grid');
+
+        var $wrapper = $('<div>', {
+            class: 'ec-scrollable-wrapper',
+            css: {
+                'max-width': '100%',
+                'overflow-x': 'auto',
+                'overflow-y': 'hidden'
+            }
+        });
+
+        $calendarContainer.children(':not(.ec-toolbar)').wrapAll($wrapper);
+
+        $('.ec-header, .ec-body').css('min-width', '800px');
+    });
 
 
 </script>

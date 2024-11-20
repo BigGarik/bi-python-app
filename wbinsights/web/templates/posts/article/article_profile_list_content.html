@@ -2,31 +2,30 @@
 {% load web_tags %}
 {% load comments %}
 {% load comments_xtd %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
 
+<style>
+
+</style>
 
 {% for article in experts_articles %}
-    <div class="basepost-content-cont"style="margin-top: 10px">
-        <span class="article-title-loop-exp">
-            <a href="{% url 'article_detail' article.slug %}" style="text-decoration: none;color: #36364b;">
-                {{ article.title }}
-            </a>
-        </span>
-        <span class="article-content-loop-exp">{{ article.description }}</span>
+    <div class="basepost-content-cont">
+        <span class="basepost-title">{{ article.title }}</span>
+        <span class="basepost-description">{{ article.description }}</span>
         <span class="link-read-post">
-            <a href="{{ article.get_absolute_url }}" style="color:black;border: 1px solid lightgray; padding: 5px 10px 5px 10px;" class="link-read-post">
+            <a href="{{ article.get_absolute_url }}" class="read-post-link">
                 {% trans 'ReadPostLabel' %}
             </a>
         </span>
-        <div class="comments-andshare-cont" style="justify-content: space-between">
-            <div style="display: flex; gap: 10px">
-                <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none; color: #a5b1c8;">
-                    <i class="bi bi-chat-left-text" style="color:#a5b1c8;"></i>
-                    {% get_comment_count for article as comment_count %}
-                    &nbsp;{{ comment_count }}
-                </a>
-                <div class="list-share">
-                    <i class="bi bi-calendar2-week" style="color:#a5b1c8;"></i>&nbsp; {{ article.time_create|custom_time_display }}
-                </div>
+        <div class="basepost-prof-socials-cont">
+            <div class="list-comments ">
+                {% include "components/comment_icon.html" %}
+                {% get_comment_count for article as comment_count %}
+                {{ comment_count }}
+            </div>
+            <div class="list-comments">
+                <i class="bi bi-calendar2-week icon-color"></i>&nbsp; {{ article.time_create|custom_time_display }}
             </div>
         </div>
     </div>

@@ -1,13 +1,13 @@
 <script>
     const en = {
         blocks: {
-            default: { label: 'Default' },
-            section: { label: 'Section' },
-            text: { label: 'Text' },
-            image: { label: 'Image' },
-            list: { label: 'List' },
-            hr: { label: 'Horizontal Line' },
-            line_break: { label: 'Line Break' }
+            default: {label: 'Default'},
+            section: {label: 'Section'},
+            text: {label: 'Text'},
+            image: {label: 'Image'},
+            list: {label: 'List'},
+            hr: {label: 'Horizontal Line'},
+            line_break: {label: 'Line Break'}
         },
         styleManager: {
             typography: {
@@ -23,20 +23,20 @@
             },
             alignment: {
                 name: 'Alignment',
-                properties: { 'text-align': 'Text Align' }
+                properties: {'text-align': 'Text Align'}
             }
         }
     };
 
     const ru = {
         blocks: {
-            default: { label: 'По умолчанию' },
-            section: { label: 'Раздел' },
-            text: { label: 'Текст' },
-            image: { label: 'Изображение' },
-            list: { label: 'Список' },
-            hr: { label: 'Горизонтальная линия' },
-            line_break: { label: 'Разделитель' }
+            default: {label: 'По умолчанию'},
+            section: {label: 'Раздел'},
+            text: {label: 'Текст'},
+            image: {label: 'Изображение'},
+            list: {label: 'Список'},
+            hr: {label: 'Горизонтальная линия'},
+            line_break: {label: 'Разделитель'}
         },
         styleManager: {
             typography: {
@@ -52,7 +52,7 @@
             },
             alignment: {
                 name: 'Выравнивание',
-                properties: { 'text-align': 'Выравнивание текста' }
+                properties: {'text-align': 'Выравнивание текста'}
             }
         }
     };
@@ -72,29 +72,29 @@
         plugins: ['grapesjs-plugin-i18n', 'grapesjs-touch'],
         pluginsOpts: {
             'grapesjs-plugin-i18n': {
-                messages: { en: en, ru: ru },
+                messages: {en: en, ru: ru},
             },
         },
-        panels: { defaults: [] },
+        panels: {defaults: []},
         blockManager: {
             appendTo: '#blocks',
             blocks: [
                 {
                     id: 'sectionh5',
                     label: '<div class="t-class-comps">T1</div> <b style="color: #a5b1c8;">Большой Заголовок</b>',
-                    attributes: { class: 'gjs-block-section' },
+                    attributes: {class: 'gjs-block-section'},
                     content: '<h1 style="font-family: sans-serif;">Insert large title text here</h1>',
                 },
                 {
                     id: 'sectionh3',
                     label: '<div class="t-class-comps">T3</div> <b style="color: #a5b1c8;">Средний Заголовок</b>',
-                    attributes: { class: 'gjs-block-section' },
+                    attributes: {class: 'gjs-block-section'},
                     content: '<h3 style="font-family: sans-serif;">Insert medium title text here</h3>',
                 },
                 {
                     id: 'sectionh1',
                     label: '<div class="t-class-comps">T5</div> <b style="color: #a5b1c8;">Маленький Заголовок</b>',
-                    attributes: { class: 'gjs-block-section' },
+                    attributes: {class: 'gjs-block-section'},
                     content: '<h4 style="font-family: sans-serif;">Insert small title text here</h4>',
                 },
                 {
@@ -143,20 +143,26 @@
         }
     });
 
+
     editor.on('load', () => {
         const gjsContainer = document.getElementById('gjs');
         if (gjsContainer) {
             gjsContainer.style.overflow = 'visible';
             gjsContainer.style.height = '100%';
             gjsContainer.style.minHeight = '1000px';
-            gjsContainer.style.padding = '10px';
+
+
         }
+
+        const wrapper = editor.getWrapper();
+        if (wrapper) {
+            wrapper.setStyle({
+                padding: '15px'
+            });
+        }
+
     });
 
-    document.getElementById('language-toggle').addEventListener('change', function() {
-        const lang = this.checked ? 'ru' : 'en';
-        editor.I18n.setLocale(lang);
-    });
 
     function switchLanguage(lang) {
         editor.I18n.setLocale(lang);
@@ -164,18 +170,18 @@
 
     // Ensure touch events are properly handled on iOS
     function addNonPassiveEventListener(element, event, handler) {
-        element.addEventListener(event, handler, { passive: false });
+        element.addEventListener(event, handler, {passive: false});
     }
 
-    addNonPassiveEventListener(document, 'touchstart', function(event) {
+    addNonPassiveEventListener(document, 'touchstart', function (event) {
         console.log('touchstart', event.target);
     });
 
-    addNonPassiveEventListener(document, 'touchmove', function(event) {
+    addNonPassiveEventListener(document, 'touchmove', function (event) {
         console.log('touchmove', event.target);
     });
 
-    addNonPassiveEventListener(document, 'touchend', function(event) {
+    addNonPassiveEventListener(document, 'touchend', function (event) {
         console.log('touchend', event.target);
     });
 </script>

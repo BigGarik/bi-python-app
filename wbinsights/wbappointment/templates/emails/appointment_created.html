@@ -7,10 +7,9 @@
 <body>
     <p>С вами забронирована новая встреча.</p>
     <p>Клиент: {{ client.last_name }} {{ client.first_name }}</p>
-    <p>Дата и время: {{ appointment.appointment_date }} {{ appointment.appointment_time }}</p>
+    <p>Дата и время: {{ appointment.appointment_datetime|date:"d.m.Y" }} {{ appointment.appointment_datetime|date:"H:i" }}</p>
     <p>Ссылка на подключение {{ appointment.zoom_link }}</p>
     <br/>
-
     <p>Просмотреть ваши встречи вы можете в своем профиле <a href="{{ site_url }}/profile">Профиль</a></p>
 </body>
 </html>

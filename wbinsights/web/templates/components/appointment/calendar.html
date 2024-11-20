@@ -18,153 +18,150 @@
 <link rel="stylesheet" href="{% static 'web/css/CalendarCssAndImages/CalendarKurko.css' %}">
 
 <style>
+#event-calendar,
+#event-calendar * {
+    pointer-events: auto !important;
+    text-wrap: pretty;
+}
 
-    #event-calendar,
-    #event-calendar * {
-        pointer-events: auto !important;
-            text-wrap: pretty;
-    }
+.ec-center .ec-active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
 
-    .ec-center .ec-active {
-        background-color: #007bff;
-        color: white;
-        border-color: #007bff;
-    }
+.fontSizes {
+    font-size: calc(4px + 0.5vw) !important;
+}
 
-    .ec-center {
-        gap: 5px !important;
-    }
+.ec-event {
+    max-height: 60px !important;
+}
 
-    .ec-events {
-        margin: 5px !important;
-    }
+.ec-event.ec-draggable {
+    min-height: 60px !important;
+    max-height: 60px !important;
+    height: 60px !important;
+}
 
-    .ec-event {
-        max-height: 60px !important;
-    }
+.ec-header {
+    max-height: 30px !important;
+}
 
-    .ec-event ec-draggable{
-        min-height: 60px !important;
-        max-height: 60px !important;
-        height: 60px !important;
-    }
+.ec-time-grid .ec-time,
+.ec-time-grid .ec-line {
+    height: 70px;
+}
 
-    .ec-header {
-        max-height: 30px !important;
-    }
+.ec-button-group .ec-button:not(:last-child),
+.ec-button-group .ec-button:not(:first-child) {
+    pointer-events: auto;
+    position: relative;
+    display: block;
+    height: 2.5rem;
+    width: 2.5rem;
+    cursor: pointer;
+    border-width: 0px;
+    background-color: transparent;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
 
-    /*
-    .ec-time, .ec-line {
-        height: 50px !important;
-    } */
+.color-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-top: 10px;
+}
 
-    .ec-time-grid .ec-time, .ec-time-grid .ec-line {
-        height: 70px; /* override this value */
-    }
+.flex-container {
+    display: flex;
+}
 
-    .ec-button-group .ec-button:not(:last-child) {
+.appointment-details-left,
+.appointment-details-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-        pointer-events: auto;
-        position: relative;
-        display: block;
-        height: 2.5rem;
-        width: 2.5rem;
-        cursor: pointer;
-        border-width: 0px;
-        background-color: transparent;
-        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-        border-radius: 5px;
-    }
+.appointment-details-left {
+    width: 40%;
+}
 
+.appointment-details-right {
+    width: 60%;
+}
+
+.hidden {
+    display: none;
+}
+
+.small-text {
+    font-size: 12px;
+}
+
+.striped-div {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(to right, red 50%, blue 50%);
+}
+
+@media (max-width: 1399px) {
+    .ec-button-group .ec-button:not(:last-child),
     .ec-button-group .ec-button:not(:first-child) {
-        pointer-events: auto;
-        position: relative;
-        display: block;
-        height: 2.5rem;
-        width: 2.5rem;
-        cursor: pointer;
-        border-width: 0px;
-        background-color: transparent;
-        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-        border-radius: 5px;
-
+        transform: scale(0.8);
     }
+
+    .fontSizes {
+        padding: 5px !important;
+    }
+}
 
 </style>
 
 
 <div id="event-calendar"></div>
 
-
 <div>
-
-    {#    <script>#}
-    {##}
-    {#        $(function () {#}
-    {#            const color_legend_div = $('#color_legend');#}
-    {#            status_colors.map((item) => {#}
-    {#                color_legend_div.append(#}
-    {#                    `<div style="display: flex; align-items: center;">#}
-    {#                        <div style="width: 30px; height: 20px; background-color: ${item.color}; margin-right: 5px;"></div>#}
-    {#                        <span>- ${item.name}</span>#}
-    {#                    </div>`)#}
-    {#            })#}
-    {#        })#}
-    {##}
-    {#    </script>#}
-
-    <div id="color_legend"
-         style="display: flex; flex-wrap:wrap; justify-content: space-between; flex-direction: column; margin-top: 10px;"></div>
-
+    <div id="color_legend" class="color-legend"></div>
 </div>
 
 <div class="modal fade" id="appointmentDetailModal" tabindex="-1" aria-labelledby="appointmentDetailModalLabel"
      aria-hidden="true">
-
     <div class="modal-dialog">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Детали встечи</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
             <div id="appointmentTableBody" class="modal-body">
-
-                <div style="display: flex">
-
-                    <div style="display:flex; flex-direction:column;width:40%;gap:20px">
+                <div class="flex-container">
+                    <div class="appointment-details-left">
                         <div>Дата:</div>
                         <div>Время:</div>
                         <div id="appointment-detail-user-type">Имя:</div>
                         <div>Zoom:</div>
                         <div>Статус:</div>
                         <div>Забронировано:</div>
-                        <div id="appointment-left-for-pay-label" style="display: none">Время брони слота: <br/> <span
-                                style="font-size: 12px;">(10 минут)</span></div>
+                        <div id="appointment-left-for-pay-label" class="hidden">
+                            Время брони слота: <br/> <span class="small-text">(10 минут)</span>
+                        </div>
                     </div>
-
-                    <div style="display:flex; flex-direction:column;gap:20px;width:60%">
-                        <div id="appointment-detail-date">
-                            ${moment(appointment.localized_appointment_datetime).format("DD.MM.YYYY")}
-                        </div>
-                        <div id="appointment-detail-time">
-                            ${moment(appointment.localized_appointment_datetime).format("HH:mm")}
-                        </div>
-                        <div id="appointment-detail-user">${appointment.client.last_name}
-                            ${appointment.client.first_name}
-                        </div>
+                    <div class="appointment-details-right">
+                        <div id="appointment-detail-date"></div>
+                        <div id="appointment-detail-time"></div>
+                        <div id="appointment-detail-user"></div>
                         <div id="appointment-detail-zoom"></div>
                         <div id="appointment-detail-status"></div>
                         <div id="appointment-detail-create-time"></div>
-                        <div id="appointment-left-for-pay" style="display: none"></div>
-
+                        <div id="appointment-left-for-pay" class="hidden"></div>
                     </div>
-
                 </div>
-
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
             </div>
@@ -173,34 +170,28 @@
 </div>
 
 {% if request.path == '/profile' %}
-
     {% if request.user.profile.type == 1 %}
         <div class="modal fade" id="selectDateRangeModal" tabindex="-1" aria-labelledby="selectDateRangeModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-
                     <form method="post" action="{% url 'add_calendar_range' %}" id="schedule-range-form">
                         {% csrf_token %}
                         <div class="modal-header">
                             <h5 class="modal-title" id="selectDateRangeModalLabel">Детали назначения</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-
                         <div id="custom-event-date-range-content" class="modal-body">
                             <label for="id-start-date">Начало</label>
                             <input id='id-start-date' name="start" class="start-date form-control"/>
-
                             <label for="id-end-date">Конец</label>
                             <input id='id-end-date' name="end" class="end-date form-control"/>
-
                             <label for="id-date-range-action">Действие</label>
                             <select class="form-control" name="type">
                                 <option value="0">Сделать недоступным для бронирования</option>
                                 <option value="1">Сделать доступным для бронирования</option>
                             </select>
                         </div>
-
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -214,19 +205,16 @@
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-
                     <form method="post" action="{% url 'add_calendar_range' %}" id="delete-range-form">
                         {% csrf_token %}
                         <div class="modal-header">
                             <h5 class="modal-title" id="selectDateRangeModalLabel">Удаление записи</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-
                         <input type="hidden" name="range_id"/>
                         <div id="custom-event-date-range-content" class="modal-body">
                             <div id="delete-extra-date-info"></div>
                         </div>
-
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Удалить</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -235,21 +223,8 @@
                 </div>
             </div>
         </div>
-
-
-
     {% endif %}
-
-    <style>
-        .striped-div {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(to right, red 50%, blue 50%);
-        }
-    </style>
-
 {% endif %}
-
 {% include 'schedule/expert_schedule.html' %}
 
 <script>
@@ -270,8 +245,8 @@
         {status: 2, color: "red", name: "Отклонен"},
         {status: 3, color: "brown", name: "Отменен"},
         {status: 4, color: "green", name: "Оплачен"},
-        {status: 10, color: "lightgrey", name: "Недоступен для бронирования"},
-        {status: 11, color: "#a6db69", name: "Доступен для бронирования"}
+        {#{status: 10, color: "lightgrey", name: "Недоступен для бронирования"},#}
+        {#{status: 11, color: "#a6db69", name: "Доступен для бронирования"}#}
     ];
 
     function createSchedule(dates) {
@@ -360,7 +335,7 @@
         }
 
         if (appointment.zoom_link && appointment.status == 4) {
-            $('#appointment-detail-zoom').html(`<a href="${appointment.zoom_link}">подключитcя по zoom</a>`);
+            $('#appointment-detail-zoom').html(`<a href="${appointment.zoom_link}" target="_blank">подключитcя по zoom</a>`);
         } else {
             $('#appointment-detail-zoom').html('<div style="height: 24px"></div>');
         }
@@ -424,16 +399,31 @@
         }
 
         if (extradates) {
-            dates = dates.concat(extradates.map((extradate) => {
+
+            dates = dates.concat(extradates.filter((extradate) => extradate.type == 1).map((extradate) => {
                 const title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования';
                 const moment_start = moment(extradate.localized_start);
                 const moment_end = moment(extradate.localized_end);
-                return createEvent(title, extradate.type + 10,
+                return createEvent(title, -1,
                     moment_start.format(date_format), moment_start.format("HH:mm"),
                     moment_end.format(date_format), moment_end.format("HH:mm"),
-                    extradate.id, "extradate"
+                    extradate.id, "schedule"
                 );
             }));
+
+
+            dates = dates.concat(extradates.filter((extradate) => extradate.type == 0).map((extradate) => {
+                const title = extradate.type == 0 ? 'Недоступно для бронирования' : 'Доступно для бронирования';
+                const moment_start = moment(extradate.localized_start);
+                const moment_end = moment(extradate.localized_end);
+                return createEvent(title, -10,
+                    moment_start.format(date_format), moment_start.format("HH:mm"),
+                    moment_end.format(date_format), moment_end.format("HH:mm"),
+                    extradate.id, "schedule"
+                );
+            }));
+
+
         }
 
         if (appointments_as_expert) {
@@ -465,15 +455,16 @@
 
     let ec;
 
+
     function addToolbarButtonBootstrapClasses() {
-        $('div.ec-center > button').addClass("btn btn-outline-primary").removeClass("ec-button");
-        $('div.ec-end > button').addClass("btn btn-primary").removeClass("ec-button");
+        $('div.ec-center > button').addClass("btn btn-outline-primary fontSizes").removeClass("ec-button");
+        $('div.ec-end > button').addClass("btn btn-primary fontSizes").removeClass("ec-button");
 
         let date_title = $('.ec-title');
         if (!date_title.parent().is('div[style="display:flex; align-items: center"]')) {
             date_title.wrap("<div style='display:flex; align-items: center'></div>");
         }
-        date_title.attr("style", 'font-size:20px;padding:10px');
+        date_title.attr("style", 'font-size: calc(5px + 0.7vw) !important;padding:10px');
 
 
     }
@@ -503,8 +494,8 @@
             },
             slotDuration: '01:00:00',
             slotLabelInterval: '01:00',
-            slotMinTime: '05:00:00',
-            slotMaxTime: '22:00:00',
+            slotMinTime: '00:00:00',
+            slotMaxTime: '24:00:00',
             slotHeight: 70,
             buttonText: {
                 timeGridDay: 'день',
@@ -513,7 +504,8 @@
                 today: 'сегодня',
                 listWeek: 'список'
             },
-            dayHeaderFormat: function (date) {
+            dayHeaderFormat: function (arg) {
+                const date = arg instanceof Date ? arg : (arg.date instanceof Date ? arg.date : new Date());
                 const day = date.getDay();
                 const dateOfMonth = date.getDate();
                 let dayName;
@@ -522,43 +514,41 @@
                 switch (day) {
                     case 0:
                         dayName = 'Вс';
-                        iconHTML = '<span class="mondayIcon">  </span>'
+                        iconHTML = '<span class="sundayIcon">  </span>'
                         break;
                     case 1:
                         dayName = 'Пн';
-                        iconHTML = '<span class="tuesdayIcon">  </span>'
+                        iconHTML = '<span class="mondayIcon">  </span>'
                         break;
                     case 2:
                         dayName = 'Вт';
-                        iconHTML = '<span class="wednesdayIcon">  </span>'
+                        iconHTML = '<span class="tuesdayIcon">  </span>'
                         break;
                     case 3:
                         dayName = 'Ср';
-                        iconHTML = '<span class="thursdayIcon">  </span>'
+                        iconHTML = '<span class="wednesdayIcon">  </span>'
                         break;
                     case 4:
                         dayName = 'Чт';
-                        iconHTML = '<span class="fridayIcon">  </span>'
+                        iconHTML = '<span class="thursdayIcon">  </span>'
                         break;
                     case 5:
                         dayName = 'Пт';
-                        iconHTML = '<span class="saturdayIcon">  </span>'
+                        iconHTML = '<span class="fridayIcon">  </span>'
                         break;
                     case 6:
                         dayName = 'Сб';
-                        iconHTML = '<span class="sundayIcon">  </span>'
+                        iconHTML = '<span class="saturdayIcon">  </span>'
                         break;
                     default:
                         dayName = 'Day';
                         iconHTML = '';
                 }
 
-                const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: center;"> ${iconHTML} <b>${dayName} ${dateOfMonth}</b> </div>`;
+                const dayHtml = `<div style="display: flex;gap: 5px;justify-content: center;align-items: center;"> ${iconHTML} <b>${dayName} <span class="date-of-month">${dateOfMonth}</span></b> </div>`;
 
                 return {html: dayHtml};
             },
-
-
             allDaySlot: false,
             firstDay: 1,
             locale: 'ru',
@@ -583,10 +573,16 @@
             },
             datesSet: function (dateInfo) {
                 addToolbarButtonBootstrapClasses();
+
+                // add/remove based on view
+                const calendarElement = document.getElementById(calendar_element_id);
+                if (dateInfo.view.type === 'dayGridMonth') {
+                    calendarElement.classList.add('month-view');
+                } else {
+                    calendarElement.classList.remove('month-view');
+                }
             },
             viewDidMount: function (info) {
-                ec.getOption('theme').button = 'btn bnt-primary';
-                console.log(ec.getOption('theme').button);
                 addToolbarButtonBootstrapClasses();
             },
             buttonClick: function (button, e) {
@@ -597,6 +593,15 @@
         $('#event-calendar').html('');
         ec = new EventCalendar(document.getElementById(calendar_element_id), options);
     }
+
+    // Add this CSS to your stylesheet or in a <style> tag in your HTML
+    const style = document.createElement('style');
+    style.textContent = `
+    .month-view .date-of-month {
+        display: none;
+    }
+`;
+    document.head.appendChild(style);
 
     function getUsersAppointments() {
         createEventCalendar('event-calendar');

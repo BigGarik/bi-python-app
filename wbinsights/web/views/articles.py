@@ -1,71 +1,32 @@
 import itertools
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import Q
-from django.http import JsonResponse
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
-from django.template.loader import render_to_string
-from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
 from pytils.translit import slugify
 
 from web.forms.articles import ArticleForm
-from web.models import Article, Category
-from django.core.paginator import Paginator
+from web.models import Article
+from web.views.contents import CommonContentFilterListView
 
 
-class ArticleListView(ListView):
+class ArticleListView(CommonContentFilterListView):
     model = Article
     template_name = 'posts/article/article_list.html'
-    context_object_name = 'articles'
     paginate_by = 10  # Show 10 articles per page
+    load_more_template = 'posts/article/article_list_content.html'
 
     def get_queryset(self):
-        queryset = Article.objects.all().order_by('-time_update')
-        query = self.request.GET.get('search_q')
-        if query:
-            queryset = queryset.filter(Q(content__icontains=query) | Q(title__icontains=query))
+        queryset = super().get_queryset()
+        if not bool(queryset.query.order_by):
+            queryset = queryset.order_by('-time_update')
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        context['selected_category'] = ''
-        context['search_q'] = self.request.GET.get('search_q', '')
-        context['has_more_articles'] = context['page_obj'].has_next()
-        return context
-
-    def render_to_response(self, context, **response_kwargs):
-        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            html = render_to_string('posts/article/article_list_content.html', {'articles': context['articles']})
-            return JsonResponse({
-                'html': html,
-                'has_more': context['has_more_articles']
-            })
-        return super().render_to_response(context, **response_kwargs)
-
-
-# Класс-представление для фильтрации статей по категории
-class CategoryArticleListView(ArticleListView):
-    # Переопределяем метод получения списка сущностей
-    def get_queryset(self):
-
-        self.cat = ''
-        if self.kwargs['category_slug'] == 'new':
-            return Article.objects.all().order_by("time_create")
-
-        if self.kwargs['category_slug'] == 'popular':
-            return Article.objects.all().order_by("time_create")
-
-        # Получаем объект, по которому будем делать фильтрацию (категория)
-        self.cat = get_object_or_404(Category, slug=self.kwargs['category_slug'])
-        return Article.objects.filter(cat=self.cat)
-
-    # Добавляем параметры в контекст
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['selected_category'] = self.cat
         return context
 
 
@@ -99,6 +60,26 @@ def delete_article(request, slug):
         article.delete()
         return redirect('profile')
     return redirect('profile', slug=slug)
+
+
+class DeleteArticleView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Article
+    template_name = 'posts/article/article_confirm_delete.html'
+    success_url = reverse_lazy('profile')
+
+    def get_object(self, queryset=None):
+        # Получаем статью по slug
+        slug = self.kwargs.get('slug')
+        return get_object_or_404(Article, slug=slug)
+
+    # Проверка, является ли пользователь автором статьи
+    def test_func(self):
+        article = self.get_object()
+        return self.request.user == article.author
+
+    # Обработка случая, когда пользователь не прошёл проверку
+    def handle_no_permission(self):
+        return HttpResponseForbidden("You are not allowed to delete this article.")
 
 
 class ArticleAddView(CreateView, LoginRequiredMixin):

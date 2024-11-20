@@ -95,14 +95,17 @@ def save_new_user_and_profile(request, user_form, user_type):
 
 @transaction.atomic
 def register_user(request):
+    def is_mobile(request):
+        user_agent = request.META.get('HTTP_USER_AGENT', '')
+        return 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent
+
+    def get_template_name(request):
+        return 'registration/signup_mobile.html' if is_mobile(request) else 'registration/signup.html'
 
     if request.method == 'POST':
-
         user_form = CustomUserCreationForm(request.POST)
-
         if user_form.data['user_type'] == '1':  # Expert
             expert_profile_form = ExpertAnketaForm(request.POST)
-
             if user_form.is_valid() and expert_profile_form.is_valid():
                 try:
                     new_user = save_new_user_and_profile(request, user_form, Profile.TypeUser.EXPERT)
@@ -110,7 +113,6 @@ def register_user(request):
                     new_expert_profile.user = new_user
                     new_expert_profile.save()
                     expert_profile_form.save_m2m()
-
                     return redirect('signup_success')
                 except Exception as e:
                     logger.error(f"Error during expert registration: {str(e)}", exc_info=True)
@@ -118,32 +120,29 @@ def register_user(request):
             else:
                 logger.debug(
                     f"Invalid form data: user_form errors: {user_form.errors}, expert_form errors: {expert_profile_form.errors}")
-
                 context = {
                     "user_form": user_form,
-                    "expert_form": expert_profile_form
+                    "expert_form": expert_profile_form,
+                    "is_mobile": is_mobile(request)
                 }
-                return render(request, 'registration/signup.html', context=context)
-
+                return render(request, get_template_name(request), context=context)
         if user_form.data['user_type'] == '0':
-
             if user_form.is_valid():
                 save_new_user_and_profile(request, user_form, Profile.TypeUser.CLIENT)
                 return redirect('signup_success')
             else:
                 context = {
-                    "user_form": user_form
+                    "user_form": user_form,
+                    "is_mobile": is_mobile(request)
                 }
-                return render(request, "registration/signup.html", context=context)
-
+                return render(request, get_template_name(request), context=context)
     if request.method == 'GET':
         context = {
             "user_form": CustomUserCreationForm(),
-            "expert_form": ExpertAnketaForm()
+            "expert_form": ExpertAnketaForm(),
+            "is_mobile": is_mobile(request)
         }
-
-        return render(request, "registration/signup.html", context=context)
-
+        return render(request, get_template_name(request), context=context)
 
 def activate_account(request, token):
     signer = TimestampSigner()
@@ -230,3 +229,13 @@ class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView
     template_name = 'registration/password_reset_confirm.html'
     success_url = reverse_lazy('password_reset_complete')
     success_message = 'Пароль успешно изменен. Можете авторизоваться на сайте.'
+
+
+class CustomLoginView(LoginView):
+
+    def get_template_names(self):
+        user_agent = self.request.META.get('HTTP_USER_AGENT', '')
+        if 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent:
+            return ['registration/login_mobile.html']
+        else:
+            return ['registration/login.html']

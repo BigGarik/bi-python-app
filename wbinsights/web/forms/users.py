@@ -240,7 +240,7 @@ class ProfileChangeForm(forms.ModelForm):
 
 
 class ExpertAnketaChangeForm(forms.ModelForm):
-    about = forms.CharField(label=_("About me"), widget=forms.Textarea(
+    about = forms.CharField(label=_("About me"), widget=forms.HiddenInput(
         attrs={'class': 'custom-aboutme-form', 'rows': 3, 'placeholder': 'Напишите текст о себе'}))
     age = forms.IntegerField(label=_("Age"), widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))
     hour_cost = forms.IntegerField(label=_("Hourly rate"), widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))

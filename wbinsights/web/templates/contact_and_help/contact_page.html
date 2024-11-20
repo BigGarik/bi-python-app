@@ -1,5 +1,7 @@
 {% extends 'base123.html' %}
 {% load static %}
+{% load i18n %}
+{% load web_tags %}
 
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/contact_page_all.css' %}">
@@ -9,40 +11,39 @@
 
     
 
-    <div class="contact-page-cont">
+    <div class="element-container">
 
-        <div class="global-back-btn">
-            <a href="{% url 'index' %}" class="href-css"><i class="bi bi-chevron-left"></i> &nbsp;На главную</a>
-          </div>
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "index" back_text %}
           
 
-        <div class="resources-cont">
-            <div class="about-resources-title">
+        <div class="basepost-content-cont">
+            <div class="basepost-title">
                 О ресурсе
             </div>
-            <div class="about-resources-content">
+            <div class="basepost-description">
                 Учитывая ключевые сценарии поведения, курс на социально-ориентированный национальный проект напрямую зависит от новых принципов формирования
                 материально-технической и кадровой базы. С другой стороны, укрепление и развитие внутренней структуры не оставляет шанса для системы обучения кадров,
                 соответствующей насущным потребностям.
             </div>
         </div>
 
-        <div class="resources-cont">
-            <div class="resource-subtitle">
+        <div class="basepost-content-cont">
+            <div class="basepost-title">
                 С другой стороны
             </div>
-            <div class="about-resources-content">
+            <div class="basepost-description">
                 Учитывая ключевые сценарии поведения, курс на социально-ориентированный национальный проект напрямую зависит от новых принципов формирования
                 материально-технической и кадровой базы. С другой стороны, укрепление и развитие внутренней структуры не оставляет шанса для системы обучения кадров,
                 соответствующей насущным потребностям.
             </div>
         </div>
 
-        <div class="resources-cont">
-            <div class="resource-subtitle">
+        <div class="basepost-content-cont">
+            <div class="basepost-title">
                 С другой стороны
             </div>
-            <div class="about-resources-content">
+            <div class="basepost-description">
                 Учитывая ключевые сценарии поведения, курс на социально-ориентированный национальный проект напрямую зависит от новых принципов формирования
                 материально-технической и кадровой базы. С другой стороны, укрепление и развитие внутренней структуры не оставляет шанса для системы обучения кадров,
                 соответствующей насущным потребностям. 

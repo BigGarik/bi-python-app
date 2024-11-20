@@ -1,80 +1,67 @@
-
 {% load web_tags %}
 {% load hitcount_tags %}
 {% load comments %}
 {% load comments_xtd %}
-{% for article in articles %}
 
-    <style>
-    .list-comments .bi {
-        font-size: 15px;
-    }
-    </style>
+<style>
 
-<div class="article-list-content">
+
+
+</style>
+
+{% for article in object_list %}
+<div class="basepost-content-cont">
     <div class="list-publish-date">
-        <i class="bi bi-calendar2-week" style="color:#a5b1c8; scale:1.3"></i>
+        <i class="bi bi-calendar2-week calendar-icon"></i>
         &nbsp; {{ article.time_create|custom_time_display }}
     </div>
     <div class="basepost-title">{{ article.title }}</div>
     <div class="basepost-content-cont">
         {% autoescape off %}
-        <div class="basepost-description">
+        <div class="basepost-description font-size-16">
             {{ article.description }}
         </div>
-        <div class="basepost-description">
-            {% if article.main_img %}
-                <img src="{{ article.main_img.url }}" alt="Article Image" style="max-width:100%">
-            {% endif %}
-        </div>
-        {% endautoescape %}
-        <span class="link-read-post">
-            <a href="{{ article.get_absolute_url }}" class="link-read-post" style="color:black; border: 1px solid lightgray; padding: 5px 10px;">Читать пост</a>
-        </span>
-        <div class="article-list-cat-cont">
+        <div class="user-category-cont">
             <div class="user-catagory-highlight {{ article.cat.slug }}">
                 {{ article.cat.name }}
             </div>
         </div>
-        <div class="article-list-last">
-            <div class="article-list-author-cont">
-                <div class="author-pic">
-                    <img src="{{ article.author.profile.avatar.url }}"/>
+        <div class="basepost-description">
+            {% if article.main_img %}
+                <img src="{{ article.main_img.url }}" alt="Article Image" class="article-image">
+            {% endif %}
+        </div>
+        {% endautoescape %}
+        <span class="link-read-post">
+            <a href="{{ article.get_absolute_url }}" class="read-post-link">Читать пост</a>
+        </span>
+
+        <div class="basepost-prof-socials-cont">
+            <div class="basepost-author-cont">
+                <div class="basepost-author-pic">
+                    <img src="{{ article.author.profile.avatar.url }}" class="basepost-author-pic author-avatar"/>
                 </div>
-                <a href="{% url 'expert_profile' article.author.pk %}" style="text-decoration:none">
-                    <div class="article-list-author-name">{{ article.author.last_name }} {{ article.author.first_name }}</div>
+                <a href="{% url 'expert_profile' article.author.pk %}" class="basepost-author-text">
+                    <div >{{ article.author.last_name }} {{ article.author.first_name }}</div>
                 </a>
             </div>
             <div class="comments-andshare-cont">
                 <div class="list-comments">
-                    <i class="bi bi-eye" style="font-size: 16px" onclick="alert('in progress')"></i>
+                    <i class="bi bi-eye view-icon" onclick="alert('in progress')"></i>
                     <span>{% get_hit_count for article %}</span>
                 </div>
                 <div class="list-comments">
                     <i class="bi bi-hand-thumbs-up"></i>
                     <span>{{ article.votes.count }}</span>
                 </div>
-                <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none;">
-                    <i class="bi bi-chat-left-text" style="color:#a5b1c8; font-size: 13px; margin-top: 2px;"></i>
+                <a href="{{ article.get_absolute_url }}#comments" class="list-comments ">
+                    {% include "components/comment_icon.html" %}
                     {% get_comment_count for article as comment_count %}
                     <span>&nbsp;{{ comment_count }}</span>
                 </a>
-                <div class="list-comments dropdown">
-                    <i class="bi bi-box-arrow-up-right global-cat-dropdown" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color:#a5b1c8; font-size: 13px; margin-bottom: 2px"></i>
-                    <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px;">
-                        <div class="shareon" data-url="https://24wbinside.ru/articles/{{ article.slug }}" data-title="{{ article.title }}" id="shareon-{{ article.pk }}">
-                            <a class="facebook"></a>
-                            <a class="twitter"></a>
-                            <a class="linkedin"></a>
-                            <a class="telegram"></a>
-                            <a class="whatsapp"></a>
-                            <a class="reddit"></a>
-                            <a class="vkontakte"></a>
-                            <a class="odnoklassniki"></a>
-                            <a class="copy-url"></a>
-                        </div>
-                    </ul>
-                </div>
+                {% with article_url="https://24wbinside.ru/articles/"|add:article.slug %}
+                {% social_share_buttons article_url article.title article.pk %}
+                {% endwith %}
             </div>
         </div>
         <hr class="solid">

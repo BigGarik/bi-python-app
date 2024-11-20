@@ -1,53 +1,62 @@
-from django.views.generic import ListView, DetailView, UpdateView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q, Count, F
+from django.views.generic import DetailView
 
 from expertprojects.models import UserProject
-
-from web.models import Article, Category, Expert
-
-from django.db.models import Q, Count, F
-
 from expertprojects.views import GetProjectsView
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from web.models.users import Grade
+from wbqa.models import Question
+from web.models import Article, Category, Expert
+from web.views.contents import CommonContentFilterListView
 
 
-class ExpertListView(ListView):
+from django.db.models import Count, F
+
+class ExpertListView(CommonContentFilterListView):
     model = Expert
     context_object_name = "experts"
+    template_name = 'posts/expert/expert_list.html'
+    paginate_by = 10
+    category_filter_param = 'expertprofile__expert_categories'
+    ordering_param_new = '-date_joined'
+    ordering_param_popular = '-expertprofile__rating'
 
     def get_queryset(self):
-        experts = Expert.objects.all().annotate(
+        queryset = super().get_queryset()
+        queryset = queryset.annotate(
             expert_article_cnt=Count('article'),
             expert_rating=F('expertprofile__rating')
         )
-
         min_rating = self.request.GET.get('min_rating')
         if min_rating:
-            experts = experts.filter(expertprofile__rating__gte=float(min_rating))
-
-        # Сортировка по рейтингу (по убыванию)
-        experts = experts.order_by('-expert_rating', '-expert_article_cnt')
-
-        return experts
-
-    # 'fffhe'
-
-    # def get_queryset(self):
-    #     experts = Expert.objects.all().annotate(expert_article_cnt=Count('article'))
-    #     return experts
-
-    def get_template_names(self):
-        user_agent = self.request.META.get('HTTP_USER_AGENT','')
-        if 'Mobile' in user_agent or 'Andriod' in user_agent or 'Iphone' in user_agent:
-            return ['posts/expert/expert_list_mobile.html']
-        else:
-            return ['posts/expert/expert_list.html']
+            queryset = queryset.filter(expertprofile__rating__gte=float(min_rating))
+        if not bool(queryset.query.order_by):
+            queryset = queryset.order_by('-expert_rating', '-expert_article_cnt')
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
-        context['is_mobile'] = True
-
+        context['selected_category'] = ''
+        context['is_mobile'] = self.is_mobile()
+        context['min_rating'] = self.request.GET.get('min_rating', '')
+        context['grades'] = Grade.objects.all()
         return context
+
+    def is_mobile(self):
+        user_agent = self.request.META.get('HTTP_USER_AGENT', '')
+        return 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent
+
+    @property
+    def load_more_template(self):
+        if self.is_mobile():
+            return 'posts/expert/expert_list_mobile.html'
+        else:
+            return 'posts/expert/expert_list_content.html'
+
+class CategoryExpertListView(ExpertListView):
+    def get_queryset(self):
+        return super().get_queryset()
 
 
 # def get_expert_not_verified():
@@ -62,35 +71,44 @@ class ExpertListView(ListView):
 #     def get_queryset(self):    
 #         return Expert.objects.filter( Q(first_name__contains=self.kwargs['search_str']) | Q(last_name__contains=self.kwargs['search_str']) )
 
+
 class SearchByNameExpertListView(ExpertListView):
     # Override the queryset to filter experts by search string
 
     names1 = "Simple data"
 
     def get_queryset(self):
-        return Expert.objects.filter(
-            Q(first_name__contains=self.request.GET.get('q')) | Q(last_name__contains=self.request.GET.get('q')))
+        # Получаем базовый queryset с аннотациями и фильтрациями из ExpertListView
+        queryset = super().get_queryset()
+
+        # Применяем фильтрацию по имени и фамилии, если передан поисковый запрос
+        search_query = self.request.GET.get('q')
+        if search_query:
+            # Разбиваем строку запроса на слова (имя и фамилия)
+            search_terms = search_query.split()
+
+            # Если в запросе два слова, проверяем оба варианта
+            if len(search_terms) == 2:
+                first_term, second_term = search_terms
+                queryset = queryset.filter(
+                    # Первый вариант: первое слово — имя, второе — фамилия
+                    (Q(first_name__icontains=first_term) & Q(last_name__icontains=second_term)) |
+                    # Второй вариант: первое слово — фамилия, второе — имя
+                    (Q(first_name__icontains=second_term) & Q(last_name__icontains=first_term))
+                )
+            # Если одно слово в запросе, ищем по имени или фамилии
+            else:
+                queryset = queryset.filter(
+                    Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query)
+                )
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['search_q'] = self.request.GET.get('q')
         context['some_data'] = self.names1
         return context
-
-
-# Класс-представление для фильтрации статей по категории
-# class CategoryExpertListView(ArticleListView):
-#     #Переопределяем метод получения списка сущностей
-#     def get_queryset(self):
-#         #Получаем объект, по которому будем делать фильтрацию
-#         self.cat = get_object_or_404(Expert, slug=self.kwargs['category_slug'])
-#         return Article.objects.filter(cat=self.cat)
-
-#      #Добавляем параметры в контекст
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['selected_category'] = self.cat       
-#         return context
 
 
 class ExpertDetailView(DetailView):
@@ -105,15 +123,12 @@ class ExpertDetailView(DetailView):
         get_params = self.request.GET.copy()
         if 'category' in get_params:
             del get_params['category']
-
         context['get_params'] = get_params
 
         user_articles_qs = Article.objects.filter(author__id=self.kwargs['pk'])
-
         context['experts_articles'] = user_articles_qs
         context['experts_articles_count'] = user_articles_qs.count()
         context['experts_researches'] = Article.objects.all()[:2]
-
         context['experts_researches_count'] = Article.objects.count()
         context['rating'] = 4.5
 
@@ -126,15 +141,18 @@ class ExpertDetailView(DetailView):
         page_size = projects_view.get_paginate_by(queryset)
         paginator = Paginator(queryset, page_size)
         page = self.request.GET.get('page', 1)
-
         try:
             projects = paginator.page(page)
         except PageNotAnInteger:
             projects = paginator.page(1)
         except EmptyPage:
             projects = paginator.page(paginator.num_pages)
-
         context['projects'] = projects
         context['projects_count'] = projects_count
+
+        # Fetch questions targeted to this expert
+        expert_questions = Question.objects.filter(targeted_user=self.object).order_by('-created_at')
+        context['expert_questions'] = expert_questions
+        context['expert_questions_count'] = expert_questions.count()
 
         return context

@@ -14,7 +14,7 @@ Research
 {% endblock %}
 
 
-<div class="list-main-containers" >
+<div class="element-container" >
 
     <div class="research-content">
 
@@ -27,9 +27,7 @@ Research
             </div>
             <div class="user-catagory-highlight finansy">Финансы</div>
             <div class="user-catagory-highlight banki">Банки</div>
-
         </div>
-
         <div class="basepost-content-cont">
 
             <div class="basepost-title">
@@ -47,30 +45,23 @@ Research
 
             <div class="research-last">
 
-                <div style="display: flex">
-
+                <div class="displayflex">
                     {% for researchprofpic in '12345' %}
                     <div class="author-pic">
                         <i class="bi bi-person-circle" style="color:black; scale:1.2 ; display: flex;"></i>
                     </div>
 
                     {%endfor%}
-
                 </div>
-
                 <div class="comments-andshare-cont">
-
                     <div class="list-comments">
-                        <i class="bi bi-chat-left-text" style="color:grey;"></i>
-                        &nbsp; 104
+                        {% include "components/comment_icon.html" %}
+                        &nbsp; <span class="list-comments">104</span>
                     </div>
-
-                    <div class="list-share">
-                        <i class="bi bi-box-arrow-up-right" style="color:grey; scale : 0.9"></i>
+                    <div class="list-comments">
+                        <i class="bi bi-box-arrow-up-right share-icon" ></i>
                     </div>
-
                 </div>
-
             </div>
 
         </div>

@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% load web_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -104,12 +106,8 @@
 
         <div class="back-btn-cont">
 
-            <a href="{% url 'index' %}" class="global-back-btn " style="margin-bottom:0px">
-
-                <i class="bi bi-chevron-left" style="font-weight: bold; color:#777786; display:flex "></i>
-
-                &nbsp;Назад
-            </a>
+            {% trans "BackButtonLabel" as back_text %}
+            {% back_button "index" back_text %}
 
         </div>
 
@@ -152,9 +150,9 @@
                            {% if form.phone_number.field.required %}required{% endif %}>
                 </div>
 
-                <a href="#" class="login-with-phone" onclick="toggleLoginField();">
-                    <span>Войти с помощью телефона</span>
-                </a>
+{#                <a href="#" class="login-with-phone" onclick="toggleLoginField();">#}
+{#                    <span>Войти с помощью телефона</span>#}
+{#                </a>#}
 
                 <div class="form-group">
                     <label for="password">Пароль</label>

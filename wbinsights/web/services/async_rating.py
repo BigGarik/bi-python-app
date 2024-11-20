@@ -199,11 +199,31 @@ class ExpertRatingCalculation:
                 rating3 = await self._calculate_consulting_experience_rating(conn, user_id, expert_profile)
                 rating4 = await self._calculate_additional_education_rating(conn, user_id, expert_educations)
                 rating5 = await self._calculate_project_work_rating(conn, user_id)
+
                 sum_max_score = sum(
-                    [rating1['max_score'], rating2['max_score'], rating3['max_score'], rating4['max_score'], rating5['max_score']])
-                sum_score = sum([rating1['score'], rating2['score'], rating3['score'], rating4['score'], rating5['score']])
+                    [rating1['max_score'], rating2['max_score'], rating3['max_score'],
+                     rating4['max_score'], rating5['max_score']])
+                sum_score = sum([rating1['score'], rating2['score'], rating3['score'],
+                                 rating4['score'], rating5['score']])
                 rating = math.floor((sum_score / sum_max_score * 5) * 2) / 2
-                await conn.fetch("UPDATE web_expertprofile SET rating = $1, points = $2 WHERE user_id = $3", rating, sum_score, user_id)
+
+                # Получаем подходящий Grade на основе набранных баллов (sum_score)
+                appropriate_grade = await conn.fetchrow("""
+                    SELECT id 
+                    FROM web_grade 
+                    WHERE min_points <= $1 AND (max_points >= $1 OR max_points IS NULL)
+                    ORDER BY min_points DESC 
+                    LIMIT 1
+                """, sum_score)
+
+                grade_id = appropriate_grade['id'] if appropriate_grade else None
+
+                # Обновляем и рейтинг, и grade в профиле эксперта
+                await conn.execute("""
+                    UPDATE web_expertprofile 
+                    SET rating = $1, points = $2, grade_id = $3 
+                    WHERE user_id = $4
+                """, rating, sum_score, grade_id, user_id)
 
 
 async def calculate_rating_for_all_experts():

@@ -2,7 +2,8 @@
 
 {%extends 'base.html'%}
 
-
+{% load i18n %}
+{% load web_tags %}
 {% block content%} 
 
 
@@ -23,10 +24,9 @@
                     <span style="display:flex;font-size: 18px;font-weight: 500;margin-bottom: 20px;"> Страница, на которую вы пытаетесь перейти, не существует. Возможно, она была удалена </span>
 
                     <div style="display:flex; gap: 15px">
-                        <button type="button" class="btn btn-danger" style="background-color: #6dc36b; border-radius: 10px; border: none; padding: 10px 20px 10px 20px; font-size: 17px; font-weight: 500;" onclick="goBack()">Вернуться назад</button>
-                        <a href="{% url 'index' %}" class="btn btn-secondary" style="background-color: white; border: 1px solid #a5b1c8; color: #36364b; margin: 0; border-radius: 10px; font-size: 17px; font-weight: 500; text-decoration: none; display: inline-block; padding: 10px 20px;">
-                            Перейти на главную
-                        </a>
+                            {% trans "BackButtonLabel" as back_text %}
+                            {% back_button "index" back_text %}
+
                     
                     </div>
 

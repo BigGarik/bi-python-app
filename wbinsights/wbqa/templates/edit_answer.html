@@ -1,0 +1,53 @@
+{% extends 'base123.html' %}
+{% load web_tags %}
+{% load file_filters %}
+{% load static %}
+{% load i18n %}
+
+{% block center_col %}
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'css/globalCSS.css' %}">
+{% endblock %}
+
+<style>
+    .select2-container {
+        width: 100% !important;
+    }
+    .select2-container .select2-selection--multiple {
+        min-height: 38px;
+    }
+    .select2-container .select2-selection--single {
+        height: 38px;
+        padding: 6px 12px;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+        list-style: none;
+        display: flex !important;
+    }
+    .select2-selection.select2-selection--multiple {
+        display: flex !important;
+    }
+</style>
+
+
+{% trans "BackButtonLabel" as back_text %}
+{% back_button "wbqa:question_list" back_text %}
+
+
+<h2>Редактирование ответа</h2>
+
+<form method="post" id="answer-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary btn-sm">Сохранить изменения</button>
+</form>
+
+<script>
+    $(document).ready(function() {
+        // If there are any select fields in the answer form that need Select2, initialize them here
+        // For example:
+        // $('#id_some_field').select2();
+    });
+</script>
+
+{% endblock %}

@@ -6,48 +6,20 @@
 {% load vote %}
 {% block center_col %}
 {% load hitcount_tags %}
+{% load i18n %}
 
 {% block extra_static %}
 <link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
 <style>
-    .like-btn {
-        background: none;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
 
-    .like-btn svg {
-        transition: all 0.3s ease;
-    }
-
-    .like-btn.liked svg {
-        fill: #3498db;
-        stroke: #3498db;
-    }
-
-    .like-btn:not(.liked) svg {
-        fill: none;
-        stroke: #95a5a6;
-    }
-
-
-    .list-comments .bi {
-        font-size: 15px;
-    }
 </style>
 {% endblock %}
 
-<div class="list-main-containers">
+<div class="element-container">
 
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "article_list" back_text %}
 
-        <div class="global-back-btn">
-            <a href="{% url 'article_list' %}" class="global-back-btn">
-                <i class="bi bi-chevron-left"></i> &nbsp;Назад
-            </a>
-        </div>
 
         <div style="display: flex; justify-content: space-between">
             <div class="list-publish-date">
@@ -60,7 +32,7 @@
                     <a href="{% url 'article_edit' slug=article.slug %}" style="transform: scale(1.2)">
                         <i class="bi bi-pencil"></i>
                     </a>
-                    <a href="{% url 'article_edit' slug=article.slug %}" style="transform: scale(1.2)">
+                    <a href="#" style="transform: scale(1.2)" data-bs-toggle="modal" data-bs-target="#deleteArticleModal">
                         <i class="bi bi-trash"></i>
                     </a>
                 </div>
@@ -74,7 +46,7 @@
             {{ article.styles|safe }}
         </style>
 
-        <div class="article-detail-main-content">
+        <div class="basepost-content-cont">
             {% autoescape off %}
             {{ article.content }}
             {% endautoescape %}
@@ -89,34 +61,19 @@
                     <span class="like-count">{% vote_count article %}</span>
                 </button>
             </div>
-            <div class="article-detail-page-last">
-                <div class="comments-andshare-cont">
-                    <div class="list-comments">
-                        <i class="bi bi-eye" style="font-size: 16px" onclick="alert('in progress')"></i>
-                        <span>{% get_hit_count for article %}</span>
-                    </div>
-                    <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none;">
-                        <i class="bi bi-chat-left-text" style="color:#a5b1c8; font-size: 13px; margin-top: 2px;"></i>
-                        {% get_comment_count for article as comment_count %}
-                        <span>&nbsp;{{ comment_count }}</span>
-                    </a>
-                    <div class="list-comments dropdown">
-                        <i class="bi bi-box-arrow-up-right global-cat-dropdown" id="socialShareDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color:#a5b1c8; font-size: 13px; margin-bottom: 2px"></i>
-                        <ul class="dropdown-menu" aria-labelledby="socialShareDropdown" style="padding: 10px;">
-                            <div class="shareon" data-url="https://24wbinside.ru/articles/{{ article.slug }}" data-title="{{ article.title }}" id="shareon-{{ article.pk }}">
-                                <a class="facebook"></a>
-                                <a class="twitter"></a>
-                                <a class="linkedin"></a>
-                                <a class="telegram"></a>
-                                <a class="whatsapp"></a>
-                                <a class="reddit"></a>
-                                <a class="vkontakte"></a>
-                                <a class="odnoklassniki"></a>
-                                <a class="copy-url"></a>
-                            </div>
-                        </ul>
-                    </div>
+            <div class="comments-andshare-cont">
+                <div class="list-comments">
+                    <i class="bi bi-eye" style="font-size: 16px" onclick="alert('in progress')"></i>
+                    <span>{% get_hit_count for article %}</span>
                 </div>
+                <a href="{{ article.get_absolute_url }}#comments" class="list-comments" style="text-decoration: none;">
+                    {% include "components/comment_icon.html" %}
+                    {% get_comment_count for article as comment_count %}
+                    <span class="list-comments">&nbsp;{{ comment_count }}</span>
+                </a>
+                {% with article_url="https://24wbinside.ru/articles/"|add:article.slug %}
+                {% social_share_buttons article_url article.title article.pk %}
+                {% endwith %}
             </div>
         </div>
 
@@ -126,26 +83,18 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Подтвердите удаление</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Вы уверены, что хотите удалить статью "{{ article.title }}"?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                <form method="post" action="{% url 'delete_article' article.slug %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Подтвердить</button>
-                </form>
-            </div>
-        </div>
+<div class="modal fade" id="deleteArticleModal" tabindex="-1" aria-labelledby="deleteArticleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteArticleModalLabel">Подтверждение удаления</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% include "posts/article/article_confirm_delete.html" with article=article %}
+      </div>
     </div>
+  </div>
 </div>
 
 <script>

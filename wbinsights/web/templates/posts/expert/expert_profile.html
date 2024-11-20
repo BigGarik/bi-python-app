@@ -1,6 +1,6 @@
 {% extends 'base123.html' %}
 {% load web_tags %}
-
+{% load i18n %}
 {% load static %}
 
 
@@ -12,12 +12,11 @@
 
 
 
-    <div class="list-main-containers" >
+    <div class="element-container">
 
-        <a href="{% url 'experts_list' %}" class="global-back-btn">
-            <i class="bi bi-chevron-left chevron-left-css"></i>
-            &nbsp; к списку экспертов
-        </a>
+
+        {% trans "ToExpertListLabel" as back_text %}
+        {% back_button "experts_list" back_text %}
 
         {% include 'components/experts/profile_info.html' with user=expert profile=expert.expertprofile buttons_template='posts/expert/profile_buttons.html' %}
 

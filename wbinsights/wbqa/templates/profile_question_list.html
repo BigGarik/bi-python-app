@@ -1,0 +1,98 @@
+{% load static %}
+{% load web_tags %}
+
+
+
+{% block extra_static %}
+    <link rel="stylesheet" href="{% static 'web/css/question_answer.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/article_list.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
+    <style>
+        .search-and-cat-cont-mobile {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-input-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .button-filter-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .ask-question-btn-mobile {
+            text-wrap: nowrap !important;
+        }
+
+    </style>
+{% endblock %}
+
+
+{#        {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}#}
+{#            <a href="{% url 'wbqa:create_question' %}">#}
+{#                <button type="button" class="btn ask-question-btn btn-sm ask-question-btn-mobile" style="margin-left: 0px !important;margin-bottom: 15px;">Задать вопрос#}
+{#                </button>#}
+{#            </a>#}
+{#        {% endif %}#}
+
+
+        <div id="articles-container">
+            {% include 'profile_question_list_content.html' %}
+        </div>
+
+        {% if is_paginated %}
+            <div id="load-more-container" class="text-center mt-4">
+                <button id="load-more-btn" class="btn btn-primary" data-page="{{ page_obj.number }}">Load More</button>
+            </div>
+        {% endif %}
+
+
+
+    <script>
+        $(document).ready(function () {
+            $("#search-article-query").keypress(function (event) {
+                if (event.key === "Enter") {
+                    var search_value = $(this).val()
+                    if (search_value == '' || search_value == 'None')
+                        return;
+                    window.location.href = "{{ request.path }}?search_q=" + search_value;
+                }
+            });
+
+            $("#load-more-btn").click(function () {
+                var button = $(this);
+                var currentPage = parseInt(button.data('page'));
+                var nextPage = currentPage + 1;
+
+                var post_data = {
+                    'page': nextPage,
+                }
+
+                var search_q = '{{ search_q }}'
+
+                if (search_q != '' && search_q != 'None') {
+                    post_data['search_q'] = search_q
+                }
+                $.ajax({
+                    url: '{{ request.path }}',
+                    data: post_data,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function (data) {
+                        if (data.html) {
+                            $("#articles-container").append(data.html);
+                            button.data('page', nextPage);
+                        }
+                        if (!data.has_more) {
+                            $("#load-more-container").hide();
+                        }
+                    }
+                });
+            });
+        });
+    </script>

@@ -1,49 +1,38 @@
 
-
-.article-detail-title{
+.like-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
     display: flex;
-    font-family: sans-serif;
-    font-size: 28px;
-    font-weight: 600;
-    margin-top: 10px;
-    line-height: normal;
-    margin-bottom: 10px;
-}
-
-.article-detail-main-content{
-    font-size: 16px;
-    font-family: sans-serif;
-    font-weight: 500;
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0 10px 0;
-}
-
-.article-detail-page-last{
-    display: flex;
-    justify-content: flex-end;
     align-items: center;
-    margin-top: 10px;
+    gap: 5px;
 }
 
-.article-detail-comments-andshare-cont {
-    display: flex;
+.like-btn svg {
+    transition: all 0.3s ease;
 }
 
-.article-detail-comments {
-    display: flex;
-    color: #a5b1c8;
-    margin-right: 10px;
-    align-items: center;
-    font-size: 13px;
+.like-btn.liked svg {
+    fill: #3498db;
+    stroke: #3498db;
 }
 
-.article-detail-main-content img {
-    max-width: 100%;
-    height: auto;
+.like-btn:not(.liked) svg {
+    fill: none;
+    stroke: #95a5a6;
 }
 
-.artile-list-image{
-    display: flex;
-    margin: 5px 0 5px 0
+
+.list-comments .bi {
+    font-size: 15px;
+}
+
+.dropdown-menu {
+    --bs-dropdown-min-width: 8rem;
+    min-width: 8rem;
+}
+
+.dropdown-menu {
+    --bs-dropdown-min-width: 8rem;
+    min-width: 8rem;
 }

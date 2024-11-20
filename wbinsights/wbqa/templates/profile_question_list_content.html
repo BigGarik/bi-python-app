@@ -1,0 +1,78 @@
+{% load static %}
+{% load web_tags %}
+
+{% for question in expert_questions %}
+    <div class="basepost-content-cont">
+        <hr class="solid solid-hr">
+        <div class="user-category-cont" style="justify-content: flex-start !important;">
+            <div class="user-catagory-highlight {{ question.cat.slug }}">
+                {{ question.cat }}
+            </div>
+        </div>
+        <div class="basepost-title">{{ question.title }}</div>
+        <div>
+            <span class="basepost-description d-inline">{{ question.content|truncatewords:30 }} &nbsp;&nbsp;</span>
+            <a href="{% url 'wbqa:question_detail' question.pk %}" class="link-read-post">
+                Читать пост
+            </a>
+            <div class="basepost-prof-socials-cont d-none d-md-flex">
+                <div class="basepost-author-cont">
+                    <div class="author-pic-research">
+                        {% if question.author.profile.avatar.url %}
+                            <div><img src="{{ question.author.profile.avatar.url }}"
+                                      alt="{{ question.author.username }}" class="basepost-author-pic"></div>
+                        {% else %}
+                            <i class="bi bi-person-circle author-icon"></i>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'expert_profile' question.author.pk %}" class="basepost-author-text"
+                       style="margin-left: 0px">
+                        <div class="basepost-author-text"
+                             style="text-decoration: none">{{ question.author.last_name }} {{ question.author.first_name }}</div>
+                    </a>
+                    <span class="list-publish-date">&nbsp;{{ question.created_at|custom_time_display }}</span>
+                </div>
+                <div class="comments-andshare-cont">
+                    <div class="list-comments">
+                        {% include "components/comment_icon.html" %}
+                        <span class="list-comments">{{ question.answers.count }}</span>
+                    </div>
+                    {% with question_url="https://24wbinside.ru/wbqa/question/"|add:question.pk %}
+                    {% social_share_buttons question_url question.title question.pk %}
+                    {% endwith %}
+                </div>
+            </div>
+            <!-- Mobile version -->
+            <div class="question-answer-last d-inline d-md-none">
+                <div class="list-publish-date" style="margin: 10px 0 10px 0;">
+                    {{ question.created_at|custom_time_display }}
+                </div>
+                <div class="flex-cont">
+                    <div class="article-author-cont">
+                        <div class="author-pic-research">
+                            {% if question.author.profile.avatar.url %}
+                                <div><img src="{{ question.author.profile.avatar.url }}"
+                                          alt="{{ question.author.username }}" class="basepost-author-pic"></div>
+                            {% else %}
+                                <i class="bi bi-person-circle author-icon"></i>
+                            {% endif %}
+                        </div>
+                        <div class="basepost-author-text">{{ question.author.first_name }} {{ question.author.last_name }}</div>
+                    </div>
+                    <div class="comments-andshare-cont">
+                        <div class="list-comments">
+                            {% include "components/comment_icon.html" %}
+                            <span class="list-comments">{{ question.answers.count }}</span>
+                        </div>
+                        {% with question_url="https://24wbinside.ru/wbqa/question/"|add:question.pk %}
+                        {% social_share_buttons question_url question.title question.pk %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% empty %}
+    <p>No questions available.</p>
+{% endfor %}

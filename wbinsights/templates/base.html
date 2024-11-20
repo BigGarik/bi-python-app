@@ -43,8 +43,8 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif !important;
-        <!-- system-ui ? --> background-color: #2980b9;
+            font-family: Arial, sans-serif !important;  <!-- system-ui? -->
+            background-color: #2980b9;
             font-family: monaco, Consolas, Lucida Console, monospace;
         }
 
@@ -82,7 +82,7 @@
                 color: white;
                 text-align: center;
                 font-size: 14px;
-            }
+            }   
 
             #mobile-nav .nav-item i {
                 display: block;
@@ -111,7 +111,7 @@
             <!-- display for larger screens -->
             <div class="d-none d-xl-flex justify-content-end main-cont-css">
 
-                <aside class="col-sm-0-5  d-none d-md-block"></aside>
+                <aside class="col-sm-0-5  d-none d-md-block" ></aside>
 
                 <div class="col-md-4 mb-2 mb-md-0 logo-container">
 
@@ -242,7 +242,7 @@
 
                     {% endif %}
                 </div>
-                <aside class="col-sm-0-5  d-none d-md-block"></aside>
+                <aside class="col-sm-0-5  d-none d-md-block" ></aside>
 
             </div>
 
@@ -255,9 +255,8 @@
                         <i class="bi bi-list" style="color: white; font-size: 32px;"></i>
                     </div>
 
-                    <div style="display:flex;width: 100%; justify-content: flex-end;gap: 15px">
-                        <i class="bi bi-search" style="font-size: 22px; color: white;padding-top: 4px; z-index: 2000"
-                           onclick="alert('in progress')"></i>
+                    <div style="display:flex;width: 100%; justify-content: flex-end;gap: 15px" >
+                        <i class="bi bi-search" style="font-size: 22px; color: white;padding-top: 4px; z-index: 2000" onclick="alert('in progress')"></i>
                         {% if user.is_authenticated %}
                             {% if user.profile.type == 1 %}
                                 <div class="dropdown" style="z-index: 2000">
@@ -299,7 +298,7 @@
 
     </header>
 
-    <div class="row row-margin">
+    <div class="row row-margin" >
         {% block content %} {% endblock %}
     </div>
 
@@ -391,14 +390,14 @@
     })
     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-    ym(98346427, "init", {
+    ym(97084911, "init", {
         clickmap: true,
         trackLinks: true,
         accurateTrackBounce: true
     });
 </script>
 <noscript>
-    <div><img src="https://mc.yandex.ru/watch/98346427" style="position:absolute; left:-9999px;" alt=""/></div>
+    <div><img src="https://mc.yandex.ru/watch/97084911" style="position:absolute; left:-9999px;" alt=""/></div>
 </noscript>
 <!-- /Yandex.Metrika counter -->
 

@@ -28,7 +28,6 @@
     cursor: pointer;
 }
 
-
 .expert-profiles-cont{
     display: flex;
     align-items: center;
@@ -57,7 +56,6 @@
     line-height: normal;
 }
 
-
 .side-avatar-container {
     min-width: 50px;
     max-width: 50px;
@@ -65,6 +63,12 @@
     border-radius: 50%; 
     overflow: hidden; 
     /*border: 1px solid #ccc; */
+}
+
+.expert-list-side {
+    font-size: 13px;
+    font-weight: 500;
+    color: #727070;
 }
 
 .side-avatar-container img {
@@ -79,5 +83,15 @@
     font-family: sans-serif;
     font-size: 14px;
     font-weight: 600;
+}
+
+.expert-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.expert-category {
+    white-space: nowrap;
 }
 

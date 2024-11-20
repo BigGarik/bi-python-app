@@ -6,56 +6,9 @@
 {% load hitcount_tags %}
 
 <style>
-    .card-css {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 200px;
-    }
 
-    .no-arrow {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background: none;
-        background-position: right;
-    }
-
-    @media (max-width: 768px) {
-        .page-link {
-            font-size: 12px !important;
-        }
-        .smallBtnProf {
-            font-size: 12px !important;
-            justify-content: center !important;
-        }
-    }
-
-    .like-btn {
-        background: none;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        padding-bottom: 1px;
-    }
-
-    .like-btn svg {
-        transition: all 0.3s ease;
-    }
-
-    .like-btn.liked svg {
-        fill: #3498db;
-        stroke: #3498db;
-    }
-
-    .like-btn:not(.liked) svg {
-        fill: none;
-        stroke: #95a5a6;
-    }
 </style>
-
+    <link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
 {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
     <a href="{% url 'project_add' %}" class="btn btn-primary" style="margin-bottom: 10px" role="button"
        aria-pressed="true">Добавить проект</a>
@@ -66,10 +19,9 @@
     {% get_all_categories as categories %}
     <form method="get" id="filter-form" class="mb-4 py-2">
         <div class="form-group">
-            <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name"
-                   value="{{ request.GET.name }} ">
+            <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name" value="{{ request.GET.name }} ">
         </div>
-        <div class="smallBtnProf py-2" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <div class="smallBtnProf py-2">
             <div class="form-group">
                 <div class="dropdown mb-3">
                     <button type="button" class="btn btn-secondary dropdown-toggle smallBtnProf" data-bs-toggle="dropdown">
@@ -125,9 +77,9 @@
         {% endfor %}
     </form>
 
-    <div class="project-list d-none d-md-flex" style="display:flex; gap: 10px; flex-wrap: wrap">
+    <div class="project-list d-none d-md-flex" >
         {% for project in projects %}
-            <div class="card card-body border-dark1 text-dark card-css mb-3" style="width:19%; max-width:19%; cursor: pointer;" onclick="showProjectDetails('{{ project.id }}')">
+            <div class="card card-body border-dark1 text-dark card-css mb-3"  onclick="showProjectDetails('{{ project.id }}')">
                 <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
                 <h6 class="card-title">{{ project.year }} г.</h6>
                 <h6 class="card-title">
