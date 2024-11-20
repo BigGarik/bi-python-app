@@ -1,6 +1,4 @@
-// static/js/editor-init.js
 
-// Wait for DOM and plugins to be loaded
 window.addEventListener('load', function() {
     if (!window.pixabayPlugin) {
         console.error('Pixabay plugin not loaded!');

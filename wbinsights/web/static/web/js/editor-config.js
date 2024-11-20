@@ -1,4 +1,3 @@
-// static/js/editor-config.js
 
 const en = {
     blocks: {

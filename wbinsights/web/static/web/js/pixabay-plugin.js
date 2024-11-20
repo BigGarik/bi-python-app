@@ -1,4 +1,3 @@
-// static/js/pixabay-plugin.js
 
 window.pixabayPlugin = (editor, opts = {}) => {
     console.log('Pixabay Plugin initialized with options:', opts);
@@ -15,13 +14,13 @@ window.pixabayPlugin = (editor, opts = {}) => {
                 en: 'Search images...',
                 ru: 'Поиск изображений...'
             },
-            defaultSearch: 'nature',
+            defaultSearch: '',
             perPage: 20
         },
         ...opts
     };
 
-    // Define default content for the Pixabay component
+    // define default content
     const defaultContent = {
         tagName: 'div',
         type: 'pixabay-image',
@@ -53,7 +52,7 @@ window.pixabayPlugin = (editor, opts = {}) => {
         }
     };
 
-    // Add Custom Block
+    // add custom block
     editor.BlockManager.add('pixabay-image-block', {
         label: options.blockLabel,
         category: 'Media',
@@ -62,11 +61,11 @@ window.pixabayPlugin = (editor, opts = {}) => {
         activate: true,
     });
 
-    // Custom Component Definition
+    // definition of component
     editor.DomComponents.addType('pixabay-image', {
         isComponent: el => {
             if (el.getAttribute && el.getAttribute('data-gjs-type') === 'pixabay-image') {
-                return { type: 'pixabay-image' };
+                return { type: 'pixabay-image' }; // TODO: change later to just image and replace with default image
             }
         },
         model: {
@@ -215,7 +214,7 @@ window.pixabayPlugin = (editor, opts = {}) => {
             // Initial load
             fetchPixabayImages(options.defaultSearch);
 
-            // Set up and open modal
+            // open modal when dragged into gjs
             modal.setTitle(options.modalTitle[currentLocale]);
             modal.setContent(container);
             modal.open();
