@@ -69,11 +69,9 @@
             stepsBeforeSave: 1,
             id: 'gjs',
         },
-        plugins: ['grapesjs-plugin-i18n', 'grapesjs-touch'],
+        plugins: ['grapesjs-touch'],
         pluginsOpts: {
-            'grapesjs-plugin-i18n': {
-                messages: {en: en, ru: ru},
-            },
+
         },
         panels: {defaults: []},
         blockManager: {
@@ -162,7 +160,6 @@
         }
 
     });
-
 
     function switchLanguage(lang) {
         editor.I18n.setLocale(lang);
