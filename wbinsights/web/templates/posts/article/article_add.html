@@ -29,9 +29,7 @@
 
     </style>
 
-
-
-
+    
     <form method="post" enctype="multipart/form-data" id="article-form">
         {% csrf_token %}
         <div class="row">
@@ -61,9 +59,8 @@
                 <div class="article-add-right-btns">
                     <div class="article-settings">
                         <div>Настройки</div>
-                        <div class="clear-all" onclick="clearEditorContent()"><i class="bi bi-trash"
-                                                                                 style="cursor:pointer"></i> Очистить
-                            всё
+                        <div class="clear-all" onclick="clearEditorContent()">
+                            <i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё
                         </div>
                     </div>
                     {#                <div class="language-switch">#}

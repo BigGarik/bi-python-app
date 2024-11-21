@@ -57,5 +57,16 @@ def get_avatar_url(comment):
         return urljoin(settings.MEDIA_URL, 'avatars/profile_picture_icon.png')
 
 
+def is_mobile(context):
+    request = context['request']
+    return is_mobile_by_request(request)
+
+
+def is_mobile_by_request(request):
+    user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
+    mobile_agents = ['iphone', 'android', 'blackberry', 'windows phone', 'opera mini', 'mobile']
+    return any(mobile_agent in user_agent for mobile_agent in mobile_agents)
+
+
 if __name__ == '__main__':
     print(get_timezones(None))

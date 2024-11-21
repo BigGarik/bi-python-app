@@ -13,41 +13,9 @@
     </div>
 
     {% if has_more_objects %}
-    <div style="display:flex; justify-content:center" id="load-more-container">
-        <button type="button" class="btn btn-secondary btn-more" id="load-more-btn" data-page="1">
-            Загрузить ещё
-        </button>
-    </div>
+       {% include 'components/load_more.html' with data_container="#articles-container" %}
     {% endif %}
 </div>
 
-<script>
-$(document).ready(function() {
-    $("#load-more-btn").click(function() {
-        var button = $(this);
-        var currentPage = parseInt(button.data('page'));
-        var nextPage = currentPage + 1;
 
-        $.ajax({
-            url: '{% url "profile" %}',
-            data: {
-                'page': nextPage,
-                'tab': 'articles'
-            },
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            success: function(data) {
-                if (data.html) {
-                    $("#articles-container").append(data.html);
-                    button.data('page', nextPage);
-                }
-                if (!data.has_more) {
-                    $("#load-more-container").hide();
-                }
-            }
-        });
-    });
-});
-</script>
 

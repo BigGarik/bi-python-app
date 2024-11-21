@@ -9,9 +9,9 @@
 <div class="right-expert-col-cont element-container">
 
     <div class="container-fluid-expert-col">
+
         <div class="spans-cont">
             <span class="experts-title">ЭКСПЕРТЫ</span>
-
         </div>
 
         {% get_top_experts as topexperts %}
@@ -23,7 +23,9 @@
 				</div>
 
                 <div class="expert-list-info">
-                    <div class="expert-name"><a href="{% url 'expert_profile' expert.pk %}?tab=articles" style="color:black">{{ expert.first_name }} {{ expert.last_name }}</a></div>
+                    <div class="expert-name">
+                        <a href="{% url 'expert_profile' expert.pk %}?tab=articles" style="color:black">{{ expert.first_name }} {{ expert.last_name }}</a>
+                    </div>
                     <div class="expert-job">
                         <div class="expert-categories">
                             {% for expert_category in expert.expertprofile.expert_categories.all %}
@@ -34,35 +36,8 @@
                         </div>
 
                     </div>
-                    <div class="user-rating-right-list ">
 
-                        <div class="expert-list-side"> {{ expert.expertprofile.grade.grade }} </div>
-
-
-
-
-
-{#                        <div class=""><i class="bi bi-star-fill" style="scale: 0.9; color: #e9be50; padding: 0 2px 0 2px"></i> {{ expert.expertprofile.rating|default_if_none:0 }}</div>#}
-{#                        <div class="user-rate-and-stars">#}
-{##}
-{#                            {% for ch in filled_stars_chipher %}#}
-{##}
-{#                                {% if ch == 'f' %}#}
-{#                                <i class="bi bi-star-fill" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>#}
-{##}
-{#                                {% elif ch == 'h' %}#}
-{#                                <i class="bi bi-star-half" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>#}
-{##}
-{#                                {% elif ch == 'e' %}#}
-{#                                <i class="bi bi-star" style="scale: 1; color: #e9be50; padding: 0 2px 0 2px"></i>#}
-{##}
-{#                                {% endif%}#}
-{#                            #}
-{#                                #}
-{#                            {% endfor %}#}
-{##}
-{#                        </div>#}
-                    </div>
+                    {% include 'components/experts/rating.html' with user=expert size='small' %}
                 </div>
             </div>
         {% endfor %}

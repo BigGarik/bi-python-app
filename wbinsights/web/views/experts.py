@@ -9,6 +9,8 @@ from wbqa.models import Question
 from web.models import Article, Category, Expert
 from web.views.contents import CommonContentFilterListView
 
+from web.utils import is_mobile_by_request
+
 
 from django.db.models import Count, F
 
@@ -38,18 +40,13 @@ class ExpertListView(CommonContentFilterListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['selected_category'] = ''
-        context['is_mobile'] = self.is_mobile()
         context['min_rating'] = self.request.GET.get('min_rating', '')
         context['grades'] = Grade.objects.all()
         return context
 
-    def is_mobile(self):
-        user_agent = self.request.META.get('HTTP_USER_AGENT', '')
-        return 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent
-
     @property
     def load_more_template(self):
-        if self.is_mobile():
+        if is_mobile_by_request(self.request):
             return 'posts/expert/expert_list_mobile.html'
         else:
             return 'posts/expert/expert_list_content.html'
