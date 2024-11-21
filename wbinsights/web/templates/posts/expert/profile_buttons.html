@@ -10,18 +10,27 @@
             border: none;
         }
     }
+
+    .prof-consult-btn {
+            background-color: #6dc36b;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #6dc36b;
+            border: none;
+    }
 </style>
 
 
 {% if user == request.user %}
     <a href="#" aria-disabled="True" type="button"
-       class="btn btn-secondary if-mobile-consult-btn"
+       class="btn btn-secondary prof-consult-btn if-mobile-consult-btn"
        >
         Консультация
     </a>
 {% else %}
     <a href="{% url 'appointment_add' user.id %}" aria-disabled="True" type="button"
-       class="btn btn-secondary if-mobile-consult-btn"
+       class="btn btn-secondary prof-consult-btn if-mobile-consult-btn"
        >
         Консультация
     </a>

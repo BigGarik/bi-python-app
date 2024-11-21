@@ -14,6 +14,16 @@
 
 
     <style>
+
+        .delete-btn-cont {
+            display: flex;justify-content: flex-end;height: fit-content;
+        }
+
+        .education-formset-container {
+            padding-top: 10px;
+        }
+
+
         @media (max-width: 1400px ) {
             .prof-edit-input-title {
                 min-height: 100px !important;
@@ -55,9 +65,22 @@
             width: 100% !important;
         }
 
+        .bi-trash:hover {
+            color: red;
+            cursor: pointer;
+        }
+
 
         .ql-editor {
             font-size: 16px; /* Измените значение по вашему усмотрению */
+        }
+
+        .avatar-text-edit-prof {
+            color:white ; user-select: none; margin: 0; font-size:8px
+        }
+
+        .specialized-edu-class {
+            display: flex;align-items: center;gap: 5px;
         }
 
 
@@ -126,9 +149,9 @@
                              style="border-radius: 50%;max-height: 100px;max-width: 100px;min-width: 100px;min-height: 100px;object-fit: cover;">
                         <div style="display:flex ; margin-left: 10px ; flex-direction:column">
                             {% if profile_form.instance.avatar %}
-                                <p style="color:white ; user-select: none; margin: 0; font-size:8px">На данный момент:
+                                <p class="avatar-text-edit-prof">На данный момент:
                                     <a href="{{ profile_form.instance.avatar.url }}"
-                                       style="color: white;font-size:8px">{{ profile_form.instance.avatar.name }}</a>
+                                       class ="avatar-text-edit-prof">{{ profile_form.instance.avatar.name }}</a>
                                 </p>
                             {% endif %}
                             <label for="id_avatar">Изменить:</label>
@@ -193,7 +216,11 @@
 
                 <!-- Добавляем формсет для образования -->
                 <div class="education-formset-container">
-                    <span class="prof-edit-page-title" style="padding-bottom: 10px">Образование</span>
+                    <span class="prof-edit-page-title">Образование
+                        <div type="button" class="bi bi-plus add-education-btn-trigger"
+                             style="background-color: #4CAF50; color: white; padding:0px 5px 0px 5px; border-radius: 4px; cursor: pointer;">
+                        </div>
+                    </span>
                     {{ education_expert_formset.management_form }}
 
                     {% for form in education_expert_formset %}
@@ -205,19 +232,29 @@
                             {{ form.errors }}
 
                             <div class="row" style="padding: 10px 0 10px 0;">
-                                <div class="prof-edit-input-title1 col-6">
+                                <div class="prof-edit-input-title1 col-6" >
                                     <label for="{{ form.education_type.id_for_label }}"
                                            class="prof-edit-input-labels">{{ form.education_type.label }}</label>
                                     {{ form.education_type }}
                                 </div>
 
-                                <div class="prof-edit-input-title1 col-6"
-                                     style="display: flex;align-items: center;gap: 5px;">
+                                <div class="prof-edit-input-title1 specialized-edu-class col-5" >
                                     <label for="{{ form.specialized_education.id_for_label }}"
                                            class="prof-edit-input-labels">{{ form.specialized_education.label }}</label>
                                     <div class="custom-width-auto">
                                         {{ form.specialized_education }}
                                     </div>
+
+                                </div>
+                                <div class="col-1 delete-btn-cont" >
+
+                                    {% if form.instance.id %}
+                                        <div class="bi bi-trash delete-education-btn" type="button"
+                                             style="font-size: 20px"
+                                             data-education-id="{{ form.instance.id }}"
+                                             data-education-name="{{ form.instance.educational_institution }}">
+                                        </div>
+                                    {% endif %}
 
                                 </div>
                             </div>
@@ -238,23 +275,14 @@
                             </div>
 
                         </div>
-                        <div style="display: flex;justify-content: flex-end;">
 
-                            {% if form.instance.id %}
-                                <button type="button" class="btn btn-danger delete-education-btn"
-                                        data-education-id="{{ form.instance.id }}"
-                                        data-education-name="{{ form.instance.educational_institution }}">
-                                    Удалить образование
-                                </button>
-                            {% endif %}
-
-                        </div>
                     {% endfor %}
 
                     <!-- Кнопка для добавления нового образования (если требуется) -->
-                    <button type="button" class="btn btn-secondary add-education-btn" style="margin-top: 20px">Добавить
-                        образование
-                    </button>
+                    {#                    <button type="button" class="btn btn-secondary add-education-btn" style="margin-top: 20px">Добавить#}
+                    {#                        образование#}
+                    {#                    </button>#}
+                    <div id="new-education-forms-container"></div>
                 </div>
 
 
@@ -262,29 +290,63 @@
 
 
                 <script>
-                    // Скрипт для добавления новой формы образования
-                    $('.add-education-btn').click(function () {
-                        // Клонируем последнюю форму в формсете
+                    $('.add-education-btn-trigger').click(function () {
+                        // Clone the last form
                         const newForm = $('.education-form:last').clone();
-                        // Очищаем значения в клонированной форме
+
                         newForm.find('input').val('');
                         newForm.find('select').val('');
-                        // Изменяем индекс в именах и id полей
-                        const formRegex = RegExp('form-(\\d+)-', 'g');
+
                         const formNum = parseInt($('#id_form-TOTAL_FORMS').val());
+                        newForm.attr('data-new-form', formNum);
+
+                        newForm.find('.bi-trash').remove();
+                        newForm.find('.col-1').html(`
+                            <div class="bi bi-trash delete-temp-education-btn" type="button"
+                                 style="font-size: 20px"
+                                 data-new-form="${formNum}">
+                            </div>
+                        `);
+
+                        const formRegex = RegExp('form-(\\d+)-', 'g');
                         newForm.html(newForm.html().replace(formRegex, 'form-' + formNum + '-'));
-                        // Увеличиваем общее количество форм в управляющей форме
+
                         $('#id_form-TOTAL_FORMS').val(formNum + 1);
-                        // Добавляем новую форму в DOM
-                        newForm.insertBefore($(this));
+
+                        $('#new-education-forms-container').append('<hr/>');
+                        $('#new-education-forms-container').append(newForm);
                     });
                 </script>
                 <hr/>
 
                 <div class="prof-edit-bot-btns-cont">
                     <button type="submit" class="btn btn-secondary prof-edit-save-btn" id="id-save-changes-btn">
-                        Сохранить изменения
+                        <span class="normal-text">Сохранить изменения</span>
+                            <span class="loading-text" style="display: none;">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Сохранение...
+                        </span>
                     </button>
+
+                    <script>
+
+                        $('form').on('submit', function() {
+                            const saveBtn = $('#id-save-changes-btn');
+                            saveBtn.prop('disabled', true);
+                            saveBtn.find('.normal-text').hide();
+                            saveBtn.find('.loading-text').show();
+
+                            setTimeout(() => {
+                                saveBtn.prop('disabled', false);
+                                saveBtn.find('.loading-text').hide();
+                                saveBtn.find('.normal-text').show();
+                            }, 2000);
+                        });
+
+                    </script>
+
+
+
                     <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"
                             data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
                         Удалить профиль
@@ -357,6 +419,19 @@
     </div>
 
     <script>
+
+        $(document).on('click', '.delete-temp-education-btn', function () {
+            // For new, unsaved forms
+            const formNum = $(this).data('new-form');
+            $(this).closest('.education-form').prev('hr').remove(); // Remove the HR
+            $(this).closest('.education-form').remove(); // Remove the form
+
+            // Update total forms count
+            const totalForms = parseInt($('#id_form-TOTAL_FORMS').val());
+            $('#id_form-TOTAL_FORMS').val(totalForms - 1);
+        });
+
+
         $(document).ready(function () {
             $('.delete-education-btn').click(function () {
                 var educationId = $(this).data('education-id');

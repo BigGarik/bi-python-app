@@ -4,6 +4,7 @@ from django.views.generic import DetailView
 
 from expertprojects.models import UserProject
 from expertprojects.views import GetProjectsView
+from web.models.users import Grade
 from wbqa.models import Question
 from web.models import Article, Category, Expert
 from web.views.contents import CommonContentFilterListView
@@ -39,6 +40,7 @@ class ExpertListView(CommonContentFilterListView):
         context['selected_category'] = ''
         context['is_mobile'] = self.is_mobile()
         context['min_rating'] = self.request.GET.get('min_rating', '')
+        context['grades'] = Grade.objects.all()
         return context
 
     def is_mobile(self):

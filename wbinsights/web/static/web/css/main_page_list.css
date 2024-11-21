@@ -65,6 +65,12 @@
     /*border: 1px solid #ccc; */
 }
 
+.expert-list-side {
+    font-size: 13px;
+    font-weight: 500;
+    color: #727070;
+}
+
 .side-avatar-container img {
     min-width: 50px;
     max-width: 50px;

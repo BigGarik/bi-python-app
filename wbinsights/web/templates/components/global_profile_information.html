@@ -16,20 +16,24 @@
 
             {% if user.profile.type == 1 %}
                 <div class="user-rating-cont">
-                    <div class="user-rating">{% trans 'RatingLabel' %} :
-                        {{ user.expertprofile.rating|default_if_none:0 }}</div>
-                    <div class="user-rate-and-stars">
-                        {% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher %}
-                        {% for ch in filled_stars_chipher %}
-                            {% if ch == 'f' %}
-                                <i class="bi bi-star-fill star-icon"></i>
-                            {% elif ch == 'h' %}
-                                <i class="bi bi-star-half star-icon"></i>
-                            {% elif ch == 'e' %}
-                                <i class="bi bi-star star-icon"></i>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                    {% if request.path != '/profile' %}
+                        <div>{{ expert.expertprofile.grade.grade }}</div>
+                    {% else %}
+                        <div class="user-rating">{% trans 'RatingLabel' %} :
+                            {{ user.expertprofile.rating|default_if_none:0 }}</div>
+                        <div class="user-rate-and-stars">
+                            {% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher %}
+                            {% for ch in filled_stars_chipher %}
+                                {% if ch == 'f' %}
+                                    <i class="bi bi-star-fill star-icon"></i>
+                                {% elif ch == 'h' %}
+                                    <i class="bi bi-star-half star-icon"></i>
+                                {% elif ch == 'e' %}
+                                    <i class="bi bi-star star-icon"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="user-category-cont">
                     <div class="displayflex">
@@ -72,20 +76,20 @@
                             {% endfor %}
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="user-category-cont">
-                <div class="displayflex flex-column">
-                    <div class="user-category user-category-center">Эксперт в области :</div>
-                    <div class="user-category user-category-center">
-                    {% for exp_category in profile.expert_categories.all %}
-                        <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
-                    {% endfor %}
                     </div>
-                </div>
-            </div>
-            {% else %}
-                <span>Клиент </span>
-            {% endif %}
+                    </div>
+                    <div class="user-category-cont">
+                        <div class="displayflex flex-column">
+                            <div class="user-category user-category-center">Эксперт в области :</div>
+                            <div class="user-category user-category-center">
+                                {% for exp_category in profile.expert_categories.all %}
+                                    <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <span>Клиент </span>
+                {% endif %}
     </div>
 </div>

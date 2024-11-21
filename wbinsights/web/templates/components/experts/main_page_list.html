@@ -11,12 +11,12 @@
     <div class="container-fluid-expert-col">
         <div class="spans-cont">
             <span class="experts-title">ЭКСПЕРТЫ</span>
-            <span class="all-experts"><a href="{% url 'experts_list' %}">{% trans 'AllExpertsLabel' %}</a></span>
+
         </div>
 
         {% get_top_experts as topexperts %}
 
-        {% for expert in topexperts %}
+        {% for expert in topexperts|slice:":6" %}
             <div class="expert-profiles-cont">
                 <div class="side-avatar-container">
 					<img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid" />
@@ -35,9 +35,16 @@
 
                     </div>
                     <div class="user-rating-right-list ">
-                        <div class=""><i class="bi bi-star-fill" style="scale: 0.9; color: #e9be50; padding: 0 2px 0 2px"></i> {{ expert.expertprofile.rating|default_if_none:0 }}</div>
+
+                        <div class="expert-list-side"> {{ expert.expertprofile.grade.grade }} </div>
+
+
+
+
+
+{#                        <div class=""><i class="bi bi-star-fill" style="scale: 0.9; color: #e9be50; padding: 0 2px 0 2px"></i> {{ expert.expertprofile.rating|default_if_none:0 }}</div>#}
 {#                        <div class="user-rate-and-stars">#}
-{##}    
+{##}
 {#                            {% for ch in filled_stars_chipher %}#}
 {##}
 {#                                {% if ch == 'f' %}#}
@@ -60,11 +67,13 @@
             </div>
         {% endfor %}
 
-        <a href="#" onclick="alert('В разработке')" style="text-decoration: none; display: none">
-            <span class="expert-more" style="cursor: pointer">
-                {% trans 'MoreExpertsLabel' %} &nbsp;
-                <i class="bi bi-chevron-down" style="scale: 2;"></i>
-            </span>
-        </a>
+{#        <a href="#" onclick="alert('В разработке')" style="text-decoration: none; display: none">#}
+{#            <span class="expert-more" style="cursor: pointer">#}
+{#                {% trans 'MoreExpertsLabel' %} &nbsp;#}
+{#                <i class="bi bi-chevron-down" style="scale: 2;"></i>#}
+{#            </span>#}
+{#        </a>#}
+        <span class="all-experts"><a href="{% url 'experts_list' %}">{% trans 'AllExpertsLabel' %}</a></span>
+
     </div>
 </div>
