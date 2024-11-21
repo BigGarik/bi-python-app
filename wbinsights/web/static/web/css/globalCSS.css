@@ -88,6 +88,11 @@
     color: black;
 }
 
+.no-underline-href {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .basepost-author-cont {
     display: flex;
     align-items: center;

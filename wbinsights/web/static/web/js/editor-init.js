@@ -68,10 +68,10 @@ const pixabayPlugin = (editor, opts = {}) => {
     const options = {
         pixabayApiKey: opts.pixabayApiKey,
 
-        blockLabel: '<i class="bi bi-images" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Pixabay</b>',
+        blockLabel: '<i class="bi bi-images" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Image</b>',
         modalTitle: {
-            en: 'Select Image from Pixabay',
-            ru: 'Выбрать изображение из Pixabay'
+            en: 'Select an Image',
+            ru: 'Выбрать изображение '
         },
         searchPlaceholder: {
             en: 'Search images...',
@@ -94,13 +94,12 @@ const pixabayPlugin = (editor, opts = {}) => {
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;
-                background-color: #f8f9fa;
                 border: 2px dashed #dee2e6;
                 border-radius: 4px;
                 cursor: pointer;
             ">
                 <i class="bi bi-images" style="font-size: 2em; color: #6c757d; margin-bottom: 10px;"></i>
-                <div style="color: #6c757d;">Click to browse Pixabay images</div>
+                <div style="color: #6c757d;">Browse images</div>
             </div>
         `,
         style: {
@@ -455,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 {
                     name: 'Typography',
                     open: true,
-                    buildProps: ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'color'],
+                    buildProps: ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'color' , 'background-color'],
                 },
                 {
                     name: 'Alignment',
