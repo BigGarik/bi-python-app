@@ -56,9 +56,11 @@ def get_avatar_url(comment):
         # Если у комментария нет связанного пользователя, возвращаем аватар по умолчанию.
         return urljoin(settings.MEDIA_URL, 'avatars/profile_picture_icon.png')
 
+
 def is_mobile(context):
     request = context['request']
-    return  is_mobile_by_request(request)
+    return is_mobile_by_request(request)
+
 
 def is_mobile_by_request(request):
     user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
