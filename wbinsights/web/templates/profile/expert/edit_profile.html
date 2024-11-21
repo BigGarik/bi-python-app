@@ -16,7 +16,9 @@
     <style>
 
         .delete-btn-cont {
-            display: flex;justify-content: flex-end;height: fit-content;
+            display: flex;
+            justify-content: flex-end;
+            height: fit-content;
         }
 
         .education-formset-container {
@@ -76,11 +78,16 @@
         }
 
         .avatar-text-edit-prof {
-            color:white ; user-select: none; margin: 0; font-size:8px
+            color: white;
+            user-select: none;
+            margin: 0;
+            font-size: 8px
         }
 
         .specialized-edu-class {
-            display: flex;align-items: center;gap: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
 
@@ -151,7 +158,7 @@
                             {% if profile_form.instance.avatar %}
                                 <p class="avatar-text-edit-prof">На данный момент:
                                     <a href="{{ profile_form.instance.avatar.url }}"
-                                       class ="avatar-text-edit-prof">{{ profile_form.instance.avatar.name }}</a>
+                                       class="avatar-text-edit-prof">{{ profile_form.instance.avatar.name }}</a>
                                 </p>
                             {% endif %}
                             <label for="id_avatar">Изменить:</label>
@@ -232,13 +239,13 @@
                             {{ form.errors }}
 
                             <div class="row" style="padding: 10px 0 10px 0;">
-                                <div class="prof-edit-input-title1 col-6" >
+                                <div class="prof-edit-input-title1 col-6">
                                     <label for="{{ form.education_type.id_for_label }}"
                                            class="prof-edit-input-labels">{{ form.education_type.label }}</label>
                                     {{ form.education_type }}
                                 </div>
 
-                                <div class="prof-edit-input-title1 specialized-edu-class col-5" >
+                                <div class="prof-edit-input-title1 specialized-edu-class col-5">
                                     <label for="{{ form.specialized_education.id_for_label }}"
                                            class="prof-edit-input-labels">{{ form.specialized_education.label }}</label>
                                     <div class="custom-width-auto">
@@ -246,7 +253,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-1 delete-btn-cont" >
+                                <div class="col-1 delete-btn-cont">
 
                                     {% if form.instance.id %}
                                         <div class="bi bi-trash delete-education-btn" type="button"
@@ -322,7 +329,7 @@
                 <div class="prof-edit-bot-btns-cont">
                     <button type="submit" class="btn btn-secondary prof-edit-save-btn" id="id-save-changes-btn">
                         <span class="normal-text">Сохранить изменения</span>
-                            <span class="loading-text" style="display: none;">
+                        <span class="loading-text" style="display: none;">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Сохранение...
                         </span>
@@ -330,7 +337,7 @@
 
                     <script>
 
-                        $('form').on('submit', function() {
+                        $('form').on('submit', function () {
                             const saveBtn = $('#id-save-changes-btn');
                             saveBtn.prop('disabled', true);
                             saveBtn.find('.normal-text').hide();
@@ -344,7 +351,6 @@
                         });
 
                     </script>
-
 
 
                     <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"

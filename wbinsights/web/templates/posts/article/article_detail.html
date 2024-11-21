@@ -11,9 +11,9 @@
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}">
     <style>
-* {
-    text-indent: 0 !important;
-}
+        * {
+            text-indent: 0 !important;
+        }
     </style>
 {% endblock %}
 
@@ -44,7 +44,7 @@
 
     <div class="basepost-title">{{ article.title }}</div>
 
-    
+
     <style>
         {{ article.styles|safe }}
     </style>
@@ -54,15 +54,15 @@
         {{ article.content }}
         {% endautoescape %}
     </div>
-    
+
 
     <div style="display: flex;justify-content: space-between;align-items: center;margin: 10px 0 10px 0;">
         <div class="voting">
             <button class="like-btn {% vote_exists article user as vote_status %}{% if vote_status %}liked{% endif %}"
                     data-model="web.article" data-id="{{ object.id }}">
 
-{#                <i class="bi bi-hand-thumbs-up" style="width: 24px; height: 24px"></i>#}
-{#                <i class="bi bi-hand-thumbs-up-fill" style="width: 24px; height: 24px"></i>#}
+                {#                <i class="bi bi-hand-thumbs-up" style="width: 24px; height: 24px"></i>#}
+                {#                <i class="bi bi-hand-thumbs-up-fill" style="width: 24px; height: 24px"></i>#}
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                      class="feather feather-thumbs-up">
@@ -81,7 +81,7 @@
                 {% get_comment_count for article as comment_count %}
                 <span class="list-comments">&nbsp;{{ comment_count }}</span>
             </a>
-            
+
             {% with request.scheme|add:"://"|add:request.get_host|add:"/articles/"|add:article.slug as article_url %}
                 {% social_share_buttons article_url article.title article.pk %}
             {% endwith %}

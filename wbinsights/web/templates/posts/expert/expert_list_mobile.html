@@ -9,16 +9,12 @@
                     <div class="experts-list-avatar-container">
                         <img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid"/>
                     </div>
+                    
                     <div class="prof-edit-rows">
                         <div class="basepost-title">{{ expert.first_name }} <br> {{ expert.last_name }}</div>
-{#                        <span class="experts-list-rating-span" >#}
-{#                            <i class="bi bi-star-fill" style="color: #e9be50;"></i>#}
-{#                            &nbsp; Рейтинг: {{ expert.expertprofile.rating|default_if_none:0}}#}
-{#                        </span>#}
-
-                        <div> {{ expert.expertprofile.grade.grade }} </div>
-
+                        {% include 'components/experts/rating.html' with user=expert %}
                     </div>
+                    
                 </div>
                 <div class="basepost-content-cont" style="padding: 10px">
                     <div class="category-container">
@@ -31,11 +27,7 @@
                     <div class="basepost-description">
                         <span>
                             {% autoescape off %}
-                            {% if expert.expertprofile.about|length > 105 %}
-                                {{ expert.expertprofile.about|slice:":105" }}...
-                            {% else %}
-                                {{ expert.expertprofile.about }}
-                            {% endif %}
+                            {{ expert.expertprofile.about|truncatechars_html:105 }}
                             {% endautoescape %}
                             <a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">&nbsp;Читать
                                 ещё</a>

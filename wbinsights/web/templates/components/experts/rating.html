@@ -1,0 +1,33 @@
+{% load i18n %}
+{% load web_tags %}
+
+<div class="user-rating-cont">
+    {% if request.path != '/profile' %}
+        
+        {% if size == 'large' %}
+            <div style="font-size: 20px">{{ user.expertprofile.grade.grade }}</div>
+        {% elif size == 'medium' %}
+            <div style="font-size: 16px">{{ user.expertprofile.grade.grade }}</div>
+        {% elif size == 'small'  %}
+            <div style="font-size: 14px">{{ user.expertprofile.grade.grade }}</div>
+        {% else %}
+            <div>{{ user.expertprofile.grade.grade }}</div>
+        {% endif %}  
+        
+    {% else %}
+        <div class="user-rating">{% trans 'RatingLabel' %} :
+            {{ user.expertprofile.rating|default_if_none:0 }}</div>
+        <div class="user-rate-and-stars">
+            {% get_rate_chipher user.expertprofile.rating|default:0 as filled_stars_chipher %}
+            {% for ch in filled_stars_chipher %}
+                {% if ch == 'f' %}
+                    <i class="bi bi-star-fill star-icon"></i>
+                {% elif ch == 'h' %}
+                    <i class="bi bi-star-half star-icon"></i>
+                {% elif ch == 'e' %}
+                    <i class="bi bi-star star-icon"></i>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

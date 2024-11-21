@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import EmailMultiAlternatives
-from django.db import transaction
 from django.forms import modelformset_factory
 from django.http import JsonResponse, HttpResponseForbidden
 from django.template.loader import render_to_string
@@ -12,10 +11,10 @@ from django.views.generic import DeleteView
 
 from wbqa.models import Question
 from web.models import RatingCalculate, RatingRole
-from web.models.users import Education, ExpertAnketa, ExpertProfile, Grade, BaseExpertProfile
+from web.models.users import Education, ExpertAnketa, ExpertProfile, Grade
 from wbappointment.models import Appointment
 from wbinsights.settings import SERVER_EMAIL
-from web.forms.users import UserProfilePasswordChangeForm, ExpertAnketaChangeForm, CustomUserChangeForm, \
+from web.forms.users import ExpertAnketaChangeForm, CustomUserChangeForm, \
     ProfileChangeForm, EducationForm
 from web.models import CustomUser, Profile
 from django.utils.translation import gettext_lazy as _
@@ -29,6 +28,7 @@ from expertprojects.views import GetProjectsView
 from expertprojects.models import UserProject
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 #
 # @login_required
@@ -85,10 +85,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # class ProfileView(DetailView):
 #     model = CustomUser
-def is_mobile(request):
-    user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
-    mobile_agents = ['iphone', 'android', 'blackberry', 'windows phone', 'opera mini', 'mobile']
-    return any(mobile_agent in user_agent for mobile_agent in mobile_agents)
 
 @login_required
 def profile_view(request):
@@ -97,8 +93,7 @@ def profile_view(request):
     if 'category' in get_params:
         del get_params['category']
     context = {
-        'get_params': get_params,
-        'is_mobile': is_mobile(request)
+        'get_params': get_params
     }
     profile_template = "profile/expert/profile.html"
 
@@ -121,7 +116,6 @@ def profile_view(request):
             expert_articles_page = articles_paginator.page(1)
         except EmptyPage:
             expert_articles_page = articles_paginator.page(articles_paginator.num_pages)
-
 
         expert_questions = Question.objects.filter(targeted_user=request.user).order_by('-created_at')
         questions_paginator = Paginator(expert_questions, 10)  # Show 10 questions per page
@@ -186,19 +180,23 @@ def profile_view(request):
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         if request.GET.get('tab') == 'articles':
-            html = render_to_string('posts/article/article_profile_list_content.html', {'experts_articles': context['experts_articles']})
+            html = render_to_string('posts/article/article_profile_list_content.html',
+                                    {'experts_articles': context['experts_articles']})
             return JsonResponse({
                 'html': html,
                 'has_more': context['has_more_articles']
             })
         elif request.GET.get('tab') == 'questions':
-            html = render_to_string('profile_question_list_content.html', {'expert_questions': context['expert_questions']})
+            html = render_to_string('profile_question_list_content.html',
+                                    {'expert_questions': context['expert_questions']})
             return JsonResponse({
                 'html': html,
                 'has_more': context['has_more_questions']
             })
 
     return render(request, profile_template, context=context)
+
+
 @login_required
 @require_POST
 def update_user_timezone(request):
@@ -297,7 +295,8 @@ def edit_user_profile(request):
             grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
             user_education = request.user.expertanketa.education
             if user_education.exists():
-                education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
+                education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, exclude=[],
+                                                                        extra=0)
                 education_expert_formset = education_expert_formset_factory(queryset=user_education.all())
             else:
                 education_expert_formset_factory = modelformset_factory(Education, form=EducationForm, extra=1)
@@ -331,7 +330,8 @@ def edit_user_profile(request):
             user_form = CustomUserChangeForm(request.POST, instance=request.user)
             expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
             educationFormSet = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
-            education_expert_anketa_formset = educationFormSet(request.POST, queryset=request.user.expertanketa.education.all())
+            education_expert_anketa_formset = educationFormSet(request.POST,
+                                                               queryset=request.user.expertanketa.education.all())
 
             if user_form.is_valid() and expert_anketa_form.is_valid() and education_expert_anketa_formset.is_valid():
                 user_form.save()
@@ -347,7 +347,8 @@ def edit_user_profile(request):
 
                 moderators = CustomUser.objects.filter(is_staff=True)
                 recipient_list = [moderator.email for moderator in moderators if moderator.email]
-                manage_unverified_experts_profile = request.build_absolute_uri(reverse("manage_unverified_experts_profile", kwargs={"pk": updated_expert_anketa.id}))
+                manage_unverified_experts_profile = request.build_absolute_uri(
+                    reverse("manage_unverified_experts_profile", kwargs={"pk": updated_expert_anketa.id}))
                 manage_unverified_experts_list = request.build_absolute_uri(reverse("manage_unverified_experts_list"))
 
                 html_content = render_to_string('emails/verification_email.html', {

@@ -9,12 +9,12 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-from django.utils.decorators import method_decorator
+
 from django.utils.html import strip_tags
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
-from django.views.decorators.http import require_POST
 
+from web.utils import is_mobile
 from web.forms.users import CustomUserCreationForm, ExpertAnketaForm, UserPasswordResetForm, UserSetNewPasswordForm, \
     UserPasswordChangeForm
 from web.models import Profile
@@ -95,9 +95,6 @@ def save_new_user_and_profile(request, user_form, user_type):
 
 @transaction.atomic
 def register_user(request):
-    def is_mobile(request):
-        user_agent = request.META.get('HTTP_USER_AGENT', '')
-        return 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent
 
     def get_template_name(request):
         return 'registration/signup_mobile.html' if is_mobile(request) else 'registration/signup.html'
@@ -122,8 +119,8 @@ def register_user(request):
                     f"Invalid form data: user_form errors: {user_form.errors}, expert_form errors: {expert_profile_form.errors}")
                 context = {
                     "user_form": user_form,
-                    "expert_form": expert_profile_form,
-                    "is_mobile": is_mobile(request)
+                    "expert_form": expert_profile_form
+
                 }
                 return render(request, get_template_name(request), context=context)
         if user_form.data['user_type'] == '0':
@@ -132,15 +129,13 @@ def register_user(request):
                 return redirect('signup_success')
             else:
                 context = {
-                    "user_form": user_form,
-                    "is_mobile": is_mobile(request)
+                    "user_form": user_form
                 }
                 return render(request, get_template_name(request), context=context)
     if request.method == 'GET':
         context = {
             "user_form": CustomUserCreationForm(),
-            "expert_form": ExpertAnketaForm(),
-            "is_mobile": is_mobile(request)
+            "expert_form": ExpertAnketaForm()
         }
         return render(request, get_template_name(request), context=context)
 
