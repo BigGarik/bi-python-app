@@ -12,11 +12,7 @@
     <script src="//unpkg.com/grapesjs-touch"></script>
     <script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>
     <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
-    <!-- Load configurations first -->
-    <script src="{% static 'web/js/editor-config.js' %}"></script>
-    <!-- Load plugin next -->
-    <script src="{% static 'web/js/pixabay-plugin.js' %}"></script>
-    <!-- Load initialization last -->
+
     <script src="{% static 'web/js/editor-init.js' %}"></script>
 {% endblock %}
 
@@ -121,12 +117,6 @@
                 btn.find('.normal-text').hide();
                 btn.find('.loading-text').show();
 
-                // Optional: Re-enable after timeout
-                setTimeout(() => {
-                    btn.prop('disabled', false);
-                    btn.find('.loading-text').hide();
-                    btn.find('.normal-text').show();
-                }, 2000);
             });
         });
 
@@ -209,8 +199,10 @@
             document.getElementsByName('styles')[0].value = editor.getCss();
         });
 
-        editor.setComponents($('input[name=content]').val());
-        editor.setStyle($('input[name=styles]').val());
+
+
+
+
 
 
     </script>
