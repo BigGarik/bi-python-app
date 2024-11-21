@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'web/css/grapesjs/grapes.min.css' %}">
     <script src="{% static 'web/js/grapesjs/grapes.min.js' %}"></script>
     <script src="{% static 'web/js/grapesjs/grapesjs-touch.min.js' %}"></script>
-{#    <script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>#}
+    {#    <script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>#}
     <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
 
     <script src="{% static 'web/js/editor-init.js' %}"></script>
@@ -54,7 +54,9 @@
                 {{ form.main_img }}
                 <br>
                 {{ form.content }}
-                <div id="gjs" style="min-height: 300px;"></div>
+
+                <div id="gjs" data-pixabay-api-key="{{ PIXABAY_API_KEY }}" style="min-height: 300px;"></div>
+
                 <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
             </div>
             <div class="col-3">
@@ -198,11 +200,6 @@
             document.getElementsByName('content')[0].value = editor.getHtml();
             document.getElementsByName('styles')[0].value = editor.getCss();
         });
-
-
-
-
-
 
 
     </script>

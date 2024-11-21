@@ -59,13 +59,15 @@ const ru = {
 
 let editor;
 
+
 const pixabayPlugin = (editor, opts = {}) => {
 
     console.log('pixabay plugin initialized ', opts);
-    const API_KEY
+
 
     const options = {
-        pixabayApiKey: '{{PIXABAY_API_KEY}}',
+        pixabayApiKey: opts.pixabayApiKey,
+
         blockLabel: '<i class="bi bi-images" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Pixabay</b>',
         modalTitle: {
             en: 'Select Image from Pixabay',
@@ -122,6 +124,7 @@ const pixabayPlugin = (editor, opts = {}) => {
     });
 
     // TODO : Rename later to just "image" probably
+
     editor.DomComponents.addType('pixabay-image', {
 
         isComponent: el => {
@@ -171,6 +174,7 @@ const pixabayPlugin = (editor, opts = {}) => {
                 }
             }
         },
+
         view: {
             events: {
                 click: 'onClick',
@@ -221,47 +225,64 @@ const pixabayPlugin = (editor, opts = {}) => {
             container.appendChild(loadingDiv);
             container.appendChild(imagesGrid);
 
+
+
             const fetchPixabayImages = async (query) => {
                 loadingDiv.style.display = 'block';
                 imagesGrid.innerHTML = '';
 
+                const apiUrl = `https://pixabay.com/api/?key=${options.pixabayApiKey}&q=${encodeURIComponent(query)}&per_page=${options.perPage}`;
+
                 try {
-                    const response = await fetch(
-                        `https://pixabay.com/api/?key=${options.pixabayApiKey}&q=${encodeURIComponent(query)}&per_page=${options.perPage}`
-                    );
+                    const response = await fetch(apiUrl);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
                     const data = await response.json();
+
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
 
                     loadingDiv.style.display = 'none';
 
-                    data.hits.forEach(image => {
-                        const imgWrapper = document.createElement('div');
-                        imgWrapper.className = 'pixabay-image-wrapper';
+                    if (data.hits && Array.isArray(data.hits)) {
 
-                        const img = document.createElement('img');
-                        img.src = image.previewURL;
-                        img.alt = image.tags;
+                        data.hits.forEach(image => {
+                            const imgWrapper = document.createElement('div');
+                            imgWrapper.className = 'pixabay-image-wrapper';
 
-                        img.onclick = () => {
-                            const selectedComponent = editor.getSelected();
-                            if (selectedComponent && selectedComponent.get('type') === 'pixabay-image') {
-                                selectedComponent.set('attributes', {
-                                    ...selectedComponent.get('attributes'),
-                                    src: image.webformatURL,
-                                    alt: image.tags,
-                                    'data-pixabay-id': image.id
-                                });
-                            }
-                            modal.close();
-                        };
+                            const img = document.createElement('img');
+                            img.src = image.previewURL;
+                            img.alt = image.tags;
 
-                        imgWrapper.appendChild(img);
-                        imagesGrid.appendChild(imgWrapper);
-                    });
+                            img.onclick = () => {
+                                const selectedComponent = editor.getSelected();
+                                if (selectedComponent && selectedComponent.get('type') === 'pixabay-image') {
+                                    selectedComponent.set('attributes', {
+                                        ...selectedComponent.get('attributes'),
+                                        src: image.webformatURL,
+                                        alt: image.tags,
+                                        'data-pixabay-id': image.id
+                                    });
+                                }
+                                modal.close();
+                            };
+
+                            imgWrapper.appendChild(img);
+                            imagesGrid.appendChild(imgWrapper);
+                        });
+                    } else {
+                        throw new Error('Invalid response format from Pixabay API');
+                    }
                 } catch (error) {
                     console.error('Pixabay API Error:', error);
+                    loadingDiv.style.display = 'none';
                     imagesGrid.innerHTML = currentLocale === 'en'
-                        ? 'Error loading images. Please try again.'
-                        : 'Ошибка загрузки изображений. Попробуйте еще раз.';
+                        ? `Error loading images: ${error.message}`
+                        : `Ошибка загрузки изображений: ${error.message}`;
                 }
             };
 
@@ -348,8 +369,18 @@ const pixabayPlugin = (editor, opts = {}) => {
 
 // init editor when dom loaded
 document.addEventListener('DOMContentLoaded', () => {
+    //get key from parent
+    const editorContainer = document.getElementById('gjs');
+    const pixabayApiKey = editorContainer?.dataset.pixabayApiKey;
 
-    const editor = grapesjs.init({
+
+
+    if (!pixabayApiKey) {
+        console.error('Pixabay API key not found in data attribute');
+        return;
+    }
+
+    editor = grapesjs.init({
         container: '#gjs',
         fromElement: true,
         height: 'auto',
@@ -364,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
         plugins: [pixabayPlugin],
         pluginsOpts: {
             [pixabayPlugin]: {
-                pixabayApiKey: '47178532-a86b4337223bb283742a46665',
+                pixabayApiKey: pixabayApiKey,
             }
         },
         panels: {defaults: []},
