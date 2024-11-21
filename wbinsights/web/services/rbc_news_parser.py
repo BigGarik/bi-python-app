@@ -13,23 +13,24 @@ def parse_rss_feed(rss_data):
     news_items = []
 
     for entry in feed.entries:
-        news_item = {
-            'title': entry.title,
-            'link': entry.link,
-            'pubDate': entry.published,
-            'description': entry.description,
-            'category': entry.get('category', 'No category'),
-            'author': entry.get('author', 'No author'),
-            'guid': entry.guid,
-            'anons': entry.get('rbc_news_anons', 'No anons'),
-            'news_id': entry.get('rbc_news_news_id', 'No news ID'),
-            'newsDate_timestamp': entry.get('rbc_news_newsDate_timestamp', 'No newsDate timestamp'),
-            'newsModifDate': entry.get('rbc_news_newsModifDate', 'No newsModifDate'),
-            'newsline': entry.get('rbc_news_newsline', 'No newsline'),
-            'tags': [tag for tag in entry.get('rbc_news_tag', [])],
-            'full_text': entry.get('rbc_news_full_text', 'No full text')
-        }
-        news_items.append(news_item)
+        if entry.get('category') != 'Политика':
+            news_item = {
+                'title': entry.title,
+                'link': entry.link,
+                'pubDate': entry.published,
+                'description': entry.description,
+                'category': entry.get('category', 'No category'),
+                'author': entry.get('author', 'No author'),
+                'guid': entry.guid,
+                'anons': entry.get('rbc_news_anons', 'No anons'),
+                'news_id': entry.get('rbc_news_news_id', 'No news ID'),
+                'newsDate_timestamp': entry.get('rbc_news_newsDate_timestamp', 'No newsDate timestamp'),
+                'newsModifDate': entry.get('rbc_news_newsModifDate', 'No newsModifDate'),
+                'newsline': entry.get('rbc_news_newsline', 'No newsline'),
+                'tags': [tag for tag in entry.get('rbc_news_tag', [])],
+                'full_text': entry.get('rbc_news_full_text', 'No full text')
+            }
+            news_items.append(news_item)
 
     return news_items
 
