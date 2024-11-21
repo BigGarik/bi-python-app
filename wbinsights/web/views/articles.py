@@ -8,6 +8,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
 from pytils.translit import slugify
 
+from wbinsights import settings
 from web.forms.articles import ArticleForm
 from web.models import Article
 from web.views.contents import CommonContentFilterListView
@@ -27,6 +28,7 @@ class ArticleListView(CommonContentFilterListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['WEB_BASE_URL'] = settings.WEB_BASE_URL
         return context
 
 
@@ -36,6 +38,11 @@ class ArticleDetailView(HitCountDetailView):
     template_name = 'posts/article/article_detail.html'
     form_class = ArticleForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['WEB_BASE_URL'] = settings.WEB_BASE_URL
+        return context
+
 
 # LoginRequiredMixin, UserPassesTestMixin - должны быть на первом месте, иначе не срабатывает test_func
 class ArticleEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -44,6 +51,11 @@ class ArticleEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     context_object_name = 'article'
     template_name = 'posts/article/article_add.html'
     success_url = 'article_list'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['PIXABAY_API_KEY'] = settings.PIXABAY_API_KEY
+        return context
 
     def form_valid(self, form):
         form.save()
@@ -82,12 +94,17 @@ class DeleteArticleView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return HttpResponseForbidden("You are not allowed to delete this article.")
 
 
-class ArticleAddView(CreateView, LoginRequiredMixin):
+class ArticleAddView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleForm
     context_object_name = 'article'
     template_name = 'posts/article/article_add.html'
     success_url = reverse_lazy('article_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['PIXABAY_API_KEY'] = settings.PIXABAY_API_KEY
+        return context
 
     def get_template_names(self):
         # Custom method to choose template based on device type
@@ -110,5 +127,4 @@ class ArticleAddView(CreateView, LoginRequiredMixin):
             article.slug = "%s-%d" % (orig_slug[:max_length - len(str(x)) - 1], x)
 
         article.save()
-        #return redirect(self.get_success_url())
         return super().form_valid(form)
