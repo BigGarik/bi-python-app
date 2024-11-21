@@ -11,7 +11,7 @@
         display: inline !important;
     }
 
-    .link-read-post{
+    .link-read-post {
         font-size: 18px !important;
     }
 
@@ -63,7 +63,8 @@
                             <i class="bi bi-person-circle author-icon"></i>
                         {% endif %}
                     </div>
-                    <a href="{% url 'expert_profile' question.author.pk %}" class="basepost-author-text author-link-no-margin">
+                    <a href="{% url 'expert_profile' question.author.pk %}"
+                       class="basepost-author-text author-link-no-margin">
                         <div class="basepost-author-text">{{ question.author.last_name }} {{ question.author.first_name }}</div>
                     </a>
                     <span class="list-publish-date">&nbsp;{{ question.created_at|custom_time_display }}</span>
@@ -73,8 +74,8 @@
                         {% include "components/comment_icon.html" %}
                         <span class="list-comments">{{ question.answers.count }}</span>
                     </div>
-                    {% with question_url="https://24wbinside.ru/wbqa/question/"|add:question.pk %}
-                    {% social_share_buttons question_url question.title question.pk %}
+                    {% with request.scheme|add:"://"|add:request.get_host|add:"/question/"|add:question.pk as question_url %}
+                        {% social_share_buttons question_url question.title question.pk %}
                     {% endwith %}
                 </div>
             </div>
@@ -87,7 +88,7 @@
                     <div class="basepost-author-cont">
                         {% if question.author.profile.avatar.url %}
                             <img src="{{ question.author.profile.avatar.url }}"
-                                      alt="{{ question.author.username }}" class="basepost-author-pic ">
+                                 alt="{{ question.author.username }}" class="basepost-author-pic ">
                         {% else %}
                             <i class="bi bi-person-circle author-icon"></i>
                         {% endif %}
@@ -98,8 +99,8 @@
                             {% include "components/comment_icon.html" %}
                             <span class="list-comments">{{ question.answers.count }}</span>
                         </a>
-                        {% with question_url="https://24wbinside.ru/wbqa/question/"|add:question.pk %}
-                        {% social_share_buttons question_url question.title question.pk %}
+                        {% with request.scheme|add:"://"|add:request.get_host|add:"/question/"|add:question.pk as question_url %}
+                            {% social_share_buttons question_url question.title question.pk %}
                         {% endwith %}
                     </div>
                 </div>
