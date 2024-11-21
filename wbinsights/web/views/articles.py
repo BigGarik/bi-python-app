@@ -28,6 +28,7 @@ class ArticleListView(CommonContentFilterListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['WEB_BASE_URL'] = settings.WEB_BASE_URL
         return context
 
 
@@ -36,6 +37,11 @@ class ArticleDetailView(HitCountDetailView):
     count_hit = True
     template_name = 'posts/article/article_detail.html'
     form_class = ArticleForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['WEB_BASE_URL'] = settings.WEB_BASE_URL
+        return context
 
 
 # LoginRequiredMixin, UserPassesTestMixin - должны быть на первом месте, иначе не срабатывает test_func
