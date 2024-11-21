@@ -60,6 +60,9 @@
         <div class="voting">
             <button class="like-btn {% vote_exists article user as vote_status %}{% if vote_status %}liked{% endif %}"
                     data-model="web.article" data-id="{{ object.id }}">
+
+{#                <i class="bi bi-hand-thumbs-up" style="width: 24px; height: 24px"></i>#}
+{#                <i class="bi bi-hand-thumbs-up-fill" style="width: 24px; height: 24px"></i>#}
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                      class="feather feather-thumbs-up">
@@ -78,7 +81,8 @@
                 {% get_comment_count for article as comment_count %}
                 <span class="list-comments">&nbsp;{{ comment_count }}</span>
             </a>
-            {% with article_url="https://24wbinside.ru/articles/"|add:article.slug %}
+            
+            {% with request.scheme|add:"://"|add:request.get_host|add:"/articles/"|add:article.slug as article_url %}
                 {% social_share_buttons article_url article.title article.pk %}
             {% endwith %}
         </div>

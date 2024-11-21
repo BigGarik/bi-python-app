@@ -6,7 +6,6 @@
 <style>
 
 
-
 </style>
 
 {% for article in object_list %}
@@ -42,7 +41,7 @@
                     <img src="{{ article.author.profile.avatar.url }}" class="basepost-author-pic author-avatar"/>
                 </div>
                 <a href="{% url 'expert_profile' article.author.pk %}" class="basepost-author-text">
-                    <div >{{ article.author.last_name }} {{ article.author.first_name }}</div>
+                    <div>{{ article.author.last_name }} {{ article.author.first_name }}</div>
                 </a>
             </div>
             <div class="comments-andshare-cont">
@@ -59,8 +58,9 @@
                     {% get_comment_count for article as comment_count %}
                     <span>&nbsp;{{ comment_count }}</span>
                 </a>
-                {% with article_url="https://24wbinside.ru/articles/"|add:article.slug %}
-                {% social_share_buttons article_url article.title article.pk %}
+
+                {% with request.scheme|add:"://"|add:request.get_host|add:"/question/"|add:article.slug as article_url %}
+                    {% social_share_buttons article_url article.title article.pk %}
                 {% endwith %}
             </div>
         </div>
