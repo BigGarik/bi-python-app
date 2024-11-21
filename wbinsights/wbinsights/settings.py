@@ -225,8 +225,6 @@ SERVER_EMAIL = env('EMAIL_HOST_USER')
 
 PIXABAY_API_KEY = env('PIXABAY_API_KEY')
 
-WEB_BASE_URL = env('WEB_BASE_URL')
-
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 RECAPTCHA_PRIVATE_KEY = env('RECAPTCHA_PRIVATE_KEY')
