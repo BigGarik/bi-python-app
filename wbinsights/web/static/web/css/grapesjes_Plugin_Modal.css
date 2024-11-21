@@ -1,0 +1,66 @@
+.pixabay-browser {
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+.pixabay-search {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.pixabay-search-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pixabay-search-button {
+    padding: 8px 16px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pixabay-search-button:hover {
+    background: #357abd;
+}
+
+.pixabay-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.pixabay-image-wrapper {
+    position: relative;
+    padding-bottom: 100%;
+    cursor: pointer;
+}
+
+.pixabay-image-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+
+.pixabay-image-wrapper img:hover {
+    transform: scale(1.05);
+}
+
+.pixabay-loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    display: none;
+}
