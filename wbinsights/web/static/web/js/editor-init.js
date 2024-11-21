@@ -62,9 +62,10 @@ let editor;
 const pixabayPlugin = (editor, opts = {}) => {
 
     console.log('pixabay plugin initialized ', opts);
+    const API_KEY
 
     const options = {
-        pixabayApiKey: '47178532-a86b4337223bb283742a46665',
+        pixabayApiKey: '{{PIXABAY_API_KEY}}',
         blockLabel: '<i class="bi bi-images" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Pixabay</b>',
         modalTitle: {
             en: 'Select Image from Pixabay',
