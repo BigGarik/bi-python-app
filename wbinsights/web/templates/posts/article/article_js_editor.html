@@ -8,7 +8,8 @@
 
 </head>
 <body>
-<div id="pixabay-modal-template" style="display: none;">
+
+<div id="pixabay-modal-template" style="display: none; min-height: 500px">
     <div class="pixabay-browser">
         <div class="pixabay-search">
             <input type="text" class="pixabay-search-input">
@@ -21,6 +22,9 @@
 
 
 <script>
+
+    let editor;
+
     const en = {
         blocks: {
             default: {label: 'Default'},
@@ -80,8 +84,6 @@
     };
 
 
-    let editor;
-
     const createPluginConfig = (opts = {}) => ({
         pixabayApiKey: opts.pixabayApiKey,
         blockLabel: opts.blockLabel || '<i class="bi bi-images" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Image</b>',
@@ -97,27 +99,25 @@
         perPage: opts.perPage || 20
     });
 
-    const createPlaceholderContent = () => `
-    <div class="pixabay-placeholder" style="
-        width: 100%;
-        min-height: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        border: 2px dashed #dee2e6;
-        border-radius: 4px;
-        cursor: pointer;
-    ">
-        <i class="bi bi-images" style="font-size: 2em; color: #6c757d; margin-bottom: 10px;"></i>
-        <div style="color: #6c757d;">Browse images</div>
-    </div>
-`;
-
     const createDefaultContent = () => ({
         tagName: 'div',
         type: 'pixabay-image',
-        content: createPlaceholderContent(),
+        content: `
+            <div class="pixabay-placeholder" style="
+                width: 100%;
+                min-height: 200px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                border: 2px dashed #dee2e6;
+                border-radius: 4px;
+                cursor: pointer;
+            ">
+                <i class="bi bi-images" style="font-size: 2em; color: #6c757d; margin-bottom: 10px;"></i>
+                <div style="color: #6c757d;">Browse images</div>
+            </div>
+        `,
         style: {
             width: '100%',
             'margin-top': '5px',
@@ -130,29 +130,30 @@
     });
 
     const fetchPixabayImages = async (apiKey, query, perPage) => {
+        try {
+            const response = await fetch(
+                `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&per_page=${perPage}`
+            );
+            const data = await response.json();
 
-        const apiUrl = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&per_page=${perPage}`;
-        const response = await fetch(apiUrl);
+            if (!response.ok || data.error) {
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            }
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            return data.hits;
+
+        } catch (error) {
+            throw new Error(`Pixabay API Error: ${error.message}`);
         }
-
-        const data = await response.json();
-        if (data.error) {
-            throw new Error(data.error);
-        }
-
-        return data.hits;
     };
 
     const createImageContent = (src, alt = '') => `
-    <img
-        src="${src}"
-        alt="${alt}"
-        style="max-width: 100%; height: auto; border-radius: 4px;"
-    />
-`;
+            <img
+                src="${src}"
+                alt="${alt}"
+                style="max-width: 100%; height: auto; border-radius: 4px;"
+            />
+        `;
 
 
     const modalController = (editor, config) => {
@@ -312,7 +313,6 @@
             view: {
                 events: {
                     click: 'onClick',
-                    dblclick: 'onClick'
                 },
 
                 init() {
@@ -357,6 +357,7 @@
             console.error('Pixabay API key not found in data attribute');
             return;
         }
+
 
         editor = grapesjs.init({
             container: '#gjs',
@@ -447,9 +448,11 @@
         editor.on('load', () => {
             const gjsContainer = document.getElementById('gjs');
             if (gjsContainer) {
-                gjsContainer.style.overflow = 'visible';
-                gjsContainer.style.height = '100%';
-                gjsContainer.style.minHeight = '1000px';
+                Object.assign(gjsContainer.style, {
+                    overflow: 'visible',
+                    height: '100%',
+                    minHeight: '1000px'
+                });
             }
 
             const wrapper = editor.getWrapper();
@@ -459,15 +462,11 @@
                 });
             }
 
-            const contentInput = document.querySelector('input[name=content]');
-            const stylesInput = document.querySelector('input[name=styles]');
+            const [contentInput, stylesInput] = ['content', 'styles']
+                .map(name => document.querySelector(`input[name=${name}]`));
 
-            if (contentInput && contentInput.value) {
-                editor.setComponents(contentInput.value);
-            }
-            if (stylesInput && stylesInput.value) {
-                editor.setStyle(stylesInput.value);
-            }
+            if (contentInput?.value) editor.setComponents(contentInput.value);
+            if (stylesInput?.value) editor.setStyle(stylesInput.value);
         });
     });
 

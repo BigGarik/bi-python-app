@@ -203,13 +203,9 @@
                 </div>
                 <hr/>
                 <div class="prof-edit-bot-btns-cont">
-                    <button type="submit" class="btn btn-secondary prof-edit-save-btn" id="id-save-changes-btn">
-                        <span class="normal-text">Сохранить изменения</span>
-                            <span class="loading-text" style="display: none;">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Сохранение...
-                        </span>
-                    </button>
+
+                    {% include "components/loadingBtn.html" with button_text="Сохранить изменения" loading_text="Сохранение..." %}
+
                     <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"
                             data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
                         Удалить профиль
@@ -302,18 +298,6 @@
                 $('#id_form-TOTAL_FORMS').val(totalForms - 1);
             });
 
-            $('form').on('submit', function () {
-                const saveBtn = $('#id-save-changes-btn');
-                saveBtn.prop('disabled', true);
-                saveBtn.find('.normal-text').hide();
-                saveBtn.find('.loading-text').show();
-
-                setTimeout(() => {
-                    saveBtn.prop('disabled', false);
-                    saveBtn.find('.loading-text').hide();
-                    saveBtn.find('.normal-text').show();
-                }, 2000);
-            });
 
             $('.delete-education-btn').click(function () {
                 const educationId = $(this).data('education-id');

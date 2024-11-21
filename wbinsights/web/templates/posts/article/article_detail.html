@@ -80,9 +80,7 @@
                     <span class="list-comments">&nbsp;{{ comment_count }}</span>
                 </a>
 
-                {% with request.scheme|add:"://"|add:request.get_host|add:"/articles/"|add:article.slug as article_url %}
-                    {% social_share_buttons article_url article.title article.pk %}
-                {% endwith %}
+                {% include "components/share_social_btn.html" with url_path="/articles/" slug=article.slug title=article.title item_pk=article.pk %}
             </div>
         </div>
 

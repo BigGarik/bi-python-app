@@ -1,0 +1,5 @@
+{% load web_tags %}
+
+{% with request.scheme|add:"://"|add:request.get_host|add:url_path|add:slug|add:"/" as share_url %}
+    {% social_share_buttons share_url title item_pk %}
+{% endwith %}

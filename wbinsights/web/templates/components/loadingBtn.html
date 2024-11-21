@@ -1,0 +1,20 @@
+
+<button type="submit" class="btn btn-success">
+    <span class="normal-text">{{ button_text }}</span>
+    <span class="loading-text" style="display: none;">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        {{ loading_text }}
+    </span>
+</button>
+
+<script>
+    $('form').on('submit', function () {
+        const submitButtons = $('button[type="submit"]');
+        submitButtons.each(function () {
+            const btn = $(this);
+            btn.prop('disabled', true);
+            btn.find('.normal-text').hide();
+            btn.find('.loading-text').show();
+        });
+    });
+</script>

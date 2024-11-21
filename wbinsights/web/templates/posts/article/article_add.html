@@ -20,12 +20,11 @@
     <style>
 
         [data-gjs-type="wrapper"] {
-            padding: 10px;
+            padding: 15px;
         }
 
         #uploadedImage {
             max-width: -webkit-fill-available;
-
         }
 
     </style>
@@ -92,13 +91,9 @@
                     {{ form.is_published }}
                     <br>
                     <div class="d-grid gap-2 d-block">
-                        <button type="submit" class="btn btn-success" id="submit-button">
-                            <span class="normal-text">Опубликовать</span>
-                            <span class="loading-text" style="display: none;">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Публикация...
-                        </span>
-                        </button>
+
+                        {% include "components/loadingBtn.html" with button_text="Опубликовать" loading_text="Публикация..." %}
+
                     </div>
                 </div>
             </div>
@@ -109,17 +104,6 @@
 
     <script>
 
-
-        $('form').on('submit', function () {
-            const submitButtons = $('button[type="submit"]');
-            submitButtons.each(function () {
-                const btn = $(this);
-                btn.prop('disabled', true);
-                btn.find('.normal-text').hide();
-                btn.find('.loading-text').show();
-
-            });
-        });
 
         function clearEditorContent() {
             editor.setComponents('');
@@ -199,6 +183,8 @@
             document.getElementsByName('content')[0].value = editor.getHtml();
             document.getElementsByName('styles')[0].value = editor.getCss();
         });
+
+
 
 
     </script>
