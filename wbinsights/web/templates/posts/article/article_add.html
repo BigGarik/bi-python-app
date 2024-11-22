@@ -3,7 +3,11 @@
 {% load i18n %}
 {% load web_tags %}
 {% block title %}
-    Создание статьи
+    {% if request.resolver_match.url_name == 'article_add' %}
+        Создание статьи
+    {% else %}
+        Редактирование статьи
+    {% endif %}
 {% endblock %}
 
 {% block extra_static %}
