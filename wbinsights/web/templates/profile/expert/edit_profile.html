@@ -90,6 +90,10 @@
             gap: 5px;
         }
 
+        .expert-grade-info-small {
+            font-size: 12px;
+        }
+
 
     </style>
 
@@ -135,7 +139,7 @@
                         <br/>
                         {% if grade %}
                             <p>
-                                <b>Грейд:</b> {{ grade.grade }}
+                                <b href="#" class="no-underline-href">Грейд:</b> {{ grade.grade }}
                             </p>
                             <p><b>Диапазон стоимости часа для вашего Грейда:</b> от {{ grade.min_cost }}
                                 до {{ grade.max_cost }}</p>
@@ -172,22 +176,25 @@
                                    class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
                             {{ expert_profile_form.expert_categories }}
                         </div>
-                        <div class="prof-edit-input-title" style="width: 20%;">
+                        <div class="prof-edit-input-title" style="width: 10%;">
                             <label for="{{ expert_profile_form.experience.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
                             {{ expert_profile_form.experience }}
                         </div>
-                        <div class="prof-edit-input-title" style="width: 20%;">
+                        <div class="prof-edit-input-title" style="width: 30%;">
                             <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.hour_cost.label }}</label>
                             {% if grade %}
                                 <input type="number" name="hour_cost"
                                        id="{{ expert_profile_form.hour_cost.id_for_label }}"
                                        min="{{ grade.min_cost }}" max="{{ grade.max_cost }}" step="1"
-                                       value="{{ expert_profile_form.hour_cost.value }}" class="custom-form-css">
+                                       value="{{ expert_profile_form.hour_cost.value }}" class="custom-form-css" placeholder="{{ grade.min_cost }}-{{ grade.max_cost }}">
+
                             {% else %}
                                 {{ expert_profile_form.hour_cost }}
                             {% endif %}
+                        <p class="expert-grade-info-small">Диапазон стоимости часа для вашего Грейда: от {{ grade.min_cost }}
+                                до {{ grade.max_cost }}</p>
                         </div>
 
                     </div>
@@ -327,30 +334,9 @@
                 <hr/>
 
                 <div class="prof-edit-bot-btns-cont">
-                    <button type="submit" class="btn btn-secondary prof-edit-save-btn" id="id-save-changes-btn">
-                        <span class="normal-text">Сохранить изменения</span>
-                        <span class="loading-text" style="display: none;">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Сохранение...
-                        </span>
-                    </button>
 
-                    <script>
 
-                        $('form').on('submit', function () {
-                            const saveBtn = $('#id-save-changes-btn');
-                            saveBtn.prop('disabled', true);
-                            saveBtn.find('.normal-text').hide();
-                            saveBtn.find('.loading-text').show();
-
-                            setTimeout(() => {
-                                saveBtn.prop('disabled', false);
-                                saveBtn.find('.loading-text').hide();
-                                saveBtn.find('.normal-text').show();
-                            }, 2000);
-                        });
-
-                    </script>
+                    {% include "components/loadingBtn.html" with button_text="Сохранить изменения" loading_text="Сохранение..." %}
 
 
                     <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"

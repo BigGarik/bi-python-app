@@ -1,4 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="{% static 'web/css/grapesjes_Plugin_Modal.css' %}">
+
+</head>
+<body>
+
+<div id="pixabay-modal-template" style="display: none; min-height: 500px">
+    <div class="pixabay-browser">
+        <div class="pixabay-search">
+            <input type="text" class="pixabay-search-input">
+            <button type="button" class="pixabay-search-button"></button>
+        </div>
+        <div class="pixabay-loading"></div>
+        <div class="pixabay-images-grid"></div>
+    </div>
+</div>
+
+
 <script>
+
+    let editor;
+
     const en = {
         blocks: {
             default: {label: 'Default'},
@@ -57,128 +83,393 @@
         }
     };
 
-    const editor = grapesjs.init({
-        container: '#gjs',
-        fromElement: true,
-        height: 'auto',
-        width: 'auto',
-        storageManager: {
-            type: 'local',
-            autoload: false,
-            autosave: true,
-            stepsBeforeSave: 1,
-            id: 'gjs',
-        },
-        plugins: ['grapesjs-touch'],
-        pluginsOpts: {
 
+    const createPluginConfig = (opts = {}) => ({
+        pixabayApiKey: opts.pixabayApiKey,
+        blockLabel: opts.blockLabel || '<i class="bi bi-images" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Image</b>',
+        modalTitle: {
+            en: opts.modalTitle?.en || 'Select an Image',
+            ru: opts.modalTitle?.ru || 'Выбрать изображение'
         },
-        panels: {defaults: []},
-        blockManager: {
-            appendTo: '#blocks',
-            blocks: [
-                {
-                    id: 'sectionh5',
-                    label: '<div class="t-class-comps">T1</div> <b style="color: #a5b1c8;">Большой Заголовок</b>',
-                    attributes: {class: 'gjs-block-section'},
-                    content: '<h1 style="font-family: sans-serif;">Insert large title text here</h1>',
-                },
-                {
-                    id: 'sectionh3',
-                    label: '<div class="t-class-comps">T3</div> <b style="color: #a5b1c8;">Средний Заголовок</b>',
-                    attributes: {class: 'gjs-block-section'},
-                    content: '<h3 style="font-family: sans-serif;">Insert medium title text here</h3>',
-                },
-                {
-                    id: 'sectionh1',
-                    label: '<div class="t-class-comps">T5</div> <b style="color: #a5b1c8;">Маленький Заголовок</b>',
-                    attributes: {class: 'gjs-block-section'},
-                    content: '<h4 style="font-family: sans-serif;">Insert small title text here</h4>',
-                },
-                {
-                    id: 'text',
-                    label: '<i class="bi bi-card-text" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Текст</b>',
-                    content: '<div data-gjs-type="text" style="font-family: sans-serif;">Insert your text here</div>',
-                },
-                {
-                    id: 'image',
-                    label: '<i class="bi bi-card-image" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Изображение</b>',
-                    select: true,
-                    content: '<img src="placeholder-image.jpg" alt="Placeholder Image" style="max-width: 100%; height: auto; margin-top:5px;margin-bot:5px">',
-                    activate: true,
-                },
-                {
-                    id: 'list',
-                    label: '<i class="bi bi-list" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Список</b>',
-                    content: '<ul><li style="padding: 5px 0;font-family: sans-serif;">Item 1</li><li style="font-family: sans-serif;">Item 2</li><li style="margin: 5px 0;font-family: sans-serif;">Item 3</li><li style="margin: 5px 0;font-family: sans-serif;">Item 4</li></ul>'
-                },
-                {
-                    id: 'hr',
-                    label: '<i class="bi bi-dash" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8; font-family: sans-serif;">Горизонтальная линия</b>',
-                    content: '<hr>',
-                },
-                {
-                    id: 'line_break',
-                    label: '<i class="bi bi-arrows-expand" style="color: #a5b1c8;margin-bottom: 5px;font-size: 30px;"></i> <b style="color: #a5b1c8; font-family: sans-serif;">Разделитель</b>',
-                    content: '<div style="margin-bottom: 10px;">&nbsp;</div>',
+        searchPlaceholder: {
+            en: opts.searchPlaceholder?.en || 'Search images...',
+            ru: opts.searchPlaceholder?.ru || 'Поиск изображений...'
+        },
+        defaultSearch: opts.defaultSearch || '',
+        perPage: opts.perPage || 20
+    });
+
+    const createDefaultContent = () => ({
+        tagName: 'div',
+        type: 'pixabay-image',
+        content: `
+            <div class="pixabay-placeholder" style="
+                width: 100%;
+                min-height: 200px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                border: 2px dashed #dee2e6;
+                border-radius: 4px;
+                cursor: pointer;
+            ">
+                <i class="bi bi-images" style="font-size: 2em; color: #6c757d; margin-bottom: 10px;"></i>
+                <div style="color: #6c757d;">Browse images</div>
+            </div>
+        `,
+        style: {
+            width: '100%',
+            'margin-top': '5px',
+            'margin-bottom': '5px'
+        },
+        attributes: {
+            'class': 'pixabay-image-container',
+            'data-gjs-type': 'pixabay-image'
+        }
+    });
+
+    const fetchPixabayImages = async (apiKey, query, perPage) => {
+        try {
+            const response = await fetch(
+                `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&per_page=${perPage}`
+            );
+            const data = await response.json();
+
+            if (!response.ok || data.error) {
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            }
+
+            return data.hits;
+
+        } catch (error) {
+            throw new Error(`Pixabay API Error: ${error.message}`);
+        }
+    };
+
+    const createImageContent = (src, alt = '') => `
+            <img
+                src="${src}"
+                alt="${alt}"
+                style="max-width: 100%; height: auto; border-radius: 4px;"
+            />
+        `;
+
+
+    const modalController = (editor, config) => {
+        const modal = editor.Modal;
+        const currentLocale = editor.I18n?.getLocale() || 'en';
+
+        const open = () => {
+            const template = document.getElementById('pixabay-modal-template');
+            const modalContent = template.cloneNode(true);
+            modalContent.id = '';
+            modalContent.style.display = 'block';
+
+            modal.setTitle(config.modalTitle[currentLocale]);
+            modal.setContent(modalContent);
+            modal.open();
+
+            return {
+                searchInput: modalContent.querySelector('.pixabay-search-input'),
+                searchButton: modalContent.querySelector('.pixabay-search-button'),
+                loadingDiv: modalContent.querySelector('.pixabay-loading'),
+                imagesGrid: modalContent.querySelector('.pixabay-images-grid')
+            };
+        };
+
+        const close = () => {
+            modal.close();
+        };
+
+        return {open, close};
+    };
+
+    const registerPixabayCommand = (editor, config) => {
+        editor.Commands.add('open-pixabay-modal', {
+            run(editor) {
+                const currentLocale = editor.I18n?.getLocale() || 'en';
+                const modal = modalController(editor, config);
+
+                const {
+                    searchInput,
+                    searchButton,
+                    loadingDiv,
+                    imagesGrid
+                } = modal.open();
+
+                // Set up UI elements
+                searchInput.placeholder = config.searchPlaceholder[currentLocale];
+                searchButton.textContent = currentLocale === 'en' ? 'Search' : 'Поиск';
+                loadingDiv.textContent = currentLocale === 'en' ? 'Loading images...' : 'Загрузка изображений...';
+
+                const handleImageSelect = (image) => {
+                    const selectedComponent = editor.getSelected();
+                    if (selectedComponent?.get('type') === 'pixabay-image') {
+                        selectedComponent.set('attributes', {
+                            ...selectedComponent.get('attributes'),
+                            src: image.webformatURL,
+                            alt: image.tags,
+                            'data-pixabay-id': image.id
+                        });
+                    }
+                    modal.close();
+                };
+
+                const renderImages = (images) => {
+                    imagesGrid.innerHTML = '';
+                    const fragment = document.createDocumentFragment();
+
+                    images.forEach(image => {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'pixabay-image-wrapper';
+                        wrapper.innerHTML = `<img src="${image.previewURL}" alt="${image.tags}">`;
+                        wrapper.querySelector('img').onclick = () => handleImageSelect(image);
+                        fragment.appendChild(wrapper);
+                    });
+
+                    imagesGrid.appendChild(fragment);
+                };
+
+                const handleSearch = async (query) => {
+                    loadingDiv.style.display = 'block';
+                    imagesGrid.innerHTML = '';
+
+                    try {
+                        const images = await fetchPixabayImages(config.pixabayApiKey, query, config.perPage);
+                        loadingDiv.style.display = 'none';
+                        renderImages(images);
+                    } catch (error) {
+                        console.error('Pixabay API Error:', error);
+                        loadingDiv.style.display = 'none';
+                        imagesGrid.innerHTML = currentLocale === 'en'
+                            ? `Error loading images: ${error.message}`
+                            : `Ошибка загрузки изображений: ${error.message}`;
+                    }
+                };
+
+                // Set up event handlers with preventDefault
+                searchButton.onclick = (e) => {
+                    e.preventDefault();
+                    handleSearch(searchInput.value || config.defaultSearch);
+                };
+
+                searchInput.onkeypress = (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault(); // Prevent form submission
+                        handleSearch(searchInput.value || config.defaultSearch);
+                    }
+                };
+
+                // Initial load
+                handleSearch(config.defaultSearch);
+            }
+        });
+    };
+
+    const registerPixabayComponent = (editor) => {
+        const defaultContent = createDefaultContent();
+
+        editor.DomComponents.addType('pixabay-image', {
+            isComponent: el => {
+                if (el.getAttribute && el.getAttribute('data-gjs-type') === 'pixabay-image') {
+                    return {type: 'pixabay-image'};
                 }
-            ]
-        },
-        styleManager: {
-            appendTo: '#style-manager-container',
-            sectors: [
-                {
-                    name: 'Typography',
-                    open: true,
-                    buildProps: ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'color', 'background-color'],
+            },
+
+            model: {
+                defaults: {
+                    ...defaultContent,
+                    droppable: false,
+                    hoverable: true,
+                    traits: [
+                        {
+                            type: 'button',
+                            label: 'Browse Pixabay',
+                            name: 'pixabay-browse',
+                            text: 'Select Image',
+                            full: true,
+                            command: 'open-pixabay-modal'
+                        },
+                        {
+                            type: 'text',
+                            label: 'Alt Text',
+                            name: 'alt'
+                        }
+                    ]
                 },
-                {
-                    name: 'Alignment',
-                    open: false,
-                    buildProps: ['text-align'],
+
+                init() {
+                    this.on('change:attributes:src', this.handleSrcChange);
                 },
-            ]
+
+                handleSrcChange() {
+                    const src = this.get('attributes').src;
+                    const alt = this.get('attributes').alt || '';
+                    this.set('content', src ? createImageContent(src, alt) : createPlaceholderContent());
+                }
+            },
+
+            view: {
+                events: {
+                    click: 'onClick',
+                },
+
+                init() {
+                    this.listenTo(this.model, 'change:content', this.updateContent);
+                },
+
+                onClick(e) {
+                    e.preventDefault();
+                    editor.runCommand('open-pixabay-modal');
+                },
+
+                updateContent() {
+                    this.el.innerHTML = this.model.get('content');
+                }
+            }
+        });
+    };
+
+    const pixabayPlugin = (editor, opts = {}) => {
+        const config = createPluginConfig(opts);
+
+        editor.BlockManager.add('pixabay-image-block', {
+            label: config.blockLabel,
+            content: createDefaultContent(),
+            select: true,
+            activate: true,
+        });
+
+        registerPixabayComponent(editor);
+        registerPixabayCommand(editor, config);
+    };
+
+
+    // init editor when dom loaded
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const editorContainer = document.getElementById('gjs');
+        const pixabayApiKey = editorContainer?.dataset.pixabayApiKey;
+
+
+        if (!pixabayApiKey) {
+            console.error('Pixabay API key not found in data attribute');
+            return;
         }
+
+
+        editor = grapesjs.init({
+            container: '#gjs',
+            fromElement: true,
+            height: 'auto',
+            width: 'auto',
+            storageManager: {
+                type: 'local',
+                autoload: false,
+                autosave: true,
+                stepsBeforeSave: 1,
+                id: 'gjs',
+            },
+            plugins: [pixabayPlugin],
+            pluginsOpts: {
+                [pixabayPlugin]: {
+                    pixabayApiKey: pixabayApiKey,
+                }
+            },
+            panels: {defaults: []},
+            blockManager: {
+                appendTo: '#blocks',
+                blocks: [
+                    {
+                        id: 'sectionh5',
+                        label: '<div class="t-class-comps">T1</div> <b style="color: #a5b1c8;">Большой Заголовок</b>',
+                        attributes: {class: 'gjs-block-section'},
+                        content: '<h1 style="font-family: sans-serif;">Insert large title text here</h1>',
+                    },
+                    {
+                        id: 'sectionh3',
+                        label: '<div class="t-class-comps">T3</div> <b style="color: #a5b1c8;">Средний Заголовок</b>',
+                        attributes: {class: 'gjs-block-section'},
+                        content: '<h3 style="font-family: sans-serif;">Insert medium title text here</h3>',
+                    },
+                    {
+                        id: 'sectionh1',
+                        label: '<div class="t-class-comps">T5</div> <b style="color: #a5b1c8;">Маленький Заголовок</b>',
+                        attributes: {class: 'gjs-block-section'},
+                        content: '<h4 style="font-family: sans-serif;">Insert small title text here</h4>',
+                    },
+                    {
+                        id: 'text',
+                        label: '<i class="bi bi-card-text" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Текст</b>',
+                        content: '<div data-gjs-type="text" style="font-family: sans-serif;">Insert your text here</div>',
+                    },
+                    {
+                        id: 'image',
+                        label: '<i class="bi bi-card-image" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Изображение</b>',
+                        select: true,
+                        content: '<img src="placeholder-image.jpg" alt="Placeholder Image" style="max-width: 100%; height: auto; margin-top:5px;margin-bot:5px">',
+                        activate: true,
+                    },
+                    {
+                        id: 'list',
+                        label: '<i class="bi bi-list" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8;">Список</b>',
+                        content: '<ul><li style="padding: 5px 0;font-family: sans-serif;">Item 1</li><li style="font-family: sans-serif;">Item 2</li><li style="margin: 5px 0;font-family: sans-serif;">Item 3</li><li style="margin: 5px 0;font-family: sans-serif;">Item 4</li></ul>'
+                    },
+                    {
+                        id: 'hr',
+                        label: '<i class="bi bi-dash" style="color: #a5b1c8; font-size: 30px; margin-bottom: 5px !important;"></i> <b style="color: #a5b1c8; font-family: sans-serif;">Горизонтальная линия</b>',
+                        content: '<hr>',
+                    },
+                    {
+                        id: 'line_break',
+                        label: '<i class="bi bi-arrows-expand" style="color: #a5b1c8;margin-bottom: 5px;font-size: 30px;"></i> <b style="color: #a5b1c8; font-family: sans-serif;">Разделитель</b>',
+                        content: '<div style="margin-bottom: 10px;">&nbsp;</div>',
+                    }
+                ]
+            },
+            styleManager: {
+                appendTo: '#style-manager-container',
+                sectors: [
+                    {
+                        name: 'Typography',
+                        open: true,
+                        buildProps: ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'color', 'background-color'],
+                    },
+                    {
+                        name: 'Alignment',
+                        open: false,
+                        buildProps: ['text-align'],
+                    }
+                ]
+            }
+        });
+
+        editor.on('load', () => {
+            const gjsContainer = document.getElementById('gjs');
+            if (gjsContainer) {
+                Object.assign(gjsContainer.style, {
+                    overflow: 'visible',
+                    height: '100%',
+                    minHeight: '1000px'
+                });
+            }
+
+            const wrapper = editor.getWrapper();
+            if (wrapper) {
+                wrapper.setStyle({
+                    padding: '15px'
+                });
+            }
+
+            const [contentInput, stylesInput] = ['content', 'styles']
+                .map(name => document.querySelector(`input[name=${name}]`));
+
+            if (contentInput?.value) editor.setComponents(contentInput.value);
+            if (stylesInput?.value) editor.setStyle(stylesInput.value);
+        });
     });
 
-
-    editor.on('load', () => {
-        const gjsContainer = document.getElementById('gjs');
-        if (gjsContainer) {
-            gjsContainer.style.overflow = 'visible';
-            gjsContainer.style.height = '100%';
-            gjsContainer.style.minHeight = '1000px';
-
-
-        }
-
-        const wrapper = editor.getWrapper();
-        if (wrapper) {
-            wrapper.setStyle({
-                padding: '15px'
-            });
-        }
-
-    });
-
-    function switchLanguage(lang) {
-        editor.I18n.setLocale(lang);
-    }
-
-    // Ensure touch events are properly handled on iOS
-    function addNonPassiveEventListener(element, event, handler) {
-        element.addEventListener(event, handler, {passive: false});
-    }
-
-    addNonPassiveEventListener(document, 'touchstart', function (event) {
-        console.log('touchstart', event.target);
-    });
-
-    addNonPassiveEventListener(document, 'touchmove', function (event) {
-        console.log('touchmove', event.target);
-    });
-
-    addNonPassiveEventListener(document, 'touchend', function (event) {
-        console.log('touchend', event.target);
-    });
 </script>
+
+</body>

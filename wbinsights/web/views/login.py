@@ -14,7 +14,7 @@ from django.utils.html import strip_tags
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 
-from web.utils import is_mobile
+from web.utils import check_is_mobile
 from web.forms.users import CustomUserCreationForm, ExpertAnketaForm, UserPasswordResetForm, UserSetNewPasswordForm, \
     UserPasswordChangeForm
 from web.models import Profile
@@ -95,9 +95,8 @@ def save_new_user_and_profile(request, user_form, user_type):
 
 @transaction.atomic
 def register_user(request):
-
     def get_template_name(request):
-        return 'registration/signup_mobile.html' if is_mobile(request) else 'registration/signup.html'
+        return 'registration/signup_mobile.html' if check_is_mobile(request) else 'registration/signup.html'
 
     if request.method == 'POST':
         user_form = CustomUserCreationForm(request.POST)

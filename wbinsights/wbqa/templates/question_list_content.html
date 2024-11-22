@@ -74,9 +74,11 @@
                         {% include "components/comment_icon.html" %}
                         <span class="list-comments">{{ question.answers.count }}</span>
                     </div>
-                    {% with request.scheme|add:"://"|add:request.get_host|add:"/question/"|add:question.pk as question_url %}
-                        {% social_share_buttons question_url question.title question.pk %}
-                    {% endwith %}
+
+                        {# TODO: double check #}
+                    {% include "components/share_social_btn.html" with url_path="/wbqa/question/" slug=question.pk|add:"/" title=question.title item_pk=question.pk %}
+
+
                 </div>
             </div>
             <!-- Mobile version -->
@@ -99,9 +101,8 @@
                             {% include "components/comment_icon.html" %}
                             <span class="list-comments">{{ question.answers.count }}</span>
                         </a>
-                        {% with request.scheme|add:"://"|add:request.get_host|add:"/question/"|add:question.pk as question_url %}
-                            {% social_share_buttons question_url question.title question.pk %}
-                        {% endwith %}
+
+                        {% include "components/share_social_btn.html" with url_path="/question/" slug=question.pk title=question.title item_pk=question.pk %}
                     </div>
                 </div>
             </div>

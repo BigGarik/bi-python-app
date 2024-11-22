@@ -41,9 +41,10 @@
             {% endif %}
 
             <div class="user-fill-info-cont">
+
                 <div class="role-choose">
-                        {% trans "BackButtonLabel" as back_text %}
-                        {% back_button "index" back_text %}
+                    {% trans "" as back_text %}
+                    {% back_button "login" back_text %}
                     <span class="span-register">РЕГИСТРАЦИЯ</span>
                 </div>
                 <form method="post">
@@ -109,7 +110,8 @@
                         <input type="checkbox" id="checkbox" required name="agree_personal_data_policy"
                                value="checkbox">
                         <label class="custom-control-label-checkbox" for="checkbox">
-                            <span class="policy-link">Я ознакомлен и согласен с <a href="{% url 'data_policies' %}" class="policy-link">политикой обработки персональных данных</a></span>
+                            <span class="policy-link">Я ознакомлен и согласен с <a href="{% url 'data_policies' %}"
+                                                                                   class="policy-link">политикой обработки персональных данных</a></span>
                         </label>
                     </div>
 

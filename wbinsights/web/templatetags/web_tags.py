@@ -6,7 +6,7 @@ from django.db.models import F
 from django.urls import reverse
 from django.template.defaultfilters import escape
 
-import web.utils
+from web.utils import check_is_mobile
 from web.services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
 from web.models import Expert, Category
 
@@ -28,9 +28,13 @@ register = template.Library()
 #     if any(mobile_agent in user_agent for mobile_agent in mobile_agents):
 #         return True
 #     return False
+
+
+
+
 @register.simple_tag(takes_context=True)
-def is_mobile(context) -> bool:
-    return web.utils.is_mobile(context)
+def device_is_mobile(context) -> bool:
+    return check_is_mobile(context['request'])
 
 
 @register.simple_tag

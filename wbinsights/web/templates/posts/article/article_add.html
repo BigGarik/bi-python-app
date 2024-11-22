@@ -3,15 +3,20 @@
 {% load i18n %}
 {% load web_tags %}
 {% block title %}
-    Создание статьи
+    {% if request.resolver_match.url_name == 'article_add' %}
+        Создание статьи
+    {% else %}
+        Редактирование статьи
+    {% endif %}
 {% endblock %}
 
 {% block extra_static %}
     <link rel="stylesheet" href="{% static 'web/css/grapesjs/grapes.min.css' %}">
     <script src="{% static 'web/js/grapesjs/grapes.min.js' %}"></script>
     <script src="{% static 'web/js/grapesjs/grapesjs-touch.min.js' %}"></script>
-{#    <script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>#}
+    {#    <script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>#}
     <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
+
 {% endblock %}
 
 {% block center_col %}
@@ -19,12 +24,11 @@
     <style>
 
         [data-gjs-type="wrapper"] {
-            padding: 10px;
+            padding: 15px;
         }
 
         #uploadedImage {
             max-width: -webkit-fill-available;
-
         }
 
     </style>
@@ -33,7 +37,7 @@
     <form method="post" enctype="multipart/form-data" id="article-form">
         {% csrf_token %}
         <div class="row">
-            <div class="col-9">
+            <div class="col-lg-8-5">
                 {% trans "BackButtonLabel" as back_text %}
                 {% back_button "index" back_text %}
                 {{ form.title.label }}
@@ -50,10 +54,12 @@
                 {{ form.main_img }}
                 <br>
                 {{ form.content }}
-                <div id="gjs" style="min-height: 300px;"></div>
+
+                <div id="gjs" data-pixabay-api-key="{{ PIXABAY_API_KEY }}" style="min-height: 300px;"></div>
+
                 <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
             </div>
-            <div class="col-3">
+            <div class="col-lg-3-5">
                 <div class="article-add-right-btns">
                     <div class="article-settings">
                         <div>Настройки</div>
@@ -86,13 +92,9 @@
                     {{ form.is_published }}
                     <br>
                     <div class="d-grid gap-2 d-block">
-                        <button type="submit" class="btn btn-success" id="submit-button">
-                            <span class="normal-text">Опубликовать</span>
-                            <span class="loading-text" style="display: none;">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Публикация...
-                        </span>
-                        </button>
+
+                        {% include "components/loadingBtn.html" with button_text="Опубликовать" loading_text="Публикация..." %}
+
                     </div>
                 </div>
             </div>
@@ -103,23 +105,6 @@
 
     <script>
 
-
-        $('form').on('submit', function () {
-            const submitButtons = $('button[type="submit"]');
-            submitButtons.each(function () {
-                const btn = $(this);
-                btn.prop('disabled', true);
-                btn.find('.normal-text').hide();
-                btn.find('.loading-text').show();
-
-                // Optional: Re-enable after timeout
-                setTimeout(() => {
-                    btn.prop('disabled', false);
-                    btn.find('.loading-text').hide();
-                    btn.find('.normal-text').show();
-                }, 2000);
-            });
-        });
 
         function clearEditorContent() {
             editor.setComponents('');
@@ -200,8 +185,7 @@
             document.getElementsByName('styles')[0].value = editor.getCss();
         });
 
-        editor.setComponents($('input[name=content]').val());
-        editor.setStyle($('input[name=styles]').val());
+
 
 
     </script>
