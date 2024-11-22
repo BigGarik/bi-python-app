@@ -3,93 +3,123 @@
 {% load static %}
 
 {% block center_col %}
-
     <link rel="stylesheet" href="{% static 'web/css/basepost_list_css.css' %}">
 
-    <div class="element-container">
+    <style>
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            padding: 20px 40px;
+        }
 
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .carousel-card {
+            flex: 0 0 calc(33.333% - 20px);
+            margin: 0 10px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            transform: scale(0.9);
+            opacity: 0.7;
+        }
+
+        .carousel-card.active {
+            transform: scale(1.1);
+            opacity: 1;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .carousel-nav.prev {
+            left: 10px;
+        }
+
+        .carousel-nav.next {
+            right: 10px;
+        }
+
+        .news-titles {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .collapse-content {
+            transition: max-height 0.3s ease-out;
+            max-height: 500px;
+            overflow: hidden;
+        }
+
+        .collapse-content.hidden {
+            max-height: 0;
+        }
+
+        @media (max-width: 768px) {
+            .carousel-card {
+                flex: 0 0 calc(100% - 20px);
+            }
+
+            .carousel-container {
+                height: 200px;
+            }
+        }
+    </style>
+
+    <div class="element-container">
         <div class="article-text-top">
             <span class="article-news">Новости</span>
-            <span class="news-open-close" role="button" onclick="toggleCollapse()" aria-expanded="true">
+            <span class="news-open-close" role="button" data-expanded="true">
                 <i class="bi bi-chevron-up"></i>
-            &nbsp;      свернуть
+                &nbsp; свернуть
             </span>
         </div>
 
-        <div class="collapse show" id="collapseNews">
-            <div class="base-info-split row" id="newsContainer">
-                <div class="col-md-4">
-                    <div id="carouselExampleAutoplaying" class="carousel slide vertical">
-                        <div class="carousel-inner" id="newsCarousel">
-                            {% get_all_news as news_items %}
-                            {% for news in news_items %}
-                                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
-                                    <div class="news-title">
-                                        <a href="{{ news.link }}" class="news-titles"
-                                           target="_blank">{{ news.title }}</a>
-                                    </div>
+        <div class="collapse-content" id="collapseNews">
+            <div class="col-md-12">
+                <div id="newsCarousel" class="carousel-container">
+                    <div class="carousel-track">
+                        {% get_all_news as news_items %}
+                        {% for news in news_items %}
+                            <div class="carousel-card {% if forloop.counter == 2 %}active{% endif %}">
+                                <div class="news-title">
+                                    <a href="{{ news.link }}" class="news-titles" target="_blank">{{ news.title }}</a>
                                 </div>
-                            {% endfor %}
-                        </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                </div>
-
-                <div class="col-md-8 d-none d-md-block" id="newsContentContainer">
-                    <div class="col-md-12 news-content-container">
-                        <div class="col-md-3 news-image-container">
-                            <img src="{% static 'web/images/unsplashimg.png' %}" alt="image"
-                                 class="img-fluid news-image">
-                        </div>
-                        <div class="col-md-9">
-                            <div class="base-news-title">Постоянный количественный рост ни к чему нас не обязывает</div>
-                        </div>
-                    </div>
-
-                    <div class="base-news-content">В целом, конечно, новая модель организационной деятельности создаёт
-                        предпосылки для приоритизации разума над эмоциями
-                    </div>
-
-                    <div class="base-news-stats">
-                        <div class="base-news-stats-comments">
-                            {% include "components/comment_icon.html" %}
-                            <span class="list-comments">&nbsp; 104 </span>
-                        </div>
-                        <div class="base-news-stats-last">
-                            <i class="bi bi-calendar3"></i>
-                            <span class=" list-comments">&nbsp; 2 дня назад </span>
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn btn-secondary basepost-media more-news-button"
-                            onclick="alert('В разработке')">Больше новостей
+                    <button class="carousel-nav prev">
+                        <i class="bi bi-chevron-left"></i>
                     </button>
-                </div>
-
-                <div class="col-12 d-md-none" id="newsContentContainer">
-                    <div class="col-12 mobile-news-container">
-                        <div class="col-12">
-                            <div class="base-news-title">Постоянный количественный рост ни к чему нас не обязывает</div>
-                        </div>
-                        <div class="base-news-content">В целом, конечно, новая модель организационной деятельности
-                            создаёт
-                            предпосылки для приоритизации разума над эмоциями
-                        </div>
-                        <div class="col-12 news-carousel-container">
-                            <img src="{% static 'web/images/unsplashimg.png' %}" alt="image"
-                                 class="img-fluid mobile-news-image">
-                        </div>
-                    </div>
-                    <div class="base-news-stats">
-                        <div class="base-news-stats-comments">
-                            {% include "components/comment_icon.html" %}
-                            <span class="list-comments">&nbsp; 104 </span>
-                        </div>
-                        <div class="base-news-stats-last">
-                            <i class="bi bi-calendar3"></i> &nbsp; 2 дня назад
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-secondary basepost-media-mobile"
-                            onclick="alert('В разработке')">Больше новостей
+                    <button class="carousel-nav next">
+                        <i class="bi bi-chevron-right"></i>
                     </button>
                 </div>
             </div>
@@ -99,7 +129,6 @@
     {% split request.path "/" 'first' as url_first_part %}
 
     <div class="d-block d-md-none">
-    
         <div class="dropdown post-menu">
             <button class="dropbtn" onclick="toggleDropdown(event)">
                 {% if url_first_part == 'researches' %}
@@ -118,20 +147,16 @@
                 {% if url_first_part != 'researches' %}
                     <a href="{% url 'research_list' %}" class="post-menu-item-mobile">Исследования</a>
                 {% endif %}
-            
                 {% if url_first_part != 'experts' and url_first_part != '' %}
                     <a href="{% url 'experts_list' %}" class="post-menu-item-mobile">Эксперты</a>
                 {% endif %}
-            
                 {% if url_first_part != 'articles' %}
                     <a href="{% url 'article_list' %}" class="post-menu-item-mobile">Статьи</a>
                 {% endif %}
-            
                 {% if url_first_part != 'wbqa' and url_first_part != 'question_answer' %}
                     <a href="{% url 'question_list' %}" class="post-menu-item-mobile">Вопрос-ответ</a>
                 {% endif %}
             </div>
-
         </div>
     </div>
 
@@ -151,42 +176,105 @@
     </div>
 
     <script>
-        function toggleCollapse() {
-            var collapseElement = document.getElementById('collapseNews');
-            const newsIEl =document.querySelector('.news-open-close i')
-            
-            if (collapseElement.classList.contains('show')) {
-                collapseElement.classList.remove('show');
-                newsIEl.classList.remove('bi-chevron-up');
-                newsIEl.classList.add('bi-chevron-down');
-            } else {
-                collapseElement.classList.add('show');
-                newsIEl.classList.remove('bi-chevron-down');
-                newsIEl.classList.add('bi-chevron-up');
-            }
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carousel Elements
+            const config = {
+                track: document.querySelector('.carousel-track'),
+                cards: document.querySelectorAll('.carousel-card'),
+                currentIndex: 1,
+                autoRotateInterval: 5000,
+                autoRotate: null  // Store timer reference
+            };
 
-        function toggleDropdown(event) {
-            event.stopPropagation();
-            var dropdown = event.currentTarget.nextElementSibling;
-            if (dropdown.style.display === "block") {
-                dropdown.style.display = "none";
-            } else {
-                dropdown.style.display = "block";
-            }
-        }
+            // Carousel Functions
+            const carousel = {
+                update() {
+                    const transformValue = -config.currentIndex * (100 / 3) + (100 / 3);
+                    config.track.style.transform = `translateX(${transformValue}%)`;
 
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.style.display === "block") {
-                        openDropdown.style.display = "none";
+                    config.cards.forEach((card, index) =>
+                        card.classList.toggle('active', index === config.currentIndex)
+                    );
+                },
+
+                resetAutoRotation() {
+                    if (config.autoRotate) {
+                        clearInterval(config.autoRotate);
                     }
+                    config.autoRotate = setInterval(() => this.move(1), config.autoRotateInterval);
+                },
+
+                move(direction) {
+                    config.currentIndex = (config.currentIndex + direction + config.cards.length) % config.cards.length;
+                    this.update();
+                    this.resetAutoRotation();  // Reset timer on manual navigation
+                },
+
+                init() {
+                    // Initial auto-rotation
+                    this.resetAutoRotation();
+
+                    // Navigation
+                    document.querySelector('.carousel-nav.prev').onclick = () => this.move(-1);
+                    document.querySelector('.carousel-nav.next').onclick = () => this.move(1);
+
+                    // Hover handlers
+                    const container = document.querySelector('.carousel-container');
+                    container.onmouseenter = () => clearInterval(config.autoRotate);
+                    container.onmouseleave = () => this.resetAutoRotation();
+
+                    this.update();
                 }
-            }
-        }
+            };
+
+            // Collapse Functions
+            const collapse = {
+                init() {
+                    const toggle = document.querySelector('.news-open-close');
+                    const content = document.getElementById('collapseNews');
+
+                    toggle.onclick = () => {
+                        const isExpanded = toggle.getAttribute('data-expanded') === 'true';
+                        content.classList.toggle('hidden');
+                        toggle.innerHTML = isExpanded ?
+                            '<i class="bi bi-chevron-down"></i>&nbsp; развернуть' :
+                            '<i class="bi bi-chevron-up"></i>&nbsp; свернуть';
+                        toggle.setAttribute('data-expanded', !isExpanded);
+                    };
+                }
+            };
+
+            // Dropdown Functions
+            const dropdown = {
+                toggleDropdown(event) {
+                    event.stopPropagation();
+                    const dropdown = event.currentTarget.nextElementSibling;
+                    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+                },
+
+                init() {
+                    // Add click handlers to all dropdown buttons
+                    document.querySelectorAll('.dropbtn').forEach(btn =>
+                        btn.onclick = this.toggleDropdown
+                    );
+
+                    // Close dropdowns when clicking outside
+                    document.onclick = (event) => {
+                        if (!event.target.matches('.dropbtn')) {
+                            document.querySelectorAll('.dropdown-content').forEach(
+                                dropdown => dropdown.style.display = "none"
+                            );
+                        }
+                    };
+                }
+            };
+
+            // Initialize all components
+            carousel.init();
+            collapse.init();
+            dropdown.init();
+        });
     </script>
 
+    </script>
 {% endblock %}
