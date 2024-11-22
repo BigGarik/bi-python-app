@@ -1,0 +1,35 @@
+<div style="display:flex; justify-content:center" id="load-more-container">
+    <button type="button" class="btn btn-secondary btn-more" id="load-more-btn" data-page="1">
+        Загрузить ещё
+    </button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#load-more-btn").click(function () {
+            var button = $(this);
+            var currentPage = parseInt(button.data('page'));
+            var nextPage = currentPage + 1;
+
+            $.ajax({
+                url: window.location.href,
+                data: {
+                    'page': nextPage,
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function (data) {
+                    if (data.html) {
+                        $("{{ data_container }}").append(data.html);
+                        button.data('page', nextPage);
+                    }
+                    if (!data.has_more) {
+                        $("#load-more-container").hide();
+                    }
+                }
+            });
+        });
+    })
+
+</script>
