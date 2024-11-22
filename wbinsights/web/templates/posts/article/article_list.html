@@ -42,9 +42,9 @@
             {% include "posts/article/article_list_content.html" %}
         </div>
 
-{#        {% if has_more_objects %}#}
-{#            {% include 'components/load_more.html' with data_container="#articles-container" %}#}
-{#        {% endif %}#}
+        {% if has_more_objects %}
+            {% include 'components/load_more.html' with data_container="#articles-container" %}
+        {% endif %}
 
     </div>
 

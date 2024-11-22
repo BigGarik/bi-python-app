@@ -48,6 +48,7 @@
         </div>
 
         <div id="experts-container" class="experts-container">
+            {% device_is_mobile as is_mobile %}
             {% if is_mobile %}
                 {% include "posts/expert/expert_list_mobile.html" %}
             {% else %}
@@ -55,9 +56,9 @@
             {% endif %}
         </div>
 
-{#        {% if has_more_objects %}#}
-{#            {% include 'components/load_more.html' with data_container="#experts-container" %}#}
-{#        {% endif %}#}
+        {% if has_more_objects %}
+            {% include 'components/load_more.html' with data_container="#experts-container" %}
+        {% endif %}
     </div>
 
     <script>
