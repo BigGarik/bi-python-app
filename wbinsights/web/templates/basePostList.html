@@ -5,93 +5,6 @@
 {% block center_col %}
     <link rel="stylesheet" href="{% static 'web/css/basepost_list_css.css' %}">
 
-    <style>
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            height: 250px;
-            overflow: hidden;
-            padding: 20px 40px;
-        }
-
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%;
-        }
-
-        .carousel-card {
-            flex: 0 0 calc(33.333% - 20px);
-            margin: 0 10px;
-            padding: 15px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            transform: scale(0.9);
-            opacity: 0.7;
-        }
-
-        .carousel-card.active {
-            transform: scale(1.1);
-            opacity: 1;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            z-index: 1;
-        }
-
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 2;
-        }
-
-        .carousel-nav.prev {
-            left: 10px;
-        }
-
-        .carousel-nav.next {
-            right: 10px;
-        }
-
-        .news-titles {
-            color: #333;
-            text-decoration: none;
-            font-size: 16px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .collapse-content {
-            transition: max-height 0.3s ease-out;
-            max-height: 500px;
-            overflow: hidden;
-        }
-
-        .collapse-content.hidden {
-            max-height: 0;
-        }
-
-        @media (max-width: 768px) {
-            .carousel-card {
-                flex: 0 0 calc(100% - 20px);
-            }
-
-            .carousel-container {
-                height: 200px;
-            }
-        }
-    </style>
 
     <div class="element-container">
         <div class="article-text-top">
@@ -104,23 +17,38 @@
 
         <div class="collapse-content" id="collapseNews">
             <div class="col-md-12">
+
                 <div id="newsCarousel" class="carousel-container">
-                    <div class="carousel-track">
-                        {% get_all_news as news_items %}
-                        {% for news in news_items %}
-                            <div class="carousel-card {% if forloop.counter == 2 %}active{% endif %}">
-                                <div class="news-title">
-                                    <a href="{{ news.link }}" class="news-titles" target="_blank">{{ news.title }}</a>
+                    {% get_all_news as news_items %}
+
+                    {% if news_items %}
+                        <div class="carousel-track">
+
+                            {% for news in news_items %}
+                                <div class="carousel-card {% if forloop.counter == 2 %}active{% endif %}">
+
+                                    <div class="news-title">
+                                        <a href="{{ news.link }}" class="news-titles"
+                                           target="_blank">{{ news.title }}</a>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-nav prev">
-                        <i class="bi bi-chevron-left"></i>
-                    </button>
-                    <button class="carousel-nav next">
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
+
+                            {% endfor %}
+                        </div>
+
+                        <button class="carousel-nav prev">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+
+                        <button class="carousel-nav next">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+
+                    {% else %}
+                        <div class="text-center p-3">
+                            <p>Нет последних новостей</p>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -130,7 +58,7 @@
 
     <div class="d-block d-md-none">
         <div class="dropdown post-menu">
-            <button class="dropbtn" onclick="toggleDropdown(event)">
+            <button class="dropbtn">
                 {% if url_first_part == 'researches' %}
                     Исследования
                 {% elif url_first_part == 'articles' %}
@@ -177,65 +105,161 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Carousel Elements
             const config = {
                 track: document.querySelector('.carousel-track'),
                 cards: document.querySelectorAll('.carousel-card'),
                 currentIndex: 1,
                 autoRotateInterval: 5000,
-                autoRotate: null  // Store timer reference
+                autoRotate: null,
+                isMobile: window.innerWidth <= 768,
+                touchStartX: 0,
+                touchEndX: 0,
+                minSwipeDistance: 50,
+                isAnimating: false
             };
 
-            // Carousel Functions
             const carousel = {
                 update() {
-                    const transformValue = -config.currentIndex * (100 / 3) + (100 / 3);
+
+                    // const offset = (config.currentIndex * -100) / config.cards.length;
+
+                    const transformValue = config.isMobile
+                        ? -config.currentIndex * 100
+                        : -config.currentIndex * (100 / 3) + (100 / 3);
+
                     config.track.style.transform = `translateX(${transformValue}%)`;
 
                     config.cards.forEach((card, index) =>
                         card.classList.toggle('active', index === config.currentIndex)
                     );
+
+                    {#if (config.currentIndex >= config.cards.length - 1) {#}
+                    {#    setTimeout(() => {#}
+                    {#        config.track.style.transition = 'none';#}
+                    {#        config.currentIndex = 1;#}
+                    {#        this.update();#}
+                    {#        setTimeout(() => config.track.style.transition = 'transform 0.5s ease-in-out', 50);#}
+                    {#    }, 500);#}
+
                 },
 
                 resetAutoRotation() {
+
                     if (config.autoRotate) {
                         clearInterval(config.autoRotate);
                     }
+
                     config.autoRotate = setInterval(() => this.move(1), config.autoRotateInterval);
+                    // console.log('auto rotate 5 sec');
                 },
 
                 move(direction) {
+
+
+                    // if (config.isAnimating) return;
+
+                    // setTimeout(() => config.isAnimating = false, 500);
+
+                    if (config.isAnimating) return;
+                    config.isAnimating = true;
+
                     config.currentIndex = (config.currentIndex + direction + config.cards.length) % config.cards.length;
                     this.update();
-                    this.resetAutoRotation();  // Reset timer on manual navigation
+                    this.resetAutoRotation();
+
+
+                    // console.log('config.cards.length', config.cards.length);
+                    // console.log('starting index', config.currentIndex);
+
+
+                    setTimeout(() => {
+                        config.isAnimating = false;
+                    }, 500);
+                },
+
+                handleTouchStart(e) {
+                    config.touchStartX = e.touches[0].clientX;
+                },
+
+                handleTouchMove(e) {
+
+                    if (!config.touchStartX) return;
+
+                    e.preventDefault();
+                    config.touchEndX = e.touches[0].clientX;
+
+                    const swipeDistance = config.touchStartX - config.touchEndX;
+
+                    const currentTransform = config.isMobile
+                        ? -config.currentIndex * 100
+                        : -config.currentIndex * (100 / 3) + (100 / 3);
+
+                    const dragTransform = (swipeDistance / config.track.offsetWidth) * 100;
+
+                    config.track.style.transform = `translateX(${currentTransform - dragTransform}%)`;
+                },
+
+                handleTouchEnd() {
+
+                    if (!config.touchStartX || !config.touchEndX) return;
+
+                    const swipeDistance = config.touchStartX - config.touchEndX;
+
+                    if (Math.abs(swipeDistance) > config.minSwipeDistance) {
+                        this.move(swipeDistance > 0 ? 1 : -1);
+                    } else {
+                        this.update();
+                    }
+
+                    config.touchStartX = 0;
+                    config.touchEndX = 0;
+                },
+
+                handleResize() {
+
+                    const wasMobile = config.isMobile;
+                    config.isMobile = window.innerWidth <= 768;
+
+                    if (wasMobile !== config.isMobile) {
+                        this.update();
+                    }
                 },
 
                 init() {
-                    // Initial auto-rotation
+
                     this.resetAutoRotation();
 
-                    // Navigation
+                    const container = document.querySelector('.carousel-container');
+
+                    container.addEventListener('touchstart', (e) => this.handleTouchStart(e), {passive: false});
+                    container.addEventListener('touchmove', (e) => this.handleTouchMove(e), {passive: false});
+                    container.addEventListener('touchend', () => this.handleTouchEnd());
+
                     document.querySelector('.carousel-nav.prev').onclick = () => this.move(-1);
                     document.querySelector('.carousel-nav.next').onclick = () => this.move(1);
 
-                    // Hover handlers
-                    const container = document.querySelector('.carousel-container');
                     container.onmouseenter = () => clearInterval(config.autoRotate);
                     container.onmouseleave = () => this.resetAutoRotation();
+
+                    window.addEventListener('resize', () => this.handleResize());
 
                     this.update();
                 }
             };
 
-            // Collapse Functions
             const collapse = {
+
                 init() {
+
                     const toggle = document.querySelector('.news-open-close');
                     const content = document.getElementById('collapseNews');
 
                     toggle.onclick = () => {
+
                         const isExpanded = toggle.getAttribute('data-expanded') === 'true';
+
                         content.classList.toggle('hidden');
+
                         toggle.innerHTML = isExpanded ?
                             '<i class="bi bi-chevron-down"></i>&nbsp; развернуть' :
                             '<i class="bi bi-chevron-up"></i>&nbsp; свернуть';
@@ -244,23 +268,42 @@
                 }
             };
 
-            // Dropdown Functions
             const dropdown = {
+
                 toggleDropdown(event) {
+
                     event.stopPropagation();
                     const dropdown = event.currentTarget.nextElementSibling;
                     dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
                 },
 
+
+                {#toggleDropdown(event) {#}
+                {##}
+                {#    event.stopPropagation();#}
+                {##}
+                {#    const dropdown = event.currentTarget.nextElementSibling;#}
+                {##}
+                {#    if (dropdown.style.maxHeight) {#}
+                {#        dropdown.style.maxHeight = null;#}
+                {#        setTimeout(() => dropdown.style.display = "none", 300);#}
+                {#    } else {#}
+                {#        dropdown.style.display = "block";#}
+                {#        dropdown.style.maxHeight = dropdown.scrollHeight + "px";#}
+                {#    }#}
+
+
+
                 init() {
-                    // Add click handlers to all dropdown buttons
+
                     document.querySelectorAll('.dropbtn').forEach(btn =>
                         btn.onclick = this.toggleDropdown
                     );
 
-                    // Close dropdowns when clicking outside
                     document.onclick = (event) => {
+
                         if (!event.target.matches('.dropbtn')) {
+
                             document.querySelectorAll('.dropdown-content').forEach(
                                 dropdown => dropdown.style.display = "none"
                             );
@@ -269,12 +312,9 @@
                 }
             };
 
-            // Initialize all components
             carousel.init();
             collapse.init();
             dropdown.init();
         });
-    </script>
-
     </script>
 {% endblock %}
