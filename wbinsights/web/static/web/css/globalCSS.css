@@ -37,6 +37,11 @@
     border-radius: 15px;
 }
 
+.no-margins{
+    margin: 0 !important;
+}
+
+
 @media (max-width: 768px) {
     .element-container {
         padding: 15px 20px 15px 20px;

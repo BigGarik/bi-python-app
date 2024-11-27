@@ -91,7 +91,10 @@
 
 .sticky-container {
     position: sticky;
+    gap: 20px;
     top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .navbar {

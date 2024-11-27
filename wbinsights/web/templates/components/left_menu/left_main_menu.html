@@ -4,7 +4,7 @@
 
 
 <div class="sticky-container">
-    <nav class="navbar">
+    <nav class="navbar no-margins" >
         <div class="container-fluid-nav">
             {% split request.path "/" "first" as first_path %}
             {% split request.path "/" "last" as last_path %}
@@ -28,5 +28,9 @@
             {% endfor %}
         </div>
     </nav>
+
+    {% include "components/left_menu/advertisement_left_menu.html" %}
+
+
     {% include "contact_and_help/contact_navbar.html" %}
 </div>
