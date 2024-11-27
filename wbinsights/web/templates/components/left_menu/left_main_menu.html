@@ -1,10 +1,10 @@
 {% load web_tags %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'web/css/contact_navbar.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/contact_navbar.css' %}?ver=0.01">
 
 
 <div class="sticky-container">
-    <nav class="navbar no-margins" >
+    <nav class="navbar no-margins">
         <div class="container-fluid-nav">
             {% split request.path "/" "first" as first_path %}
             {% split request.path "/" "last" as last_path %}
@@ -29,7 +29,10 @@
         </div>
     </nav>
 
-    {% include "components/left_menu/advertisement_left_menu.html" %}
+
+    <div class="d-none d-sm-block">
+        {% include "components/left_menu/advertisement_left_menu.html" %}
+    </div>
 
 
     {% include "contact_and_help/contact_navbar.html" %}

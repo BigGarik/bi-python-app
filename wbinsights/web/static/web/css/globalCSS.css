@@ -37,7 +37,7 @@
     border-radius: 15px;
 }
 
-.no-margins{
+.no-margins {
     margin: 0 !important;
 }
 
@@ -448,5 +448,21 @@
     }
 
 
+}
+
+/* ------------------------------------- ADVERTISEMENTS ------------------------------------------*/
+
+
+.advertisement-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px
+}
+
+.advertisement-img {
+    max-width: 100%;
+    max-height: 80px;
+    height: 50px;
 }
 
