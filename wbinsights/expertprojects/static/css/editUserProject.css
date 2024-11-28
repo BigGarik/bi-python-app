@@ -71,8 +71,7 @@
     flex-direction: column;
     justify-content: space-between;
     min-height: 250px;
-    width:21%;
-    max-width:21%;
+    max-width:22%;
     cursor: pointer;
 }
 
@@ -154,7 +153,9 @@
 
 
 .project-list{
-    display:flex; gap: 10px; flex-wrap: wrap; justify-content: flex-start;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .no-arrow {

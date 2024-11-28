@@ -417,8 +417,8 @@ h1 {
 }
 
 .profile-dropdown-button {
-    background-color: inherit;
-    border: none;
+    background-color: inherit !important;
+    border: none !important;
     margin: 0;
 }
 
