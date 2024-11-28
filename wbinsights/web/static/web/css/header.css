@@ -28,6 +28,11 @@
 
 }
 
+.profile-icons-section {
+    display: flex;
+    align-items: center;
+}
+
 .header-user-prof {
     display: flex !important;
 }
@@ -223,7 +228,7 @@
     left: -1500px;
     transition: left 0.8s ease;
     padding: 20px 10px 0 10px;
-    z-index: 1000;
+    z-index: 9999;
 }
 
 #sidebar.visible {

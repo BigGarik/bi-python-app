@@ -156,6 +156,8 @@
     transition: transform 0.5s ease-in-out;
     height: 100%;
     position: relative;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .carousel-card {
@@ -169,6 +171,9 @@
     transform: scale(0.85);
     opacity: 0.6;
     position: relative;
+    transform-origin: center center;
+    will-change: transform, opacity;
+    z-index: 1;
 }
 
 .carousel-card.active {
