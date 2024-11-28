@@ -1,0 +1,280 @@
+{% load static %}
+{% load i18n %}
+
+
+
+{% load static %}
+{% load i18n %}
+
+<header class="py-3 sm-4 border-bottom header-container">
+    <div class="container-fluid">
+        <!-- display for larger screens -->
+        <div class="d-none d-xl-flex justify-content-end main-cont-css">
+            <aside class="col-sm-0-5 d-none d-md-block"></aside>
+
+            <div class="col-md-4 mb-2 mb-md-0 logo-container">
+                <div class="search-bar-cont">
+                    <input class="search-bar" type="text" id="search" name="username" placeholder="Поиск">
+
+                    {% if user.is_authenticated %}
+                        {% if user.profile.type == 1 %}
+                            <div class="dropdown">
+                                <button class="btn btn-secondary fullscreen-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-plus plus-icon"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if user.is_staff %}
+                        <div class="dropdown">
+                            <button class="btn btn-secondary fullscreen-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="admin-text">Администрирование</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{% url 'manage_unverified_experts_list' %}">{% trans 'Верификация экспертов' %}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                
+                </div>
+            </div>
+
+            <div class="col-md-2 text-md-end header-nav-container"></div>
+
+            <div class="col-md-3 text-md-end header-profile-container">
+            
+                {% if user.is_authenticated %}
+                    
+                    <div class="header-icon-cont">
+                        <a href="{% url 'index' %}">
+                            <i class="bi bi-house header-icon"></i>
+                        </a>
+                    </div>
+
+                    <div class="header-icon-cont">
+                        <a href="#" onclick="alert('В разработке');">
+                            <i class="bi bi-chat-left-text header-icon"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="header-icon-cont">
+                        <a href="#" onclick="alert('В разработке');">
+                            <i class="bi bi-bell-fill header-icon"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="header-user-prof">
+                        <div class="header-prof-info">
+                            <span class="username-text">{{ user.first_name }}</span>
+                            <span class="user-role-text">
+                                {% if user.is_superuser %}
+                                    Админ
+                                {% elif user.profile.type == 1 %}
+                                    Эксперт
+                                {% elif user.profile.type == 0 %}
+                                    Клиент
+                                {% endif %}
+                            </span>
+                        </div>
+                    
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle profile-dropdown-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-image">
+                            </button>
+                            
+                            <div class="dropdown-menu profile-menu" aria-labelledby="dropdownMenuButton">
+                                <div class="header-profile-cont">
+                                    <a href="{% url 'profile' %}?tab=articles" class="profile-page-btn prof-page-btn-styles">
+                                        <i class="bi bi-person-fill profile-icon"></i>
+                                        &nbsp;
+                                        {% trans 'PersonalAccountLabel' %}
+                                    </a>
+                                    <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                        {% csrf_token %}
+                                        <button class="logout-btn logout-btn" type="submit">
+                                            <i class="bi bi-box-arrow-right logout-icon"></i> &nbsp;
+                                            {% trans 'LogoutButtonLabel' %}
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                {% else %}
+                    
+                    <div class="header-icon-cont">
+                        <a href="{% url 'index' %}">
+                            <i class="bi bi-house header-icon"></i>
+                        </a>
+                    </div>
+
+                    <div class="buttons-log-cont">
+                    
+                        <a href="{% url 'login' %}">
+                            <button type="button" class="btn btn-dark logout-btn-style auth-button">{% trans 'LoginBtnLabel' %}</button>
+                        </a>
+                        
+                        <a href="{% url 'signup' %}">
+                            <button type="button" class="btn btn-primary auth-button">{% trans 'RegisterBtnLabel' %}</button>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            <aside class="col-sm-0-5 d-none d-md-block"></aside>
+        </div>
+
+        <!-- display on small screens -->
+        <div class="d-xl-none">
+        
+            <div class="mobile-header-flex">
+            
+                <div id="sidebar-btn">
+                    <i class="bi bi-list sidebar-icon"></i>
+                </div>
+            
+                <div class="mobile-actions-container">
+                
+                    <i class="bi bi-search search-icon-mobile" onclick="alert('in progress')"></i>
+                
+                    {% if user.is_authenticated %}
+                        {% if user.profile.type == 1 %}
+                            
+                            <div class="dropdown mobile-dropdown">
+                            
+                                <button class="btn btn-secondary nav-dropdown-styles" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-plus plus-icon"></i>
+                                </button>
+                            
+                                <div class="dropdown-menu mobile-menu" aria-labelledby="dropdownMenuButton">
+                                    {% if user.profile.type == 1 %}
+                                        <a class="dropdown-item" href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <!-- tablet only view, between sm and xl -->
+                        <div class="d-none d-sm-flex all-profile-cont tablet-profile-container">
+                            {% if user.is_authenticated %}
+                                
+                                <div class="header-icon-cont">
+                                    <a href="{% url 'index' %}">
+                                        <i class="bi bi-house header-icon"></i>
+                                    </a>
+                                </div>
+                                
+                                <div class="header-icon-cont">
+                                    <a href="#" onclick="alert('В разработке');">
+                                        <i class="bi bi-chat-left-text header-icon"></i>
+                                    </a>
+                                </div>
+                                
+                                <div class="header-icon-cont">
+                                    <a href="#" onclick="alert('В разработке');">
+                                        <i class="bi bi-bell-fill header-icon"></i>
+                                    </a>
+                                </div>
+                                
+                                <div class="header-user-prof">
+                                    <div class="header-prof-info">
+                                        <span class="username-text">{{ user.first_name }}</span>
+                                    
+                                        <span class="user-role-text">
+                                            {% if user.is_superuser %}
+                                                Админ
+                                            {% elif user.profile.type == 1 %}
+                                                Эксперт
+                                            {% elif user.profile.type == 0 %}
+                                                Клиент
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle profile-dropdown-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-image">
+                                        </button>
+                                        <div class="dropdown-menu profile-menu" aria-labelledby="dropdownMenuButton">
+                                            <div class="header-profile-cont">
+                                                <a href="{% url 'profile' %}?tab=articles" class="profile-page-btn prof-page-btn-styles">
+                                                    <i class="bi bi-person-fill profile-icon"></i>
+                                                    &nbsp;
+                                                    {% trans 'PersonalAccountLabel' %}
+                                                </a>
+                                                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                                                    {% csrf_token %}
+                                                    <button class="logout-btn logout-btn" type="submit">
+                                                        <i class="bi bi-box-arrow-right logout-icon"></i>
+                                                        &nbsp;
+                                                        {% trans 'LogoutButtonLabel' %}
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                    {% else %}
+                        
+                        <div class="buttons-log-cont d-none d-sm-flex">
+                        
+                            <a href="{% url 'login' %}">
+                                <button type="button" class="btn btn-dark logout-btn-style auth-button">{% trans 'LoginBtnLabel' %}</button>
+                            </a>
+                            
+                            <a href="{% url 'signup' %}">
+                                <button type="button" class="btn btn-primary auth-button">{% trans 'RegisterBtnLabel' %}</button>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        
+            <div id="sidebar">
+                
+                <div class="sidebar-container">
+                    <div id="sidebar-close-btn" class="sidebar-close">
+                        <i class="bi bi-x close-icon"></i>
+                    </div>
+                </div>
+                
+                <div>
+                    {% include "components/left_menu/left_main_menu.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    $(document).ready(function () {
+        $('#sidebar-btn').on('click', function () {
+            $('#sidebar').toggleClass('visible');
+            $('#overlay').show();
+            $('#sidebar-btn').hide();
+            $('#sidebar-close-btn').show();
+        });
+
+        $('#sidebar-close-btn').on('click', function () {
+            $('#sidebar').toggleClass('visible');
+            $('#overlay').hide();
+            $('#sidebar-close-btn').hide();
+            $('#sidebar-btn').show();
+        });
+
+        $('#overlay').on('click', function () {
+            $('#sidebar').removeClass('visible');
+            $(this).hide();
+            $('#sidebar-close-btn').hide();
+            $('#sidebar-btn').show();
+        });
+    });
+</script>
