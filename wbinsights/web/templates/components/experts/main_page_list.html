@@ -12,6 +12,7 @@
 
         <div class="spans-cont">
             <span class="experts-title">ЭКСПЕРТЫ</span>
+            <span class="all-experts"><a href="{% url 'experts_list' %}">{% trans 'AllExpertsLabel' %}</a></span>
         </div>
 
         {% get_top_experts as topexperts %}

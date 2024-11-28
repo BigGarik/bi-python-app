@@ -450,19 +450,34 @@
 
 }
 
+.element-caption-titles{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 /* ------------------------------------- ADVERTISEMENTS ------------------------------------------*/
+
 
 
 .advertisement-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px
+    margin-top: 20px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (min-width: 769px) {
+    .advertisement-container {
+        padding: 10px !important;
+    }
 }
 
 .advertisement-img {
     max-width: 100%;
     max-height: 80px;
-    height: 50px;
+    height: 55px;
 }
 

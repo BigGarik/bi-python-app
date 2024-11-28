@@ -1,10 +1,6 @@
 /* ------------------------------ BasePostList --------------------*/
 
-.article-text-top{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
+
 
 .base-info-split{
     display: flex;
