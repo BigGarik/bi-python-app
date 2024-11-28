@@ -22,7 +22,8 @@ class CreateQuestionView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class QuestionDetailView(LoginRequiredMixin, DetailView):
+# class QuestionDetailView(LoginRequiredMixin, DetailView):
+class QuestionDetailView(DetailView):
     model = Question
     template_name = 'question_detail.html'
     context_object_name = 'question'
@@ -36,15 +37,18 @@ class QuestionDetailView(LoginRequiredMixin, DetailView):
         context['best_answer'] = question.answers.filter(is_best=True).first()
         context['other_answers'] = question.answers.filter(is_best=False).order_by('created_at')
 
-        # Получаем ответы
-        user_has_answered = Answer.objects.filter(question=question, author=user).exists()
-        context['user_has_answered'] = user_has_answered
+        user_has_answered = None
+
+        if user.is_authenticated:
+            # Получаем ответы
+            user_has_answered = Answer.objects.filter(question=question, author=user).exists()
+            context['user_has_answered'] = user_has_answered
 
         # Условия для отображения формы для ответа:
         # 1. Пользователь не оставил ответ.
         # 2. Вопрос адресован ему или targeted_user пуст.
         # 3. Пользователь не является автором вопроса.
-        if (not user_has_answered
+        if (user.is_authenticated and not user_has_answered
                 and (question.targeted_user is None or question.targeted_user == user)
                 and question.author != user):
             context['form'] = AnswerForm()
@@ -100,7 +104,15 @@ class QuestionListView(CommonContentFilterListView):
         # 1. Вопросам, адресованным текущему пользователю (targeted_user = user)
         # 2. Вопросам, где targeted_user не указан (targeted_user IS NULL)
         # 3. Вопросам, созданным текущим пользователем (author = user)
-        queryset = queryset.filter(Q(targeted_user=user) | Q(targeted_user__isnull=True) | Q(author=user))
+        # queryset = queryset.filter(Q(targeted_user=user) | Q(targeted_user__isnull=True) | Q(author=user))
+
+        if user.is_authenticated:
+            queryset = queryset.filter(
+                Q(targeted_user=user) | Q(targeted_user__isnull=True) | Q(author=user)
+            )
+        else:
+            queryset = queryset.filter(Q(targeted_user__isnull=True))
+
         if not bool(queryset.query.order_by):
             queryset = queryset.order_by('-updated_at')
         return queryset
@@ -108,8 +120,6 @@ class QuestionListView(CommonContentFilterListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-
 
 
 @login_required
