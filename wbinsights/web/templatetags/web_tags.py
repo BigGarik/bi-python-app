@@ -1,3 +1,4 @@
+import locale
 import math
 from datetime import datetime
 
@@ -139,6 +140,34 @@ def get_all_news():
     rss_data = fetch_rss_feed(rss_url)
     news_items = parse_rss_feed(rss_data)
     return news_items
+
+
+@register.simple_tag
+def format_date(date_string):
+
+    try:
+        date_obj = datetime.strptime(date_string, "%a, %d %b %Y %H:%M:%S %z")
+
+        months = {
+            1: 'Января',
+            2: 'Февраля',
+            3: 'Марта',
+            4: 'Апреля',
+            5: 'Мая',
+            6: 'Июня',
+            7: 'Июля',
+            8: 'Августа',
+            9: 'Сентября',
+            10: 'Октября',
+            11: 'Ноября',
+            12: 'Декабря'
+        }
+
+        formatted_date = f"{date_obj.day} {months[date_obj.month]} {date_obj.year}"
+
+        return formatted_date
+    except:
+        return date_string
 
 
 @register.simple_tag

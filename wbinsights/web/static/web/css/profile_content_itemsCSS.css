@@ -56,6 +56,7 @@
 
     .item-title{
         font-size: 14px;
+        white-space: nowrap;
     }
 
     .mobile-prof-cont {

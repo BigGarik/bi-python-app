@@ -93,9 +93,7 @@
             padding: 15px 0px 15px 0px;
         }
     }
-    .news-title {
-        cursor: pointer;
-    }
+
     #newsTitlesList {
         max-height: 300px;
         overflow-y: hidden;
@@ -128,7 +126,7 @@
 /* ---------------------------------------------------------------  ARTICLE LIST  ------------------------------------------------------------------------------- */
 
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .row-margin {
         padding-top: 0px !important;
     }

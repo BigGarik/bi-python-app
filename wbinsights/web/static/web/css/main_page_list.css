@@ -92,6 +92,6 @@
 }
 
 .expert-category {
-    white-space: nowrap;
+    white-space: wrap;
 }
 
