@@ -87,9 +87,9 @@ def get_key_rate_change() -> Dict[str, Union[str, float, None]] or None:
     Dict[str, Union[str, float, None]]: Словарь с подробной информацией об изменении ключевой ставки.
     """
     try:
-        # Расчет даты год назад от текущей даты
+        # Расчет даты от текущей даты
         current_date = datetime.now()
-        one_year_ago = current_date - timedelta(days=365)
+        one_year_ago = current_date - timedelta(days=60)
 
         # Форматирование дат для запроса
         from_date = one_year_ago.strftime("%d.%m.%Y")
@@ -134,6 +134,13 @@ def get_key_rate_change() -> Dict[str, Union[str, float, None]] or None:
 
         # Текущее значение
         current_date, current_rate = rates[0]
+        print(rates)
+
+        # Найти первую дату текущего значения
+        first_current_rate_date = current_date
+        for i in range(len(rates) - 1):
+            if rates[i + 1][1] != rates[i][1]:
+                first_current_rate_date = rates[i][0]
 
         # Найти первое предыдущее значение, отличное от текущего
         previous_date, previous_rate = rates[0]
@@ -150,6 +157,7 @@ def get_key_rate_change() -> Dict[str, Union[str, float, None]] or None:
             "current_rate": current_rate,
             "change": round(change, 2),
             "change_percentage": round(change_percentage, 2) if change_percentage is not None else None,
+            "last_change_date": first_current_rate_date
         }
 
     except Exception as e:
@@ -198,7 +206,8 @@ def get_combined_financial_rates() -> Optional[Dict[str, Dict[str, Union[float, 
         currency_rates['KEY_RATE'] = {
             'current_rate': key_rate['current_rate'],
             'change': key_rate['change'],
-            'change_percentage': key_rate['change_percentage']
+            'change_percentage': key_rate['change_percentage'],
+            'last_change_date': key_rate['last_change_date']
         }
 
         return currency_rates

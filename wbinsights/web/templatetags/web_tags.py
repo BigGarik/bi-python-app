@@ -1,7 +1,6 @@
 import math
 from datetime import datetime
 
-import requests
 from django import template
 from django.db.models import F
 from django.template.defaultfilters import escape
@@ -10,7 +9,6 @@ from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import gettext as _
 
-from scheduler import logger
 from web.models import Expert, Category
 from web.services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
 from web.utils import check_is_mobile
