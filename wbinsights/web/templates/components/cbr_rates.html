@@ -4,10 +4,7 @@
     .cbr-rates-container {
         display: flex;
         justify-content: space-around;
-        background-color: lightgrey;
-        border-radius: 5px;
         margin: 10px 0 10px 0;
-        padding: 10px 5px;
         align-items: center;
         flex-wrap: wrap;
         gap: 5px;
@@ -53,7 +50,7 @@
 {% show_cbr_rates as rates %}
 {% if rates %}
 
-    <div class="cbr-rates-container">
+    <div class="cbr-rates-container element-container">
 
         <div class="rate-labels">Курсы валот</div>
         {% for currency, data in rates.items %}
