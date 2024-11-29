@@ -3,20 +3,28 @@
 
 
 <div class="element-container" >
+
     <div class="element-caption-titles">
+
         <span class="article-news">Новости</span>
+
         <span class="news-open-close" role="button" data-expanded="true">
             <i class="bi bi-chevron-up"></i>
             &nbsp; свернуть
         </span>
+
     </div>
 
     <div class="collapse-content" id="collapseNews">
         <div class="col-md-12">
+
             <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+
                 <div class="carousel-inner">
+
                     {% get_all_news as news_items %}
                     {% if news_items %}
+
                         {% for news in news_items %}
                             <div class="carousel-item {% if forloop.counter == 2 %}active{% endif %}">
                                 <div class="carousel-card">
@@ -30,22 +38,27 @@
                                     </div>
                                 </div>
                             </div>
+
                         {% endfor %}
                     {% else %}
+
                         <div class="text-center p-3">
                             <p>Нет последних новостей</p>
                         </div>
                     {% endif %}
+
                 </div>
 
                 <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
                     <i class="bi bi-chevron-left"></i>
                     <span class="visually-hidden">Previous</span>
                 </button>
+
                 <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
                     <i class="bi bi-chevron-right"></i>
                     <span class="visually-hidden">Next</span>
                 </button>
+
             </div>
         </div>
     </div>

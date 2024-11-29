@@ -7,7 +7,7 @@
         background-color: lightgrey;
         border-radius: 5px;
         margin: 10px 0 10px 0;
-        padding: 5px;
+        padding: 10px 5px;
         align-items: center;
         flex-wrap: wrap;
         gap: 5px;
@@ -15,10 +15,12 @@
 
     .arrow-up {
         color: green;
+        font-weight: 600;
     }
 
     .arrow-down {
         color: red;
+        font-weight: 600;
     }
 
     .rate-labels {
@@ -36,6 +38,14 @@
     .current-rate {
         font-weight: 600;
         font-size: 12px;
+    }
+
+    .rate-date {
+        font-size: 10px;
+    }
+
+    .color-grey {
+        color: grey;
     }
 
 </style>
@@ -86,14 +96,18 @@
         {% endfor %}
 
 
-        <div style="display: flex;align-items: center; font-size: 12px ">
+        <div style="display: flex; font-size: 12px; gap: 3px; align-items: baseline;">
 
             <div class="rate-labels">Ключевая ставка &nbsp;</div>
 
-            <div class="current-rate">{{ rates.KEY_RATE.change }} &nbsp;</div>
+            <div class="rate-labels rate-date">с {{ rates.KEY_RATE.last_change_date }}</div>
 
-            <span class="arrow {% if rates.KEY_RATE.change > 0 %}arrow-up{% else %}arrow-down{% endif %}">
-                {% if rates.KEY_RATE.change > 0 %}
+            <div class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                {{ rates.KEY_RATE.current_rate }}
+            </div>
+
+            <span class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                {% if rates.KEY_RATE.current_rate > 0 %}
                     ↑
                 {% else %}
                     ↓
