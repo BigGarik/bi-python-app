@@ -3,6 +3,7 @@
 {% load static %}
 {% load web_tags %}
 
+
 {% block center_col %}
     <link rel="stylesheet" href="{% static 'web/css/basepost_list_css.css' %}?ver=0.01">
 
@@ -13,6 +14,10 @@
 
     <div class="d-block d-xl-none">
         {% include "components/left_menu/advertisement_left_menu.html" %}
+    </div>
+
+    <div>
+        {% include 'components/cbr_rates.html' %}
     </div>
 
 

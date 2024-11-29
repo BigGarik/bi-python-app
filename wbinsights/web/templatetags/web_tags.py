@@ -1,25 +1,22 @@
-import locale
 import math
 from datetime import datetime
 
+import requests
 from django import template
 from django.db.models import F
-from django.urls import reverse
 from django.template.defaultfilters import escape
-
-from web.utils import check_is_mobile
-from web.services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
-from web.models import Expert, Category
-
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django.utils.timezone import now
-
 from django.utils.translation import gettext as _
 
-import requests
-import feedparser
-from django.utils.safestring import mark_safe
+from scheduler import logger
+from web.models import Expert, Category
+from web.services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
+from web.utils import check_is_mobile
 
 register = template.Library()
+
 
 # def is_mobile(context):
 #     request = context['request']
@@ -29,8 +26,6 @@ register = template.Library()
 #     if any(mobile_agent in user_agent for mobile_agent in mobile_agents):
 #         return True
 #     return False
-
-
 
 
 @register.simple_tag(takes_context=True)
@@ -65,11 +60,13 @@ def social_share_buttons(url, title, question_pk):
     '''
     return mark_safe(html)
 
+
 @register.simple_tag
 def back_button(url_name, text):
     url = reverse(url_name)
     escaped_text = escape(text)
-    return mark_safe(f'<a href="{url}" class="global-back-btn"><i class="bi bi-chevron-left"></i> &nbsp;{escaped_text}</a>')
+    return mark_safe(
+        f'<a href="{url}" class="global-back-btn"><i class="bi bi-chevron-left"></i> &nbsp;{escaped_text}</a>')
 
 
 @register.filter
@@ -133,7 +130,6 @@ def get_all_categories():
     return Category.objects.all()
 
 
-
 @register.simple_tag
 def get_all_news():
     rss_url = "https://rssexport.rbc.ru/rbcnews/news/100/full.rss"
@@ -143,8 +139,18 @@ def get_all_news():
 
 
 @register.simple_tag
-def format_date(date_string):
+def show_cbr_rates():
+    from web.services.cbr_key_indicators import get_combined_financial_rates
+    result = get_combined_financial_rates()
+    print('result', result)
+    return result
 
+
+
+
+
+@register.simple_tag
+def format_date(date_string):
     try:
         date_obj = datetime.strptime(date_string, "%a, %d %b %Y %H:%M:%S %z")
 
@@ -168,6 +174,10 @@ def format_date(date_string):
         return formatted_date
     except:
         return date_string
+
+
+
+
 
 
 @register.simple_tag
@@ -236,7 +246,7 @@ def custom_time_display(datetime_value):
         else:
             return f'{days_difference} ' + _('дней назад')
     else:
-        #round to the nearest 30 minutes
+        # round to the nearest 30 minutes
         total_minutes = int((time_difference.total_seconds() + 900) // 1800) * 30
 
         hours = total_minutes // 60

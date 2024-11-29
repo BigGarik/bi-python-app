@@ -1,0 +1,107 @@
+{% load web_tags %}
+
+<style>
+    .cbr-rates-container {
+        display: flex;
+        justify-content: space-around;
+        background-color: lightgrey;
+        border-radius: 5px;
+        margin: 10px 0 10px 0;
+        padding: 5px;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .arrow-up {
+        color: green;
+    }
+
+    .arrow-down {
+        color: red;
+    }
+
+    .rate-labels {
+        font-size: 12px;
+        color: grey;
+
+    }
+
+    .rate-item {
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .current-rate {
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+</style>
+
+{% show_cbr_rates as rates %}
+{% if rates %}
+
+    <div class="cbr-rates-container">
+
+        <div class="rate-labels">Курсы валот</div>
+        {% for currency, data in rates.items %}
+
+            {% if currency != 'KEY_RATE' %}
+
+                <div class="rate-item">
+
+                    <span class="current-rate">
+                        {% if currency == 'CNY' %}
+                            ¥
+                        {% elif currency == 'EUR' %}
+                            €
+                        {% elif currency == 'USD' %}
+                            $
+                        {% else %}
+                            ₽
+                        {% endif %}
+                    </span>
+
+                    <span class="currency-code">{{ currency }}</span>
+
+
+                    <span class="current-rate">{{ data.current_rate }} ₽</span>
+                    {#                    <span class="change">{{ data.change }}</span>#}
+
+
+                    <span class="arrow {% if data.change > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                        {% if data.change > 0 %}
+                            ↑
+                        {% else %}
+                            ↓
+                        {% endif %}
+                    </span>
+                    {#                    <span class="change-percentage">{{ data.change_percentage }}</span>#}
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+
+
+        <div style="display: flex;align-items: center; font-size: 12px ">
+
+            <div class="rate-labels">Ключевая ставка &nbsp;</div>
+
+            <div class="current-rate">{{ rates.KEY_RATE.change }} &nbsp;</div>
+
+            <span class="arrow {% if rates.KEY_RATE.change > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                {% if rates.KEY_RATE.change > 0 %}
+                    ↑
+                {% else %}
+                    ↓
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+
+
+{% endif %}
