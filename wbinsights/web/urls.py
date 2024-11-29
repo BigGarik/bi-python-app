@@ -9,6 +9,7 @@ from .utils import get_timezones
 from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView, DeleteArticleView)
 from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form, \
     ContactUsSuccessPageView
+from .views.crb_key import CrbRatesView
 from .views.error_404 import wb400handler
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
 from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
@@ -87,6 +88,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('calculate_rating/', calculate_rating_for_all_expert, name='calculate_rating_for_all_expert'),
     path('api/news/', NewsFeedView.as_view(), name='news_feed'),
+    path('api/crb-rates/', CrbRatesView.as_view(), name='crb_rates'),
 
     #path('__debug__/', include('debug_toolbar.urls')),   # Закомментировать перед пушем
 
