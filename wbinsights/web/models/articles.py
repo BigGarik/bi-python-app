@@ -47,6 +47,9 @@ class Article(VoteModel, models.Model, HitCountMixin):
     cat = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='article', verbose_name="Категории", )
     allow_comments = models.BooleanField('allow comments', default=True)
     styles = models.TextField(null=True, blank=True, verbose_name="Стили")
+
+    meta_tags = models.CharField(max_length=255, blank=True, null=True, verbose_name="Мета-теги")
+
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
                                         related_query_name='hit_count_generic_relation')
 
