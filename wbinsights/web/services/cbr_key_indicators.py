@@ -1,8 +1,12 @@
-import requests
+import logging
 import xml.etree.ElementTree as ET
-from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from typing import Dict, Optional, Union
+
+import requests
+from bs4 import BeautifulSoup
+
+logger = logging.getLogger(__name__)
 
 
 def get_currency_rates() -> Optional[Dict[str, Dict[str, Union[float, str]]]]:
@@ -75,7 +79,7 @@ def get_currency_rates() -> Optional[Dict[str, Dict[str, Union[float, str]]]]:
         return rates
 
     except Exception as e:
-        print(f"Ошибка при получении курсов валют: {e}")
+        logger.error(f"Ошибка при получении курсов валют: {e}")
         return None
 
 
@@ -134,7 +138,7 @@ def get_key_rate_change() -> Dict[str, Union[str, float, None]] or None:
 
         # Текущее значение
         current_date, current_rate = rates[0]
-        print(rates)
+        logger.debug(rates)
 
         # Найти первую дату текущего значения
         first_current_rate_date = current_date
@@ -161,7 +165,7 @@ def get_key_rate_change() -> Dict[str, Union[str, float, None]] or None:
         }
 
     except Exception as e:
-        print(f"Ошибка при получении ключевой ставки: {e}")
+        logger.error(f"Ошибка при получении ключевой ставки: {e}")
         return None
 
 
@@ -213,7 +217,7 @@ def get_combined_financial_rates() -> Optional[Dict[str, Dict[str, Union[float, 
         return currency_rates
 
     except Exception as e:
-        print(f"Ошибка при объединении финансовых данных: {e}")
+        logger.error(f"Ошибка при объединении финансовых данных: {e}")
         return None
 
 

@@ -450,11 +450,9 @@ def get_timezones():
 
             # Комбинируем название и смещение
             timezone_str = f"{timezone} {offset_str}"
-            print(tz)
 
             # Переводим название часового пояса на русский, если есть в словаре
             translated_timezone = timezoneDictionary.get(str(tz), tz)
-            print(translated_timezone)
 
             timezones.append(translated_timezone)
         except Exception as e:

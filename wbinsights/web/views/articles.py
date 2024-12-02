@@ -96,7 +96,6 @@ class ArticleAddView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         api_key = settings.PIXABAY_API_KEY
-        print(f"Passing API key to template: {api_key}")  # Debug print
         context['PIXABAY_API_KEY'] = api_key
         return context
 
