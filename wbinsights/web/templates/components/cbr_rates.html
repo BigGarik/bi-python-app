@@ -8,6 +8,17 @@
     }
 
     @media (min-width: 1480px) {
+
+    {# custom breakpoint #}
+        .d-1480-none {
+            display: none !important;
+        }
+
+        .d-1480-flex {
+            display: flex !important;
+        }
+
+
         .cbr-rates-container {
             display: flex;
             justify-content: space-around;
@@ -30,6 +41,12 @@
     }
 
     @media (max-width: 1479.98px) {
+
+        .d-below-1480-none {
+            display: none !important;
+        }
+
+
         .cbr-rates-container {
             width: 100%;
             overflow: hidden;
@@ -101,7 +118,7 @@
 {% if rates %}
     <div class="cbr-rates-container element-container">
         <!-- desktop view >=1480px -->
-        <div class="rates-content d-none d-xxl-flex">
+        <div class="rates-content d-none d-1480-flex">
 
             <div class="rate-labels">Курсы валют</div>
             {% for currency, data in rates.items %}
@@ -110,7 +127,8 @@
                     <div class="rate-item">
 
                         <span class="current-rate">
-                            {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}${% else %}₽{% endif %}
+                            {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}
+                                ${% else %}₽{% endif %}
                         </span>
 
                         <span class="currency-code">{{ currency }}</span>
@@ -135,7 +153,7 @@
         </div>
 
         <!-- mobile view <1480px -->
-        <div class="d-xxl-none">
+        <div class="d-1480-none">
 
             <div class="marquee" style="margin-right: 50px">
 
@@ -146,7 +164,8 @@
                         <div class="rate-item">
 
                             <span class="current-rate">
-                                {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}${% else %}₽{% endif %}
+                                {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}
+                                    ${% else %}₽{% endif %}
                             </span>
 
                             <span class="currency-code">{{ currency }}</span>
@@ -181,7 +200,8 @@
                         <div class="rate-item">
 
                             <span class="current-rate">
-                                {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}${% else %}₽{% endif %}
+                                {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}
+                                    ${% else %}₽{% endif %}
                             </span>
 
                             <span class="currency-code">{{ currency }}</span>

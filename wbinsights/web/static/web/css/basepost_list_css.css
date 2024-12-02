@@ -152,12 +152,12 @@
 
 .carousel-inner {
    background: none;
-   height: 160px;
+   height: 140px;
 }
 
 @media (max-width: 767.98px) {
    .carousel-inner {
-       height: 140px;
+       height: 130px;
    }
 }
 
@@ -170,12 +170,12 @@
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    margin: 10px 50px;
+    margin: 5px 50px;
     padding: 20px;
-    height: 140px;
+    height: 120px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 7px;
 }
 
 .news-title[style*="font-size: 7px"] {
@@ -269,10 +269,10 @@
 
 @media (max-width: 768px) {
     .carousel-card {
-        margin: 10px 40px;
+        margin: 5px 40px;
         padding: 15px;
         height: 120px;
-        gap: 8px;
+        gap: 5px;
     }
 
     .news-titles {
@@ -298,7 +298,7 @@
 
 @media (min-width: 769px) and (max-width: 1024px) {
     .carousel-card {
-        margin: 10px 45px;
-        height: 130px;
+        margin: 5px 45px;
+        height: 120px;
     }
 }
