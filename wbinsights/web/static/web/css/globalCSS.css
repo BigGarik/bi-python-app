@@ -163,6 +163,12 @@
     flex-flow: wrap;
 }
 
+.no-margin-padding {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
 .search-and-cat-cont {
     display: flex;
     justify-content: space-between;
@@ -456,7 +462,7 @@
 
 }
 
-.element-caption-titles{
+.element-caption-titles {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -465,16 +471,21 @@
 /* ------------------------------------- ADVERTISEMENTS ------------------------------------------*/
 
 
+@media (max-width: 767.98px) {
+    .margin-bottom-marg {
+        margin-bottom: 10px;
+    }
+}
+
 
 .advertisement-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    /*margin-top: 20px;*/
     flex-direction: column;
     gap: 10px;
 }
-
 
 
 .advertisement-img {

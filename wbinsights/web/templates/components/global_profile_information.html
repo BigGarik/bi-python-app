@@ -4,6 +4,10 @@
 
 <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
 
+<style>
+
+</style>
+
 {% device_is_mobile as mobile %}
 
 <div class="col-12 flex-column">
@@ -57,8 +61,8 @@
 
                     <div class="user-category-cont">
                         <div class="displayflex flex-column">
-                            <div class="user-category user-category-center">Эксперт в области :</div>
-                            <div class="user-category user-category-center">
+                            <div class="user-category user-category-center no-margin-padding">Эксперт в области :</div>
+                            <div class="user-category user-category-center no-margin-padding">
                                 {% for exp_category in profile.expert_categories.all %}
                                     <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
                                 {% endfor %}

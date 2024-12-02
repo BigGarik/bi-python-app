@@ -25,7 +25,7 @@
 
     <div class="d-block d-md-none">
         <div class="dropdown post-menu">
-            <button class="dropbtn">
+            <button class="dropbtn" onclick="toggleDropdown(event)">
                 {% if url_first_part == 'researches' %}
                     Исследования
                 {% elif url_first_part == 'articles' %}
@@ -69,6 +69,33 @@
     <div id="article_list" class="content-block">
         {% block posts_content %}{% endblock %}
     </div>
+
+
+    <script>
+
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            var dropdown = event.currentTarget.nextElementSibling;
+            if (dropdown.style.display === "block") {
+                dropdown.style.display = "none";
+            } else {
+                dropdown.style.display = "block";
+            }
+        }
+
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+
+    </script>
 
 
 {% endblock %}
