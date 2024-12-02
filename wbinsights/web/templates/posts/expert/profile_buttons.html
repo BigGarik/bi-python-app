@@ -1,3 +1,5 @@
+{% load web_tags %}
+
 <style>
     @media (max-width: 768px) {
         .if-mobile-consult-btn {
@@ -17,10 +19,21 @@
     }
 </style>
 
-<div class="row" style="width: 100%">
-    <div class="col-sm-4 col-md-3-5">
-        <!-- empty, space size as avatar cont -->
-    </div>
+{% device_is_mobile as is_mobile %}
+
+{% if is_mobile %}
+    <!-- Mobile -->
+    <div class="col-12" style="width: 100%">
+
+{% else %}
+    <div class="row" style="width: 100%">
+
+        <div class="col-sm-4 col-md-3-5">
+            <!-- empty, space size as avatar cont -->
+        </div>
+    
+{% endif %}
+
     <div class="col-sm-8 col-md-8-5">
         {% if user == request.user %}
             <a href="#" aria-disabled="True" type="button"
@@ -34,4 +47,5 @@
             </a>
         {% endif %}
     </div>
+
 </div>
