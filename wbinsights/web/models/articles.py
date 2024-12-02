@@ -4,9 +4,10 @@ from django.urls import reverse
 from hitcount.models import HitCountMixin, HitCount
 from vote.models import VoteModel
 
-from .models import Category
+from web.models import Category
 from django_comments_xtd.moderation import moderator, SpamModerator
 from web.badwords import badwords
+from web.utils import remove_scripts
 
 
 class PublishedManager(models.Manager):
@@ -51,6 +52,11 @@ class Article(VoteModel, models.Model, HitCountMixin):
 
     objects = models.Manager()
     published = PublishedManager()
+
+    def save(self, *args, **kwargs):
+        # Удаляем <script> перед сохранением
+        self.content = remove_scripts(self.content)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

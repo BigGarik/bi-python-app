@@ -140,7 +140,6 @@ def get_all_news():
 def show_cbr_rates():
     from web.services.cbr_key_indicators import get_combined_financial_rates
     result = get_combined_financial_rates()
-    print('result', result)
     return result
 
 
@@ -189,10 +188,8 @@ def get_category_by_slug(slug):
 
 @register.simple_tag
 def get_write_phrase(cnt, variants):
-    ##print(variants)
 
     variantsArray = variants.split(' ')
-    # print(variantsArray)
 
     # return str(cnt) + ' $$ ' + variants
 

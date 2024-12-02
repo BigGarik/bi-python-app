@@ -4,7 +4,6 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from wbqa.views import QuestionListView
-from .services.expert_rating_calculation import calculate_rating_for_all_expert
 from .utils import get_timezones
 from .views.articles import (ArticleDetailView, ArticleAddView, ArticleEditView, ArticleListView, DeleteArticleView)
 from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPageView, post_contact_us_form, \
@@ -86,7 +85,7 @@ urlpatterns = [
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
 
     path('admin/', admin.site.urls),
-    path('calculate_rating/', calculate_rating_for_all_expert, name='calculate_rating_for_all_expert'),
+    # path('calculate_rating/', calculate_rating_for_all_expert, name='calculate_rating_for_all_expert'),
     path('api/news/', NewsFeedView.as_view(), name='news_feed'),
     path('api/crb-rates/', CrbRatesView.as_view(), name='crb_rates'),
 

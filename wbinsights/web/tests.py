@@ -48,7 +48,6 @@ class ExpertProfileSerialization(TestCase):
 
     def test_get_expert_from_db(self):
         expert = Expert.objects.all()
-        print(1313)
         self.assertEqual(0, 0)
 
 
@@ -76,7 +75,6 @@ class ExpertRatingCalculationTests(TestCase):
             # Добавьте больше экземпляров ExpertEducationsRow для тестирования различных сценариев
         ]
         rating = self.calculator._calculate_primary_education_rating(educations)
-        print('primary_education_rating ', rating)
         self.assertEqual(rating, 2)  # Ожидаемое значение рейтинга
 
     def test_calculate_additional_education_rating(self):

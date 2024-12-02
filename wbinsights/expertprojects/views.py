@@ -347,6 +347,5 @@ class GetProjectsView(LoginRequiredMixin, ListView):
 
         # Debug information
         messages.info(self.request, f"Debug: hit_counts = {hit_counts}")
-        print(f"Debug: hit_counts = {hit_counts}")
 
         return context

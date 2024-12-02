@@ -190,7 +190,6 @@ class UserPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        # print("POST data:", request.POST) # Отладочное сообщение
         form = self.get_form()
         if form.is_valid():
             form.save()
