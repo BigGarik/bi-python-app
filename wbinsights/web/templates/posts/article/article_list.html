@@ -1,8 +1,10 @@
 <!-- article_list.html -->
 {% extends 'basePostList.html' %}
 
+{% load i18n %}
+
 {% block title %}
-    Статьи
+    {% trans 'ArticlesLabel' %}
 {% endblock %}
 
 {% load web_tags %}

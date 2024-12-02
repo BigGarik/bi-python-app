@@ -4,9 +4,17 @@
 {% load comments_xtd %}
 {% load web_tags %}
 {% load vote %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'SingleArticleLabel' %} : {{ article.title }}
+{% endblock %}
+
 {% block center_col %}
+
+
     {% load hitcount_tags %}
-    {% load i18n %}
+
 
     {% block extra_static %}
         <link rel="stylesheet" href="{% static 'web/css/article_detail.css' %}?ver=0.01">

@@ -1,6 +1,12 @@
 {% load i18n %}
 
 <style>
+    .settings-layout {
+        display: flex;
+        width: 100%;
+    }
+
+
     .buttons-container {
         width: 100%;
         display: flex;
@@ -26,6 +32,12 @@
     }
 
     @media (max-width: 767px) {
+
+        .settings-layout {
+            flex-direction: column;
+        }
+
+
         .buttons-container {
             flex-direction: column;
         }
@@ -53,37 +65,86 @@
     }
 </style>
 
-<div class="buttons-container">
-    <div class="profile-buttons-group">
-        <div class="button-wrapper">
-            <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
+<!-- Desktop Layout -->
+<div class="settings-layout d-none d-md-flex">
+
+    <div class=" col-sm-4 col-md-3-5  ">
+        <!-- empty, space size as avatar cont -->
+    </div>
+
+    <div class=" col-sm-8 col-md-8-5">
+        <div class="buttons-container">
+
+            <div class="profile-buttons-group">
+                <div class="button-wrapper">
+                    <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
+                </div>
+
+                <div class="button-wrapper">
+                    <form method="post" action="{% url 'password_change' %}">
+                        {% csrf_token %}
+                        <button type="button" class="btn prof-btn prof-settings-btn justifyCenter" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
+                            {% trans 'ChangePasswordLabel' %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="profile-buttons-group">
+                <form method="post" action="{% url 'logout' %}" class="button-wrapper">
+                    {% csrf_token %}
+                    <button class="btn prof-btn prof-logout-btn" type="submit">
+                        {% trans 'LogoutButtonLabel' %}
+                    </button>
+                </form>
+            </div>
         </div>
-        <div class="button-wrapper">
-            <form method="post" action="{% url 'password_change' %}">
+    </div>
+</div>
+
+<!-- Mobile Layout -->
+<div class="d-md-none" style="width: 100%">
+    <div class="buttons-container">
+
+        <div class="profile-buttons-group">
+
+            <div class="button-wrapper">
+                <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
+            </div>
+
+            <div class="button-wrapper">
+                <form method="post" action="{% url 'password_change' %}">
+                    {% csrf_token %}
+                    <button type="button" class="btn prof-btn prof-settings-btn justifyCenter" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
+                        {% trans 'ChangePasswordLabel' %}
+                    </button>
+                </form>
+            </div>
+
+        </div>
+        <div class="profile-buttons-group">
+
+            <form method="post" action="{% url 'logout' %}" class="button-wrapper">
                 {% csrf_token %}
-                <button type="button" class="btn prof-btn prof-settings-btn justifyCenter" data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
-                    {% trans 'ChangePasswordLabel' %}
+                <button class="btn prof-btn prof-logout-btn" type="submit">
+                    {% trans 'LogoutButtonLabel' %}
                 </button>
             </form>
         </div>
     </div>
-    <div class="profile-buttons-group">
-        <form method="post" action="{% url 'logout' %}" class="button-wrapper">
-            {% csrf_token %}
-            <button class="btn prof-btn prof-logout-btn" type="submit">
-                {% trans 'LogoutButtonLabel' %}
-            </button>
-        </form>
-    </div>
 </div>
 
-<div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
+<div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
+
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title" id="passwordChangeModalLabel">{% trans 'ChangePasswordTitle' %}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
                 <!-- Form will be loaded here -->
             </div>
@@ -92,47 +153,47 @@
 </div>
 
 <script>
-$(document).ready(function() {
-    var modal = $('#passwordChangeModal');
+    $(document).ready(function () {
+        var modal = $('#passwordChangeModal');
 
-    modal.on('show.bs.modal', function (event) {
-        $.ajax({
-            url: "{% url 'password_change' %}",
-            type: 'GET',
-            headers: {'X-Requested-With': 'XMLHttpRequest'},
-            success: function(response) {
-                modal.find('.modal-body').html(response.html);
-            },
-            error: function(xhr, status, error) {
-                modal.find('.modal-body').html("{% trans 'ErrorLoadingForm' %}");
-            }
-        });
-    });
-
-    $(document).on('submit', '#passwordChangeModal form', function(e) {
-        e.preventDefault();
-        var form = $(this);
-        var formData = form.serialize();
-
-        $.ajax({
-            url: form.attr('action'),
-            type: 'POST',
-            data: formData,
-            headers: {'X-Requested-With': 'XMLHttpRequest'},
-            success: function(response) {
-                if (response.success) {
-                    modal.modal('hide');
-                    $('#notification').text(response.message).fadeIn().delay(500).fadeOut(function() {
-                        window.location.href = response.redirect_url;
-                    });
-                } else {
+        modal.on('show.bs.modal', function (event) {
+            $.ajax({
+                url: "{% url 'password_change' %}",
+                type: 'GET',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                success: function (response) {
                     modal.find('.modal-body').html(response.html);
+                },
+                error: function (xhr, status, error) {
+                    modal.find('.modal-body').html("{% trans 'ErrorLoadingForm' %}");
                 }
-            },
-            error: function(xhr, status, error) {
-                alert("{% trans 'ErrorChangingPassword' %}");
-            }
+            });
+        });
+
+        $(document).on('submit', '#passwordChangeModal form', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            var formData = form.serialize();
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: formData,
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                success: function (response) {
+                    if (response.success) {
+                        modal.modal('hide');
+                        $('#notification').text(response.message).fadeIn().delay(500).fadeOut(function () {
+                            window.location.href = response.redirect_url;
+                        });
+                    } else {
+                        modal.find('.modal-body').html(response.html);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("{% trans 'ErrorChangingPassword' %}");
+                }
+            });
         });
     });
-});
 </script>

@@ -1,6 +1,15 @@
 {% load web_tags %}
 {% load static %}
 
+
+<style>
+
+    .expert-prof-cont:last-child {
+        padding-bottom: 50px;
+    }
+
+</style>
+
 {% for expert in object_list %}
     <div class="expert-prof-cont">
         <div class="small-layout3 col-sm">
@@ -9,12 +18,12 @@
                     <div class="experts-list-avatar-container">
                         <img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid"/>
                     </div>
-                    
+
                     <div class="prof-edit-rows">
                         <div class="basepost-title">{{ expert.first_name }} <br> {{ expert.last_name }}</div>
                         {% include 'components/experts/rating.html' with user=expert %}
                     </div>
-                    
+
                 </div>
                 <div class="basepost-content-cont" style="padding: 10px">
                     <div class="category-container">
@@ -25,13 +34,11 @@
                         {% endfor %}
                     </div>
                     <div class="basepost-description">
-                        <span>
-                            {% autoescape off %}
+                        {% autoescape off %}
                             {{ expert.expertprofile.about|truncatechars_html:105 }}
-                            {% endautoescape %}
-                            <a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">&nbsp;Читать
-                                ещё</a>
-                        </span>
+                        {% endautoescape %}
+                        <a href="{% url 'expert_profile' expert.id %}" style="text-decoration:none">&nbsp;Читать
+                            ещё</a>
                     </div>
                     <div class="col-sm user-stats" style="align-self: flex-start !important;">
                         {{ expert.expert_article_cnt }} статей &nbsp; • &nbsp; 0 опросов &nbsp; • &nbsp; 0

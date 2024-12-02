@@ -2,6 +2,8 @@
 
 {% load static %}
 {% load web_tags %}
+{% load i18n %}
+
 
 
 {% block center_col %}
@@ -40,16 +42,16 @@
 
             <div class="dropdown-content">
                 {% if url_first_part != 'researches' %}
-                    <a href="{% url 'research_list' %}" class="post-menu-item-mobile">Исследования</a>
+                    <a href="{% url 'research_list' %}" class="post-menu-item-mobile">{% trans 'ResearchesLabel' %}</a>
                 {% endif %}
                 {% if url_first_part != 'experts' and url_first_part != '' %}
-                    <a href="{% url 'experts_list' %}" class="post-menu-item-mobile">Эксперты</a>
+                    <a href="{% url 'experts_list' %}" class="post-menu-item-mobile">{% trans 'ExpertsLabel' %}</a>
                 {% endif %}
                 {% if url_first_part != 'articles' %}
-                    <a href="{% url 'article_list' %}" class="post-menu-item-mobile">Статьи</a>
+                    <a href="{% url 'article_list' %}" class="post-menu-item-mobile">{% trans 'ArticlesLabel' %}</a>
                 {% endif %}
                 {% if url_first_part != 'wbqa' and url_first_part != 'question_answer' %}
-                    <a href="{% url 'question_list' %}" class="post-menu-item-mobile">Вопрос-ответ</a>
+                    <a href="{% url 'question_list' %}" class="post-menu-item-mobile">{% trans 'QuestionAnswerLabel' %}</a>
                 {% endif %}
             </div>
         </div>
@@ -57,13 +59,13 @@
 
     <div class="d-none d-md-flex post-menu">
         <a href="{% url 'research_list' %}"
-           class="post-menu-item {% if url_first_part == 'researches' or url_first_part == '' %} selected {% endif %}">Исследования</a>
+           class="post-menu-item {% if url_first_part == 'researches' or url_first_part == '' %} selected {% endif %}">{% trans 'ResearchesLabel' %}</a>
         <a href="{% url 'experts_list' %}"
-           class="post-menu-item {% if url_first_part == 'experts' %} selected {% endif %}">Эксперты</a>
+           class="post-menu-item {% if url_first_part == 'experts' %} selected {% endif %}">{% trans 'ExpertsLabel' %}</a>
         <a href="{% url 'article_list' %}"
-           class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">Статьи</a>
+           class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">{% trans 'ArticlesLabel' %}</a>
         <a href="{% url 'question_list' %}"
-           class="post-menu-item {% if url_first_part == 'wbqa' or url_first_part == 'question_answer' %} selected {% endif %}">Вопрос-ответ</a>
+           class="post-menu-item {% if url_first_part == 'wbqa' or url_first_part == 'question_answer' %} selected {% endif %}">{% trans 'QuestionAnswerLabel' %}</a>
     </div>
 
     <div id="article_list" class="content-block">

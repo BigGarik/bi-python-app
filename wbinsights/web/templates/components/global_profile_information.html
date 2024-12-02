@@ -14,11 +14,11 @@
 
     <div class="profile-header d-none d-md-flex">
 
-        <div class="col-sm-3-5 prof-page-pic-cont">
+        <div class="col-sm-4 col-md-3-5 prof-page-pic-cont">
             <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-avatar">
         </div>
 
-        <div class="col-sm-8-5 profile-information-cont">
+        <div class="col-sm-8 col-md-8-5 profile-information-cont">
 
             <div class="user-display-name">
                 {{ user.first_name }} {{ user.last_name }}
@@ -29,8 +29,9 @@
                 {% include 'components/experts/rating.html' with user=expert %}
 
                 <div class="user-category-cont">
+
                     <div class="displayflex">
-                        <div class="user-category">Эксперт в области :</div>
+                        <div class="user-category">Эксперт в области : </div>
                         {% for exp_category in profile.expert_categories.all %}
                             <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
                         {% endfor %}
@@ -46,6 +47,7 @@
     <!-- Mobile version (< 768px) -->
     <div class="profile-header d-md-none flex-column">
         <div class="header-top">
+
             <div class="avatar-cont">
                 <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-avatar mobile-image-size">
             </div>
@@ -69,6 +71,7 @@
                             </div>
                         </div>
                     </div>
+
                 {% else %}
                     <span>Клиент </span>
                 {% endif %}

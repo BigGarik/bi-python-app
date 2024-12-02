@@ -39,6 +39,7 @@
 
 .no-margins {
     margin: 0 !important;
+    padding: 0 !important;
 }
 
 
@@ -49,7 +50,7 @@
 }
 
 .basepost-description {
-    font-size: 18px;
+    font-size: 16px;
     font-family: sans-serif;
     font-weight: 500;
     display: flex;
@@ -281,10 +282,11 @@
 .prof-user-setting {
     display: flex;
     font-family: sans-serif;
-    margin-left: 25%;
-    padding: 10px 0 0 30px;
+    /*margin-left: 25%;*/
+    /*padding: 10px 0 0 30px;*/
     gap: 5px;
     flex-wrap: wrap;
+    margin-top: 10px;
 }
 
 .global-catagory-text {
@@ -470,12 +472,6 @@
 
 /* ------------------------------------- ADVERTISEMENTS ------------------------------------------*/
 
-
-@media (max-width: 767.98px) {
-    .margin-bottom-marg {
-        margin-bottom: 10px;
-    }
-}
 
 
 .advertisement-container {
