@@ -10,6 +10,8 @@ from django.utils.timezone import now
 from django.utils.translation import gettext as _
 
 from web.models import Expert, Category
+from web.models.models import KeyIndicator
+from web.services.cbr_key_indicators import get_combined_financial_rates
 from web.services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
 from web.utils import check_is_mobile
 
@@ -138,12 +140,16 @@ def get_all_news():
 
 @register.simple_tag
 def show_cbr_rates():
-    from web.services.cbr_key_indicators import get_combined_financial_rates
+    key_indicator = KeyIndicator.objects.first()
+    if key_indicator:
+        # Если данные найдены, вернуть их
+        return key_indicator.indicators
+
     result = get_combined_financial_rates()
+
+    KeyIndicator.objects.create(indicators=result)
+
     return result
-
-
-
 
 
 @register.simple_tag
@@ -173,10 +179,6 @@ def format_date(date_string):
         return date_string
 
 
-
-
-
-
 @register.simple_tag
 def get_category_by_slug(slug):
     cat = Category.objects.filter(slug=slug)
@@ -188,7 +190,6 @@ def get_category_by_slug(slug):
 
 @register.simple_tag
 def get_write_phrase(cnt, variants):
-
     variantsArray = variants.split(' ')
 
     # return str(cnt) + ' $$ ' + variants

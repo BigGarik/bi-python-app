@@ -2,6 +2,10 @@ from django.db import models
 from django.urls import reverse
 
 
+class KeyIndicator(models.Model):
+    indicators = models.JSONField()
+
+
 class Image(models.Model):
     image = models.ImageField(upload_to='images/%Y/%m/%d/')
     article = models.ForeignKey('Article', related_name='image', on_delete=models.CASCADE)
