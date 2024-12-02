@@ -137,6 +137,7 @@
         {% include 'profile_question_list.html' with user=user %}
     {% elif request.GET.tab == "consultations"  and request.path == '/profile' %}
         <div id="consultations" class="expert-content">
+            {% device_is_mobile as is_mobile %}
             {% if is_mobile %}
                 {% include 'components/appointment/calendar_mobile.html' %}
             {% else %}
