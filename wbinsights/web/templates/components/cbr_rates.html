@@ -1,6 +1,5 @@
 {% load web_tags %}
 <style>
-
     .cbr-rates-container {
         width: 100%;
         position: relative;
@@ -17,39 +16,42 @@
             overflow: visible;
         }
 
-        .marquee-content {
+        .rates-content {
             display: flex;
             gap: 5px;
-            animation: none;
-            transform: none;
             justify-content: space-around;
             width: 100%;
+        }
+
+        .marquee {
+            display: none;
         }
     }
 
     @media (max-width: 991.98px) {
         .cbr-rates-container {
+            width: 100%;
             overflow: hidden;
+            white-space: nowrap;
         }
 
-        .marquee-content {
-            display: inline-flex;
-            gap: 20px;
-            white-space: nowrap;
+        .marquee {
+            display: inline-block;
             animation: marquee 20s linear infinite;
         }
 
-        {#.marquee-content:hover {#}
-        {#    animation-play-state: paused;#}
-        {#}#}
-
         @keyframes marquee {
-            0% {
-                transform: translateX(100%);
+            from {
+                transform: translate3d(0, 0, 0);
             }
-            100% {
-                transform: translateX(-100%);
+            to {
+                transform: translate3d(-100%, 0, 0);
             }
+        }
+
+        .rate-item, .key-rate-item {
+            display: inline-block;
+            margin-right: 20px;
         }
     }
 
@@ -66,6 +68,8 @@
     .rate-labels {
         font-size: 12px;
         color: grey;
+        display: inline-block;
+        margin-right: 20px;
     }
 
     .rate-item {
@@ -83,68 +87,130 @@
         font-size: 10px;
     }
 
-    .color-grey {
-        color: grey;
+    .key-rate-item {
+        display: inline-flex;
+        font-size: 12px;
+        gap: 3px;
+        align-items: baseline;
     }
 </style>
 
 {% show_cbr_rates as rates %}
-
 {% if rates %}
-    <div class="cbr-rates-container element-container">
 
-        <div class="marquee-content">
+    <div class="cbr-rates-container element-container">
+        <!-- desktop view -->
+        <div class="rates-content d-none d-lg-flex">
 
             <div class="rate-labels">Курсы валют</div>
 
             {% for currency, data in rates.items %}
-
                 {% if currency != 'KEY_RATE' %}
+
                     <div class="rate-item">
                         <span class="current-rate">
-                            {% if currency == 'CNY' %}
-                                ¥
-                            {% elif currency == 'EUR' %}
-                                €
-                            {% elif currency == 'USD' %}
-                                $
-                            {% else %}
-                                ₽
-                            {% endif %}
+                            {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}${% else %}₽{% endif %}
                         </span>
 
                         <span class="currency-code">{{ currency }}</span>
                         <span class="current-rate">{{ data.current_rate }} ₽</span>
                         <span class="arrow {% if data.change > 0 %}arrow-up{% else %}arrow-down{% endif %}">
-                            {% if data.change > 0 %}
-                                ↑
-                            {% else %}
-                                ↓
-                            {% endif %}
+                            {% if data.change > 0 %}↑{% else %}↓{% endif %}
                         </span>
 
                     </div>
                 {% endif %}
             {% endfor %}
 
-            <div style="display: flex; font-size: 12px; gap: 3px; align-items: baseline;">
+            <div class="key-rate-item">
 
-                <div class="rate-labels">Ключевая ставка &nbsp;</div>
+                <div class="rate-labels">Ключевая ставка</div>
                 <div class="rate-labels rate-date">с {{ rates.KEY_RATE.last_change_date }}</div>
                 <div class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
                     {{ rates.KEY_RATE.current_rate }}
                 </div>
 
                 <span class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
-                    {% if rates.KEY_RATE.current_rate > 0 %}
-                        ↑
-                    {% else %}
-                        ↓
-                    {% endif %}
+                    {% if rates.KEY_RATE.current_rate > 0 %}↑{% else %}↓{% endif %}
                 </span>
 
             </div>
+        </div>
 
+        <!-- need duplicate for smooth transition-->
+        <div class="d-lg-none" >
+
+            <div class="marquee" style="margin-right: 50px">
+
+                <div class="rate-labels">Курсы валют</div>
+                {% for currency, data in rates.items %}
+                    {% if currency != 'KEY_RATE' %}
+
+                        <div class="rate-item">
+                            <span class="current-rate">
+                                {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}${% else %}₽{% endif %}
+                            </span>
+
+                            <span class="currency-code">{{ currency }}</span>
+                            <span class="current-rate">{{ data.current_rate }} ₽</span>
+                            <span class="arrow {% if data.change > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                                {% if data.change > 0 %}↑{% else %}↓{% endif %}
+                            </span>
+
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="key-rate-item">
+
+                    <div class="rate-labels">Ключевая ставка</div>
+                    <div class="rate-labels rate-date">с {{ rates.KEY_RATE.last_change_date }}</div>
+                    <div class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                        {{ rates.KEY_RATE.current_rate }}
+                    </div>
+
+                    <span class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                        {% if rates.KEY_RATE.current_rate > 0 %}↑{% else %}↓{% endif %}
+                    </span>
+
+                </div>
+            </div>
+
+            <div class="marquee">
+
+                <div class="rate-labels">Курсы валют</div>
+
+                {% for currency, data in rates.items %}
+                    {% if currency != 'KEY_RATE' %}
+                        <div class="rate-item">
+
+                            <span class="current-rate">
+                                {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}${% else %}₽{% endif %}
+                            </span>
+
+                            <span class="currency-code">{{ currency }}</span>
+                            <span class="current-rate">{{ data.current_rate }} ₽</span>
+                            <span class="arrow {% if data.change > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                                {% if data.change > 0 %}↑{% else %}↓{% endif %}
+                            </span>
+
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="key-rate-item">
+
+                    <div class="rate-labels">Ключевая ставка</div>
+                    <div class="rate-labels rate-date">с {{ rates.KEY_RATE.last_change_date }}</div>
+                    <div class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                        {{ rates.KEY_RATE.current_rate }}
+                    </div>
+
+                    <span class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
+                        {% if rates.KEY_RATE.current_rate > 0 %}↑{% else %}↓{% endif %}
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 {% endif %}
