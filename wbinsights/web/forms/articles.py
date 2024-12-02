@@ -25,7 +25,7 @@ class ArticleForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ['title', 'description', 'content', 'main_img', 'cat', 'is_published', 'styles']
+        fields = ['title', 'description', 'content', 'main_img', 'cat', 'is_published', 'styles', 'meta_tags']
         widgets = {
             # 'cat': forms.Select(attrs={'class': 'form-control', 'required': 'required'}),
             'is_published': forms.Select(attrs={'class': 'form-control'})
