@@ -473,6 +473,10 @@
 /* ------------------------------------- ADVERTISEMENTS ------------------------------------------*/
 
 
+.basepost-content-mobile-bottom-padding:last-of-type {
+    padding-bottom: 60px !important;
+}
+
 
 .advertisement-container {
     display: flex;

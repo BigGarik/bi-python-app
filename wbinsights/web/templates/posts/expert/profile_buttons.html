@@ -1,37 +1,37 @@
 <style>
-    @media (max-width: 768px ) {
-        .if-mobile-consult-btn{
+    @media (max-width: 768px) {
+        .if-mobile-consult-btn {
             width: 100%;
             background-color: #6dc36b;
             border: none;
             padding: 10px;
             border-radius: 10px;
-            background-color: #6dc36b;
-            border: none;
         }
     }
 
     .prof-consult-btn {
-            background-color: #6dc36b;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            background-color: #6dc36b;
-            border: none;
+        background-color: #6dc36b;
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
     }
 </style>
 
-
-{% if user == request.user %}
-    <a href="#" aria-disabled="True" type="button"
-       class="btn btn-secondary prof-consult-btn if-mobile-consult-btn"
-       >
-        Консультация
-    </a>
-{% else %}
-    <a href="{% url 'appointment_add' user.id %}" aria-disabled="True" type="button"
-       class="btn btn-secondary prof-consult-btn if-mobile-consult-btn"
-       >
-        Консультация
-    </a>
-{% endif %}
+<div class="row" style="width: 100%">
+    <div class="col-sm-4 col-md-3-5">
+        <!-- empty, space size as avatar cont -->
+    </div>
+    <div class="col-sm-8 col-md-8-5">
+        {% if user == request.user %}
+            <a href="#" aria-disabled="True" type="button"
+               class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
+                Консультация
+            </a>
+        {% else %}
+            <a href="{% url 'appointment_add' user.id %}" aria-disabled="True" type="button"
+               class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
+                Консультация
+            </a>
+        {% endif %}
+    </div>
+</div>

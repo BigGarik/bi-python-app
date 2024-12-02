@@ -10,9 +10,9 @@
         {% elif size == 'small'  %}
             <div style="font-size: 14px">{{ user.expertprofile.grade.grade }}</div>
         {% else %}
-            <div>{{ user.expertprofile.grade.grade }}</div>
-        {% endif %}  
-        
+            <div> {{ user.expertprofile.grade.grade }}</div>
+        {% endif %}
+
 {#    {% else %}#}
 {#        <div class="user-rating">{% trans 'RatingLabel' %} :#}
 {#            {{ user.expertprofile.rating|default_if_none:0 }}</div>#}

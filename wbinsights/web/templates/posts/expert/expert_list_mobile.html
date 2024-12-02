@@ -4,14 +4,11 @@
 
 <style>
 
-    .expert-prof-cont:last-child {
-        padding-bottom: 50px;
-    }
 
 </style>
 
 {% for expert in object_list %}
-    <div class="expert-prof-cont">
+    <div class="expert-prof-cont basepost-content-mobile-bottom-padding">
         <div class="small-layout3 col-sm">
             <div class="prof-edit-rows">
                 <div class="expert-list-prof-pic">
@@ -56,6 +53,9 @@
                 </div>
             </div>
         </div>
-        <hr style="border: 1px solid #000; width: 100%; margin: 30px 0 15px 0;">
+
+        {% if not forloop.last %}
+            <hr>
+        {% endif %}
     </div>
 {% endfor %}
