@@ -446,7 +446,7 @@
 
 .prof-page-pic-cont {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
 }
 
