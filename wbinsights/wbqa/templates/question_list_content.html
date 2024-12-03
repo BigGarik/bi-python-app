@@ -36,7 +36,7 @@
 {% load web_tags %}
 
 {% for question in object_list %}
-    <div class="basepost-content-cont">
+    <div class="basepost-content-cont basepost-content-mobile-bottom-padding">
         <div class="displayflex">
             <div class="user-category-cont">
                 <div class="user-catagory-highlight {{ question.cat.slug }}">
@@ -49,10 +49,15 @@
         </div>
         <div class="basepost-title basepost-title-link">{{ question.title }}</div>
         <div>
-            <span class="basepost-description basepost-description-inline">{{ question.content|truncatewords:30 }} &nbsp;</span>
-            <a href="{% url 'wbqa:question_detail' question.pk %}" class="link-read-post">
-                Читать пост
-            </a>
+            <div class="flex-direction-column-cont">
+                <span class="basepost-description basepost-description-inline">{{ question.content|truncatewords:30 }} &nbsp;</span>
+                <span class="link-read-post">
+                        <a href="{% url 'wbqa:question_detail' question.pk %}" class="read-post-link">
+                            Читать пост
+                        </a>
+                </span>
+            </div>
+
             <div class="basepost-prof-socials-cont d-none d-md-flex">
                 <div class="basepost-author-cont">
                     <div class="basepost-author-pic">
@@ -82,7 +87,7 @@
                 </div>
             </div>
             <!-- Mobile version -->
-            <div class="question-answer-last  d-inline d-md-none">
+            <div class="question-answer-last  d-inline d-md-none " >
                 <span class="list-publish-date publish-date-margin d-none d-md-inline">
                     {{ question.created_at|custom_time_display }}
                 </span>
@@ -106,7 +111,10 @@
                     </div>
                 </div>
             </div>
+        {% if not forloop.last %}
+
             <hr class="solid solid-hr">
+        {% endif %}
         </div>
     </div>
     {% empty %}

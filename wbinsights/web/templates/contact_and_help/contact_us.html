@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'web/css/contact_page_all.css' %}?ver=0.01">
 {% endblock %}
 
+
 {% block center_col %}
 
     <div class="element-container">
@@ -26,13 +27,13 @@
             </span>
             <span class="contact-email-span">Мы ответим вам на почту </span>
             {% if user.is_authenticated %}
-                <div class="email-input-container" style="display: inline-block;">
-                    <input type="email" name="email" value="{{ user.email }}" required class="form-control" style="width: 400px; margin: 5px 0px 10px 0px;"/>
-                </div>
+                    <input type="email" class=" form-control " name="email" value="{{ user.email }}" required/>
             {% else %}
-                <input type="email" name="email" required  class="form-control" style="width: 400px;  margin: 5px 0px 10px 0px;" />
+                    <input type="email" name="email" required class="contact-input-field form-control "/>
             {% endif %}
-            <textarea class="form-textarea-contact" name="content" required> </textarea>
+            <div class="form-textarea-contact">
+                <textarea class="form-control" name="content" required> </textarea>
+            </div>
 
             <div class="contact-us-btn-cont">
                 <button type="submit" class="btn btn-success send-btn-css">Отправить</button>

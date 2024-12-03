@@ -412,6 +412,11 @@
     flex-direction: column;
 }
 
+.flex-direction-column-cont {
+    display: flex;
+    flex-direction: column;
+}
+
 
 .answer-profile-avatar {
     border-radius: 50%;
@@ -473,8 +478,10 @@
 /* ------------------------------------- ADVERTISEMENTS ------------------------------------------*/
 
 
-.basepost-content-mobile-bottom-padding:last-of-type {
-    padding-bottom: 60px !important;
+@media (max-width: 992.98px) {
+   .basepost-content-mobile-bottom-padding:last-of-type {
+       padding-bottom: 60px !important;
+   }
 }
 
 

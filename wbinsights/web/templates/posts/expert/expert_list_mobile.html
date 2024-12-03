@@ -38,8 +38,8 @@
                             ещё</a>
                     </div>
                     <div class="col-sm user-stats" style="align-self: flex-start !important;">
-                        {{ expert.expert_article_cnt }} статей &nbsp; • &nbsp; 0 опросов &nbsp; • &nbsp; 0
-                        отзыва
+                        {{ expert.expert_article_cnt }} {% get_write_phrase expert.expert_article_cnt 'статья статьи статей' %}
+                        &nbsp;• &nbsp; 0 опросов &nbsp; • &nbsp; 0 отзывов
                     </div>
                     <div style="display: flex">
                         {% if request.user.id != expert.id %}

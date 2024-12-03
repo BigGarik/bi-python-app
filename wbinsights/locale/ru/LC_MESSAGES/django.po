@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-02 13:23+0300\n"
+"POT-Creation-Date: 2024-12-03 08:54+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,11 +97,11 @@ msgstr "Детали проекта"
 #: .\expertprojects\templates\user_project_add.html:36
 #: .\expertprojects\templates\user_project_edit.html:34
 #: .\wbappointment\templates\add_appointment.html:42
-#: .\wbqa\templates\create_question.html:41
-#: .\wbqa\templates\edit_answer.html:33 .\wbqa\templates\edit_question.html:32
+#: .\wbqa\templates\create_question.html:40
+#: .\wbqa\templates\edit_answer.html:31 .\wbqa\templates\edit_question.html:30
 #: .\wbqa\templates\question_detail.html:19 .\web\templates\404.html:27
 #: .\web\templates\contact_and_help\contact_page.html:16
-#: .\web\templates\contact_and_help\contact_us.html:14
+#: .\web\templates\contact_and_help\contact_us.html:15
 #: .\web\templates\contact_and_help\contact_us_success.html:16
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:18
 #: .\web\templates\posts\article\article_add.html:41
@@ -117,23 +117,23 @@ msgstr "Детали проекта"
 msgid "BackButtonLabel"
 msgstr "Назад"
 
-#: .\templates\base.html:65
+#: .\templates\base.html:68
 msgid "VerifyAccountLabel"
 msgstr "Ваши данные не верифицированы"
 
-#: .\templates\base.html:98 .\templates\base_header.html:94
+#: .\templates\base.html:101 .\templates\base_header.html:94
 #: .\templates\base_header.html:208
 msgid "PersonalAccountLabel"
 msgstr "Личный кабинет"
 
-#: .\templates\base.html:104 .\templates\base_header.html:100
+#: .\templates\base.html:107 .\templates\base_header.html:100
 #: .\templates\base_header.html:215
 #: .\web\templates\profile\expert\profile_buttons.html:97
 #: .\web\templates\profile\expert\profile_buttons.html:130
 msgid "LogoutButtonLabel"
 msgstr "Выйти"
 
-#: .\templates\base.html:114 .\templates\base_header.html:120
+#: .\templates\base.html:117 .\templates\base_header.html:120
 #: .\templates\base_header.html:230
 msgid "LoginBtnLabel"
 msgstr "Войти"
@@ -938,17 +938,20 @@ msgid "DenyButtonLabel"
 msgstr "Отклонить"
 
 #: .\web\templates\posts\article\article_detail.html:10
-#| msgid "ArticlesLabel"
 msgid "SingleArticleLabel"
 msgstr "Статья"
 
-#: .\web\templates\posts\article\article_profile_list_content.html:18
+#: .\web\templates\posts\article\article_profile_list_content.html:19
 msgid "ReadPostLabel"
 msgstr "Читать далее..."
 
 #: .\web\templates\posts\expert\expert_profile.html:18
 msgid "ToExpertListLabel"
 msgstr "Список экспертов"
+
+#: .\web\templates\posts\research\research_list.html:73
+msgid "NoItemsFoundLabel"
+msgstr "Ничего не найдено"
 
 #: .\web\templates\profile\anketa.html:21
 msgid "FillAllFieldsLabel"
@@ -1045,39 +1048,39 @@ msgstr "Спасибо за использование нашего сайта!"
 msgid "The %(site_name)s team"
 msgstr "Команда %(site_name)s"
 
-#: .\web\templatetags\web_tags.py:235
+#: .\web\templatetags\web_tags.py:236
 msgid "вчера в "
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:240
+#: .\web\templatetags\web_tags.py:241
 msgid "дня назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:242
+#: .\web\templatetags\web_tags.py:243
 msgid "дней назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:252
+#: .\web\templatetags\web_tags.py:253
 msgid "Только что"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:254
+#: .\web\templatetags\web_tags.py:255
 msgid "1 минута назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:256
+#: .\web\templatetags\web_tags.py:257
 msgid "минут назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:259
+#: .\web\templatetags\web_tags.py:260
 msgid "1 час назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:262
+#: .\web\templatetags\web_tags.py:263
 msgid "часа назад"
 msgstr ""
 
-#: .\web\templatetags\web_tags.py:265
+#: .\web\templatetags\web_tags.py:266
 msgid "часов назад"
 msgstr ""
 

@@ -14,7 +14,9 @@ contact-span {
 .contact-form-cont {
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
+
 
 
 .form-textarea-contact {
@@ -22,12 +24,7 @@ contact-span {
     resize: none;
     scrollbar-width: none;
     min-height: 100px;
-    border-radius: 10px;
-    border: 1px solid #dadada;
-    padding: 5px;
-    outline: none;
 }
-
 .contact-us-btn-cont {
     display: flex;
     margin-top: 15px;

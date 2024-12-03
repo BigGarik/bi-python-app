@@ -61,7 +61,7 @@
 <div class="container-fluid">
 
     {% include 'base_header.html' %}
-    
+
     {% if request.user.is_authenticated %}
         {% if not request.user.expertanketa.is_verified %}
             <div class="container-fluid verify-account-cont bg-warning">
@@ -151,6 +151,21 @@
 
 <script src="https://bot.jaicp.com/chatwidget/uWpfQZHU:454c92c06f0c61d1c8fb0f39df8e426da9dd0dde/justwidget.js?force=true"
         async></script>
+
+<script>
+    let wasAbove576 = window.innerWidth > 576;
+    
+    window.addEventListener('resize', function() {
+        let isAbove576 = window.innerWidth > 576;
+        
+        // Check if we've crossed the 768px threshold
+        if (wasAbove576 !== isAbove576) {   
+            location.reload();
+            wasAbove576 = isAbove576;
+        }
+    });
+</script>
+
 
 </body>
 
