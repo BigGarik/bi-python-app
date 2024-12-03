@@ -21,6 +21,7 @@
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
+    gap: 5px;
 }
 
 .experts-list-avatar-container {

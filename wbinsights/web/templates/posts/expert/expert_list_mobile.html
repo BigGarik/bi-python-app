@@ -22,7 +22,7 @@
                     </div>
 
                 </div>
-                <div class="basepost-content-cont" style="padding: 10px">
+                <div class="basepost-content-cont" >
                     <div class="category-container">
                         {% for exp_category in expert.expertprofile.expert_categories.all %}
                             <div class="user-catagory-highlight {{ exp_category.slug }}">
@@ -41,7 +41,7 @@
                         {{ expert.expert_article_cnt }} {% get_write_phrase expert.expert_article_cnt 'статья статьи статей' %}
                         &nbsp;• &nbsp; 0 опросов &nbsp; • &nbsp; 0 отзывов
                     </div>
-                    <div style="display: flex">
+                    <div class="displayflex">
                         {% if request.user.id != expert.id %}
                             <a href="{% url 'appointment_add' expert.id %}" type="button"
                                class="btn btn-success expert-list-consult-btn">

@@ -17,6 +17,22 @@
     stroke: #3498db;
 }
 
+.manage-buttons {
+    display: flex;
+    gap: 15px
+}
+
+.article-detail-manage-buttons{
+    transform: scale(1.2)
+}
+
+.article-detail-voting-comment-cont {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0 10px 0;
+}
+
 .like-btn:not(.liked) svg {
     fill: none;
     stroke: #95a5a6;

@@ -951,7 +951,7 @@ msgstr "Список экспертов"
 
 #: .\web\templates\posts\research\research_list.html:73
 msgid "NoItemsFoundLabel"
-msgstr "Ничего не найдено"
+msgstr "Нет записей"
 
 #: .\web\templates\profile\anketa.html:21
 msgid "FillAllFieldsLabel"
