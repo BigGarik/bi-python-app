@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base123.html' %}
 
+
+{% load web_tags %}
+
+{% block center_col %}
     <div>
         {{ success_registration_message }}
     </div>
-
-</body>
-</html>
+{% endblock %}

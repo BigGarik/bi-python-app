@@ -63,7 +63,7 @@
     {% include 'base_header.html' %}
 
     {% if request.user.is_authenticated %}
-        {% if not request.user.expertanketa.is_verified %}
+        {% if request.user.profile.type == 1 and not request.user.expertanketa.is_verified %}
             <div class="container-fluid verify-account-cont bg-warning">
                 <p class="verify-account-text" style="margin: 0px !important;">{% trans 'VerifyAccountLabel' %}</p>
             </div>
