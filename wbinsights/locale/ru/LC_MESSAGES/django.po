@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-03 08:54+0300\n"
+"POT-Creation-Date: 2024-12-04 17:45+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -595,6 +595,11 @@ msgstr "Комментарии к встрече"
 msgid "ToMainPageLabel"
 msgstr "На главную"
 
+#: .\wbqa\templates\profile_question_list_content.html:76
+#: .\wbqa\templates\question_list_content.html:119
+msgid "No questions available."
+msgstr "Нет записей"
+
 #: .\web\backends.py:25
 msgid "Please check your email to activate your account."
 msgstr ""
@@ -941,7 +946,7 @@ msgstr "Отклонить"
 msgid "SingleArticleLabel"
 msgstr "Статья"
 
-#: .\web\templates\posts\article\article_profile_list_content.html:19
+#: .\web\templates\posts\article\article_profile_list_content.html:16
 msgid "ReadPostLabel"
 msgstr "Читать далее..."
 
@@ -1084,19 +1089,19 @@ msgstr ""
 msgid "часов назад"
 msgstr ""
 
-#: .\web\views\login.py:115
+#: .\web\views\login.py:119
 msgid "An error occurred during registration. Please try again."
 msgstr ""
 
-#: .\web\views\login.py:153
+#: .\web\views\login.py:157
 msgid "Your account is already activated."
 msgstr "Ваша учетная запись уже активирована."
 
-#: .\web\views\login.py:161
+#: .\web\views\login.py:165
 msgid "Activation link is invalid."
 msgstr "Ссылка активации недействительна."
 
-#: .\web\views\login.py:164
+#: .\web\views\login.py:168
 msgid "Account activation error: user not found."
 msgstr "Ошибка активации аккаунта: пользователь не найден."
 
