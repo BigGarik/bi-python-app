@@ -98,7 +98,7 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
-    <div class="element-container">
+    <div class="element-container basepost-content-mobile-bottom-padding">
 
 
         <form method="post" enctype="multipart/form-data" id="article-form">
@@ -114,13 +114,16 @@
                     {{ form.description.label }}
                     {{ form.description }}
                     <br>
-                    {{ form.main_img.label }}
-                    <div id="imageContainer">
-                        <img id="uploadedImage" src="{{ form.main_img.value.url }}"
-                             style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
+
+                    <div class="d-none d-md-block">
+                        {{ form.main_img.label }}
+                        <div id="imageContainer">
+                            <img id="uploadedImage" src="{{ form.main_img.value.url }}"
+                                 style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
+                        </div>
+                        {{ form.main_img }}
+                        <br>
                     </div>
-                    {{ form.main_img }}
-                    <br>
                     {{ form.content }}
 
                     {#                    <div class="row" id="sticky-container" style="overflow-x: auto; position: relative; z-index: 100;">#}

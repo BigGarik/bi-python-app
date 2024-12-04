@@ -2,28 +2,25 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}">
-    
 
 
-<div class="container-fluid">
-    <div class="row" style="margin-right: 0; margin-left: 0">
-        <!-- Left spacer -->
-        <aside class="col-sm-0-5 col-md-1 d-none d-md-block col-lg-0-5 col-xl-0-5" style="position: sticky; top: 0; height: 100vh;"></aside>
+
+    <div class="container-fluid">
+        <div class="row" style="margin-right: 0; margin-left: 0">
+            <aside class="col-sm-0-5 col-md-1 d-none d-md-block col-lg-0-5 col-xl-0-5"></aside>
+
+            <aside class=" d-none d-xl-block col-lg-2-5 col-xl-2-5"
+                   style="position: sticky; top: 0; height: 100vh;">
+                {% include "components/left_menu/left_main_menu.html" %}
+            </aside>
         
-        <!-- Left menu -->
-        <aside class="col-sm-2 d-none d-xl-block col-xl-2-5" style="position: sticky; top: 0; height: 100vh;">
-    {% include "components/left_menu/left_main_menu.html" %}
-</aside>
-        
-        <!-- Main content -->
-        <main class="mobile-screens-padds col-md-11 col-lg-8-5 col-xl-8-5">
-            <div class="content">
-                {% block center_col %}{% endblock %}
-            </div>
-        </main>
-        
-        <!-- Right spacer -->
-        <aside class="col-sm-0-5 d-none d-md-block col-lg-0-5 col-xl-0-5" style="position: sticky; top: 0; height: 100vh;"></aside>
+            <main class="col-sm-12 col-md-12 col-lg-8-5 col-xl-8-5">
+                <div class="content">
+                    {% block center_col %}{% endblock %}
+                </div>
+            </main>
+
+            <aside class="col-sm-0-5 col-md-1 d-none d-md-block col-lg-0-5 col-xl-0-5"></aside>
+        </div>
     </div>
-</div>
 {% endblock %}

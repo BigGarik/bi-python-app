@@ -37,7 +37,7 @@
     <form method="post" enctype="multipart/form-data" id="article-form">
         {% csrf_token %}
         <div class="row">
-            <div class="col-md-8-5">
+            <div class="col-md-8 col-lg-8-5">
                 {% trans "BackButtonLabel" as back_text %}
                 {% back_button "index" back_text %}
                 {{ form.title.label }}
@@ -46,20 +46,22 @@
                 {{ form.description.label }}
                 {{ form.description }}
                 <br>
-                {{ form.main_img.label }}
-                <div id="imageContainer">
-                    <img id="uploadedImage" src="{{ form.main_img.value.url }}"
-                         style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
-                </div>
-                {{ form.main_img }}
-                <br>
+                <div class="d-none d-md-block">
+                        {{ form.main_img.label }}
+                        <div id="imageContainer">
+                            <img id="uploadedImage" src="{{ form.main_img.value.url }}"
+                                 style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
+                        </div>
+                        {{ form.main_img }}
+                        <br>
+                    </div>
                 {{ form.content }}
 
                 <div id="gjs" data-pixabay-api-key="{{ PIXABAY_API_KEY }}" style="min-height: 300px;"></div>
 
                 <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
             </div>
-            <div class="col-md-3-5">
+            <div class="col-md-4 col-lg-3-5" >
                 <div class="article-add-right-btns">
                     <div class="article-settings">
                         <div>Настройки</div>
@@ -189,4 +191,17 @@
 
 
     </script>
+
+    <script>
+    let wasAbove576 = window.innerWidth > 768;
+
+    window.addEventListener('resize', function() {
+        let isAbove768 = window.innerWidth > 768;
+
+        if (wasAbove768 !== isAbove768) {
+            location.reload();
+            wasAbove768 = isAbove768;
+        }
+    });
+</script>
 {% endblock %}
