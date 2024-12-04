@@ -98,7 +98,7 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
-    <div class="element-container">
+    <div class="element-container basepost-content-mobile-bottom-padding">
 
 
         <form method="post" enctype="multipart/form-data" id="article-form">
@@ -114,6 +114,7 @@
                     {{ form.description.label }}
                     {{ form.description }}
                     <br>
+
                     {{ form.main_img.label }}
                     <div id="imageContainer">
                         <img id="uploadedImage" src="{{ form.main_img.value.url }}"
@@ -121,45 +122,45 @@
                     </div>
                     {{ form.main_img }}
                     <br>
-                    {{ form.content }}
-
-                    {#                    <div class="row" id="sticky-container" style="overflow-x: auto; position: relative; z-index: 100;">#}
-                    {#                        <div class="article-add-right-btns" style="overflow-x: auto; padding: 10px !important;">#}
-                    {#                            <div id="blocks"></div>#}
-                    {#                            <div class="grip-container">#}
-                    {#                                <i class="bi bi-grip-horizontal grip-icon"></i>#}
-                    {#                            </div>#}
-                    {#                        </div>#}
-                    {#                    </div>#}
-
-                    <div id="gjs" style="min-height: 300px;"></div>
-                    <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
                 </div>
 
+                {#                    <div class="row" id="sticky-container" style="overflow-x: auto; position: relative; z-index: 100;">#}
+                {#                        <div class="article-add-right-btns" style="overflow-x: auto; padding: 10px !important;">#}
+                {#                            <div id="blocks"></div>#}
+                {#                            <div class="grip-container">#}
+                {#                                <i class="bi bi-grip-horizontal grip-icon"></i>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+
+                <div id="gjs" style="min-height: 300px;"></div>
+                <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
             </div>
 
-            <div class="row">
-                <div class="article-add-right-btns" style="margin-top: 30px">
-                    <div class="article-settings">
-                        <div>Настройки</div>
-                        <div class="clear-all" onclick="clearEditorContent()"><i class="bi bi-trash"
-                                                                                 style="cursor:pointer"></i> Очистить
-                            всё
-                        </div>
-                    </div>
+    </div>
 
-                    <div>Категория</div>
-                    {{ form.cat }}
-                    <br>
-                    <div>Статус публикации</div>
-                    {{ form.is_published }}
-                    <br>
-                    <div class="d-grid gap-2 d-block">
-                        <input type="submit" value="Опубликовать" class="btn btn-success"/>
-                    </div>
+    <div class="row">
+        <div class="article-add-right-btns" style="margin-top: 30px">
+            <div class="article-settings">
+                <div>Настройки</div>
+                <div class="clear-all" onclick="clearEditorContent()"><i class="bi bi-trash"
+                                                                         style="cursor:pointer"></i> Очистить
+                    всё
                 </div>
             </div>
-        </form>
+
+            <div>Категория</div>
+            {{ form.cat }}
+            <br>
+            <div>Статус публикации</div>
+            {{ form.is_published }}
+            <br>
+            <div class="d-grid gap-2 d-block">
+                <input type="submit" value="Опубликовать" class="btn btn-success"/>
+            </div>
+        </div>
+    </div>
+    </form>
     </div>
 
 
@@ -257,7 +258,7 @@
         const toolbarOptions = [
             ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
             ['blockquote', 'code-block'],
-            ['link', 'image'],
+            ['link'],
 
             [{'list': 'ordered'}, {'list': 'bullet'}, {'list': 'check'}],
 

@@ -154,16 +154,18 @@
 
 <script>
     let wasAbove576 = window.innerWidth > 576;
-    
-    window.addEventListener('resize', function() {
+
+    window.addEventListener('resize', function () {
         let isAbove576 = window.innerWidth > 576;
-        
+
         // Check if we've crossed the 768px threshold
-        if (wasAbove576 !== isAbove576) {   
+        if (wasAbove576 !== isAbove576) {
             location.reload();
             wasAbove576 = isAbove576;
         }
     });
+
+
 </script>
 
 
