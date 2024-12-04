@@ -11,18 +11,19 @@
 
 
 
-    <div class="element-container" style="margin-bottom: 15px" >
+    <div class="element-container" style="margin-bottom: 15px">
 
 
         {% trans "ToMainPageLabel" as back_text %}
         {% back_button "index" back_text %}
 
-        {% include 'components/clients/profile_info.html' with user=user profile=profile buttons_template='profile/expert/profile_buttons.html'%}
+        {% include 'components/clients/profile_info.html' with user=user profile=profile buttons_template='profile/expert/profile_buttons.html' %}
 
 
     </div>
 
-    <div id="client-calendar" class="element-container" style="padding: 0px;margin-top: 10px">
+    <div id="client-calendar" class="element-container" style="margin-top: 10px">
+        {% device_is_mobile as is_mobile %}
         {% if is_mobile %}
             {% include 'components/appointment/calendar_mobile.html' with calendar_event_id='event-calendar' %}
         {% else %}

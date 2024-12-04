@@ -48,15 +48,13 @@
                 {{ form.description.label }}
                 {{ form.description }}
                 <br>
-                <div class="d-none d-md-block">
-                    {{ form.main_img.label }}
-                    <div id="imageContainer">
-                        <img id="uploadedImage" src="{{ form.main_img.value.url }}"
-                             style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
-                    </div>
-                    {{ form.main_img }}
-                    <br>
+                {{ form.main_img.label }}
+                <div id="imageContainer">
+                    <img id="uploadedImage" src="{{ form.main_img.value.url }}"
+                         style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
                 </div>
+                {{ form.main_img }}
+                <br>
                 {{ form.content }}
 
                 <div id="gjs" data-pixabay-api-key="{{ PIXABAY_API_KEY }}" style="min-height: 300px;"></div>
