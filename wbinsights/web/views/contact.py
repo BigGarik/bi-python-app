@@ -1,6 +1,10 @@
-from django.views.generic import TemplateView
+import environs
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+from django.views.generic import TemplateView
+
+env = environs.Env()
+environs.Env.read_env()
 
 
 class ContactPageView(TemplateView):
@@ -25,11 +29,13 @@ def post_contact_us_form(request):
             else:
                 to_email = request.POST['email']
             message = f"C сайта поступило обращение \nответный email: {to_email} \nСодержание: {content}"
+            EMAIL = env('EMAIL_HOST_USER')
+            CONTACT_EMAIL = env('CONTACT_EMAIL')
             send_mail(
                 subject='Обращение с сайта',
                 message=message,
-                from_email='info_dev@24wbinside.ru',
-                recipient_list=["contact_us@24wbinside.ru"],
+                from_email=EMAIL,
+                recipient_list=[CONTACT_EMAIL],
                 fail_silently=False,
             )
 

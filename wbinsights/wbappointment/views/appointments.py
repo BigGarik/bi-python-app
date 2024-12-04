@@ -1,31 +1,30 @@
-from datetime import date, timedelta, datetime, time
 import logging
+from datetime import date, timedelta, datetime, time
 
+import environs
 import pytz
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
-from django.db.models.functions import TruncTime
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import redirect, render
-
+from django.template.loader import render_to_string
+from django.utils import timezone
+from django.utils.html import strip_tags
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
-
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-
 
 from wbappointment.forms import AppointmentForm, SelectAppointmentDateForm
 from wbappointment.models import Appointment, AppointmentStatus, ExpertSchedule, AppointmentPayment, \
     ExpertScheduleSpecialDays
 from wbappointment.views.yookassa import create_yookassa_payment
-from web.models import Expert
-
-from django.utils import timezone
-
 from wbappointment.views.zoom_utils import create_zoom_meeting
+from web.models import Expert
 from web.services.timezone_translation import timezoneDictionary
+
+env = environs.Env()
+environs.Env.read_env()
+
 
 info_logger = logging.getLogger("django-info")
 debug_logger = logging.getLogger("django-debug")
@@ -275,16 +274,17 @@ class AppointmentPaymentNotification(APIView):
                                                     {
                                                         'client': payment.appointment.client,
                                                         'appointment':payment.appointment,
-                                                        'site_url': 'https://24wbinside.ru/'
+                                                        'site_url': env('RETURN_URL')
                                                     })
                     # Получаем текстовую версию письма из HTML
                     text_content = strip_tags(html_content)
+                    EMAIL = env('EMAIL_HOST_USER')
 
                     # Создаем объект EmailMultiAlternatives
                     email = EmailMultiAlternatives(
                         'Новое бронирование',
                         text_content,
-                        'info_dev@24wbinside.ru',
+                        EMAIL,
                         [payment.appointment.expert.email]
                     )
                     # Добавляем HTML версию

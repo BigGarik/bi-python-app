@@ -1,5 +1,6 @@
 import logging
 
+import environs
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, LoginView
@@ -7,19 +8,21 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMultiAlternatives
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
+from django.db import transaction
 from django.http import JsonResponse
-from django.template.loader import render_to_string
-
-from django.utils.html import strip_tags
-from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy, reverse
+from django.utils.html import strip_tags
+from django.utils.translation import gettext_lazy as _
 
-from web.utils import check_is_mobile
 from web.forms.users import CustomUserCreationForm, ExpertAnketaForm, UserPasswordResetForm, UserSetNewPasswordForm, \
     UserPasswordChangeForm
 from web.models import Profile
-from django.db import transaction
-from django.utils.translation import gettext_lazy as _
+from web.utils import check_is_mobile
+
+env = environs.Env()
+environs.Env.read_env()
 
 logger = logging.getLogger('django-debug')
 
@@ -46,12 +49,13 @@ def send_activation_email(user, request):
     html_content = render_to_string('emails/account_activation.html', {'confirmation_link': confirmation_link})
     # Получаем текстовую версию письма из HTML
     text_content = strip_tags(html_content)
+    EMAIL = env('EMAIL_HOST_USER')
 
     # Создаем объект EmailMultiAlternatives
     email = EmailMultiAlternatives(
         'Активация аккаунта',
         text_content,
-        'info_dev@24wbinside.ru',
+        EMAIL,
         [user.email]
     )
     # Добавляем HTML версию
