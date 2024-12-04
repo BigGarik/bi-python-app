@@ -1,5 +1,6 @@
 {% load static %}
 {% load web_tags %}
+{% load i18n %}
 
 {% for question in expert_questions %}
     <div class="basepost-content-cont">
@@ -72,5 +73,5 @@
         </div>
     </div>
     {% empty %}
-    <p>No questions available.</p>
+    <p>{% trans 'No questions available.' %}</p>
 {% endfor %}

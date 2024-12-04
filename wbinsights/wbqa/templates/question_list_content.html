@@ -1,5 +1,6 @@
 {% load static %}
 {% load web_tags %}
+{% load i18n %}
 
 <style>
     .basepost-title-link {
@@ -31,9 +32,6 @@
         object-fit: cover;
     }
 </style>
-
-{% load static %}
-{% load web_tags %}
 
 {% for question in object_list %}
     <div class="basepost-content-cont basepost-content-mobile-bottom-padding">
@@ -118,5 +116,5 @@
         </div>
     </div>
     {% empty %}
-    <p>No questions available.</p>
+    <p>{% trans 'No questions available.' %}</p>
 {% endfor %}
