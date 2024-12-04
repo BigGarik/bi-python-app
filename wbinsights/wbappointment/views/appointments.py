@@ -274,7 +274,7 @@ class AppointmentPaymentNotification(APIView):
                                                     {
                                                         'client': payment.appointment.client,
                                                         'appointment':payment.appointment,
-                                                        'site_url': 'https://24wbinside.ru/'
+                                                        'site_url': env('RETURN_URL')
                                                     })
                     # Получаем текстовую версию письма из HTML
                     text_content = strip_tags(html_content)
