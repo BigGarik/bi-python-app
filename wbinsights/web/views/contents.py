@@ -50,7 +50,7 @@ class CommonContentFilterListView(ListView):
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            html = render_to_string(self.load_more_template(context), {'object_list': context['object_list']})
+            html = render_to_string(self.load_more_template, {'request': self.request, 'object_list': context['object_list']})
             return JsonResponse({
                 'html': html,
                 'has_more': context['has_more_objects']

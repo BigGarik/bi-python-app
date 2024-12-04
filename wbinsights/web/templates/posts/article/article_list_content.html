@@ -58,10 +58,10 @@
                 {% include "components/share_social_btn.html" with url_path="/articles/" slug=article.slug title=article.title item_pk=article.pk %}
             </div>
         </div>
-    {% if not forloop.last %}
-        <hr class="solid">
-    {% endif %}
-{#    {% include 'components/load_more.html' %}#}
+        {% if not forloop.last %}
+            <hr class="solid">
+        {% endif %}
+        {#    {% include 'components/load_more.html' %}#}
     </div>
 </div>
 {% endfor %}
