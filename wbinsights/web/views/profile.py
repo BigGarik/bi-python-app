@@ -328,13 +328,16 @@ def edit_user_profile(request):
                 points = 0
             grade = Grade.objects.get(min_points__lte=points, max_points__gte=points)
             user_form = CustomUserChangeForm(request.POST, instance=request.user)
+            profile_form = ProfileChangeForm(request.POST, request.FILES, instance=request.user.profile)
             expert_anketa_form = ExpertAnketaChangeForm(request.POST, instance=request.user.expertanketa)
             educationFormSet = modelformset_factory(Education, form=EducationForm, exclude=[], extra=0)
             education_expert_anketa_formset = educationFormSet(request.POST,
                                                                queryset=request.user.expertanketa.education.all())
 
-            if user_form.is_valid() and expert_anketa_form.is_valid() and education_expert_anketa_formset.is_valid():
+            if (user_form.is_valid() and expert_anketa_form.is_valid()
+                    and education_expert_anketa_formset.is_valid()) and profile_form.is_valid():
                 user_form.save()
+                profile_form.save()
                 updated_expert_anketa = expert_anketa_form.save()
                 for form in education_expert_anketa_formset.forms:
                     education = form.save()
