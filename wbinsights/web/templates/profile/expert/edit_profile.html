@@ -109,11 +109,64 @@
                 <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
             </div>
 
-            {{ user_form.errors }}
-            {{ profile_form.errors }}
-            {{ expert_profile_form.errors }}
 
             <form method="post" enctype="multipart/form-data">
+
+                <div class="position-relative" aria-live="polite" aria-atomic="true">
+                    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                        {% if user_form.errors or profile_form.errors or expert_profile_form.errors or education_expert_formset.errors %}
+                            {% for field, errors in user_form.errors.items %}
+                                {% for error in errors %}
+                                    <div class="toast align-items-center text-bg-danger border-0" role="alert"
+                                         aria-live="assertive" aria-atomic="true">
+                                        <div class="d-flex">
+                                             <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                                    data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
+                                            <div class="toast-body" style="width: 90%">
+                                                {{ field }}: {{ error }}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
+                            {% for field, errors in profile_form.errors.items %}
+                                {% for error in errors %}
+                                    <div class="toast align-items-center text-bg-danger border-0" role="alert"
+                                         aria-live="assertive" aria-atomic="true">
+                                        <div class="d-flex">
+                                            <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                                    data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
+                                            <div class="toast-body" style="width: 90%">
+                                                {{ field }}: {{ error }}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
+                            {% for field, errors in expert_profile_form.errors.items %}
+                                {% for error in errors %}
+                                    <div class="toast align-items-center text-bg-danger border-0" role="alert"
+                                         aria-live="assertive" aria-atomic="true">
+                                        <div class="d-flex">
+                                            <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                                    data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
+                                            <div class="toast-body" style="width: 90%">
+                                                {{ field }}: {{ error }}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+
                 {% csrf_token %}
                 <div class="prof-edit-rows">
                     <div class="prof-edit-duel-rows">
@@ -188,12 +241,14 @@
                                 <input type="number" name="hour_cost"
                                        id="{{ expert_profile_form.hour_cost.id_for_label }}"
                                        min="{{ grade.min_cost }}" max="{{ grade.max_cost }}" step="1"
-                                       value="{{ expert_profile_form.hour_cost.value }}" class="custom-form-css" placeholder="{{ grade.min_cost }}-{{ grade.max_cost }}">
+                                       value="{{ expert_profile_form.hour_cost.value }}" class="custom-form-css"
+                                       placeholder="{{ grade.min_cost }}-{{ grade.max_cost }}">
 
                             {% else %}
                                 {{ expert_profile_form.hour_cost }}
                             {% endif %}
-                        <p class="expert-grade-info-small">Диапазон стоимости часа для вашего Грейда: от {{ grade.min_cost }}
+                            <p class="expert-grade-info-small">Диапазон стоимости часа для вашего Грейда:
+                                от {{ grade.min_cost }}
                                 до {{ grade.max_cost }}</p>
                         </div>
 
@@ -483,6 +538,19 @@
 
     </script>
 
+    {% if user_form.errors or profile_form.errors or expert_profile_form.errors or education_expert_formset.errors %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const toastElList = document.querySelectorAll('.toast');
+                toastElList.forEach(toastEl => {
+                    const toast = new bootstrap.Toast(toastEl, {
+                        autohide: false
+                    });
+                    toast.show();
+                });
+            });
+        </script>
+    {% endif %}
 
 
 {% endblock %}
