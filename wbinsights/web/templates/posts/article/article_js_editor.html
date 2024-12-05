@@ -331,7 +331,7 @@
 
 
             if (window.innerWidth < 768) {
-                // Mobile - Initialize Quill
+                // initialize quill
                 const toolbarOptions = [
                     ['bold', 'italic', 'underline', 'strike'],
                     ['blockquote', 'code-block'],
@@ -352,7 +352,7 @@
                     theme: 'snow'
                 });
 
-                // Hide GrapesJS specific elements
+                // hide grapejs elements
                 const blocksContainer = document.getElementById('blocks');
                 const styleManager = document.getElementById('style-manager-container');
                 if (blocksContainer) blocksContainer.style.display = 'none';

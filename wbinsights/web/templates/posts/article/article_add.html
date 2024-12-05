@@ -19,7 +19,7 @@
     {#    <script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>#}
     <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
     <link rel="stylesheet" href="{% static 'web/css/grapesjes_Plugin_Modal.css' %}">
-     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
 
@@ -37,13 +37,28 @@
             max-width: -webkit-fill-available;
         }
 
+        @media (max-width: 768px ) {
+            .element-container-article-mob {
+                padding: 15px 20px 15px 20px;
+                background-color: white;
+                border-radius: 15px;
+                height: fit-content;
+            }
+        }
+
+        @media (max-width: 768px ) {
+            .mobile-gap {
+                gap : 10px
+            }
+        }
+
     </style>
 
 
     <form method="post" enctype="multipart/form-data" id="article-form">
         {% csrf_token %}
-        <div class="row">
-            <div class="col-md-8 col-lg-8-5">
+        <div class="row mobile-gap">
+            <div class="col-md-8 col-lg-8-5 element-container-article-mob">
                 {% trans "BackButtonLabel" as back_text %}
                 {% back_button "index" back_text %}
                 {{ form.title.label }}
@@ -63,9 +78,10 @@
 
                 <div id="gjs" data-pixabay-api-key="{{ PIXABAY_API_KEY }}" style="min-height: 300px;"></div>
 
+
                 <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
             </div>
-            <div class="col-md-4 col-lg-3-5">
+            <div class="col-md-4 col-lg-3-5 element-container-article-mob">
                 <div class="article-add-right-btns">
                     <div class="article-settings">
                         <div>Настройки</div>
@@ -198,8 +214,15 @@
         }
 
         document.getElementById('article-form').addEventListener('submit', function (event) {
-            document.getElementsByName('content')[0].value = editor.getHtml();
-            document.getElementsByName('styles')[0].value = editor.getCss();
+            if (window.innerWidth < 768) {
+                // Quill version - get HTML content from Quill editor
+                document.getElementsByName('content')[0].value = editor.root.innerHTML;
+                document.getElementsByName('styles')[0].value = ''; // No styles for Quill
+            } else {
+                // GrapesJS version
+                document.getElementsByName('content')[0].value = editor.getHtml();
+                document.getElementsByName('styles')[0].value = editor.getCss();
+            }
         });
 
 

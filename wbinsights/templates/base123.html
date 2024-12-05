@@ -22,7 +22,7 @@
     </style>
 
 <div class="container-fluid">
-    <div class="row" style="margin-right: 0; margin-left: 0">
+    <div class="row flex-nowrap" style="margin-right: 0; margin-left: 0">
 
         <aside class=" col-sm-0-5 col-md-1 d-none d-md-block" style="position: sticky; top: 0; height: 100vh;"></aside>
 
@@ -30,7 +30,7 @@
             {% include "components/left_menu/left_main_menu.html" %}
         </aside>
 
-        <main class="mobile-screens-padds col-sm-7 col-md-7 col-xl-6" >
+        <main class="mobile-screens-padds col-sm-7 col-md-7 col-lg-7 col-xl-6" >
             <div class="content">
                 {% block center_col %}{% endblock %}
             </div>
@@ -43,7 +43,7 @@
 
         </aside>
 
-        <aside class="col-sm-0-5  d-none d-md-block" style="position: sticky; top: 0; height: 100vh;"></aside>
+        <aside class="col-sm-0-5 col-md-1 d-none d-md-block" style="position: sticky; top: 0; height: 100vh;"></aside>
     </div>
 </div>
 
