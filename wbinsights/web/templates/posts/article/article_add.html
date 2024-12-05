@@ -18,6 +18,10 @@
     <script src="{% static 'web/js/grapesjs/grapesjs-touch.min.js' %}"></script>
     {#    <script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>#}
     <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/grapesjes_Plugin_Modal.css' %}">
+     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
 
 {% endblock %}
 
@@ -102,6 +106,17 @@
             </div>
         </div>
     </form>
+
+    <div id="pixabay-modal-template" style="display: none; min-height: 500px">
+        <div class="pixabay-browser">
+            <div class="pixabay-search">
+                <input type="text" class="pixabay-search-input">
+                <button type="button" class="pixabay-search-button"></button>
+            </div>
+            <div class="pixabay-loading"></div>
+            <div class="pixabay-images-grid"></div>
+        </div>
+    </div>
 
     {% include 'posts/article/article_js_editor.html' %}
 
