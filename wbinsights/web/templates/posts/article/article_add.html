@@ -37,6 +37,11 @@
             max-width: -webkit-fill-available;
         }
 
+        .right-margin-article-add {
+              margin: 10px 2.5% 5px;
+        }
+
+
         @media (max-width: 768px ) {
             .element-container-article-mob {
                 padding: 15px 20px 15px 20px;
@@ -44,13 +49,19 @@
                 border-radius: 15px;
                 height: fit-content;
             }
+
+
+
+            .mobile-gap {
+                gap: 10px
+            }
+
+            .right-margin-article-add {
+                margin-right: 0px;
+            }
+
         }
 
-        @media (max-width: 768px ) {
-            .mobile-gap {
-                gap : 10px
-            }
-        }
 
     </style>
 
@@ -81,8 +92,8 @@
 
                 <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
             </div>
-            <div class="col-md-4 col-lg-3-5 element-container-article-mob">
-                <div class="article-add-right-btns">
+            <div class="col-md-4 col-lg-3-5 element-container-article-mob  " >
+                <div class="article-add-right-btns basepost-content-mobile-bottom-padding">
                     <div class="article-settings">
                         <div>Настройки</div>
                         <div class="clear-all" onclick="clearEditorContent()">
@@ -101,7 +112,7 @@
                     Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
                 </span>
                     <div id="blocks"></div>
-                    <div id="style-manager-container" style="margin: 10px 2.5% 5px;"></div>
+                    <div id="style-manager-container " class="right-margin-article-add" ></div>
                     <hr class="solid"/>
                     <div class="form-group">
                         <label for="{{ form.cat.id_for_label }}">{{ form.cat.label }}</label>

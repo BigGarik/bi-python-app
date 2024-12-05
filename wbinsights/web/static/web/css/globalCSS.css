@@ -480,7 +480,7 @@
 
 @media (max-width: 992.98px) {
    .basepost-content-mobile-bottom-padding:last-of-type {
-       padding-bottom: 60px !important;
+       margin-bottom: 60px !important;
    }
 }
 
