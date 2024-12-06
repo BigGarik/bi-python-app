@@ -351,6 +351,11 @@
     color: #23a47e;
 }
 
+.pr-i-marketing {
+    background-color: #dbcdf3;
+    color: #346b85;
+}
+
 .catagory-cont {
     display: flex;
     align-items: center;
