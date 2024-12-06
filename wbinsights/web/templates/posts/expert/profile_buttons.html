@@ -52,19 +52,18 @@
 {#{% endif %}#}
 
 <div class="col-12 mobile" style="width: 100%">
-    <div class="col-sm-8 col-md-8-5">
-        {% if user == request.user %}
-            <a href="#" aria-disabled="True" type="button"
-               class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
-                Консультация
-            </a>
-        {% else %}
-            <a href="{% url 'appointment_add' user.id %}" aria-disabled="True" type="button"
-               class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
-                Консультация
-            </a>
-        {% endif %}
-    </div>
+
+    {% if user == request.user %}
+        <a href="#" aria-disabled="True" type="button"
+           class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
+            Консультация
+        </a>
+    {% else %}
+        <a href="{% url 'appointment_add' user.id %}" aria-disabled="True" type="button"
+           class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
+            Консультация
+        </a>
+    {% endif %}
 </div>
 
 <div class="row desktop" style="width: 100%">
