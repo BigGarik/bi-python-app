@@ -375,8 +375,8 @@ def edit_user_profile(request):
             else:
                 context = {
                     "user_form": user_form,
-                    "profile_form": expert_anketa_form,
-                    "expert_profile_form": educationFormSet,
+                    "profile_form": profile_form,
+                    "expert_profile_form": expert_anketa_form,
                     "education_expert_formset": education_expert_anketa_formset,
                     'grade': grade,
                 }

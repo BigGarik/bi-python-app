@@ -99,6 +99,62 @@
 
     <div class="element-container">
 
+
+        <div class="position-relative" aria-live="polite" aria-atomic="true">
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                {% if user_form.errors or profile_form.errors or expert_profile_form.errors or education_expert_formset.errors %}
+                    {% for field, errors in user_form.errors.items %}
+                        {% for error in errors %}
+                            <div class="toast align-items-center text-bg-danger border-0" role="alert"
+                                 aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                            data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
+                                    <div class="toast-body" style="width: 90%">
+                                        {{ field }}: {{ error }} <!-- need to replace field with label -->
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for field, errors in profile_form.errors.items %}
+                        {% for error in errors %}
+                            <div class="toast align-items-center text-bg-danger border-0" role="alert"
+                                 aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                            data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
+                                    <div class="toast-body" style="width: 90%">
+                                        {{ field }}: {{ error }}  <!-- need to replace field with label -->
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for field, errors in expert_profile_form.errors.items %}
+                        {% for error in errors %}
+                            <div class="toast align-items-center text-bg-danger border-0" role="alert"
+                                 aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                            data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
+                                    <div class="toast-body" style="width: 90%">
+                                        {{ field }}: {{ error }}  <!-- need to replace field with label -->
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+
         {% trans "BackButtonLabel" as back_text %}
         {% back_button "profile" back_text %}
 
@@ -112,62 +168,17 @@
 
             <form method="post" enctype="multipart/form-data">
 
-                <div class="position-relative" aria-live="polite" aria-atomic="true">
-                    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                        {% if user_form.errors or profile_form.errors or expert_profile_form.errors or education_expert_formset.errors %}
-                            {% for field, errors in user_form.errors.items %}
-                                {% for error in errors %}
-                                    <div class="toast align-items-center text-bg-danger border-0" role="alert"
-                                         aria-live="assertive" aria-atomic="true">
-                                        <div class="d-flex">
-                                             <button type="button" class="btn-close btn-close-white me-2 m-auto"
-                                                    data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
-                                            <div class="toast-body" style="width: 90%">
-                                                {{ field }}: {{ error }}
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-
-                            {% for field, errors in profile_form.errors.items %}
-                                {% for error in errors %}
-                                    <div class="toast align-items-center text-bg-danger border-0" role="alert"
-                                         aria-live="assertive" aria-atomic="true">
-                                        <div class="d-flex">
-                                            <button type="button" class="btn-close btn-close-white me-2 m-auto"
-                                                    data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
-                                            <div class="toast-body" style="width: 90%">
-                                                {{ field }}: {{ error }}
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-
-                            {% for field, errors in expert_profile_form.errors.items %}
-                                {% for error in errors %}
-                                    <div class="toast align-items-center text-bg-danger border-0" role="alert"
-                                         aria-live="assertive" aria-atomic="true">
-                                        <div class="d-flex">
-                                            <button type="button" class="btn-close btn-close-white me-2 m-auto"
-                                                    data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
-                                            <div class="toast-body" style="width: 90%">
-                                                {{ field }}: {{ error }}
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-
 
                 {% csrf_token %}
+                {{ user_form.id }}
+                {{ profile_form.id }}
+                {{ expert_profile_form.id }}
+
+                <div>
+
+
+                </div>
+
                 <div class="prof-edit-rows">
                     <div class="prof-edit-duel-rows">
 
