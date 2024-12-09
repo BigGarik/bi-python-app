@@ -18,108 +18,108 @@
 <link rel="stylesheet" href="{% static 'web/css/CalendarCssAndImages/CalendarKurko.css' %}">
 
 <style>
-#event-calendar,
-#event-calendar * {
-    pointer-events: auto !important;
-    text-wrap: pretty;
-}
+    #event-calendar,
+    #event-calendar * {
+        pointer-events: auto !important;
+        text-wrap: pretty;
+    }
 
-.ec-center .ec-active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-
-.fontSizes {
-    font-size: calc(4px + 0.5vw) !important;
-}
-
-.ec-event {
-    max-height: 60px !important;
-}
-
-.ec-event.ec-draggable {
-    min-height: 60px !important;
-    max-height: 60px !important;
-    height: 60px !important;
-}
-
-.ec-header {
-    max-height: 30px !important;
-}
-
-.ec-time-grid .ec-time,
-.ec-time-grid .ec-line {
-    height: 70px;
-}
-
-.ec-button-group .ec-button:not(:last-child),
-.ec-button-group .ec-button:not(:first-child) {
-    pointer-events: auto;
-    position: relative;
-    display: block;
-    height: 2.5rem;
-    width: 2.5rem;
-    cursor: pointer;
-    border-width: 0px;
-    background-color: transparent;
-    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-    border-radius: 5px;
-    transform-origin: center;
-    transition: transform 0.3s ease;
-}
-
-.color-legend {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    flex-direction: column;
-    margin-top: 10px;
-}
-
-.flex-container {
-    display: flex;
-}
-
-.appointment-details-left,
-.appointment-details-right {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.appointment-details-left {
-    width: 40%;
-}
-
-.appointment-details-right {
-    width: 60%;
-}
-
-.hidden {
-    display: none;
-}
-
-.small-text {
-    font-size: 12px;
-}
-
-.striped-div {
-    width: 200px;
-    height: 200px;
-    background: linear-gradient(to right, red 50%, blue 50%);
-}
-
-@media (max-width: 1399px) {
-    .ec-button-group .ec-button:not(:last-child),
-    .ec-button-group .ec-button:not(:first-child) {
-        transform: scale(0.8);
+    .ec-center .ec-active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
     }
 
     .fontSizes {
-        padding: 5px !important;
+        font-size: calc(4px + 0.5vw) !important;
     }
-}
+
+    .ec-event {
+        max-height: 60px !important;
+    }
+
+    .ec-event.ec-draggable {
+        min-height: 60px !important;
+        max-height: 60px !important;
+        height: 60px !important;
+    }
+
+    .ec-header {
+        max-height: 30px !important;
+    }
+
+    .ec-time-grid .ec-time,
+    .ec-time-grid .ec-line {
+        height: 70px;
+    }
+
+    .ec-button-group .ec-button:not(:last-child),
+    .ec-button-group .ec-button:not(:first-child) {
+        pointer-events: auto;
+        position: relative;
+        display: block;
+        height: 2.5rem;
+        width: 2.5rem;
+        cursor: pointer;
+        border-width: 0px;
+        background-color: transparent;
+        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+        border-radius: 5px;
+        transform-origin: center;
+        transition: transform 0.3s ease;
+    }
+
+    .color-legend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .flex-container {
+        display: flex;
+    }
+
+    .appointment-details-left,
+    .appointment-details-right {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .appointment-details-left {
+        width: 40%;
+    }
+
+    .appointment-details-right {
+        width: 60%;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .small-text {
+        font-size: 12px;
+    }
+
+    .striped-div {
+        width: 200px;
+        height: 200px;
+        background: linear-gradient(to right, red 50%, blue 50%);
+    }
+
+    @media (max-width: 1399px) {
+        .ec-button-group .ec-button:not(:last-child),
+        .ec-button-group .ec-button:not(:first-child) {
+            transform: scale(0.8);
+        }
+
+        .fontSizes {
+            padding: 5px !important;
+        }
+    }
 
 </style>
 
@@ -225,6 +225,7 @@
         </div>
     {% endif %}
 {% endif %}
+
 {% include 'schedule/expert_schedule.html' %}
 
 <script>
@@ -465,15 +466,13 @@
             date_title.wrap("<div style='display:flex; align-items: center'></div>");
         }
         date_title.attr("style", 'font-size: calc(5px + 0.7vw) !important;padding:10px');
-
-
     }
 
-    $(document).ready(function () {
+    function alignCalendarViewBtns() {
         $('.ec-center,.ec-end').wrapAll('<div style= "display: flex">  </div>')
         $('.ec-center').css({'display': 'flex', 'gap': '5px'});
-    })
-
+    }
+    
     function createEventCalendar(calendar_element_id) {
         const options = {
             view: 'timeGridWeek',
@@ -599,12 +598,13 @@
     style.textContent = `
     .month-view .date-of-month {
         display: none;
-    }
-`;
+    }`;
+
     document.head.appendChild(style);
 
     function getUsersAppointments() {
         createEventCalendar('event-calendar');
+        alignCalendarViewBtns()
         setTimeout(addToolbarButtonBootstrapClasses, 0);
     }
 

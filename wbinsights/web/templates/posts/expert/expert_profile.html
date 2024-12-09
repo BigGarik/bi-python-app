@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="{% static 'web/css/profile.css' %}?ver=0.01">
 {% endblock %}
 
+{% block title %}
+    Эксперт: {{ expert.last_name }} {{ expert.first_name }}
+{% endblock %}
+
 {% block center_col %}
-
-
 
     <div class="element-container">
 

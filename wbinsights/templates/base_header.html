@@ -29,7 +29,7 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if user.is_staff %}
+                    {% if user.is_superuser %}
                         <div class="dropdown">
                             <button class="btn btn-secondary fullscreen-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="admin-text">Администрирование</span>
