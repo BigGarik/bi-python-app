@@ -67,14 +67,12 @@
 
 <!-- Desktop Layout -->
 <div class="settings-layout d-none d-md-flex">
-
-    <div class=" col-sm-4 col-md-3-5  ">
+    <div class="col-sm-4 col-md-3-5">
         <!-- empty space (avatar cont)-->
     </div>
 
-    <div class=" col-sm-8 col-md-8-5">
+    <div class="col-sm-8 col-md-8-5">
         <div class="buttons-container">
-
             <div class="profile-buttons-group">
                 <div class="button-wrapper">
                     <a href="{% url 'profile_edit' %}" class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
@@ -93,6 +91,7 @@
             <div class="profile-buttons-group">
                 <form method="post" action="{% url 'logout' %}" class="button-wrapper">
                     {% csrf_token %}
+                    <input type="hidden" name="next" value="{% url 'index' %}" />
                     <button class="btn prof-btn prof-logout-btn" type="submit">
                         {% trans 'LogoutButtonLabel' %}
                     </button>
@@ -173,21 +172,19 @@
         $(document).on('submit', '#passwordChangeModal form', function (e) {
             e.preventDefault();
             var form = $(this);
-            var formData = form.serialize();
 
             $.ajax({
                 url: form.attr('action'),
                 type: 'POST',
-                data: formData,
+                data: form.serialize(),
                 headers: {'X-Requested-With': 'XMLHttpRequest'},
                 success: function (response) {
-                    if (response.success) {
-                        modal.modal('hide');
-                        $('#notification').text(response.message).fadeIn().delay(500).fadeOut(function () {
-                            window.location.href = response.redirect_url;
-                        });
-                    } else {
+                    if (response.success === false) {
+                        // Show form errors
                         modal.find('.modal-body').html(response.html);
+                    } else {
+                        modal.modal('hide');
+                        window.location.href = "{% url 'index' %}";
                     }
                 },
                 error: function (xhr, status, error) {
