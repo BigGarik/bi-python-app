@@ -14,6 +14,6 @@ class WebConfig(AppConfig):
     def ready(self):
         import web.models.users
         #post_migrate.connect(start_scheduler, sender=self)
-        start_scheduler()
+        start_scheduler(None)
 
 
