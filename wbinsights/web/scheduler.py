@@ -17,10 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def delete_old_job_executions(max_age=604_800):
-    """
-    This job deletes APScheduler job execution entries older than `max_age` from the database.
-    It helps prevent the database from filling up with old historical records.
-    """
+    """Удаляет старые записи о выполнении задач из базы данных."""
     DjangoJobExecution.objects.delete_old_job_executions(max_age)
 
 
@@ -40,7 +37,8 @@ def start():
 
     scheduler.add_job(
         cbr_key_indicators,
-        trigger=CronTrigger(hour='3', minute='0'),  # Каждый день в 03:00
+        # trigger=CronTrigger(minute="*"), # 1 каждую минуту
+        trigger=CronTrigger(hour=3, minute=0),  # Ежедневная задача в 3 часа ночи
         id="cbr_key_indicators",
         max_instances=1,
         replace_existing=True,
@@ -48,12 +46,11 @@ def start():
 
     scheduler.add_job(
         await_rating_calc,
-        trigger=CronTrigger(day=1, hour='0', minute='0'),  # выполнить 1 числа каждого месяца в 0 часов 0 минут
+        trigger=CronTrigger(day=1, hour=0, minute=0),  # выполнить 1 числа каждого месяца в 0 часов 0 минут
         id="calculate_rating",  # The same `id` defined in `apscheduler.jobstores`
         max_instances=1,
         replace_existing=True,
     )
-    logger.info("Added job 'await_rating_calc'.")
 
     scheduler.add_job(
         delete_old_job_executions,
@@ -63,9 +60,4 @@ def start():
         replace_existing=True,
     )
 
-    logger.info("Added job 'delete_old_job_executions'.")
-
     scheduler.start()
-    logger.info("Scheduler started!")
-
-    return scheduler

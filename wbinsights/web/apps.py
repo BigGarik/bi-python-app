@@ -1,10 +1,6 @@
+import os
+
 from django.apps import AppConfig
-from django.db.models.signals import post_migrate
-
-
-def start_scheduler(sender, **kwargs):
-    from web.scheduler import start
-    start()
 
 
 class WebConfig(AppConfig):
@@ -12,7 +8,6 @@ class WebConfig(AppConfig):
     name = 'web'
 
     def ready(self):
-        import web.models.users
-        post_migrate.connect(start_scheduler, sender=self)
-
-
+        if os.environ.get('RUN_MAIN') == 'true':  # Проверка на основной процесс
+            from web import scheduler
+            scheduler.start()
