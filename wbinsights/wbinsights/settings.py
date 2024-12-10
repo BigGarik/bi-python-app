@@ -27,11 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
-# https://0f84-176-74-217-47.ngrok-free.app
-ALLOWED_HOSTS = ["*"]
-# CSRF_TRUSTED_ORIGINS=["https://0f84-176-74-217-47.ngrok-free.app/"]
+
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
 
 
 # Application definition
@@ -56,12 +57,9 @@ INSTALLED_APPS = [
     'django_recaptcha',
     'rest_framework',
     'django_apscheduler',
-    'django_mobile',
-
-    # 'debug_toolbar',  # Закомментировать перед пушем
+    # 'django_mobile',
     'hitcount',
     'zoomus',
-
 ]
 
 SITE_ID = 1
@@ -75,9 +73,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',  # Закомментировать перед пушем
 
     # 'django.middleware.locale.LocaleMiddleware',
 ]
@@ -106,18 +101,18 @@ TEMPLATES = [
     },
 ]
 
-TEMPLATE_LOADERS = [
-    'django_mobile.loader.Loader'
-]
+# TEMPLATE_LOADERS = [
+#     'django_mobile.loader.Loader'
+# ]
+#
+# TEMPLATE_CONTEXT_PROCESSORS = [
+#     'django_mobile.context_processors.flavour',
+# ]
 
-TEMPLATE_CONTEXT_PROCESSORS = [
-    'django_mobile.context_processors.flavour',
-]
-
-MIDDLEWARE_CLASSES = [
-    'django_mobile.middleware.MobileDetectionMiddleware',
-    'django_mobile.middleware.SetFlavourMiddleware'
-]
+# MIDDLEWARE_CLASSES = [
+#     'django_mobile.middleware.MobileDetectionMiddleware',
+#     'django_mobile.middleware.SetFlavourMiddleware'
+# ]
 
 WSGI_APPLICATION = 'wbinsights.wsgi.application'
 
@@ -126,18 +121,13 @@ WSGI_APPLICATION = 'wbinsights.wsgi.application'
 
 
 DATABASES = {
-
-    'default0': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('DATABASE'),
         'USER': env('USER_DB'),
         'PASSWORD': env('PASSWORD_DB'),
         'HOST': env('URL_DB'),
-        'PORT': '5432',
+        'PORT': env('PORT_DB'),
     }
 }
 
@@ -257,6 +247,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://cdnjs.cloudflare.com",
     "https://cdn.jsdelivr.net",
 ]
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
 
 LOGGING = {
     'version': 1,
@@ -283,6 +275,11 @@ LOGGING = {
             'handlers': ['console', 'file'],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'critical': {
+            'handlers': ['file'],
+            'level': 'CRITICAL',
+            'propagate': False,
         },
         'django-info': {
             'handlers': ['console', 'file'],
