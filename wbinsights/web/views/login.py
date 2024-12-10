@@ -185,8 +185,13 @@ class UserPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
     title = "Password change"
     success_message = "Password changed successfully."
 
+    def dispatch(self, request, *args, **kwargs):
+        # Проверка AJAX-запроса
+        self.is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request, *args, **kwargs):
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if self.is_ajax:
             form = self.get_form()
             context = self.get_context_data(form=form)
             html = render_to_string(self.template_name, context, request=request)
@@ -198,12 +203,23 @@ class UserPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
         if form.is_valid():
             form.save()
             messages.success(request, self.success_message)
-            # return JsonResponse({'success': True, 'message': self.success_message, 'redirect_url': str(self.success_url)})
+
+            if self.is_ajax:
+                return JsonResponse({
+                    'success': True,
+                    'message': self.success_message,
+                    'redirect_url': str(self.success_url)
+                })
             return redirect(self.get_success_url())
         else:
-            context = self.get_context_data(form=form)
-            html = render_to_string(self.template_name, context, request=request)
-            return JsonResponse({'success': False, 'html': html})
+            if self.is_ajax:
+                context = self.get_context_data(form=form)
+                html = render_to_string(self.template_name, context, request=request)
+                return JsonResponse({
+                    'success': False,
+                    'html': html
+                })
+            return self.form_invalid(form)
 
 
 class UserPasswordResetView(SuccessMessageMixin, PasswordResetView):
