@@ -137,12 +137,7 @@
         {% include 'profile_question_list.html' with user=user %}
     {% elif request.GET.tab == "consultations"  and request.path == '/profile' %}
         <div id="consultations" class="expert-content">
-            {% device_is_mobile as is_mobile %}
-            {% if is_mobile %}
-                {% include 'components/appointment/calendar_mobile.html' %}
-            {% else %}
-                {% include 'components/appointment/calendar.html' %}
-            {% endif %}
+            {% include 'components/appointment/calendar_mobile.html' %}
         </div>
     {% elif request.GET.tab == "reviews" %}
         {# reviews_template #}
@@ -215,10 +210,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const activeMobileTab = document.querySelector('.nav-pills-mobile .nav-link.active');
         if (activeMobileTab) {
-            console.log("Found active mobile tab:", activeMobileTab);
+            //console.log("Found active mobile tab:", activeMobileTab);
             activeMobileTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         } else {
-            console.log("No active mobile tab found");
+            //console.log("No active mobile tab found");
         }
     }
 

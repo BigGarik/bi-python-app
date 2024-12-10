@@ -23,12 +23,7 @@
     </div>
 
     <div id="client-calendar" class="element-container basepost-content-mobile-bottom-padding" style="margin-top: 10px">
-        {% device_is_mobile as is_mobile %}
-        {% if is_mobile %}
-            {% include 'components/appointment/calendar_mobile.html' with calendar_event_id='event-calendar' %}
-        {% else %}
-            {% include 'components/appointment/calendar.html' with calendar_event_id='event-calendar' %}
-        {% endif %}
+        {% include 'components/appointment/calendar_mobile.html' with calendar_event_id='event-calendar' %}
     </div>
 
 
