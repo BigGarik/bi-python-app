@@ -1,25 +1,54 @@
 {% load web_tags %}
 {% load static %}
 
+<style>
+    .nav-link {
+        border-radius: 4px;
+        transition: background-color 0.15s;
+    }
+
+    .nav-link:hover {
+        background-color: #e9ecef;
+    }
+
+    .nav-link.selected {
+        background-color: black;
+        color: white !important;
+    }
+</style>
+
+<nav>
+
+    <ul class="nav flex-column bg-white rounded-3">
+
+        <li class="nav-item mb-2">
+            <a class="nav-link text-dark d-flex align-items-center {% if request.path == '/contact/' %}selected{% endif %}">
+                О ресурсе
+            </a>
+        </li>
+
+        <li class="nav-item mb-2">
+            <a class="nav-link text-dark d-flex align-items-center {% if request.path == '#' %}selected{% endif %}"
+               href="#">
+                <span>Правила</span>
+            </a>
+        </li>
+
+        <li class="nav-item mb-2">
+            <a class="nav-link text-dark d-flex align-items-center {% if request.path == '/data_policies/' %}selected{% endif %}"
+               href="{% url 'data_policies' %}">
+                <span>Политика обработки данных</span>
+            </a>
+        </li>
+
+        <li class="nav-item mb-2">
+            <a class="nav-link text-dark d-flex align-items-center {% if request.path == '/contact_us/' %}selected{% endif %}"
+               href="{% url 'contact_us' %}">
+                <span>Написать нам</span>
+            </a>
+        </li>
+
+    </ul>
 
 
-<nav class="navbar contact">
-    <div class="container-fluid-nav-contact container-fluid-right">
-        <a class="navbar-brand-contact {% if request.path == '/contact/' %}selected{% endif %}"
-           href="{% url 'contact' %}">
-            <span>О ресурсе</span>
-        </a>
-        <a class="navbar-brand-contact {% if request.path == '#' %}selected{% endif %}"
-           href="#">
-            <span>Правила</span>
-        </a>
-        <a class="navbar-brand-contact {% if request.path == '/data_policies/' %}selected{% endif %}"
-           href="{% url 'data_policies' %}">
-            <span>Политика обработки данных</span>
-        </a>
-        <a class="navbar-brand-contact {% if request.path == '/contact_us/' %}selected{% endif %}"
-           href="{% url 'contact_us' %}">
-            <span>Написать нам</span>
-        </a>
-    </div>
 </nav>
