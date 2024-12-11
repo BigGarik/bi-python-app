@@ -60,25 +60,22 @@
                 min-height: 100vh;
             }
     
-            .container {
-                width: 1600px;
-                height: 1600px
-            }
+            
     
         </style>
     </head>
     
-    <body>
+    <body class="bg-light">
     
         <div id="overlay"></div> <!-- Dimming overlay -->
     
-        <div class="container-wrapper bg-light">
+        <div class="container-wrapper">
         
             {% include 'base_header.html' %}
         
             {% include 'includes/warning_notification.html' %}   
         
-            <div class="container">
+            <div class="container-fluid" style="max-width: 1600px">
                 {% block content %} {% endblock %}
             </div>
         
