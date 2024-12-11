@@ -3,161 +3,95 @@
 <!DOCTYPE html>
 <html lang="ru">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="Получите профессиональные онлайн консультации по ключевым направлениям: Банки, Финансы,
-     ИТ, Бизнес-коучинг и Юридические вопросы. Эксперты готовы помочь вам быстро и качественно в решении ваших задач.">
-
-    <link rel="shortcut icon" type="image/png" href="{% static 'web/images/favicon.png' %}?ver=0.01">
-    <link rel="stylesheet" href="{% static 'web/css/header.css' %}?ver=0.01">
-    <link rel="stylesheet" href="{% static 'web/css/navbar.css' %}?ver=0.01">
-    <link rel="stylesheet" href="{% static 'web/css/mainPage.css' %}?ver=0.01">
-    <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}?ver=0.01">
-    <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}?ver=0.01">
-
-    <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap-icons.min.css' %}?ver=0.01">
-    <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap.min.css' %}?ver=0.01">
-    <script src="{% static 'web/js/bootstrap/5.3.3/bootstrap.bundle.min.js' %}?ver=0.01"></script>
-
-    <script src="{% static 'web/js/jquery/jquery-3.6.0.min.js' %}?ver=0.01"></script>
-    <script src="{% static 'web/js/jquery/ui/1.13.1/jquery-ui.min.js' %}?ver=0.01"></script>
-
-    <link rel="stylesheet" href="{% static 'web/css/select2/4.0.13/select2.min.css' %}?ver=0.01">
-    <script src="{% static 'web/js/select2/4.0.13/select2.min.js' %}?ver=0.01"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.iife.js" defer init></script>
-
-
-    <title>{% block title %}{% endblock %}</title>
-
-    {% block extra_static %} {% endblock %}
-
-    <style>
-        @media (max-width: 768px) {
-            body:not(.justwidget-iframe--content) #widget-root {
-                height: 0 !important;
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <meta name="description" content="Получите профессиональные онлайн консультации по ключевым направлениям: Банки, Финансы,
+         ИТ, Бизнес-коучинг и Юридические вопросы. Эксперты готовы помочь вам быстро и качественно в решении ваших задач.">
+    
+        <link rel="shortcut icon" type="image/png" href="{% static 'web/images/favicon.png' %}?ver=0.01">
+        <link rel="stylesheet" href="{% static 'web/css/header.css' %}?ver=0.01">
+        <link rel="stylesheet" href="{% static 'web/css/navbar.css' %}?ver=0.01">
+        <link rel="stylesheet" href="{% static 'web/css/mainPage.css' %}?ver=0.01">
+        <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}?ver=0.01">
+        <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}?ver=0.01">
+    
+        <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap-icons.min.css' %}?ver=0.01">
+        <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap.min.css' %}?ver=0.01">
+        <script src="{% static 'web/js/bootstrap/5.3.3/bootstrap.bundle.min.js' %}?ver=0.01"></script>
+    
+        <script src="{% static 'web/js/jquery/jquery-3.6.0.min.js' %}?ver=0.01"></script>
+        <script src="{% static 'web/js/jquery/ui/1.13.1/jquery-ui.min.js' %}?ver=0.01"></script>
+    
+        <link rel="stylesheet" href="{% static 'web/css/select2/4.0.13/select2.min.css' %}?ver=0.01">
+        <script src="{% static 'web/js/select2/4.0.13/select2.min.js' %}?ver=0.01"></script>
+    
+        <link href="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.iife.js" defer init></script>
+    
+    
+        <title>{% block title %}{% endblock %}</title>
+    
+        {% block extra_static %} {% endblock %}
+    
+        <style>
+            @media (max-width: 768px) {
+                body:not(.justwidget-iframe--content) #widget-root {
+                    height: 0 !important;
+                }
             }
-        }
-
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif !important;
-        <!-- system-ui ? --> background-color: #2980b9;
-            font-family: monaco, Consolas, Lucida Console, monospace;
-        }
-
-    </style>
-</head>
-
-<body style="background-color: #f2f3f5;height: 1600px;">
-
-<div id="overlay"></div> <!-- Dimming overlay -->
-
-<div class="container-fluid">
-
-    {% include 'base_header.html' %}
-
-    {% if request.user.is_authenticated %}
-        {% if request.user.profile.type == 1 and not request.user.expertanketa.is_verified %}
-            <div class="container-fluid verify-account-cont bg-warning">
-                <p class="verify-account-text" style="margin: 0px !important;">{% trans 'VerifyAccountLabel' %}</p>
-            </div>
-        {% endif %}
-    {% endif %}
-
-    <div class="row row-margin">
-        {% block content %} {% endblock %}
-    </div>
-
-    <div id="mobile-nav" class="d-flex d-sm-none">
-        <a href="{% url 'index' %}" class="nav-item">
-            <i class="bi bi-house-door-fill" style="color: grey; font-size: 26px;"></i>
-        </a>
-        {% if user.is_authenticated %}
-            <a href="#" class="nav-item">
-                <i class="bi bi-chat-left-text-fill" style="color: grey; font-size: 26px;"></i>
-            </a>
-            <a class="nav-item">
-                <i class="bi bi-bell-fill" style="color: grey; font-size: 26px;"></i>
-            </a>
-            <div class="dropdown nav-item">
-                <button class="btn btn-secondary dropdown-toggle" type="button"
-                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false"
-                        style="background-color: inherit; border: none; margin: 0; padding: 0;">
-                    <img src="{{ user.profile.avatar.url }}" alt="Avatar"
-                         style="height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
-                     style="padding: 0; transform: translate(-130px, 10px);">
-                    <div class="header-profile-cont">
-                        <a href="{% url 'profile' %}?tab=articles" class="profile-page-btn prof-page-btn-styles">
-                            <i class="bi bi-person-fill" style="margin-right: 10px; scale: 1.2;"></i>&nbsp;
-                            {% trans 'PersonalAccountLabel' %}
-                        </a>
-                        <form method="post" action="{% url 'logout' %}" class="logout-form">
-                            {% csrf_token %}
-                            <button class="logout-btn logout-btn" type="submit">
-                                <i class="bi bi-box-arrow-right" style="scale: 1.1;"></i>&nbsp;
-                                {% trans 'LogoutButtonLabel' %}
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        {% else %}
-            <a href="{% url 'login' %}">
-                <button type="button" class="btn btn-dark logout-btn-style"
-                        style="font-size: 16px !important"
-                        style="font-size: 18px ; background-color: #4a4a5e !important;">{% trans 'LoginBtnLabel' %}</button>
-            </a>
-        {% endif %}
-    </div>
-
-</div>
-
-
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function (m, e, t, r, i, k, a) {
-        m[i] = m[i] || function () {
-            (m[i].a = m[i].a || []).push(arguments)
-        };
-        m[i].l = 1 * new Date();
-        for (var j = 0; j < document.scripts.length; j++) {
-            if (document.scripts[j].src === r) {
-                return;
+    
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif !important;
+            <!-- system-ui ? --> background-color: #2980b9;
+                font-family: monaco, Consolas, Lucida Console, monospace;
+                font-size: 14px;
             }
-        }
-        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-    })
-    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-    ym(98346427, "init", {
-        clickmap: true,
-        trackLinks: true,
-        accurateTrackBounce: true
-    });
-</script>
-<noscript>
-    <div><img src="https://mc.yandex.ru/watch/98346427" style="position:absolute; left:-9999px;" alt=""/></div>
-</noscript>
-<!-- /Yandex.Metrika counter -->
-
-<script src="https://bot.jaicp.com/chatwidget/uWpfQZHU:454c92c06f0c61d1c8fb0f39df8e426da9dd0dde/justwidget.js?force=true"
-        async></script>
-
-<script>
-
-
-</script>
-
-
-</body>
+    
+            .container-wrapper {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+    
+            .container {
+                width: 1366px;
+                height: 1600px
+            }
+    
+        </style>
+    </head>
+    
+    <body>
+    
+        <div id="overlay"></div> <!-- Dimming overlay -->
+    
+        <div class="container-wrapper bg-light">
+        
+            {% include 'base_header.html' %}
+        
+            {% include 'includes/warning_notification.html' %}   
+        
+            <div class="container">
+                {% block content %} {% endblock %}
+            </div>
+        
+            {% include 'includes/mobile_navigation_bat.html' %}
+        
+        </div>
+    
+    
+    
+        <script src="https://bot.jaicp.com/chatwidget/uWpfQZHU:454c92c06f0c61d1c8fb0f39df8e426da9dd0dde/justwidget.js?force=true"
+                async></script>
+    
+    
+    </body>
 
 </html>

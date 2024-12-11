@@ -7,21 +7,19 @@
 
 
 {% block center_col %}
+    
     <link rel="stylesheet" href="{% static 'web/css/basepost_list_css.css' %}?ver=0.01">
 
-
-
+    
     {% include 'components/news_carousel_component.html' %}
-
-
+    
     <div class="d-block d-xl-none">
         {% include "components/left_menu/advertisement_left_menu.html" %}
     </div>
 
-    <div>
-        {% include 'components/cbr_rates.html' %}
-    </div>
-
+    
+    {% include 'components/cbr_rates.html' %}
+    
 
     {% split request.path "/" 'first' as url_first_part %}
 

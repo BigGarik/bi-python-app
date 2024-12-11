@@ -6,9 +6,9 @@
 
 {% show_cbr_rates as rates %}
 {% if rates %}
-    <div class="cbr-rates-container element-container">
+    <div class="cbr-rates-containe1r bg-white p-3 mb-3">
         <!-- desktop view >=1480px -->
-        <div class="rates-content d-none d-1480-flex">
+        <div class="rates-content d-none d-1480-flex flex-nowrap">
 
             <div class="rate-labels">Курсы валют</div>
             {% for currency, data in rates.items %}
@@ -30,16 +30,15 @@
                 {% endif %}
 
             {% endfor %}
+        
             <div class="key-rate-item">
                 <div class="rate-labels">Ключевая ставка</div>
                 <div class="rate-labels rate-date">с {{ rates.KEY_RATE.last_change_date }}</div>
-                <div class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
-                    {{ rates.KEY_RATE.current_rate }} %
-                </div>
-                <span class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
-                    {% if rates.KEY_RATE.current_rate > 0 %}↑{% else %}↓{% endif %}
-                </span>
+                <div class="arrow arrow-{% if rates.KEY_RATE.current_rate > 0 %}up{% else %}down{% endif %}">
+                    {{ rates.KEY_RATE.current_rate }} % {% if rates.KEY_RATE.current_rate > 0 %}↑{% else %}↓{% endif %}
+                </div>             
             </div>
+        
         </div>
 
         <!-- mobile view <1480px -->
