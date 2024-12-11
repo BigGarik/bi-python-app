@@ -539,7 +539,12 @@
     let ec;
 
     function addToolbarButtonBootstrapClasses() {
-        $('div.ec-end > button:not(:last)').addClass("btn btn-outline-primary").removeClass("ec-button");
+        if (!{{ mobile|lower }}) {
+            $('div.ec-end > button:not(:last)').addClass("btn btn-outline-primary").removeClass("ec-button");
+        } else {
+            $('div.ec-end > button:not(:last)').addClass("btn btn-primary").removeClass("ec-button");
+        }
+
         $('div.ec-end > button:last').addClass("btn btn-primary").removeClass("ec-button");
 
         let date_title = $('.ec-title');
@@ -557,7 +562,7 @@
         today: 'сегодня',
         listWeek: 'список'
     }
-    
+
     function viewSettings(viewType) {
 
         if ({{ mobile|lower }}) {
@@ -714,7 +719,7 @@
             }
 
         };
-        
+
         $('#event-calendar').html('');
         ec = new EventCalendar(document.getElementById(calendar_element_id), options);
 
@@ -777,7 +782,7 @@
 
     function wrapCalendar() {
 
-        if (true) return;
+       // if (true) return;
 
         var $calendarContainer = $('.ec');
 
