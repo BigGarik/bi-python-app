@@ -3,92 +3,96 @@
 <!DOCTYPE html>
 <html lang="ru">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <meta name="description" content="Получите профессиональные онлайн консультации по ключевым направлениям: Банки, Финансы,
+    <meta name="description" content="Получите профессиональные онлайн консультации по ключевым направлениям: Банки, Финансы,
          ИТ, Бизнес-коучинг и Юридические вопросы. Эксперты готовы помочь вам быстро и качественно в решении ваших задач.">
 
-        <link rel="shortcut icon" type="image/png" href="{% static 'web/images/favicon.png' %}?ver=0.01">
-        <link rel="stylesheet" href="{% static 'web/css/header.css' %}?ver=0.01">
-        <link rel="stylesheet" href="{% static 'web/css/navbar.css' %}?ver=0.01">
-        <link rel="stylesheet" href="{% static 'web/css/mainPage.css' %}?ver=0.01">
-        <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}?ver=0.01">
-        <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}?ver=0.01">
+    <link rel="shortcut icon" type="image/png" href="{% static 'web/images/favicon.png' %}?ver=0.01">
+    <link rel="stylesheet" href="{% static 'web/css/header.css' %}?ver=0.01">
+    <link rel="stylesheet" href="{% static 'web/css/navbar.css' %}?ver=0.01">
+    <link rel="stylesheet" href="{% static 'web/css/mainPage.css' %}?ver=0.01">
+    <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}?ver=0.01">
+    <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}?ver=0.01">
 
-        <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap-icons.min.css' %}?ver=0.01">
-        <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap.min.css' %}?ver=0.01">
-        <script src="{% static 'web/js/bootstrap/5.3.3/bootstrap.bundle.min.js' %}?ver=0.01"></script>
+    <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap-icons.min.css' %}?ver=0.01">
+    <link rel="stylesheet" href="{% static 'web/css/bootstrap/5.3.3/bootstrap.min.css' %}?ver=0.01">
+    <script src="{% static 'web/js/bootstrap/5.3.3/bootstrap.bundle.min.js' %}?ver=0.01"></script>
 
-        <script src="{% static 'web/js/jquery/jquery-3.6.0.min.js' %}?ver=0.01"></script>
-        <script src="{% static 'web/js/jquery/ui/1.13.1/jquery-ui.min.js' %}?ver=0.01"></script>
+    <script src="{% static 'web/js/jquery/jquery-3.6.0.min.js' %}?ver=0.01"></script>
+    <script src="{% static 'web/js/jquery/ui/1.13.1/jquery-ui.min.js' %}?ver=0.01"></script>
 
-        <link rel="stylesheet" href="{% static 'web/css/select2/4.0.13/select2.min.css' %}?ver=0.01">
-        <script src="{% static 'web/js/select2/4.0.13/select2.min.js' %}?ver=0.01"></script>
+    <link rel="stylesheet" href="{% static 'web/css/select2/4.0.13/select2.min.css' %}?ver=0.01">
+    <script src="{% static 'web/js/select2/4.0.13/select2.min.js' %}?ver=0.01"></script>
 
-        <link href="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.iife.js" defer init></script>
+    <link href="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/shareon@2/dist/shareon.iife.js" defer init></script>
 
 
-        <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
 
-        {% block extra_static %} {% endblock %}
+    {% block extra_static %} {% endblock %}
 
-        <style>
-            @media (max-width: 768px) {
-                body:not(.justwidget-iframe--content) #widget-root {
-                    height: 0 !important;
-                }
+    <style>
+        @media (max-width: 768px) {
+            body:not(.justwidget-iframe--content) #widget-root {
+                height: 0 !important;
             }
+        }
 
-            body {
-                height: 100%;
-                margin: 0;
-                padding: 0;
-                font-family: Arial, sans-serif !important;
-            <!-- system-ui ? --> background-color: #2980b9;
-                font-family: monaco, Consolas, Lucida Console, monospace;
-                font-size: 14px;
+        @media (min-width: 1400px) {
+            .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+                max-width: 1520px;
             }
+        }
 
-            .container-wrapper {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-            }
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif !important;
+        <!-- system-ui ? --> background-color: #2980b9;
+            font-family: monaco, Consolas, Lucida Console, monospace;
+            font-size: 14px;
+        }
 
-
-
-        </style>
-    </head>
-
-    <body class="bg-light">
-
-        <div id="overlay"></div> <!-- Dimming overlay -->
-
-        <div class="container-wrapper">
-
-            {% include 'base_header.html' %}
-
-            {% include 'includes/warning_notification.html' %}
-
-            <div class="container" >
-                {% block content %} {% endblock %}
-            </div>
-
-            {% include 'includes/mobile_navigation_bat.html' %}
-
-        </div>
+        .container-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
 
+    </style>
+</head>
 
-        <script src="https://bot.jaicp.com/chatwidget/uWpfQZHU:454c92c06f0c61d1c8fb0f39df8e426da9dd0dde/justwidget.js?force=true"
-                async></script>
+<body class="bg-light">
+
+<div id="overlay"></div> <!-- Dimming overlay -->
+
+<div class="container-wrapper">
+
+    {% include 'base_header.html' %}
+
+    {% include 'includes/warning_notification.html' %}
+
+    <div class="container">
+        {% block content %} {% endblock %}
+    </div>
+
+    {% include 'includes/mobile_navigation_bat.html' %}
+
+</div>
 
 
-    </body>
+<script src="https://bot.jaicp.com/chatwidget/uWpfQZHU:454c92c06f0c61d1c8fb0f39df8e426da9dd0dde/justwidget.js?force=true"
+        async></script>
+
+
+</body>
 
 </html>
