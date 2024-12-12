@@ -3,49 +3,33 @@
 {% load static %}
 
 {% block content %}
-    <link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}">
-    
-    <style>
-        @media (max-width: 767px) {
-            .mobile-screens-padds {
-                padding-right: 0px !important;
-                padding-left: 0px !important;
-            }
-        }
-        
-        .content {
-            gap:20px;
-            display: flex;
-            flex-direction: column;
-        }
-    
-    </style>
 
-<div class="container-fluid">
-    <div class="row flex-nowrap" style="margin-right: 0; margin-left: 0">
+    {#<link rel="stylesheet" href="{% static 'web/css/custom-bootstrap.css' %}">#}
 
-        <aside class=" col-sm-0-5 col-md-1 d-none d-md-block" style="position: sticky; top: 0; height: 100vh;"></aside>
+    <div class="row">
 
-        <aside class="col-sm-2 d-none d-xl-block col-lg-2-5" style="position: sticky; top: 0; height: 100vh;">
-            {% include "components/left_menu/left_main_menu.html" %}
-        </aside>
+        <div class="d-none d-xl-block col-xl-3 mt-3" style="position: sticky; top: 0; height: 100vh;">
+            <div class="p-1 mt-2 bg-light">
+                {% include "components/left_menu/left_main_menu.html" %}
+            </div>
+        </div>
 
-        <main class="mobile-screens-padds col-sm-7 col-md-7 col-lg-7 col-xl-6" >
-            <div class="content">
+        <div class="col-sm-12 col-md-8 col-lg-8 col-xl-6 col-xxl-6 mt-3">
+            <div class="mt-2">
                 {% block center_col %}{% endblock %}
             </div>
-        </main>
+        </div>
 
-        <aside class="col-sm-5 col-md-4 d-none d-sm-block col-lg-2-5" style="position: sticky; top: 0; height: 100vh;">
-            {% block right_aside %}
-                {% include "components/experts/main_page_list.html" %}
-            {% endblock %}
+        <div class="d-none d-md-block col-md-4 col-lg-4 col-xl-3 mt-3" style="position: sticky; top: 0; height: 100vh;">
+            <div class="p-1 mt-2 p-3 bg-white border rounded-3  sticky-top">
+                {% block right_aside %}
+                    {% include "components/experts/main_page_list.html" %}
+                {% endblock %}
+            </div>
+        </div>
 
-        </aside>
 
-        <aside class="col-sm-0-5 col-md-1 d-none d-md-block" style="position: sticky; top: 0; height: 100vh;"></aside>
     </div>
-</div>
 
 
 {% endblock %}

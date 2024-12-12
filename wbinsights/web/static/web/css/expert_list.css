@@ -201,7 +201,7 @@
     }
 
     .user-stats {
-        font-size: 15px;
+        font-size: 12px;
         padding: 0px;
     }
 
@@ -236,6 +236,7 @@
     .user-stats {
         margin-bottom: 0px !important;
         justify-content: flex-end !important;
+        font-size: 12px;
     }
 
     .basepost-prof-socials-cont{

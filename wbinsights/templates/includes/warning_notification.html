@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{% if request.user.is_authenticated %}
+    {% if request.user.profile.type == 1 and not request.user.expertanketa.is_verified %}
+        <div class="container-fluid verify-account-cont bg-warning">
+            <p class="verify-account-text" style="margin: 0px !important;">{% trans 'VerifyAccountLabel' %}</p>
+        </div>
+    {% endif %}
+{% endif %}

@@ -1,14 +1,14 @@
 {% load static %}
 {% load i18n %}
-
+{% load web_tags %}
 
 
 
 {% block extra_static %}
 
     {#    <script src="{% static 'js/event-calendar/event-calendar.min.js' %}"></script>#}
-    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.4.0/event-calendar.min.js"></script>
-    <link rel="stylesheet" href="{% static 'css/event-calendar/event-calendar.min.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.7.1/event-calendar.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@3.7.1/event-calendar.min.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     {#    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>#}
@@ -45,13 +45,11 @@
         gap: 5px !important;
     }
 
-
-    .ec-center .ec-active {
+    .ec-end .ec-active {
         background-color: #007bff;
         color: white;
         border-color: #007bff;
     }
-
 
     .ec-event {
         height: 60px !important;
@@ -62,11 +60,6 @@
     .ec-header {
         max-height: 30px !important;
     }
-
-    /*
-    .ec-time, .ec-line {
-        height: 50px !important;
-    } */
 
     .ec-time-grid .ec-time, .ec-time-grid .ec-line {
         height: 70px;
@@ -124,35 +117,29 @@
     }
 
 
-
-
 </style>
 
 
 <div id="event-calendar"></div>
+<div id="viewDropdownMenu" class="dropdown-menu " style="display: none; z-index: 1000;bottom: -10px;right: 10px;"></div>
 
+<div id="color_legend"
+     style="display: flex; flex-wrap:wrap; justify-content: space-between; flex-direction: column; margin-top: 10px;"></div>
 
-<div>
+<div class="modal fade" id="changeViewModal" tabindex="-1" aria-labelledby="appointmentDetailModalLabel"
+     aria-hidden="true">
 
-    {#    <script>#}
-    {##}
-    {#        $(function () {#}
-    {#            const color_legend_div = $('#color_legend');#}
-    {#            status_colors.map((item) => {#}
-    {#                color_legend_div.append(#}
-    {#                    `<div style="display: flex; align-items: center;">#}
-    {#                        <div style="width: 30px; height: 20px; background-color: ${item.color}; margin-right: 5px;"></div>#}
-    {#                        <span>- ${item.name}</span>#}
-    {#                    </div>`)#}
-    {#            })#}
-    {#        })#}
-    {##}
-    {#    </script>#}
-
-    <div id="color_legend"
-         style="display: flex; flex-wrap:wrap; justify-content: space-between; flex-direction: column; margin-top: 10px;"></div>
-
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <ul class="list-group">
+                <li class="list-group-item" onclick="changeView(event, 'timeGridDay')">день</li>
+                <li class="list-group-item" onclick="changeView(event, 'timeGridWeek')">неделя</li>
+                <li class="list-group-item" onclick="changeView(event, 'dayGridMonth')">месяц</li>
+            </ul>
+        </div>
+    </div>
 </div>
+
 
 <div class="modal fade" id="appointmentDetailModal" tabindex="-1" aria-labelledby="appointmentDetailModalLabel"
      aria-hidden="true">
@@ -204,6 +191,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
             </div>
+
         </div>
     </div>
 </div>
@@ -241,6 +229,7 @@
                             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -321,11 +310,22 @@
             height: 200px;
             background: linear-gradient(to right, red 50%, blue 50%);
         }
+
+        .ec-end {
+            display: flex;
+        }
+
+        .ec-scheduleSettings {
+            font-size: 15px;
+        }
     </style>
 
 {% endif %}
 
 {% include 'schedule/expert_schedule.html' %}
+
+
+{% device_is_mobile as mobile %}
 
 <script>
 
@@ -344,9 +344,7 @@
         {status: 1, color: "#e3aa00", name: "Подтвержден"},
         {status: 2, color: "red", name: "Отклонен"},
         {status: 3, color: "brown", name: "Отменен"},
-        {status: 4, color: "green", name: "Оплачен"},
-        {status: 10, color: "lightgrey", name: "Недоступен для бронирования"},
-        {status: 11, color: "#a6db69", name: "Доступен для бронирования"}
+        {status: 4, color: "green", name: "Оплачен"}
     ];
 
     function createSchedule(dates) {
@@ -460,10 +458,10 @@
 
     function createEvent(title, status, start_date, start_time, end_date, end_time, id, type) {
         const titleHTML = `
-        <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 11px">
-            <span>${title}</span>
-        </div>
-    `;
+            <div style="display:flex; flex-wrap: wrap;width: 100%;justify-content: space-between;font-size: 11px">
+                <span>${title}</span>
+            </div>
+        `;
 
         let event = {
             start: `${start_date} ${start_time}`,
@@ -541,8 +539,13 @@
     let ec;
 
     function addToolbarButtonBootstrapClasses() {
-        $('div.ec-center > button').addClass("btn btn-primary dropdown-toggle").removeClass("ec-button");
-        $('div.ec-end > button').addClass("btn btn-primary").removeClass("ec-button");
+        if (!{{ mobile|lower }}) {
+            $('div.ec-end > button:not(:last)').addClass("btn btn-outline-primary").removeClass("ec-button");
+        } else {
+            $('div.ec-end > button:not(:last)').addClass("btn btn-primary").removeClass("ec-button");
+        }
+
+        $('div.ec-end > button:last').addClass("btn btn-primary").removeClass("ec-button");
 
         let date_title = $('.ec-title');
         if (!date_title.parent().is('div[style="display:flex; align-items: center"]')) {
@@ -552,59 +555,94 @@
 
     }
 
-    function changeView(viewType, viewName) {
+    const viewText = {
+        timeGridDay: 'день',
+        timeGridWeek: 'неделя',
+        dayGridMonth: 'месяц',
+        today: 'сегодня',
+        listWeek: 'список'
+    }
+
+    function viewSettings(viewType) {
+
+        if ({{ mobile|lower }}) {
+            return {
+                headerToolbar: {
+                    start: 'prev,title,next',
+                    center: '',
+                    end: 'customViewDropdown scheduleSettings'
+                },
+                customButtons: {
+                    customViewDropdown: {
+                        text: viewText[viewType],
+                        click: function () {
+                            $('#changeViewModal').modal('show');
+                        }
+                    },
+
+                    scheduleSettings: {
+                        text: {
+                            html: '<i class="bi bi-gear" ></i>'
+                        },
+                        click: function () {
+                            showExpertScheduleForm();
+                        }
+                    }
+                }
+            }
+        } else {
+
+            return {
+
+                headerToolbar: {
+                    start: 'prev,title,next',
+                    center: '',
+                    end: 'today timeGridDay timeGridWeek dayGridMonth scheduleSettings'
+                },
+
+                customButtons: {
+
+                    scheduleSettings: {
+                        text: {html: 'Настройки <i class="bi bi-gear" ></i>'},
+                        click: function () {
+                            showExpertScheduleForm();
+                        }
+
+                    },
+                }
+            }
+        }
+    }
+
+    function changeView(e, viewType) {
+        e.preventDefault()
         if (ec) {
             ec.setOption('view', viewType);
-            updateDropdownButtonText(viewName);
+            ec.setOption('customButtons', viewSettings(viewType).customButtons);
+            $('#changeViewModal').modal('hide');
+
         } else {
             console.error('Calendar instance is not initialized.');
         }
     }
 
-    function updateDropdownButtonText(text) {
-        const dropdownButton = document.querySelector('.ec-button.ec-customViewDropdown');
-        if (dropdownButton) {
-            dropdownButton.textContent = text;
-        }
-    }
+    $(document).on('click', function (e) {
+        $('#changeViewModal').modal("hide");
+    });
 
     function createEventCalendar(calendar_element_id, initialView = 'timeGridWeek') {
+
         const options = {
             view: initialView,
-            headerToolbar: {
-                start: 'prev,title,next',
-                center: 'customViewDropdown',
-                end: 'scheduleSettings'
-            },
+            headerToolbar: viewSettings(initialView).headerToolbar,
             eventSources: [{events: fetchAppointments}],
-            customButtons: {
-                customViewDropdown: {
-                    text: getInitialViewText(initialView),
-                    click: function () {
-                        const dropdownMenu = document.getElementById('viewDropdownMenu');
-                        dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
-                    }
-                },
-                scheduleSettings: {
-                    text: {html: '<i class="bi bi-gear" ></i>'},
-                    click: function () {
-                        showExpertScheduleForm();
-                        addToolbarButtonBootstrapClasses();
-                    }
-                }
-            },
+            customButtons: viewSettings(initialView).customButtons,
             slotDuration: '01:00:00',
             slotLabelInterval: '01:00',
             slotMinTime: '00:00:00',
             slotMaxTime: '24:00:00',
             slotHeight: 70,
-            buttonText: {
-                timeGridDay: 'день',
-                timeGridWeek: 'неделя',
-                dayGridMonth: 'месяц',
-                today: 'сегодня',
-                listWeek: 'список'
-            },
+            buttonText: viewText,
             dayHeaderFormat: function (date) {
                 const day = date.getDay();
                 //const dateOfMonth = date.getDate();
@@ -655,12 +693,21 @@
             nowIndicator: true,
             highlightedDates: schedule,
             eventDurationEditable: false,
-            selectable: user_type == 1,
+            selectable: true,
             {% if request.path == '/profile' and request.user.profile.type == 1 %}
                 select: function (info) {
                     loadCustomDateRange(info);
                 },
             {% endif %}
+            datesSet: function (info) {
+
+                addToolbarButtonBootstrapClasses();
+
+                if (info.view.type == 'timeGridDay') {
+                    return;
+                }
+                wrapCalendar()
+            },
             eventClick: function (c_event) {
                 if (c_event.event.extendedProps.type == 'appointment_as_expert')
                     loadExpertAppointment(c_event.event.id);
@@ -669,86 +716,24 @@
                 else if (c_event.event.extendedProps.type == 'extradate')
                     loadExtraDate(c_event.event.id);
 
-                addToolbarButtonBootstrapClasses();
-            },
-            datesSet: function (dateInfo) {
-                addToolbarButtonBootstrapClasses();
-            },
-            viewDidMount: function (info) {
-                ec.getOption('theme').button = 'btn bnt-primary';
-                console.log(ec.getOption('theme').button);
-                addToolbarButtonBootstrapClasses();
-            },
-            buttonClick: function (button, e) {
-                setTimeout(addToolbarButtonBootstrapClasses, 0);
             }
+
         };
 
-        $(document).ready(function () {
-            if ($('#' + calendar_element_id).length) {
-                const dropdownHtml = `
-                <div id="viewDropdownMenu" class="dropdown-menu " style="display: none; position: absolute; z-index: 1000;bottom: -10px;right: 10px;">
-                    <a class="dropdown-item" href="#" data-view="timeGridDay">день</a>
-                    <a class="dropdown-item" href="#" data-view="timeGridWeek">неделя</a>
-                    <a class="dropdown-item" href="#" data-view="dayGridMonth">месяц</a>
-                </div>
-            `;
-                $('#' + calendar_element_id).append(dropdownHtml);
-
-                ec = new EventCalendar(document.getElementById(calendar_element_id), options);
-
-                $('#viewDropdownMenu').on('click', '.dropdown-item', function (e) {
-                    e.preventDefault();
-                    const viewType = $(this).data('view');
-                    const viewName = $(this).text();
-                    changeView(viewType, viewName);
-                    $('#viewDropdownMenu').hide();
-                });
-
-                $(document).on('click', function (e) {
-                    if (!$(e.target).closest('.ec-customViewDropdown, #viewDropdownMenu').length) {
-                        $('#viewDropdownMenu').hide();
-                    }
-                });
-
-                setTimeout(() => {
-                    const button = document.querySelector('.ec-button.ec-customViewDropdown');
-                    const dropdownMenu = document.getElementById('viewDropdownMenu');
-                    if (button && dropdownMenu) {
-                        const rect = button.getBoundingClientRect();
-                        dropdownMenu.style.top = `${rect.bottom}px`;
-                        dropdownMenu.style.left = `${rect.left}px`;
-                    }
-                }, 0);
-
-                addToolbarButtonBootstrapClasses();
-            } else {
-                console.error('Calendar element not found.');
-            }
-        });
+        $('#event-calendar').html('');
+        ec = new EventCalendar(document.getElementById(calendar_element_id), options);
 
     }
-
-    function getInitialViewText(view) {
-        switch (view) {
-            case 'timeGridDay':
-                return 'День';
-            case 'timeGridWeek':
-                return 'Неделя';
-            case 'dayGridMonth':
-                return 'Месяц';
-            default:
-                return 'Неделя';
-        }
-    }
-
 
     function getUsersAppointments() {
         createEventCalendar('event-calendar');
-        setTimeout(addToolbarButtonBootstrapClasses, 0);
     }
 
-    getUsersAppointments();
+    $(document).ready(function () {
+        getUsersAppointments();
+    })
+
+
 
     $(function () {
         const color_legend_div = $('#color_legend');
@@ -795,9 +780,11 @@
         $('#selectDateRangeModal').modal('show');
     }
 
+    function wrapCalendar() {
 
-    $(document).ready(function () {
-        var $calendarContainer = $('.ec-time-grid');
+       // if (true) return;
+
+        var $calendarContainer = $('.ec');
 
         var $wrapper = $('<div>', {
             class: 'ec-scrollable-wrapper',
@@ -811,7 +798,7 @@
         $calendarContainer.children(':not(.ec-toolbar)').wrapAll($wrapper);
 
         $('.ec-header, .ec-body').css('min-width', '800px');
-    });
+    }
 
 
 </script>

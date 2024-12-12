@@ -1,39 +1,47 @@
 {% load web_tags %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'web/css/contact_navbar.css' %}?ver=0.01">
+{#<link rel="stylesheet" href="{% static 'web/css/contact_navbar.css' %}?ver=0.01">#}
 
 
-<div class="sticky-container">
-    <nav class="navbar no-margins">
-        <div class="container-fluid-nav">
-            {% split request.path "/" "first" as first_path %}
-            {% split request.path "/" "last" as last_path %}
-            <a class="navbar-brand {% if last_path == 'popular' %} selected {% endif %}"
+<nav>
+
+    {% split request.path "/" "first" as first_path %}
+    {% split request.path "/" "last" as last_path %}
+
+    <ul class="nav flex-column">
+
+        <li class="nav-item mb-1">
+            <a class="nav-link text-dark d-flex align-items-center {% if last_path == 'popular' %} selected {% endif %}"
                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">
-                <i class="bi bi-fire icon-scale"></i>
+                <i class="bi bi-fire me-2 icon-scale"></i>
                 <span class="nav-item-class font-size-16">Популярное</span>
             </a>
-            <a class="navbar-brand {% if last_path == 'new' %} selected {% endif %}"
+        </li>
+
+        <li class="nav-item mb-1">
+            <a class="nav-link text-dark d-flex align-items-center {% if last_path == 'new' %} selected {% endif %}"
                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">
-                <i class="bi bi-clock-fill icon-scale"></i>
+                <i class="bi bi-clock-fill  me-2 icon-scale"></i>
                 <span class="nav-item-class font-size-16">Новое</span>
             </a>
-            {% get_all_categories as categories %}
-            {% for category in categories %}
-                <a class="navbar-brand {% if last_path == category.slug %} selected {% endif %}"
+        </li>
+
+
+        {% get_all_categories as categories %}
+        {% for category in categories %}
+            <li class="nav-item mb-1">
+                <a class="nav-link text-dark d-flex align-items-center  {% if last_path == category.slug %} selected {% endif %}"
                    href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
-                    <i class="bi bi-{{ category.icon }} icon-scale"></i>
+                    <i class="bi bi-{{ category.icon }}  me-2 icon-scale"></i>
                     <span class="nav-item-class font-size-16">{{ category.name }}</span>
                 </a>
-            {% endfor %}
-        </div>
-    </nav>
+            </li>
 
+        {% endfor %}
+    </ul>
+</nav>
 
-    <div class="d-none d-xl-block">
-        {% include "components/left_menu/advertisement_left_menu.html" %}
-    </div>
+{% include "components/left_menu/advertisement_left_menu.html" %}
 
+{% include "contact_and_help/contact_navbar.html" %}
 
-    {% include "contact_and_help/contact_navbar.html" %}
-</div>

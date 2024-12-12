@@ -89,6 +89,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2px;
+    font-size: 12px;
+    color: #b9b9b9;
 }
 
 .expert-category {
