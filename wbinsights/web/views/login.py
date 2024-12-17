@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 import environs
 from django.contrib import messages
@@ -13,9 +14,11 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy, reverse
+from django.utils import timezone
 from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 
+from wbappointment.models import ExpertSchedule
 from web.forms.users import CustomUserCreationForm, ExpertAnketaForm, UserPasswordResetForm, UserSetNewPasswordForm, \
     UserPasswordChangeForm
 from web.models import Profile
@@ -98,6 +101,49 @@ def save_new_user_and_profile(request, user_form, user_type):
 
 
 @transaction.atomic
+def fill_expert_schedule(expert):
+    """
+    Заполняет расписание эксперта рабочими днями с понедельника по пятницу,
+    с 06:00 до 15:00 по UTC
+
+    :param expert: Экземпляр модели CustomUser (эксперт)
+    """
+    # Определяем рабочие дни (понедельник - пятница)
+    WORKING_DAYS = [1, 2, 3, 4, 5]  # Понедельник - 1, Пятница - 5
+    # Определяем дни, которые не являются рабочими
+    NON_WORKING_DAYS = [6, 7]
+
+    # Временные параметры начала и конца рабочего дня
+    START_HOUR = 6  # 06:00 утра
+    END_HOUR = 15  # 15:00 вечера
+
+    schedule_entries = []
+    for day in WORKING_DAYS:
+        start_time = timezone.now().replace(hour=START_HOUR, minute=0, second=0, microsecond=0)
+        end_time = timezone.now().replace(hour=END_HOUR, minute=0, second=0, microsecond=0)
+
+        # Создаем расписание для каждого рабочего дня
+        schedule_entries.append(ExpertSchedule(
+            expert=expert,
+            day_of_week=day,
+            start_datetime=start_time,
+            end_datetime=end_time,
+            is_work_day=True
+        ))
+    for day in NON_WORKING_DAYS:
+        schedule_entries.append(ExpertSchedule(
+            expert=expert,
+            day_of_week=day,
+            start_datetime=None,
+            end_datetime=None,
+            is_work_day=False
+        ))
+
+    # Сохраняем расписание в базе данных
+    ExpertSchedule.objects.bulk_create(schedule_entries)
+
+
+@transaction.atomic
 def register_user(request):
     def get_template_name(request):
         return 'registration/signup_mobile.html' if check_is_mobile(request) else 'registration/signup.html'
@@ -113,6 +159,7 @@ def register_user(request):
                     new_expert_profile.user = new_user
                     new_expert_profile.save()
                     expert_profile_form.save_m2m()
+                    fill_expert_schedule(new_user)
                     return redirect('signup_success')
                 except Exception as e:
                     logger.error(f"Error during expert registration: {str(e)}", exc_info=True)
