@@ -132,7 +132,7 @@ def get_all_categories():
 
 @register.simple_tag
 def get_all_news():
-    rss_url = "https://rssexport.rbc.ru/rbcnews/news/100/full.rss"
+    rss_url = "https://rssexport.rbc.ru/rbcnews/news/30/full.rss"
     rss_data = fetch_rss_feed(rss_url)
     news_items = parse_rss_feed(rss_data)
     return news_items
