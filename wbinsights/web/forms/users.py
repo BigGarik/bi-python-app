@@ -26,14 +26,14 @@ class CustomUserCreationForm(UserCreationForm):
         choices=Profile.TypeUser,
         widget=forms.RadioSelect(attrs={'class': 'form-choose-user-type'})
     )
-    first_name = forms.CharField(label=_("First name"), widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    last_name = forms.CharField(label=_("Last name"), widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
-    phone_number = forms.CharField(label=_("Phone number"), widget=forms.TextInput(attrs={'class': 'form-inputs-custom'}))
+    first_name = forms.CharField(label=_("First name"), widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(label=_("Last name"), widget=forms.TextInput(attrs={'class': 'form-control'}))
+    phone_number = forms.CharField(label=_("Phone number"), widget=forms.TextInput(attrs={'class': 'form-control'}))
 
-    email = forms.EmailField(label=_("Email"), widget=forms.EmailInput(attrs={'class': 'form-inputs-custom'}))
-    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
+    email = forms.EmailField(label=_("Email"), widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password2 = forms.CharField(label=_("Confirm password"),
-                                widget=forms.PasswordInput(attrs={'class': 'form-inputs-custom'}))
+                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     #captcha = ReCaptchaField(label=_("Captcha"))
 
     class Meta:
