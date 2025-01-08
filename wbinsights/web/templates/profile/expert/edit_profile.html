@@ -8,8 +8,8 @@
 
     <link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
 
+    <link rel="stylesheet" href="{% static 'web/js/quill/2.0.3/quill.snow.css' %}">
     <script src="{% static 'web/js/quill/2.0.3/quill.js' %}"></script>
-    <script src="{% static 'web/js/quill/2.0.3/quill.snow.css' %}"></script>
 
 
 
@@ -142,24 +142,22 @@
                 </div>
 
                 <div class="mb-4">
-
                     <label for="{{ expert_profile_form.about.id_for_label }}" class="form-label">
                         {{ expert_profile_form.about.label }}
                     </label>
 
                     {{ expert_profile_form.about }}
-                    <div id="id_about_editor" class="mb-3" style="height: 200px"></div>
-
-                    {% if grade %}
-                        <p class="mb-1">
-                            <span class="fw-semibold">Грейд:</span> {{ grade.grade }}
-                        </p>
-
-                        <p class="mb-0">
-                            <span class="fw-semibold">Диапазон стоимости часа для вашего Грейда:</span>
-                            от {{ grade.min_cost }} до {{ grade.max_cost }}
-                        </p>
-                    {% endif %}
+                    <div class="position-relative">
+                        <!-- loading overlay -->
+                        <div id="editor_loading"
+                             class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center bg-light"
+                             style="z-index: 1000;">
+                            <div class="spinner-border text-secondary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div id="id_about_editor" class="mb-3" style="height: 200px"></div>
+                    </div>
                 </div>
 
                 <div class="d-flex align-items-start mb-4">
@@ -517,24 +515,29 @@
 
 
 
-
-
     <script>
-        $(document).ready(function () {
-            $("#{{ expert_profile_form.expert_categories.id_for_label }}").select2({
-                width: '100%'
+        document.addEventListener('DOMContentLoaded', function () {
+            const quill = new Quill('#id_about_editor', {
+                theme: 'snow',
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                        [{'list': 'ordered'}, {'list': 'bullet'}],
+                        ['clean']
+                    ]
+                }
+            });
+
+            // Set initial content
+            quill.root.innerHTML = $('#id_about').val();
+
+            // Remove loading overlay
+            document.getElementById('editor_loading')?.remove();
+
+            quill.on('text-change', function (delta, oldDelta, source) {
+                $('#id_about').val(quill.root.innerHTML)
             });
         });
-
-        const quill = new Quill('#id_about_editor', {
-            theme: 'snow'
-        });
-
-        quill.root.innerHTML = $('#id_about').val();
-        quill.on('text-change', function (delta, oldDelta, source) {
-            $('#id_about').val(quill.root.innerHTML)
-        });
-
     </script>
 
     {% if user_form.errors or profile_form.errors or expert_profile_form.errors or education_expert_formset.errors %}
