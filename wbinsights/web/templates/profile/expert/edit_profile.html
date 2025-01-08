@@ -8,12 +8,19 @@
 
     <link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
 
+    <script src="{% static 'web/js/quill/2.0.3/quill.js' %}"></script>
+    <script src="{% static 'web/js/quill/2.0.3/quill.snow.css' %}"></script>
+
+
+
+    {#    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>#}
+    {#    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>#}
+
 {% endblock %}
 
 
 
 {% block center_col %}
-    <!-- Only custom styles that can't be replaced with Bootstrap -->
     <style>
         .select2-container--default .select2-selection--multiple {
             background-color: white;
@@ -172,7 +179,8 @@
                         {#                            </small>#}
                         {#                        {% endif %}#}
 
-                        <input type="file" name="avatar" class="form-control form-control-sm" accept="image/*" id="id_avatar">
+                        <input type="file" name="avatar" class="form-control form-control-sm" accept="image/*"
+                               id="id_avatar">
 
                     </div>
                 </div>
@@ -507,8 +515,9 @@
     <!-- Include Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+
+
 
     <script>
         $(document).ready(function () {
