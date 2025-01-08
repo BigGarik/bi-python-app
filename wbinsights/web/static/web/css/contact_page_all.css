@@ -7,9 +7,6 @@
 }
 
 
-contact-span {
-    font-size: 30px !important;
-}
 
 .contact-form-cont {
     display: flex;
@@ -45,7 +42,3 @@ contact-span {
     font-weight: 600;
 }
 
-.send-btn-css {
-    background-color: #6dc36b;
-    border: none;
-}

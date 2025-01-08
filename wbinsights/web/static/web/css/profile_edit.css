@@ -58,7 +58,7 @@
 @media (max-width: 768px) {
     .prof-edit-bot-btns-cont{
         justify-content: space-between;
-        gap:0px;
+        gap:5px;
     }
 }
 

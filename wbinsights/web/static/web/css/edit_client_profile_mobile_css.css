@@ -8,11 +8,6 @@ input[name="form-0-specialized_education"].custom-form-css {
     text-align: center;
 }
 
-.prof-edit-duel-rows {
-    display: flex;
-    margin: 10px 0;
-}
-
 .prof-edit-input-title {
     width: 100%;
 }
@@ -62,9 +57,7 @@ label[for="id_avatar"] {
         text-align: start;
         margin: 5px 0;
     }
-    .prof-edit-duel-rows {
-        display: block;
-    }
+
 
     .modal-custom {
         width: 100% !important;

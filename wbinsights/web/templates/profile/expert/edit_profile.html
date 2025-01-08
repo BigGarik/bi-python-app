@@ -11,8 +11,6 @@
 
 {% block center_col %}
 
-
-
     <style>
 
         .delete-btn-cont {
@@ -21,23 +19,7 @@
             height: fit-content;
         }
 
-        .education-formset-container {
-            padding-top: 10px;
-        }
 
-
-        @media (max-width: 1400px ) {
-            .prof-edit-input-title {
-                min-height: 100px !important;
-                justify-content: space-between !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .smaller-letters {
-                font-size: 12px !important;
-            }
-        }
 
         .select2-container--default .select2-selection--multiple {
             background-color: white;
@@ -58,14 +40,7 @@
             margin: 2px !important;
         }
 
-        .custom-width-auto {
-            width: auto;
-            display: inline-block;
-        }
 
-        .prof-edit-info-cont {
-            width: 100% !important;
-        }
 
         .bi-trash:hover {
             color: red;
@@ -90,9 +65,6 @@
             gap: 5px;
         }
 
-        .expert-grade-info-small {
-            font-size: 12px;
-        }
 
 
     </style>
@@ -166,7 +138,7 @@
             </div>
 
 
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" novalidate class="needs-validation">
 
 
                 {% csrf_token %}
@@ -230,7 +202,7 @@
                                 </p>
                             {% endif %}
                             <label for="id_avatar">Изменить:</label>
-                            <input type="file" name="avatar" class="smaller-letters" accept="image/*" id="id_avatar">
+                            <input type="file" name="avatar" class="fs-12" accept="image/*" id="id_avatar">
                         </div>
                     </div>
                     <div class="prof-edit-duel-rows">
@@ -240,7 +212,7 @@
                                    class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
                             {{ expert_profile_form.expert_categories }}
                         </div>
-                        <div class="prof-edit-input-title" style="width: 10%;">
+                        <div class="prof-edit-input-title" style="width: 20%;">
                             <label for="{{ expert_profile_form.experience.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
                             {{ expert_profile_form.experience }}
@@ -253,12 +225,12 @@
                                        id="{{ expert_profile_form.hour_cost.id_for_label }}"
                                        min="{{ grade.min_cost }}" max="{{ grade.max_cost }}" step="1"
                                        value="{{ expert_profile_form.hour_cost.value }}" class="custom-form-css"
-                                       placeholder="{{ grade.min_cost }}-{{ grade.max_cost }}">
+                                       placeholder="{{ grade.min_cost }}-{{ grade.max_cost }}" >
 
                             {% else %}
                                 {{ expert_profile_form.hour_cost }}
                             {% endif %}
-                            <p class="expert-grade-info-small">Диапазон стоимости часа для вашего Грейда:
+                            <p class="fs-12">Диапазон стоимости часа для вашего Грейда:
                                 от {{ grade.min_cost }}
                                 до {{ grade.max_cost }}</p>
                         </div>
@@ -295,7 +267,7 @@
                 </div>
 
                 <!-- Добавляем формсет для образования -->
-                <div class="education-formset-container">
+                <div class="pt-1">
                     <span class="prof-edit-page-title">Образование
                         <div type="button" class="bi bi-plus add-education-btn-trigger"
                              style="background-color: #4CAF50; color: white; padding:0px 5px 0px 5px; border-radius: 4px; cursor: pointer;">
@@ -477,6 +449,18 @@
     </div>
 
     <script>
+
+
+        const form = document.querySelector("form")
+        form.addEventListener('submit', e => {
+            if (!form.checkValidity()) {
+                e.preventDefault()
+                e.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        })
+
+
 
         $(document).on('click', '.delete-temp-education-btn', function () {
             // For new, unsaved forms

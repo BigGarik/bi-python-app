@@ -9,7 +9,7 @@
 <header class="py-3 sm-4 border-bottom header-container">
     <div class="container-fluid">
         <!-- display for larger screens -->
-        <div class="d-none d-xl-flex justify-content-end main-cont-css">
+        <div class="d-none d-xl-flex justify-content-end align-items-center">
             <aside class="col-sm-0-5 d-none d-md-block"></aside>
 
             <div class="col-md-4 mb-2 mb-md-0 logo-container">
@@ -67,7 +67,7 @@
                         </a>
                     </div>
                     
-                    <div class="header-user-prof">
+                    <div class="d-flex">
                         <div class="header-prof-info">
                             <span class="username-text">{{ user.first_name }}</span>
                             <span class="user-role-text">
@@ -114,7 +114,7 @@
                         </a>
                     </div>
 
-                    <div class="buttons-log-cont">
+                    <div class="d-flex align-items-center">
                     
                         <a href="{% url 'login' %}">
                             <button type="button" class="btn btn-dark logout-btn-style auth-button">{% trans 'LoginBtnLabel' %}</button>
@@ -181,7 +181,7 @@
                                     </a>
                                 </div>
                                 
-                                <div class="header-user-prof">
+                                <div class="d-flex">
                                     <div class="header-prof-info">
                                         <span class="username-text">{{ user.first_name }}</span>
                                     

@@ -11,25 +11,69 @@
 {% block center_col %}
 
     <style>
-
         .bi-trash:hover {
             color: red;
             cursor: pointer;
         }
-
-        .delete-btn-cont {
-            display: flex;
-            justify-content: flex-end;
-            height: fit-content;
-        }
-
-        .flex-space-between
-
     </style>
 
 
     <div class="element-container basepost-content-mobile-bottom-padding">
         <div class="edit-prof-info-cont">
+
+            <div class="position-relative" aria-live="polite" aria-atomic="true">
+                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                    {% if user_form.errors or profile_form.errors or expert_profile_form.errors %}
+                        {% for field, errors in user_form.errors.items %}
+                            {% for error in errors %}
+                                <div class="toast align-items-center text-bg-danger border-0" role="alert"
+                                     aria-live="assertive" aria-atomic="true">
+                                    <div class="d-flex">
+                                        <div class="toast-body" style="width: 90%">
+                                            {{ field }}: {{ error }}
+                                        </div>
+                                        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                                data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+
+                        {% for field, errors in profile_form.errors.items %}
+                            {% for error in errors %}
+                                <div class="toast align-items-center text-bg-danger border-0" role="alert"
+                                     aria-live="assertive" aria-atomic="true">
+                                    <div class="d-flex">
+                                        <div class="toast-body" style="width: 90%">
+                                            {{ field }}: {{ error }}
+                                        </div>
+                                        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                                data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+
+                        {% for field, errors in expert_profile_form.errors.items %}
+                            {% for error in errors %}
+                                <div class="toast align-items-center text-bg-danger border-0" role="alert"
+                                     aria-live="assertive" aria-atomic="true">
+                                    <div class="d-flex">
+                                        <div class="toast-body" style="width: 90%">
+                                            {{ field }}: {{ error }}
+                                        </div>
+                                        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                                data-bs-dismiss="toast" aria-label="Close" style="width: 10%"></button>
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
 
             {% trans "BackButtonLabel" as back_text %}
             {% back_button "profile" back_text %}
@@ -37,15 +81,15 @@
             <div>
                 <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
             </div>
+{#                 not needed because we us bootstrap vlidatiopn#}
+{#            {{ user_form.errors }}#}
+{#            {{ profile_form.errors }}#}
+{#            {{ expert_profile_form.errors }}#}
 
-            {{ user_form.errors }}
-            {{ profile_form.errors }}
-            {{ expert_profile_form.errors }}
-
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" novalidate class="needs-validation">
                 {% csrf_token %}
                 <div class="prof-edit-rows">
-                    <div class="prof-edit-duel-rows">
+                    <div class="d-md-flex d-block my-2">
                         <div class="prof-edit-info-cont">
                             <label for="{{ user_form.first_name.id_for_label }}"
                                    class="prof-edit-input-labels">{{ user_form.first_name.label }}</label>
@@ -86,7 +130,7 @@
                             <input type="file" name="avatar" class="smaller-letters" accept="image/*" id="id_avatar">
                         </div>
                     </div>
-                    <div class="prof-edit-duel-rows">
+                    <div class="d-md-flex d-block my-2">
                         <div class="prof-edit-input-title">
                             <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
@@ -116,7 +160,7 @@
                     </div>
                 </div>
                 <div class="expert-edit-rows">
-                    <div class="prof-edit-duel-rows">
+                    <div class="d-md-flex d-block my-2">
                         <div class="prof-edit-info-cont">
                             <label for="{{ expert_profile_form.age.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
@@ -125,7 +169,7 @@
                     </div>
                 </div>
                 <div class="expert-edit-rows">
-                    <div class="prof-edit-duel-rows">
+                    <div class="d-md-flex d-block my-2">
                         <div class="prof-edit-info-cont">
                             <label for="{{ expert_profile_form.hh_link.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.hh_link.label }}</label>
@@ -134,7 +178,7 @@
                     </div>
                 </div>
                 <div class="expert-edit-rows">
-                    <div class="prof-edit-duel-rows">
+                    <div class="d-md-flex d-block my-2">
                         <div class="prof-edit-info-cont">
                             <label for="{{ expert_profile_form.linkedin_link.id_for_label }}"
                                    class="prof-edit-input-labels">{{ expert_profile_form.linkedin_link.label }}</label>
@@ -252,6 +296,35 @@
             </div>
         </div>
     </div>
+
+
+
+    {% if user_form.errors or profile_form.errors or expert_profile_form.errors %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const toastElList = document.querySelectorAll('.toast');
+                toastElList.forEach(toastEl => {
+                    const toast = new bootstrap.Toast(toastEl, {
+                        autohide: false
+                    });
+                    toast.show();
+                });
+            });
+        </script>
+    {% endif %}
+
+    <!-- Add form validation script -->
+    <script>
+        const form = document.querySelector("form")
+        form.addEventListener('submit', e => {
+            if (!form.checkValidity()) {
+                e.preventDefault()
+                e.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        })
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script>
         const quill = new Quill('#{{ expert_profile_form.about.id_for_label }}', {
@@ -281,7 +354,6 @@
                      data-new-form="${formNum}">
                 </div>
             `);
-
 
 
                 $('#id_form-TOTAL_FORMS').val(formNum + 1);

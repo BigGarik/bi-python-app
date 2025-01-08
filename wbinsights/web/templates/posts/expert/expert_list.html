@@ -49,12 +49,7 @@
         </div>
 
         <div id="experts-container" class="experts-container">
-            {% device_is_mobile as is_mobile %}
-            {% if is_mobile %}
-                {% include "posts/expert/expert_list_mobile.html" %}
-            {% else %}
-                {% include "posts/expert/expert_list_content.html" %}
-            {% endif %}
+            {% include "posts/expert/expert_list_content.html" %}
         </div>
 
         {% if has_more_objects %}

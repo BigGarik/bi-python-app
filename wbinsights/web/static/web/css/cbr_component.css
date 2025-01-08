@@ -93,14 +93,6 @@
     white-space: nowrap;
 }
 
-.current-rate {
-    font-weight: 600;
-    font-size: 12px;
-}
-
-.rate-date {
-    font-size: 10px;
-}
 
 .key-rate-item {
     display: inline-flex;

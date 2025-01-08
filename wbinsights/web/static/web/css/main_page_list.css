@@ -28,11 +28,6 @@
     cursor: pointer;
 }
 
-.expert-profiles-cont{
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
 
 .expert-more{
     color: #5f5f70;
@@ -65,11 +60,6 @@
     /*border: 1px solid #ccc; */
 }
 
-.expert-list-side {
-    font-size: 13px;
-    font-weight: 500;
-    color: #727070;
-}
 
 .side-avatar-container img {
     min-width: 50px;
@@ -91,9 +81,5 @@
     gap: 2px;
     font-size: 12px;
     color: #b9b9b9;
-}
-
-.expert-category {
-    white-space: wrap;
 }
 
