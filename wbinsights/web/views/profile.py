@@ -267,16 +267,11 @@ def edit_user_profile(request):
     is_expert = request.user.profile.type == Profile.TypeUser.EXPERT
 
     user_agent = request.META.get('HTTP_USER_AGENT', '')
-    if 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent:
-        if is_expert:
-            profile_edit_template = 'profile/expert/edit_expert_profile_mobile.html'
-        else:
-            profile_edit_template = 'profile/client/edit_client_profile_mobile.html'
+
+    if is_expert:
+        profile_edit_template = 'profile/expert/edit_profile.html'
     else:
-        if is_expert:
-            profile_edit_template = 'profile/expert/edit_profile.html'
-        else:
-            profile_edit_template = 'profile/client/edit_profile.html'
+        profile_edit_template = 'profile/client/edit_profile.html'
 
     if request.method == 'GET':
         user_form = CustomUserChangeForm(instance=request.user)

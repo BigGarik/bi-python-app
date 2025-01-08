@@ -4,76 +4,44 @@
 {% load web_tags %}
 
 {% block extra_static %}
-    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
-    <!-- Include Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block center_col %}
-
+    <!-- Only custom styles that can't be replaced with Bootstrap -->
     <style>
-
-        .delete-btn-cont {
-            display: flex;
-            justify-content: flex-end;
-            height: fit-content;
-        }
-
-
-
         .select2-container--default .select2-selection--multiple {
             background-color: white;
             border: 1px solid #dadada !important;
             border-radius: 4px;
-            cursor: text;
-            padding-bottom: 0px !important;
-            padding-right: 0px !important;
             padding: 5px !important;
             min-height: 42px !important;
-            position: relative;
             display: flex !important;
         }
 
-
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            margin-top: 0px !important;
             margin: 2px !important;
         }
-
-
 
         .bi-trash:hover {
             color: red;
             cursor: pointer;
         }
 
-
         .ql-editor {
-            font-size: 16px; /* Измените значение по вашему усмотрению */
+            font-size: 16px;
         }
 
-        .avatar-text-edit-prof {
-            color: white;
-            user-select: none;
-            margin: 0;
-            font-size: 8px
+        label[for="id_avatar"] {
+            display: none;
         }
-
-        .specialized-edu-class {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-
-
     </style>
 
-    <div class="element-container">
+    <div class="container-fluid mb-5 mb-sm-0">
 
-
+        <!-- Toasts -->
         <div class="position-relative" aria-live="polite" aria-atomic="true">
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div class="toast-container position-fixed bottom-0 end-0 ">
                 {% if user_form.errors or profile_form.errors or expert_profile_form.errors or education_expert_formset.errors %}
                     {% for field, errors in user_form.errors.items %}
                         {% for error in errors %}
@@ -126,263 +94,226 @@
             </div>
         </div>
 
-
         {% trans "BackButtonLabel" as back_text %}
         {% back_button "profile" back_text %}
 
-        <div class="edit-prof-info-cont">
-
-
-            <div>
-                <span class="prof-edit-page-title">Настройки профиля ({{ request.user.email }})</span>
+        <div class="card shadow-sm border-0 p-4">
+            <div class="mb-4">
+                <h4 class="fw-normal">Настройки профиля ({{ request.user.email }})</h4>
             </div>
 
-
             <form method="post" enctype="multipart/form-data" novalidate class="needs-validation">
-
-
                 {% csrf_token %}
                 {{ user_form.id }}
                 {{ profile_form.id }}
                 {{ expert_profile_form.id }}
 
-                <div>
-
-
+                <div class="row mb-4">
+                    <div class="col-12 col-md-6 mb-3 mb-md-0">
+                        <label for="{{ user_form.first_name.id_for_label }}" class="form-label">
+                            {{ user_form.first_name.label }}
+                        </label>
+                        {{ user_form.first_name }}
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="{{ user_form.last_name.id_for_label }}" class="form-label">
+                            {{ user_form.last_name.label }}
+                        </label>
+                        {{ user_form.last_name }}
+                    </div>
                 </div>
 
-                <div class="prof-edit-rows">
-                    <div class="prof-edit-duel-rows">
+                <div class="mb-4">
+                    <label for="{{ expert_profile_form.about.id_for_label }}" class="form-label">
+                        {{ expert_profile_form.about.label }}
+                    </label>
+                    {{ expert_profile_form.about }}
+                    <div id="id_about_editor" class="mb-3" style="height: 200px"></div>
+                    {% if grade %}
+                        <p class="mb-1">
+                            <span class="fw-semibold">Грейд:</span> {{ grade.grade }}
+                        </p>
+                        <p class="mb-0">
+                            <span class="fw-semibold">Диапазон стоимости часа для вашего Грейда:</span>
+                            от {{ grade.min_cost }} до {{ grade.max_cost }}
+                        </p>
+                    {% endif %}
+                </div>
 
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ user_form.first_name.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ user_form.first_name.label }}</label>
-                            {{ user_form.first_name }}
-                        </div>
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ user_form.last_name.id_for_label }}"
-                                   class="prof-edit-input-labels"> {{ user_form.last_name.label }}</label>
-                            {{ user_form.last_name }}
-                        </div>
+                <div class="d-flex align-items-start mb-4">
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                         class="rounded-circle object-fit-cover"
+                         style="height: 100px; width: 100px;">
+                    <div class="ms-3 d-flex flex-column align-self-center">
 
+                        {#                        {% if profile_form.instance.avatar %}#}
+                        {#                            <small class="text-black-50 mb-1">#}
+                        {#                                На данный момент:#}
+                        {#                                <a href="{{ profile_form.instance.avatar.url }}" class="text-decoration-none">#}
+                        {#                                    {{ profile_form.instance.avatar.name }}#}
+                        {#                                </a>#}
+                        {#                            </small>#}
+                        {#                        {% endif %}#}
+
+                        <input type="file" name="avatar" class="form-control form-control-sm" accept="image/*" id="id_avatar">
                     </div>
+                </div>
 
-                    <div class="full-width">
-                        <label for="{{ expert_profile_form.about.id_for_label }}"
-                               class="prof-edit-input-labels">{{ expert_profile_form.about.label }}</label>
-                        {{ expert_profile_form.about }}
-                        <div id="id_about_editor" style="height: 200px"></div>
-                        <br/>
+                <div class="row mb-4">
+                    <div class="col-12 col-md-6 mb-3 mb-md-0 p-1">
+                        <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
+                               class="form-label fw-semibold">
+                            {{ expert_profile_form.expert_categories.label }}
+                        </label>
+                        {{ expert_profile_form.expert_categories }}
+                    </div>
+                    <div class="col-12 col-md-2 mb-3 mb-md-0 p-1">
+                        <label for="{{ expert_profile_form.experience.id_for_label }}" class="form-label fw-semibold">
+                            {{ expert_profile_form.experience.label }}
+                        </label>
+                        {{ expert_profile_form.experience }}
+                    </div>
+                    <div class="col-12 col-md-4 p-1">
+                        <div class="d-flex align-items-center gap-2">
+                            <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
+                                   class="form-label fw-semibold ">
+                                {{ expert_profile_form.hour_cost.label }}
+                            </label>
+                            <i class="bi bi-question-circle text-black-50 align-self-baseline"
+                               data-bs-toggle="tooltip"
+                               data-bs-placement="top"
+                               title="Диапазон стоимости часа для вашего Грейда: от {{ grade.min_cost }} до {{ grade.max_cost }}">
+                            </i>
+                        </div>
                         {% if grade %}
-                            <p>
-                                <b href="#" class="no-underline-href">Грейд:</b> {{ grade.grade }}
-                            </p>
-                            <p><b>Диапазон стоимости часа для вашего Грейда:</b> от {{ grade.min_cost }}
-                                до {{ grade.max_cost }}</p>
+                            <input type="number"
+                                   name="hour_cost"
+                                   id="{{ expert_profile_form.hour_cost.id_for_label }}"
+                                   min="{{ grade.min_cost }}"
+                                   max="{{ grade.max_cost }}"
+                                   step="1"
+                                   value="{{ expert_profile_form.hour_cost.value }}"
+                                   class="form-control"
+                                   placeholder="{{ grade.min_cost }}-{{ grade.max_cost }}">
                         {% else %}
-                            <p>Нет данных для ваших points.</p>
+                            {{ expert_profile_form.hour_cost }}
                         {% endif %}
                     </div>
 
-                </div>
-                <style>
-                    label[for="id_avatar"] {
-                        display: none;
-                    }
-                </style>
-                <div class="expert-edit-rows">
-                    <div class="prof-edit-photo-cont">
-                        <img src="{{ user.profile.avatar.url }}" alt="Avatar"
-                             style="border-radius: 50%;max-height: 100px;max-width: 100px;min-width: 100px;min-height: 100px;object-fit: cover;">
-                        <div style="display:flex ; margin-left: 10px ; flex-direction:column">
-                            {% if profile_form.instance.avatar %}
-                                <p class="avatar-text-edit-prof">На данный момент:
-                                    <a href="{{ profile_form.instance.avatar.url }}"
-                                       class="avatar-text-edit-prof">{{ profile_form.instance.avatar.name }}</a>
-                                </p>
-                            {% endif %}
-                            <label for="id_avatar">Изменить:</label>
-                            <input type="file" name="avatar" class="fs-12" accept="image/*" id="id_avatar">
-                        </div>
-                    </div>
-                    <div class="prof-edit-duel-rows">
 
-                        <div class="prof-edit-input-title" style="width: 50%;">
-                            <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.expert_categories.label }}</label>
-                            {{ expert_profile_form.expert_categories }}
-                        </div>
-                        <div class="prof-edit-input-title" style="width: 20%;">
-                            <label for="{{ expert_profile_form.experience.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.experience.label }}</label>
-                            {{ expert_profile_form.experience }}
-                        </div>
-                        <div class="prof-edit-input-title" style="width: 30%;">
-                            <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.hour_cost.label }}</label>
-                            {% if grade %}
-                                <input type="number" name="hour_cost"
-                                       id="{{ expert_profile_form.hour_cost.id_for_label }}"
-                                       min="{{ grade.min_cost }}" max="{{ grade.max_cost }}" step="1"
-                                       value="{{ expert_profile_form.hour_cost.value }}" class="custom-form-css"
-                                       placeholder="{{ grade.min_cost }}-{{ grade.max_cost }}" >
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                            const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                return new bootstrap.Tooltip(tooltipTriggerEl);
+                            });
+                        });
+                    </script>
 
-                            {% else %}
-                                {{ expert_profile_form.hour_cost }}
-                            {% endif %}
-                            <p class="fs-12">Диапазон стоимости часа для вашего Грейда:
-                                от {{ grade.min_cost }}
-                                до {{ grade.max_cost }}</p>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="expert-edit-rows">
-                    <div class="prof-edit-duel-rows">
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ expert_profile_form.age.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.age.label }}</label>
-                            {{ expert_profile_form.age }}
-                        </div>
-                    </div>
                 </div>
 
-                <div class="expert-edit-rows">
-                    <div class="prof-edit-duel-rows">
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ expert_profile_form.hh_link.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.hh_link.label }}</label>
-                            {{ expert_profile_form.hh_link }}
-                        </div>
-                    </div>
-                </div>
-                <div class="expert-edit-rows">
-                    <div class="prof-edit-duel-rows">
-                        <div class="prof-edit-info-cont">
-                            <label for="{{ expert_profile_form.linkedin_link.id_for_label }}"
-                                   class="prof-edit-input-labels">{{ expert_profile_form.linkedin_link.label }}</label>
-                            {{ expert_profile_form.linkedin_link }}
-                        </div>
-                    </div>
+                <div class="mb-4">
+                    <label for="{{ expert_profile_form.age.id_for_label }}" class="form-label fw-semibold">
+                        {{ expert_profile_form.age.label }}
+                    </label>
+                    {{ expert_profile_form.age }}
                 </div>
 
-                <!-- Добавляем формсет для образования -->
-                <div class="pt-1">
-                    <span class="prof-edit-page-title">Образование
-                        <div type="button" class="bi bi-plus add-education-btn-trigger"
-                             style="background-color: #4CAF50; color: white; padding:0px 5px 0px 5px; border-radius: 4px; cursor: pointer;">
-                        </div>
-                    </span>
+                <div class="mb-4">
+                    <label for="{{ expert_profile_form.hh_link.id_for_label }}" class="form-label fw-semibold">
+                        {{ expert_profile_form.hh_link.label }}
+                    </label>
+                    {{ expert_profile_form.hh_link }}
+                </div>
+                <div class="mb-4">
+                    <label for="{{ expert_profile_form.linkedin_link.id_for_label }}" class="form-label fw-semibold">
+                        {{ expert_profile_form.linkedin_link.label }}
+                    </label>
+                    {{ expert_profile_form.linkedin_link }}
+                </div>
+
+                <div class="pt-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <h5 class="mb-0">Образование</h5>
+                        <button type="button" class="btn btn-success btn-sm add-education-btn-trigger">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+
                     {{ education_expert_formset.management_form }}
 
                     {% for form in education_expert_formset %}
                         <hr/>
-                        <div class="education-form col-12">
-
-
+                        <div class="education-form">
                             {{ form.id }}
                             {{ form.errors }}
-
-                            <div class="row" style="padding: 10px 0 10px 0;">
-                                <div class="prof-edit-input-title1 col-6">
-                                    <label for="{{ form.education_type.id_for_label }}"
-                                           class="prof-edit-input-labels">{{ form.education_type.label }}</label>
-                                    {{ form.education_type }}
-                                </div>
-
-                                <div class="prof-edit-input-title1 specialized-edu-class col-5">
-                                    <label for="{{ form.specialized_education.id_for_label }}"
-                                           class="prof-edit-input-labels">{{ form.specialized_education.label }}</label>
-                                    <div class="custom-width-auto">
-                                        {{ form.specialized_education }}
-                                    </div>
-
-                                </div>
-                                <div class="col-1 delete-btn-cont">
-
-                                    {% if form.instance.id %}
-                                        <div class="bi bi-trash delete-education-btn" type="button"
-                                             style="font-size: 20px"
-                                             data-education-id="{{ form.instance.id }}"
-                                             data-education-name="{{ form.instance.educational_institution }}">
-                                        </div>
-                                    {% endif %}
-
-                                </div>
+                            <div class="col d-flex justify-content-end align-items-center">
+                                {% if form.instance.id %}
+                                    <button type="button"
+                                            class="btn btn-link text-danger p-0 delete-education-btn"
+                                            data-education-id="{{ form.instance.id }}"
+                                            data-education-name="{{ form.instance.educational_institution }}">
+                                        <i class="bi bi-trash fs-5"></i>
+                                    </button>
+                                {% endif %}
                             </div>
 
-                            <div class="row" style="padding: 10px 0 10px 0;">
-
-                                <div class="prof-edit-input-title1 col-7">
-                                    <label for="{{ form.educational_institution.id_for_label }}"
-                                           class="prof-edit-input-labels">{{ form.educational_institution.label }}</label>
-                                    {{ form.educational_institution }}
+                            <div class="row mb-3 justify-content-between">
+                                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                    <label for="{{ form.education_type.id_for_label }}" class="form-label fw-semibold">
+                                        {{ form.education_type.label }}
+                                    </label>
+                                    {{ form.education_type }}
+                                </div>
+                                <div class="col-12 col-md-6 d-flex align-items-end">
+                                    <div class="d-flex align-items-center gap-2 w-100">
+                                        <div class="d-flex">
+                                            <label for="{{ form.specialized_education.id_for_label }}"
+                                                   class="form-label fw-semibold">
+                                                {{ form.specialized_education.label }}
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            {{ form.specialized_education }}
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="prof-edit-input-title1 col-5">
-                                    <label for="{{ form.diploma_number.id_for_label }}"
-                                           class="prof-edit-input-labels">{{ form.diploma_number.label }}</label>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-7 mb-3 mb-md-0">
+                                    <label for="{{ form.educational_institution.id_for_label }}" class="form-label">
+                                        {{ form.educational_institution.label }}
+                                    </label>
+                                    {{ form.educational_institution }}
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <label for="{{ form.diploma_number.id_for_label }}" class="form-label">
+                                        {{ form.diploma_number.label }}
+                                    </label>
                                     {{ form.diploma_number }}
                                 </div>
                             </div>
-
                         </div>
-
                     {% endfor %}
 
-                    <!-- Кнопка для добавления нового образования (если требуется) -->
-                    {#                    <button type="button" class="btn btn-secondary add-education-btn" style="margin-top: 20px">Добавить#}
-                    {#                        образование#}
-                    {#                    </button>#}
                     <div id="new-education-forms-container"></div>
                 </div>
 
+                <hr class="my-4">
 
-                <!-- Modal -->
-
-
-                <script>
-                    $('.add-education-btn-trigger').click(function () {
-                        // Clone the last form
-                        const newForm = $('.education-form:last').clone();
-
-                        newForm.find('input').val('');
-                        newForm.find('select').val('');
-
-                        const formNum = parseInt($('#id_form-TOTAL_FORMS').val());
-                        newForm.attr('data-new-form', formNum);
-
-                        newForm.find('.bi-trash').remove();
-                        newForm.find('.col-1').html(`
-                            <div class="bi bi-trash delete-temp-education-btn" type="button"
-                                 style="font-size: 20px"
-                                 data-new-form="${formNum}">
-                            </div>
-                        `);
-
-                        const formRegex = RegExp('form-(\\d+)-', 'g');
-                        newForm.html(newForm.html().replace(formRegex, 'form-' + formNum + '-'));
-
-                        $('#id_form-TOTAL_FORMS').val(formNum + 1);
-
-                        $('#new-education-forms-container').append('<hr/>');
-                        $('#new-education-forms-container').append(newForm);
-                    });
-                </script>
-                <hr/>
-
-                <div class="prof-edit-bot-btns-cont">
-
-
+                <div class="d-flex flex-column flex-md-row gap-3">
                     {% include "components/loadingBtn.html" with button_text="Сохранить изменения" loading_text="Сохранение..." %}
 
-
-                    <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn"
-                            data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+                    <button type="button"
+                            class="btn btn-outline-danger"
+                            id="deleteProfileBtn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteProfileModal">
                         Удалить профиль
                     </button>
                 </div>
-
             </form>
 
             <div class="modal fade" id="deleteEducationModal" tabindex="-1" aria-hidden="true">
@@ -404,49 +335,71 @@
                 </div>
             </div>
 
-            <div class="modal fade" tabindex="-1" role="dialog" id="deleteProfileModal">
-
-                <div class="modal-dialog" role="document">
+            <div class="modal fade" id="deleteProfileModal" tabindex="-1">
+                <div class="modal-dialog modal-sm">
                     <form method="post">
-
-                        <div class="modal-content" style="width:400px !important">
-
-                            <div class="modal-header" style="border-bottom: none;">
-                                <h5 class="modal-title" style="border-bottom: none;font-weight: 400;font-size: 18px;">
-                                    Удалить профиль</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                        style="scale: 0.8;"></button>
+                        <div class="modal-content">
+                            <div class="modal-header border-0">
+                                <h5 class="modal-title fw-normal fs-5">Удалить профиль</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                             </div>
-
-                            <div class="modal-body" style="padding-top:0;padding-bottom: 0;">
-                                <p style="font-weight: 600;">Для подтверждения введите пароль</p>
+                            <div class="modal-body pt-0">
+                                <p class="fw-semibold">Для подтверждения введите пароль</p>
+                                <input type="password"
+                                       required
+                                       placeholder="Ваш пароль"
+                                       class="form-control">
                             </div>
-
-                            <div style="padding: var(--bs-modal-padding);padding-top: 0;">
-                                <input type="password" required placeholder="Ваш пароль"
-                                       style="width:100%;padding: 10px ;border-radius: 7px;border: 1px lightgrey solid; outline:none"/>
-                            </div>
-
-                            <div class="modal-footer"
-                                 style="border-top: none;display: flex;justify-content: flex-start;">
-                                <button type="submit" class="btn btn-danger"
-                                        style="background-color: #f47070;border: none;">Удалить профиль
+                            <div class="modal-footer border-0 justify-content-start gap-2">
+                                <button type="submit" class="btn btn-danger">
+                                    Удалить профиль
                                 </button>
-                                <button type="button" class="btn btn-secondary"
-                                        style="background-color: white;border: 1px solid #a5b1c8;color: #36364b;"
-                                        data-bs-dismiss="modal">Отмена
+                                <button type="button"
+                                        class="btn btn-outline-secondary"
+                                        data-bs-dismiss="modal">
+                                    Отмена
                                 </button>
                             </div>
                         </div>
                     </form>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
+
+
+
+
+    <script>
+        $('.add-education-btn-trigger').click(function () {
+            // Clone the last form
+            const newForm = $('.education-form:last').clone();
+
+            newForm.find('input').val('');
+            newForm.find('select').val('');
+
+            const formNum = parseInt($('#id_form-TOTAL_FORMS').val());
+            newForm.attr('data-new-form', formNum);
+
+            newForm.find('.bi-trash').remove();
+            newForm.find('.col-1').html(`
+                            <div class="bi bi-trash delete-temp-education-btn" type="button"
+                                 style="font-size: 20px"
+                                 data-new-form="${formNum}">
+                            </div>
+                        `);
+
+            const formRegex = RegExp('form-(\\d+)-', 'g');
+            newForm.html(newForm.html().replace(formRegex, 'form-' + formNum + '-'));
+
+            $('#id_form-TOTAL_FORMS').val(formNum + 1);
+
+            $('#new-education-forms-container').append('<hr/>');
+            $('#new-education-forms-container').append(newForm);
+        });
+    </script>
+
 
     <script>
 
@@ -459,7 +412,6 @@
             }
             form.classList.add('was-validated')
         })
-
 
 
         $(document).on('click', '.delete-temp-education-btn', function () {
