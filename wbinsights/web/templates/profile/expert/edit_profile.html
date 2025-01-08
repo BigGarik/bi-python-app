@@ -98,6 +98,7 @@
         {% back_button "profile" back_text %}
 
         <div class="card shadow-sm border-0 p-4">
+
             <div class="mb-4">
                 <h4 class="fw-normal">Настройки профиля ({{ request.user.email }})</h4>
             </div>
@@ -109,30 +110,39 @@
                 {{ expert_profile_form.id }}
 
                 <div class="row mb-4">
+
                     <div class="col-12 col-md-6 mb-3 mb-md-0">
                         <label for="{{ user_form.first_name.id_for_label }}" class="form-label">
                             {{ user_form.first_name.label }}
                         </label>
+
                         {{ user_form.first_name }}
                     </div>
+
                     <div class="col-12 col-md-6">
+
                         <label for="{{ user_form.last_name.id_for_label }}" class="form-label">
                             {{ user_form.last_name.label }}
                         </label>
+
                         {{ user_form.last_name }}
                     </div>
                 </div>
 
                 <div class="mb-4">
+
                     <label for="{{ expert_profile_form.about.id_for_label }}" class="form-label">
                         {{ expert_profile_form.about.label }}
                     </label>
+
                     {{ expert_profile_form.about }}
                     <div id="id_about_editor" class="mb-3" style="height: 200px"></div>
+
                     {% if grade %}
                         <p class="mb-1">
                             <span class="fw-semibold">Грейд:</span> {{ grade.grade }}
                         </p>
+
                         <p class="mb-0">
                             <span class="fw-semibold">Диапазон стоимости часа для вашего Грейда:</span>
                             от {{ grade.min_cost }} до {{ grade.max_cost }}
@@ -141,9 +151,11 @@
                 </div>
 
                 <div class="d-flex align-items-start mb-4">
+
                     <img src="{{ user.profile.avatar.url }}" alt="Avatar"
                          class="rounded-circle object-fit-cover"
                          style="height: 100px; width: 100px;">
+
                     <div class="ms-3 d-flex flex-column align-self-center">
 
                         {#                        {% if profile_form.instance.avatar %}#}
@@ -156,6 +168,7 @@
                         {#                        {% endif %}#}
 
                         <input type="file" name="avatar" class="form-control form-control-sm" accept="image/*" id="id_avatar">
+
                     </div>
                 </div>
 
@@ -165,20 +178,26 @@
                                class="form-label fw-semibold">
                             {{ expert_profile_form.expert_categories.label }}
                         </label>
+
                         {{ expert_profile_form.expert_categories }}
                     </div>
+
                     <div class="col-12 col-md-2 mb-3 mb-md-0 p-1">
                         <label for="{{ expert_profile_form.experience.id_for_label }}" class="form-label fw-semibold">
                             {{ expert_profile_form.experience.label }}
                         </label>
+
                         {{ expert_profile_form.experience }}
                     </div>
+
                     <div class="col-12 col-md-4 p-1">
                         <div class="d-flex align-items-center gap-2">
+
                             <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
                                    class="form-label fw-semibold ">
                                 {{ expert_profile_form.hour_cost.label }}
                             </label>
+
                             <i class="bi bi-question-circle text-black-50 align-self-baseline"
                                data-bs-toggle="tooltip"
                                data-bs-placement="top"
@@ -186,6 +205,7 @@
                             </i>
                         </div>
                         {% if grade %}
+
                             <input type="number"
                                    name="hour_cost"
                                    id="{{ expert_profile_form.hour_cost.id_for_label }}"
@@ -216,6 +236,7 @@
                     <label for="{{ expert_profile_form.age.id_for_label }}" class="form-label fw-semibold">
                         {{ expert_profile_form.age.label }}
                     </label>
+
                     {{ expert_profile_form.age }}
                 </div>
 
@@ -223,9 +244,11 @@
                     <label for="{{ expert_profile_form.hh_link.id_for_label }}" class="form-label fw-semibold">
                         {{ expert_profile_form.hh_link.label }}
                     </label>
+
                     {{ expert_profile_form.hh_link }}
                 </div>
                 <div class="mb-4">
+
                     <label for="{{ expert_profile_form.linkedin_link.id_for_label }}" class="form-label fw-semibold">
                         {{ expert_profile_form.linkedin_link.label }}
                     </label>
@@ -234,7 +257,9 @@
 
                 <div class="pt-4">
                     <div class="d-flex align-items-center gap-2 mb-3">
+
                         <h5 class="mb-0">Образование</h5>
+
                         <button type="button" class="btn btn-success btn-sm add-education-btn-trigger">
                             <i class="bi bi-plus"></i>
                         </button>
@@ -260,19 +285,24 @@
 
                             <div class="row mb-3 justify-content-between">
                                 <div class="col-12 col-md-6 mb-3 mb-md-0">
+
                                     <label for="{{ form.education_type.id_for_label }}" class="form-label fw-semibold">
                                         {{ form.education_type.label }}
                                     </label>
+
                                     {{ form.education_type }}
                                 </div>
                                 <div class="col-12 col-md-6 d-flex align-items-end">
+
                                     <div class="d-flex align-items-center gap-2 w-100">
                                         <div class="d-flex">
+
                                             <label for="{{ form.specialized_education.id_for_label }}"
                                                    class="form-label fw-semibold">
                                                 {{ form.specialized_education.label }}
                                             </label>
                                         </div>
+
                                         <div class="form-check mb-2">
                                             {{ form.specialized_education }}
                                         </div>
@@ -283,15 +313,19 @@
 
                             <div class="row">
                                 <div class="col-12 col-md-7 mb-3 mb-md-0">
+
                                     <label for="{{ form.educational_institution.id_for_label }}" class="form-label">
                                         {{ form.educational_institution.label }}
                                     </label>
+
                                     {{ form.educational_institution }}
                                 </div>
                                 <div class="col-12 col-md-5">
+
                                     <label for="{{ form.diploma_number.id_for_label }}" class="form-label">
                                         {{ form.diploma_number.label }}
                                     </label>
+
                                     {{ form.diploma_number }}
                                 </div>
                             </div>
@@ -319,14 +353,18 @@
             <div class="modal fade" id="deleteEducationModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
+
                         <div class="modal-header">
                             <h5 class="modal-title">Подтверждение удаления</h5>
+
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+
                         <div class="modal-body">
                             <p>Вы уверены, что хотите удалить образование "<span id="educationNameToDelete"></span>"?
                             </p>
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                             <button type="button" class="btn btn-danger" id="confirmDeleteEducation">Удалить</button>
@@ -351,7 +389,7 @@
                                        placeholder="Ваш пароль"
                                        class="form-control">
                             </div>
-                            <div class="modal-footer border-0 justify-content-start gap-2">
+                            <div class="modal-footer border-0 justify-content-between ">
                                 <button type="submit" class="btn btn-danger">
                                     Удалить профиль
                                 </button>
