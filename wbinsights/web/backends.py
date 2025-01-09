@@ -2,7 +2,7 @@ from django.contrib.auth.backends import ModelBackend, get_user_model
 from django.core.exceptions import MultipleObjectsReturned
 from django.db.models import Q
 from django.contrib import messages
-from web.views.login import send_activation_email
+from web.views.user import send_activation_email
 from django.utils.translation import gettext_lazy as _
 
 UserModel = get_user_model()

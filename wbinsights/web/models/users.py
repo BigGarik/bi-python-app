@@ -1,6 +1,7 @@
 import logging
 
 import pytz
+from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
@@ -31,8 +32,41 @@ class UploadToPathAndRename(object):
         return f'{self.sub_path}/{expert_id}/{filename}'
 
 
+class CustomUserManager(BaseUserManager):
+    """Кастомный менеджер для модели пользователя, исключающий удалённых пользователей."""
+
+    def get_queryset(self):
+        # Возвращаем только пользователей с is_deleted=False
+        return super().get_queryset().filter(is_deleted=False)
+
+    def include_deleted(self):
+        # Используйте этот метод, если вам нужны и удалённые пользователи
+        return super().get_queryset()
+
+    def create_user(self, username, email, password=None, **extra_fields):
+        """Создание и сохранение обычного пользователя."""
+        if not email:
+            raise ValueError("The Email field must be set")
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+
 class CustomUser(AbstractUser):
-    email = models.EmailField(_("Email"), unique=True, )
+    objects = CustomUserManager()
+    username = models.CharField(
+        _("username"),
+        max_length=150,
+        # unique=True,
+        help_text=_(
+            "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+        )
+    )
+    email = models.EmailField(_("Email"))
+    is_deleted = models.BooleanField(default=False)
+    delite_date = models.DateField(null=True, blank=True)
     phone_number = models.CharField(
         _("Phone number"),
         # unique=True,
@@ -49,8 +83,17 @@ class CustomUser(AbstractUser):
         ),
     )
 
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
+    # USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = ["email"]
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['email'],
+                condition=Q(is_deleted=False),
+                name='unique_active_email'
+            )
+        ]
 
     def __str__(self):
         return self.email

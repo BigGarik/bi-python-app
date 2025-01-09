@@ -11,8 +11,8 @@ from .views.contact import ContactPageView, ContactUsPageView, ContactPoliciesPa
 from .views.crb_key import CrbRatesView
 from .views.error_404 import wb400handler
 from .views.experts import ExpertListView, ExpertDetailView, SearchByNameExpertListView
-from .views.login import register_user, signup_success, activate_account, UserPasswordChangeView, \
-    UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email, CustomLoginView
+from .views.user import register_user, signup_success, activate_account, UserPasswordChangeView, \
+    UserPasswordResetView, UserPasswordResetConfirmView, resend_activation_email, CustomLoginView, UserDeleteView
 from .views.news import NewsFeedView
 from .views.not_verified_experts import UnverifiedExpertListView, UnverifiedExpertDetailView
 from .views.profile import profile_view, edit_user_profile, update_user_timezone, DeleteEducationView
@@ -69,6 +69,7 @@ urlpatterns = [
     # path('profile/anketa', profile_view, name='anketa'),
     path('profile/ratings/', RatingListView.as_view(), name='rating-list'),
     #path('profile/anketa/', anketa_view, name='anketa'),
+    path('user/delete/', UserDeleteView.as_view(), name='user_delete'),
 
     path("login/", CustomLoginView.as_view(next_page='index'), name="login"),
     path("signup/", register_user, name="signup"),

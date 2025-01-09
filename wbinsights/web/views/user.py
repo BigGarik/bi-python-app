@@ -1,9 +1,10 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 import environs
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
@@ -17,6 +18,9 @@ from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from wbappointment.models import ExpertSchedule
 from web.forms.users import CustomUserCreationForm, ExpertAnketaForm, UserPasswordResetForm, UserSetNewPasswordForm, \
@@ -52,13 +56,13 @@ def send_activation_email(user, request):
     html_content = render_to_string('emails/account_activation.html', {'confirmation_link': confirmation_link})
     # Получаем текстовую версию письма из HTML
     text_content = strip_tags(html_content)
-    EMAIL = env('EMAIL_HOST_USER')
+    email = env('EMAIL_HOST_USER')
 
     # Создаем объект EmailMultiAlternatives
     email = EmailMultiAlternatives(
         'Активация аккаунта',
         text_content,
-        EMAIL,
+        email,
         [user.email]
     )
     # Добавляем HTML версию
@@ -199,6 +203,7 @@ def register_user(request):
         }
         return render(request, get_template_name(request), context=context)
 
+
 def activate_account(request, token):
     signer = TimestampSigner()
     try:
@@ -309,3 +314,33 @@ class CustomLoginView(LoginView):
             return ['registration/login_mobile.html']
         else:
             return ['registration/login.html']
+
+
+class UserDeleteView(LoginRequiredMixin, APIView):
+
+    def delete(self, request):
+        try:
+            user = request.user
+            # Проверяем что пользователь еще не удален
+            if user.is_deleted:
+                return Response(
+                    {"error": "User already deleted"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Обновляем поля удаления
+            user.is_deleted = True
+            user.delite_date = date.today()
+            user.is_active = False
+            user.save()
+
+            return Response(
+                {"message": "User successfully deleted"},
+                status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

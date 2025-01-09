@@ -37,8 +37,8 @@ def start():
 
     scheduler.add_job(
         cbr_key_indicators,
-        # trigger=CronTrigger(minute="*"), # 1 каждую минуту
-        trigger=CronTrigger(hour=3, minute=0),  # Ежедневная задача в 3 часа ночи
+        trigger=CronTrigger(minute="*"), # 1 каждую минуту
+        # trigger=CronTrigger(hour=3, minute=0),  # Ежедневная задача в 3 часа ночи
         id="cbr_key_indicators",
         max_instances=1,
         replace_existing=True,
@@ -46,7 +46,8 @@ def start():
 
     scheduler.add_job(
         await_rating_calc,
-        trigger=CronTrigger(day=1, hour=0, minute=0),  # выполнить 1 числа каждого месяца в 0 часов 0 минут
+        trigger=CronTrigger(minute="*"),  # 1 каждую минуту
+        # trigger=CronTrigger(day=1, hour=0, minute=0),  # выполнить 1 числа каждого месяца в 0 часов 0 минут
         id="calculate_rating",  # The same `id` defined in `apscheduler.jobstores`
         max_instances=1,
         replace_existing=True,
