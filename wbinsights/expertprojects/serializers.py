@@ -6,7 +6,7 @@ from web.models import CustomUser, Profile
 from .models import UserProject, Category, UserProjectCustomer
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django-info")
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):

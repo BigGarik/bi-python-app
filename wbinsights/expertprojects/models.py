@@ -11,7 +11,7 @@ from vote.models import VoteModel
 
 from web.models import Category
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django-info")
 
 
 class UserProject(VoteModel, models.Model, HitCountMixin):

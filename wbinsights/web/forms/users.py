@@ -10,7 +10,8 @@ from django_recaptcha.fields import ReCaptchaField
 
 from web.models.users import Profile, CustomUser, ExpertProfile, Category, Document, Education, ExpertAnketa, Grade
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django-info")
+
 
 class CustomUserForm(forms.ModelForm):
     class Meta:

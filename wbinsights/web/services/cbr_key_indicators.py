@@ -6,7 +6,7 @@ from typing import Dict, Optional, Union
 import requests
 from bs4 import BeautifulSoup
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django-info")
 
 
 def get_currency_rates() -> Optional[Dict[str, Dict[str, Union[float, str]]]]:
@@ -213,7 +213,7 @@ def get_combined_financial_rates() -> Optional[Dict[str, Dict[str, Union[float, 
             'change_percentage': key_rate['change_percentage'],
             'last_change_date': key_rate['last_change_date']
         }
-
+        logger.info(currency_rates)
         return currency_rates
 
     except Exception as e:

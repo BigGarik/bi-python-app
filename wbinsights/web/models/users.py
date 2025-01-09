@@ -8,6 +8,7 @@ from django.db import models
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.deconstruct import deconstructible
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 from web.models import Category
@@ -59,7 +60,7 @@ class CustomUser(AbstractUser):
     username = models.CharField(
         _("username"),
         max_length=150,
-        # unique=True,
+        unique=True,
         help_text=_(
             "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
         )
@@ -84,7 +85,7 @@ class CustomUser(AbstractUser):
     )
 
     # USERNAME_FIELD = 'email'
-    # REQUIRED_FIELDS = ["email"]
+    # REQUIRED_FIELDS = []
 
     class Meta:
         constraints = [
