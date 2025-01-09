@@ -99,58 +99,50 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
 
+    <form method="post" enctype="multipart/form-data" id="article-form">
+        {% csrf_token %}
 
-    <div class="row element-container ">
+        <div class="element-container ">
 
+            <div class="col-12 p-0">
+                {% trans "BackButtonLabel" as back_text %}
+                {% back_button "index" back_text %}
+                {{ form.title.label }}
+                {{ form.title }}
+                <br>
+                {{ form.description.label }}
+                {{ form.description }}
+                <br>
 
-            {#  fix form error  #}
-        <form method="post" enctype="multipart/form-data" id="article-form">
-            {% csrf_token %}
-
-            <div class="row">
-                <div class="col-12 p-0" >
-                    {% trans "BackButtonLabel" as back_text %}
-                    {% back_button "index" back_text %}
-                    {{ form.title.label }}
-                    {{ form.title }}
-                    <br>
-                    {{ form.description.label }}
-                    {{ form.description }}
-                    <br>
-
-                    {{ form.main_img.label }}
-                    <div id="imageContainer">
-                        <img id="uploadedImage" src="{{ form.main_img.value.url }}"
-                             style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
-                    </div>
-                    {{ form.main_img }}
-                    <br>
+                {{ form.main_img.label }}
+                <div id="imageContainer">
+                    <img id="uploadedImage" src="{{ form.main_img.value.url }}"
+                         style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
                 </div>
-
-                {#                    <div class="row" id="sticky-container" style="overflow-x: auto; position: relative; z-index: 100;">#}
-                {#                        <div class="article-add-right-btns" style="overflow-x: auto; padding: 10px !important;">#}
-                {#                            <div id="blocks"></div>#}
-                {#                            <div class="grip-container">#}
-                {#                                <i class="bi bi-grip-horizontal grip-icon"></i>#}
-                {#                            </div>#}
-                {#                        </div>#}
-                {#                    </div>#}
-
-                <div id="gjs" style="min-height: 400px;"></div>
-                <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
+                {{ form.main_img }}
+                <br>
             </div>
 
-        </form>
+            {#                    <div class="row" id="sticky-container" style="overflow-x: auto; position: relative; z-index: 100;">#}
+            {#                        <div class="article-add-right-btns" style="overflow-x: auto; padding: 10px !important;">#}
+            {#                            <div id="blocks"></div>#}
+            {#                            <div class="grip-container">#}
+            {#                                <i class="bi bi-grip-horizontal grip-icon"></i>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </div>#}
 
-    </div>
+            <div id="gjs" style="min-height: 400px;"></div>
+            <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
 
-    <div class="row basepost-content-mobile-bottom-padding">
-        <div class="article-add-right-btns" style="margin-top: 30px">
+        </div>
+
+        <div class="element-container basepost-content-mobile-bottom-padding mt-3" >
+            
             <div class="article-settings">
                 <div>Настройки</div>
-                <div class="clear-all" onclick="clearEditorContent()"><i class="bi bi-trash"
-                                                                         style="cursor:pointer"></i> Очистить
-                    всё
+                <div class="clear-all" onclick="clearEditorContent()">
+                    <i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё
                 </div>
             </div>
 
@@ -159,12 +151,14 @@
             <br>
             <div>Статус публикации</div>
             {{ form.is_published }}
+
             <br>
             <div class="d-grid gap-2 d-block">
                 <input type="submit" value="Опубликовать" class="btn btn-success"/>
             </div>
         </div>
-    </div>
+
+    </form>
 
 
 
