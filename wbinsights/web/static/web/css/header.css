@@ -28,14 +28,7 @@
 
 }
 
-.profile-icons-section {
-    display: flex;
-    align-items: center;
-}
 
-.header-user-prof {
-    display: flex !important;
-}
 
 .header-prof-info {
     display: flex;
@@ -44,9 +37,6 @@
     justify-content: center;
 }
 
-.header-prof-cont {
-    display: flex;
-}
 
 .logout-btn {
     border: none !important;
@@ -81,10 +71,6 @@
     background-color: #f0f0f0;
 }
 
-.main-cont-css {
-    align-items: center;
-    height: 60px;
-}
 
 .fullscreen-dropdown {
     height: 100%;
@@ -140,10 +126,6 @@
     margin-left: 20px !important;
 }
 
-.search-bar-cont-nav {
-    display: flex;
-    justify-content: flex-start;
-}
 
 .search-bar-nav {
     display: flex;
@@ -214,10 +196,6 @@
     margin-left: 15px;
 }
 
-.buttons-log-cont {
-    display: flex;
-    align-items: center;
-}
 
 #sidebar {
     width: 75%;
@@ -284,9 +262,9 @@ h1 {
     margin-left: 20px !important;
 }
 
-.p-4 {
-    padding: 0 !important;
-}
+/*.p-4 {*/
+/*    padding: 0 !important;*/
+/*}*/
 
 .container-fluid {
     padding-right: 0px !important;
@@ -309,9 +287,7 @@ h1 {
     display: none;
 }
 
-.verify-text {
-    margin: 0 !important;
-}
+
 
 .verify-account-cont {
     justify-content: center;

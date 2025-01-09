@@ -19,7 +19,7 @@
     {% get_top_experts as topexperts %}
 
     {% for expert in topexperts|slice:":6" %}
-        <div class="expert-profiles-cont">
+        <div class="d-flex align-items-center mb-3">
         
             <div class="side-avatar-container">
                 <img src="{{ expert.profile.avatar.url }}" alt="Random Image" class="img-fluid"/>

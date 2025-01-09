@@ -1,15 +1,6 @@
 {% load web_tags %}
 
 <style>
-
-    .desktop {
-        display: flex;
-    }
-
-    .mobile {
-        display: none;
-    }
-
     @media (max-width: 768px) {
         .if-mobile-consult-btn {
             width: 100%;
@@ -17,14 +8,6 @@
             border: none;
             padding: 10px;
             border-radius: 10px;
-        }
-
-        .desktop {
-            display: none;
-        }
-
-        .mobile {
-            display: flex;
         }
     }
 
@@ -36,51 +19,27 @@
     }
 </style>
 
-{#{% device_is_mobile as is_mobile %}#}
-{##}
-{#{% if is_mobile %}#}
-{#    <!-- Mobile -->#}
-{#    <div class="col-12" style="width: 100%">#}
-{##}
-{#{% else %}#}
-{##}
-{##}
-{#    <div class="col-sm-4 col-md-3-5">#}
-{#        <!-- empty, space size as avatar cont -->#}
-{#    </div>#}
-{##}
-{#{% endif %}#}
-
-<div class="col-12 mobile" style="width: 100%">
-
+{% device_is_mobile as is_mobile %}
+{% if is_mobile %}
+    <!-- Mobile -->
+    <div class="col-12" style="width: 100%">
+{% else %}
+    <div class="row" style="width: 100%">
+    <div class="col-sm-4 col-md-3-5">
+        <!-- empty, space size as avatar cont -->
+    </div>
+{% endif %}
+<div class="col-sm-8 col-md-8-5">
     {% if user == request.user %}
-        <a href="#" aria-disabled="True" type="button"
-           class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
+        <button type="button" disabled
+                class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
             Консультация
-        </a>
+        </button>
     {% else %}
-        <a href="{% url 'appointment_add' user.id %}" aria-disabled="True" type="button"
+        <a href="{% url 'appointment_add' user.id %}" type="button"
            class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
             Консультация
         </a>
     {% endif %}
 </div>
-
-<div class="row desktop" style="width: 100%">
-    <div class="col-sm-4 col-md-3-5">
-        <!-- empty, space size as avatar cont -->
-    </div>
-    <div class="col-sm-8 col-md-8-5">
-        {% if user == request.user %}
-            <a href="#" aria-disabled="True" type="button"
-               class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
-                Консультация
-            </a>
-        {% else %}
-            <a href="{% url 'appointment_add' user.id %}" aria-disabled="True" type="button"
-               class="btn btn-secondary prof-consult-btn if-mobile-consult-btn">
-                Консультация
-            </a>
-        {% endif %}
-    </div>
 </div>

@@ -6,209 +6,174 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
     <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}?ver=0.01">
     <link rel="stylesheet" href="{% static 'web/css/login.css' %}?ver=0.01">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
 
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        .custom-form-field {
-            outline: none;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            width: 100%;
-            padding: 10px;
-            font-size: 34px;
+        body {
+            background-color: #f2f3f5;
+            min-height: 100vh;
         }
 
 
-        @media (min-width: 992px) {
-            .span-register {
-                font-size: 24px;
-                padding-top: 0px !important;
-            }
-
-            .form-group {
-                font-size: 16px;
-            }
-
-            .back-btn {
-                font-size: 14px !important
-            }
-
-            .login-with-phone {
-                font-size: 13px;
-            }
-
-            .back-btn-login {
-                font-size: 14px !important;
-            }
-
-            .register-btn {
-                font-size: 16px !important;
-                font-weight: 500;
-                padding: 10px 0 10px 0 !important;
-                margin-top: 10px !important;
-            }
-
-            .login-txt {
-                font-size: 13px !important;
-                font-weight: 800 !important;
-            }
-
-            .custom-form-field {
-                padding: 5px !important;
-                font-size: 16px !important;
-            }
-        }
-
-        @media (min-width: 1400px) {
-            .col-xl-3 {
-                flex: 0 0 auto;
-                width: 20%;
-            }
-        }
-
-        @media (max-width: 767.98px) {
-            .register-cont {
-                margin-right: 10% !important;
-                margin-left: 10% !important;
-            }
-
+        .login-container {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
 
 
     </style>
-
 </head>
 
-<body style="background-color: #f2f3f5;">
+<body>
+<div class="d-flex align-items-center min-vh-100 ">
 
+    <div class="container">
 
-{#<ul class="messages">#}
-{#    {% for message in messages %}#}
-{#        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>#}
-{#    {% endfor %}#}
-{#</ul>#}
-{#{% endif %}#}
-
-<div class="login-page-cont">
-
-    <div class="col-xl-3 col-lg-4 col-md-10 register-cont">
-
-        <div class="back-btn-cont">
-
-            {% trans "BackButtonLabel" as back_text %}
-            {% back_button "index" back_text %}
-
-        </div>
-
-        <div class="user-fill-info-cont">
-
-            <form method="post" id="login-form">
-
-                {% csrf_token %}
-
-                <div class="role-choose">
-                    <span class="span-register">ВХОД</span>
+        <div class="row justify-content-center">
+            <div class="col-11 col-sm-9 col-md-7 col-lg-5 col-xl-4">
+                <!-- Back Button -->
+                <div class="mb-1 ">
+                    {% trans "BackButtonLabel" as back_text %}
+                    {% back_button "index" back_text %}
                 </div>
-            
-                {% if messages %}
-                    <div class="alert alert-danger">
-                        {% for message in messages %}
-                            {{ message }}
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {% if form.errors %}
-                        <div class="alert alert-danger">
-                            {% for key, value in form.errors.items %}
-                                {{ value }}
-                            {% endfor %}
 
+                <!-- Login Card -->
+                <div class="login-container p-4">
+                    <form method="post" id="login-form" novalidate>
+                        {% csrf_token %}
+
+                        <h4 class="d-flex justify-content-center fw-bold mb-4 mt-3">ВХОД</h4>
+
+                        {% if messages %}
+                            <div class="alert alert-danger mb-4">
+                                {% for message in messages %}
+                                    {{ message }}
+                                {% endfor %}
+                            </div>
+
+                        {% elif form.errors %}
+                            <div class="alert alert-danger mb-4">
+                                {% for key, value in form.errors.items %}
+                                    {{ value }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3" id="email-form">
+
+                            <label for="email" class="form-label fw-semibold">Электронная почта</label>
+
+                            <input type="email"
+                                   name="{{ form.username.name }}"
+                                   class="form-control"
+                                   placeholder="your@email.com"
+                                   {% if form.username.field.required %}required{% endif %}
+                            >
                         </div>
-                    {% endif %}
-                {% endif %}
-            
-                <div class="form-group" id="email-form">
-                    <label for="email">Электронная почта</label>
-                    <input type="email" name="{{ form.username.name }}" class="custom-form-field"
-                           {% if form.username.field.required %}required{% endif %}>
+
+                        {#                        <div class="mb-3 d-none" id="phone-form">#}
+                        {#                            <label for="phone_number" class="form-label">Телефон</label>#}
+                        {#                            <input type="tel"#}
+                        {#                                   name="{{ form.phone_number }}"#}
+                        {#                                   class="form-control"#}
+                        {#                                   placeholder="+7 (___) ___-__-__"#}
+                        {#                                   {% if form.phone_number.field.required %}required{% endif %}>#}
+                        {#                        </div>#}
+
+                        <!-- Password Field -->
+                        <div class="mb-4">
+
+                            <label for="password" class="form-label fw-semibold">Пароль</label>
+
+                            <input type="password"
+                                   id="password"
+                                   name="{{ form.password.name }}"
+                                   class="form-control"
+                                   placeholder="••••••••"
+                                   {% if form.password.field.required %}required{% endif %}
+                            >
+                        </div>
+
+                        <div class="d-grid ">
+                            <button class="btn btn-success py-2 fw-semibold" type="submit">
+                                Войти
+                            </button>
+                        </div>
+
+
+                    </form>
+
                 </div>
 
-                <div class="form-group" id="phone-form" style="display: none;">
-                    <label for="phone_number">Телефон</label>
-                    <input type="phone_number" name="{{ form.phone_number }}" class="custom-form-field"
-                           {% if form.phone_number.field.required %}required{% endif %}>
+                <div class="d-flex justify-content-evenly align-items-center py-2">
+
+                    <a href="{% url 'signup' %}" class="text-decoration-none text-secondary small fw-bold">
+                        Зарегистрироваться
+                    </a>
+
+                    <a href="{% url 'password_reset' %}" class="text-decoration-none text-secondary small fw-bold">
+                        Забыли пароль?
+                    </a>
                 </div>
-
-{#                <a href="#" class="login-with-phone" onclick="toggleLoginField();">#}
-{#                    <span>Войти с помощью телефона</span>#}
-{#                </a>#}
-
-                <div class="form-group">
-                    <label for="password">Пароль</label>
-                    <input type="password" id="password" name="{{ form.password.name }}" class="custom-form-field"
-                           {% if form.password.field.required %}required{% endif %}/>
-                </div>
-
-                <div class="button-cont">
-                    <button class="btn btn-success register-btn" type="submit" value="Войти">Войти</button>
-                </div>
-
-            </form>
-
-
+            </div>
         </div>
-
-        <div class="login-cont">
-
-            <a href="{% url 'signup' %}" class="login-link">
-                <span class="login-txt">Зарегистрироваться</span>
-            </a>
-            <a href="{% url 'password_reset' %}" class="login-link">
-                <span class="login-txt">Забыли пароль?</span>
-            </a>
-        </div>
-
     </div>
-
 </div>
 
-</body>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+
     function toggleLoginField() {
-        var emailForm = document.getElementById('email-form');
-        var phoneForm = document.getElementById('phone-form');
-        var loginLink = document.querySelector('.login-with-phone span');
+        const emailForm = document.getElementById('email-form');
+        const phoneForm = document.getElementById('phone-form');
 
-        if (emailForm.style.display === 'none') {
-            emailForm.style.display = 'block';
-            phoneForm.style.display = 'none';
-            loginLink.innerText = 'Войти с помощью телефона';
-        } else {
-            emailForm.style.display = 'none';
-            phoneForm.style.display = 'block';
-            loginLink.innerText = 'Войти с помощью электронной почты';
-        }
+        emailForm.classList.toggle('d-none');
+        phoneForm.classList.toggle('d-none');
+
+        const loginLink = document.querySelector('.login-with-phone span');
+        loginLink.innerText = emailForm.classList.contains('d-none')
+            ? 'Войти с помощью электронной почты'
+            : 'Войти с помощью телефона';
     }
+
+
+    {#function toggleLoginField() {#}
+    {#    var emailForm = document.getElementById('email-form');#}
+    {#    var phoneForm = document.getElementById('phone-form');#}
+    {#    var loginLink = document.querySelector('.login-with-phone span');#}
+    {##}
+    {#    if (emailForm.style.display === 'none') {#}
+    {#        emailForm.style.display = 'block';#}
+    {#        phoneForm.style.display = 'none';#}
+    {#        loginLink.innerText = 'Войти с помощью телефона';#}
+    {#    } else {#}
+    {#        emailForm.style.display = 'none';#}
+    {#        phoneForm.style.display = 'block';#}
+    {#        loginLink.innerText = 'Войти с помощью электронной почты';#}
+    {#    }#}
+    {#
+
+
+    //can implement later, novalidate, maybe toasts
+
+    {#document.getElementById('login-form').addEventListener('submit', function (event) {#}
+    {#    if (!this.checkValidity()) {#}
+    {#        event.preventDefault();#}
+    {#        event.stopPropagation();#}
+    {#    }#}
+    {#    this.classList.add('was-validated');#}
+    {##}
+    {##}
 </script>
-
-
+</body>
 </html>
-
-
-
-
-
-

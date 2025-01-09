@@ -20,9 +20,6 @@
     overflow: visible !important; /* Set overflow to visible for the canvas */
 }
 
-.row {
-    margin-right: 0px;
-}
 
 .gjs-block {
     height: auto !important;

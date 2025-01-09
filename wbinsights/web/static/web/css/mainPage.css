@@ -2,10 +2,7 @@
 
 
 
-.base-info-split{
-    display: flex;
-    margin-top: 10px !important;
-}
+
 
 .btn-dark{
     display: flex;
@@ -14,11 +11,6 @@
     background-color: #36364b;
 }
 
-.verify-account-text{
-    color: white;
-    font-weight: 600;
-    font-size: 18px;
-}
 
 .displayflex{
     display: flex;
@@ -26,10 +18,6 @@
     gap: 3px;
 }
 
-.flex-center {
-    display:flex;
-    justify-content: center;
-}
 
 .article-news{
     display: flex;
@@ -67,17 +55,11 @@
         .post-menu-item {
             font-size: 11px;
         }
-        .base-info-split {
-            display: flex;
-            flex-direction: column;
-            margin-top: 15px;
-        }
+
         .base-article-title {
             padding: 10px 0px 10px 0px !important;
         }
-        .base-article-content {
-            padding: 10px 0px 10px 0px !important;
-        }
+
         .base-article-stats {
             padding: 10px 0px 10px 0px !important;
         }
@@ -138,11 +120,6 @@
     margin-left: 0px !important;
 }
 
-.article-content{
-    display: flex;
-    flex-direction: column;
-    margin-top: 25px;
-}
 
 
 

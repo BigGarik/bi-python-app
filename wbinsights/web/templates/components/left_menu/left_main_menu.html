@@ -8,7 +8,7 @@
     {% split request.path "/" "first" as first_path %}
     {% split request.path "/" "last" as last_path %}
 
-    <ul class="nav flex-column">
+    <ul class="nav flex-column bg-white mb-3 p-2  rounded-4">
 
         <li class="nav-item mb-1">
             <a class="nav-link text-dark d-flex align-items-center {% if last_path == 'popular' %} selected {% endif %}"

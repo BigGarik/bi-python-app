@@ -18,6 +18,7 @@
     <script src="{% static 'web/js/grapesjs/grapesjs-touch.min.js' %}"></script>
     {#    <script src="//unpkg.com/grapesjs-plugin-i18n/dist/grapesjs-plugin-i18n.min.js"></script>#}
     <link rel="stylesheet" href="{% static 'web/css/article_add.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}">
     <link rel="stylesheet" href="{% static 'web/css/grapesjes_Plugin_Modal.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
@@ -38,7 +39,7 @@
         }
 
         .right-margin-article-add {
-              margin: 10px 2.5% 5px;
+            margin: 10px 2.5% 5px;
         }
 
 
@@ -49,7 +50,6 @@
                 border-radius: 15px;
                 height: fit-content;
             }
-
 
 
             .mobile-gap {
@@ -68,31 +68,34 @@
 
     <form method="post" enctype="multipart/form-data" id="article-form">
         {% csrf_token %}
-        <div class="row mobile-gap">
-            <div class="col-md-8 col-lg-8-5 element-container-article-mob">
-                {% trans "BackButtonLabel" as back_text %}
-                {% back_button "index" back_text %}
-                {{ form.title.label }}
-                {{ form.title }}
-                <br>
-                {{ form.description.label }}
-                {{ form.description }}
-                <br>
-                {{ form.main_img.label }}
-                <div id="imageContainer">
-                    <img id="uploadedImage" src="{{ form.main_img.value.url }}"
-                         style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
+        <div class="row mobile-gap ">
+            <div class=" col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8 ">
+                <div class="element-container">
+
+                    {% trans "BackButtonLabel" as back_text %}
+                    {% back_button "index" back_text %}
+                    {{ form.title.label }}
+                    {{ form.title }}
+                    <br>
+                    {{ form.description.label }}
+                    {{ form.description }}
+                    <br>
+                    {{ form.main_img.label }}
+                    <div id="imageContainer">
+                        <img id="uploadedImage" src="{{ form.main_img.value.url }}"
+                             style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
+                    </div>
+                    {{ form.main_img }}
+                    <br>
+                    {{ form.content }}
+
+                    <div id="gjs" data-pixabay-api-key="{{ PIXABAY_API_KEY }}" style="min-height: 300px;"></div>
+
+
+                    <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
                 </div>
-                {{ form.main_img }}
-                <br>
-                {{ form.content }}
-
-                <div id="gjs" data-pixabay-api-key="{{ PIXABAY_API_KEY }}" style="min-height: 300px;"></div>
-
-
-                <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
             </div>
-            <div class="col-md-4 col-lg-3-5 element-container-article-mob  " >
+            <div class="col-md-4 col-lg-4 element-container-article-mob ">
                 <div class="article-add-right-btns basepost-content-mobile-bottom-padding">
                     <div class="article-settings">
                         <div>Настройки</div>
@@ -112,7 +115,7 @@
                     Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
                 </span>
                     <div id="blocks"></div>
-                    <div id="style-manager-container " class="right-margin-article-add" ></div>
+                    <div id="style-manager-container " class="right-margin-article-add"></div>
                     <hr class="solid"/>
                     <div class="form-group">
                         <label for="{{ form.cat.id_for_label }}">{{ form.cat.label }}</label>
