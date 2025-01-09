@@ -19,7 +19,8 @@
 
                     <div class="d-flex flex-column align-self-center">
 
-                        <h5 class="mb-2 fw-semibold fs-10">{{ expert.first_name }} <br> {{ expert.last_name }}</h5>
+                                                {# subject of change, </br> #}
+                        <h5 class="mb-2 fw-semibold fs-10">{{ expert.first_name }} {{ expert.last_name }}</h5>
 
                         {% include 'components/experts/rating.html' with user=expert %}
                     </div>
