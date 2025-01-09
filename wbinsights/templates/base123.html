@@ -9,7 +9,7 @@
     <div class="row">
 
         <div class="d-none d-xl-block col-xl-3 mt-3" style="position: sticky; top: 0; height: 100vh;">
-            <div class="p-1 mt-2 bg-light">
+            <div class="mt-2 bg-light">
                 {% include "components/left_menu/left_main_menu.html" %}
             </div>
         </div>
@@ -21,13 +21,12 @@
         </div>
 
         <div class="d-none d-md-block col-md-4 col-lg-4 col-xl-3 mt-3" style="position: sticky; top: 0; height: 100vh;">
-            <div class="p-1 mt-2 p-3 bg-white rounded-4  sticky-top">
+            <div class=" mt-2 p-3 bg-white rounded-4  sticky-top">
                 {% block right_aside %}
                     {% include "components/experts/main_page_list.html" %}
                 {% endblock %}
             </div>
         </div>
-
 
     </div>
 
