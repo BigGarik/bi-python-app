@@ -16,29 +16,31 @@
         {% back_button "index" back_text %}
 
 
-        <span class="basepost-title">
+        <div class="g-fs-header-20 mb-3">
             Написать нам
-        </span>
+        </div>
 
-        <form class="contact-form-cont" method="post" action="{% url 'contact_us_send' %}">
+        <form class="d-flex flex-column gap-2" method="post" action="{% url 'contact_us_send' %}">
             {% csrf_token %}
-            <span class="basepost-description">
+
+            <span class="g-fs-14">
                 Напишите, чем мы можем вам помочь
             </span>
-            <span class="contact-email-span">Мы ответим вам на почту </span>
+
+            <span class="d-flex text-muted g-fs-14 opacity-50">Мы ответим вам на почту </span>
+
             {% if user.is_authenticated %}
-                    <input type="email" class=" form-control " name="email" value="{{ user.email }}" required/>
+                <input type="email" class=" form-control " name="email" value="{{ user.email }}" required/>
+
             {% else %}
-                    <input type="email" name="email" required class="contact-input-field form-control "/>
+                <input type="email" name="email" required class="contact-input-field form-control "/>
+
             {% endif %}
             <div class="form-textarea-contact">
                 <textarea class="form-control" name="content" required> </textarea>
             </div>
 
-            <div class="contact-us-btn-cont">
-                <button type="submit" class="btn btn-success bg-success border-0">Отправить</button>
-                {#                <span class="contact-email-span">Мы ответим вам c почты &nbsp; <a href="#" class="contact-email-link">info@24wbinside.ru</a> </span>#}
-            </div>
+            <button type="submit" class="btn btn-success bg-success border-0 mt-2 g-fs-14">Отправить</button>
 
         </form>
 

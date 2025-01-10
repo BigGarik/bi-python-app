@@ -4,7 +4,7 @@
 
 {% for question in expert_questions %}
     <div class="basepost-content-cont">
-        <div class="user-category-cont" style="justify-content: flex-start !important;">
+        <div class="d-flex flex-wrap min-h-30" style="justify-content: flex-start !important;">
             <div class="user-catagory-highlight {{ question.cat.slug }}">
                 {{ question.cat }}
             </div>
@@ -42,12 +42,12 @@
                 </div>
             </div>
             <!-- Mobile version -->
-            <div class="question-answer-last d-inline d-md-none">
+            <div class="d-flex mt-2 justify-content-between d-inline d-md-none">
                 <div class="list-publish-date" style="margin: 10px 0 10px 0;">
                     {{ question.created_at|custom_time_display }}
                 </div>
-                <div class="flex-cont">
-                    <div class="article-author-cont">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex align-items-center gap-1">
                         <div class="author-pic-research">
                             {% if question.author.profile.avatar.url %}
                                 <div><img src="{{ question.author.profile.avatar.url }}"

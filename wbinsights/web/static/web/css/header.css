@@ -1,11 +1,4 @@
 
-.header-container {
-    display: flex;
-    /* width: 100%; */
-    background-color: #36364b;
-    padding: 10px;
-}
-
 
 .search-bar-cont {
     display: flex;
@@ -169,10 +162,6 @@
     align-items: center;
 }
 
-.profile-info-cont {
-    display: flex;
-    flex-direction: column;
-}
 
 .profile-username {
     display: flex;
@@ -247,15 +236,6 @@
     margin-bottom: 5px;
 }
 
-.test {
-    width: 100%;
-    height: 100%;
-}
-
-h1 {
-    color: white;
-    text-align: center;
-}
 
 .dropdown .dropdown-toggle::after {
     display: none !important;
@@ -266,16 +246,6 @@ h1 {
 /*    padding: 0 !important;*/
 /*}*/
 
-.container-fluid {
-    padding-right: 0px !important;
-    padding-left: 0px !important;
-}
-
-
-.for-pic img {
-    max-width: 100%;
-    height: auto;
-}
 
 #overlay {
     position: fixed;
@@ -287,14 +257,6 @@ h1 {
     display: none;
 }
 
-
-
-.verify-account-cont {
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    padding: 5px;
-}
 
 @media (max-width: 768px) {
     #mobile-nav {
@@ -310,41 +272,6 @@ h1 {
         box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     }
 
-
-    #mobile-nav .nav-item {
-        color: white;
-        text-align: center;
-        font-size: 14px;
-    }
-
-    #mobile-nav .nav-item i {
-        display: block;
-        font-size: 1.5em;
-    }
-
-    #mobile-nav .nav-item span {
-        display: block;
-        font-size: 0.8em;
-    }
-}
-
-
-  /* header.css */
-.header-container {
-    width: 100%;
-}
-
-.mobile-header-flex {
-    display: flex;
-    align-items: center;
-}
-
-.mobile-actions-container {
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-    gap: 15px;
-    align-items: center;
 }
 
 .sidebar-icon {
@@ -373,46 +300,11 @@ h1 {
     color: black;
 }
 
-.header-profile-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
 .header-icon {
     color: white;
     font-size: 1.3em;
 }
 
-.username-text {
-    color: white;
-}
-
-.user-role-text {
-    color: grey;
-}
-
-.profile-dropdown-button {
-    background-color: inherit !important;
-    border: none !important;
-    margin: 0;
-}
-
-.profile-image {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.profile-menu {
-    padding: 0px;
-}
-
-.mobile-menu {
-    padding: 0px;
-
-}
 
 .profile-icon {
     margin-right: 10px;
@@ -423,9 +315,6 @@ h1 {
     scale: 1.1;
 }
 
-.auth-button {
-    font-size: 16px;
-}
 
 .sidebar-container {
     display: flex;
@@ -443,9 +332,6 @@ h1 {
     font-size: 34px;
 }
 
-.tablet-profile-container {
-    align-items: center;
-}
 
 
 

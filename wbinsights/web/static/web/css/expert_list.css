@@ -15,92 +15,6 @@
     box-shadow: 0 0 5px hsla(0,0%,80%,.5);
 }
 
-.expert-list-prof-pic{
-    display: flex;
-    padding: 10px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.experts-list-avatar-container {
-    width: 125px;
-    height: 125px;
-    border-radius: 50%; 
-    overflow: hidden; 
-    border: 1px solid #ccc; 
-}
-
-.experts-list-avatar-container img {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-}
-
-.experts-list-rating-span{
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    font-family: sans-serif;
-    font-size: 15px;
-}
-
-.basepost-expert-name{
-    display: flex;
-    font-family: sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    margin-top: 15px;
-    line-height: normal;
-    margin-bottom: 10px;
-}
-
-
-.expert-list-consult-btn{
-    background-color: #6dc36b;
-    border: none;
-    font-weight: 500;
-    color:white !important;
-    font-size: 16px;
-    border-radius: 10px;
-}
-
-.expert-list-consult-btn:hover{
-    background-color: #21941f;
-}
-
-.money-rate{
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-    font-weight: 600;
-    color :black ;
-    white-space: nowrap;
-    font-size: 13px;
-}
-
-.article-last{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 10px;
-}
-
-.article-last-2{
-    display: flex ;
-    justify-content: space-between;
-    align-items: flex-end;
-    /*padding: 10px;*/
-}
-
-.expert-list-container {
-    gap: 15px ;
-    display: flex;
-    flex-direction: column;
-}
-
 .experts-container {
     gap: 15px;
     display: flex;
@@ -113,70 +27,8 @@
 
 @media (max-width: 768px ) {
 
-    .expert-list-consult-btn {
-        display: flex;
-        /* width: 100%; */
-        justify-content: center;
-        padding: 10px 20px 10px 20px;
-        border-radius: 10px;
-        font-size: 15px;
-        font-weight: 500;
-        letter-spacing: 1px;
-    }
 
-    .basepost-description{
-        font-size: 14px;
-        font-family: sans-serif;
-        font-weight: 500;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .basepost-title {
-        margin-top: 0px;
-        font-size: 24px !important;
-        letter-spacing: 1px;
-    }
-
-    .money-rate {
-        font-weight: 600;
-        font-size: 14px;
-    }
-
-    .experts-list-rating-span {
-        font-size: 16px;
-        margin-left: 0px !important;
-        justify-content: flex-start;
-
-    }
-
-    .article-last {
-        align-items: flex-start !important;
-    }
-
-
-    .user-catagory-highlight {
-        padding: 7px 12px 7px 12px !important;
-        font-size: 13px !important;
-        font-weight: 500;
-    }
-
-    .catagory-cont {
-        width: auto !important;
-    }
-
-    .small-layout {
-        display: flex;
-        flex-direction:column;
-        width: 100%;
-    }
-
-    .article-last {
-        gap:10px !important ;
-        flex-direction: column !important;
-    }
-
-     .expert-prof-cont {
+    .expert-prof-cont {
         display: flex;
         padding: 0px;
         border-radius: 10px;
@@ -185,59 +37,15 @@
         flex-direction: column;
     }
 
-    .expert-list-prof-pic {
-        justify-content: flex-start;
-        flex-direction: row;
-        padding: 0;
-        gap: 25px;
-    }
-
-
-
     .basepost-content-cont {
         padding: 0px !Important;
         margin-top: 15px;
         gap: 15px !important;
     }
 
-    .user-stats {
-        font-size: 12px;
-        padding: 0px;
-    }
-
-    .small-layout {
-        margin-bottom: 15px;
-    }
-
-    .experts-list-avatar-container {
-        width: 105px !important;
-        height: 105px !important;;
-    }
-
-}
-
-@media (min-width: 769px ) {
-    .small-layout {
-        display: flex;
-        flex-direction:row !important;
-        width: 100%;
-    }
-
-    .user-stats {
-        justify-content: flex-end !important;
-        margin-bottom: 5px !important;
-    }
-
-
 }
 
 @media (max-width: 1580px ) {
-
-    .user-stats {
-        margin-bottom: 0px !important;
-        justify-content: flex-end !important;
-        font-size: 12px;
-    }
 
     .basepost-prof-socials-cont{
         flex-flow: column-reverse !important;

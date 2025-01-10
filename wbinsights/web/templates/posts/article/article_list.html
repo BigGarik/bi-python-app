@@ -22,13 +22,13 @@
 
     <div class="element-container main-list-gap">
 
-        <div class="search-and-cat-cont columnArticle">
+        <div class="search-and-cat-cont d-flex flex-column flex-md-row">
             <div class="col-sm-12 col-md-6">
                 <input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск"
                        value="{{ search_q }}">
             </div>
 
-            <div class="col-sm-12 col-md-6 testing-class">
+            <div class="col-sm-12 col-md-6 d-flex justify-content-end justify-content-md-start gap-3 mt-md-3">
                 {% include "components/post_category_filter.html" %}
             </div>
 

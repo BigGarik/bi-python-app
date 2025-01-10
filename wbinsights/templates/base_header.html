@@ -6,7 +6,7 @@
 {% load static %}
 {% load i18n %}
 
-<header class="py-3 sm-4 border-bottom header-container">
+<header class="p-3 sm-4 border-bottom d-flex bg-dark w-100">
     <div class="container-fluid">
         <!-- display for larger screens -->
         <div class="d-none d-xl-flex justify-content-end align-items-center">
@@ -45,7 +45,7 @@
 
             <div class="col-md-2 text-md-end header-nav-container"></div>
 
-            <div class="col-md-3 text-md-end header-profile-container">
+            <div class="col-md-3 text-md-end d-flex justify-content-end align-items-center">
             
                 {% if user.is_authenticated %}
                     
@@ -69,8 +69,8 @@
                     
                     <div class="d-flex">
                         <div class="header-prof-info">
-                            <span class="username-text">{{ user.first_name }}</span>
-                            <span class="user-role-text">
+                            <span class="text-white">{{ user.first_name }}</span>
+                            <span class="text-secondary">
                                 {% if user.is_superuser %}
                                     Админ
                                 {% elif user.profile.type == 1 %}
@@ -82,11 +82,11 @@
                         </div>
                     
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle profile-dropdown-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-image">
+                            <button class="btn btn-secondary dropdown-toggle bg-transparent border-0 m-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="rounded-circle object-fit-cover" style="height: 50px; width: 50px;">
                             </button>
                             
-                            <div class="dropdown-menu profile-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
                                 <div class="header-profile-cont">
                                     <a href="{% url 'profile' %}?tab=articles" class="profile-page-btn prof-page-btn-styles">
                                         <i class="bi bi-person-fill profile-icon"></i>
@@ -117,11 +117,11 @@
                     <div class="d-flex align-items-center">
                     
                         <a href="{% url 'login' %}">
-                            <button type="button" class="btn btn-dark logout-btn-style auth-button">{% trans 'LoginBtnLabel' %}</button>
+                            <button type="button" class="btn btn-dark logout-btn-style g-fs-16">{% trans 'LoginBtnLabel' %}</button>
                         </a>
                         
                         <a href="{% url 'signup' %}">
-                            <button type="button" class="btn btn-primary auth-button">{% trans 'RegisterBtnLabel' %}</button>
+                            <button type="button" class="btn btn-primary g-fs-16">{% trans 'RegisterBtnLabel' %}</button>
                         </a>
                     </div>
                 {% endif %}
@@ -132,13 +132,13 @@
         <!-- display on small screens -->
         <div class="d-xl-none">
         
-            <div class="mobile-header-flex">
+            <div class="d-flex align-items-center">
             
                 <div id="sidebar-btn">
                     <i class="bi bi-list sidebar-icon"></i>
                 </div>
             
-                <div class="mobile-actions-container">
+                <div class="d-flex w-100 justify-content-end align-items-center gap-3">
                 
                     <i class="bi bi-search search-icon-mobile" onclick="alert('in progress')"></i>
                 
@@ -151,7 +151,7 @@
                                     <i class="bi bi-plus plus-icon"></i>
                                 </button>
                             
-                                <div class="dropdown-menu mobile-menu" aria-labelledby="dropdownMenuButton">
+                                <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
                                     {% if user.profile.type == 1 %}
                                         <a class="dropdown-item" href="{% url 'article_add' %}">{% trans 'CreateArticleLabel' %}</a>
                                     {% endif %}
@@ -160,7 +160,7 @@
                         {% endif %}
 
                         <!-- tablet only view, between sm and xl -->
-                        <div class="d-none d-sm-flex all-profile-cont tablet-profile-container">
+                        <div class="d-none d-sm-flex all-profile-cont align-items-center">
                             {% if user.is_authenticated %}
                                 
                                 <div class="header-icon-cont">
@@ -183,9 +183,9 @@
                                 
                                 <div class="d-flex">
                                     <div class="header-prof-info">
-                                        <span class="username-text">{{ user.first_name }}</span>
+                                        <span class="text-white">{{ user.first_name }}</span>
                                     
-                                        <span class="user-role-text">
+                                        <span class="text-secondary">
                                             {% if user.is_superuser %}
                                                 Админ
                                             {% elif user.profile.type == 1 %}
@@ -197,10 +197,10 @@
                                     </div>
                                 
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle profile-dropdown-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-image">
+                                        <button class="btn btn-secondary dropdown-toggle bg-transparent border-0 m-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="rounded-circle object-fit-cover" style="height: 50px; width: 50px;">
                                         </button>
-                                        <div class="dropdown-menu profile-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
                                             <div class="header-profile-cont">
                                                 <a href="{% url 'profile' %}?tab=articles" class="profile-page-btn prof-page-btn-styles">
                                                     <i class="bi bi-person-fill profile-icon"></i>
@@ -227,11 +227,11 @@
                         <div class="buttons-log-cont d-none d-sm-flex">
                         
                             <a href="{% url 'login' %}">
-                                <button type="button" class="btn btn-dark logout-btn-style auth-button">{% trans 'LoginBtnLabel' %}</button>
+                                <button type="button" class="btn btn-dark logout-btn-style g-fs-16">{% trans 'LoginBtnLabel' %}</button>
                             </a>
                             
                             <a href="{% url 'signup' %}">
-                                <button type="button" class="btn btn-primary auth-button">{% trans 'RegisterBtnLabel' %}</button>
+                                <button type="button" class="btn btn-primary g-fs-16">{% trans 'RegisterBtnLabel' %}</button>
                             </a>
                         </div>
                     {% endif %}

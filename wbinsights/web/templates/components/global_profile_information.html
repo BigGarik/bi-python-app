@@ -1,78 +1,44 @@
 {% load i18n %}
 {% load web_tags %}
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
 
-
-{% device_is_mobile as mobile %}
-
-<div class="col-12 flex-column">
-
-    <div class="profile-header d-none d-md-flex">
-
-        <div class="col-sm-4 col-md-3-5 prof-page-pic-cont">
-            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-avatar">
+<div class="col-12">
+    <div class="d-flex flex-column flex-md-row ">
+        {# Avatar Section #}
+        <div class=" col-md-3-5 d-flex justify-content-center justify-content-md-start">
+            <img src="{{ user.profile.avatar.url }}"
+                 alt="Avatar"
+                 style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
         </div>
 
-        <div class="col-sm-8 col-md-8-5 profile-information-cont">
-
-            <div class="user-display-name">
+        {# User Info Section #}
+        <div class=" col-md-8-5 d-flex flex-column justify-content-evenly">
+            {# Name #}
+            <div class="g-fs-header-20 text-center justify-content-center text-center text-md-start">
                 {{ user.first_name }} {{ user.last_name }}
             </div>
 
             {% if user.profile.type == 1 %}
+                {# Rating #}
+                <div class="d-flex justify-content-center justify-content-md-start">
+                    {% include 'components/experts/rating.html' with user=user %}
+                </div>
 
-                {% include 'components/experts/rating.html' with user=user  %}
-
-                <div class="user-category-cont">
-
-                    <div class="displayflex">
-                        <div class="user-category">Эксперт в области : </div>
+                {# Expert Categories #}
+                <div class="d-flex flex-column flex-md-row align-items-center min-h-30">
+                    <div class="user-category mb-2 mb-md-0">Эксперт в области : </div>
+                    <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
                         {% for exp_category in profile.expert_categories.all %}
-                            <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
+                            <div class="user-catagory-highlight {{ exp_category.slug }}">
+                                {{ exp_category.name }}
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
-
             {% else %}
-                Клиент
+                <div class="text-center text-md-start">Клиент</div>
             {% endif %}
-        </div>
-    </div>
-
-    <!-- Mobile version (< 768px) -->
-    <div class="profile-header d-md-none flex-column">
-        <div class="header-top">
-
-            <div class="avatar-cont">
-                <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-avatar mobile-image-size">
-            </div>
-
-            <div class="user-info">
-                <div class="user-display-name">
-                    {{ user.first_name }} {{ user.last_name }}
-                </div>
-
-                {% if user.profile.type == 1 %}
-                    {% include 'components/experts/rating.html' with user=user size='medium'  %}
-
-                    <div class="user-category-cont">
-                        <div class="displayflex flex-column">
-                            <div class="user-category user-category-center no-margin-padding">Эксперт в области :</div>
-                            <div class="user-category user-category-center no-margin-padding">
-                                {% for exp_category in profile.expert_categories.all %}
-                                    <div class="user-catagory-highlight {{ exp_category.slug }}">{{ exp_category.name }}</div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-
-                {% else %}
-                    <span>Клиент </span>
-                {% endif %}
-
-            </div>
         </div>
     </div>
 </div>

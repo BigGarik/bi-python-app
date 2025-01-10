@@ -1,85 +1,143 @@
-{% extends 'base120.html' %}
+{% extends 'base123.html' %}
 {% load static %}
 {% load i18n %}
 {% load web_tags %}
 
 {% block extra_static %}
-    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
+    <style>
+
+        .has-error input {
+            border-color: var(--bs-danger);
+        }
+
+    </style>
 {% endblock %}
 
 {% block center_col %}
-
-
-<div class="element-container ">
-
+<div class="bg-white rounded-4 p-4">
     {% trans "BackButtonLabel" as back_text %}
     {% back_button "profile" back_text %}
 
-    <span class="prof-edit-page-title">{% trans 'ProfileSettingsCaption' %}</span>
+    <h4 class="mb-4 fw-normal">
+        {% trans 'ProfileSettingsCaption' %}
+        {% if request.user.email %}
+            ({{ request.user.email }})
+        {% endif %}
+    </h4>
 
-    <form method="post" enctype="multipart/form-data">
+    {% if user_form.errors or profile_form.errors or expert_profile_form.errors %}
+        <div class="alert alert-danger">
+            {{ user_form.errors }}
+            {{ profile_form.errors }}
+            {{ expert_profile_form.errors }}
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         {% csrf_token %}
 
-        <div class="prof-edit-rows">
-            <div class="prof-edit-duel-rows">
-                <div class="prof-edit-info-cont {% if user_form.first_name.errors %}has-error{% endif %}">
-                    <label for="{{ user_form.first_name.id_for_label }}" class="prof-edit-input-labels">{{ user_form.first_name.label }}</label>
+        {# Name Fields Row #}
+        <div class="row mb-4">
+            <div class="col-12 col-md-6 mb-3 mb-md-0">
+                <div class="{% if user_form.first_name.errors %}has-error{% endif %}">
+                    <label for="{{ user_form.first_name.id_for_label }}" class="form-label">
+                        {{ user_form.first_name.label }}
+                    </label>
                     {{ user_form.first_name }}
                     {% for error in user_form.first_name.errors %}
-                        <span class="error-message">{{ error }}</span>
+                        <div class="error-message">{{ error }}</div>
                     {% endfor %}
                 </div>
+            </div>
 
-                <div class="prof-edit-info-cont {% if user_form.last_name.errors %}has-error{% endif %}">
-                    <label for="{{ user_form.last_name.id_for_label }}" class="prof-edit-input-labels">{{ user_form.last_name.label }}</label>
+            <div class="col-12 col-md-6">
+                <div class="{% if user_form.last_name.errors %}has-error{% endif %}">
+                    <label for="{{ user_form.last_name.id_for_label }}" class="form-label">
+                        {{ user_form.last_name.label }}
+                    </label>
                     {{ user_form.last_name }}
                     {% for error in user_form.last_name.errors %}
-                        <span class="error-message">{{ error }}</span>
+                        <div class="error-message">{{ error }}</div>
                     {% endfor %}
                 </div>
             </div>
         </div>
 
-        <div class="expert-edit-rows">
-            <div class="prof-edit-photo-cont">
-                <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" class="avatar-img">
-                <div class="avatar-info">
-                    {% if profile_form.instance.avatar %}
-                        <p class="avatar-current-file">
-                            На данный момент: <a href="{{ profile_form.instance.avatar.url }}" class="avatar-current-link">{{ profile_form.instance.avatar.name }}</a>
-                        </p>
-                    {% endif %}
-                    <label for="id_avatar">Изменить:</label>
-                    <input type="file" name="avatar" class="your-custom-class" accept="image/*" id="id_avatar">
-                </div>
+        {% if expert_profile_form %}
+            {# About Field - Only for Expert Profile #}
+            <div class="mb-4">
+                <label for="{{ expert_profile_form.about.id_for_label }}" class="form-label">
+                    {{ expert_profile_form.about.label }}
+                </label>
+                {{ expert_profile_form.about }}
+            </div>
+        {% endif %}
+
+        {# Avatar Section #}
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="rounded-circle object-fit-cover" style="width: 100px; height: 100px;">
+            <div class="d-flex flex-column">
+{#                {% if profile_form.instance.avatar %}#}
+{#                    <small class="text-muted mb-2">#}
+{#                        На данный момент:#}
+{#                        <a href="{{ profile_form.instance.avatar.url }}" class="text-decoration-none">#}
+{#                            {{ profile_form.instance.avatar.name }}#}
+{#                        </a>#}
+{#                    </small>#}
+{#                {% endif %}#}
+                <input type="file"
+                       name="avatar"
+                       class="form-control form-control-sm"
+                       accept="image/*"
+                       id="id_avatar">
             </div>
         </div>
 
-        <div class="prof-edit-bot-btns-cont">
-            <button type="submit" class="btn btn-secondary prof-edit-save-btn">Сохранить изменения</button>
-            <button type="button" class="btn btn-secondary prof-edit-delete-btn" id="deleteProfileBtn" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+        <hr class="my-4">
+
+        {# Action Buttons #}
+        <div class="d-flex flex-column flex-md-row gap-3">
+            <button type="submit" class="btn btn-success g-green-bg g-fs-14">
+                Сохранить изменения
+            </button>
+            <button type="button"
+                    class="btn btn-outline-danger g-fs-14"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteProfileModal">
                 Удалить профиль
             </button>
         </div>
     </form>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="deleteProfileModal">
-        <div class="modal-dialog" role="document">
+    {# Delete Profile Modal #}
+    <div class="modal fade" id="deleteProfileModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
             <form method="post">
-                <div class="modal-content modal-custom">
-                    <div class="modal-header modal-header-custom">
-                        <h5 class="modal-title modal-title-custom">Удалить профиль</h5>
-                        <button type="button" class="btn-close modal-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title fw-normal">Удалить профиль</h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
                     </div>
-                    <div class="modal-body modal-body-custom">
-                        <p class="modal-password-prompt">Для подтверждения введите пароль</p>
+                    <div class="modal-body">
+                        <p class="fw-semibold mb-3">Для подтверждения введите пароль</p>
+                        <input type="password"
+                               required
+                               placeholder="Ваш пароль"
+                               class="form-control">
                     </div>
-                    <div class="modal-password-container">
-                        <input type="password" required placeholder="Ваш пароль" class="modal-password-input"/>
-                    </div>
-                    <div class="modal-footer modal-footer-custom">
-                        <button type="submit" class="btn btn-danger delete-btn">Удалить профиль</button>
-                        <button type="button" class="btn btn-secondary cancel-btn" data-bs-dismiss="modal">Отмена</button>
+                    <div class="modal-footer border-0 justify-content-between">
+                        <button type="submit" class="btn btn-danger">
+                            Удалить профиль
+                        </button>
+                        <button type="button"
+                                class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">
+                            Отмена
+                        </button>
                     </div>
                 </div>
             </form>

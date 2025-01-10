@@ -1,82 +1,3 @@
-.basepost-media-mobile {
-    padding: 15px 25px;
-    border-radius: 10px;
-    background-color: white;
-    color: black;
-    font-weight: 500;
-}
-
-.news-carousel-container {
-    max-height: 250px;
-}
-
-.news-image {
-    max-height: inherit;
-    min-width: 100%;
-}
-
-.news-content-container {
-    display: flex;
-}
-
-.news-image-container {
-    max-height: 250px;
-}
-
-.base-news-title {
-    display: flex;
-    font-size: 20px;
-    font-family: sans-serif;
-    font-weight: 600;
-    padding: 0px 10px 10px 10px;
-}
-
-.base-news-content {
-    display: flex;
-    font-size: 14px;
-    font-family: sans-serif;
-    font-weight: 500;
-    padding: 10px 0 10px 0;
-}
-
-.base-news-stats {
-    display: flex;
-    padding: 10px 0 10px 0;
-}
-
-.base-news-stats-comments {
-    display: flex;
-    align-items: center;
-    color: lightgray;
-    font-size: 14px;
-}
-
-.base-news-stats-last {
-    display: flex;
-    padding-left: 20px;
-    align-items: center;
-    color: lightgray;
-    font-size: 14px;
-}
-
-.base-news-stats {
-    display: flex;
-    justify-content: space-between;
-}
-
-.more-news-button {
-    margin-top: 10px;
-}
-
-.mobile-news-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.mobile-news-image {
-    max-height: inherit;
-    width: 100%;
-}
 
 @media (max-width: 767.98px) {
     .post-menu .dropdown {
@@ -140,15 +61,7 @@
         display: block;
     }
 }
-.carousel-container {
-    height: 160px;
-    margin: 10px 0;
-}
 
-.carousel {
-    border: none;
-    background: none;
-}
 
 .carousel-inner {
    background: none;
@@ -178,30 +91,6 @@
     gap: 7px;
 }
 
-.news-title[style*="font-size: 7px"] {
-    font-size: 12px !important;
-    color: #b0b0b0;
-    margin-bottom: 5px;
-    line-height: 1;
-}
-
-.news-titles {
-    color: #333;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin: 0;
-}
-
-.news-titles:hover {
-    color: #007bff;
-    text-decoration: none;
-}
 
 .carousel-control-prev,
 .carousel-control-next {
@@ -273,15 +162,6 @@
         padding: 15px;
         height: 120px;
         gap: 5px;
-    }
-
-    .news-titles {
-        font-size: 14px;
-        -webkit-line-clamp: 3;
-    }
-
-    .news-title[style*="font-size: 7px"] {
-        font-size: 11px !important;
     }
 
     .carousel-control-prev,

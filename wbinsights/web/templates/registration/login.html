@@ -41,13 +41,15 @@
         <div class="row justify-content-center">
             <div class="col-11 col-sm-9 col-md-7 col-lg-5 col-xl-4">
                 <!-- Back Button -->
-                <div class="mb-1 ">
-                    {% trans "BackButtonLabel" as back_text %}
-                    {% back_button "index" back_text %}
-                </div>
+
 
                 <!-- Login Card -->
                 <div class="login-container p-4">
+
+                    <div class="mb-1 ">
+                        {% trans "BackButtonLabel" as back_text %}
+                        {% back_button "index" back_text %}
+                    </div>
                     <form method="post" id="login-form" novalidate>
                         {% csrf_token %}
 
@@ -104,7 +106,7 @@
                         </div>
 
                         <div class="d-grid ">
-                            <button class="btn btn-success py-2 fw-semibold" type="submit">
+                            <button class="btn btn-success py-2 fw-semibold g-green-bg" type="submit">
                                 Войти
                             </button>
                         </div>

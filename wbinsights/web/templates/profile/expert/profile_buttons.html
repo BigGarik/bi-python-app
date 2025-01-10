@@ -18,14 +18,6 @@
         gap: 5px;
     }
 
-    .prof-btn {
-        height: 100%;
-    }
-
-    .prof-settings-btn,
-    .prof-logout-btn {
-        width: 100%;
-    }
 
     .justifyCenter {
         justify-content: center;
@@ -48,52 +40,37 @@
             margin-top: 5px;
         }
 
-        .button-wrapper {
-            width: 100%;
-        }
 
-        .prof-logout-btn {
-            justify-content: center;
-        }
     }
 
-    @media (min-width: 768px) {
-        .prof-settings-btn,
-        .prof-logout-btn {
-        {#font-size: calc(5px + 0.45vw) !important;#} font-size: small;
-        }
-    }
+
 </style>
 
 <!-- Desktop Layout -->
 <div class="settings-layout d-none d-md-flex">
 
-    <div class=" col-sm-4 col-md-3-5  ">
+    <div class=" col-md-3-5 d-flex justify-content-center justify-content-md-start  ">
         <!-- empty space (avatar cont)-->
     </div>
 
-    <div class="col-sm-8 col-md-8-5">
+    <div class="col-md-8-5 d-flex flex-column ">
 
         <div class="buttons-container">
 
             <div class="profile-buttons-group">
-                <div class="button-wrapper">
                     <a href="{% url 'profile_edit' %}"
-                       class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
-                </div>
+                       class="btn btn-outline-secondary mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14 ">{% trans 'EditProfileLabel' %}</a>
 
-                <div class="button-wrapper">
-                    <button type="button" class="btn prof-btn prof-settings-btn justifyCenter"
+                    <button type="button" class="btn btn-outline-secondary mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14 justifyCenter"
                             data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
                         {% trans 'ChangePasswordLabel' %}
                     </button>
-                </div>
             </div>
 
             <div class="profile-buttons-group">
-                <form method="post" action="{% url 'logout' %}" class="button-wrapper">
+                <form method="post" action="{% url 'logout' %}" >
                     {% csrf_token %}
-                    <button class="btn prof-btn prof-logout-btn" type="submit">
+                    <button class="btn btn-outline-danger mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14    " type="submit">
                         {% trans 'LogoutButtonLabel' %}
                     </button>
                 </form>
@@ -109,25 +86,21 @@
 
         <div class="profile-buttons-group">
 
-            <div class="button-wrapper">
                 <a href="{% url 'profile_edit' %}" style="font-size: small"
-                   class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
-            </div>
+                   class="btn btn-outline-secondary mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14 ">{% trans 'EditProfileLabel' %}</a>
 
-            <div class="button-wrapper">
-                <button type="button" style="font-size: small" class="btn prof-btn prof-settings-btn justifyCenter"
+                <button type="button" style="font-size: small" class="btn btn-outline-secondary mt-0 rounded-2 fw-semibold   d-flex align-items-center g-fs-14 justifyCenter"
                         data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
                     {% trans 'ChangePasswordLabel' %}
                 </button>
-            </div>
 
         </div>
 
         <div class="profile-buttons-group">
 
-            <form method="post" action="{% url 'logout' %}" class="button-wrapper">
+            <form method="post" action="{% url 'logout' %}" class="w-100" >
                 {% csrf_token %}
-                <button class="btn prof-btn prof-logout-btn" type="submit" style="font-size: small">
+                <button class="btn btn-outline-danger mt-0 rounded-2 fw-semibold d-flex align-items-center g-fs-14     w-100 w-sm-auto justify-content-center" type="submit" style="font-size: small">
                     {% trans 'LogoutButtonLabel' %}
                 </button>
             </form>

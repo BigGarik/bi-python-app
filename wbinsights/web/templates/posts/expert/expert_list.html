@@ -14,12 +14,12 @@
 {% block posts_content %}
     <div class="element-container main-list-gap">
         <div class="search-and-cat-cont">
-            <div class="small-layout col-sm col-md">
+            <div class="small-layout col-sm col-md d-flex flex-column w-100">
                 <div class="col-sm-12 col-md-6">
                     <input type="search" id="search-expert-query" class="lists-search-cont" placeholder="Поиск по имени"
                            value="{{ search_q }}"/>
                 </div>
-                <div class="col-sm-12 col-md-6 testing-class">
+                <div class="col-sm-12 col-md-6 d-flex justify-content-end justify-content-md-start gap-3 mt-md-3">
                     {% include "components/post_category_filter.html" %}
                     <div class="dropdown" style="display: flex; align-items: center;">
                         <button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown"

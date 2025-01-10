@@ -13,14 +13,18 @@
 
 
 
-    {#    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>#}
-    {#    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>#}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 {% endblock %}
 
 
 
 {% block center_col %}
+
+
     <style>
         .select2-container--default .select2-selection--multiple {
             background-color: white;
@@ -106,10 +110,11 @@
             </div>
         </div>
 
-        {% trans "BackButtonLabel" as back_text %}
-        {% back_button "profile" back_text %}
 
-        <div class="card shadow-sm border-0 p-4">
+        <div class="element-container">
+
+            {% trans "BackButtonLabel" as back_text %}
+            {% back_button "profile" back_text %}
 
             <div class="mb-4">
                 <h4 class="fw-normal">Настройки профиля ({{ request.user.email }})</h4>
@@ -271,7 +276,8 @@
 
                         <h5 class="mb-0">Образование</h5>
 
-                        <button type="button" class="btn btn-success btn-sm add-education-btn-trigger">
+                        <button type="button"
+                                class="btn btn-success g-fs-14 g-green-bg btn-sm add-education-btn-trigger">
                             <i class="bi bi-plus"></i>
                         </button>
                     </div>
@@ -352,7 +358,7 @@
                     {% include "components/loadingBtn.html" with button_text="Сохранить изменения" loading_text="Сохранение..." %}
 
                     <button type="button"
-                            class="btn btn-outline-danger"
+                            class="btn btn-outline-danger g-fs-14"
                             id="deleteProfileBtn"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteProfileModal">
@@ -405,7 +411,7 @@
                                     Удалить профиль
                                 </button>
                                 <button type="button"
-                                        class="btn btn-outline-secondary"
+                                        class="btn btn-outline-secondary g-green-bg"
                                         data-bs-dismiss="modal">
                                     Отмена
                                 </button>
@@ -511,7 +517,7 @@
     </script>
 
     <!-- Include Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 
 

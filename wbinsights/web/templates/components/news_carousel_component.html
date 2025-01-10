@@ -4,11 +4,11 @@
 
 <div class="bg-white p-3 mb-3 rounded-4">
 
-    <div class="element-caption-titles">
+    <div class="w-100 d-flex justify-content-between">
 
-        <span class="article-news">Новости</span>
+        <span class="d-flex g-fs-header-20 g-grey-color">Новости</span>
 
-        <span class="news-open-close" role="button" data-expanded="true">
+        <span class="news-open-close  d-flex align-items-center g-grey-color g-fs-12" role="button" data-expanded="true">
             <i class="bi bi-chevron-up"></i>
             &nbsp; свернуть
         </span>
@@ -32,7 +32,7 @@
                                          {% format_date news.pubDate %}
                                     </div>
                                     <div class="news-title">
-                                        <a href="{{ news.link }}" class="news-titles" target="_blank">
+                                        <a href="{{ news.link }}" class="text-decoration-none cursor-pointer g-fs-14" target="_blank">
                                             {{ news.title }}
                                         </a>
                                     </div>

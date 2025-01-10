@@ -38,7 +38,7 @@
             </div>
 
             {% if user.is_authenticated and user == article.author %}
-                <div class="manage-buttons" >
+                <div class="d-flex gap-3" >
                     <a href="{% url 'article_edit' slug=article.slug %}" class="article-detail-manage-buttons">
                         <i class="bi bi-pencil"></i>
                     </a>

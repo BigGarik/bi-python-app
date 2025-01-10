@@ -13,77 +13,77 @@
 
     <div class="element-container" >
 
-        <div class="edit-prof-info-cont">
+        <div class="d-flex flex-column">
 
             {% trans "BackButtonLabel" as back_text %}
             {% back_button "index" back_text %}
 
-            <span class="anketa-page-title">{% trans 'FillAllFieldsLabel' %}</span>
+            <span class="d-flex fw-semibold my-3 g-fs-header-20">{% trans 'FillAllFieldsLabel' %}</span>
 
 
                 <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <div class="prof-edit-rows">
+                <div class="d-flex flex-column">
 
-                    <div class="anketa-abt-me-form">
+                    <div class="d-flex p-1   ">
                         <label for="{{ expert_profile_form.about.id_for_label }}"
-                               class="anketa-form-labels">{{ expert_profile_form.about.label }}</label>
+                               class="mb-1 fw-semibold d-flex align-items-center w-75">{{ expert_profile_form.about.label }}</label>
                         {{ expert_profile_form.about }}
                     </div>
 
                 </div>
                 
-                <div class="prof-edit-rows">
+                <div class="d-flex flex-column">
 
-                    <div class="anketa-abt-me-form">
+                    <div class="d-flex p-1   ">
                         <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
-                               class="anketa-form-labels">{{ expert_profile_form.expert_categories.label }}</label>
+                               class="mb-1 fw-semibold d-flex align-items-center w-75">{{ expert_profile_form.expert_categories.label }}</label>
                         {{ expert_profile_form.expert_categories }}
                     </div>
 
                 </div>
                 
-                <div class="prof-edit-rows">
+                <div class="d-flex flex-column">
 
-                    <div class="anketa-abt-me-form">
+                    <div class="d-flex p-1   ">
                         <label for="{{ expert_profile_form.experience.id_for_label }}"
-                               class="anketa-form-labels">{{ expert_profile_form.experience.label }}</label>
+                               class="mb-1 fw-semibold d-flex align-items-center w-75">{{ expert_profile_form.experience.label }}</label>
                         {{ expert_profile_form.experience }}
                     </div>
 
                 </div>
-                <div class="prof-edit-rows">
+                <div class="d-flex flex-column">
 
-                    <div class="anketa-abt-me-form">
+                    <div class="d-flex p-1   ">
                         <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
-                               class="anketa-form-labels">{{ expert_profile_form.hour_cost.label }}</label>
+                               class="mb-1 fw-semibold d-flex align-items-center w-75">{{ expert_profile_form.hour_cost.label }}</label>
                         {{ expert_profile_form.hour_cost }}
                     </div>
 
                 </div>
-                <div class="prof-edit-rows">
+                <div class="d-flex flex-column">
 
-                    <div class="anketa-abt-me-form">
+                    <div class="d-flex p-1   ">
                         <label for="{{ expert_profile_form.education.id_for_label }}"
-                               class="anketa-form-labels">{{ expert_profile_form.education.label }}</label>
+                               class="mb-1 fw-semibold d-flex align-items-center w-75">{{ expert_profile_form.education.label }}</label>
                         {{ expert_profile_form.education }}
                     </div>
 
                 </div>
 
-                <div class="prof-edit-rows">
+                <div class="d-flex flex-column">
 
-                    <div class="anketa-abt-me-form">
+                    <div class="d-flex p-1   ">
                         <label for="{{ expert_profile_form.age.id_for_label }}"
-                               class="anketa-form-labels">{{ expert_profile_form.age.label }}</label>
+                               class="mb-1 fw-semibold d-flex align-items-center w-75">{{ expert_profile_form.age.label }}</label>
                         {{ expert_profile_form.age }}
                     </div>
 
                 </div>
 
 
-                <div class="anketa-btns-cont">
+                <div class="d-flex align-items-center mt-3">
                     <button type="submit" class="btn btn-success">{% trans 'SendForVerifyLabel' %}</button>
                 </div>
 

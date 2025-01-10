@@ -8,13 +8,13 @@
     {% split request.path "/" "first" as first_path %}
     {% split request.path "/" "last" as last_path %}
 
-    <ul class="nav flex-column bg-white mb-3 p-2  rounded-4">
+    <ul class="nav flex-column bg-white mb-3 p-2 rounded-4">
 
         <li class="nav-item mb-1">
             <a class="nav-link text-dark d-flex align-items-center {% if last_path == 'popular' %} selected {% endif %}"
                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">
                 <i class="bi bi-fire me-2 icon-scale"></i>
-                <span class="nav-item-class font-size-16">Популярное</span>
+                <span class="d-flex ps-2 g-fs-14">Популярное</span>
             </a>
         </li>
 
@@ -22,7 +22,7 @@
             <a class="nav-link text-dark d-flex align-items-center {% if last_path == 'new' %} selected {% endif %}"
                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">
                 <i class="bi bi-clock-fill  me-2 icon-scale"></i>
-                <span class="nav-item-class font-size-16">Новое</span>
+                <span class="d-flex ps-2 g-fs-14">Новое</span>
             </a>
         </li>
 
@@ -33,7 +33,7 @@
                 <a class="nav-link text-dark d-flex align-items-center  {% if last_path == category.slug %} selected {% endif %}"
                    href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/{{ category.slug }}">
                     <i class="bi bi-{{ category.icon }}  me-2 icon-scale"></i>
-                    <span class="nav-item-class font-size-16">{{ category.name }}</span>
+                    <span class="d-flex ps-2 g-fs-14">{{ category.name }}</span>
                 </a>
             </li>
 

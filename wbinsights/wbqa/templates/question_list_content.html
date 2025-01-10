@@ -35,8 +35,8 @@
 
 {% for question in object_list %}
     <div class="basepost-content-cont basepost-content-mobile-bottom-padding">
-        <div class="displayflex">
-            <div class="user-category-cont">
+        <div class="d-flex">
+            <div class="d-flex flex-wrap min-h-30">
                 <div class="user-catagory-highlight {{ question.cat.slug }}">
                     {{ question.cat }}
                 </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="basepost-title basepost-title-link">{{ question.title }}</div>
         <div>
-            <div class="flex-direction-column-cont">
+            <div class="d-flex flex-column">
                 <span class="basepost-description basepost-description-inline">{{ question.content|truncatewords:30 }} &nbsp;</span>
                 <span class="link-read-post">
                         <a href="{% url 'wbqa:question_detail' question.pk %}" class="read-post-link">
@@ -85,7 +85,7 @@
                 </div>
             </div>
             <!-- Mobile version -->
-            <div class="question-answer-last  d-inline d-md-none " >
+            <div class="d-flex mt-2 justify-content-between  d-inline d-md-none " >
                 <span class="list-publish-date publish-date-margin d-none d-md-inline">
                     {{ question.created_at|custom_time_display }}
                 </span>

@@ -1,20 +1,3 @@
-.contact-page-cont {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-}
-
-
-
-.contact-form-cont {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-
 
 .form-textarea-contact {
     display: flex;
@@ -22,12 +5,7 @@
     scrollbar-width: none;
     min-height: 100px;
 }
-.contact-us-btn-cont {
-    display: flex;
-    margin-top: 15px;
-    align-items: center;
-    gap: 10px;
-}
+
 
 .contact-email-span {
     display: flex;
