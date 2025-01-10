@@ -1,6 +1,9 @@
+import logging
 import os
 
 from django.apps import AppConfig
+
+logger = logging.getLogger("django-info")
 
 
 class WebConfig(AppConfig):
@@ -8,6 +11,8 @@ class WebConfig(AppConfig):
     name = 'web'
 
     def ready(self):
-        if os.environ.get('RUN_MAIN') == 'true':  # Проверка на основной процесс
-            from web import scheduler
-            scheduler.start()
+        logger.info('AppConfig ready called')
+        if os.environ.get('RUN_MAIN') == 'true':
+            logger.info('Starting scheduler...')
+            from web.scheduler import start
+            start()

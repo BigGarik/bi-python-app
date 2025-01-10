@@ -13,7 +13,7 @@ from web.services.async_rating import calculate_rating_for_all_experts
 from wbinsights import settings
 from web.services.cbr_key_indicators import get_combined_financial_rates
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django-info")
 
 
 def delete_old_job_executions(max_age=604_800):
@@ -62,3 +62,4 @@ def start():
     )
 
     scheduler.start()
+    logger.info("Scheduler started.")

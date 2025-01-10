@@ -1,4 +1,5 @@
 import logging
+import uuid
 from datetime import datetime, timedelta, date
 
 import environs
@@ -25,7 +26,7 @@ from rest_framework.views import APIView
 from wbappointment.models import ExpertSchedule
 from web.forms.users import CustomUserCreationForm, ExpertAnketaForm, UserPasswordResetForm, UserSetNewPasswordForm, \
     UserPasswordChangeForm
-from web.models import Profile
+from web.models import Profile, CustomUser
 from web.utils import check_is_mobile
 
 env = environs.Env()
@@ -44,7 +45,21 @@ def signup_success(request):
 
 
 def gen_user_name_from_email(email):
-    return email.replace("@", '_').replace(".", "_").replace("-", "_")
+    """
+    Генерирует уникальное имя пользователя на основе email.
+
+    :param email: str - Email, на основе которого создается имя пользователя.
+    :return: str - Уникальное имя пользователя.
+    """
+    base_username = email.replace("@", '_').replace(".", "_").replace("-", "_")
+    username = base_username
+
+    # Проверяем уникальность в базе данных
+    while CustomUser.objects.filter(username=username).exists():
+        # Добавляем уникальный суффикс, если имя уже существует
+        username = f"{base_username}_{uuid.uuid4().hex[:6]}"
+
+    return username
 
 
 # При создании пользователя после заполнения формы регистрации

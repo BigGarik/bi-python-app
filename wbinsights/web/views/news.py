@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from web.services.rbc_news_parser import fetch_rss_feed, parse_rss_feed
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django-info")
 
 
 class NewsFeedView(APIView):

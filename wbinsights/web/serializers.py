@@ -6,7 +6,7 @@ from rest_framework import serializers
 from web.models import ExpertProfile, Category, CustomUser, Education, Document
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django-info")
 
 
 def create_dynamic_serializer(model_class, depth=0):

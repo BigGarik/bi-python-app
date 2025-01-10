@@ -15,7 +15,7 @@ db_host = env('URL_DB')
 db_port = env('PORT_DB')
 database = env('DATABASE')
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("django-info")
 
 
 @dataclass
