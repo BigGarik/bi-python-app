@@ -1,126 +1,24 @@
-/* ------------------------------ BasePostList --------------------*/
-
-
-
-
-
-.btn-dark{
-    display: flex;
-    padding: 10px;
-    margin-right: 10px;
-    background-color: #36364b;
-}
-
-
-.displayflex{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3px;
-}
-
-
-.article-news{
-    display: flex;
-    font-family: sans-serif;
-    font-size: 18px;
-    color: #9c9c9c;
-}
-
-.news-open-close{
-    display: flex;
-    font-family: sans-serif;
-    font-size: 13px;
-    color: #9c9c9c;
-    align-items: center;
-}
-
 .dropdown-toggle::after {
     display: none;
 }
 
-
-
-
-@media (max-width: 768px) {
-        .columndirection {
-            flex-direction: column;
-
-        }
-        .post-menu {
-            font-size: 11px;
-        }
-        .smallscreenbtn {
-            width: 100%;
-        }
-        .post-menu-item {
-            font-size: 11px;
-        }
-
-        .base-article-title {
-            padding: 10px 0px 10px 0px !important;
-        }
-
-        .base-article-stats {
-            padding: 10px 0px 10px 0px !important;
-        }
-        .post-menu-item {
-        }
-
-        .base-news-title,
-        .base-news-content{
-            padding: 5px 0px 10px 0px;
-        }
-
-        .base-news-stats {
-            padding: 15px 0px 15px 0px;
-        }
-    }
-
-    #newsTitlesList {
-        max-height: 300px;
-        overflow-y: hidden;
-        padding: 5px;
-    }
-    .news-titles {
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-        font-size: 14px;
-    }
-    .carousel-inner {
-        height: 300px;
-        display: flex;
-        flex-direction: column;
-    }
-    .carousel-item {
-        height: 100px;
-        display: none;
-    }
-    .carousel-item.active {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        border-bottom: 1px solid grey;
-    }
-
-
-
-/* ---------------------------------------------------------------  ARTICLE LIST  ------------------------------------------------------------------------------- */
-
-
-/*@media (max-width: 767px) {*/
-/*    .row-margin {*/
-/*        padding-top: 0px !important;*/
-/*    }*/
-/*}*/
-.row-margin {
-    padding-top: 20px ;
-    /* padding: 10px; */
-    margin-right: 0px !important;
-    margin-left: 0px !important;
+.carousel-inner {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
 }
 
+.carousel-item {
+    height: 100px;
+    display: none;
+}
 
+.carousel-item.active {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid grey;
+}
 
 
 /*------------------------------------------------------------  Experts Coloumn  -------------------------------------------------------------------------*/
@@ -133,7 +31,6 @@
     font-family: sans-serif;
     align-items: center;
     color: #404054;
-    /*margin: 20px 0 20px 0;*/
     font-weight: 600;
 }
 
@@ -148,30 +45,13 @@
     color: #404054;
 }
 
-.post-menu-item-mobile {
-    padding: 7px;
-    cursor: pointer;
-    justify-content: center;
-    width: 100%;
-    display: flex;
-    border-radius: 20px;
-    text-decoration: none;
-    color: #404054;
-}
-
-
-
 .post-menu-item.selected {
     background-color: #535478;
     color: #fff;
 }
 
-.error-title{
-    display: flex;
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    font-family: sans-serif;
+.bg-primary-base-drop {
+    background-color: #535478 !important;
 }
 
 

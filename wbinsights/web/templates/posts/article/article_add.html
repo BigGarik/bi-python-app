@@ -38,9 +38,7 @@
             max-width: -webkit-fill-available;
         }
 
-        .right-margin-article-add {
-            margin: 10px 2.5% 5px;
-        }
+
 
 
         @media (max-width: 768px ) {
@@ -56,9 +54,6 @@
                 gap: 10px
             }
 
-            .right-margin-article-add {
-                margin-right: 0px;
-            }
 
         }
 
@@ -97,7 +92,7 @@
             </div>
             <div class="col-md-4 col-lg-4 element-container-article-mob ">
                 <div class="article-add-right-btns basepost-content-mobile-bottom-padding">
-                    <div class="article-settings">
+                    <div class="d-flex justify-content-between flex-wrap gap-1 mb-3">
                         <div>Настройки</div>
                         <div class="clear-all" onclick="clearEditorContent()">
                             <i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё
@@ -115,7 +110,7 @@
                     Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
                 </span>
                     <div id="blocks"></div>
-                    <div id="style-manager-container " class="right-margin-article-add"></div>
+                    <div id="style-manager-container " ></div>
                     <hr class="solid"/>
                     <div class="form-group">
                         <label for="{{ form.cat.id_for_label }}">{{ form.cat.label }}</label>

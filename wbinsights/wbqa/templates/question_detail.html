@@ -21,23 +21,27 @@
 
         <div class="basepost-prof-socials-cont">
             <div class="displayflex align-center">
-                <div class="user-category-cont">
+
+                <div class="d-flex flex-wrap min-h-30">
                     <div class="user-catagory-highlight {{ question.cat.slug }}">
                         {{ question.cat }}
                     </div>
                 </div>
+
                 <span class="list-publish-date publish-date mobile-visible">
-                {{ question.created_at|custom_time_display }}
-            </span>
+                    {{ question.created_at|custom_time_display }}
+                </span>
+
             </div>
 
             {% if user.is_authenticated and user == question.author %}
-                <div class="manage-buttons">
+                <div class="d-flex gap-3">
                     <a href="{% url 'wbqa:edit_question' question.pk %}" class="scale-1-2">
                         <i class="bi bi-pencil"></i>
                     </a>
                 </div>
             {% endif %}
+
         </div>
 
         <div class="basepost-title">{{ question.title }}</div>
@@ -46,7 +50,9 @@
             <p>{{ question.content }}</p>
 
             <div class="basepost-prof-socials-cont">
+
                 <div class="basepost-author-cont">
+
                     <div class="author-pic-research">
 
                         {% if question.author.profile.avatar.url %}
@@ -57,11 +63,12 @@
                             <i class="bi bi-person-circle author-icon"></i>
                         {% endif %}
                     </div>
+
                     <div class="basepost-author-text no-left-margin">{{ question.author.first_name }} {{ question.author.last_name }}</div>
 
                     <span class="list-publish-date publish-date desktop-visible">
-                    {{ question.created_at|custom_time_display }}
-                </span>
+                        {{ question.created_at|custom_time_display }}
+                    </span>
                 </div>
                 <div class="flex-space-between ">
                     <div class="basepost-prof-socials-cont">
@@ -83,8 +90,11 @@
 
             {% if best_answer %}
                 <div class="best-answer basepost-content-cont">
+
                     <span class="best-answer-label">Лучший ответ</span>
+
                     <p>{{ best_answer.content }}</p>
+
                     <div class="basepost-prof-socials-cont no-top-margin">
                         <div class="basepost-author-cont">
 
@@ -100,11 +110,13 @@
 
 
                             <div class="basepost-author-text no-left-margin">{{ best_answer.author.first_name }} {{ best_answer.author.last_name }}</div>
+
                             <span class="list-publish-date publish-date">
-                    {{ best_answer.created_at|custom_time_display }}
-                </span>
+                                {{ best_answer.created_at|custom_time_display }}
+                            </span>
                         </div>
                         {% if best_answer.author == user %}
+
                             <a href="{% url 'wbqa:edit_answer' best_answer.pk %}"
                                class="btn btn-sm btn-outline-primary">
                                 <i class="bi bi-pencil"></i> Edit Answer
@@ -116,7 +128,9 @@
 
             {% for answer in other_answers %}
                 <div class="answer basepost-content-cont flex-column">
+
                     <div class="basepost-prof-socials-cont ">
+
                         <div class="basepost-author-cont">
                             <div class="author-pic-research">
                                 {% if answer.author.profile.avatar.url %}
@@ -128,31 +142,39 @@
                                     <i class="bi bi-person-circle author-icon-large"></i>
                                 {% endif %}
                             </div>
+
                             <div class="flex-column">
                                 <div class="basepost-author-text no-left-margin">{{ answer.author.first_name }} {{ answer.author.last_name }}</div>
+
                                 <span class="list-publish-date publish-date">
-                        {{ answer.created_at|custom_time_display }}
-                    </span>
+                                    {{ answer.created_at|custom_time_display }}
+                                </span>
                             </div>
                         </div>
 
                         <div class="comments-andshare-cont">
+
                             {% if answer.author == user %}
                                 <a href="{% url 'wbqa:edit_answer' answer.pk %}" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-pencil"></i> Edit Answer
                                 </a>
                             {% endif %}
+
                             {% if question.author == user and not answer.is_best %}
                                 <a href="{% url 'wbqa:choose_best_answer' answer.id %}"
                                    class="btn btn-sm btn-outline-success">
                                     <i class="bi bi-star"></i> Mark as Best
                                 </a>
+
                             {% elif answer.is_best %}
                                 <span class="badge bg-success">Лучший ответ</span>
                             {% endif %}
                         </div>
+
                     </div>
+
                     <div>{{ answer.content }}</div>
+
                 </div>
                 {% empty %}
                 {% if not best_answer %}
@@ -175,4 +197,5 @@
                 <p class="text-danger">{{ error_message }}</p>
             {% endif %}
         </div>
+    </div>
 {% endblock %}

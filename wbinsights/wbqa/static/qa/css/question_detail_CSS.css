@@ -27,11 +27,6 @@
         align-items: center;
     }
 
-    .manage-buttons {
-        display: flex;
-        gap: 15px;
-    }
-
     .scale-1-2 {
         transform: scale(1.2);
     }

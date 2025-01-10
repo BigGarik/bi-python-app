@@ -7,19 +7,19 @@
 
 
 {% block center_col %}
-    
+
     <link rel="stylesheet" href="{% static 'web/css/basepost_list_css.css' %}?ver=0.01">
 
-    
+
     {% include 'components/news_carousel_component.html' %}
-    
+
     <div class="d-block d-xl-none">
         {% include "components/left_menu/advertisement_left_menu.html" %}
     </div>
 
-    
+
     {% include 'components/cbr_rates.html' %}
-    
+
 
     {% split request.path "/" 'first' as url_first_part %}
 
@@ -40,30 +40,39 @@
 
             <div class="dropdown-content">
                 {% if url_first_part != 'researches' %}
-                    <a href="{% url 'research_list' %}" class="post-menu-item-mobile">{% trans 'ResearchesLabel' %}</a>
+                    <a href="{% url 'research_list' %}" class="text-dark p-3 justify-content-center text-decoration-none d-flex g-fs-14 fw-semibold">{% trans 'ResearchesLabel' %}</a>
                 {% endif %}
                 {% if url_first_part != 'experts' and url_first_part != '' %}
-                    <a href="{% url 'experts_list' %}" class="post-menu-item-mobile">{% trans 'ExpertsLabel' %}</a>
+                    <a href="{% url 'experts_list' %}" class="text-dark p-3 justify-content-center text-decoration-none d-flex g-fs-14 fw-semibold">{% trans 'ExpertsLabel' %}</a>
                 {% endif %}
                 {% if url_first_part != 'articles' %}
-                    <a href="{% url 'article_list' %}" class="post-menu-item-mobile">{% trans 'ArticlesLabel' %}</a>
+                    <a href="{% url 'article_list' %}" class="text-dark p-3 justify-content-center text-decoration-none d-flex g-fs-14 fw-semibold">{% trans 'ArticlesLabel' %}</a>
                 {% endif %}
                 {% if url_first_part != 'wbqa' and url_first_part != 'question_answer' %}
-                    <a href="{% url 'question_list' %}" class="post-menu-item-mobile">{% trans 'QuestionAnswerLabel' %}</a>
+                    <a href="{% url 'question_list' %}"
+                       class="text-dark p-3 justify-content-center text-decoration-none d-flex g-fs-14 fw-semibold">{% trans 'QuestionAnswerLabel' %}</a>
                 {% endif %}
             </div>
         </div>
     </div>
 
-    <div class="d-none d-md-flex post-menu mb-3">
+    <div class="d-none d-md-flex justify-content-around mb-3">
         <a href="{% url 'research_list' %}"
-           class="post-menu-item {% if url_first_part == 'researches' or url_first_part == '' %} selected {% endif %}">{% trans 'ResearchesLabel' %}</a>
+           class="p-2 cursor-pointer w-25 d-flex rounded-4 justify-content-center text-decoration-none text-secondary fw-semibold {% if url_first_part == 'researches' or url_first_part == '' %} bg-primary-base-drop text-white {% endif %}">
+            {% trans 'ResearchesLabel' %}
+        </a>
         <a href="{% url 'experts_list' %}"
-           class="post-menu-item {% if url_first_part == 'experts' %} selected {% endif %}">{% trans 'ExpertsLabel' %}</a>
+           class="p-2 cursor-pointer w-25 d-flex rounded-4 justify-content-center text-decoration-none text-secondary fw-semibold {% if url_first_part == 'experts' %} bg-primary-base-drop text-white {% endif %}">
+            {% trans 'ExpertsLabel' %}
+        </a>
         <a href="{% url 'article_list' %}"
-           class="post-menu-item {% if url_first_part == 'articles' %} selected {% endif %}">{% trans 'ArticlesLabel' %}</a>
+           class="p-2 cursor-pointer w-25 d-flex rounded-4 justify-content-center text-decoration-none text-secondary fw-semibold {% if url_first_part == 'articles' %} bg-primary-base-drop text-white {% endif %}">
+            {% trans 'ArticlesLabel' %}
+        </a>
         <a href="{% url 'question_list' %}"
-           class="post-menu-item {% if url_first_part == 'wbqa' or url_first_part == 'question_answer' %} selected {% endif %}">{% trans 'QuestionAnswerLabel' %}</a>
+           class="p-2 cursor-pointer w-25 d-flex rounded-4 justify-content-center text-decoration-none text-secondary fw-semibold {% if url_first_part == 'wbqa' or url_first_part == 'question_answer' %} bg-primary-base-drop text-white {% endif %}">
+            {% trans 'QuestionAnswerLabel' %}
+        </a>
     </div>
 
     <div id="article_list" class="content-block">

@@ -28,22 +28,20 @@
             justify-content: space-between;
         }
 
-        .ask-question-btn-mobile {
-            text-wrap: nowrap !important;
-        }
+
 
     </style>
 {% endblock %}
 
 {% block posts_content %}
-    <div class="element-container main-list-gap">
+    <div class="element-container d-flex flex-column gap-4">
         <div class="search-and-cat-cont d-none d-md-flex" >
             <div class="col-6">
                 <input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск">
             </div>
             <div class="col-6 d-flex justify-content-between pl-2">
                 <a href="{% url 'wbqa:create_question' %}">
-                    <button type="button" class="btn ask-question-btn btn-sm">Задать вопрос</button>
+                    <button type="button" class="btn btn-success g-green-bg btn-sm h-100 mx-1">Задать вопрос</button>
                 </a>
                 {% include "components/post_category_filter.html" %}
             </div>
@@ -52,11 +50,11 @@
         <!-- Small Screens -->
         <div class="search-and-cat-cont d-md-none search-and-cat-cont-mobile">
             <div class="search-input-container">
-                <input type="text" id="search-article-query" class="research-search-cont" placeholder="Поиск">
+                <input type="text" id="search-article-query" class="d-flex px-2 py-1 border font-sans-serif rounded-2 me-2 w-100" placeholder="Поиск">
             </div>
             <div class="button-filter-container">
                 <a href="{% url 'wbqa:create_question' %}">
-                    <button type="button" class="btn ask-question-btn btn-sm ask-question-btn-mobile" style="margin-left: 0px !important;">Задать вопрос
+                    <button type="button" class="btn btn-success g-green-bg btn-sm mx-1" >Задать вопрос
                     </button>
                 </a>
                 {% include "components/post_category_filter.html" %}

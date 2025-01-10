@@ -18,18 +18,6 @@
         gap: 5px;
     }
 
-    .prof-btn {
-        height: 100%;
-    }
-
-    .prof-settings-btn,
-    .prof-logout-btn {
-        width: 100%;
-    }
-
-    .justifyCenter {
-        justify-content: center;
-    }
 
     @media (max-width: 767px) {
 
@@ -48,52 +36,39 @@
             margin-top: 5px;
         }
 
-        .button-wrapper {
-            width: 100%;
-        }
 
-        .prof-logout-btn {
-            justify-content: center;
-        }
     }
 
-    @media (min-width: 768px) {
-        .prof-settings-btn,
-        .prof-logout-btn {
-        {#font-size: calc(5px + 0.45vw) !important;#} font-size: small;
-        }
-    }
+
 </style>
 
 <!-- Desktop Layout -->
-<div class="settings-layout d-none d-md-flex">
+<div class="settings-layout d-none d-md-flex mt-2">
 
-    <div class=" col-sm-4 col-md-3-5  ">
+    <div class=" col-md-3-5 d-flex justify-content-center justify-content-md-start  ">
         <!-- empty space (avatar cont)-->
     </div>
 
-    <div class="col-sm-8 col-md-8-5">
+    <div class="col-md-8-5 d-flex flex-column ">
 
         <div class="buttons-container">
 
             <div class="profile-buttons-group">
-                <div class="button-wrapper">
-                    <a href="{% url 'profile_edit' %}"
-                       class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
-                </div>
+                <a href="{% url 'profile_edit' %}"
+                   class="btn btn-outline-secondary mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14 ">{% trans 'EditProfileLabel' %}</a>
 
-                <div class="button-wrapper">
-                    <button type="button" class="btn prof-btn prof-settings-btn justifyCenter"
-                            data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
-                        {% trans 'ChangePasswordLabel' %}
-                    </button>
-                </div>
+                <button type="button"
+                        class="btn btn-outline-secondary mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14 justifyCenter"
+                        data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
+                    {% trans 'ChangePasswordLabel' %}
+                </button>
             </div>
 
             <div class="profile-buttons-group">
-                <form method="post" action="{% url 'logout' %}" class="button-wrapper">
+                <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button class="btn prof-btn prof-logout-btn" type="submit">
+                    <button class="btn btn-outline-danger mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14    "
+                            type="submit">
                         {% trans 'LogoutButtonLabel' %}
                     </button>
                 </form>
@@ -105,29 +80,27 @@
 <!-- Mobile Layout -->
 <div class="d-md-none" style="width: 100%">
 
-    <div class="buttons-container">
+    <div class="buttons-container mt-1">
 
         <div class="profile-buttons-group">
 
-            <div class="button-wrapper">
-                <a href="{% url 'profile_edit' %}" style="font-size: small"
-                   class="btn prof-btn prof-settings-btn">{% trans 'EditProfileLabel' %}</a>
-            </div>
+            <a href="{% url 'profile_edit' %}" style="font-size: small"
+               class="btn btn-outline-secondary mt-0 rounded-2 w-50  fw-semibold   d-flex align-items-center g-fs-14 justify-content-center ">{% trans 'EditProfileLabel' %}</a>
 
-            <div class="button-wrapper">
-                <button type="button" style="font-size: small" class="btn prof-btn prof-settings-btn justifyCenter"
-                        data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
-                    {% trans 'ChangePasswordLabel' %}
-                </button>
-            </div>
+            <button type="button" style="font-size: small"
+                    class="btn btn-outline-secondary mt-0 rounded-2 fw-semibold w-50   d-flex align-items-center g-fs-14 justify-content-center"
+                    data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
+                {% trans 'ChangePasswordLabel' %}
+            </button>
 
         </div>
 
         <div class="profile-buttons-group">
 
-            <form method="post" action="{% url 'logout' %}" class="button-wrapper">
+            <form method="post" action="{% url 'logout' %}" class="w-100">
                 {% csrf_token %}
-                <button class="btn prof-btn prof-logout-btn" type="submit" style="font-size: small">
+                <button class="btn btn-outline-danger mt-0 rounded-2 fw-semibold d-flex align-items-center g-fs-14     w-100 w-sm-auto justify-content-center"
+                        type="submit" style="font-size: small">
                     {% trans 'LogoutButtonLabel' %}
                 </button>
             </form>
@@ -143,7 +116,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="passwordChangeModalLabel">{% trans 'ChangePasswordTitle' %}</h5>
+                <div class="g-fs-header-20" id="passwordChangeModalLabel">{% trans 'ChangePasswordTitle' %}</div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -153,13 +126,13 @@
                 <form method="post" id="passwordChangeForm">
                     {% csrf_token %}
                     <p>
-                        <label for="id_old_password">Старый пароль:</label>
+                        <label for="id_old_password" class="g-fs-14 fw-semibold">Старый пароль:</label>
                         <input type="password" name="old_password" autocomplete="off" autofocus="" class="form-control"
                                required="" id="id_old_password">
                     </p>
 
                     <p>
-                        <label for="id_new_password1">Новый пароль:</label>
+                        <label for="id_new_password1" class="g-fs-14 fw-semibold">Новый пароль:</label>
                         <input type="password" name="new_password1" autocomplete="off" class="form-control" required=""
                                aria-describedby="id_new_password1_helptext" id="id_new_password1">
 
@@ -169,7 +142,7 @@
 
 
                     <p>
-                        <label for="id_new_password2">Подтверждение нового пароля:</label>
+                        <label for="id_new_password2" class="g-fs-14 fw-semibold">Подтверждение нового пароля:</label>
                         <input type="password" name="new_password2" autocomplete="off" class="form-control" required=""
                                id="id_new_password2">
 
@@ -182,7 +155,7 @@
                         <li>Пароль не должен быть слишком простым и распространенным.</li>
                         <li>Пароль не может состоять только из цифр.</li>
                     </ul>
-                    <button type="submit" class="btn btn-danger mt-3">Сменить пароль</button>
+                    <button type="submit" class="btn btn-danger mt-2 g-fs-14">Сменить пароль</button>
                 </form>
             </div>
         </div>

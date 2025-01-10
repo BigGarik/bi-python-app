@@ -25,12 +25,6 @@
         overflow: visible;
     }
 
-    .rates-content {
-        display: flex;
-        gap: 5px;
-        justify-content: space-around;
-        width: 100%;
-    }
 
     .marquee {
         display: none;
@@ -39,9 +33,6 @@
 
 @media (max-width: 1479.98px) {
 
-    .d-below-1480-none {
-        display: none !important;
-    }
 
 
     .cbr-rates-container {
@@ -64,7 +55,7 @@
         }
     }
 
-    .rate-item, .key-rate-item {
+     .key-rate-item {
         display: inline-block;
         margin-right: 20px;
     }
@@ -78,25 +69,4 @@
 .arrow-down {
     color: red;
     font-weight: 600;
-}
-
-.rate-labels {
-    font-size: 12px;
-    color: grey;
-    display: inline-block;
-    margin-right: 10px;
-}
-
-.rate-item {
-    font-size: 12px;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-
-.key-rate-item {
-    display: inline-flex;
-    font-size: 12px;
-    gap: 3px;
-    align-items: baseline;
 }
