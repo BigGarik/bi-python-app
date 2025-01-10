@@ -2,36 +2,6 @@
 {% load web_tags %}
 {% load i18n %}
 
-<style>
-    .basepost-title-link {
-        width: fit-content;
-        text-decoration: none;
-    }
-
-    .basepost-description-inline {
-        display: inline !important;
-    }
-
-    .link-read-post {
-        font-size: 18px !important;
-    }
-
-
-    .author-link-no-margin {
-        margin-left: 0px;
-    }
-
-    .publish-date-margin {
-        margin: 10px 0 10px 0;
-    }
-
-    .author-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-</style>
 
 {% for question in object_list %}
     <div class="basepost-content-cont basepost-content-mobile-bottom-padding">
@@ -47,7 +17,7 @@
         </div>
         <div class="basepost-title basepost-title-link">{{ question.title }}</div>
         <div>
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column gap-2">
                 <span class="basepost-description basepost-description-inline">{{ question.content|truncatewords:30 }} &nbsp;</span>
                 <span class="link-read-post">
                         <a href="{% url 'wbqa:question_detail' question.pk %}" class="read-post-link">
@@ -66,9 +36,8 @@
                             <i class="bi bi-person-circle author-icon"></i>
                         {% endif %}
                     </div>
-                    <a href="{% url 'expert_profile' question.author.pk %}"
-                       class="basepost-author-text author-link-no-margin">
-                        <div class="basepost-author-text">{{ question.author.last_name }} {{ question.author.first_name }}</div>
+                    <a href="{% url 'expert_profile' question.author.pk %}" class="basepost-author-text">
+                        {{ question.author.last_name }} {{ question.author.first_name }}
                     </a>
                     <span class="list-publish-date">&nbsp;{{ question.created_at|custom_time_display }}</span>
                 </div>
@@ -86,10 +55,10 @@
             </div>
             <!-- Mobile version -->
             <div class="d-flex mt-2 justify-content-between  d-inline d-md-none " >
-                <span class="list-publish-date publish-date-margin d-none d-md-inline">
+                <span class="list-publish-date publish-date-margin d-none d-md-inline ">
                     {{ question.created_at|custom_time_display }}
                 </span>
-                <div class="basepost-prof-socials-cont">
+                <div class="basepost-prof-socials-cont w-100">
                     <div class="basepost-author-cont">
                         {% if question.author.profile.avatar.url %}
                             <img src="{{ question.author.profile.avatar.url }}"

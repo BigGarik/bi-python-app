@@ -42,78 +42,61 @@
         </div>
 
         <!-- mobile view <1480px -->
-        <div class="d-1480-none">
-
-            <div class="d-flex marquee" style="margin-right: 50px">
-
+        <div class="d-flex d-1480-none">
+            <div class="d-flex align-items-center marquee" style="margin-right: 20px">
                 <div class="rfs-12 text-secondary d-inline-block me-2">Курсы валют</div>
                 {% for currency, data in rates.items %}
-
                     {% if currency != 'KEY_RATE' %}
-                        <div class="text-nowrap g-fs-12">
-
+                        <div class="text-nowrap g-fs-12 d-flex align-items-center gap-1">
                             <span class="fs-12 fw-semibold">
                                 {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}
                                     ${% else %}₽{% endif %}
                             </span>
-
                             <span class="currency-code">{{ currency }}</span>
                             <span class="fs-12 fw-semibold">{{ data.current_rate }} ₽</span>
                             <span class="arrow {% if data.change > 0 %}arrow-up{% else %}arrow-down{% endif %}">
                                 {% if data.change > 0 %}↑{% else %}↓{% endif %}
                             </span>
-
                         </div>
                     {% endif %}
                 {% endfor %}
-
-                <div class="d-inline-flex g-fs10 gap-1 align-items-baseline">
-
+                <div class="d-inline-flex g-fs10 gap-1 align-items-center gap-1">
                     <div class="rfs-12 text-secondary d-inline-block me-2">Ключевая ставка</div>
                     <div class="rfs-12 text-secondary d-inline-block me-2 fs-10">с {{ rates.KEY_RATE.last_change_date }}</div>
                     <div class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
                         {{ rates.KEY_RATE.current_rate }} %
                     </div>
-
                     <span class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
                         {% if rates.KEY_RATE.current_rate > 0 %}↑{% else %}↓{% endif %}
                     </span>
                 </div>
             </div>
-            <div class="d-flex marquee">
 
+            <div class="d-flex align-items-center marquee">
                 <div class="rfs-12 text-secondary d-inline-block me-2">Курсы валют</div>
-
                 {% for currency, data in rates.items %}
                     {% if currency != 'KEY_RATE' %}
-                        <div class="text-nowrap g-fs-12">
-
+                        <div class="text-nowrap g-fs-12 d-flex align-items-center gap-1">
                             <span class="fs-12 fw-semibold">
                                 {% if currency == 'CNY' %}¥{% elif currency == 'EUR' %}€{% elif currency == 'USD' %}
                                     ${% else %}₽{% endif %}
                             </span>
-
                             <span class="currency-code">{{ currency }}</span>
                             <span class="fs-12 fw-semibold">{{ data.current_rate }} ₽</span>
                             <span class="arrow {% if data.change > 0 %}arrow-up{% else %}arrow-down{% endif %}">
                                 {% if data.change > 0 %}↑{% else %}↓{% endif %}
                             </span>
-
                         </div>
                     {% endif %}
                 {% endfor %}
-
-                <div class="d-inline-flex g-fs10 gap-1 align-items-baseline">
-
+                <div class="d-inline-flex g-fs10 gap-1 align-items-center gap-1">
                     <div class="rfs-12 text-secondary d-inline-block me-2">Ключевая ставка</div>
                     <div class="rfs-12 text-secondary d-inline-block me-2 fs-10">с {{ rates.KEY_RATE.last_change_date }}</div>
-
                     <div class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
                         {{ rates.KEY_RATE.current_rate }} %
                     </div>
-
                     <span class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
-                        {% if rates.KEY_RATE.current_rate > 0 %}↑{% else %}↓{% endif %}
+                        {% if data.change > 0 %}↑{% else %}↓{% endif %}
                     </span>
                 </div>
             </div>

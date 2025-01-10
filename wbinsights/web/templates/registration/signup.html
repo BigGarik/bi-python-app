@@ -85,18 +85,24 @@
                             {% back_button "index" back_text %}
                         </div>
 
-                        <h4 class="d-flex justify-content-center fw-bold mb-4 mt-3">РЕГИСТРАЦИЯ</h4>
+                        <h4 class="d-flex justify-content-center mb-4 mt-3 g-fs-header-24">РЕГИСТРАЦИЯ</h4>
+
+                        <div class="form-choose-user-type d-flex justify-content-evenly" id="user-type-form">
+                            {% for radio in user_form.user_type %}
+                                <div class="radio">
+                                    {{ radio.tag }}
+                                    <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
 
                         {% for f in user_form %}
-
-                            {% if f.name != 'captcha' %}
-
+                            {% if f.name != 'captcha' and f.name != 'user_type' %}
                                 <div class="mb-1">
                                     <label for="{{ f.id_for_label }}"
-                                           class="form-label fw-semibold">{{ f.label }}</label>
+                                           class="form-label fw-semibold g-fs-16 ">{{ f.label }}</label>
                                     {{ f }}
                                 </div>
-
                             {% endif %}
                         {% endfor %}
 
@@ -104,7 +110,8 @@
 
                             <div class="mb-1 expert-fields" style="display: none;">
 
-                                <label for="{{ f.id_for_label }}" class="form-label fw-semibold">{{ f.label }}</label>
+                                <label for="{{ f.id_for_label }}"
+                                       class="form-label fw-semibold g-fs-16">{{ f.label }}</label>
                                 {{ f }}
                             </div>
                         {% endfor %}

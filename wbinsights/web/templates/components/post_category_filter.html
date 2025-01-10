@@ -11,8 +11,8 @@
     <div class="dropdown">
         <button class="global-cat-dropdown dropdown-toggle " type="button" id="categoryDropdown"
                 data-bs-toggle="dropdown" aria-expanded="false" >
-            <span class="global-catagory-text"> Категория: &nbsp;</span>
-            <span class="global-catagory-choose">
+            <span class="g-fs-14"> Категория: &nbsp;</span>
+            <span class="g-fs-14 fw-semibold">
             {% if curr_cat is None %}
                 Все
             {% else %}
@@ -24,9 +24,9 @@
         {% get_all_categories as categories %}
         
         <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-            <li><a class="dropdown-item" href="/{{ path_post_type|get_post_url_or_none|default:"researches" }}/">Все</a></li>
+            <li><a class="dropdown-item g-fs-14" href="/{{ path_post_type|get_post_url_or_none|default:"researches" }}/">Все</a></li>
             {% for category in categories %}
-            <li><a class="dropdown-item" href="/{{ path_post_type|get_post_url_or_none|default:"researches" }}/category/{{ category.slug}}">{{ category.name}}</a></li>
+            <li><a class="dropdown-item g-fs-14" href="/{{ path_post_type|get_post_url_or_none|default:"researches" }}/category/{{ category.slug}}">{{ category.name}}</a></li>
             {% endfor%}
         </ul>
 

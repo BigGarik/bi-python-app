@@ -23,28 +23,28 @@
 
         <li class="nav-item mb-2">
             <a class="nav-link text-dark d-flex align-items-center {% if request.path == '/contact/' %}selected{% endif %}">
-                О ресурсе
+                <span class="g-fs-14">О ресурсе</span>
             </a>
         </li>
 
         <li class="nav-item mb-2">
             <a class="nav-link text-dark d-flex align-items-center {% if request.path == '#' %}selected{% endif %}"
                href="#">
-                <span>Правила</span>
+                <span class="g-fs-14">Правила</span>
             </a>
         </li>
 
         <li class="nav-item mb-2">
             <a class="nav-link text-dark d-flex align-items-center {% if request.path == '/data_policies/' %}selected{% endif %}"
                href="{% url 'data_policies' %}">
-                <span>Политика обработки данных</span>
+                <span class="g-fs-14">Политика обработки данных</span>
             </a>
         </li>
 
         <li class="nav-item mb-2">
             <a class="nav-link text-dark d-flex align-items-center {% if request.path == '/contact_us/' %}selected{% endif %}"
                href="{% url 'contact_us' %}">
-                <span>Написать нам</span>
+                <span class="g-fs-14">Написать нам</span>
             </a>
         </li>
 

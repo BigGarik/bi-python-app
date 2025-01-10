@@ -25,6 +25,11 @@
     color: #a5b1c8 !important;
 }
 
+.g-dark-grey-color {
+    color: #6c757d !important;
+
+}
+
 .g-fs-header-20 {
     font-size: 20px;
     font-weight: bold;
@@ -40,7 +45,10 @@
     font-weight: bold;
 }
 
-
+.g-fs-header-32 {
+    font-size: 32px;
+    font-weight: bold;
+}
 
 
 .bi-spin {
@@ -63,7 +71,6 @@
 }
 
 
-
 .element-container {
     padding: 20px 30px 20px 30px;
     background-color: white;
@@ -78,44 +85,38 @@
 }
 
 .basepost-description {
-    font-size: 16px;
-    font-family: sans-serif;
-    font-weight: 500;
+    font-size: 14px;
     display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
 }
 
+
 .basepost-title {
-    display: flex;
-    font-family: sans-serif;
     font-size: 20px;
     font-weight: 600;
-    margin-top: 15px;
-    line-height: normal;
-    margin-bottom: 10px;
-    color: black;
 }
 
 .basepost-author-pic {
     width: 30px;
     height: 30px;
-    border-radius: 30px;
+    border-radius: 50%;
     object-fit: cover;
 }
 
 .basepost-content-cont {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     width: 100%;
+}
+
+.btn-secondary:hover {
+    background-color: #15bd00 !important;
+    border : none !important;
 }
 
 
 .basepost-author-text {
     display: flex;
-    margin-left: 10px;
-    font-family: sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
@@ -126,20 +127,13 @@
 .basepost-author-cont {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
 }
 
 .flex-cont {
     display: flex;
     justify-content: space-between;
 }
-
-.main-list-gap {
-    gap: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
 
 .basepost-prof-socials-cont {
     display: flex;
@@ -159,6 +153,7 @@
     outline: none !important;
 }
 
+/* good */
 .read-post-link {
     color: black;
     border: 1px solid lightgray;
@@ -186,7 +181,6 @@
 }
 
 
-
 .search-and-cat-cont {
     display: flex;
     justify-content: space-between;
@@ -203,7 +197,7 @@
 .comments-andshare-cont {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 .list-comments {
@@ -252,20 +246,6 @@
     font-size: 18px;
 }
 
-.global-catagory-text {
-    display: flex;
-    font-family: sans-serif;
-    font-size: 16px;
-}
-/**/
-
-.global-catagory-choose {
-    display: flex;
-    font-family: sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-}
-/**/
 
 .global-cat-dropdown {
     width: 100%;
@@ -280,12 +260,12 @@
 .user-catagory-highlight {
     display: flex;
     align-items: center;
-    padding: 5px 15px 5px 15px;
+    padding: 5px 10px 5px 10px;
     border-radius: 20px;
     margin-right: 5px;
-    font-size: 14px;
+    font-size: 12px;
     color: #136dae;
-    font-weight: 600;
+    font-weight: 500;
     width: fit-content;
     /*margin-top: 3px; */
 }
@@ -333,11 +313,9 @@
 }
 
 
-
 .min-h-30 {
     min-height: 30px;
 }
-
 
 
 .custom-form-css {
@@ -349,13 +327,12 @@
 }
 
 
-
 /* ------------------------------------- ADVERTISEMENTS ------------------------------------------*/
 
 
 @media (max-width: 768.98px) {
-   .basepost-content-mobile-bottom-padding:last-of-type {
-       margin-bottom: 60px !important;
-   }
+    .basepost-content-mobile-bottom-padding:last-of-type {
+        margin-bottom: 60px !important;
+    }
 }
 

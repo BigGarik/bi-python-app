@@ -7,7 +7,7 @@
 
     {% include 'components/global_profile_information.html' %}
 
-    <div class="d-flex font-sans-serif mt-2 flex-wrap gap-2 ms-0 p-0 ">
+    <div class="col-12 ">
         {% include buttons_template with user=expert %}
     </div>
 
@@ -42,17 +42,17 @@
                 <span>{{ profile.hour_cost }} ₽/час</span>
             </div>
 
-            <div class="  d-flex py-2 gap-1 g-fs-14 ">
+            <div class="d-flex py-2 gap-1 g-fs-14 align-items-center">
                 {% if profile.hh_link %}
-                    <a href="{{ profile.hh_link }}" target="_blank">
-                        <i class="fa fa-link"></i>
-                        <img src="{% static 'Icons/600px-HeadHunter_logo.png' %}" target="_blank"
-                             class="basepost-author-pic" alt="HH Link Icon">
+                    <a href="{{ profile.hh_link }}" target="_blank" class="d-flex align-items-center">
+                        <img src="{% static 'Icons/600px-HeadHunter_logo.png' %}"
+                             alt="HH Link Icon"
+                             style="width: 30px; height: 30px; object-fit: contain;">
                     </a>
                 {% endif %}
                 {% if profile.linkedin_link %}
-                    <a href="{{ profile.linkedin_link }}" target="_blank">
-                        <i class="bi bi-linkedin basepost-author-pic" style="font-size: 30px"></i>
+                    <a href="{{ profile.linkedin_link }}" target="_blank" class="d-flex align-items-center">
+                        <i class="bi bi-linkedin" style="font-size: 30px;"></i>
                     </a>
                 {% endif %}
             </div>

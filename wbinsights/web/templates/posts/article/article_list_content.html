@@ -5,63 +5,63 @@
 
 
 {% for article in object_list %}
-<div class="basepost-content-cont ">
-    <div class="list-publish-date">
-        <i class="bi bi-calendar2-week calendar-icon"></i>
-        &nbsp; {{ article.time_create|custom_time_display }}
-    </div>
-    <div class="basepost-title">{{ article.title }}</div>
-    <div class="basepost-content-cont">
-        {% autoescape off %}
-        <div class="basepost-description font-size-16">
-            {{ article.description }}
+    <div class="d-flex flex-column gap-1 w-100 ">
+        <div class="d-flex g-fs-12 g-grey-color">
+            <i class="bi bi-calendar2-week calendar-icon"></i>
+            &nbsp; {{ article.time_create|custom_time_display }}
         </div>
-        <div class="d-flex flex-wrap min-h-30">
-            <div class="user-catagory-highlight {{ article.cat.slug }}">
-                {{ article.cat.name }}
-            </div>
-        </div>
-        <div class="basepost-description">
-            {% if article.main_img %}
-                <img src="{{ article.main_img.url }}" alt="Article Image" class="article-image">
-            {% endif %}
-        </div>
-        {% endautoescape %}
-        <span class="link-read-post">
-            <a href="{{ article.get_absolute_url }}" class="read-post-link">Читать пост</a>
+        <div class="f-flex g-fs-header-20">{{ article.title }}</div>
+        <div class="d-flex flex-column gap-1 ">
+            {% autoescape off %}
+                <div class=" d-flex g-fs-14">
+                    {{ article.description }}
+                </div>
+                <div class="d-flex flex-wrap min-h-30">
+                    <div class="user-catagory-highlight {{ article.cat.slug }}">
+                        {{ article.cat.name }}
+                    </div>
+                </div>
+                <div class="basepost-description w-100">
+                    {% if article.main_img %}
+                        <img src="{{ article.main_img.url }}" alt="Article Image" class="img-fluid w-100 rounded">
+                    {% endif %}
+                </div>
+            {% endautoescape %}
+            <span class="link-read-post">
+            <a href="{{ article.get_abe_url }}" class="read-post-link">Читать пост</a>
         </span>
 
-        <div class="basepost-prof-socials-cont">
-            <div class="basepost-author-cont">
-                <div class="basepost-author-pic">
-                    <img src="{{ article.author.profile.avatar.url }}" class="basepost-author-pic author-avatar"/>
+            <div class="basepost-prof-socials-cont">
+                <div class="basepost-author-cont">
+                    <div class="basepost-author-pic">
+                        <img src="{{ article.author.profile.avatar.url }}" class="basepost-author-pic author-avatar"/>
+                    </div>
+                    <a href="{% url 'expert_profile' article.author.pk %}" class="basepost-author-text">
+                        {{ article.author.last_name }} {{ article.author.first_name }}
+                    </a>
                 </div>
-                <a href="{% url 'expert_profile' article.author.pk %}" class="basepost-author-text">
-                    <div>{{ article.author.last_name }} {{ article.author.first_name }}</div>
-                </a>
-            </div>
-            <div class="comments-andshare-cont">
-                <div class="list-comments">
-                    <i class="bi bi-eye view-icon" onclick="alert('in progress')"></i>
-                    <span>{% get_hit_count for article %}</span>
-                </div>
-                <div class="list-comments">
-                    <i class="bi bi-hand-thumbs-up"></i>
-                    <span>{{ article.votes.count }}</span>
-                </div>
-                <a href="{{ article.get_absolute_url }}#comments" class="list-comments ">
-                    {% include "components/comment_icon.html" %}
-                    {% get_comment_count for article as comment_count %}
-                    <span>&nbsp;{{ comment_count }}</span>
-                </a>
+                <div class="comments-andshare-cont">
+                    <div class="list-comments">
+                        <i class="bi bi-eye view-icon" onclick="alert('in progress')"></i>
+                        <span>{% get_hit_count for article %}</span>
+                    </div>
+                    <div class="list-comments">
+                        <i class="bi bi-hand-thumbs-up"></i>
+                        <span>{{ article.votes.count }}</span>
+                    </div>
+                    <a href="{{ article.get_absolute_url }}#comments" class="list-comments ">
+                        {% include "components/comment_icon.html" %}
+                        {% get_comment_count for article as comment_count %}
+                        <span>&nbsp;{{ comment_count }}</span>
+                    </a>
 
-                {% include "components/share_social_btn.html" with url_path="/articles/" slug=article.slug title=article.title item_pk=article.pk %}
+                    {% include "components/share_social_btn.html" with url_path="/articles/" slug=article.slug title=article.title item_pk=article.pk %}
+                </div>
             </div>
+            {% if not forloop.last %}
+                <hr class="solid">
+            {% endif %}
+            {#    {% include 'components/load_more.html' %}#}
         </div>
-        {% if not forloop.last %}
-            <hr class="solid">
-        {% endif %}
-        {#    {% include 'components/load_more.html' %}#}
     </div>
-</div>
 {% endfor %}

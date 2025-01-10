@@ -1,14 +1,14 @@
 {% load i18n %}
 {% load web_tags %}
 
-<div class="d-flex align-items-center justify-content-start justify-content-md-center gap-1 fs-6">
+<div class="d-flex align-items-center justify-content-start gap-1 ">
 
         {% if size == 'large' %}
-            <div style="font-size: 20px">{{ user.expertprofile.grade.grade }}</div>
-        {% elif size == 'medium' %}
             <div style="font-size: 16px">{{ user.expertprofile.grade.grade }}</div>
-        {% elif size == 'small'  %}
+        {% elif size == 'medium' %}
             <div style="font-size: 14px">{{ user.expertprofile.grade.grade }}</div>
+        {% elif size == 'small'  %}
+            <div style="font-size: 12px">{{ user.expertprofile.grade.grade }}</div>
         {% else %}
             <div> {{ user.expertprofile.grade.grade }}</div>
         {% endif %}
@@ -29,4 +29,5 @@
 {#            {% endfor %}#}
 {#        </div>#}
 {#    {% endif %}#}
+
 </div>

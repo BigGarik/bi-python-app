@@ -34,7 +34,7 @@
 {% endblock %}
 
 {% block posts_content %}
-    <div class="element-container main-list-gap">
+    <div class="element-container d-flex flex-column gap-4">
         <div class="search-and-cat-cont d-none d-md-flex" >
             <div class="col-6">
                 <input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск">
@@ -50,7 +50,7 @@
         <!-- Small Screens -->
         <div class="search-and-cat-cont d-md-none search-and-cat-cont-mobile">
             <div class="search-input-container">
-                <input type="text" id="search-article-query" class="d-flex px-2 py-1 border font-sans-serif rounded-2 me-2 w-100"   placeholder="Поиск">
+                <input type="text" id="search-article-query" class="d-flex px-2 py-1 border font-sans-serif rounded-2 me-2 w-100" placeholder="Поиск">
             </div>
             <div class="button-filter-container">
                 <a href="{% url 'wbqa:create_question' %}">

@@ -21,7 +21,7 @@
                     <div class="d-flex flex-column align-self-center">
 
                                                 {# subject of change, </br> #}
-                        <h5 class="mb-2 fw-semibold fs-10">{{ expert.first_name }} {{ expert.last_name }}</h5>
+                        <h5 class="mb-2 fw-semibold g-fs-header-20">{{ expert.first_name }} {{ expert.last_name }}</h5>
 
                         {% include 'components/experts/rating.html' with user=expert %}
                     </div>
@@ -55,7 +55,7 @@
                 <div class="d-flex flex-column h-100 ps-md-4 p-0 g-1 justify-content-evenly">
                     <!-- exp name desktop only -->
                     <div class="d-none d-md-flex align-items-start justify-content-between mb-2">
-                        <h5 class=" mb-0 fw-semibold my-2">{{ expert.first_name }} {{ expert.last_name }}</h5>
+                        <div class=" mb-0 fw-semibold my-2 g-fs-header-20">{{ expert.first_name }} {{ expert.last_name }}</div>
                     </div>
 
                     <div class="category-container mb-3">
@@ -66,13 +66,13 @@
                         {% endfor %}
                     </div>
 
-                    <div class="mb-2">
+                    <div class="mb-2 g-fs-14">
                         {% autoescape off %}
                             {{ expert.expertprofile.about|truncatechars_html:130 }}
                         {% endautoescape %}
 
                         <a href="{% url 'expert_profile' expert.id %}?tab=articles"
-                           class="text-decoration-none">&nbsp;Читать ещё</a>
+                           class="text-decoration-none g-fs-14">&nbsp;Читать ещё</a>
 
                     </div>
 
@@ -84,7 +84,7 @@
                                 <a href="{% url 'appointment_add' expert.id %}"
                                    class="btn btn-success g-green-bg g-fs-14">Консультация</a>
 
-                                <span class="text-muted fw-semibold">
+                                <span class="text-muted fw-semibold g-fs-14">
                                     {{ expert.expertprofile.hour_cost }} Р/час
                                 </span>
 
@@ -92,7 +92,7 @@
                         {% endif %}
 
                         <div class="mb-2 mb-xxl-0 order-1 order-xxl-2">
-                            <small class="text-black-50">
+                            <small class="g-grey-color g-fs-12">
                                 {{ expert.expert_article_cnt }}
                                 {% get_write_phrase expert.expert_article_cnt 'статья статьи статей' %}
                                 &nbsp;•&nbsp; 0 опросов &nbsp;•&nbsp; 0 отзывов

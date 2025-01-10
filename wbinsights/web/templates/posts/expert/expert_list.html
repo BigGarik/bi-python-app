@@ -12,20 +12,20 @@
 {% endblock %}
 
 {% block posts_content %}
-    <div class="element-container main-list-gap">
+    <div class="element-container d-flex flex-column gap-4">
         <div class="search-and-cat-cont">
-            <div class="small-layout col-sm col-md d-flex flex-column w-100">
+            <div class="d-flex flex-column flex-md-row w-100 mt-md-0">
                 <div class="col-sm-12 col-md-6">
                     <input type="search" id="search-expert-query" class="lists-search-cont" placeholder="Поиск по имени"
                            value="{{ search_q }}"/>
                 </div>
-                <div class="col-sm-12 col-md-6 d-flex justify-content-end justify-content-md-start gap-3 mt-md-3">
+                <div class="col-sm-12 col-md d-flex justify-content-end gap-3 mt-2 mt-md-0">
                     {% include "components/post_category_filter.html" %}
                     <div class="dropdown" style="display: flex; align-items: center;">
                         <button class="expert-list-dropdown dropdown-toggle" type="button" id="categoryDropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="global-catagory-text">Рейтинг: &nbsp;</span>
-                            <span class="global-catagory-choose" id="selectedRating">
+                            <span class="g-fs-14">Рейтинг: &nbsp;</span>
+                            <span class="g-fs-14 fw-semibold" id="selectedRating">
                             {% if request.GET.min_rating == '3' %}
                                 3 и выше
                             {% elif request.GET.min_rating == '4' %}
@@ -38,10 +38,10 @@
                             </span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                            <li><a class="dropdown-item" href="?" data-rating="Все">Все</a></li>
-                            <li><a class="dropdown-item" href="?min_rating=3">3 и выше</a></li>
-                            <li><a class="dropdown-item" href="?min_rating=4">4 и выше</a></li>
-                            <li><a class="dropdown-item" href="?min_rating=5">5</a></li>
+                            <li><a class="dropdown-item g-fs-14" href="?" data-rating="Все">Все</a></li>
+                            <li><a class="dropdown-item g-fs-14" href="?min_rating=3">3 и выше</a></li>
+                            <li><a class="dropdown-item g-fs-14" href="?min_rating=4">4 и выше</a></li>
+                            <li><a class="dropdown-item g-fs-14" href="?min_rating=5">5</a></li>
                         </ul>
                     </div>
                 </div>

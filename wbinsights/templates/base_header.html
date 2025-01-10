@@ -19,7 +19,7 @@
                     {% if user.is_authenticated %}
                         {% if user.profile.type == 1 %}
                             <div class="dropdown">
-                                <button class="btn btn-secondary fullscreen-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn fullscreen-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="bi bi-plus plus-icon"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -31,7 +31,7 @@
 
                     {% if user.is_superuser %}
                         <div class="dropdown">
-                            <button class="btn btn-secondary fullscreen-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn fullscreen-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="admin-text">Администрирование</span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -82,7 +82,7 @@
                         </div>
                     
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle bg-transparent border-0 m-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn  dropdown-toggle bg-transparent border-0 m-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="rounded-circle object-fit-cover" style="height: 50px; width: 50px;">
                             </button>
                             
@@ -197,7 +197,7 @@
                                     </div>
                                 
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle bg-transparent border-0 m-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button class="btn dropdown-toggle bg-transparent border-0 m-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="rounded-circle object-fit-cover" style="height: 50px; width: 50px;">
                                         </button>
                                         <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">

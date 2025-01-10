@@ -2,8 +2,8 @@
 
 {% if request.user.is_authenticated %}
     {% if request.user.profile.type == 1 and not request.user.expertanketa.is_verified %}
-        <div class="container-fluid d-flex justify-content-center  align-items-center p-1  bg-warning">
-            <p class="text-white fw-semibold fs-5 m-0" >{% trans 'VerifyAccountLabel' %}</p>
+        <div class="container-fluid d-flex justify-content-center align-items-center p-1  bg-warning ">
+            <p class="text-white fw-semibold g-fs-16 m-0" >{% trans 'VerifyAccountLabel' %}</p>
         </div>
     {% endif %}
 {% endif %}

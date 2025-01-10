@@ -24,9 +24,7 @@
 /* ------------------------------------------------- Mobile Screens CSS -------------------------------------------------------- */
 
 
-
 @media (max-width: 768px ) {
-
 
     .expert-prof-cont {
         display: flex;
@@ -35,12 +33,6 @@
         margin-top: 15px;
         box-shadow: none;
         flex-direction: column;
-    }
-
-    .basepost-content-cont {
-        padding: 0px !Important;
-        margin-top: 15px;
-        gap: 15px !important;
     }
 
 }

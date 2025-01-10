@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
 
 <div class="col-12">
-    <div class="d-flex flex-column flex-md-row ">
+    <div class="d-flex flex-column flex-md-row justify-content-evenly ">
         {# Avatar Section #}
         <div class=" col-md-3-5 d-flex justify-content-center justify-content-md-start">
             <img src="{{ user.profile.avatar.url }}"
@@ -13,7 +13,7 @@
         </div>
 
         {# User Info Section #}
-        <div class=" col-md-8-5 d-flex flex-column justify-content-evenly">
+        <div class=" col-md-8-5 d-flex flex-column justify-content-evenly ">
             {# Name #}
             <div class="g-fs-header-20 text-center justify-content-center text-center text-md-start">
                 {{ user.first_name }} {{ user.last_name }}
@@ -26,7 +26,7 @@
                 </div>
 
                 {# Expert Categories #}
-                <div class="d-flex flex-column flex-md-row align-items-center min-h-30">
+                <div class="d-flex flex-column flex-md-row align-items-center min-h-30 flex-wrap">
                     <div class="user-category mb-2 mb-md-0">Эксперт в области : </div>
                     <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
                         {% for exp_category in profile.expert_categories.all %}
