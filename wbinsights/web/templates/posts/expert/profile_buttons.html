@@ -1,45 +1,39 @@
+{% load i18n %}
 {% load web_tags %}
+{% load static %}
+
+
+<link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
+
 
 <style>
-    @media (max-width: 768px) {
-        .if-mobile-consult-btn {
-            width: 100%;
-            background-color: #6dc36b;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
+    @media (min-width: 768px) {
+        .w-md-fit {
+            width: fit-content !important;
         }
-    }
-
-    .prof-consult-btn {
-        background-color: #6dc36b;
-        border: none;
-        padding: 10px;
-        border-radius: 10px;
     }
 </style>
 
-{% device_is_mobile as is_mobile %}
-{% if is_mobile %}
-    <!-- Mobile -->
-    <div class="col-12 mt-2">
-{% else %}
-    <div class="row">
-    <div class="col-sm-4 col-md-3-5">
-        <!-- empty space (avatar cont)-->
+<div class="d-flex flex-column flex-md-row">
+
+    <div class="d-none d-sm-flex col-sm-3-5 justify-content-md-start">
+        {# empty space #}
     </div>
-{% endif %}
-<div class="col-sm-8 col-md-8-5">
-    {% if user == request.user %}
-        <button type="button" disabled
-                class="btn btn-success g-green-bg w-100 w-md-auto rounded-2 py-2 px-3">
-            Консультация
-        </button>
-    {% else %}
-        <a href="{% url 'appointment_add' user.id %}" type="button"
-           class="btn btn-success g-green-bg w-100 w-md-auto rounded-2 py-2 px-3">
-            Консультация
-        </a>
-    {% endif %}
-</div>
+
+    <div class=" col-sm-8-5 d-flex flex-column justify-content-evenly">
+        {% if user == request.user %}
+
+            <button type="button" disabled
+                    class="btn btn-success g-green-bg rounded-2 py-2 px-3 w-100 w-md-fit mt-2">
+                {% trans 'ConsultLabel' %}
+            </button>
+
+        {% else %}
+
+            <a href="{% url 'appointment_add' user.id %}" type="button"
+               class="btn btn-success g-green-bg rounded-2 py-2 px-3 w-100 w-md-fit mt-2">
+                {% trans 'ConsultLabel' %}
+            </a>
+        {% endif %}
+    </div>
 </div>

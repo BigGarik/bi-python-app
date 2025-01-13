@@ -10,8 +10,7 @@
 {% block center_col %}
 
 
-<div class="row">
-    <div class="container">
+    <div class="element-container">
 
         {% trans "ToMainPageLabel" as back_text %}
         {% back_button "index" back_text %}
@@ -49,5 +48,4 @@
             <a href="{% url 'profile' %}" class="btn btn-primary">Оплатить позже</a>
         </form>
     </div>
-</div>
 {% endblock %}

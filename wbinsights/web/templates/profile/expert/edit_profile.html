@@ -4,8 +4,7 @@
 {% load web_tags %}
 
 {% block extra_static %}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
     <link rel="stylesheet" href="{% static 'web/css/profile_content_itemsCSS.css' %}">
 
@@ -20,6 +19,9 @@
 
 {% block center_col %}
 
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <style>
         .select2-container--default .select2-selection--multiple {
@@ -185,12 +187,11 @@
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-12 col-md-6 mb-3 mb-md-0   ">
+                    <div class="col-12 col-md-6 mb-3 mb-md-0">
                         <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
                                class="form-label fw-semibold">
                             {{ expert_profile_form.expert_categories.label }}
                         </label>
-
                         {{ expert_profile_form.expert_categories }}
                     </div>
 
@@ -427,6 +428,7 @@
 
 
     <script>
+
         $('.add-education-btn-trigger').click(function () {
             // Clone the last form
             const newForm = $('.education-form:last').clone();
@@ -453,10 +455,6 @@
             $('#new-education-forms-container').append('<hr/>');
             $('#new-education-forms-container').append(newForm);
         });
-    </script>
-
-
-    <script>
 
 
         const form = document.querySelector("form")
@@ -470,12 +468,11 @@
 
 
         $(document).on('click', '.delete-temp-education-btn', function () {
-            // For new, unsaved forms
-            const formNum = $(this).data('new-form');
-            $(this).closest('.education-form').prev('hr').remove(); // Remove the HR
-            $(this).closest('.education-form').remove(); // Remove the form
 
-            // Update total forms count
+            const formNum = $(this).data('new-form');
+            $(this).closest('.education-form').prev('hr').remove();
+            $(this).closest('.education-form').remove();
+
             const totalForms = parseInt($('#id_form-TOTAL_FORMS').val());
             $('#id_form-TOTAL_FORMS').val(totalForms - 1);
         });
@@ -484,7 +481,11 @@
         $(document).ready(function () {
 
 
-
+            //temp solution for select2 expert categories
+            $("#{{ expert_profile_form.expert_categories.id_for_label }}").select2({
+                placeholder: "Выберите категории",
+                allowClear: true
+            });
 
 
             $('.delete-education-btn').click(function () {

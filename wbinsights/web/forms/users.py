@@ -248,7 +248,7 @@ class ExpertAnketaChangeForm(forms.ModelForm):
     expert_categories = forms.ModelMultipleChoiceField(
         label=_("Categories of expertise"),
         queryset=Category.objects.all(),
-        widget=forms.SelectMultiple(attrs={'class': 'custom-form-css'})
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'})
     )
     experience = forms.IntegerField(label=_("Experience (years)"), widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))
     consulting_experience = forms.IntegerField(label=_("Consulting experience (years)"), required=False, widget=forms.NumberInput(attrs={'class': 'custom-form-css'}))

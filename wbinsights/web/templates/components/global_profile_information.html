@@ -4,9 +4,9 @@
 <link rel="stylesheet" href="{% static 'web/css/profile.css' %}">
 
 <div class="col-12">
-    <div class="d-flex flex-column flex-md-row justify-content-evenly ">
+    <div class="d-flex flex-column flex-md-row  ">
         {# Avatar Section #}
-        <div class=" col-md-3-5 d-flex justify-content-center justify-content-md-start">
+        <div class=" col-md-3-5 d-flex justify-content-center ">
             <img src="{{ user.profile.avatar.url }}"
                  alt="Avatar"
                  style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             {% else %}
-                <div class="text-center text-md-start">Клиент</div>
+                <div class="text-center text-md-start">{% trans 'Client' %}</div>
             {% endif %}
         </div>
     </div>
