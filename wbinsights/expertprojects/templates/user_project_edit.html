@@ -34,8 +34,6 @@
             display: flex !important;
         }
     </style>
-
-
     <div class="element-container basepost-content-mobile-bottom-padding">
         {% trans "BackButtonLabel" as back_text %}
         {% back_button "profile" back_text %}
@@ -153,7 +151,7 @@
                     {% for file in files.all %}
                         <li class="mb-2 loaded-from-server" data-file-id="{{ file.id }}">
                             <div class="d-flex justify-content-between align-items-center">
-                                <div class="text-truncate me-3" >
+                                <div class="text-truncate me-3">
                                     {% if file.file %}
                                         <a href="{{ file.file.url }}" class="text-decoration-none">
                                             {{ file.file.name|filename }}
@@ -180,6 +178,7 @@
     </div>
 
     <input type="file" id="fileInput" name="files" multiple style="display: none;">
+
     <script>
         document.getElementById('fileInputBtn').addEventListener('click', function (event) {
             event.preventDefault();
@@ -198,15 +197,24 @@
             fileList.forEach(function (file, index) {
                 const listItem = document.createElement('li');
                 listItem.dataset.fileIndex = index;
-                listItem.classList.add('new-file');
+                listItem.className = 'mb-2 new-file';
+
+                const wrapperDiv = document.createElement('div');
+                wrapperDiv.className = 'd-flex justify-content-between align-items-center';
+
+                const fileNameDiv = document.createElement('div');
+                fileNameDiv.className = 'text-truncate me-3';
 
                 const fileLink = document.createElement('a');
-                fileLink.href = file.url ? file.url : '#';
+                fileLink.href = '#';
+                fileLink.className = 'text-decoration-none';
                 fileLink.textContent = file.name;
+                fileNameDiv.appendChild(fileLink);
 
+                // Create delete button with Bootstrap classes
                 const deleteButton = document.createElement('i');
-                deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
-                deleteButton.style.fontSize = '20px';
+                deleteButton.className = 'bi bi-trash fs-5 text-danger';
+                deleteButton.setAttribute('role', 'button');
                 deleteButton.style.cursor = 'pointer';
                 deleteButton.addEventListener('click', function () {
                     const listItem = this.closest('li');
@@ -215,8 +223,9 @@
                     updateFileList();
                 });
 
-                listItem.appendChild(fileLink);
-                listItem.appendChild(deleteButton);
+                wrapperDiv.appendChild(fileNameDiv);
+                wrapperDiv.appendChild(deleteButton);
+                listItem.appendChild(wrapperDiv);
                 ul.appendChild(listItem);
             });
         }
@@ -232,7 +241,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            const deleteButtons = document.querySelectorAll('.trash-icon');
+            const deleteButtons = document.querySelectorAll('.bi-trash');
 
             deleteButtons.forEach(function (deleteButton) {
                 deleteButton.addEventListener('click', function () {
