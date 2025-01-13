@@ -36,27 +36,27 @@
     cursor: pointer;
 }
 
-.project-members{
-    display:flex;
+.project-members {
+    display: flex;
     justify-content: center;
-    flex-direction:column
+    flex-direction: column
 }
 
-.project-goals{
+.project-goals {
     display: flex;
     overflow-wrap: anywhere;
 
 }
 
-.project-goals-caption{
-    font-weight:600;
+.project-goals-caption {
+    font-weight: 600;
 }
 
 .jumbo-styles {
     display: flex;
     box-shadow: 0 0 5px hsla(0, 0%, 66%, .8);
     /*background-color: #f4f4f4;*/
-    padding:10px;
+    padding: 10px;
     height: 100%;
 }
 
@@ -71,7 +71,7 @@
     flex-direction: column;
     justify-content: space-between;
     min-height: 250px;
-    max-width:22%;
+    max-width: 22%;
     cursor: pointer;
 }
 
@@ -92,7 +92,7 @@
 }
 
 .projects-flex {
-    display:flex
+    display: flex
 }
 
 .member-img {
@@ -102,7 +102,7 @@
     margin: 5px 10px 5px 10px;
 }
 
-.project-icon-cont{
+.project-icon-cont {
     display: flex;
     gap: 5px;
     text-decoration: none;
@@ -111,13 +111,13 @@
     font-size: 16px
 }
 
-.project-icon-main-cont{
-    display:flex;
+.project-icon-main-cont {
+    display: flex;
     gap: 5px;
     justify-content: space-evenly;
 }
 
-.edit-project-search-bar{
+.edit-project-search-bar {
     display: flex;
     padding: 5px;
     border: 2px solid grey;
@@ -125,7 +125,7 @@
     align-items: center;
 }
 
-.project-search-bar{
+.project-search-bar {
     display: flex;
     padding: 5px;
     border: 2px solid grey;
@@ -136,7 +136,7 @@
     height: fit-content;
 }
 
-.client-year-cont{
+.client-year-cont {
     display: flex;
     flex-direction: column;
     font-weight: 600;
@@ -152,8 +152,8 @@
 }
 
 
-.project-list{
-    display:flex;
+.project-list {
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
@@ -174,7 +174,9 @@
 }
 
 .project-files-cont {
-    display: flex; margin : 20px 0 20px 0; align-items: baseline;
+    display: flex;
+    margin: 20px 0 20px 0;
+    align-items: baseline;
 }
 
 .like-btn {
@@ -199,4 +201,28 @@
 .like-btn:not(.liked) svg {
     fill: none;
     stroke: #95a5a6;
+}
+
+
+.select2-container .select2-selection--multiple {
+    min-height: 38px;
+}
+
+.select2-container .select2-selection--single {
+    height: 38px;
+    padding: 6px 12px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+    list-style: none;
+    display: flex !important;
+}
+
+.select2-selection.select2-selection--multiple {
+    display: flex !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #dee2e6 !important;
+
 }
