@@ -65,7 +65,7 @@
         {% csrf_token %}
         <div class="row mobile-gap ">
             <div class=" col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8 ">
-                <div class="element-container">
+                <div class="element-container basepost-content-mobile-bottom-padding">
 
                     {% trans "BackButtonLabel" as back_text %}
                     {% back_button "index" back_text %}
@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 element-container-article-mob ">
-                <div class="article-add-right-btns basepost-content-mobile-bottom-padding">
+                <div class="article-add-right-btns ">
                     <div class="d-flex justify-content-between flex-wrap gap-1 mb-3">
                         <div>Настройки</div>
                         <div class="clear-all" onclick="clearEditorContent()">
@@ -124,7 +124,7 @@
                     <br>
                     <div class="d-grid gap-2 d-block">
 
-                        {% include "components/loadingBtn.html" with button_text="Опубликовать" loading_text="Публикация..." %}
+                        {% include "components/loadingBtn.html" with button_text="Опубликовать" loading_text="Публикация..."  %}
 
                     </div>
                 </div>

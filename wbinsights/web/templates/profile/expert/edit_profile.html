@@ -111,7 +111,7 @@
         </div>
 
 
-        <div class="element-container">
+        <div class="element-container basepost-content-mobile-bottom-padding">
 
             {% trans "BackButtonLabel" as back_text %}
             {% back_button "profile" back_text %}
@@ -189,7 +189,7 @@
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-12 col-md-6 mb-3 mb-md-0 p-1">
+                    <div class="col-12 col-md-6 mb-3 mb-md-0   ">
                         <label for="{{ expert_profile_form.expert_categories.id_for_label }}"
                                class="form-label fw-semibold">
                             {{ expert_profile_form.expert_categories.label }}
@@ -198,7 +198,7 @@
                         {{ expert_profile_form.expert_categories }}
                     </div>
 
-                    <div class="col-12 col-md-2 mb-3 mb-md-0 p-1">
+                    <div class="col-12 col-md-2 mb-3 mb-md-0   ">
                         <label for="{{ expert_profile_form.experience.id_for_label }}" class="form-label fw-semibold">
                             {{ expert_profile_form.experience.label }}
                         </label>
@@ -206,7 +206,7 @@
                         {{ expert_profile_form.experience }}
                     </div>
 
-                    <div class="col-12 col-md-4 p-1">
+                    <div class="col-12 col-md-4   ">
                         <div class="d-flex align-items-center gap-2">
 
                             <label for="{{ expert_profile_form.hour_cost.id_for_label }}"
@@ -248,122 +248,126 @@
 
                 </div>
 
-                <div class="mb-4">
-                    <label for="{{ expert_profile_form.age.id_for_label }}" class="form-label fw-semibold">
-                        {{ expert_profile_form.age.label }}
-                    </label>
+                <div class="row">
+                    <div class="mb-4">
+                        <label for="{{ expert_profile_form.age.id_for_label }}" class="form-label fw-semibold">
+                            {{ expert_profile_form.age.label }}
+                        </label>
 
-                    {{ expert_profile_form.age }}
-                </div>
-
-                <div class="mb-4">
-                    <label for="{{ expert_profile_form.hh_link.id_for_label }}" class="form-label fw-semibold">
-                        {{ expert_profile_form.hh_link.label }}
-                    </label>
-
-                    {{ expert_profile_form.hh_link }}
-                </div>
-                <div class="mb-4">
-
-                    <label for="{{ expert_profile_form.linkedin_link.id_for_label }}" class="form-label fw-semibold">
-                        {{ expert_profile_form.linkedin_link.label }}
-                    </label>
-                    {{ expert_profile_form.linkedin_link }}
-                </div>
-
-                <div class="pt-4">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-
-                        <h5 class="mb-0">Образование</h5>
-
-                        <button type="button"
-                                class="btn btn-success g-fs-14 g-green-bg btn-sm add-education-btn-trigger">
-                            <i class="bi bi-plus"></i>
-                        </button>
+                        {{ expert_profile_form.age }}
                     </div>
 
-                    {{ education_expert_formset.management_form }}
+                    <div class="mb-4">
+                        <label for="{{ expert_profile_form.hh_link.id_for_label }}" class="form-label fw-semibold">
+                            {{ expert_profile_form.hh_link.label }}
+                        </label>
 
-                    {% for form in education_expert_formset %}
-                        <hr/>
-                        <div class="education-form">
-                            {{ form.id }}
-                            {{ form.errors }}
-                            <div class="col d-flex justify-content-end align-items-center">
-                                {% if form.instance.id %}
-                                    <button type="button"
-                                            class="btn btn-link text-danger p-0 delete-education-btn"
-                                            data-education-id="{{ form.instance.id }}"
-                                            data-education-name="{{ form.instance.educational_institution }}">
-                                        <i class="bi bi-trash fs-5"></i>
-                                    </button>
-                                {% endif %}
-                            </div>
+                        {{ expert_profile_form.hh_link }}
+                    </div>
+                    <div class="mb-4">
 
-                            <div class="row mb-3 justify-content-between">
-                                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                        <label for="{{ expert_profile_form.linkedin_link.id_for_label }}"
+                               class="form-label fw-semibold">
+                            {{ expert_profile_form.linkedin_link.label }}
+                        </label>
+                        {{ expert_profile_form.linkedin_link }}
+                    </div>
 
-                                    <label for="{{ form.education_type.id_for_label }}" class="form-label fw-semibold">
-                                        {{ form.education_type.label }}
-                                    </label>
+                    <div class="pt-4">
+                        <div class="d-flex align-items-center gap-2 mb-3">
 
-                                    {{ form.education_type }}
+                            <h5 class="mb-0">Образование</h5>
+
+                            <button type="button"
+                                    class="btn btn-success g-fs-14 g-green-bg btn-sm add-education-btn-trigger">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+
+                        {{ education_expert_formset.management_form }}
+
+                        {% for form in education_expert_formset %}
+                            <hr/>
+                            <div class="education-form">
+                                {{ form.id }}
+                                {{ form.errors }}
+                                <div class="col d-flex justify-content-end align-items-center">
+                                    {% if form.instance.id %}
+                                        <button type="button"
+                                                class="btn btn-link text-danger p-0 delete-education-btn"
+                                                data-education-id="{{ form.instance.id }}"
+                                                data-education-name="{{ form.instance.educational_institution }}">
+                                            <i class="bi bi-trash fs-5"></i>
+                                        </button>
+                                    {% endif %}
                                 </div>
-                                <div class="col-12 col-md-6 d-flex align-items-end">
 
-                                    <div class="d-flex align-items-center gap-2 w-100">
-                                        <div class="d-flex">
+                                <div class="row mb-3 justify-content-between">
+                                    <div class="col-12 col-md-6 mb-3 mb-md-0">
 
-                                            <label for="{{ form.specialized_education.id_for_label }}"
-                                                   class="form-label fw-semibold">
-                                                {{ form.specialized_education.label }}
-                                            </label>
-                                        </div>
+                                        <label for="{{ form.education_type.id_for_label }}"
+                                               class="form-label fw-semibold">
+                                            {{ form.education_type.label }}
+                                        </label>
 
-                                        <div class="form-check mb-2">
-                                            {{ form.specialized_education }}
+                                        {{ form.education_type }}
+                                    </div>
+                                    <div class="col-12 col-md-6 d-flex align-items-end">
+
+                                        <div class="d-flex align-items-center gap-2 w-100">
+                                            <div class="d-flex">
+
+                                                <label for="{{ form.specialized_education.id_for_label }}"
+                                                       class="form-label fw-semibold">
+                                                    {{ form.specialized_education.label }}
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check mb-2">
+                                                {{ form.specialized_education }}
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-12 col-md-7 mb-3 mb-md-0">
+
+                                        <label for="{{ form.educational_institution.id_for_label }}" class="form-label">
+                                            {{ form.educational_institution.label }}
+                                        </label>
+
+                                        {{ form.educational_institution }}
+                                    </div>
+                                    <div class="col-12 col-md-5">
+
+                                        <label for="{{ form.diploma_number.id_for_label }}" class="form-label">
+                                            {{ form.diploma_number.label }}
+                                        </label>
+
+                                        {{ form.diploma_number }}
+                                    </div>
+                                </div>
                             </div>
+                        {% endfor %}
 
-                            <div class="row">
-                                <div class="col-12 col-md-7 mb-3 mb-md-0">
+                        <div id="new-education-forms-container"></div>
+                    </div>
 
-                                    <label for="{{ form.educational_institution.id_for_label }}" class="form-label">
-                                        {{ form.educational_institution.label }}
-                                    </label>
+                    <hr class="my-4">
 
-                                    {{ form.educational_institution }}
-                                </div>
-                                <div class="col-12 col-md-5">
+                    <div class="d-flex flex-column flex-md-row gap-3">
+                        {% include "components/loadingBtn.html" with button_text="Сохранить изменения" loading_text="Сохранение..." %}
 
-                                    <label for="{{ form.diploma_number.id_for_label }}" class="form-label">
-                                        {{ form.diploma_number.label }}
-                                    </label>
-
-                                    {{ form.diploma_number }}
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-
-                    <div id="new-education-forms-container"></div>
-                </div>
-
-                <hr class="my-4">
-
-                <div class="d-flex flex-column flex-md-row gap-3">
-                    {% include "components/loadingBtn.html" with button_text="Сохранить изменения" loading_text="Сохранение..." %}
-
-                    <button type="button"
-                            class="btn btn-outline-danger g-fs-14 "
-                            id="deleteProfileBtn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteProfileModal">
-                        Удалить профиль
-                    </button>
+                        <button type="button"
+                                class="btn btn-outline-danger g-fs-14 "
+                                id="deleteProfileBtn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteProfileModal">
+                            Удалить профиль
+                        </button>
+                    </div>
                 </div>
             </form>
 

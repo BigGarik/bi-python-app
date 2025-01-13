@@ -137,8 +137,8 @@
 
         </div>
 
-        <div class="element-container basepost-content-mobile-bottom-padding mt-3" >
-            
+        <div class="element-container basepost-content-mobile-bottom-padding mt-3">
+
             <div class="d-flex justify-content-between flex-wrap gap-1 mb-3">
                 <div>Настройки</div>
                 <div class="clear-all" onclick="clearEditorContent()">
@@ -154,7 +154,9 @@
 
             <br>
             <div class="d-grid gap-2 d-block">
-                <input type="submit" value="Опубликовать" class="btn btn-success"/>
+
+                {% include "components/loadingBtn.html" with button_text="Опубликовать" loading_text="Публикация..." %}
+
             </div>
         </div>
 

@@ -5,10 +5,7 @@
 {% load custom_filters %}
 {% load hitcount_tags %}
 
-<style>
-
-</style>
-    <link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
+<link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
 {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
     <a href="{% url 'project_add' %}" class="btn btn-primary" style="margin-bottom: 10px" role="button"
        aria-pressed="true">Добавить проект</a>
@@ -18,58 +15,78 @@
 
     {% get_all_categories as categories %}
     <form method="get" id="filter-form" class="mb-4 py-2">
-        <div class="form-group">
-            <input type="text" name="name" id="name" class="form-control" placeholder="Search Project By Name" value="{{ request.GET.name }} ">
+        <div class="mb-3">
+            <input type="text"
+                   name="name"
+                   id="name"
+                   class="form-control"
+                   placeholder="{% trans 'SearchProjectByNameLabel' %}"
+                    {#                   value="{{ request.GET.name }}#}
+            >
         </div>
-        <div class="smallBtnProf py-2">
-            <div class="form-group">
-                <div class="dropdown mb-3">
-                    <button type="button" class="btn btn-secondary dropdown-toggle smallBtnProf" data-bs-toggle="dropdown">
-                        {% if request.GET.category %}
-                            {% trans 'Category' %}:
-                            {% for category in categories %}
-                                {% if category.id|stringformat:"s" == request.GET.category %}
-                                    {{ category.name }}
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            {% trans 'Filter by category' %}: {% trans 'All' %}
-                        {% endif %}
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="?{{ get_params.urlencode }}">{% trans 'All' %} {% trans 'Categories' %}</a></li>
+
+        <div class="d-flex gap-2">
+            <div class="dropdown">
+                <button type="button"
+                        class="btn btn-primary dropdown-toggle"
+                        data-bs-toggle="dropdown">
+                    {% if request.GET.category %}
+                        {% trans 'Category' %}:
                         {% for category in categories %}
+                            {% if category.id|stringformat:"s" == request.GET.category %}
+                                {{ category.name }}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% trans 'Categories' %}: {% trans 'All' %}
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="?{{ get_params.urlencode }}">
+                            {% trans 'All' %} {% trans 'Categories' %}
+                        </a>
+                    </li>
+                    {% for category in categories %}
+                        <li>
+                            <a class="dropdown-item{% if request.GET.category == category.id|stringformat:"s" %} active{% endif %}"
+                               href="?{{ get_params.urlencode }}&category={{ category.id }}">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <button id="pageSizeDropdown"
+                        class="btn btn-primary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown">
+                    {% trans 'ItemsLabel' %}:
+                    {% if request.GET.page_size %}
+                        {{ request.GET.page_size }}
+                    {% else %}
+                        5
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu">
+                    {% with page_cnt_array='5 10 20 50 100 500' %}
+                        {% for item in page_cnt_array.split %}
                             <li>
-                                <a class="dropdown-item{% if request.GET.category == category.id|stringformat:"s" %} active{% endif %}"
-                                   href="?{{ get_params.urlencode }}&category={{ category.id }}">
-                                    {{ category.name }}
+                                <a class="dropdown-item{% if request.GET.page_size == item %} active{% endif %}"
+                                   href="?page_size=
+
+                                           {{ item }}{% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                                    {{ item }}
                                 </a>
                             </li>
                         {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="dropdown">
-                    <button id="pageSizeDropdown" class="btn btn-secondary dropdown-toggle smallBtnProf" type="button" data-bs-toggle="dropdown">
-                        {% trans 'Projects per page' %}:
-                        {% if request.GET.page_size %}
-                            {{ request.GET.page_size }}
-                        {% else %}
-                            5 <!-- Default value -->
-                        {% endif %}
-                    </button>
-                    <ul class="dropdown-menu">
-                        {% with page_cnt_array='5 10 20 50 100 500' %}
-                            {% for item in page_cnt_array.split %}
-                                <li><a class="dropdown-item{% if request.GET.page_size ==  item %} active{% endif %}"
-                                       href="?page_size={{ item }}{% for key, value in request.GET.items %}{% if key != 'page_size' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ item }}</a></li>
-                            {% endfor %}
-                        {% endwith %}
-                    </ul>
-                </div>
+                    {% endwith %}
+                </ul>
             </div>
         </div>
+
         {% for key, value in request.GET.items %}
             {% if key != 'name' %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}">
@@ -77,79 +94,95 @@
         {% endfor %}
     </form>
 
-    <div class="project-list d-none d-md-flex" >
+    <div class="d-none d-md-flex flex-wrap justify-content-between">
         {% for project in projects %}
-            <div class="card card-body border-dark1 text-dark card-css mb-3"  onclick="showProjectDetails('{{ project.id }}')">
-                <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
-                <h6 class="card-title">{{ project.year }} г.</h6>
-                <h6 class="card-title">
-                    {{ project.category.all | join:", " }}
-                </h6>
-                <div class="project-icon-main-cont">
-                    <div class="project-icon-cont">
-                        <i class="bi bi-eye" style="font-size: 20px" onclick="alert('in progress')"></i>
-                        <span class="view-count">{% get_hit_count for project %}</span>
+            <!-- project card -->
+            <div class="card mb-3" style="width: 22%;" onclick="showProjectDetails('{{ project.id }}')">
+                <div class="card-body d-flex flex-column justify-content-between min-h-250">
+                    <div>
+                        <h6 class="card-title fw-bold">{{ project.name }}</h6>
+                        <h6 class="card-title">{{ project.year }} г.</h6>
+                        <h6 class="card-title">
+                            {{ project.category.all | join:", " }}
+                        </h6>
                     </div>
-                    <div class="project-icon-cont">
-                        <button class="like-btn {% vote_exists project user as vote_status %}{% if vote_status %}liked{% endif %}" data-model="expertprojects.UserProject" data-id="{{ project.id }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up">
-                                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                            </svg>
-                            <span class="like-count">{% vote_count project %}</span>
-                        </button>
+                    <div class="d-flex justify-content-evenly gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-eye fs-5" onclick="alert('in progress')"></i>
+                            <span>{% get_hit_count for project %}</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button class="btn p-0 border-0 d-flex align-items-center gap-2
+
+
+                                    {% vote_exists project user as vote_status %}{% if vote_status %}text-primary{% endif %}"
+                                    data-model="expertprojects.UserProject"
+                                    data-id="{{ project.id }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                                </svg>
+                                <span>{% vote_count project %}</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="details-desktop-{{ project.id }}" class="card border-dark mb-3 project-details-modal-content"
-                 style="display: none; padding: 10px;">
-                <div class="row" style="margin-bottom: 10px;">
+
+            <!-- project details -->
+            <div id="details-desktop-{{ project.id }}" class="card w-100 mb-3 p-3 d-none">
+                <div class="row mb-3">
                     <div class="col-4">
-                        <div class="client-year-cont">
-                            <div class="project-ccompany projects-flex">
-                                <span style="min-width: 75px;"> Клиент:  </span>
-                                <span> {{ project.company }} </span>
+                        <div class="d-flex flex-column gap-2 fw-semibold">
+                            <div class="d-flex">
+                                <span class="me-2" style="min-width: 75px;">Клиент:</span>
+                                <span>{{ project.company }}</span>
                             </div>
-                            <div class="project-year projects-flex">
-                                <span style="min-width: 75px;"> Год: </span>
-                                <span> {{ project.year }} </span>
+                            <div class="d-flex">
+                                <span class="me-2" style="min-width: 75px;">Год:</span>
+                                <span>{{ project.year }}</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-8">
-                        <div class="edit-project-search-bar global-border-radius">
-                            <h3 style="margin-bottom: 0px;font-size: 22px;">{{ project.name }}</h3>
+                        <div class="border border-2 rounded p-2 ">
+                            <h3 class="fs-4 mb-0">{{ project.name }}</h3>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-4">
-                        <div class="jumbotron jumbotron-fluid jumbo-styles" style="flex-direction: column">
-                            <div class="project-members-caption" style="justify-content: flex-start">Цели проекта:</div>
-                            <div class="project-goals">{{ project.goals }}</div>
+                        <div class="shadow p-3 h-100 d-flex flex-column">
+                            <div class="fw-semibold mb-2">Цели проекта:</div>
+                            <div class="text-break">{{ project.goals }}</div>
                         </div>
                     </div>
                     <div class="col-8">
-                        <div class="jumbotron jumbotron-fluid jumbo-styles">
-                            <div class="container">
-                                <div class="project-members-caption">Ключевые результаты проекта:</div>
-                                <div class="project-key-results">
-                                    <ul style="gap: 5px; display: flex; flex-direction: column;">
-                                        {% for key_result in project.key_results %}
-                                            <li>{{ key_result }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                        <div class="shadow p-3 h- d-flex justify-content-around h-100">
+                            <div class="mb-4">
+                                <div class="fw-semibold mb-2">Ключевые результаты проекта:</div>
+                                <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                                    {% for key_result in project.key_results %}
+                                        <li>{{ key_result }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
-                            <div class="container" style="display: flex; flex-direction: column; margin-right: 0px;">
-                                <div class="project-members-caption">Участники:</div>
-                                <div class="project-members">
+                            <div>
+                                <div class="fw-semibold  mb-2">Участники:</div>
+                                <div class="d-flex flex-column gap-2">
                                     {% for member in project.members.all %}
-                                        <div style="display: flex;min-height: 40px; align-items: center">
-                                            <a href="/experts/{{ member.id }}">
-                                                <img class="member-img" src="{{ member.profile.avatar.url }}"
-                                                     title="{{ member.last_name }} {{ member.first_name }}" alt="
-                                                        {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}"
-                                                     style="width: 40px; height: 40px;">
+                                        <div class="d-flex align-items-center">
+                                            <a href="/experts/{{ member.id }}" class="me-2">
+                                                <img src="{{ member.profile.avatar.url }}"
+                                                     class="rounded-circle"
+                                                     width="40" height="40"
+                                                     title="{{ member.last_name }} {{ member.first_name }}"
+                                                     alt="
+
+
+                                                             {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}">
                                             </a>
                                             <span>{{ member.last_name }} {{ member.first_name }}</span>
                                         </div>
@@ -159,12 +192,12 @@
                         </div>
                     </div>
                 </div>
+
                 {% if request.user.is_authenticated and request.user.profile.type == 1 and request.path == '/profile' %}
-                    <div style="display: flex; justify-content: flex-end; gap: 5px; margin-top: 10px;">
+                    <div class="d-flex justify-content-end gap-2 mt-3">
                         <a href="/expert/project/{{ project.slug }}/edit/"
                            class="btn btn-primary btn-sm">Редактировать</a>
-                        <a href="/expert/project/{{ project.slug }}/delete/"
-                           class="btn btn-danger btn-sm">Удалить</a>
+                        <a href="/expert/project/{{ project.slug }}/delete/" class="btn btn-danger btn-sm">Удалить</a>
                     </div>
                 {% endif %}
             </div>
@@ -173,90 +206,96 @@
 
     <!-- mobile version of modal and cards -->
 
-    <div class="project-list d-md-none" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-evenly">
+    <div class="d-md-none d-flex flex-wrap gap-2">
         {% for project in projects %}
-            <div class="card card-body border-dark1 text-dark card-css mb-3"
-                 style="width:45%; max-width:45%; cursor: pointer;"
-                 onclick="showProjectDetailsMobile('{{ project.id }}')">
-                <h6 class="card-title" style="font-weight: bold">{{ project.name }}</h6>
-                <h6 class="card-title">{{ project.year }} г.</h6>
-                <h6 class="card-title">
-                    {{ project.category.all | join:", " }}
-                </h6>
-                <div class="project-icon-main-cont">
-                    <div class="project-icon-cont">
-                        <i class="bi bi-eye" style="font-size: 20px" onclick="alert('in progress')"></i>
-                        <span class="view-count">{% get_hit_count for project %}</span>
+            <!-- Mobile Project Card -->
+            <div class="card w-100 mb-3" style="max-width: 45%;" onclick="showProjectDetailsMobile('{{ project.id }}')">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h6 class="card-title fw-bold">{{ project.name }}</h6>
+                        <h6 class="card-title">{{ project.year }} г.</h6>
+                        <h6 class="card-title">
+                            {{ project.category.all | join:", " }}
+                        </h6>
                     </div>
-                    <div class="project-icon-cont">
-                        <button class="like-btn {% vote_exists project user as vote_status %}{% if vote_status %}liked{% endif %}" data-model="expertprojects.UserProject" data-id="{{ project.id }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up">
-                                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                            </svg>
-                            <span class="like-count">{% vote_count project %}</span>
-                        </button>
+                    <div class="d-flex justify-content-evenly align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-eye fs-5" onclick="alert('in progress')"></i>
+                            <span>{% get_hit_count for project %}</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button class="btn p-0 border-0 d-flex align-items-center gap-2
+                                    {% vote_exists project user as vote_status %}{% if vote_status %}text-primary{% endif %}"
+                                    data-model="expertprojects.UserProject"
+                                    data-id="{{ project.id }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                                </svg>
+                                <span>{% vote_count project %}</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-            <div id="details-mobile-{{ project.id }}" class="card border-dark mb-3 project-details-modal-content" style="display: none; padding: 10px;">
-                <div class="row" style="margin-bottom: 10px;">
+            <!-- Mobile Project Details Modal -->
+            <div id="details-mobile-{{ project.id }}" class="card shadow p-3 mb-3 d-none w-100">
+                <div class="row mb-3">
                     <div class="col-12">
-                        <div class="edit-project-search-bar global-border-radius">
-                            <h3 style="margin-bottom: 0px;font-size: 22px;">{{ project.name }}</h3>
+                        <div class="border border-2 rounded p-2 ">
+                            <h3 class="fs-4 mb-0">{{ project.name }}</h3>
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin: 10px 0px 10px 0;">
 
+                <div class="row mb-3">
                     <div class="col-12">
-                        <div class="client-year-cont" style="display: flex;flex-direction: row;justify-content: space-evenly;">
-                            <div class="project-ccompany projects-flex">
-                                <span > Клиент:  </span>
-                                <span> &nbsp; {{ project.company }} </span>
+                        <div class="d-flex justify-content-evenly">
+                            <div class="d-flex gap-2">
+                                <span class="fw-semibold">Клиент:</span>
+                                <span>{{ project.company }}</span>
                             </div>
-                            <div class="project-year projects-flex">
-                                <span > Год: </span>
-                                <span> &nbsp; {{ project.year }} </span>
+                            <div class="d-flex gap-2">
+                                <span class="fw-semibold">Год:</span>
+                                <span>{{ project.year }}</span>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="row jumbotron jumbotron-fluid jumbo-styles" style="margin: 10px 0px 10px 0;">
-                    <div class="col-12" style="padding: 0; ">
-                        <div class="project-members-caption" style="justify-content: flex-start;">Цели проекта:</div>
-                    </div>
-                    <div class="col-12" style="padding: 0; ">
-                        <div class="project-goals">{{ project.goals }}</div>
-                    </div>
-
                 </div>
 
-                <div class="row" >
-
+                <div class="row mb-3">
                     <div class="col-12">
-                        <div class="jumbotron jumbotron-fluid jumbo-styles">
-                            <div class="container">
-                                <div class="project-members-caption">Ключевые результаты проекта:</div>
-                                <div class="project-key-results">
-                                    <ul style="gap: 5px; display: flex; flex-direction: column;">
-                                        {% for key_result in project.key_results %}
-                                            <li>{{ key_result }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                        <div class="shadow p-3">
+                            <div class="fw-semibold mb-2">Цели проекта:</div>
+                            <div class="text-break">{{ project.goals }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="shadow p-3">
+                            <div>
+                                <div class="fw-semibold mb-2">Ключевые результаты проекта:</div>
+                                <ul class="list-unstyled d-flex flex-column gap-2 mb-4">
+                                    {% for key_result in project.key_results %}
+                                        <li>{{ key_result }}</li>
+                                    {% endfor %}
+                                </ul>
                             </div>
-                            <div class="container" style="display: flex; flex-direction: column; margin-right: 0px;">
-                                <div class="project-members-caption">Участники:</div>
-                                <div class="project-members">
+                            <div>
+                                <div class="fw-semibold mb-2">Участники:</div>
+                                <div class="d-flex flex-wrap gap-2 ">
                                     {% for member in project.members.all %}
-                                        <a href="/experts/{{ member.id }}">
-                                            <img class="member-img" src="{{ member.profile.avatar.url }}"
-                                                 title="{{ member.last_name }} {{ member.first_name }}" alt="
-                                                    {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}"
-                                                 style="width: 40px; height: 40px;">
+                                        <a href="/experts/{{ member.id }}" class="text-decoration-none">
+                                            <img src="{{ member.profile.avatar.url }}"
+                                                 class="rounded-circle"
+                                                 width="40" height="40"
+                                                 title="{{ member.last_name }} {{ member.first_name }}"
+                                                 alt="
+                                                         {{ member.first_name|slice:":1" }}{{ member.last_name|slice:":1" }}">
                                         </a>
                                     {% endfor %}
                                 </div>
@@ -264,9 +303,11 @@
                         </div>
                     </div>
                 </div>
+
                 {% if request.user.is_authenticated and request.user.profile.type == 1 and request.path == '/profile' %}
-                    <div style="display: flex; justify-content: flex-end; gap: 5px; margin-top: 10px;">
-                        <a href="/expert/project/{{ project.slug }}/edit/" class="btn btn-primary btn-sm">Редактировать</a>
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <a href="/expert/project/{{ project.slug }}/edit/"
+                           class="btn btn-primary btn-sm">Редактировать</a>
                         <a href="/expert/project/{{ project.slug }}/delete/" class="btn btn-danger btn-sm">Удалить</a>
                     </div>
                 {% endif %}
@@ -279,23 +320,25 @@
             <ul class="pagination justify-content-center d-none d-md-flex">
                 {% if projects.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                        <a class="page-link" href="?page=1
+                                {% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="First">
-                            <span aria-hidden="true">&laquo; {% trans 'First' %}</span>
+                            <span aria-hidden="true">&laquo; </span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                        <a class="page-link" href="?page=
+                                {{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="Previous">
-                            <span aria-hidden="true">&lsaquo; {% trans 'Previous' %}</span>
+                            <span aria-hidden="true">&lsaquo; </span>
                         </a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">&laquo; {% trans 'First' %}</span>
+                        <span class="page-link" aria-hidden="true">&laquo; </span>
                     </li>
                     <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">&lsaquo; {% trans 'Previous' %}</span>
+                        <span class="page-link" aria-hidden="true">&lsaquo; </span>
                     </li>
                 {% endif %}
                 <li class="page-item disabled">
@@ -305,23 +348,25 @@
                 </li>
                 {% if projects.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                        <a class="page-link" href="?page=
+                                {{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="Next">
-                            <span aria-hidden="true">{% trans 'Next page' %} &rsaquo;</span>
+                            <span aria-hidden="true"> &rsaquo;</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                        <a class="page-link" href="?page=
+                                {{ projects.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="Last">
-                            <span aria-hidden="true">{% trans 'Last page' %} &raquo;</span>
+                            <span aria-hidden="true"> &raquo;</span>
                         </a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">{% trans 'Next page' %} &rsaquo;</span>
+                        <span class="page-link" aria-hidden="true"> &rsaquo;</span>
                     </li>
                     <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">{% trans 'Last page' %} &raquo;</span>
+                        <span class="page-link" aria-hidden="true"> &raquo;</span>
                     </li>
                 {% endif %}
             </ul>
@@ -331,21 +376,24 @@
             <ul class="pagination justify-content-center d-md-none">
                 {% if projects.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                        <a class="page-link" href="?page=
+                                {{ projects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="Previous">
-                            <span aria-hidden="true">&lsaquo; {% trans 'Previous' %}</span>
+                            <span aria-hidden="true">&lsaquo; </span>
                         </a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">&lsaquo; {% trans 'Previous' %}</span>
+                        <span class="page-link" aria-hidden="true">&lsaquo; </span>
                     </li>
                 {% endif %}
                 <li class="page-item">
-                    <select class="page-link form-select no-arrow" style="border-radius: 0px;" onchange="location = this.value;">
+                    <select class="page-link form-select no-arrow" style="border-radius: 0px;"
+                            onchange="location = this.value;">
                         {% for page_num in projects.paginator.page_range %}
-                            <option value="?page={{ page_num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-                                {% if page_num == projects.number %}selected{% endif %}>
+                            <option value="?page=
+                                    {{ page_num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                                    {% if page_num == projects.number %}selected{% endif %}>
                                 {% trans 'Page' %} {{ page_num }} {% trans 'out of' %} {{ projects.paginator.num_pages }}
                             </option>
                         {% endfor %}
@@ -353,14 +401,15 @@
                 </li>
                 {% if projects.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                        <a class="page-link" href="?page=
+                                {{ projects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            aria-label="Next">
-                            <span aria-hidden="true">{% trans 'Next page' %} &rsaquo;</span>
+                            <span aria-hidden="true"> &rsaquo;</span>
                         </a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">{% trans 'Next page' %} &rsaquo;</span>
+                        <span class="page-link" aria-hidden="true"> &rsaquo;</span>
                     </li>
                 {% endif %}
             </ul>
@@ -424,7 +473,7 @@
 
         // Like button functionality
         document.querySelectorAll('.like-btn').forEach(button => {
-            button.addEventListener('click', function(event) {
+            button.addEventListener('click', function (event) {
                 event.stopPropagation(); // Prevent card click
                 const modelName = this.dataset.model;
                 const objectId = this.dataset.id;
@@ -439,43 +488,43 @@
                     },
                     body: `action=up`
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'ok') {
-                        if (data.action === 'liked') {
-                            this.classList.add('liked');
-                        } else {
-                            this.classList.remove('liked');
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'ok') {
+                            if (data.action === 'liked') {
+                                this.classList.add('liked');
+                            } else {
+                                this.classList.remove('liked');
+                            }
+                            likeCount.textContent = data.count;
                         }
-                        likeCount.textContent = data.count;
-                    }
-                });
+                    });
             });
         });
     });
 
     function updateHitCount(projectId) {
-    // Отправляем AJAX-запрос для обновления счетчика просмотров
-    fetch(`/expert/projects/${projectId}/hit/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')  // Вам нужно реализовать функцию getCookie
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Обновляем отображение счетчика просмотров, если нужно
-        let hitCountElement = document.querySelector(`#details-desktop-${projectId} .view-count`);
-        if (hitCountElement) {
-            hitCountElement.textContent = data.hit_count;
-        }
-        hitCountElement = document.querySelector(`#details-mobile-${projectId} .view-count`);
-        if (hitCountElement) {
-            hitCountElement.textContent = data.hit_count;
-        }
-    })
-        .catch(error => console.error('Ошибка:', error));
+        // Отправляем AJAX-запрос для обновления счетчика просмотров
+        fetch(`/expert/projects/${projectId}/hit/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Вам нужно реализовать функцию getCookie
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Обновляем отображение счетчика просмотров, если нужно
+                let hitCountElement = document.querySelector(`#details-desktop-${projectId} .view-count`);
+                if (hitCountElement) {
+                    hitCountElement.textContent = data.hit_count;
+                }
+                hitCountElement = document.querySelector(`#details-mobile-${projectId} .view-count`);
+                if (hitCountElement) {
+                    hitCountElement.textContent = data.hit_count;
+                }
+            })
+            .catch(error => console.error('Ошибка:', error));
     }
 
     function getCookie(name) {

@@ -5,258 +5,359 @@
 {% load i18n %}
 
 {% block center_col %}
-{% block extra_static %}
-    <link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-{% endblock %}
+    {% block extra_static %}
+        <link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {% endblock %}
 
-<style>
-    .select2-container {
-        width: 100% !important;
-    }
-    .select2-container .select2-selection--multiple {
-        min-height: 38px;
-    }
-    .select2-container .select2-selection--single {
-        height: 38px;
-        padding: 6px 12px;
-    }
-    .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
-        list-style: none;
-        display: flex !important;
-    }
-    .select2-selection.select2-selection--multiple {
-        display: flex !important;
-    }
-</style>
-
-{% trans "BackButtonLabel" as back_text %}
-{% back_button "profile" back_text %}
-
-<h2>Редактирование проекта: {{ userproject.name }}</h2>
-
-<form enctype="multipart/form-data" id="project-form" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <div class="form-group form-group-margin">
-        <label for="id_members">Участники проекта:</label>
-        <select name="members" id="id_members" multiple class="form-control">
-            {% for member in members %}
-                <option value="{{ member.id }}">{{ member.email }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="file-upload-container">
-        <span class="file-upload-title">Файлы проекта:</span>
-        <button id="fileInputBtn" class="btn btn-primary btn-sm file-upload-btn">Добавить файлы</button>
-    </div>
-
-    <div id="fileList">
-        <ul>
-            {% for file in files.all %}
-                <li class="file-list-item loaded-from-server" data-file-id="{{ file.id }}">
-                    <div class="file-list-details">
-                        <div class="file-name">
-                            {% if file.file %}
-                                <a href="{{ file.file.url }}">{{ file.file.name|filename }}</a>
-                            {% else %}
-                                Файл отсутствует.
-                            {% endif %}
-                        </div>
-                        <i class="bi bi-trash trash-icon"></i>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <input type="hidden" id="delete_file_ids" name="delete_file_ids" multiple>
-    <button type="submit" class="btn btn-primary btn-sm">Сохранить изменения</button>
-</form>
-
-<input type="file" id="fileInput" name="files" multiple style="display: none;">
-<script>
-    document.getElementById('fileInputBtn').addEventListener('click', function (event) {
-        event.preventDefault();
-        document.getElementById('fileInput').click();
-    });
-
-    let fileList = [];
-    let deletedFileIds = [];
-
-    function updateFileList() {
-        const fileListDiv = document.getElementById('fileList');
-        let ul = fileListDiv.querySelector('ul');
-
-        ul.querySelectorAll('.new-file').forEach(el => el.remove());
-
-        fileList.forEach(function (file, index) {
-            const listItem = document.createElement('li');
-            listItem.dataset.fileIndex = index;
-            listItem.classList.add('new-file');
-
-            const fileLink = document.createElement('a');
-            fileLink.href = file.url ? file.url : '#';
-            fileLink.textContent = file.name;
-
-            const deleteButton = document.createElement('i');
-            deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
-            deleteButton.style.fontSize = '20px';
-            deleteButton.style.cursor = 'pointer';
-            deleteButton.addEventListener('click', function () {
-                const listItem = this.closest('li');
-                const fileIndex = listItem.dataset.fileIndex;
-                fileList.splice(fileIndex, 1);
-                updateFileList();
-            });
-
-            listItem.appendChild(fileLink);
-            listItem.appendChild(deleteButton);
-            ul.appendChild(listItem);
-        });
-    }
-
-    document.getElementById('fileInput').addEventListener('change', function () {
-        const files = this.files;
-
-        for (let i = 0; i < files.length; i++) {
-            fileList.push(files[i]);
+    <style>
+        .select2-container {
+            width: 100% !important;
         }
 
-        updateFileList();
-    });
+        .select2-container .select2-selection--multiple {
+            min-height: 38px;
+        }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.trash-icon');
+        .select2-container .select2-selection--single {
+            height: 38px;
+            padding: 6px 12px;
+        }
 
-        deleteButtons.forEach(function (deleteButton) {
-            deleteButton.addEventListener('click', function () {
-                const listItem = this.closest('li');
-                const fileId = listItem.dataset.fileId;
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+            list-style: none;
+            display: flex !important;
+        }
 
-                if (fileId) {
-                    deletedFileIds.push(fileId);
-                    updateDeletedFileIdsInput();
-                    listItem.remove();
-                } else {
+        .select2-selection.select2-selection--multiple {
+            display: flex !important;
+        }
+    </style>
+
+
+    <div class="element-container basepost-content-mobile-bottom-padding">
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "profile" back_text %}
+
+        <div class="g-fs-header-20 mb-2">Редактирование проекта: {{ userproject.name }}</div>
+
+        <form enctype="multipart/form-data" id="project-form" method="post">
+            {% csrf_token %}
+
+            <!-- Project Name -->
+            <div class="mb-2">
+                <label for="{{ form.name.id_for_label }}" class="form-label g-fs-14 fw-semibold">
+                    {{ form.name.label }}
+                </label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.name.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Project Categories -->
+            <div class="mb-2">
+                <label for="{{ form.category.id_for_label }}" class="form-label g-fs-14 fw-semibold">
+                    {{ form.category.label }}
+                </label>
+                {{ form.category }}
+                {% if form.category.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.category.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Company -->
+            <div class="mb-2">
+                <label for="{{ form.company.id_for_label }}" class="form-label g-fs-14 fw-semibold">
+                    {{ form.company.label }}
+                </label>
+                {{ form.company }}
+                {% if form.company.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.company.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Year -->
+            <div class="mb-2">
+                <label for="{{ form.year.id_for_label }}" class="form-label g-fs-14 fw-semibold">
+                    {{ form.year.label }}
+                </label>
+                {{ form.year }}
+                {% if form.year.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.year.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Goals -->
+            <div class="mb-2">
+                <label for="{{ form.goals.id_for_label }}" class="form-label g-fs-14 fw-semibold">
+                    {{ form.goals.label }}
+                </label>
+                {{ form.goals }}
+                {% if form.goals.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.goals.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Key Results -->
+            <div class="mb-2">
+                <label for="{{ form.key_results_text.id_for_label }}" class="form-label g-fs-14 fw-semibold">
+                    {{ form.key_results_text.label }}
+                </label>
+                {{ form.key_results_text }}
+                {% if form.key_results_text.help_text %}
+                    <div class="form-text">
+                        {{ form.key_results_text.help_text }}
+                    </div>
+                {% endif %}
+                {% if form.key_results_text.errors %}
+                    <div class="invalid-feedback">
+                        {{ form.key_results_text.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Project Members -->
+            <div class="mb-4">
+                <label for="id_members" class="form-label g-fs-14 fw-semibold">Участники проекта:</label>
+                <select name="members"
+                        id="id_members"
+                        multiple
+                        class="form-select">
+                    {% for member in members %}
+                        <option value="{{ member.id }}">{{ member.email }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- File Upload Section -->
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="g-fs-header-20 mb-0">Файлы проекта:</div>
+                <button id="fileInputBtn" class="btn btn-primary btn-sm">Добавить файлы</button>
+            </div>
+
+            <!-- File List -->
+            <div id="fileList" class="mb-4">
+                <ul class="list-unstyled">
+                    {% for file in files.all %}
+                        <li class="mb-2 loaded-from-server" data-file-id="{{ file.id }}">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="text-truncate me-3" >
+                                    {% if file.file %}
+                                        <a href="{{ file.file.url }}" class="text-decoration-none">
+                                            {{ file.file.name|filename }}
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">Файл отсутствует.</span>
+                                    {% endif %}
+                                </div>
+                                <i class="bi bi-trash fs-5 text-danger" role="button"></i>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <input type="hidden" id="delete_file_ids" name="delete_file_ids" multiple>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            </div>
+        </form>
+
+    </div>
+
+    <input type="file" id="fileInput" name="files" multiple style="display: none;">
+    <script>
+        document.getElementById('fileInputBtn').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('fileInput').click();
+        });
+
+        let fileList = [];
+        let deletedFileIds = [];
+
+        function updateFileList() {
+            const fileListDiv = document.getElementById('fileList');
+            let ul = fileListDiv.querySelector('ul');
+
+            ul.querySelectorAll('.new-file').forEach(el => el.remove());
+
+            fileList.forEach(function (file, index) {
+                const listItem = document.createElement('li');
+                listItem.dataset.fileIndex = index;
+                listItem.classList.add('new-file');
+
+                const fileLink = document.createElement('a');
+                fileLink.href = file.url ? file.url : '#';
+                fileLink.textContent = file.name;
+
+                const deleteButton = document.createElement('i');
+                deleteButton.classList.add('bi', 'bi-trash', 'trash-icon');
+                deleteButton.style.fontSize = '20px';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.addEventListener('click', function () {
+                    const listItem = this.closest('li');
                     const fileIndex = listItem.dataset.fileIndex;
                     fileList.splice(fileIndex, 1);
                     updateFileList();
-                    listItem.remove();
-                }
+                });
+
+                listItem.appendChild(fileLink);
+                listItem.appendChild(deleteButton);
+                ul.appendChild(listItem);
             });
-        });
-    });
-
-    function updateDeletedFileIdsInput() {
-        const deleteFilesInput = document.getElementById('delete_file_ids');
-        deleteFilesInput.value = deletedFileIds;
-    }
-
-    document.getElementById('project-form').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const formData = new FormData(this);
-
-        for (let i = 0; i < fileList.length; i++) {
-            formData.append('files', fileList[i]);
         }
 
-        fetch('{% url 'project_edit' userproject.slug %}', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = '{% url 'profile' %}';
-            } else {
-                console.error('Failed to upload files:', response.statusText);
+        document.getElementById('fileInput').addEventListener('change', function () {
+            const files = this.files;
+
+            for (let i = 0; i < files.length; i++) {
+                fileList.push(files[i]);
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
 
-
-
-    $(document).ready(function() {
-        $('#id_category').select2({
-            placeholder: "Выберите категории проекта",
-            allowClear: true
+            updateFileList();
         });
 
-        $("#id_members").select2({
-            ajax: {
-                url: "/expert/search-experts/",
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        query: params.term,
-                        page: params.page
-                    };
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.trash-icon');
+
+            deleteButtons.forEach(function (deleteButton) {
+                deleteButton.addEventListener('click', function () {
+                    const listItem = this.closest('li');
+                    const fileId = listItem.dataset.fileId;
+
+                    if (fileId) {
+                        deletedFileIds.push(fileId);
+                        updateDeletedFileIdsInput();
+                        listItem.remove();
+                    } else {
+                        const fileIndex = listItem.dataset.fileIndex;
+                        fileList.splice(fileIndex, 1);
+                        updateFileList();
+                        listItem.remove();
+                    }
+                });
+            });
+        });
+
+        function updateDeletedFileIdsInput() {
+            const deleteFilesInput = document.getElementById('delete_file_ids');
+            deleteFilesInput.value = deletedFileIds;
+        }
+
+        document.getElementById('project-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            for (let i = 0; i < fileList.length; i++) {
+                formData.append('files', fileList[i]);
+            }
+
+            fetch('{% url 'project_edit' userproject.slug %}', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '{% url 'profile' %}';
+                    } else {
+                        console.error('Failed to upload files:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+
+        $(document).ready(function () {
+            $('#id_category').select2({
+                placeholder: "Выберите категории проекта",
+                allowClear: true
+            });
+
+            $("#id_members").select2({
+                ajax: {
+                    url: "/expert/search-experts/",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            query: params.term,
+                            page: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    id: item.id,
+                                    text: item.email,
+                                    email: item.email,
+                                    last_name: item.last_name,
+                                    first_name: item.first_name,
+                                    profile_photo: item.profile_photo,
+                                };
+                            })
+                        };
+                    },
+                    cache: true
                 },
-                processResults: function (data, params) {
-                    return {
-                        results: $.map(data.data, function (item) {
-                            return {
-                                id: item.id,
-                                text: item.email,
-                                email: item.email,
-                                last_name: item.last_name,
-                                first_name: item.first_name,
-                                profile_photo: item.profile_photo,
-                            };
-                        })
-                    };
-                },
-                cache: true
-            },
-            templateResult: formatResult,
-            templateSelection: formatSelection,
-            minimumInputLength: 3,
-            placeholder: "Выберите участников проекта",
-            allowClear: true
+                templateResult: formatResult,
+                templateSelection: formatSelection,
+                minimumInputLength: 3,
+                placeholder: "Выберите участников проекта",
+                allowClear: true
+            });
+
+            // Initialize existing members
+            var existingMembers = {{ members_json|safe }};
+            var $select = $('#id_members');
+            $.each(existingMembers, function (i, member) {
+                var option = new Option(
+                    `${member.last_name} ${member.first_name} (${member.email})`,
+                    member.id,
+                    true,
+                    true
+                );
+                $(option).data('email', member.email);
+                $(option).data('last_name', member.last_name);
+                $(option).data('first_name', member.first_name);
+                $(option).data('profile_photo', member.profile_photo);
+                $select.append(option);
+            });
+            $select.trigger('change');
+
+            var existingMembers = {{ members_json|safe }};
+            var $select = $('#id_members');
+            $.each(existingMembers, function (i, member) {
+                var option = new Option(member.email, member.id, true, true);
+                $select.append(option).trigger('change');
+            });
         });
 
-        // Initialize existing members
-        var existingMembers = {{ members_json|safe }};
-        var $select = $('#id_members');
-        $.each(existingMembers, function(i, member) {
-            var option = new Option(
-                `${member.last_name} ${member.first_name} (${member.email})`,
-                member.id,
-                true,
-                true
-            );
-            $(option).data('email', member.email);
-            $(option).data('last_name', member.last_name);
-            $(option).data('first_name', member.first_name);
-            $(option).data('profile_photo', member.profile_photo);
-            $select.append(option);
-        });
-        $select.trigger('change');
+        function formatResult(result) {
+            if (!result.id) return result.text;
+            return $('<div style="display: flex; align-items: center"><img width="60" height="60" style="padding: 5px; border-radius: 50%;object-fit: cover !important;" src="' + result.profile_photo + '"/>' + result.last_name + ' ' + result.first_name + ' (' + result.email + ')</div>');
+        }
 
-        var existingMembers = {{ members_json|safe }};
-        var $select = $('#id_members');
-        $.each(existingMembers, function(i, member) {
-            var option = new Option(member.email, member.id, true, true);
-            $select.append(option).trigger('change');
-        });
-    });
-
-    function formatResult(result) {
-        if (!result.id) return result.text;
-        return $('<div style="display: flex; align-items: center"><img width="60" height="60" style="padding: 5px; border-radius: 50%;object-fit: cover !important;" src="' + result.profile_photo + '"/>' + result.last_name + ' ' + result.first_name + ' (' + result.email + ')</div>');
-    }
-
-    function formatSelection(result) {
-        return $('<div style="display: flex; align-items: center">' + (result.last_name || '') + ' ' + (result.first_name || '') + ' (' + (result.email || result.text) + ')</div>');
-    }
-</script>
+        function formatSelection(result) {
+            return $('<div style="display: flex; align-items: center">' + (result.last_name || '') + ' ' + (result.first_name || '') + ' (' + (result.email || result.text) + ')</div>');
+        }
+    </script>
 
 {% endblock %}

@@ -170,16 +170,8 @@
     .page-link {
         font-size: 12px !important;
     }
-    .smallBtnProf {
-        font-size: 12px !important;
-        justify-content: center !important;
-    }
-}
 
-.smallBtnProf{
-    display: flex; justify-content: flex-end; gap: 10px;
 }
-
 
 .project-files-cont {
     display: flex; margin : 20px 0 20px 0; align-items: baseline;

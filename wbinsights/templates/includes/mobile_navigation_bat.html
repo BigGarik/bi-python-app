@@ -11,31 +11,37 @@
         <a class="nav-item">
             <i class="bi bi-bell-fill" style="color: grey; font-size: 26px;"></i>
         </a>
-        <div class="dropdown nav-item">
-            <button class="btn dropdown-toggle" type="button"
-                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false"
-                    style="background-color: inherit; border: none; margin: 0; padding: 0;">
-                <img src="{{ user.profile.avatar.url }}" alt="Avatar"
-                     style="height: 35px; width: 35px; border-radius: 50%; object-fit: cover;">
+        
+
+
+        <div class="dropdown nav-item d-flex align-self-center">
+            <button class="btn dropdown-toggle bg-transparent border-0 m-0 p-0" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false"
+            >
+                <img src="{{ user.profile.avatar.url }}"
+                     alt="Avatar"
+                     class="rounded-circle object-fit-cover"
+                     style="height: 32px; width: 32px;"
+                >
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
-                 style="padding: 0; transform: translate(-130px, 10px);">
-                <div class="header-profile-cont">
-                    <a href="{% url 'profile' %}?tab=articles" class="profile-page-btn prof-page-btn-styles">
-                        <i class="bi bi-person-fill" style="margin-right: 10px; scale: 1.2;"></i>&nbsp;
+            <div class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
+                <div class="d-flex flex-column">
+                    <a href="{% url 'profile' %}?tab=articles" class="dropdown-item px-3 py-2">
+                        <i class="bi bi-person-fill me-2"></i>
                         {% trans 'PersonalAccountLabel' %}
                     </a>
-                    <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    <form method="post" action="{% url 'logout' %}" class="m-0">
                         {% csrf_token %}
-                        <button class="logout-btn logout-btn" type="submit">
-                            <i class="bi bi-box-arrow-right" style="scale: 1.1;"></i>&nbsp;
+                        <button type="submit" class="dropdown-item px-3 py-2 w-100 text-danger">
+                            <i class="bi bi-box-arrow-right me-2"></i>
                             {% trans 'LogoutButtonLabel' %}
                         </button>
                     </form>
                 </div>
             </div>
         </div>
+
     {% else %}
         <a href="{% url 'login' %}">
             <button type="button" class="btn btn-dark logout-btn-style"
