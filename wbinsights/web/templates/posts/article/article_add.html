@@ -39,8 +39,6 @@
         }
 
 
-
-
         @media (max-width: 768px ) {
             .element-container-article-mob {
                 padding: 15px 20px 15px 20px;
@@ -65,35 +63,37 @@
         {% csrf_token %}
         <div class="row mobile-gap ">
             <div class=" col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8 ">
-                <div class="element-container basepost-content-mobile-bottom-padding">
-
+                <div class="element-container">
                     {% trans "BackButtonLabel" as back_text %}
                     {% back_button "index" back_text %}
-                    {{ form.title.label }}
+
+                    <label class="fw-semibold mb-2 g-fs-14">{{ form.title.label }}</label>
                     {{ form.title }}
                     <br>
-                    {{ form.description.label }}
+                    <label class="fw-semibold mb-2 g-fs-14">{{ form.description.label }}</label>
                     {{ form.description }}
                     <br>
-                    {{ form.main_img.label }}
-                    <div id="imageContainer">
-                        <img id="uploadedImage" src="{{ form.main_img.value.url }}"
-                             style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
+                    <div class="d-flex flex-column gap-2">
+                        <div class="d-flex gap-2">
+                            <label class="fw-semibold mb-2 g-fs-14">{{ form.main_img.label }}</label>
+                            <div id="imageContainer">
+                                <img id="uploadedImage" src="{{ form.main_img.value.url }}"
+                                     style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}"></img>
+                            </div>
+                        </div>
+                        {{ form.main_img }}
                     </div>
-                    {{ form.main_img }}
                     <br>
+                    <label class="fw-semibold mb-2 g-fs-14">{{ form.content.label }}</label>
                     {{ form.content }}
-
                     <div id="gjs" data-pixabay-api-key="{{ PIXABAY_API_KEY }}" style="min-height: 300px;"></div>
-
-
                     <input type="hidden" name="styles" id="id_styles" value="{{ form.styles.value }}">
                 </div>
             </div>
-            <div class="col-md-4 col-lg-4 element-container-article-mob ">
+            <div class="col-md-4 col-lg-4 basepost-content-mobile-bottom-padding ">
                 <div class="article-add-right-btns ">
                     <div class="d-flex justify-content-between flex-wrap gap-1 mb-3">
-                        <div>Настройки</div>
+                        <div class="g-fs-14 fw-semibold mb-2">Настройки</div>
                         <div class="clear-all" onclick="clearEditorContent()">
                             <i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё
                         </div>
@@ -106,25 +106,23 @@
                     {#                        <span class="lang-text lang-ru">RU</span>#}
                     {#                    </label>#}
                     {#                </div>#}
-                    <span class="article-add-desc">
-                    Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
-                </span>
+                    <span class="g-fs-14">
+                        Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
+                    </span>
                     <div id="blocks"></div>
-                    <div id="style-manager-container " ></div>
+                    <div id="style-manager-container "></div>
                     <hr class="solid"/>
                     <div class="form-group">
-                        <label for="{{ form.cat.id_for_label }}">{{ form.cat.label }}</label>
+                        <label class="fw-semibold mb-2 g-fs-14" for="{{ form.cat.id_for_label }}">{{ form.cat.label }}</label>
                         {{ form.cat }}
                     </div>
-                    {#                <div>Категория *</div>#}
-                    {#                {{ form.cat }}#}
                     <br>
-                    <div>Статус публикации</div>
+                    <div class="fw-semibold mb-2 g-fs-14">Статус публикации</div>
                     {{ form.is_published }}
                     <br>
                     <div class="d-grid gap-2 d-block">
 
-                        {% include "components/loadingBtn.html" with button_text="Опубликовать" loading_text="Публикация..."  %}
+                        {% include "components/loadingBtn.html" with button_text="Опубликовать" loading_text="Публикация..." %}
 
                     </div>
                 </div>

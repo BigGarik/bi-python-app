@@ -30,7 +30,7 @@
     {% trans "BackButtonLabel" as back_text %}
     {% back_button "wbqa:question_list" back_text %}
 
-    <span class="basepost-title">Редактирование вопроса: {{ question.title }}</span>
+    <span class="g-fs-header-20">Редактирование вопроса: {{ question.title }}</span>
 
     <form method="post" id="question-form">
         {% csrf_token %}

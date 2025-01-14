@@ -72,7 +72,7 @@
 
 .wb-vanilla-calendar-day__btn {
     display: flex;
-     height: 60px !important;
+    height: 50px !important;
     min-height: 2.625rem;
     width: 100%;
     min-width: 2.5rem;
@@ -82,10 +82,29 @@
     border-radius: .5rem;
     border-width: 0px;
     padding: 0;
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 1rem;
-    font-weight: 400;
+    font-weight: 600;
 }
+
+@media (max-width: 640px) {
+    .wb-vanilla-calendar-day__btn {
+        height: 40px !important;
+        min-height: 2rem;
+        min-width: 2rem;
+        font-size: 0.875rem;  /* 14px */
+    }
+}
+
+
+@media (max-width: 768px ) {
+
+    .wb-vanilla-calendar {
+        padding: 1rem !important;
+    }
+
+}
+
 
 [data-calendar-theme=light] .wb-vanilla-calendar-day__btn_selected, [data-calendar-theme=light] .wb-vanilla-calendar-day__btn_selected:hover {
     --tw-bg-opacity: 1;
@@ -171,20 +190,4 @@
     margin-bottom: 1.25rem;
     display: flex;
     align-items: center;
-}
-
-@media (max-width: 768px ) {
-    .wb-vanilla-calendar-day__btn {
-        min-width: 2rem !important;
-    }
-
-    .wb-vanilla-calendar-day__btn {
-        height: 50px !important;
-        font-size: 1rem !important;
-    }
-
-    .wb-vanilla-calendar {
-        padding: 1rem !important;
-    }
-
 }

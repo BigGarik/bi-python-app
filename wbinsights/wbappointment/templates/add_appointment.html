@@ -25,6 +25,24 @@
         }
     </style>
 
+    <style>
+    @media (max-width: 768px) {
+        .calendar-container {
+            flex-direction: column !important;
+            gap: 1rem;
+        }
+
+        .time-slots {
+            padding-left: 0 !important;
+            padding-top: 0.625rem;
+        }
+    }
+
+
+
+
+</style>
+
     <div class="element-container mb-4">
         {% trans "BackButtonLabel" as back_text %}
         {% back_button "experts_list" back_text %}
@@ -40,14 +58,14 @@
 
             <div class="mb-4">
 
-                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                     <span class="fw-semibold g-fs-14">{% trans 'SelectTimeAndDateAppoinmentLabel' %}:</span>
                     <span class="text-primary g-fs-14 fw-semibold">{{ formatted_timezone }}</span>
                 </div>
 
                 <div id="appointment-date-error-msg-container g-fs-14" class="text-danger mb-2"></div>
 
-                <div class="min-h-[330px]">
+                <div class="min-h-[300px]">
                     <div id="calendar"></div>
                 </div>
             </div>

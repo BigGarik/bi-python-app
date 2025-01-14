@@ -55,10 +55,10 @@
 
             <div class="profile-buttons-group">
                 <a href="{% url 'profile_edit' %}"
-                   class="btn btn-outline-secondary mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14 ">{% trans 'EditProfileLabel' %}</a>
+                   class="btn btn-outline-secondary mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-12 ">{% trans 'EditProfileLabel' %}</a>
 
                 <button type="button"
-                        class="btn btn-outline-secondary mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14 justifyCenter"
+                        class="btn btn-outline-secondary mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-12 justifyCenter"
                         data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
                     {% trans 'ChangePasswordLabel' %}
                 </button>
@@ -67,7 +67,7 @@
             <div class="profile-buttons-group">
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button class="btn btn-outline-danger mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-14    "
+                    <button class="btn btn-outline-danger mt-0 rounded-2  fw-semibold   d-flex align-items-center g-fs-12    "
                             type="submit">
                         {% trans 'LogoutButtonLabel' %}
                     </button>
@@ -84,11 +84,11 @@
 
         <div class="profile-buttons-group">
 
-            <a href="{% url 'profile_edit' %}" style="font-size: small"
-               class="btn btn-outline-secondary mt-0 rounded-2 w-50  fw-semibold   d-flex align-items-center g-fs-14 justify-content-center ">{% trans 'EditProfileLabel' %}</a>
+            <a href="{% url 'profile_edit' %}"  
+               class="btn btn-outline-secondary mt-0 rounded-2 w-50  fw-semibold  d-flex align-items-center g-fs-12 justify-content-center ">{% trans 'EditProfileLabel' %}</a>
 
-            <button type="button" style="font-size: small"
-                    class="btn btn-outline-secondary mt-0 rounded-2 fw-semibold w-50   d-flex align-items-center g-fs-14 justify-content-center"
+            <button type="button"  
+                    class="btn btn-outline-secondary mt-0 rounded-2 fw-semibold w-50   d-flex align-items-center g-fs-12 justify-content-center"
                     data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
                 {% trans 'ChangePasswordLabel' %}
             </button>
@@ -99,8 +99,8 @@
 
             <form method="post" action="{% url 'logout' %}" class="w-100">
                 {% csrf_token %}
-                <button class="btn btn-outline-danger mt-0 rounded-2 fw-semibold d-flex align-items-center g-fs-14     w-100 w-sm-auto justify-content-center"
-                        type="submit" style="font-size: small">
+                <button class="btn btn-outline-danger mt-0 rounded-2 fw-semibold d-flex align-items-center g-fs-12     w-100 w-sm-auto justify-content-center"
+                        type="submit"  >
                     {% trans 'LogoutButtonLabel' %}
                 </button>
             </form>

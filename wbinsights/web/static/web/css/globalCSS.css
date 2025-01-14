@@ -139,8 +139,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
-    gap: 5px;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .lists-search-cont {

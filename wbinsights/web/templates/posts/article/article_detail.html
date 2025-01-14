@@ -25,16 +25,16 @@
         </style>
     {% endblock %}
 
-    <div class="element-container">
+    <div class="element-container basepost-content-mobile-bottom-padding">
 
         {% trans "BackButtonLabel" as back_text %}
         {% back_button "article_list" back_text %}
 
 
-        <div style="display: flex; justify-content: space-between">
-            <div class="list-publish-date">
-                <div><i class="bi bi-calendar2-week" style="color:#a9b4ca;font-size: 16px"></i></div>
-                <div>&nbsp; {{ article.time_create|custom_time_display }}</div>
+        <div class="d-flex justify-content-between mb-2">
+            <div class="d-flex g-fs-12 g-grey-color align-items-center">
+                <i class="bi bi-calendar2-week" style="color:#a9b4ca;font-size: 16px"></i>
+                &nbsp; {{ article.time_create|custom_time_display }}
             </div>
 
             {% if user.is_authenticated and user == article.author %}
@@ -51,21 +51,23 @@
 
         </div>
 
-        <div class="basepost-title">{{ article.title }}</div>
+        <div class="g-fs-header-20 mb-2">{{ article.title }}</div>
 
 
         <style>
             {{ article.styles|safe }}
         </style>
 
-        <div class="basepost-content-cont">
+        <div class="basepost-content-cont mb-2">
             {% autoescape off %}
+                <div class="g-fs-14">
                 {{ article.content }}
+                </div>
             {% endautoescape %}
         </div>
 
 
-        <div class="article-detail-voting-comment-cont">
+        <div class="article-detail-voting-comment-cont mb-2">
             <div class="voting">
                 <button class="like-btn
                         {% vote_exists article user as vote_status %}{% if vote_status %}liked{% endif %}"

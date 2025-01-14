@@ -5,47 +5,36 @@
 {% load i18n %}
 
 {% block center_col %}
+    <div class="element-container basepost-content-mobile-bottom-padding ">
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "wbqa:question_list" back_text %}
 
+        <div class="g-fs-header-20 mb-3">Редактирование ответа</div>
 
-<style>
-    .select2-container {
-        width: 100% !important;
-    }
-    .select2-container .select2-selection--multiple {
-        min-height: 38px;
-    }
-    .select2-container .select2-selection--single {
-        height: 38px;
-        padding: 6px 12px;
-    }
-    .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
-        list-style: none;
-        display: flex !important;
-    }
-    .select2-selection.select2-selection--multiple {
-        display: flex !important;
-    }
-</style>
+        <form method="post" id="answer-form">
+            {% csrf_token %}
 
+            <div class="mb-3 ">
+                <label for="id_content" class="g-fs-14 fw-semibold mb-2">Содержание</label>
+                <textarea name="content"
+                          id="id_content"
+                          class="form-control"
+                          rows="5">{{ form.content.value|default:'' }}</textarea>
+                {% if form.content.errors %}
+                    <div class="text-danger">{{ form.content.errors }}</div>
+                {% endif %}
+            </div>
 
-{% trans "BackButtonLabel" as back_text %}
-{% back_button "wbqa:question_list" back_text %}
+            <button type="submit" class="btn btn-primary btn-sm">Сохранить изменения</button>
+        </form>
 
+    </div>
 
-<h2>Редактирование ответа</h2>
-
-<form method="post" id="answer-form">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary btn-sm">Сохранить изменения</button>
-</form>
-
-<script>
-    $(document).ready(function() {
-        // If there are any select fields in the answer form that need Select2, initialize them here
-        // For example:
-        // $('#id_some_field').select2();
-    });
-</script>
-
+    <script>
+        $(document).ready(function () {
+            // If there are any select fields in the answer form that need Select2, initialize them here
+            // For example:
+            // $('#id_some_field').select2();
+        });
+    </script>
 {% endblock %}

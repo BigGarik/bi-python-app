@@ -7,18 +7,18 @@
 <div id="comments"></div>
 
 {% if object.allow_comments %}
-<div class="card card-block mb-5">
-  <div class="card-body">
-    <h4 class="card-title text-center pb-3">{% trans 'Post your comment' %}</h4>
-      {% render_comment_form for object %}
-  </div>
-</div>
+    <div class="card card-block mb-5">
+        <div class="card-body">
+            <h4 class="card-title text-center pb-3 g-fs-header-20">{% trans 'Post your comment' %}</h4>
+            {% render_comment_form for object %}
+        </div>
+    </div>
 {% endif %}
 
 {% if comment_count %}
-<ul class="media-list">
-  {% render_xtdcomment_tree for object %}
-</ul>
+    <ul class="media-list">
+        {% render_xtdcomment_tree for object %}
+    </ul>
 {% endif %}
 
 
