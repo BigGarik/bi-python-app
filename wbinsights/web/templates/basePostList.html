@@ -58,11 +58,11 @@
 
     <div class="d-none d-md-flex justify-content-around mb-3">
         <a href="{% url 'research_list' %}"
-           class="p-2 cursor-pointer w-25 d-flex rounded-4 justify-content-center text-decoration-none text-secondary fw-semibold {% if url_first_part == 'researches' or url_first_part == '' %} bg-primary-base-drop text-white {% endif %}">
+   class="p-2 cursor-pointer w-25 d-flex rounded-4 justify-content-center text-decoration-none text-secondary fw-semibold {% if url_first_part == 'researches' %} bg-primary-base-drop text-white {% endif %}">
             {% trans 'ResearchesLabel' %}
         </a>
         <a href="{% url 'experts_list' %}"
-           class="p-2 cursor-pointer w-25 d-flex rounded-4 justify-content-center text-decoration-none text-secondary fw-semibold {% if url_first_part == 'experts' %} bg-primary-base-drop text-white {% endif %}">
+   class="p-2 cursor-pointer w-25 d-flex rounded-4 justify-content-center text-decoration-none text-secondary fw-semibold {% if url_first_part == 'experts' or url_first_part == '' %} bg-primary-base-drop text-white {% endif %}">
             {% trans 'ExpertsLabel' %}
         </a>
         <a href="{% url 'article_list' %}"

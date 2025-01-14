@@ -13,7 +13,7 @@ class DeviceDetectionView(View):
         if is_mobile_by_request(request):
             return ExpertListView.as_view()(request, *args, **kwargs)
         else:
-            return ResearchesListView.as_view()(request, *args, **kwargs, extra_context={'is_mobile': False})
+            return ExpertListView.as_view()(request, *args, **kwargs, extra_context={'is_mobile': False})
 
 
 
