@@ -9,40 +9,41 @@
 {% block center_col %}
     <div class="element-container">
         <div class="d-flex flex-column gap-4">
-            <!-- Back button -->
+
             <a href="{% url 'manage_unverified_experts_list' %}"
                class="d-flex align-items-center text-decoration-none text-muted">
+
                 <i class="bi bi-chevron-left me-1"></i>
+
                 {% trans 'BackButtonLabel' %}
             </a>
 
-            <!-- Header -->
             <div class="d-flex flex-column gap-3">
+
                 <div class="g-fs-header-20 align-self-center">{% trans 'VerifyUsersTitleLabel' %}</div>
 
-                <!-- Expert basic info -->
                 <div class="d-flex align-items-center gap-3">
+
                     {% if unverified_expertanketa.user.profile.avatar.url %}
                         <img src="{{ unverified_expertanketa.user.profile.avatar.url }}"
                              alt="Profile picture"
                              class="rounded-circle"
                              style="width: 64px; height: 64px; object-fit: cover;">
                     {% endif %}
+
                     <div class="g-fs-20 fw-semibold">
                         {{ unverified_expertanketa.user.last_name }} {{ unverified_expertanketa.user.first_name }}
                     </div>
                 </div>
             </div>
 
-            <!-- Verification data section -->
             <div class="d-flex flex-column gap-4">
+
                 <div class="g-fs-header-24 align-self-center">{% trans 'Данные для верификации' %}</div>
 
-                <!-- Profile fields table -->
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <tbody>
-                            <!-- About Me -->
                             <tr>
                                 <td class="g-fs-14 text-muted" style="width: 200px;">{% trans 'AboutMeLabel' %}</td>
                                 <td class="g-fs-14">
@@ -63,20 +64,23 @@
                                 </td>
                             </tr>
 
-                            <!-- Categories -->
                             <tr>
                                 <td class="g-fs-14 text-muted">{% trans 'CategoryLabel' %}</td>
+
                                 <td class="g-fs-14">
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.expert_categories.all != unverified_expertanketa.user.expertprofile.expert_categories.all %}
                                         <div class="d-flex flex-column gap-2">
+
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.expert_categories.all | join:", " }}</div>
                                             </div>
+
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'New' %}:</div>
                                                 <div class="ms-2">{{ unverified_expertanketa.expert_categories.all | join:", " }}</div>
                                             </div>
+
                                         </div>
                                     {% else %}
                                         {{ unverified_expertanketa.expert_categories.all | join:", " }}
@@ -84,39 +88,45 @@
                                 </td>
                             </tr>
 
-                            <!-- Experience -->
                             <tr>
                                 <td class="g-fs-14 text-muted">{% trans 'ExperienceLabel' %}</td>
+
                                 <td class="g-fs-14">
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.experience != unverified_expertanketa.user.expertprofile.experience %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.experience }}</div>
                                             </div>
                                             <div>
+
                                                 <div class="text-muted mb-1">{% trans 'New' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.experience }}</div>
                                             </div>
                                         </div>
+
                                     {% else %}
                                         {{ unverified_expertanketa.experience }}
                                     {% endif %}
                                 </td>
                             </tr>
 
-                            <!-- Hour Rate -->
                             <tr>
                                 <td class="g-fs-14 text-muted">{% trans 'HourRateLabel' %}</td>
+
                                 <td class="g-fs-14">
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.hour_cost != unverified_expertanketa.user.expertprofile.hour_cost %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.hour_cost }}</div>
                                             </div>
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'New' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.hour_cost }}</div>
                                             </div>
                                         </div>
@@ -126,18 +136,20 @@
                                 </td>
                             </tr>
 
-                            <!-- Age -->
                             <tr>
                                 <td class="g-fs-14 text-muted">{% trans 'AgeLabel' %}</td>
+
                                 <td class="g-fs-14">
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.age != unverified_expertanketa.user.expertprofile.age %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.age }}</div>
                                             </div>
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'New' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.age }}</div>
                                             </div>
                                         </div>
@@ -147,9 +159,9 @@
                                 </td>
                             </tr>
 
-                            <!-- Education -->
                             <tr>
                                 <td class="g-fs-14 text-muted">{% trans 'EducationLabel' %}</td>
+
                                 <td class="g-fs-14">
                                     {% for edu in unverified_expertanketa.education.all %}
                                         <div>{{ edu.educational_institution }}</div>
@@ -157,18 +169,20 @@
                                 </td>
                             </tr>
 
-                            <!-- HH Link -->
                             <tr>
                                 <td class="g-fs-14 text-muted">{% trans 'hhLinkLabel' %}</td>
+
                                 <td class="g-fs-14">
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.hh_link != unverified_expertanketa.user.expertprofile.hh_link %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.hh_link }}</div>
                                             </div>
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'New' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.hh_link }}</div>
                                             </div>
                                         </div>
@@ -178,18 +192,20 @@
                                 </td>
                             </tr>
 
-                            <!-- LinkedIn Link -->
                             <tr>
                                 <td class="g-fs-14 text-muted">{% trans 'linkedInLinkLabel' %}</td>
+
                                 <td class="g-fs-14">
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.linkedin_link != unverified_expertanketa.user.expertprofile.linkedin_link %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.linkedin_link }}</div>
                                             </div>
                                             <div>
                                                 <div class="text-muted mb-1">{% trans 'New' %}:</div>
+
                                                 <div class="ms-2">{{ unverified_expertanketa.linkedin_link }}</div>
                                             </div>
                                         </div>
@@ -203,13 +219,15 @@
                 </div>
             </div>
 
-            <!-- Action buttons -->
             <form method="post" enctype="multipart/form-data" >
+
                 {% csrf_token %}
                 <div class="d-flex gap-3">
+
                     <button type="submit" name="action" value="approve" class="btn btn-success">
                         {% trans 'ApproveButtonLabel' %}
                     </button>
+
                     <button type="submit" name="action" value="deny" class="btn btn-danger">
                         {% trans 'DenyButtonLabel' %}
                     </button>
