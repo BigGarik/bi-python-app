@@ -8,44 +8,56 @@
 {% endblock %}
 
 {% block center_col %}
-
-
-    <div class="element-container">
-
+    <div class="element-container mx-auto w-100 w-sm-100 w-md-75">
         {% trans "ToMainPageLabel" as back_text %}
         {% back_button "index" back_text %}
-        <h2 class="checkout-title">Детали заказа</h2>
 
-        <div class="appointment-details">
+        <h2 class=" g-fs-header-24 mb-4 text-center">{% trans 'Детали заказа' %}</h2>
 
-            <div class="detail">
-                <strong>Эксперт:</strong>
-                {{ appointment.expert.last_name }} {{ appointment.expert.first_name }}
-            </div>
-            <div class="detail">
-                <strong>Дата:</strong>
-                {{ appointment.appointment_date }}
-            </div>
-            <div class="detail">
-                <strong>Время:</strong>
-                {{ appointment.appointment_time }}
-            </div>
-            <div class="detail">
-                <strong>Цена:</strong>
-                {{ appointment.expert.expertprofile.hour_cost }}
-            </div>
-            <div class="detail">
-                <strong>Заметка:</strong>
-                {{ appointment.notes }}
+        <div class="appointment-details d-flex flex-column ">
+            <div class="detail d-flex gap-2">
+                <div class="g-fs-14 fw-semibold mb-1 w-25">{% trans 'Эксперт' %}:</div>
+                <div class="g-fs-14 text-break">
+                    {{ appointment.expert.last_name }} {{ appointment.expert.first_name }}
+                </div>
             </div>
 
+            <div class="detail d-flex gap-2">
+                <div class="g-fs-14 fw-semibold mb-1 w-25">{% trans 'Дата' %}:</div>
+                <div class="g-fs-14 text-break">
+                    {{ appointment.appointment_date }}
+                </div>
+            </div>
+
+            <div class="detail d-flex gap-2">
+                <div class="g-fs-14 fw-semibold mb-1 w-25">{% trans 'Время' %}:</div>
+                <div class="g-fs-14 text-break">
+                    {{ appointment.appointment_time }}
+                </div>
+            </div>
+
+            <div class="detail d-flex gap-2">
+                <div class="g-fs-14 fw-semibold mb-1 w-25">{% trans 'Цена' %}:</div>
+                <div class="g-fs-14 text-break">
+                    {{ appointment.expert.expertprofile.hour_cost }}
+                </div>
+            </div>
+
+            <div class="detail">
+                <div class="g-fs-14 fw-semibold mb-1">{% trans 'Заметка' %}:</div>
+                <div class="g-fs-14 text-break">
+                    {{ appointment.notes }}
+                </div>
+            </div>
         </div>
 
         <form method="post">
             {% csrf_token %}
             <input type="hidden" value="{{ appointment.pk }}" name="appointment_id"/>
-            <button type="submit" class="btn btn-primary">Оплатить на Yookassa</button>
-            <a href="{% url 'profile' %}" class="btn btn-primary">Оплатить позже</a>
+            <div class="d-flex flex-md-row flex-column gap-0 gap-md-3 ">
+                <button type="submit" class="btn btn-primary g-fs-14">{% trans 'Оплатить на Yookassa' %}</button>
+                <a href="{% url 'profile' %}" class="btn btn-primary g-fs-14">{% trans 'Оплатить позже' %}</a>
+            </div>
         </form>
     </div>
 {% endblock %}
