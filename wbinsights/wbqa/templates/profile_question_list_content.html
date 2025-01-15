@@ -3,32 +3,40 @@
 {% load i18n %}
 
 {% for question in expert_questions %}
-    <div class="basepost-content-cont">
-        <div class="d-flex flex-wrap min-h-30" style="justify-content: flex-start !important;">
-            <div class="user-catagory-highlight {{ question.cat.slug }}">
-                {{ question.cat }}
+    <div class="basepost-content-cont ">
+        <div class="d-flex align-items-center">
+            <div class="d-flex flex-wrap min-h-30">
+                <div class="user-catagory-highlight {{ question.cat.slug }}">
+                    {{ question.cat }}
+                </div>
             </div>
+            <span class="list-publish-date publish-date-margin d-inline d-md-none">
+                {{ question.created_at|custom_time_display }}
+            </span>
         </div>
-        <div class="basepost-title">{{ question.title }}</div>
+        <div class="f-flex g-fs-header-20">{{ question.title }}</div>
         <div>
-            <span class="basepost-description d-inline">{{ question.content|truncatewords:30 }} &nbsp;&nbsp;</span>
-            <a href="{% url 'wbqa:question_detail' question.pk %}" class="link-read-post">
-                Читать пост
-            </a>
+            <div class="d-flex flex-column gap-2">
+                <span class=" d-flex g-fs-14">{{ question.content|truncatewords:30 }} &nbsp;</span>
+                <span class="mt-2">
+                        <a href="{% url 'wbqa:question_detail' question.pk %}" class="read-post-link">
+                            Читать пост
+                        </a>
+                </span>
+            </div>
+
             <div class="basepost-prof-socials-cont d-none d-md-flex">
                 <div class="basepost-author-cont">
-                    <div class="author-pic-research">
+                    <div class="basepost-author-pic">
                         {% if question.author.profile.avatar.url %}
                             <div><img src="{{ question.author.profile.avatar.url }}"
-                                      alt="{{ question.author.username }}" class="basepost-author-pic"></div>
+                                      alt="{{ question.author.username }}" class="basepost-author-pic "></div>
                         {% else %}
                             <i class="bi bi-person-circle author-icon"></i>
                         {% endif %}
                     </div>
-                    <a href="{% url 'expert_profile' question.author.pk %}" class="basepost-author-text"
-                       style="margin-left: 0px">
-                        <div class="basepost-author-text"
-                             style="text-decoration: none">{{ question.author.last_name }} {{ question.author.first_name }}</div>
+                    <a href="{% url 'expert_profile' question.author.pk %}" class="basepost-author-text">
+                        {{ question.author.last_name }} {{ question.author.first_name }}
                     </a>
                     <span class="list-publish-date">&nbsp;{{ question.created_at|custom_time_display }}</span>
                 </div>
@@ -38,37 +46,41 @@
                         <span class="list-comments">{{ question.answers.count }}</span>
                     </div>
 
-                    {% include "components/share_social_btn.html" with url_path="/question/" slug=question.pk title=question.title item_pk=question.pk %}
+                    {# TODO: double check #}
+                    {% include "components/share_social_btn.html" with url_path="/wbqa/question/" slug=question.pk|add:"/" title=question.title item_pk=question.pk %}
+
+
                 </div>
             </div>
             <!-- Mobile version -->
-            <div class="d-flex mt-2 justify-content-between d-inline d-md-none">
-                <div class="list-publish-date" style="margin: 10px 0 10px 0;">
+            <div class="d-flex mt-2 justify-content-between  d-inline d-md-none ">
+                <span class="list-publish-date publish-date-margin d-none d-md-inline ">
                     {{ question.created_at|custom_time_display }}
-                </div>
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex align-items-center gap-1">
-                        <div class="author-pic-research">
-                            {% if question.author.profile.avatar.url %}
-                                <div><img src="{{ question.author.profile.avatar.url }}"
-                                          alt="{{ question.author.username }}" class="basepost-author-pic"></div>
-                            {% else %}
-                                <i class="bi bi-person-circle author-icon"></i>
-                            {% endif %}
-                        </div>
+                </span>
+                <div class="basepost-prof-socials-cont w-100">
+                    <div class="basepost-author-cont">
+                        {% if question.author.profile.avatar.url %}
+                            <img src="{{ question.author.profile.avatar.url }}"
+                                 alt="{{ question.author.username }}" class="basepost-author-pic ">
+                        {% else %}
+                            <i class="bi bi-person-circle author-icon"></i>
+                        {% endif %}
                         <div class="basepost-author-text">{{ question.author.first_name }} {{ question.author.last_name }}</div>
                     </div>
                     <div class="comments-andshare-cont">
-                        <div class="list-comments">
+                        <a href="#" class="list-comments ">
                             {% include "components/comment_icon.html" %}
                             <span class="list-comments">{{ question.answers.count }}</span>
-                        </div>
+                        </a>
 
                         {% include "components/share_social_btn.html" with url_path="/question/" slug=question.pk title=question.title item_pk=question.pk %}
                     </div>
                 </div>
             </div>
+            {% if not forloop.last %}
 
+                <hr class="solid solid-hr">
+            {% endif %}
         </div>
     </div>
     {% empty %}

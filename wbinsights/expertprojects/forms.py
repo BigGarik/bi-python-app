@@ -9,7 +9,7 @@ from .models import UserProject, UserProjectFile, UserProjectCustomer
 
 class UserProjectForm(forms.ModelForm):
     key_results_text = forms.CharField(
-        widget=forms.Textarea(attrs={'class': 'form-control form-control-resize', 'rows': 4}),
+        widget=forms.Textarea(attrs={'class': 'form-control form-control-resize', 'rows': 6}),
         help_text='Пожалуйста, введите каждый ключевой результат на новой строке.',
         required=False
     )
@@ -33,7 +33,7 @@ class UserProjectForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'company': forms.TextInput(attrs={'class': 'form-control'}),
-            'goals': forms.Textarea(attrs={'class': 'form-control form-control-resize', 'rows': 4}),
+            'goals': forms.Textarea(attrs={'class': 'form-control form-control-resize', 'rows': 6}),
         }
 
     def __init__(self, *args, **kwargs):

@@ -2,50 +2,43 @@
 {% load static %}
 {% load i18n %}
 
-{% block extra_static %}
-    <link rel="stylesheet" href="{% static 'web/css/profile_edit.css' %}">
-{% endblock %}
-
-<!--<style>
-    .table > :not(caption) > * > * {
-        background-color: inherit;
-    }
-</style>
--->
-
-
-
 
 {% block center_col %}
-    <h2 style="margin-bottom: 20px">Список неверифицированных экспертов (Temperary Design)</h2>
+    <div class="element-container basepost-content-mobile-bottom-padding">
+        <div class="g-fs-header-20 mb-3">{% trans 'ListOfUnverifiedExpertsLabel' %}</div>
 
-    {% if experts_anketas %}
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th style="background-color:inherit">{% trans 'LastNameLabel' %}</th>
-                    <th style="background-color:inherit">{% trans 'FirstNameLabel' %}</th>
-                    <th style="background-color:inherit">{% trans 'PhoneNumberLabel' %}</th>
-                    <th style="background-color:inherit">{% trans 'EmailLabel' %}</th>
-                    <th style="background-color:inherit">{% trans 'ActionsLabel' %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for anketa in experts_anketas %}
-                    <tr class="mb-3"> 
-                        <td style="background-color:inherit">{{ anketa.user.last_name }}</td>
-                        <td style="background-color:inherit">{{ anketa.user.first_name }}</td>
-                        <td style="background-color:inherit">{{ anketa.user.phone_number }}</td>
-                        <td style="background-color:inherit">{{ anketa.user.email }}</td>
-                        <td style="background-color:inherit">
-                            <a href="{% url 'manage_unverified_experts_profile' anketa.pk %}" style="color: black; text-decoration: none; font-size: 16px;">View Profile</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Неверифицированных экспертов нет.</p>
-    {% endif %}
-
+        {% if experts_anketas %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="g-fs-14">{% trans 'LastNameLabel' %}</th>
+                            <th class="g-fs-14">{% trans 'FirstNameLabel' %}</th>
+                            <th class="g-fs-14">{% trans 'PhoneNumberLabel' %}</th>
+                            <th class="g-fs-14">{% trans 'EmailLabel' %}</th>
+                            <th class="g-fs-14">{% trans 'ActionsLabel' %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for anketa in experts_anketas %}
+                            <tr class="g-fs-14 mb-3">
+                                <td>{{ anketa.user.last_name }}</td>
+                                <td>{{ anketa.user.first_name }}</td>
+                                <td>{{ anketa.user.phone_number }}</td>
+                                <td>{{ anketa.user.email }}</td>
+                                <td>
+                                    <a href="{% url 'manage_unverified_experts_profile' anketa.pk %}"
+                                       class="g-fs-14 text-black text-decoration-none">
+                                        {% trans 'View Profile' %}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="g-fs-14">{% trans 'Неверифицированных экспертов нет.' %}</p>
+        {% endif %}
+    </div>
 {% endblock %}

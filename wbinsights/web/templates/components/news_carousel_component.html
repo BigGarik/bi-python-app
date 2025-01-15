@@ -1,16 +1,17 @@
 {% load web_tags %}
 {% load static %}
+{% load i18n %}
 
 
 <div class="bg-white p-3 mb-3 rounded-4">
 
     <div class="w-100 d-flex justify-content-between mb-2">
 
-        <span class="d-flex g-fs-header-20 g-grey-color">Новости</span>
+        <span class="d-flex g-fs-header-20 g-grey-color">{% trans 'NewsLabel' %}</span>
 
         <span class="news-open-close d-flex align-items-center g-grey-color g-fs-12" role="button" data-expanded="true">
             <i class="bi bi-chevron-up"></i>
-            &nbsp; свернуть
+            &nbsp; {% trans 'HideLabel' %}
         </span>
 
     </div>
@@ -28,11 +29,13 @@
                         {% for news in news_items %}
                             <div class="carousel-item {% if forloop.counter == 2 %}active{% endif %}">
                                 <div class="carousel-card">
-                                    <div class="d-flex g-fs-10 g-grey-color" >
-                                         {% format_date news.pubDate %}
+                                    <div class="d-flex g-fs-12 g-grey-color">
+                                        {% format_date news.pubDate %}
                                     </div>
                                     <div class="d-flex g-fs-14">
-                                        <a href="{{ news.link }}" class="text-decoration-none cursor-pointer g-fs-14 text-black" target="_blank">
+                                        <a href="{{ news.link }}"
+                                           class="text-decoration-none cursor-pointer g-fs-14 text-black"
+                                           target="_blank">
                                             {{ news.title }}
                                         </a>
                                     </div>
@@ -43,7 +46,7 @@
                     {% else %}
 
                         <div class="text-center p-3">
-                            <p>Нет последних новостей</p>
+                            <span class="g-fs-12">{% trans 'NoRecentNewsLabel' %}</span>
                         </div>
                     {% endif %}
 
@@ -51,19 +54,16 @@
 
                 <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
                     <i class="bi bi-chevron-left"></i>
-                    <span class="visually-hidden">Previous</span>
                 </button>
 
                 <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
                     <i class="bi bi-chevron-right"></i>
-                    <span class="visually-hidden">Next</span>
                 </button>
 
             </div>
         </div>
     </div>
 </div>
-
 
 
 <script>
@@ -74,7 +74,7 @@
         const content = $('#collapseNews');
 
         const carousel = new bootstrap.Carousel($('#newsCarousel')[0], {
-            interval: 4000,
+            interval: 7000,
             wrap: true,
             touch: true,
             pause: 'hover',
