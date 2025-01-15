@@ -55,8 +55,8 @@
             {% csrf_token %}
             <input type="hidden" value="{{ appointment.pk }}" name="appointment_id"/>
             <div class="d-flex flex-md-row flex-column gap-0 gap-md-3 ">
-                <button type="submit" class="btn btn-primary g-fs-14">{% trans 'Оплатить на Yookassa' %}</button>
-                <a href="{% url 'profile' %}" class="btn btn-primary g-fs-14">{% trans 'Оплатить позже' %}</a>
+                <button type="submit" class="btn btn-primary g-fs-14">{% trans 'PayWithYookassaLabel' %}</button>
+                <a href="{% url 'profile' %}" class="btn btn-primary g-fs-14">{% trans 'PayLaterLabel' %}</a>
             </div>
         </form>
     </div>

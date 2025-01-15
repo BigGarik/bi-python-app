@@ -1,7 +1,9 @@
-<h5 >Вы уверены, что хотите удалить статью <br>"<b>{{ article.title }}</b>"?</h5>
+{% load i18n %}
+
+<div class="g-fs-header-24">{% trans 'ConfirmDeleteArticleLabel' %} <br>"<b>{{ article.title }}</b>"?</div>
 
 <form method="post" action="{% url 'delete_article' article.slug %}">
   {% csrf_token %}
-  <button type="submit" class="btn btn-danger">Удалить</button>
-  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+  <button type="submit" class="btn btn-danger">{% trans 'DeleteLabel' %}</button>
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans 'CancelLabel' %}</button>
 </form>

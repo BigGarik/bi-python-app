@@ -1,5 +1,6 @@
 {% load web_tags %}
 {% load static %}
+{% load i18n %}
 
 <link rel="stylesheet" href="{% static 'web/css/cbr_component.css' %}">
 
@@ -10,7 +11,7 @@
         <!-- desktop view >=1480px -->
         <div class="d-flex gap-1 justify-content-around w-100 d-none d-1480-flex flex-nowrap">
 
-            <div class="rfs-12 text-secondary d-inline-block me-2">Курсы валют</div>
+            <div class="rfs-12 text-secondary d-inline-block me-2">{% trans 'ExchangeRateLabel' %}</div>
             {% for currency, data in rates.items %}
 
                 {% if currency != 'KEY_RATE' %}
@@ -32,7 +33,7 @@
             {% endfor %}
 
             <div class="d-inline-flex g-fs10 gap-1 align-items-baseline">
-                <div class="rfs-12 text-secondary d-inline-block me-2">Ключевая ставка</div>
+                <div class="rfs-12 text-secondary d-inline-block me-2"> {% trans 'KeyRateLabel' %}</div>
                 <div class="rfs-12 text-secondary d-inline-block me-2 fs-10">с {{ rates.KEY_RATE.last_change_date }}</div>
                 <div class="arrow arrow-{% if rates.KEY_RATE.current_rate > 0 %}up{% else %}down{% endif %}">
                     {{ rates.KEY_RATE.current_rate }} % {% if rates.KEY_RATE.current_rate > 0 %}↑{% else %}↓{% endif %}
@@ -44,7 +45,7 @@
         <!-- mobile view <1480px -->
         <div class="d-flex d-1480-none">
             <div class="d-flex align-items-center marquee" style="margin-right: 20px">
-                <div class="rfs-12 text-secondary d-inline-block me-2">Курсы валют</div>
+                <div class="rfs-12 text-secondary d-inline-block me-2">{% trans 'ExchangeRateLabel' %} </div>
                 {% for currency, data in rates.items %}
                     {% if currency != 'KEY_RATE' %}
                         <div class="text-nowrap g-fs-12 d-flex align-items-center gap-1">
@@ -61,7 +62,7 @@
                     {% endif %}
                 {% endfor %}
                 <div class="d-inline-flex g-fs10 gap-1 align-items-center gap-1">
-                    <div class="rfs-12 text-secondary d-inline-block me-2">Ключевая ставка</div>
+                    <div class="rfs-12 text-secondary d-inline-block me-2">{% trans 'KeyRateLabel' %}</div>
                     <div class="rfs-12 text-secondary d-inline-block me-2 fs-10">с {{ rates.KEY_RATE.last_change_date }}</div>
                     <div class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
                         {{ rates.KEY_RATE.current_rate }} %
@@ -73,7 +74,7 @@
             </div>
 
             <div class="d-flex align-items-center marquee">
-                <div class="rfs-12 text-secondary d-inline-block me-2">Курсы валют</div>
+                <div class="rfs-12 text-secondary d-inline-block me-2">{% trans 'ExchangeRateLabel' %} </div>
                 {% for currency, data in rates.items %}
                     {% if currency != 'KEY_RATE' %}
                         <div class="text-nowrap g-fs-12 d-flex align-items-center gap-1">
@@ -90,7 +91,7 @@
                     {% endif %}
                 {% endfor %}
                 <div class="d-inline-flex g-fs10 gap-1 align-items-center gap-1">
-                    <div class="rfs-12 text-secondary d-inline-block me-2">Ключевая ставка</div>
+                    <div class="rfs-12 text-secondary d-inline-block me-2">{% trans 'KeyRateLabel' %}</div>
                     <div class="rfs-12 text-secondary d-inline-block me-2 fs-10">с {{ rates.KEY_RATE.last_change_date }}</div>
                     <div class="arrow {% if rates.KEY_RATE.current_rate > 0 %}arrow-up{% else %}arrow-down{% endif %}">
                         {{ rates.KEY_RATE.current_rate }} %

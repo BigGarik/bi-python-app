@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>{% trans 'LoginLabel' %}</title>
 
     <link rel="stylesheet" href="{% static 'web/css/globalCSS.css' %}?ver=0.01">
     <link rel="stylesheet" href="{% static 'web/css/login.css' %}?ver=0.01">
@@ -52,7 +52,7 @@
                     <form method="post" id="login-form" novalidate>
                         {% csrf_token %}
 
-                        <h4 class="d-flex justify-content-center mb-4 mt-3 g-fs-header-24">ВХОД</h4>
+                        <h4 class="d-flex justify-content-center mb-4 mt-3 g-fs-header-24">{% trans 'EntranceLabel' %}</h4>
 
                         {% if messages %}
                             <div class="alert alert-danger mb-4">
@@ -71,7 +71,7 @@
 
                         <div class="mb-3" id="email-form">
 
-                            <label for="email" class="form-label fw-semibold g-fs-16">Электронная почта</label>
+                            <label for="email" class="form-label fw-semibold g-fs-16">{% trans 'EmailLabel' %}</label>
 
                             <input type="email"
                                    name="{{ form.username.name }}"
@@ -93,7 +93,7 @@
                         <!-- Password Field -->
                         <div class="mb-4">
 
-                            <label for="password" class="form-label fw-semibold g-fs-16">Пароль</label>
+                            <label for="password" class="form-label fw-semibold g-fs-16">{% trans 'PasswordLabel' %}</label>
 
                             <input type="password"
                                    id="password"
@@ -106,7 +106,7 @@
 
                         <div class="d-grid ">
                             <button class="btn btn-success py-2 fw-semibold g-green-bg g-fs-16" type="submit">
-                                Войти
+                                {% trans 'LoginLabel' %}
                             </button>
                         </div>
 
@@ -117,11 +117,11 @@
                 <div class="d-flex justify-content-evenly align-items-center py-2">
 
                     <a href="{% url 'signup' %}" class="text-decoration-none g-dark-grey-color g-fs-14 fw-bold">
-                        Зарегистрироваться
+                        {% trans 'RegisterLabel' %}
                     </a>
 
                     <a href="{% url 'password_reset' %}" class="text-decoration-none g-dark-grey-color g-fs-14 fw-bold">
-                        Забыли пароль?
+                        {% trans 'ForgotPasswordLabel' %}?
                     </a>
                 </div>
             </div>

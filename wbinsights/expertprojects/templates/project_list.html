@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
 {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
     <a href="{% url 'project_add' %}" class="btn btn-primary" style="margin-bottom: 10px" role="button"
-       aria-pressed="true">Добавить проект</a>
+       aria-pressed="true">{% trans 'AddProjectLabel' %}</a>
 {% endif %}
 
 {% if projects %}
@@ -136,11 +136,11 @@
                     <div class="col-4">
                         <div class="d-flex flex-column gap-2 fw-semibold">
                             <div class="d-flex">
-                                <span class="me-2" style="min-width: 75px;">Клиент:</span>
+                                <span class="me-2" style="min-width: 75px;">{% trans 'ClientLabel' %}:</span>
                                 <span>{{ project.company }}</span>
                             </div>
                             <div class="d-flex">
-                                <span class="me-2" style="min-width: 75px;">Год:</span>
+                                <span class="me-2" style="min-width: 75px;">{% trans 'YearLabel' %}:</span>
                                 <span>{{ project.year }}</span>
                             </div>
                         </div>
@@ -155,14 +155,14 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="shadow p-3 h-100 d-flex flex-column">
-                            <div class="fw-semibold mb-2">Цели проекта:</div>
+                            <div class="fw-semibold mb-2">{% trans 'ProjectGoalsLabel' %}:</div>
                             <div class="text-break">{{ project.goals }}</div>
                         </div>
                     </div>
                     <div class="col-8">
                         <div class="shadow p-3 h- d-flex justify-content-around h-100">
                             <div class="mb-4">
-                                <div class="fw-semibold mb-2">Ключевые результаты проекта:</div>
+                                <div class="fw-semibold mb-2">{% trans 'KeyProjectResults' %}:</div>
                                 <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
                                     {% for key_result in project.key_results %}
                                         <li>{{ key_result }}</li>
@@ -170,7 +170,7 @@
                                 </ul>
                             </div>
                             <div>
-                                <div class="fw-semibold  mb-2">Участники:</div>
+                                <div class="fw-semibold  mb-2">{% trans 'MembersLabel' %}:</div>
                                 <div class="d-flex flex-column gap-2">
                                     {% for member in project.members.all %}
                                         <div class="d-flex align-items-center">
@@ -196,8 +196,8 @@
                 {% if request.user.is_authenticated and request.user.profile.type == 1 and request.path == '/profile' %}
                     <div class="d-flex justify-content-end gap-2 mt-3">
                         <a href="/expert/project/{{ project.slug }}/edit/"
-                           class="btn btn-primary btn-sm">Редактировать</a>
-                        <a href="/expert/project/{{ project.slug }}/delete/" class="btn btn-danger btn-sm">Удалить</a>
+                           class="btn btn-primary btn-sm">{% trans 'EditLabel' %}</a>
+                        <a href="/expert/project/{{ project.slug }}/delete/" class="btn btn-danger btn-sm">{% trans 'DeleteLabel' %}</a>
                     </div>
                 {% endif %}
             </div>
@@ -254,11 +254,11 @@
                     <div class="col-12">
                         <div class="d-flex justify-content-evenly">
                             <div class="d-flex gap-2">
-                                <span class="fw-semibold">Клиент:</span>
+                                <span class="fw-semibold">{% trans 'ClientLabel' %}:</span>
                                 <span>{{ project.company }}</span>
                             </div>
                             <div class="d-flex gap-2">
-                                <span class="fw-semibold">Год:</span>
+                                <span class="fw-semibold">{% trans 'YearLabel' %}:</span>
                                 <span>{{ project.year }}</span>
                             </div>
                         </div>
@@ -268,7 +268,7 @@
                 <div class="row mb-3">
                     <div class="col-12">
                         <div class="shadow p-3">
-                            <div class="fw-semibold mb-2">Цели проекта:</div>
+                            <div class="fw-semibold mb-2">{% trans 'ProjectGoalsLabel' %}:</div>
                             <div class="text-break">{{ project.goals }}</div>
                         </div>
                     </div>
@@ -278,7 +278,7 @@
                     <div class="col-12">
                         <div class="shadow p-3">
                             <div>
-                                <div class="fw-semibold mb-2">Ключевые результаты проекта:</div>
+                                <div class="fw-semibold mb-2">{% trans 'KeyProjectResults' %}:</div>
                                 <ul class="list-unstyled d-flex flex-column gap-2 mb-4">
                                     {% for key_result in project.key_results %}
                                         <li>{{ key_result }}</li>
@@ -308,7 +308,7 @@
                     <div class="d-flex justify-content-end gap-2 mt-3">
                         <a href="/expert/project/{{ project.slug }}/edit/"
                            class="btn btn-primary btn-sm">Редактировать</a>
-                        <a href="/expert/project/{{ project.slug }}/delete/" class="btn btn-danger btn-sm">Удалить</a>
+                        <a href="/expert/project/{{ project.slug }}/delete/" class="btn btn-danger btn-sm">{% trans 'DeleteLabel' %}</a>
                     </div>
                 {% endif %}
             </div>
@@ -417,7 +417,7 @@
     {% endif %}
 
 {% else %}
-    <p>User has no projects.</p>
+    <div class="g-fs-14">{% trans 'UserHasNoProjectsLabel' %}.</div>
 {% endif %}
 
 <div class="modal fade" id="projectDetailsModalDesktop" tabindex="-1" role="dialog"

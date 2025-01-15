@@ -21,7 +21,7 @@
                 <span class=" d-flex g-fs-14">{{ question.content|truncatewords:30 }} &nbsp;</span>
                 <span class="mt-2">
                         <a href="{% url 'wbqa:question_detail' question.pk %}" class="read-post-link">
-                            Читать пост
+                            {% trans 'ReadPostLabel' %}
                         </a>
                 </span>
             </div>

@@ -4,15 +4,16 @@
 {% load web_tags %}
 
 {% block center_col %}
+    <div class="element-container">
 
-<h2>Подтверждение удаления</h2>
+        <div class="g-fs-header-24">Подтверждение удаления</div>
 
-  <p>Вы уверены, что хотите удалить проект "{{ object.name }}"?</p>
+        <div class="g-fs-14">{% trans 'AreYouSureYouWantToDeleteThisProjectLabel' %} "{{ object.name }}"?</div>
 
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Да, удалить</button>
-    <a href="{{ object.get_absolute_url }}" class="btn btn-secondary">Отмена</a>
-  </form>
-
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">{% trans 'YesDeleteLabel' %}</button>
+            <a href="{{ object.get_absolute_url }}" class="btn btn-secondary">{% trans 'CancelLabel' %}</a>
+        </form>
+    </div>
 {% endblock %}

@@ -1,5 +1,6 @@
 {% load web_tags %}
 {% load static %}
+{% load i18n %}
 
 <style>
     .nav-link {
@@ -23,28 +24,28 @@
 
         <li class="nav-item mb-2">
             <a class="nav-link text-dark d-flex align-items-center {% if request.path == '/contact/' %}selected{% endif %}">
-                <span class="g-fs-14">О ресурсе</span>
+                <span class="g-fs-14">{% trans 'AboutResourcesLabel' %}</span>
             </a>
         </li>
 
         <li class="nav-item mb-2">
             <a class="nav-link text-dark d-flex align-items-center {% if request.path == '#' %}selected{% endif %}"
                href="#">
-                <span class="g-fs-14">Правила</span>
+                <span class="g-fs-14">{% trans 'RulesLabel' %}</span>
             </a>
         </li>
 
         <li class="nav-item mb-2">
             <a class="nav-link text-dark d-flex align-items-center {% if request.path == '/data_policies/' %}selected{% endif %}"
                href="{% url 'data_policies' %}">
-                <span class="g-fs-14">Политика обработки данных</span>
+                <span class="g-fs-14">{% trans 'DataHandlingPolicyLabel' %}</span>
             </a>
         </li>
 
         <li class="nav-item mb-2">
             <a class="nav-link text-dark d-flex align-items-center {% if request.path == '/contact_us/' %}selected{% endif %}"
                href="{% url 'contact_us' %}">
-                <span class="g-fs-14">Написать нам</span>
+                <span class="g-fs-14">{% trans 'WriteUsLabel' %}</span>
             </a>
         </li>
 

@@ -29,7 +29,7 @@
                                 <td>
                                     <a href="{% url 'manage_unverified_experts_profile' anketa.pk %}"
                                        class="g-fs-14 text-black text-decoration-none">
-                                        {% trans 'View Profile' %}
+                                        {% trans 'ViewProfileLabel' %}
                                     </a>
                                 </td>
                             </tr>
@@ -38,7 +38,7 @@
                 </table>
             </div>
         {% else %}
-            <p class="g-fs-14">{% trans 'Неверифицированных экспертов нет.' %}</p>
+            <span class="g-fs-14">{% trans 'NoUnverifiedExpertsLabel' %}</span>
         {% endif %}
     </div>
 {% endblock %}

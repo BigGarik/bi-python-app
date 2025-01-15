@@ -7,43 +7,47 @@
 {% block center_col %}
 
 
-<style>
-    .select2-container {
-        width: 100% !important;
-    }
-    .select2-container .select2-selection--multiple {
-        min-height: 38px;
-    }
-    .select2-container .select2-selection--single {
-        height: 38px;
-        padding: 6px 12px;
-    }
-    .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
-        list-style: none;
-        display: flex !important;
-    }
-    .select2-selection.select2-selection--multiple {
-        display: flex !important;
-    }
-</style>
-<div class="element-container basepost-content-mobile-bottom-padding">
-    {% trans "BackButtonLabel" as back_text %}
-    {% back_button "wbqa:question_list" back_text %}
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
 
-    <span class="g-fs-header-20">Редактирование вопроса: {{ question.title }}</span>
+        .select2-container .select2-selection--multiple {
+            min-height: 38px;
+        }
 
-    <form method="post" id="question-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary btn-sm">Сохранить изменения</button>
-    </form>
-</div>
+        .select2-container .select2-selection--single {
+            height: 38px;
+            padding: 6px 12px;
+        }
 
-<script>
-    $(document).ready(function() {
-        $('#id_category').select2();
-        
-    });
-</script>
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+            list-style: none;
+            display: flex !important;
+        }
+
+        .select2-selection.select2-selection--multiple {
+            display: flex !important;
+        }
+    </style>
+    <div class="element-container basepost-content-mobile-bottom-padding">
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "wbqa:question_list" back_text %}
+
+        <span class="g-fs-header-20">{% trans 'EditQuestionLabel' %}: {{ question.title }}</span>
+
+        <form method="post" id="question-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-sm">{% trans 'SaveChangesLabel' %}</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#id_category').select2();
+
+        });
+    </script>
 
 {% endblock %}

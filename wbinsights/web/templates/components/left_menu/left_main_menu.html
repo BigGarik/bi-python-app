@@ -1,5 +1,6 @@
 {% load web_tags %}
 {% load static %}
+{% load i18n %}
 {#<link rel="stylesheet" href="{% static 'web/css/contact_navbar.css' %}?ver=0.01">#}
 
 
@@ -14,7 +15,7 @@
             <a class="nav-link text-dark d-flex align-items-center {% if last_path == 'popular' %} selected {% endif %}"
                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/popular">
                 <i class="bi bi-fire me-2 icon-scale"></i>
-                <span class="d-flex ps-2 g-fs-14">Популярное</span>
+                <span class="d-flex ps-2 g-fs-14">{% trans 'PopularLabel' %}</span>
             </a>
         </li>
 
@@ -22,7 +23,7 @@
             <a class="nav-link text-dark d-flex align-items-center {% if last_path == 'new' %} selected {% endif %}"
                href="/{{ first_path|get_post_url_or_none|default:"researches" }}/category/new">
                 <i class="bi bi-clock-fill  me-2 icon-scale"></i>
-                <span class="d-flex ps-2 g-fs-14">Новое</span>
+                <span class="d-flex ps-2 g-fs-14">{% trans 'NewLabel' %}</span>
             </a>
         </li>
 

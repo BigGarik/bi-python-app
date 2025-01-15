@@ -1,5 +1,6 @@
 {% load web_tags %}
 {% load static %}
+{% load i18n %}
 
 {% for expert in object_list %}
     <div class="expert-prof-cont ">
@@ -72,7 +73,7 @@
                         {% endautoescape %}
 
                         <a href="{% url 'expert_profile' expert.id %}?tab=articles"
-                           class="text-decoration-none g-fs-14">&nbsp;Читать ещё</a>
+                           class="text-decoration-none g-fs-14">&nbsp;{% trans 'ReadMoreLabel' %}</a>
 
                     </div>
 
@@ -82,7 +83,7 @@
 
                             <div class="d-flex align-items-center gap-3 order-2 order-xxl-1">
                                 <a href="{% url 'appointment_add' expert.id %}"
-                                   class="btn btn-success g-green-bg g-fs-14">Консультация</a>
+                                   class="btn btn-success g-green-bg g-fs-14">{% trans 'ConsultLabel' %}</a>
 
                                 <span class="text-muted fw-semibold g-fs-14">
                                     {{ expert.expertprofile.hour_cost }} Р/час

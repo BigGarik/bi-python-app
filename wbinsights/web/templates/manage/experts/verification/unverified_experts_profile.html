@@ -39,7 +39,7 @@
 
             <div class="d-flex flex-column gap-4">
 
-                <div class="g-fs-header-24 align-self-center">{% trans 'Данные для верификации' %}</div>
+                <div class="g-fs-header-24 align-self-center">{% trans 'DataForVerificationLabel' %}</div>
 
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -50,11 +50,11 @@
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.about != unverified_expertanketa.user.expertprofile.about %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'PreviousLabel' %}:</div>
                                                 <div class="ms-2">{% autoescape off %}{{ unverified_expertanketa.user.expertprofile.about }}{% endautoescape %}</div>
                                             </div>
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'New' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'NewLabel' %}:</div>
                                                 <div class="ms-2">{% autoescape off %}{{ unverified_expertanketa.about }}{% endautoescape %}</div>
                                             </div>
                                         </div>
@@ -72,12 +72,12 @@
                                         <div class="d-flex flex-column gap-2">
 
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'PreviousLabel' %}:</div>
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.expert_categories.all | join:", " }}</div>
                                             </div>
 
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'New' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'NewLabel' %}:</div>
                                                 <div class="ms-2">{{ unverified_expertanketa.expert_categories.all | join:", " }}</div>
                                             </div>
 
@@ -95,13 +95,13 @@
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.experience != unverified_expertanketa.user.expertprofile.experience %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'PreviousLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.experience }}</div>
                                             </div>
                                             <div>
 
-                                                <div class="text-muted mb-1">{% trans 'New' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'NewLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.experience }}</div>
                                             </div>
@@ -120,12 +120,12 @@
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.hour_cost != unverified_expertanketa.user.expertprofile.hour_cost %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'PreviousLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.hour_cost }}</div>
                                             </div>
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'New' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'NewLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.hour_cost }}</div>
                                             </div>
@@ -143,12 +143,12 @@
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.age != unverified_expertanketa.user.expertprofile.age %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'PreviousLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.age }}</div>
                                             </div>
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'New' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'NewLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.age }}</div>
                                             </div>
@@ -170,18 +170,18 @@
                             </tr>
 
                             <tr>
-                                <td class="g-fs-14 text-muted">{% trans 'hhLinkLabel' %}</td>
+                                <td class="g-fs-14 text-muted">HH</td>
 
                                 <td class="g-fs-14">
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.hh_link != unverified_expertanketa.user.expertprofile.hh_link %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'PreviousLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.hh_link }}</div>
                                             </div>
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'New' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'NewLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.hh_link }}</div>
                                             </div>
@@ -193,18 +193,18 @@
                             </tr>
 
                             <tr>
-                                <td class="g-fs-14 text-muted">{% trans 'linkedInLinkLabel' %}</td>
+                                <td class="g-fs-14 text-muted">LinkedIn</td>
 
                                 <td class="g-fs-14">
                                     {% if unverified_expertanketa.user.expertprofile and unverified_expertanketa.linkedin_link != unverified_expertanketa.user.expertprofile.linkedin_link %}
                                         <div class="d-flex flex-column gap-2">
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'Previous' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'PreviousLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.user.expertprofile.linkedin_link }}</div>
                                             </div>
                                             <div>
-                                                <div class="text-muted mb-1">{% trans 'New' %}:</div>
+                                                <div class="text-muted mb-1">{% trans 'NewLabel' %}:</div>
 
                                                 <div class="ms-2">{{ unverified_expertanketa.linkedin_link }}</div>
                                             </div>
@@ -225,11 +225,11 @@
                 <div class="d-flex gap-3">
 
                     <button type="submit" name="action" value="approve" class="btn btn-success">
-                        {% trans 'ApproveButtonLabel' %}
+                        {% trans 'ApproveLabel' %}
                     </button>
 
                     <button type="submit" name="action" value="deny" class="btn btn-danger">
-                        {% trans 'DenyButtonLabel' %}
+                        {% trans 'DenyLabel' %}
                     </button>
                 </div>
             </form>

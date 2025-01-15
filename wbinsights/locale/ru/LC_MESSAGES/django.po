@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-13 15:29+0300\n"
+"POT-Creation-Date: 2025-01-15 15:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,6 +39,10 @@ msgstr "Компания"
 msgid "Unsupported file extension."
 msgstr "Неподдерживаемый тип файла."
 
+#: .\expertprojects\templates\project_list.html:11
+msgid "AddProjectLabel"
+msgstr "Добавить проект"
+
 #: .\expertprojects\templates\project_list.html:23
 msgid "SearchProjectByNameLabel"
 msgstr "Поиск по имени проекта"
@@ -51,13 +55,48 @@ msgstr "Категории"
 #: .\expertprojects\templates\project_list.html:41
 #: .\expertprojects\templates\project_list.html:47
 msgid "All"
-msgstr "Все"
+msgstr ""
 
 #: .\expertprojects\templates\project_list.html:66
-#, fuzzy
-#| msgid "NoItemsFoundLabel"
 msgid "ItemsLabel"
 msgstr "Страницы"
+
+#: .\expertprojects\templates\project_list.html:139
+#: .\expertprojects\templates\project_list.html:257
+#: .\templates\base_header.html:79 .\templates\base_header.html:199
+#: .\web\templates\components\global_profile_information.html:40
+msgid "ClientLabel"
+msgstr "Клиент"
+
+#: .\expertprojects\templates\project_list.html:143
+#: .\expertprojects\templates\project_list.html:261
+msgid "YearLabel"
+msgstr "Год"
+
+#: .\expertprojects\templates\project_list.html:158
+#: .\expertprojects\templates\project_list.html:271
+msgid "ProjectGoalsLabel"
+msgstr "Цели проекта"
+
+#: .\expertprojects\templates\project_list.html:165
+#: .\expertprojects\templates\project_list.html:281
+msgid "KeyProjectResults"
+msgstr "Ключевые результаты проекта"
+
+#: .\expertprojects\templates\project_list.html:173
+msgid "MembersLabel"
+msgstr "Участники проекта"
+
+#: .\expertprojects\templates\project_list.html:199
+msgid "EditLabel"
+msgstr "Редактировать"
+
+#: .\expertprojects\templates\project_list.html:200
+#: .\expertprojects\templates\project_list.html:311
+#: .\web\templates\posts\article\article_confirm_delete.html:7
+#: .\web\templates\profile\expert\edit_profile.html:392
+msgid "DeleteLabel"
+msgstr "Удалить"
 
 #: .\expertprojects\templates\project_list.html:346
 #: .\expertprojects\templates\project_list.html:397
@@ -68,6 +107,10 @@ msgstr "Страница"
 msgid "out of"
 msgstr ""
 
+#: .\expertprojects\templates\project_list.html:420
+msgid "UserHasNoProjectsLabel"
+msgstr "У пользователя нет проектов"
+
 #: .\expertprojects\templates\project_list.html:428
 #: .\expertprojects\templates\project_list.html:443
 msgid "Project Details"
@@ -75,15 +118,15 @@ msgstr "Детали проекта"
 
 #: .\expertprojects\templates\user_project_add.html:14
 #: .\expertprojects\templates\user_project_edit.html:16
-#: .\wbappointment\templates\add_appointment.html:29
-#: .\wbqa\templates\create_question.html:40
-#: .\wbqa\templates\edit_answer.html:31 .\wbqa\templates\edit_question.html:30
+#: .\wbappointment\templates\add_appointment.html:47
+#: .\wbqa\templates\create_question.html:40 .\wbqa\templates\edit_answer.html:9
+#: .\wbqa\templates\edit_question.html:34
 #: .\wbqa\templates\question_detail.html:19 .\web\templates\404.html:27
 #: .\web\templates\contact_and_help\contact_page.html:16
 #: .\web\templates\contact_and_help\contact_us.html:15
 #: .\web\templates\contact_and_help\contact_us_success.html:16
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:18
-#: .\web\templates\posts\article\article_add.html:70
+#: .\web\templates\posts\article\article_add.html:66
 #: .\web\templates\posts\article\article_add_editor_mobile.html:108
 #: .\web\templates\posts\article\article_detail.html:30
 #: .\web\templates\profile\anketa.html:18
@@ -102,28 +145,37 @@ msgstr "Добавление нового проекта"
 
 #: .\expertprojects\templates\user_project_add.html:119
 #: .\expertprojects\templates\user_project_edit.html:123
-#, fuzzy
-#| msgid "ProjectsTabLabel"
 msgid "ProjectMembersLabel"
 msgstr "Участники проекта"
 
 #: .\expertprojects\templates\user_project_add.html:131
 #: .\expertprojects\templates\user_project_edit.html:138
-#, fuzzy
-#| msgid "ArticlesLabel"
-msgid "PorjectFilesLabel"
+msgid "ProjectFilesLabel"
 msgstr "Файлы проекта"
 
 #: .\expertprojects\templates\user_project_add.html:132
 #: .\expertprojects\templates\user_project_edit.html:139
-#, fuzzy
-#| msgid "ArticlesLabel"
 msgid "AddFilesLabel"
 msgstr "Добавить файлы"
 
+#: .\expertprojects\templates\user_project_confirm_delete.html:11
+msgid "AreYouSureYouWantToDeleteThisProjectLabel"
+msgstr "Вы уверены, что хотите удалить этот проект?"
+
+#: .\expertprojects\templates\user_project_confirm_delete.html:15
+#: .\web\templates\profile\expert\education_confirm_delete.html:10
+msgid "YesDeleteLabel"
+msgstr "Да, удалить"
+
+#: .\expertprojects\templates\user_project_confirm_delete.html:16
+#: .\web\templates\posts\article\article_confirm_delete.html:8
+#: .\web\templates\profile\client\edit_profile.html:139
+#: .\web\templates\profile\expert\edit_profile.html:390
+#: .\web\templates\profile\expert\edit_profile.html:421
+msgid "CancelLabel"
+msgstr "Отмена"
+
 #: .\expertprojects\templates\user_project_edit.html:19
-#, fuzzy
-#| msgid "EditProfileLabel"
 msgid "EditingProjectLabel"
 msgstr "Редактирование проекта"
 
@@ -133,33 +185,62 @@ msgstr "Редактирование проекта"
 msgid "MissingFilesLabel"
 msgstr "Файл отсутствует"
 
-#: .\templates\base_header.html:25 .\templates\base_header.html:162
+#: .\templates\base_header.html:13
+#: .\web\templates\posts\article\article_list.html:27
+#: .\web\templates\posts\expert\expert_list.html:19
+msgid "SearchLabel"
+msgstr "Поиск"
+
+#: .\templates\base_header.html:24 .\templates\base_header.html:161
+#: .\web\templates\posts\article\article-profile-list.html:10
 msgid "CreateArticleLabel"
 msgstr "Написать статью"
 
-#: .\templates\base_header.html:39
-msgid "Верификация экспертов"
-msgstr ""
+#: .\templates\base_header.html:34
+msgid "AdministrationLabel"
+msgstr "Администрирование"
 
-#: .\templates\base_header.html:100 .\templates\base_header.html:221
+#: .\templates\base_header.html:38
+msgid "ExpertVerificationLabel"
+msgstr "Статус верификации"
+
+#: .\templates\base_header.html:75 .\templates\base_header.html:195
+msgid "AdminLabel"
+msgstr "Админ"
+
+#: .\templates\base_header.html:77 .\templates\base_header.html:197
+#: .\web\templates\posts\expert\expert_profile.html:12
+#, fuzzy
+#| msgid "ExpertsLabel"
+msgid "ExpertLabel"
+msgstr "Эксперты"
+
+#: .\templates\base_header.html:99 .\templates\base_header.html:220
 #: .\templates\includes\mobile_navigation_bat.html:32
 msgid "PersonalAccountLabel"
 msgstr "Личный кабинет"
 
-#: .\templates\base_header.html:106 .\templates\base_header.html:228
-#: .\templates\includes\mobile_navigation_bat.html:38
-#: .\web\templates\profile\expert\profile_buttons.html:72
-#: .\web\templates\profile\expert\profile_buttons.html:104
-msgid "LogoutButtonLabel"
+#: .\templates\base_header.html:105 .\templates\base_header.html:227
+msgid "LogoutLabel"
 msgstr "Выйти"
 
-#: .\templates\base_header.html:124 .\templates\base_header.html:244
-#: .\templates\includes\mobile_navigation_bat.html:49
-msgid "LoginBtnLabel"
+#: .\templates\base_header.html:123 .\templates\base_header.html:243
+#: .\web\templates\registration\login.html:10
+#: .\web\templates\registration\login.html:109
+#: .\web\templates\registration\login_mobile.html:66
+#: .\web\templates\registration\signup.html:162
+#: .\web\templates\registration\signup_mobile.html:132
+msgid "LoginLabel"
 msgstr "Войти"
 
-#: .\templates\base_header.html:128 .\templates\base_header.html:249
-msgid "RegisterBtnLabel"
+#: .\templates\base_header.html:127 .\templates\base_header.html:248
+#: .\web\templates\registration\login.html:120
+#: .\web\templates\registration\login_mobile.html:73
+#: .\web\templates\registration\signup.html:88
+#: .\web\templates\registration\signup.html:150
+#: .\web\templates\registration\signup_mobile.html:48
+#: .\web\templates\registration\signup_mobile.html:125
+msgid "RegisterLabel"
 msgstr "Зарегистрироваться"
 
 #: .\templates\comments\comment_notification_email.txt:1
@@ -322,7 +403,7 @@ msgstr "Пустой комментарий"
 
 #: .\templates\comments\preview.html:44
 #: .\templates\django_comments_xtd\reply.html:32
-#: .\web\templates\components\comments.html:12
+#: .\web\templates\components\comments.html:21
 msgid "Post your comment"
 msgstr ""
 
@@ -564,6 +645,16 @@ msgstr "Комментировать ответ"
 msgid "Reply to comment"
 msgstr "Ответить на комментарий"
 
+#: .\templates\includes\mobile_navigation_bat.html:38
+#: .\web\templates\profile\expert\profile_buttons.html:72
+#: .\web\templates\profile\expert\profile_buttons.html:104
+msgid "LogoutButtonLabel"
+msgstr "Выйти"
+
+#: .\templates\includes\mobile_navigation_bat.html:49
+msgid "LoginBtnLabel"
+msgstr "Войти"
+
 #: .\templates\includes\warning_notification.html:6
 msgid "VerifyAccountLabel"
 msgstr "Ваши данные не верифицированы"
@@ -600,22 +691,152 @@ msgstr "Суббота"
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: .\wbappointment\templates\add_appointment.html:44
+#: .\wbappointment\templates\add_appointment.html:62
 msgid "SelectTimeAndDateAppoinmentLabel"
 msgstr "Выберите дату и время консультации"
 
-#: .\wbappointment\templates\add_appointment.html:72
+#: .\wbappointment\templates\add_appointment.html:90
 msgid "AppointmentAdditionalNotes"
 msgstr "Комментарии к встрече"
 
-#: .\wbappointment\templates\checkout_appointment.html:15
+#: .\wbappointment\templates\checkout_appointment.html:12
 #: .\web\templates\contact_and_help\data_policies.html:15
 #: .\web\templates\profile\client\profile.html:17
 #: .\web\templates\profile\expert\profile.html:16
 msgid "ToMainPageLabel"
 msgstr "На главную"
 
-#: .\wbqa\templates\profile_question_list_content.html:75
+#: .\wbappointment\templates\checkout_appointment.html:15
+msgid "Детали заказа"
+msgstr ""
+
+#: .\wbappointment\templates\checkout_appointment.html:19
+msgid "Эксперт"
+msgstr ""
+
+#: .\wbappointment\templates\checkout_appointment.html:26
+msgid "Дата"
+msgstr ""
+
+#: .\wbappointment\templates\checkout_appointment.html:33
+msgid "Время"
+msgstr ""
+
+#: .\wbappointment\templates\checkout_appointment.html:40
+msgid "Цена"
+msgstr ""
+
+#: .\wbappointment\templates\checkout_appointment.html:47
+msgid "Заметка"
+msgstr ""
+
+#: .\wbappointment\templates\checkout_appointment.html:58
+msgid "PayWithYookassaLabel"
+msgstr ""
+
+#: .\wbappointment\templates\checkout_appointment.html:59
+#, fuzzy
+#| msgid "LastNameLabel"
+msgid "PayLaterLabel"
+msgstr "Фамилия"
+
+#: .\wbqa\templates\create_question.html:42
+#, fuzzy
+#| msgid "AskQuestionLabel"
+msgid "CreateNewQuestionLabel"
+msgstr "Задать вопрос"
+
+#: .\wbqa\templates\create_question.html:46
+#, fuzzy
+#| msgid "SubmitButtonLabel"
+msgid "SubmitQuestionLabel"
+msgstr "Подтвердить"
+
+#: .\wbqa\templates\edit_answer.html:12
+#: .\wbqa\templates\question_detail.html:107
+#: .\wbqa\templates\question_detail.html:144
+#, fuzzy
+#| msgid "QuestionAnswerLabel"
+msgid "EditAnswerLabel"
+msgstr "Вопрос-ответ"
+
+#: .\wbqa\templates\edit_answer.html:18
+#, fuzzy
+#| msgid "ConsultationsTabLabel"
+msgid "ContentLabel"
+msgstr "Консультация"
+
+#: .\wbqa\templates\edit_answer.html:28 .\wbqa\templates\edit_question.html:42
+#: .\web\templates\profile\client\edit_profile.html:101
+#, fuzzy
+#| msgid "ChangePasswordLabel"
+msgid "SaveChangesLabel"
+msgstr "Изменить пароль"
+
+#: .\wbqa\templates\edit_question.html:37
+#, fuzzy
+#| msgid "AskQuestionLabel"
+msgid "EditQuestionLabel"
+msgstr "Задать вопрос"
+
+#: .\wbqa\templates\profile_question_list_content.html:23
+#: .\wbqa\templates\question_list_content.html:24
+#: .\web\templates\posts\article\article_list_content.html:32
+#: .\web\templates\posts\article\article_profile_list_content.html:16
+msgid "ReadPostLabel"
+msgstr "Читать далее..."
+
+#: .\wbqa\templates\profile_question_list_content.html:87
+msgid "NoQuestionsAvailableLabel"
+msgstr "Нет записей"
+
+#: .\wbqa\templates\question_detail.html:78
+#, fuzzy
+#| msgid "QuestionAnswerLabel"
+msgid "AnswersLabel"
+msgstr "Вопрос-ответ"
+
+#: .\wbqa\templates\question_detail.html:82
+#: .\wbqa\templates\question_detail.html:117
+#, fuzzy
+#| msgid "QuestionAnswerLabel"
+msgid "BestAnswerLabel"
+msgstr "Вопрос-ответ"
+
+#: .\wbqa\templates\question_detail.html:150
+#, fuzzy
+#| msgid "AskQuestionLabel"
+msgid "MarkAsBestLabel"
+msgstr "Задать вопрос"
+
+#: .\wbqa\templates\question_detail.html:159
+#, fuzzy
+#| msgid "QuestionAnswerLabel"
+msgid "NoAnswersYetLabel"
+msgstr "Вопрос-ответ"
+
+#: .\wbqa\templates\question_detail.html:165
+#, fuzzy
+#| msgid "QuestionAnswerLabel"
+msgid "YourAnswerLabel"
+msgstr "Вопрос-ответ"
+
+#: .\wbqa\templates\question_detail.html:169
+#: .\web\templates\contact_and_help\contact_us.html:43
+msgid "SendLabel"
+msgstr "Отправить"
+
+#: .\wbqa\templates\question_list.html:45
+#: .\wbqa\templates\question_list.html:58
+msgid "CreateQuestionLabel"
+msgstr "Задать вопрос"
+
+#: .\wbqa\templates\question_list.html:71
+#: .\web\templates\components\load_more.html:7
+#| msgid "AboutMeLabel"
+msgid "LoadMoreLabel"
+msgstr "Загрузить еще"
+
 #: .\wbqa\templates\question_list_content.html:88
 msgid "No questions available."
 msgstr "Нет записей"
@@ -778,7 +999,6 @@ msgstr ""
 "флажок вместо удаления учетных записей."
 
 #: .\web\models\users.py:109
-#: .\web\templates\components\global_profile_information.html:40
 msgid "Client"
 msgstr "Пользователь"
 
@@ -876,24 +1096,40 @@ msgstr ""
 msgid "commission_size"
 msgstr ""
 
-#: .\web\templates\basePostList.html:43 .\web\templates\basePostList.html:62
+#: .\web\templates\basePostList.html:30 .\web\templates\basePostList.html:43
+#: .\web\templates\basePostList.html:62
 #: .\web\templates\posts\research\research_list.html:7
 msgid "ResearchesLabel"
 msgstr "Исследования"
 
-#: .\web\templates\basePostList.html:46 .\web\templates\basePostList.html:66
-#: .\web\templates\posts\expert\expert_list.html:7
-msgid "ExpertsLabel"
-msgstr "Эксперты"
-
-#: .\web\templates\basePostList.html:49 .\web\templates\basePostList.html:70
+#: .\web\templates\basePostList.html:32 .\web\templates\basePostList.html:49
+#: .\web\templates\basePostList.html:70
 #: .\web\templates\posts\article\article_list.html:7
 msgid "ArticlesLabel"
 msgstr "Статьи"
 
-#: .\web\templates\basePostList.html:53 .\web\templates\basePostList.html:74
+#: .\web\templates\basePostList.html:34 .\web\templates\basePostList.html:53
+#: .\web\templates\basePostList.html:74
 msgid "QuestionAnswerLabel"
 msgstr "Вопрос-ответ"
+
+#: .\web\templates\basePostList.html:36 .\web\templates\basePostList.html:46
+#: .\web\templates\basePostList.html:66
+#: .\web\templates\posts\expert\expert_list.html:7
+msgid "ExpertsLabel"
+msgstr "Эксперты"
+
+#: .\web\templates\components\cbr_rates.html:14
+#: .\web\templates\components\cbr_rates.html:48
+#: .\web\templates\components\cbr_rates.html:77
+msgid "ExchangeRateLabel"
+msgstr "Курсы валют"
+
+#: .\web\templates\components\cbr_rates.html:36
+#: .\web\templates\components\cbr_rates.html:65
+#: .\web\templates\components\cbr_rates.html:94
+msgid "KeyRateLabel"
+msgstr "Ключевая ставка"
 
 #: .\web\templates\components\experts\main_page_list.html:17
 #: .\web\templates\components\experts\main_page_list.html:48
@@ -901,12 +1137,13 @@ msgid "AllExpertsLabel"
 msgstr "Все эксперты"
 
 #: .\web\templates\components\experts\profile_info.html:18
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:106
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:163
+#: .\web\templates\profile\expert\edit_profile.html:276
 msgid "EducationLabel"
 msgstr "Образование"
 
 #: .\web\templates\components\experts\profile_info.html:29
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:64
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:92
 msgid "ExperienceLabel"
 msgstr "Опыт"
 
@@ -914,81 +1151,207 @@ msgstr "Опыт"
 msgid "PricePerHourLabel"
 msgstr "Стоимость консультации"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:26
-msgid "LastNameLabel"
-msgstr "Фамилия"
+#: .\web\templates\components\global_profile_information.html:30
+msgid "ExpertInFieldsLabel"
+msgstr "Эксперт в области"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:27
-msgid "FirstNameLabel"
-msgstr "Имя"
+#: .\web\templates\components\left_menu\advertisement_left_menu.html:7
+msgid "PartnerServicesLabel"
+msgstr "Партнерские сервисы"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:28
-msgid "PhoneNumberLabel"
-msgstr "Телефонный номер"
+#: .\web\templates\components\left_menu\left_main_menu.html:18
+msgid "PopularLabel"
+msgstr "Популярное"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:29
-msgid "EmailLabel"
-msgstr "Email"
+#: .\web\templates\components\left_menu\left_main_menu.html:26
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:57
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:80
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:104
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:128
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:151
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:184
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:207
+msgid "NewLabel"
+msgstr "Новый"
 
-#: .\web\templates\manage\experts\verification\unverified_experts.html:30
-#, fuzzy
-#| msgid "BackButtonLabel"
-msgid "ActionsLabel"
-msgstr "Действие"
+#: .\web\templates\components\news_carousel_component.html:10
+msgid "NewsLabel"
+msgstr "Новости"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:21
-msgid "VerifyUsersTitleLabel"
-msgstr "Верификация анкеты пользователя"
+#: .\web\templates\components\news_carousel_component.html:14
+msgid "HideLabel"
+msgstr "свернуть"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:33
-msgid "AboutMeLabel"
-msgstr "О себе"
+#: .\web\templates\components\news_carousel_component.html:49
+msgid "NoRecentNewsLabel"
+msgstr "Нет последних новостей"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:50
+#: .\web\templates\components\post_category_filter.html:15
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:68
 msgid "CategoryLabel"
 msgstr "Категория"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:79
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:93
+#: .\web\templates\components\post_category_filter.html:28
+#: .\web\templates\posts\expert\expert_list.html:36
+#: .\web\templates\posts\expert\expert_list.html:41
+msgid "AllLabel"
+msgstr "Все"
+
+#: .\web\templates\contact_and_help\contact_navbar.html:27
+msgid "AboutResourcesLabel"
+msgstr "О ресурсе"
+
+#: .\web\templates\contact_and_help\contact_navbar.html:34
+msgid "RulesLabel"
+msgstr "Правила"
+
+#: .\web\templates\contact_and_help\contact_navbar.html:41
+msgid "DataHandlingPolicyLabel"
+msgstr "Политика обработки данных"
+
+#: .\web\templates\contact_and_help\contact_navbar.html:48
+msgid "WriteUsLabel"
+msgstr "Написать нам"
+
+#: .\web\templates\contact_and_help\contact_us.html:27
+msgid "WriteWhatWeCanHelpWithLabel"
+msgstr "Напишите, чем мы можем вам помочь"
+
+#: .\web\templates\contact_and_help\contact_us.html:30
+msgid "WeWillAnswerByEmailLabel"
+msgstr "Мы ответим вам на почту"
+
+#: .\web\templates\contact_and_help\contact_us_success.html:21
+msgid "ThanksWeWillAnswerYouLabel"
+msgstr "Спасибо, мы ответим вам"
+
+#: .\web\templates\manage\experts\verification\unverified_experts.html:8
+msgid "ListOfUnverifiedExpertsLabel"
+msgstr "Список непроверенных экспертов"
+
+#: .\web\templates\manage\experts\verification\unverified_experts.html:15
+msgid "LastNameLabel"
+msgstr "Фамилия"
+
+#: .\web\templates\manage\experts\verification\unverified_experts.html:16
+msgid "FirstNameLabel"
+msgstr "Имя"
+
+#: .\web\templates\manage\experts\verification\unverified_experts.html:17
+msgid "PhoneNumberLabel"
+msgstr "Телефонный номер"
+
+#: .\web\templates\manage\experts\verification\unverified_experts.html:18
+#: .\web\templates\registration\login.html:74
+#: .\web\templates\registration\login_mobile.html:41
+msgid "EmailLabel"
+msgstr "Электронная почта"
+
+#: .\web\templates\manage\experts\verification\unverified_experts.html:19
+msgid "ActionsLabel"
+msgstr "Действия"
+
+#: .\web\templates\manage\experts\verification\unverified_experts.html:32
+msgid "ViewProfileLabel"
+msgstr "Посмотреть профиль"
+
+#: .\web\templates\manage\experts\verification\unverified_experts.html:41
+#, fuzzy
+#| msgid "MoreExpertsLabel"
+msgid "NoUnverifiedExpertsLabel"
+msgstr "Нет непроверенных пользователей"
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:23
+msgid "VerifyUsersTitleLabel"
+msgstr "Верификация анкеты пользователя"
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:42
+msgid "DataForVerificationLabel"
+msgstr "Данные для верификации"
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:48
+msgid "AboutMeLabel"
+msgstr "О себе"
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:53
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:75
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:98
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:123
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:146
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:179
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:202
+msgid "PreviousLabel"
+msgstr "Предыдущий"
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:117
 msgid "HourRateLabel"
 msgstr "Стоимость часа"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:118
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:140
+msgid "AgeLabel"
+msgstr "Возраст"
+
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:228
 #, fuzzy
-#| msgid "LoginBtnLabel"
-msgid "hhLinkLabel"
-msgstr "Войти"
-
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:132
-msgid "linkedInLinkLabel"
-msgstr ""
-
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:155
-msgid "ApproveButtonLabel"
+#| msgid "ApproveButtonLabel"
+msgid "ApproveLabel"
 msgstr "Согласовать"
 
-#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:157
-msgid "DenyButtonLabel"
+#: .\web\templates\manage\experts\verification\unverified_experts_profile.html:232
+#, fuzzy
+#| msgid "DenyButtonLabel"
+msgid "DenyLabel"
 msgstr "Отклонить"
+
+#: .\web\templates\posts\article\article_add.html:91
+msgid "SettingsLabel"
+msgstr "Настройки"
+
+#: .\web\templates\posts\article\article_add.html:93
+msgid "DeleteEverythingLabel"
+msgstr "Очистить все"
+
+#: .\web\templates\posts\article\article_add.html:109
+msgid "PublicationStatusLabel"
+msgstr "Статус публикации"
+
+#: .\web\templates\posts\article\article_confirm_delete.html:3
+msgid "ConfirmDeleteArticleLabel"
+msgstr "Вы уверены, что хотите удалить статью"
 
 #: .\web\templates\posts\article\article_detail.html:10
 msgid "SingleArticleLabel"
 msgstr "Статья"
 
-#: .\web\templates\posts\article\article_profile_list_content.html:16
-msgid "ReadPostLabel"
-msgstr "Читать далее..."
+#: .\web\templates\posts\article\article_detail.html:124
+#: .\web\templates\profile\expert\edit_profile.html:378
+msgid "ConfirmDeletionLabel"
+msgstr "Подтверждение удаления"
+
+#: .\web\templates\posts\expert\expert_list.html:27
+msgid "RatingLabel"
+msgstr "Рейтинг"
+
+#: .\web\templates\posts\expert\expert_list.html:30
+#: .\web\templates\posts\expert\expert_list.html:32
+#: .\web\templates\posts\expert\expert_list.html:42
+#: .\web\templates\posts\expert\expert_list.html:43
+msgid "AndHigherLabel"
+msgstr "и выше"
+
+#: .\web\templates\posts\expert\expert_list_content.html:76
+msgid "ReadMoreLabel"
+msgstr "Читать далее"
+
+#: .\web\templates\posts\expert\expert_list_content.html:86
+#: .\web\templates\posts\expert\profile_buttons.html:28
+#: .\web\templates\posts\expert\profile_buttons.html:35
+msgid "ConsultLabel"
+msgstr "Консультация"
 
 #: .\web\templates\posts\expert\expert_profile.html:20
 msgid "ToExpertListLabel"
 msgstr "Список экспертов"
-
-#: .\web\templates\posts\expert\profile_buttons.html:28
-#: .\web\templates\posts\expert\profile_buttons.html:35
-#, fuzzy
-#| msgid "ConsultationsTabLabel"
-msgid "ConsultLabel"
-msgstr "Консультация"
 
 #: .\web\templates\posts\research\research_list.html:73
 msgid "NoItemsFoundLabel"
@@ -1006,6 +1369,39 @@ msgstr "Отправить на верификацию"
 msgid "ProfileSettingsCaption"
 msgstr ""
 
+#: .\web\templates\profile\client\edit_profile.html:107
+#: .\web\templates\profile\client\edit_profile.html:118
+#: .\web\templates\profile\client\edit_profile.html:134
+#: .\web\templates\profile\expert\edit_profile.html:367
+#: .\web\templates\profile\expert\edit_profile.html:403
+#: .\web\templates\profile\expert\edit_profile.html:416
+msgid "DeleteProfileLabel"
+msgstr "Удалить профиль"
+
+#: .\web\templates\profile\client\edit_profile.html:126
+#: .\web\templates\profile\expert\edit_profile.html:408
+msgid "EnterPasswordToConfirmLabel"
+msgstr "Для подтверждения введите пароль"
+
+#: .\web\templates\profile\client\edit_profile.html:129
+#: .\web\templates\profile\expert\edit_profile.html:411
+msgid "YourPasswordLabel"
+msgstr "Ваш пароль"
+
+#: .\web\templates\profile\expert\edit_profile.html:118
+msgid "ProfileSettingsLabel"
+msgstr "Настройки профиля"
+
+#: .\web\templates\profile\expert\edit_profile.html:159
+#, fuzzy
+#| msgid "RatingLabel"
+msgid "LoadingLabel"
+msgstr "Рейтинг"
+
+#: .\web\templates\profile\expert\edit_profile.html:384
+msgid "ConfirmEducationDeletion"
+msgstr ""
+
 #: .\web\templates\profile\expert\profile_buttons.html:58
 #: .\web\templates\profile\expert\profile_buttons.html:88
 msgid "EditProfileLabel"
@@ -1013,12 +1409,35 @@ msgstr "Настройки профиля"
 
 #: .\web\templates\profile\expert\profile_buttons.html:63
 #: .\web\templates\profile\expert\profile_buttons.html:93
+#: .\web\templates\profile\expert\profile_buttons.html:158
 msgid "ChangePasswordLabel"
 msgstr "Изменить пароль"
 
 #: .\web\templates\profile\expert\profile_buttons.html:119
 msgid "ChangePasswordTitle"
 msgstr "Изменение пароля"
+
+#: .\web\templates\profile\expert\profile_buttons.html:129
+msgid "OldPasswordLabel"
+msgstr "Старый пароль"
+
+#: .\web\templates\profile\expert\profile_buttons.html:135
+msgid "NewPasswordLabel"
+msgstr "Новый пароль"
+
+#: .\web\templates\profile\expert\profile_buttons.html:145
+#, fuzzy
+#| msgid "ChangePasswordLabel"
+msgid "RepeatNewPasswordLabel"
+msgstr "Повторите новый пароль"
+
+#: .\web\templates\profile\expert\rating_list.html:7
+msgid "DescriptionLabel"
+msgstr "Действие"
+
+#: .\web\templates\profile\expert\rating_list.html:8
+msgid "PointsLabel"
+msgstr "Баллы"
 
 #: .\web\templates\profile\profile_content_items.html:34
 msgid "ArticlesTabLabel"
@@ -1073,6 +1492,40 @@ msgstr "Спасибо за использование нашего сайта!"
 #, python-format
 msgid "The %(site_name)s team"
 msgstr "Команда %(site_name)s"
+
+#: .\web\templates\registration\login.html:55
+#: .\web\templates\registration\login_mobile.html:35
+msgid "EntranceLabel"
+msgstr "ВХОД"
+
+#: .\web\templates\registration\login.html:96
+#: .\web\templates\registration\login_mobile.html:59
+msgid "PasswordLabel"
+msgstr "Пароль"
+
+#: .\web\templates\registration\login.html:124
+#: .\web\templates\registration\login_mobile.html:76
+msgid "ForgotPasswordLabel"
+msgstr "Забыли пароль"
+
+#: .\web\templates\registration\signup.html:140
+#: .\web\templates\registration\signup_mobile.html:114
+msgid "IHaveReadAndAgreeLabel"
+msgstr "Я ознакомлен и согласен с"
+
+#: .\web\templates\registration\signup.html:141
+#: .\web\templates\registration\signup_mobile.html:117
+msgid "WithTermsAndConditionsLabel"
+msgstr "политикой обработки персональных данных"
+
+#: .\web\templates\registration\signup.html:159
+#: .\web\templates\registration\signup_mobile.html:130
+msgid "IAlreadyHaveAnAccountLabel"
+msgstr "У меня уже есть аккаунт"
+
+#: .\web\templates\registration\signup_mobile.html:75
+msgid "NotRequiredLabel"
+msgstr "Не обязательно"
 
 #: .\web\templatetags\web_tags.py:236
 msgid "вчера в "
@@ -1134,6 +1587,11 @@ msgstr "Ссылка активации недействительна."
 msgid "Account activation error: user not found."
 msgstr "Ошибка активации аккаунта: пользователь не найден."
 
+#, fuzzy
+#~| msgid "LoginBtnLabel"
+#~ msgid "hhLinkLabel"
+#~ msgstr "Войти"
+
 #~ msgid "Filter by category"
 #~ msgstr "Фильтр по категориям"
 
@@ -1142,9 +1600,6 @@ msgstr "Ошибка активации аккаунта: пользовател
 
 #~ msgid "First"
 #~ msgstr "Первая"
-
-#~ msgid "Previous"
-#~ msgstr "Предыдущая"
 
 #~ msgid "Next page"
 #~ msgstr "Следующая страница"
@@ -1170,15 +1625,6 @@ msgstr "Ошибка активации аккаунта: пользовател
 #~ msgid "Текст с условиями расчета опыта работы"
 #~ msgstr "Опыт работы"
 
-#~ msgid "MoreExpertsLabel"
-#~ msgstr "Показать больше"
-
-#~ msgid "RatingLabel"
-#~ msgstr "Рейтинг"
-
-#~ msgid "AskQuestionLabel"
-#~ msgstr "Задать вопрос"
-
 #~ msgid "MakeResearch"
 #~ msgstr "Провести исследование"
 
@@ -1194,9 +1640,6 @@ msgstr "Ошибка активации аккаунта: пользовател
 
 #~ msgid "Thanks for flagging"
 #~ msgstr "Спасибо за использование нашего сайта!"
-
-#~ msgid "SubmitButtonLabel"
-#~ msgstr "Подтвердить"
 
 #~ msgid "End time must be after start time."
 #~ msgstr "Время окончания должно быть позже времени начала."
@@ -1217,9 +1660,6 @@ msgstr "Ошибка активации аккаунта: пользовател
 
 #~ msgid "Diploma number verified"
 #~ msgstr "Номер диплома проверен"
-
-#~ msgid "AgeLabel"
-#~ msgstr "Возраст"
 
 #, python-brace-format
 #~ msgid "Document {self.id} uploaded by {self.expertprofile.user.username}"

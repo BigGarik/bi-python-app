@@ -75,11 +75,11 @@
 
             <hr>
 
-            <div class="g-fs-header-20 mb-3" id="answers">Ответы</div>
+            <div class="g-fs-header-20 mb-3" id="answers">{% trans 'AnswersLabel' %}</div>
 
             {% if best_answer %}
                 <div class="best-answer basepost-content-cont">
-                    <span class="bg-success text-white px-2 py-1 rounded mb-2 d-inline-block g-fs-14 g-green-bg">Лучший ответ</span>
+                    <span class="bg-success text-white px-2 py-1 rounded mb-2 d-inline-block g-fs-14 g-green-bg">{% trans 'BestAnswerLabel' %}</span>
                     <span class="g-fs-14">{{ best_answer.content }}</span>
                     <div class="basepost-prof-socials-cont mt-0 d-flex flex-md-row flex-column">
                         <div class="basepost-author-cont w-100">
@@ -104,7 +104,7 @@
                         {% if best_answer.author == user %}
                             <a href="{% url 'wbqa:edit_answer' best_answer.pk %}"
                                class="btn btn-sm btn-outline-primary  w-100">
-                                <i class="bi bi-pencil"></i> Edit Answer
+                                <i class="bi bi-pencil"></i> {% trans 'EditAnswerLabel' %}
                             </a>
                         {% endif %}
                     </div>
@@ -114,7 +114,7 @@
             {% for answer in other_answers %}
                 <div class="basepost-content-cont">
                     {% if answer.is_best %}
-                        <span class="bg-success text-white px-2 py-1 rounded mb-2 d-inline-block g-fs-14 g-green-bg">Лучший ответ</span>
+                        <span class="bg-success text-white px-2 py-1 rounded mb-2 d-inline-block g-fs-14 g-green-bg">{% trans 'BestAnswerLabel' %}</span>
                     {% endif %}
                     <span class="g-fs-14">{{ answer.content }}</span>
                     <div class="basepost-prof-socials-cont mt-0 d-flex flex-md-row flex-column">
@@ -141,13 +141,13 @@
                             {% if answer.author == user %}
                                 <a href="{% url 'wbqa:edit_answer' answer.pk %}"
                                    class="btn btn-sm btn-outline-primary w-100">
-                                    <i class="bi bi-pencil"></i> Edit Answer
+                                    <i class="bi bi-pencil"></i> {% trans 'EditAnswerLabel' %}
                                 </a>
                             {% endif %}
                             {% if question.author == user and not answer.is_best %}
                                 <a href="{% url 'wbqa:choose_best_answer' answer.id %}"
                                    class="btn btn-sm btn-outline-success  w-100">
-                                    <i class="bi bi-star"></i> Mark as Best
+                                    <i class="bi bi-star"></i> {% trans 'MarkAsBestLabel' %}
                                 </a>
                             {% endif %}
                         </div>
@@ -156,17 +156,17 @@
                 </div>
             {% empty %}
                 {% if not best_answer %}
-                    <p>No answers yet.</p>
+                    <p>{% trans 'NoAnswersYetLabel' %}.</p>
                 {% endif %}
             {% endfor %}
 
             {% if form %}
                 <div class="basepost-content-cont">
-                    <h2 class="g-fs-header-20">Ваш ответ</h2>
+                    <h2 class="g-fs-header-20">{% trans 'YourAnswerLabel' %}</h2>
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary  w-100">Отправить</button>
+                        <button type="submit" class="btn btn-primary  w-100">{% trans 'SendLabel' %}</button>
                     </form>
                 </div>
             {% endif %}

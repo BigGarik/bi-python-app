@@ -38,7 +38,7 @@
             </div>
 
             {% if user.is_authenticated and user == article.author %}
-                <div class="d-flex gap-3" >
+                <div class="d-flex gap-3">
                     <a href="{% url 'article_edit' slug=article.slug %}" class="article-detail-manage-buttons">
                         <i class="bi bi-pencil"></i>
                     </a>
@@ -61,10 +61,25 @@
         <div class="basepost-content-cont mb-2">
             {% autoescape off %}
                 <div class="g-fs-14">
-                {{ article.content }}
+                    {{ article.content }}
                 </div>
             {% endautoescape %}
         </div>
+
+        <style>
+            {#     Remove image Overflow     #}
+
+            .basepost-content-cont img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                {#margin: 0 auto;#}
+            }
+
+            .basepost-content-cont {
+                overflow: hidden;
+            }
+        </style>
 
 
         <div class="article-detail-voting-comment-cont mb-2">
@@ -106,7 +121,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteArticleModalLabel">Подтверждение удаления</h5>
+                    <h5 class="modal-title" id="deleteArticleModalLabel">{% trans 'ConfirmDeletionLabel' %}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

@@ -1,6 +1,10 @@
+
+{% load i18n %}
+
+
 <div style="display:flex; justify-content:center" id="load-more-container">
     <button type="button" class="btn btn-secondary btn-more" id="load-more-btn" data-page="1">
-        Загрузить ещё
+        {% trans 'LoadMoreLabel' %}
     </button>
 </div>
 

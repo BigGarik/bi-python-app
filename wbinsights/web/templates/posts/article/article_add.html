@@ -88,9 +88,9 @@
             <div class="col-md-4 col-lg-3-5 element-container-article-mob">
                 <div class="article-add-right-btns basepost-content-mobile-bottom-padding">
                     <div class="d-flex justify-content-between flex-wrap gap-1 mb-3">
-                        <div class="g-fs-14 fw-semibold">Настройки</div>
+                        <div class="g-fs-14 fw-semibold">{% trans 'SettingsLabel' %}</div>
                         <div class="clear-all" onclick="clearEditorContent()">
-                            <i class="bi bi-trash" style="cursor:pointer"></i> Очистить всё
+                            <i class="bi bi-trash" style="cursor:pointer"></i> {% trans 'DeleteEverythingLabel' %}
                         </div>
                     </div>
 
@@ -106,7 +106,7 @@
                         {{ form.cat }}
                     </div>
                     <br>
-                    <div class="fw-semibold mb-2 g-fs-14">Статус публикации</div>
+                    <div class="fw-semibold mb-2 g-fs-14">{% trans 'PublicationStatusLabel' %}</div>
                     {{ form.is_published }}
                     <br>
                     <div class="d-grid gap-2 d-block">

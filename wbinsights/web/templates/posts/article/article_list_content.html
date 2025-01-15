@@ -2,6 +2,7 @@
 {% load hitcount_tags %}
 {% load comments %}
 {% load comments_xtd %}
+{% load i18n %}
 
 
 {% for article in object_list %}
@@ -28,7 +29,7 @@
                 </div>
             {% endautoescape %}
             <span class="link-read-post">
-            <a href="{{ article.get_absolute_url }}" class="read-post-link">Читать пост</a>
+            <a href="{{ article.get_absolute_url }}" class="read-post-link">{% trans 'ReadPostLabel' %}</a>
         </span>
 
             <div class="basepost-prof-socials-cont">

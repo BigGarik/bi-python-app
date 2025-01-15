@@ -115,7 +115,7 @@
             {% back_button "profile" back_text %}
 
             <div class="mb-4">
-                <h4 class="g-fs-header-20">Настройки профиля ({{ request.user.email }})</h4>
+                <h4 class="g-fs-header-20">{% trans 'ProfileSettingsLabel' %} ({{ request.user.email }})</h4>
             </div>
 
             <form method="post" enctype="multipart/form-data" novalidate class="needs-validation">
@@ -156,7 +156,7 @@
                              class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center bg-light"
                              style="z-index: 1000;">
                             <div class="spinner-border text-secondary" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                                <span class="visually-hidden">{% trans 'LoadingLabel' %}...</span>
                             </div>
                         </div>
                         <div id="id_about_editor" class="mb-3" style="height: 200px"></div>
@@ -273,7 +273,7 @@
                     <div class="pt-4">
                         <div class="d-flex align-items-center gap-2 mb-3">
 
-                            <h5 class="mb-0">Образование</h5>
+                            <h5 class="mb-0">{% trans 'EducationLabel' %}</h5>
 
                             <button type="button"
                                     class="btn btn-success g-fs-14 g-green-bg btn-sm add-education-btn-trigger">
@@ -364,7 +364,7 @@
                                 id="deleteProfileBtn"
                                 data-bs-toggle="modal"
                                 data-bs-target="#deleteProfileModal">
-                            Удалить профиль
+                            {% trans 'DeleteProfileLabel' %}
                         </button>
                     </div>
                 </div>
@@ -375,48 +375,50 @@
                     <div class="modal-content">
 
                         <div class="modal-header">
-                            <h5 class="modal-title">Подтверждение удаления</h5>
+                            <h5 class="modal-title">{% trans 'ConfirmDeletionLabel' %}</h5>
 
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <div class="modal-body">
-                            <p>Вы уверены, что хотите удалить образование "<span id="educationNameToDelete"></span>"?
+                            <p> {% trans 'ConfirmEducationDeletion' %} "<span id="educationNameToDelete"></span>"?
                             </p>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                            <button type="button" class="btn btn-danger" id="confirmDeleteEducation">Удалить</button>
+                            <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">{% trans 'CancelLabel' %}</button>
+                            <button type="button" class="btn btn-danger"
+                                    id="confirmDeleteEducation">{% trans 'DeleteLabel' %}</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="modal fade" id="deleteProfileModal" tabindex="-1">
-                <div class="modal-dialog modal-sm">
+                <div class="modal-dialog">
                     <form method="post">
                         <div class="modal-content">
                             <div class="modal-header border-0">
-                                <h5 class="modal-title fw-normal fs-5">Удалить профиль</h5>
+                                <h5 class="modal-title fw-normal fs-5">{% trans 'DeleteProfileLabel' %}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body pt-0">
-                                <p class="fw-semibold">Для подтверждения введите пароль</p>
+                                <p class="fw-semibold">{% trans 'EnterPasswordToConfirmLabel' %}</p>
                                 <input type="password"
                                        required
-                                       placeholder="Ваш пароль"
+                                       placeholder="{% trans 'YourPasswordLabel' %}"
                                        class="form-control">
                             </div>
-                            <div class="modal-footer border-0 justify-content-between ">
+                            <div class="modal-footer border-0 justify-content-between">
                                 <button type="submit" class="btn btn-danger">
-                                    Удалить профиль
+                                    {% trans 'DeleteProfileLabel' %}
                                 </button>
                                 <button type="button"
-                                        class="btn btn-outline-secondary g-green-bg"
+                                        class="btn btn-outline-secondary g-green-bg text-white"
                                         data-bs-dismiss="modal">
-                                    Отмена
+                                    {% trans 'CancelLabel' %}
                                 </button>
                             </div>
                         </div>

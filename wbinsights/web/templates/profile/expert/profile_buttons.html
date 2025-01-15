@@ -126,13 +126,13 @@
                 <form method="post" id="passwordChangeForm">
                     {% csrf_token %}
                     <p>
-                        <label for="id_old_password" class="g-fs-14 fw-semibold">Старый пароль:</label>
+                        <label for="id_old_password" class="g-fs-14 fw-semibold">{% trans 'OldPasswordLabel' %}:</label>
                         <input type="password" name="old_password" autocomplete="off" autofocus="" class="form-control"
                                required="" id="id_old_password">
                     </p>
 
                     <p>
-                        <label for="id_new_password1" class="g-fs-14 fw-semibold">Новый пароль:</label>
+                        <label for="id_new_password1" class="g-fs-14 fw-semibold">{% trans 'NewPasswordLabel' %}:</label>
                         <input type="password" name="new_password1" autocomplete="off" class="form-control" required=""
                                aria-describedby="id_new_password1_helptext" id="id_new_password1">
 
@@ -142,7 +142,7 @@
 
 
                     <p>
-                        <label for="id_new_password2" class="g-fs-14 fw-semibold">Подтверждение нового пароля:</label>
+                        <label for="id_new_password2" class="g-fs-14 fw-semibold">{% trans 'RepeatNewPasswordLabel' %}:</label>
                         <input type="password" name="new_password2" autocomplete="off" class="form-control" required=""
                                id="id_new_password2">
 
@@ -155,7 +155,7 @@
                         <li>Пароль не должен быть слишком простым и распространенным.</li>
                         <li>Пароль не может состоять только из цифр.</li>
                     </ul>
-                    <button type="submit" class="btn btn-danger mt-2 g-fs-14">Сменить пароль</button>
+                    <button type="submit" class="btn btn-danger mt-2 g-fs-14">{% trans 'ChangePasswordLabel' %}</button>
                 </form>
             </div>
         </div>

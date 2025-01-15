@@ -98,13 +98,13 @@
         {# Action Buttons #}
         <div class="d-flex flex-column flex-md-row gap-3">
             <button type="submit" class="btn btn-success g-green-bg g-fs-14">
-                Сохранить изменения
+                {% trans 'SaveChangesLabel' %}
             </button>
             <button type="button"
                     class="btn btn-outline-danger g-fs-14"
                     data-bs-toggle="modal"
                     data-bs-target="#deleteProfileModal">
-                Удалить профиль
+                {% trans 'DeleteProfileLabel' %}
             </button>
         </div>
     </form>
@@ -115,7 +115,7 @@
             <form method="post">
                 <div class="modal-content">
                     <div class="modal-header border-0">
-                        <h5 class="modal-title fw-normal">Удалить профиль</h5>
+                        <h5 class="modal-title fw-normal">{% trans 'DeleteProfileLabel' %}</h5>
                         <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal"
@@ -123,20 +123,20 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p class="fw-semibold mb-3">Для подтверждения введите пароль</p>
+                        <p class="fw-semibold mb-3">{% trans 'EnterPasswordToConfirmLabel' %}</p>
                         <input type="password"
                                required
-                               placeholder="Ваш пароль"
+                               placeholder="{% trans 'YourPasswordLabel' %}"
                                class="form-control">
                     </div>
                     <div class="modal-footer border-0 justify-content-between">
                         <button type="submit" class="btn btn-danger">
-                            Удалить профиль
+                            {% trans 'DeleteProfileLabel' %}
                         </button>
                         <button type="button"
                                 class="btn btn-outline-secondary"
                                 data-bs-dismiss="modal">
-                            Отмена
+                            {% trans 'CancelLabel' %}
                         </button>
                     </div>
                 </div>

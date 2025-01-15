@@ -7,7 +7,7 @@
 
 <div id="articles" class="expert-content">
     {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
-        <a href="{% url 'article_add' %}" class="btn btn-primary mb-2">Написать статью</a>
+        <a href="{% url 'article_add' %}" class="btn btn-primary mb-2">{% trans 'CreateArticleLabel' %}</a>
     {% endif %}
 
     <div id="articles-container">

@@ -45,7 +45,7 @@
                 <div class="d-flex w-100 mb-4 justify-content-start flex-row gap-4">
                     {% trans "" as back_text %}
                     {% back_button "login" back_text %}
-                    <span class="d-flex justify-content-center mb-4 mt-3 g-fs-header-32">РЕГИСТРАЦИЯ</span>
+                    <span class="d-flex justify-content-center mb-4 mt-3 g-fs-header-32">{% trans 'RegisterLabel' %}</span>
                 </div>
                 <form method="post">
                     {% csrf_token %}
@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="form-group g-fs-16" id="phone-form">
-                        <label for="phone_number">{{ user_form.phone_number.label }} <span class="g-grey-color">(необязательно)</span></label>
+                        <label for="phone_number">{{ user_form.phone_number.label }} <span class="g-grey-color">({% trans 'NotRequiredLabel' %})</span></label>
                         <input type="tel" name="{{ user_form.phone_number.name }}" class="custom-form-field"
                                {% if user_form.phone_number.field.required %}required{% endif %}>
                     </div>
@@ -111,10 +111,10 @@
                                value="checkbox">
                         <label class="form-check-label d-flex flex-wrap ps-2 fw-500" for="checkbox">
                             <span class="text-decoration-none g-fs-14 fw-medium ">
-                                Я ознакомлен и согласен с
+                                {% trans 'IHaveReadAndAgreeLabel' %}
 
                                 <a href="{% url 'data_policies' %}" class="text-decoration-none g-fs-14 fw-medium">
-                                    политикой обработки персональных данных
+                                    {% trans 'WithTermsAndConditionsLabel' %}
                                 </a>
                             </span>
                         </label>
@@ -122,14 +122,14 @@
 
                     <div class="d-flex justify-content-center w-100">
                         <input class="btn btn-success w-100 mt-4 p-3 g-green-bg" type="submit"
-                               value="Зарегистрироваться">
+                               value="{% trans 'RegisterLabel' %}">
                     </div>
                 </form>
 
                 <div class="d-flex w-100 gap-2 pt-2 justify-content-center align-items-center">
-                    <span class="d-flex g-fs-12 fw-semibold g-grey-color ">У меня уже есть аккаунт. &nbsp;</span>
+                    <span class="d-flex g-fs-12 fw-semibold g-grey-color ">{% trans 'IAlreadyHaveAnAccountLabel' %}. &nbsp;</span>
                     <a href="{% url 'login' %}" class="d-flex text-decoration-none">
-                        <span class="d-flex font-sans-serif fw-bold text-secondary g-fs-14">Войти</span>
+                        <span class="d-flex font-sans-serif fw-bold text-secondary g-fs-14">{% trans 'LoginLabel' %}</span>
                     </a>
                 </div>
             </div>

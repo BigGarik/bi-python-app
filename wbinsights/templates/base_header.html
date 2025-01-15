@@ -2,7 +2,6 @@
 {% load i18n %}
 
 
-
 <header class="p-3 sm-4 border-bottom d-flex bg-dark w-100">
     <div class="container-fluid">
         <!-- display for larger screens -->
@@ -11,7 +10,7 @@
 
             <div class="col-md-4 mb-2 mb-md-0 logo-container">
                 <div class="d-flex justify-content-start">
-                    <input class="search-bar" type="text" id="search" name="username" placeholder="Поиск">
+                    <input class="search-bar" type="text" id="search" name="username" placeholder="{% trans 'SearchLabel' %}">
 
                     {% if user.is_authenticated %}
                         {% if user.profile.type == 1 %}
@@ -32,11 +31,11 @@
                         <div class="dropdown ms-2">
                             <button class="btn h-100 mt-0 w-100 bg-white" type="button" id="dropdownMenuButton"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="text-black">Администрирование</span>
+                                <span class="text-black"> {% trans 'AdministrationLabel' %}</span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item"
-                                   href="{% url 'manage_unverified_experts_list' %}">{% trans 'Верификация экспертов' %}</a>
+                                   href="{% url 'manage_unverified_experts_list' %}">{% trans 'ExpertVerificationLabel' %}</a>
                             </div>
                         </div>
                     {% endif %}
@@ -73,11 +72,11 @@
                             <span class="text-white">{{ user.first_name }}</span>
                             <span class="text-secondary">
                                 {% if user.is_superuser %}
-                                    Админ
-                                {% elif user.profile.type == 1 %}
-                                    Эксперт
-                                {% elif user.profile.type == 0 %}
-                                    Клиент
+                                    {% trans 'AdminLabel' %}
+                                    {% elif user.profile.type == 1 %}
+                                    {% trans 'ExpertLabel' %}
+                                    {% elif user.profile.type == 0 %}
+                                    {% trans 'ClientLabel' %}
                                 {% endif %}
                             </span>
                         </div>
@@ -103,7 +102,7 @@
                                         {% csrf_token %}
                                         <button type="submit" class="dropdown-item px-3 py-2 w-100 text-danger">
                                             <i class="bi bi-box-arrow-right me-2"></i>
-                                            {% trans 'LogoutButtonLabel' %}
+                                            {% trans 'LogoutLabel' %}
                                         </button>
                                     </form>
                                 </div>
@@ -121,11 +120,11 @@
 
                     <div class="d-flex align-items-center gap-2">
                         <a href="{% url 'login' %}" class="btn btn-dark logout-btn-style g-fs-16">
-                            {% trans 'LoginBtnLabel' %}
+                            {% trans 'LoginLabel' %}
                         </a>
 
                         <a href="{% url 'signup' %}" class="btn btn-primary g-fs-16">
-                            {% trans 'RegisterBtnLabel' %}
+                            {% trans 'RegisterLabel' %}
                         </a>
                     </div>
                 {% endif %}
@@ -193,11 +192,11 @@
 
                                         <span class="text-secondary">
                                             {% if user.is_superuser %}
-                                                Админ
-                                            {% elif user.profile.type == 1 %}
-                                                Эксперт
-                                            {% elif user.profile.type == 0 %}
-                                                Клиент
+                                                {% trans 'AdminLabel' %}
+                                                {% elif user.profile.type == 1 %}
+                                                {% trans 'ExpertLabel' %}
+                                                {% elif user.profile.type == 0 %}
+                                                {% trans 'ClientLabel' %}
                                             {% endif %}
                                         </span>
                                     </div>
@@ -225,7 +224,7 @@
                                                     <button class="dropdown-item d-flex align-items-center p-3 w-100 border-0 bg-transparent"
                                                             type="submit">
                                                         <i class="bi bi-box-arrow-right me-2"></i>
-                                                        {% trans 'LogoutButtonLabel' %}
+                                                        {% trans 'LogoutLabel' %}
                                                     </button>
                                                 </form>
                                             </div>
@@ -241,12 +240,12 @@
 
                             <a href="{% url 'login' %}">
                                 <button type="button"
-                                        class="btn btn-dark logout-btn-style g-fs-16">{% trans 'LoginBtnLabel' %}</button>
+                                        class="btn btn-dark logout-btn-style g-fs-16">{% trans 'LoginLabel' %}</button>
                             </a>
 
                             <a href="{% url 'signup' %}">
                                 <button type="button"
-                                        class="btn btn-primary g-fs-16">{% trans 'RegisterBtnLabel' %}</button>
+                                        class="btn btn-primary g-fs-16">{% trans 'RegisterLabel' %}</button>
                             </a>
                         </div>
                     {% endif %}

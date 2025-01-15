@@ -1,6 +1,7 @@
 {% extends 'basePostList.html' %}
 {% load static %}
 {% load web_tags %}
+{% load i18n %}
 
 
 {% block title %}
@@ -41,7 +42,7 @@
             </div>
             <div class="col-6 d-flex justify-content-between pl-2">
                 <a href="{% url 'wbqa:create_question' %}">
-                    <button type="button" class="btn btn-success g-green-bg btn-sm h-100 mx-1">Задать вопрос</button>
+                    <button type="button" class="btn btn-success g-green-bg btn-sm h-100 mx-1">{% trans 'CreateQuestionLabel' %}</button>
                 </a>
                 {% include "components/post_category_filter.html" %}
             </div>
@@ -54,7 +55,7 @@
             </div>
             <div class="button-filter-container">
                 <a href="{% url 'wbqa:create_question' %}">
-                    <button type="button" class="btn btn-success g-green-bg btn-sm mx-1" >Задать вопрос
+                    <button type="button" class="btn btn-success g-green-bg btn-sm mx-1" >{% trans 'CreateQuestionLabel'%}
                     </button>
                 </a>
                 {% include "components/post_category_filter.html" %}
@@ -67,7 +68,7 @@
 
         {% if is_paginated %}
             <div id="load-more-container" class="text-center mt-4">
-                <button id="load-more-btn" class="btn btn-secondary btn-more" data-page="{{ page_obj.number }}">Load More</button>
+                <button id="load-more-btn" class="btn btn-secondary btn-more" data-page="{{ page_obj.number }}">{% trans 'LoadMoreLabel' %}</button>
             </div>
         {% endif %}
     </div>

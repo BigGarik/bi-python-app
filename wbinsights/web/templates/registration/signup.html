@@ -85,7 +85,7 @@
                             {% back_button "index" back_text %}
                         </div>
 
-                        <h4 class="d-flex justify-content-center mb-4 mt-3 g-fs-header-24">РЕГИСТРАЦИЯ</h4>
+                        <h4 class="d-flex justify-content-center mb-4 mt-3 g-fs-header-24">{% trans 'RegisterLabel' %}</h4>
 
                         <div class="form-choose-user-type d-flex justify-content-evenly" id="user-type-form">
                             {% for radio in user_form.user_type %}
@@ -137,9 +137,8 @@
                                 >
 
                                 <label class="form-check-label text-secondary small fw-bold" for="checkbox">
-                                    Я ознакомлен и согласен с
-                                    <a href="{% url 'data_policies' %}" class="text-decoration-none">политикой обработки
-                                        персональных данных</a>
+                                    {% trans 'IHaveReadAndAgreeLabel' %}
+                                    <a href="{% url 'data_policies' %}" class="text-decoration-none"> {% trans 'WithTermsAndConditionsLabel' %}</a>
                                 </label>
 
                             </div>
@@ -148,7 +147,7 @@
                         <div class="d-grid">
 
                             <button class="btn btn-success py-2 fw-semibold g-green-bg" type="submit">
-                                Зарегистрироваться
+                                {% trans 'RegisterLabel' %}
                             </button>
 
                         </div>
@@ -157,10 +156,10 @@
 
                 <div class="d-flex justify-content-center align-items-center py-2">
 
-                    <span class="text-secondary small">У меня уже есть аккаунт.&nbsp;</span>
+                    <span class="text-secondary small">{% trans 'IAlreadyHaveAnAccountLabel' %}.&nbsp;</span>
 
                     <a href="{% url 'login' %}" class="text-decoration-none text-secondary small fw-bold">
-                        Войти
+                        {% trans 'LoginLabel' %}
                     </a>
 
                 </div>

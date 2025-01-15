@@ -27,13 +27,13 @@
         <div class="dropdown post-menu">
             <button class="dropbtn" onclick="toggleDropdown(event)">
                 {% if url_first_part == 'researches' %}
-                    Исследования
+                    {% trans 'ResearchesLabel' %}
                 {% elif url_first_part == 'articles' %}
-                    Статьи
+                    {% trans 'ArticlesLabel' %}
                 {% elif url_first_part == 'wbqa' or url_first_part == 'question_answer' %}
-                    Вопрос-ответ
+                    {% trans 'QuestionAnswerLabel' %}
                 {% else %}
-                    Эксперты
+                    {% trans 'ExpertsLabel' %}
                 {% endif %}
                 <span class="arrow-down"></span>
             </button>
