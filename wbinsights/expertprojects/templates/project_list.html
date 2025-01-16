@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" href="{% static 'css/editUserProject.css' %}">
 {% if request.path == '/profile' and request.user.is_authenticated and request.user.profile.type == 1 %}
-    <a href="{% url 'project_add' %}" class="btn btn-primary" style="margin-bottom: 10px" role="button"
+    <a href="{% url 'project_add' %}" class="btn g-green-bg text-white mb-2"  role="button"
        aria-pressed="true">{% trans 'AddProjectLabel' %}</a>
 {% endif %}
 
@@ -28,7 +28,7 @@
         <div class="d-flex gap-2">
             <div class="dropdown">
                 <button type="button"
-                        class="btn btn-primary dropdown-toggle"
+                        class="btn bg-secondary text-white dropdown-toggle"
                         data-bs-toggle="dropdown">
                     {% if request.GET.category %}
                         {% trans 'Category' %}:
@@ -60,7 +60,7 @@
 
             <div class="dropdown">
                 <button id="pageSizeDropdown"
-                        class="btn btn-primary dropdown-toggle"
+                        class="btn bg-secondary text-white dropdown-toggle"
                         type="button"
                         data-bs-toggle="dropdown">
                     {% trans 'ItemsLabel' %}:
@@ -196,7 +196,7 @@
                 {% if request.user.is_authenticated and request.user.profile.type == 1 and request.path == '/profile' %}
                     <div class="d-flex justify-content-end gap-2 mt-3">
                         <a href="/expert/project/{{ project.slug }}/edit/"
-                           class="btn btn-primary btn-sm">{% trans 'EditLabel' %}</a>
+                           class="btn g-green-bg text-white btn-sm">{% trans 'EditLabel' %}</a>
                         <a href="/expert/project/{{ project.slug }}/delete/" class="btn btn-danger btn-sm">{% trans 'DeleteLabel' %}</a>
                     </div>
                 {% endif %}
@@ -307,7 +307,7 @@
                 {% if request.user.is_authenticated and request.user.profile.type == 1 and request.path == '/profile' %}
                     <div class="d-flex justify-content-end gap-2 mt-3">
                         <a href="/expert/project/{{ project.slug }}/edit/"
-                           class="btn btn-primary btn-sm">Редактировать</a>
+                           class="btn g-green-bg text-white btn-sm">Редактировать</a>
                         <a href="/expert/project/{{ project.slug }}/delete/" class="btn btn-danger btn-sm">{% trans 'DeleteLabel' %}</a>
                     </div>
                 {% endif %}

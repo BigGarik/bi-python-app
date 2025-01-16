@@ -1,8 +1,8 @@
 {% load i18n %}
 
-<div class="g-fs-header-24">{% trans 'ConfirmDeleteArticleLabel' %} <br>"<b>{{ article.title }}</b>"?</div>
+<div class="g-fs-header-20">{% trans 'ConfirmDeleteArticleLabel' %} <br>"<b>{{ article.title }}</b>"?</div>
 
-<form method="post" action="{% url 'delete_article' article.slug %}">
+<form method="post" action="{% url 'delete_article' article.slug %}" class="mt-3">
   {% csrf_token %}
   <button type="submit" class="btn btn-danger">{% trans 'DeleteLabel' %}</button>
   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans 'CancelLabel' %}</button>

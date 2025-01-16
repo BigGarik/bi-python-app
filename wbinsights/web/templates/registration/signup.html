@@ -59,23 +59,6 @@
 
                 <div class="login-container p-4">
 
-                    {% if user_form.errors %}
-                        <div class="alert alert-danger mb-4">
-
-                            {% for key, val in user_form.errors.items %}
-                                {{ val }}
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
-                    {% if expert_form.errors %}
-
-                        <div class="alert alert-danger mb-4">
-                            {% for key, val in expert_form.errors.items %}
-                                <p class="mb-0">{{ val }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
 
                     <form method="post" novalidate>
                         {% csrf_token %}
@@ -85,7 +68,26 @@
                             {% back_button "index" back_text %}
                         </div>
 
-                        <h4 class="d-flex justify-content-center mb-4 mt-3 g-fs-header-24">{% trans 'RegisterLabel' %}</h4>
+                        <div class="d-flex justify-content-center mb-4 mt-3 g-fs-header-24">{% trans 'RegisterLabel' %}</div>
+
+                        {% if user_form.errors %}
+                            <div class="alert alert-danger mb-4">
+
+                                {% for key, val in user_form.errors.items %}
+                                    {{ val }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if expert_form.errors %}
+
+                            <div class="alert alert-danger mb-4">
+                                {% for key, val in expert_form.errors.items %}
+                                    <p class="mb-0">{{ val }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
 
                         <div class="form-choose-user-type d-flex justify-content-evenly" id="user-type-form">
                             {% for radio in user_form.user_type %}
@@ -138,7 +140,8 @@
 
                                 <label class="form-check-label text-secondary small fw-bold" for="checkbox">
                                     {% trans 'IHaveReadAndAgreeLabel' %}
-                                    <a href="{% url 'data_policies' %}" class="text-decoration-none"> {% trans 'WithTermsAndConditionsLabel' %}</a>
+                                    <a href="{% url 'data_policies' %}"
+                                       class="text-decoration-none"> {% trans 'WithTermsAndConditionsLabel' %}</a>
                                 </label>
 
                             </div>

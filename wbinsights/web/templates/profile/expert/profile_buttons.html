@@ -43,13 +43,13 @@
 </style>
 
 <!-- Desktop Layout -->
-<div class="settings-layout d-none d-md-flex mt-2 gap-2">
+<div class="settings-layout d-none d-md-flex mt-2  ">
 
-    <div class=" col-md-3-5 d-flex justify-content-center justify-content-md-start  ">
+    <div class=" d-none d-lg-flex col-lg-4 justify-content-center justify-content-md-start me-lg-2 ">
         <!-- empty space (avatar cont)-->
     </div>
 
-    <div class="col-md-8-5 d-flex flex-column ">
+    <div class="col-12 col-lg-8 d-flex flex-column ">
 
         <div class="buttons-container">
 
@@ -84,10 +84,10 @@
 
         <div class="profile-buttons-group">
 
-            <a href="{% url 'profile_edit' %}"  
+            <a href="{% url 'profile_edit' %}"
                class="btn btn-outline-secondary mt-0 rounded-2 w-50  fw-semibold  d-flex align-items-center g-fs-12 justify-content-center ">{% trans 'EditProfileLabel' %}</a>
 
-            <button type="button"  
+            <button type="button"
                     class="btn btn-outline-secondary mt-0 rounded-2 fw-semibold w-50   d-flex align-items-center g-fs-12 justify-content-center"
                     data-bs-toggle="modal" data-bs-target="#passwordChangeModal">
                 {% trans 'ChangePasswordLabel' %}

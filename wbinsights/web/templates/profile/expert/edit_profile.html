@@ -55,7 +55,7 @@
 
         <!-- Toasts -->
         <div class="position-relative" aria-live="polite" aria-atomic="true">
-            <div class="toast-container position-fixed bottom-0 end-0 ">
+            <div class="toast-container position-fixed bottom-0 end-0  ">
                 {% if user_form.errors or profile_form.errors or expert_profile_form.errors or education_expert_formset.errors %}
                     {% for field, errors in user_form.errors.items %}
                         {% for error in errors %}

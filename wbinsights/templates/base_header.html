@@ -119,11 +119,11 @@
                     </div>
 
                     <div class="d-flex align-items-center gap-2">
-                        <a href="{% url 'login' %}" class="btn btn-dark logout-btn-style g-fs-16">
+                        <a href="{% url 'login' %}" class="btn g-green-bg text-white g-fs-16">
                             {% trans 'LoginLabel' %}
                         </a>
 
-                        <a href="{% url 'signup' %}" class="btn btn-primary g-fs-16">
+                        <a href="{% url 'signup' %}" class="btn bg-secondary text-white g-fs-16">
                             {% trans 'RegisterLabel' %}
                         </a>
                     </div>
@@ -240,12 +240,12 @@
 
                             <a href="{% url 'login' %}">
                                 <button type="button"
-                                        class="btn btn-dark logout-btn-style g-fs-16">{% trans 'LoginLabel' %}</button>
+                                        class="btn g-green-bg text-white g-fs-16">{% trans 'LoginLabel' %}</button>
                             </a>
 
                             <a href="{% url 'signup' %}">
                                 <button type="button"
-                                        class="btn btn-primary g-fs-16">{% trans 'RegisterLabel' %}</button>
+                                        class="btn bg-secondary text-white g-fs-16">{% trans 'RegisterLabel' %}</button>
                             </a>
                         </div>
                     {% endif %}

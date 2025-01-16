@@ -5,102 +5,155 @@
 {% load i18n %}
 
 {% block center_col %}
-{% block extra_static %}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-{% endblock %}
+    {% block extra_static %}
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {% endblock %}
 
-<style>
-    .select2-container {
-        width: 100% !important;
-    }
-    .select2-container .select2-selection--single {
-        height: 38px;
-        padding: 6px 12px;
-    }
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 36px;
-    }
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 24px;
-    }
-    .select2-container .select2-selection--multiple {
-        min-height: 38px;
-    }
-    .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
-        list-style: none;
-        display: flex !important;
-    }
-    .select2-selection.select2-selection--multiple {
-        display: flex !important;
-    }
-</style>
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
 
-<div class="element-container">
-    {% trans "BackButtonLabel" as back_text %}
-    {% back_button "wbqa:question_list" back_text %}
-    <span class="basepost-title">{% trans 'CreateNewQuestionLabel' %}</span>
-    <form method="post" id="question-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary btn-sm">{% trans 'SubmitQuestionLabel' %}</button>
-    </form>
-</div>
+        .select2-container .select2-selection--single {
+            height: 38px;
+            padding: 6px 12px;
+        }
 
-<script>
-    $(document).ready(function() {
-        $('#id_cat').select2();
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 36px;
+        }
 
-        function formatResult(result) {
-        if (!result.id) return result.text;
-        return `<div style="display: flex; align-items: center">
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 24px;
+        }
+
+        .select2-container .select2-selection--multiple {
+            min-height: 38px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
+            list-style: none;
+            display: flex !important;
+        }
+
+        .select2-selection.select2-selection--multiple {
+            display: flex !important;
+        }
+    </style>
+
+    <div class="element-container">
+        {% trans "BackButtonLabel" as back_text %}
+        {% back_button "wbqa:question_list" back_text %}
+
+        <div class="g-fs-header-20 mb-3">{% trans 'CreateNewQuestionLabel' %}</div>
+
+        <form method="post" id="question-form">
+            {% csrf_token %}
+
+            {# Title Field #}
+            <div class="mb-3">
+                <label for="{{ form.title.id_for_label }}" class="g-fs-14 fw-semibold mb-1">{{ form.title.label }}*</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ form.title.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Content Field #}
+            <div class="mb-3">
+                <label for="{{ form.content.id_for_label }}" class="g-fs-14 fw-semibold mb-1">{{ form.content.label }}*</label>
+                {{ form.content }}
+                {% if form.content.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ form.content.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Category Field #}
+            <div class="mb-3">
+                <label for="{{ form.cat.id_for_label }}" class="g-fs-14 fw-semibold mb-1">{{ form.cat.label }}</label>
+                {{ form.cat }}
+                {% if form.cat.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ form.cat.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Targeted User Field #}
+            <div class="mb-3">
+                <label for="{{ form.targeted_user.id_for_label }}"
+                       class="g-fs-14 fw-semibold mb-1">{{ form.targeted_user.label }}</label>
+                {{ form.targeted_user }}
+                {% if form.targeted_user.errors %}
+                    <div class="invalid-feedback d-block">
+                        {{ form.targeted_user.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn g-green-bg text-white ">{% trans 'SubmitQuestionLabel' %}</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#id_cat').select2();
+
+            function formatResult(result) {
+                if (!result.id) return result.text;
+                return `<div style="display: flex; align-items: center">
                     <img width="60" height="60" style="padding: 5px; border-radius: 50%;object-fit: cover !important;" src="${result.profile_photo || '/path/to/default/image.jpg'}"/>
                     ${result.last_name || ''} ${result.first_name || ''} (${result.email || ''})
                 </div>`;
-    }
+            }
 
-    function formatSelection(result) {
-        if (!result.id) return result.text;
-        return '<div style="display: flex; align-items: center">' + (result.last_name || '') + ' ' + (result.first_name || '') + ' (' + (result.email || result.text) + ')</div>';
-    }
+            function formatSelection(result) {
+                if (!result.id) return result.text;
+                return '<div style="display: flex; align-items: center">' + (result.last_name || '') + ' ' + (result.first_name || '') + ' (' + (result.email || result.text) + ')</div>';
+            }
 
-    $("#id_targeted_user").select2({
-        ajax: {
-            url: "/expert/search-experts/",
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    query: params.term,
-                    page: params.page
-                };
-            },
-            processResults: function (data, params) {
-                return {
-                    results: $.map(data.data, function (item) {
+            $("#id_targeted_user").select2({
+                ajax: {
+                    url: "/expert/search-experts/",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
                         return {
-                            id: item.id,
-                            text: `${item.last_name} ${item.first_name}`,
-                            email: item.email,
-                            last_name: item.last_name,
-                            first_name: item.first_name,
-                            profile_photo: item.profile_photo,
+                            query: params.term,
+                            page: params.page
                         };
-                    })
-                };
-            },
-            cache: true
-        },
-        placeholder: "Выберите пользователя(ов)",
-        allowClear: true,
-        escapeMarkup: function (markup) {
-            return markup;
-        },
-        templateResult: formatResult,
-        templateSelection: formatSelection,
-        minimumInputLength: 3,
-        width: '100%'
-    });
-    });
-</script>
+                    },
+                    processResults: function (data, params) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    id: item.id,
+                                    text: `${item.last_name} ${item.first_name}`,
+                                    email: item.email,
+                                    last_name: item.last_name,
+                                    first_name: item.first_name,
+                                    profile_photo: item.profile_photo,
+                                };
+                            })
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: "Выберите пользователя(ов)",
+                allowClear: true,
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+                templateResult: formatResult,
+                templateSelection: formatSelection,
+                minimumInputLength: 3,
+                width: '100%'
+            });
+        });
+    </script>
 {% endblock %}

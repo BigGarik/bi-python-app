@@ -210,10 +210,9 @@ msgstr "Админ"
 
 #: .\templates\base_header.html:77 .\templates\base_header.html:197
 #: .\web\templates\posts\expert\expert_profile.html:12
-#, fuzzy
 #| msgid "ExpertsLabel"
 msgid "ExpertLabel"
-msgstr "Эксперты"
+msgstr "Эксперт"
 
 #: .\templates\base_header.html:99 .\templates\base_header.html:220
 #: .\templates\includes\mobile_navigation_bat.html:32
@@ -732,52 +731,45 @@ msgstr ""
 
 #: .\wbappointment\templates\checkout_appointment.html:58
 msgid "PayWithYookassaLabel"
-msgstr ""
+msgstr "Оплатить на Yookassa"
 
 #: .\wbappointment\templates\checkout_appointment.html:59
-#, fuzzy
 #| msgid "LastNameLabel"
 msgid "PayLaterLabel"
-msgstr "Фамилия"
+msgstr "Оплатить позже"
 
 #: .\wbqa\templates\create_question.html:42
-#, fuzzy
 #| msgid "AskQuestionLabel"
-msgid "CreateNewQuestionLabel"
+msgid "Создание нового вопроса"
 msgstr "Задать вопрос"
 
 #: .\wbqa\templates\create_question.html:46
-#, fuzzy
 #| msgid "SubmitButtonLabel"
 msgid "SubmitQuestionLabel"
-msgstr "Подтвердить"
+msgstr "Отправить вопрос"
 
 #: .\wbqa\templates\edit_answer.html:12
 #: .\wbqa\templates\question_detail.html:107
 #: .\wbqa\templates\question_detail.html:144
-#, fuzzy
 #| msgid "QuestionAnswerLabel"
 msgid "EditAnswerLabel"
-msgstr "Вопрос-ответ"
+msgstr "Редактировать ответ"
 
 #: .\wbqa\templates\edit_answer.html:18
-#, fuzzy
 #| msgid "ConsultationsTabLabel"
 msgid "ContentLabel"
-msgstr "Консультация"
+msgstr "Контент"
 
 #: .\wbqa\templates\edit_answer.html:28 .\wbqa\templates\edit_question.html:42
 #: .\web\templates\profile\client\edit_profile.html:101
-#, fuzzy
 #| msgid "ChangePasswordLabel"
 msgid "SaveChangesLabel"
-msgstr "Изменить пароль"
+msgstr "Сохранить изменения"
 
 #: .\wbqa\templates\edit_question.html:37
-#, fuzzy
 #| msgid "AskQuestionLabel"
 msgid "EditQuestionLabel"
-msgstr "Задать вопрос"
+msgstr "Редактировать вопрос"
 
 #: .\wbqa\templates\profile_question_list_content.html:23
 #: .\wbqa\templates\question_list_content.html:24

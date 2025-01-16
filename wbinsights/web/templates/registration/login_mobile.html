@@ -78,14 +78,14 @@
                 </div>
 
                 {% if messages %}
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger mt-2">
                         {% for message in messages %}
                             {{ message }}
                         {% endfor %}
                     </div>
                 {% else %}
                     {% if form.errors %}
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger mt-2">
                             {% for key, value in form.errors.items %}
                                 {{ value }}
                             {% endfor %}
