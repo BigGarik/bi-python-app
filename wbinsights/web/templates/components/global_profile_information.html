@@ -26,15 +26,13 @@
                 </div>
 
                 {# Expert Categories #}
-                <div class="d-flex flex-column flex-md-row align-items-center min-h-30 flex-wrap gap-2 mb-2">
-                    <div class="user-category mb-2 mb-md-0">{% trans 'ExpertInFieldsLabel' %} : </div>
-                    <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
-                        {% for exp_category in profile.expert_categories.all %}
-                            <div class="user-catagory-highlight {{ exp_category.slug }}">
-                                {{ exp_category.name }}
-                            </div>
-                        {% endfor %}
-                    </div>
+                <div class="d-flex justify-content-center justify-content-md-start flex-md-row align-items-center min-h-30 flex-wrap gap-2 mb-2">
+                    <div class="user-category mb-2 mb-md-0">{% trans 'ExpertInFieldsLabel' %} :</div>
+                    {% for exp_category in profile.expert_categories.all %}
+                        <div class="user-catagory-highlight {{ exp_category.slug }}">
+                            {{ exp_category.name }}
+                        </div>
+                    {% endfor %}
                 </div>
             {% else %}
                 <div class="text-center text-md-start">{% trans 'ClientLabel' %}</div>
