@@ -1,18 +1,18 @@
 {% load i18n %}
 
-<div class="container mt-4">
+<div class="container mt-4 p-0">
     <table class="table table-bordered">
         <thead class="thead-light">
             <tr>
-                <th>{% trans 'DescriptionLabel' %}</th>
-                <th>{% trans 'PointsLabel' %}</th>
+                <th class="g-fs-14 fw-semibold">{% trans 'DescriptionLabel' %}</th>
+                <th class="g-fs-14 fw-semibold">{% trans 'PointsLabel' %}</th>
             </tr>
         </thead>
         <tbody>
             {% for rating in ratings %}
                 <tr>
-                    <td>{{ rating.role.text }}</td>
-                    <td>{{ rating.score }}</td>
+                    <td class="g-fs-14">{{ rating.role.text }}</td>
+                    <td class="g-fs-14">{{ rating.score }}</td>
                 </tr>
             {% endfor %}
         </tbody>

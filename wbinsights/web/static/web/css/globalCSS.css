@@ -21,6 +21,16 @@
     border: none !important;
 }
 
+.g-green-bg:hover {
+    background-color: #5ba95a !important;
+}
+
+.bg-secondary:hover {
+    background-color: #9D9FA0 !important;
+}
+
+
+
 .g-grey-color {
     color: #a5b1c8 !important;
 }

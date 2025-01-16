@@ -172,7 +172,7 @@
         {# reviews_template #}
     {% elif request.GET.tab == "projects" %}
         {% include 'project_list.html' with user=user %}
-    {% elif request.GET.tab == "ratings" and request.path == '/profi    le' %}
+    {% elif request.GET.tab == "ratings" and request.path == '/profile' %}
         {% include 'profile/expert/rating_list.html' %}
     {% endif %}
 </div>

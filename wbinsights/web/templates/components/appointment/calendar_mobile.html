@@ -46,9 +46,9 @@
     }
 
     .ec-end .ec-active {
-        background-color: #007bff;
+        background-color: #6c757d;
         color: white;
-        border-color: #007bff;
+        border-color: #6c757d;
     }
 
     {# issue here #}
@@ -192,7 +192,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn bg-secondary text-white" data-bs-dismiss="modal">Закрыть</button>
             </div>
 
         </div>
@@ -229,8 +229,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Сохранить</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn g-green-bg text-white" data-bs-dismiss="modal">Сохранить</button>
+                            <button type="button" class="btn bg-secondary text-white" data-bs-dismiss="modal">Закрыть</button>
                         </div>
 
                     </form>
@@ -256,8 +256,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Удалить</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Удалить</button>
+                            <button type="button" class="btn bg-secondary text-white" data-bs-dismiss="modal">Закрыть</button>
                         </div>
                     </form>
                 </div>
@@ -543,12 +543,12 @@
 
     function addToolbarButtonBootstrapClasses() {
         if (!{{ mobile|lower }}) {
-            $('div.ec-end > button:not(:last)').addClass("btn btn-outline-primary").removeClass("ec-button");
+            $('div.ec-end > button:not(:last)').addClass("btn btn-outline-secondary").removeClass("ec-button");
         } else {
-            $('div.ec-end > button:not(:last)').addClass("btn btn-primary").removeClass("ec-button");
+            $('div.ec-end > button:not(:last)').addClass("btn bg-secondary text-white").removeClass("ec-button");
         }
 
-        $('div.ec-end > button:last').addClass("btn btn-primary").removeClass("ec-button");
+        $('div.ec-end > button:last').addClass("btn bg-secondary text-white").removeClass("ec-button");
 
         let date_title = $('.ec-title');
         if (!date_title.parent().is('div[style="display:flex; align-items: center"]')) {
