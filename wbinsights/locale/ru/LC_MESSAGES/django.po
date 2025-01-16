@@ -1359,7 +1359,7 @@ msgstr "Отправить на верификацию"
 
 #: .\web\templates\profile\client\edit_profile.html:22
 msgid "ProfileSettingsCaption"
-msgstr ""
+msgstr "Настройки профиля"
 
 #: .\web\templates\profile\client\edit_profile.html:107
 #: .\web\templates\profile\client\edit_profile.html:118
