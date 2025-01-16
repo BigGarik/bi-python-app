@@ -28,6 +28,7 @@
     border: none !important;
     justify-content: center !important;
     align-items: center !important;
+    margin : 5px !important;
 }
 
 .gjs-block-label {
