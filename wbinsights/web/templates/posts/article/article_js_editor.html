@@ -1,4 +1,3 @@
-
 {% load i18n %}
 
 <script>
@@ -438,11 +437,23 @@
                                 name: '{% trans 'TypographyLabel' %}',
                                 open: true,
                                 buildProps: ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'color', 'background-color'],
+                                properties: [
+                                    {name: '{% trans 'FontFamilyLabel' %}', property: 'font-family'},
+                                    {name: '{% trans 'FontSizeLabel' %}', property: 'font-size'},
+                                    {name: '{% trans 'FontWeightLabel' %}', property: 'font-weight'},
+                                    {name: '{% trans 'LineHeightLabel' %}', property: 'line-height'},
+                                    {name: '{% trans 'LetterSpacingLabel' %}', property: 'letter-spacing'},
+                                    {name: '{% trans 'ColorLabel' %}', property: 'color'},
+                                    {name: '{% trans 'BackgroundColorLabel' %}', property: 'background-color'}
+                                ]
                             },
                             {
                                 name: '{% trans 'AlignmentLabel' %}',
                                 open: false,
                                 buildProps: ['text-align'],
+                                properties: [
+                                    {name: '{% trans 'TextAlignLabel' %}', property: 'text-align'}
+                                ]
                             }
                         ]
                     }

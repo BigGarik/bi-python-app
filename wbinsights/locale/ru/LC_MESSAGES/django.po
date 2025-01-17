@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-17 09:31+0300\n"
+"POT-Creation-Date: 2025-01-17 14:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,9 +126,9 @@ msgstr "Детали проекта"
 #: .\web\templates\contact_and_help\contact_us.html:15
 #: .\web\templates\contact_and_help\contact_us_success.html:16
 #: .\web\templates\manage\experts\verification\unverified_experts_profile.html:18
-#: .\web\templates\posts\article\article_add.html:66
+#: .\web\templates\posts\article\article_add.html:36
 #: .\web\templates\posts\article\article_add_editor_mobile.html:108
-#: .\web\templates\posts\article\article_detail.html:30
+#: .\web\templates\posts\article\article_detail.html:36
 #: .\web\templates\profile\anketa.html:18
 #: .\web\templates\profile\client\edit_profile.html:18
 #: .\web\templates\profile\expert\edit_profile.html:114
@@ -159,7 +159,7 @@ msgid "AddFilesLabel"
 msgstr "Добавить файлы"
 
 #: .\expertprojects\templates\user_project_confirm_delete.html:9
-#: .\web\templates\posts\article\article_detail.html:124
+#: .\web\templates\posts\article\article_detail.html:130
 #: .\web\templates\profile\expert\edit_profile.html:378
 msgid "ConfirmDeletionLabel"
 msgstr "Подтверждение удаления"
@@ -1300,15 +1300,15 @@ msgstr "Согласовать"
 msgid "DenyLabel"
 msgstr "Отклонить"
 
-#: .\web\templates\posts\article\article_add.html:91
+#: .\web\templates\posts\article\article_add.html:64
 msgid "SettingsLabel"
 msgstr "Настройки"
 
-#: .\web\templates\posts\article\article_add.html:93
+#: .\web\templates\posts\article\article_add.html:66
 msgid "DeleteEverythingLabel"
 msgstr "Очистить все"
 
-#: .\web\templates\posts\article\article_add.html:109
+#: .\web\templates\posts\article\article_add.html:91
 msgid "PublicationStatusLabel"
 msgstr "Статус публикации"
 
@@ -1316,76 +1316,115 @@ msgstr "Статус публикации"
 msgid "ConfirmDeleteArticleLabel"
 msgstr "Вы уверены, что хотите удалить статью"
 
-#: .\web\templates\posts\article\article_detail.html:10
+#: .\web\templates\posts\article\article_detail.html:16
 msgid "SingleArticleLabel"
 msgstr "Статья"
 
-#: .\web\templates\posts\article\article_js_editor.html:69
-#| msgid "AgeLabel"
+#: .\web\templates\posts\article\article_js_editor.html:68
 msgid "ImageLabel"
 msgstr "Изображение"
 
-#: .\web\templates\posts\article\article_js_editor.html:98
+#: .\web\templates\posts\article\article_js_editor.html:97
 #, fuzzy
 #| msgid "ResearchesLabel"
 msgid "BrowseImagesLabel"
 msgstr "Исследования"
 
-#: .\web\templates\posts\article\article_js_editor.html:396
+#: .\web\templates\posts\article\article_js_editor.html:395
 msgid "BigHeaderLabel"
 msgstr "Большой Заголовок"
 
-#: .\web\templates\posts\article\article_js_editor.html:398
+#: .\web\templates\posts\article\article_js_editor.html:397
 msgid "InsertLargeTextHereLabel"
 msgstr "Вставьте большой текст здесь"
 
-#: .\web\templates\posts\article\article_js_editor.html:402
+#: .\web\templates\posts\article\article_js_editor.html:401
 msgid "MediumHeaderLabel"
 msgstr "Средний заголовок"
 
-#: .\web\templates\posts\article\article_js_editor.html:404
+#: .\web\templates\posts\article\article_js_editor.html:403
 msgid "InsertMediumTextHereLabel"
 msgstr "Вставьте здесь средний текст"
 
-#: .\web\templates\posts\article\article_js_editor.html:408
+#: .\web\templates\posts\article\article_js_editor.html:407
 msgid "SmallHeaderLabel"
 msgstr "Маленький заголовок"
 
-#: .\web\templates\posts\article\article_js_editor.html:410
+#: .\web\templates\posts\article\article_js_editor.html:409
 msgid "InsertSmallTextHereLabel"
 msgstr "Вставьте маленький текст здесь"
 
-#: .\web\templates\posts\article\article_js_editor.html:414
+#: .\web\templates\posts\article\article_js_editor.html:413
 msgid "TextLabel"
 msgstr "Текст"
 
-#: .\web\templates\posts\article\article_js_editor.html:415
+#: .\web\templates\posts\article\article_js_editor.html:414
 msgid "InsertYourTextHere"
 msgstr "Вставьте текст здесь"
 
-#: .\web\templates\posts\article\article_js_editor.html:419
+#: .\web\templates\posts\article\article_js_editor.html:418
 msgid "ListLabel"
 msgstr "Список"
 
-#: .\web\templates\posts\article\article_js_editor.html:420
+#: .\web\templates\posts\article\article_js_editor.html:419
 msgid "ListItemLabel"
 msgstr "Элемент"
 
-#: .\web\templates\posts\article\article_js_editor.html:424
+#: .\web\templates\posts\article\article_js_editor.html:423
 msgid "HorizontalDividerLabel"
 msgstr "Горизонтальная линия"
 
-#: .\web\templates\posts\article\article_js_editor.html:429
+#: .\web\templates\posts\article\article_js_editor.html:428
 msgid "SeperatorLabel"
 msgstr "Разделитель"
 
-#: .\web\templates\posts\article\article_js_editor.html:438
+#: .\web\templates\posts\article\article_js_editor.html:437
 msgid "TypographyLabel"
 msgstr "Типография"
 
+#: .\web\templates\posts\article\article_js_editor.html:441
+#| msgid "EmailLabel"
+msgid "FontFamilyLabel"
+msgstr "Шрифт"
+
+#: .\web\templates\posts\article\article_js_editor.html:442
+#| msgid "ContentLabel"
+msgid "FontSizeLabel"
+msgstr "Размер шрифта"
+
 #: .\web\templates\posts\article\article_js_editor.html:443
+#| msgid "ContentLabel"
+msgid "FontWeightLabel"
+msgstr "Толщина шрифта"
+
+#: .\web\templates\posts\article\article_js_editor.html:444
+#| msgid "AndHigherLabel"
+msgid "LineHeightLabel"
+msgstr "Высота строки"
+
+#: .\web\templates\posts\article\article_js_editor.html:445
+#| msgid "SettingsLabel"
+msgid "LetterSpacingLabel"
+msgstr "Интервал между буквами"
+
+#: .\web\templates\posts\article\article_js_editor.html:446
+#| msgid "PopularLabel"
+msgid "ColorLabel"
+msgstr "Цвет текста"
+
+#: .\web\templates\posts\article\article_js_editor.html:447
+#| msgid "BackButtonLabel"
+msgid "BackgroundColorLabel"
+msgstr "Цвет фона"
+
+#: .\web\templates\posts\article\article_js_editor.html:451
 msgid "AlignmentLabel"
 msgstr "Выравнивание"
+
+#: .\web\templates\posts\article\article_js_editor.html:455
+#| msgid "TextLabel"
+msgid "TextAlignLabel"
+msgstr "Выравнивание текста"
 
 #: .\web\templates\posts\expert\expert_list.html:27
 msgid "RatingLabel"
