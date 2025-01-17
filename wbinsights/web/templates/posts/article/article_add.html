@@ -77,6 +77,9 @@
                     <img id="uploadedImage" src="{{ form.main_img.value.url }}"
                          style="display: {% if form.main_img.value.url %}block{% else %}none{% endif %}">
                 </div>
+
+
+                <br>
                 {{ form.main_img }}
                 <br>
                 <label class="fw-semibold mb-2 g-fs-14">{{ form.content.label }}</label>
@@ -95,8 +98,8 @@
                     </div>
 
                     <span class="g-fs-14">
-                    Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
-                </span>
+                        Перетаскивайте или нажимайте на элементы, чтобы добавить их в редактор
+                    </span>
                     <div id="blocks"></div>
                     <div id="style-manager-container" class="right-margin-article-add mt-3"></div>
                     <hr class="solid"/>
@@ -106,6 +109,15 @@
                         {{ form.cat }}
                     </div>
                     <br>
+
+                    <div class="form-group">
+                        <label class="fw-semibold mb-2 g-fs-14"
+                               for="{{ form.meta_tags.id_for_label }}">{{ form.meta_tags.label }}</label>
+                        {{ form.meta_tags }}
+                    </div>
+                    <br>
+
+
                     <div class="fw-semibold mb-2 g-fs-14">{% trans 'PublicationStatusLabel' %}</div>
                     {{ form.is_published }}
                     <br>

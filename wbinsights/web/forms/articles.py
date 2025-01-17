@@ -23,6 +23,15 @@ class ArticleForm(forms.ModelForm):
         required=True
     )
 
+    meta_tags = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите ключевые слова через запятую'
+        }),
+        label="Ключевые слова",
+        required=False
+    )
+
     class Meta:
         model = Article
         fields = ['title', 'description', 'content', 'main_img', 'cat', 'is_published', 'styles', 'meta_tags']

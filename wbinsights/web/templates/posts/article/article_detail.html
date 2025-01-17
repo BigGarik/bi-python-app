@@ -6,6 +6,12 @@
 {% load vote %}
 {% load i18n %}
 
+{% block meta_keywords %}
+    {% if article.meta_tags %}
+        <meta name="keywords" content="{{ article.meta_tags }}">
+    {% endif %}
+{% endblock %}
+
 {% block title %}
     {% trans 'SingleArticleLabel' %} : {{ article.title }}
 {% endblock %}
