@@ -1,19 +1,19 @@
 {% extends 'base123.html' %}
-
+{% load i18n %}
 
 {% load web_tags %}
 
 {% block center_col %}
     <div class="element-container">
 
-        <div class="g-fs-header-24">Подтверждение удаления</div>
+        <div class="g-fs-header-24 mb-2">{% trans 'ConfirmDeletionLabel' %}</div>
 
         <div class="g-fs-14">{% trans 'AreYouSureYouWantToDeleteThisProjectLabel' %} "{{ object.name }}"?</div>
 
-        <form method="post">
+        <form method="post" class="mt-3">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">{% trans 'YesDeleteLabel' %}</button>
-            <a href="{{ object.get_absolute_url }}" class="btn btn-secondary">{% trans 'CancelLabel' %}</a>
+            <a href="{{ object.get_absolute_url }}" class="btn bg-secondary text-white">{% trans 'CancelLabel' %}</a>
         </form>
     </div>
 {% endblock %}
