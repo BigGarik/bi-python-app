@@ -9,9 +9,8 @@ class ArticleClearableFileInput(ClearableFileInput):
 
 
 class ArticleForm(forms.ModelForm):
-
     title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Заголовок")
-    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}),label="Краткое описание")
+    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), label="Краткое описание")
     content = forms.CharField(widget=forms.HiddenInput())
     main_img = forms.FileField(label="Главная картинка", widget=ArticleClearableFileInput(
         attrs={'class': 'form-control'},
@@ -24,18 +23,14 @@ class ArticleForm(forms.ModelForm):
     )
 
     meta_tags = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Введите ключевые слова через запятую'
-        }),
-        label="Ключевые слова",
-        required=False
+        widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'display: none;'}),  # Hidden input
+        required=False,
+        label="Ключевые слова"
     )
 
     class Meta:
         model = Article
         fields = ['title', 'description', 'content', 'main_img', 'cat', 'is_published', 'styles', 'meta_tags']
         widgets = {
-            # 'cat': forms.Select(attrs={'class': 'form-control', 'required': 'required'}),
             'is_published': forms.Select(attrs={'class': 'form-control'})
         }
