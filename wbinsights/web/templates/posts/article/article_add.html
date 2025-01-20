@@ -84,7 +84,6 @@
                         <label class="fw-semibold mb-2 g-fs-14">{{ form.meta_tags.label }}</label>
                         <select id="meta_tags_select" class="form-control" multiple="multiple"></select>
                         {{ form.meta_tags }}
-                        <!-- hidden, we populate, so it will be string for meta tag, needs correct format -->
                     </div>
                     <br>
 
@@ -124,7 +123,7 @@
                 allowClear: true
             });
 
-            //help function to take existing data, and make it rectangles
+            //helper function to take existing data, and make it rectangles
             var existingTags = $('#id_meta_tags').val();
 
             if (existingTags) {
