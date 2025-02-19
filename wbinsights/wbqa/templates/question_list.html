@@ -30,20 +30,25 @@
         }
 
 
-
     </style>
 {% endblock %}
 
 {% block posts_content %}
     <div class="element-container d-flex flex-column gap-4">
-        <div class="search-and-cat-cont d-none d-md-flex" >
+        <div class="search-and-cat-cont d-none d-md-flex">
             <div class="col-6">
                 <input type="text" id="search-article-query" class="lists-search-cont" placeholder="Поиск">
             </div>
             <div class="col-6 d-flex justify-content-between pl-2">
-                <a href="{% url 'wbqa:create_question' %}">
-                    <button type="button" class="btn btn-success g-green-bg btn-sm h-100 mx-1">{% trans 'CreateQuestionLabel' %}</button>
-                </a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'wbqa:create_question' %}">
+                        <button type="button"
+                                class="btn btn-success g-green-bg btn-sm h-100 mx-1">{% trans 'CreateQuestionLabel' %}</button>
+                    </a>
+                {% else %}
+                    <button type="button" class="btn btn-success g-green-bg btn-sm h-100 mx-1"
+                            disabled>{% trans 'CreateQuestionLabel' %}</button>
+                {% endif %}
                 {% include "components/post_category_filter.html" %}
             </div>
         </div>
@@ -51,13 +56,23 @@
         <!-- Small Screens -->
         <div class="search-and-cat-cont d-md-none search-and-cat-cont-mobile">
             <div class="search-input-container">
-                <input type="text" id="search-article-query" class="d-flex px-2 py-1 border font-sans-serif rounded-2 me-2 w-100" placeholder="Поиск">
+                <input type="text" id="search-article-query"
+                       class="d-flex px-2 py-1 border font-sans-serif rounded-2 me-2 w-100" placeholder="Поиск">
             </div>
             <div class="button-filter-container">
-                <a href="{% url 'wbqa:create_question' %}">
-                    <button type="button" class="btn btn-success g-green-bg btn-sm mx-1" >{% trans 'CreateQuestionLabel'%}
+                {% if user.is_authenticated %}
+                    <a href="{% url 'wbqa:create_question' %}">
+                        <button type="button" class="btn btn-success g-green-bg btn-sm mx-1">
+                            {% trans 'CreateQuestionLabel' %}
+                        </button>
+                    </a>
+                {% else %}
+                    <button type="button"
+                            class="btn btn-success g-green-bg btn-sm mx-1"
+                            disabled>
+                        {% trans 'CreateQuestionLabel' %}
                     </button>
-                </a>
+                {% endif %}
                 {% include "components/post_category_filter.html" %}
             </div>
         </div>
@@ -68,53 +83,54 @@
 
         {% if is_paginated %}
             <div id="load-more-container" class="text-center mt-4">
-                <button id="load-more-btn" class="btn btn-secondary btn-more" data-page="{{ page_obj.number }}">{% trans 'LoadMoreLabel' %}</button>
+                <button id="load-more-btn" class="btn btn-secondary btn-more"
+                        data-page="{{ page_obj.number }}">{% trans 'LoadMoreLabel' %}</button>
             </div>
         {% endif %}
     </div>
 
     <script>
-    $(document).ready(function () {
-        $("#search-article-query").keypress(function (event) {
-            if (event.key === "Enter") {
-                var search_value = $(this).val()
-                if (search_value == '' || search_value == 'None')
-                    return;
-                window.location.href = "{{ request.path }}?search_q=" + search_value;
-            }
-        });
-
-        $("#load-more-btn").click(function () {
-            var button = $(this);
-            var currentPage = parseInt(button.data('page'));
-            var nextPage = currentPage + 1;
-
-            var post_data = {
-                'page': nextPage,
-            }
-
-            var search_q = '{{ search_q }}'
-
-            if (search_q != '' && search_q != 'None') {
-                post_data['search_q'] = search_q
-            }
-            $.ajax({
-                url: '{{ request.path }}',
-                data: post_data,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                success: function (data) {
-                    if (data.html) {
-                        $("#articles-container").append(data.html);
-                        button.data('page', nextPage);
-                    }
-                    if (!data.has_more) {
-                        $("#load-more-container").hide();
-                    }
+        $(document).ready(function () {
+            $("#search-article-query").keypress(function (event) {
+                if (event.key === "Enter") {
+                    var search_value = $(this).val()
+                    if (search_value == '' || search_value == 'None')
+                        return;
+                    window.location.href = "{{ request.path }}?search_q=" + search_value;
                 }
             });
+
+            $("#load-more-btn").click(function () {
+                var button = $(this);
+                var currentPage = parseInt(button.data('page'));
+                var nextPage = currentPage + 1;
+
+                var post_data = {
+                    'page': nextPage,
+                }
+
+                var search_q = '{{ search_q }}'
+
+                if (search_q != '' && search_q != 'None') {
+                    post_data['search_q'] = search_q
+                }
+                $.ajax({
+                    url: '{{ request.path }}',
+                    data: post_data,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function (data) {
+                        if (data.html) {
+                            $("#articles-container").append(data.html);
+                            button.data('page', nextPage);
+                        }
+                        if (!data.has_more) {
+                            $("#load-more-container").hide();
+                        }
+                    }
+                });
+            });
         });
-    });
-</script>
+    </script>
 {% endblock %}
